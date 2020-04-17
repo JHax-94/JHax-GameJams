@@ -16,7 +16,6 @@ function Ball(x, y, radius) {
     this.speed = 0;
 
     this.body = Bodies.circle(x, y, radius, options);
-    console.log(this.body);
 
     World.add(world, this.body);
     renderers.push(this);

@@ -43,24 +43,17 @@ function Ball(x, y, radius) {
     
     this.setSprite = function(sprite)
     {
-        console.log("Setting sprite...");
-        console.log(sprite);
         this.sprite = sprite;
         this.hasSprite = true;
     }
 
     this.setHitSound = function(sound)
     {
-        console.log(sound);
         this.hitSound = sound;
-        console.log(this.hitSound);
-        console.log("Sound set!");
     }
 
     this.reset = function()
     {
-        console.log("Resetting ball!");
-
         Body.setVelocity(this.body, { x: 0, y: 0 });
         Body.setPosition(this.body, { x: width/2, y: height/2 });
 
@@ -69,8 +62,6 @@ function Ball(x, y, radius) {
 
     this.body.collisionExit = function(otherBody)
     {
-        console.log("Ball collision with " + otherBody.label);
-
         if(otherBody.label.endsWith('goal'))
         {
             if(otherBody.label.startsWith('player1'))
@@ -86,11 +77,8 @@ function Ball(x, y, radius) {
         }
         else if(otherBody.label === 'player1' || otherBody.label === 'player2')
         {
-            console.log("Play sound if sound exists!");
-            console.log(this.ballObj.hitSound);
             if (typeof(this.ballObj.hitSound) !== 'undefined')
             {
-                console.log("play sound!");
                 this.ballObj.hitSound.play();
             }
         }

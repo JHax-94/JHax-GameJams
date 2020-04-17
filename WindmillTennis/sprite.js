@@ -14,7 +14,6 @@ class Sprite {
     }
 
     animate() {
-        console.log("iterate anim...");
         this.index += this.speed;
     }
      

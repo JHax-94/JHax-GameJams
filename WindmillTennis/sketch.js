@@ -139,10 +139,8 @@ function setup() {
   ballAnim = new Sprite(animation, 0.2);
   ball.setSprite(ballAnim);
   updatables.push(ball);
-  console.log("setting sound...");
-  console.log(ballHitSound);
+  
   ball.setHitSound(ballHitSound);
-  console.log(ball.hitSound);
 }
 
 function increaseScore(player, increaseBy)
@@ -162,7 +160,6 @@ function preload()
   ballSheetData = loadJSON("sprites/ball/BallSpin.json");
   ballSheet = loadImage("sprites/ball/Ball.png");
 
-  console.log("Load sound...");
   ballHitSound = loadSound("sounds/ball/ballHit.mp3");  
   console.log(ballHitSound);
 }
@@ -271,20 +268,12 @@ function keyReleased()
 
 function draw() {
   // put drawing code here
-  //console.log("draw");
   background(51);
 
   for(var i = 0; i < renderers.length; i ++)
   {
       renderers[i].show();
   }
-
-  //console.log(animation.length);
-
-
-  //console.log(showFrame);
-  //ballAnim.show();
-  //ballAnim.animate();
 
   fill(255);
   textSize(32);

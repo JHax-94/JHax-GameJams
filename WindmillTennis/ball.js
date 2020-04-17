@@ -11,6 +11,8 @@ function Ball(x, y, radius) {
         label: "ball"
     };
 
+    this.hitSound;
+
     this.speed = 0;
 
     this.body = Bodies.circle(x, y, radius, options);
@@ -18,6 +20,8 @@ function Ball(x, y, radius) {
 
     World.add(world, this.body);
     renderers.push(this);
+
+    this.body.ballObj = this;
 
     this.setVelocity = function(vx, vy)
     {
@@ -43,6 +47,14 @@ function Ball(x, y, radius) {
         console.log(sprite);
         this.sprite = sprite;
         this.hasSprite = true;
+    }
+
+    this.setHitSound = function(sound)
+    {
+        console.log(sound);
+        this.hitSound = sound;
+        console.log(this.hitSound);
+        console.log("Sound set!");
     }
 
     this.reset = function()
@@ -71,6 +83,16 @@ function Ball(x, y, radius) {
             }
 
             ball.reset();
+        }
+        else if(otherBody.label === 'player1' || otherBody.label === 'player2')
+        {
+            console.log("Play sound if sound exists!");
+            console.log(this.ballObj.hitSound);
+            if (typeof(this.ballObj.hitSound) !== 'undefined')
+            {
+                console.log("play sound!");
+                this.ballObj.hitSound.play();
+            }
         }
 
         

@@ -39,6 +39,8 @@ var frameCount = 0;
 
 var ballAnim;
 
+var ballHitSound;
+
 var animation = [];
 
 function matterUpdate(deltaTime)
@@ -137,6 +139,10 @@ function setup() {
   ballAnim = new Sprite(animation, 0.2);
   ball.setSprite(ballAnim);
   updatables.push(ball);
+  console.log("setting sound...");
+  console.log(ballHitSound);
+  ball.setHitSound(ballHitSound);
+  console.log(ball.hitSound);
 }
 
 function increaseScore(player, increaseBy)
@@ -155,6 +161,10 @@ function preload()
 {
   ballSheetData = loadJSON("sprites/ball/BallSpin.json");
   ballSheet = loadImage("sprites/ball/Ball.png");
+
+  console.log("Load sound...");
+  ballHitSound = loadSound("sounds/ball/ballHit.mp3");  
+  console.log(ballHitSound);
 }
 
 function mousePressed() 

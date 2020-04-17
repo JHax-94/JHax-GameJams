@@ -1,4 +1,7 @@
 function Ball(x, y, radius) {
+
+    this.sprite = {};
+    this.hasSprite = false;
     var options = {
         friction: 0,
         frictionStatic: 0,
@@ -27,6 +30,19 @@ function Ball(x, y, radius) {
         {
             console.log("Ball out of bounds!");
         }
+
+        if(this.hasSprite === true)
+        {
+            this.sprite.animate();
+        }
+    }
+    
+    this.setSprite = function(sprite)
+    {
+        console.log("Setting sprite...");
+        console.log(sprite);
+        this.sprite = sprite;
+        this.hasSprite = true;
     }
 
     this.reset = function()
@@ -61,6 +77,14 @@ function Ball(x, y, radius) {
     }
 
     this.show = function() {
-        circle(this.body.position.x, this.body.position.y, 2*this.body.circleRadius);
+        if(this.hasSprite === false)
+        {
+            circle(this.body.position.x, this.body.position.y, 2*this.body.circleRadius);
+        }
+        else
+        {
+            this.sprite.showAt(this.body.position);
+        }
+        
     }
 }

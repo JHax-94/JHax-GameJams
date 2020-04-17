@@ -28,9 +28,18 @@ var paddles = [];
 
 var ball;
 
+var ballSheet;
+var ballSheetData;
+
 var ground;
 
 var ballMoving;
+
+var frameCount = 0;
+
+var ballAnim;
+
+var animation = [];
 
 function matterUpdate(deltaTime)
 {
@@ -112,6 +121,22 @@ function setup() {
   player2Goal = new TriggerZone(width, height / 2, 30, height, "player2goal");
 
   ballMoving = false;
+
+  var frames = ballSheetData.frames;
+
+  console.log("Loading frames");
+  console.log(frames);
+
+  for(var i = 0; i < frames.length; i ++)
+  {
+    var pos = frames[i].position;
+    let img = ballSheet.get(pos.x, pos.y, pos.w, pos.h);
+    animation.push(img);
+  }
+
+  ballAnim = new Sprite(animation, 0.2);
+  ball.setSprite(ballAnim);
+  updatables.push(ball);
 }
 
 function increaseScore(player, increaseBy)
@@ -124,6 +149,12 @@ function increaseScore(player, increaseBy)
   {
     player2Score += increaseBy;
   }
+}
+
+function preload()
+{
+  ballSheetData = loadJSON("sprites/ball/BallSpin.json");
+  ballSheet = loadImage("sprites/ball/Ball.png");
 }
 
 function mousePressed() 
@@ -238,10 +269,19 @@ function draw() {
       renderers[i].show();
   }
 
+  //console.log(animation.length);
+
+
+  //console.log(showFrame);
+  //ballAnim.show();
+  //ballAnim.animate();
+
   fill(255);
   textSize(32);
   rectMode(CENTER);
   text(player1Score, 10, 30);
   rectMode(CENTER);
   text(player2Score, width - 25, 30);
+
+  frameCount = frameCount + 1;
 }

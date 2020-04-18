@@ -166,6 +166,7 @@ class Enemy
         if(this.isSpeaking)
         {
             this.setStatsDrawMode();
+            fill(0);
             text(this.speech, this.pos.x + this.speechOffset.x, this.pos.y + this.speechOffset.y);
         }
     }

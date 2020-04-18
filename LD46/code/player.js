@@ -8,6 +8,8 @@ class Player {
         this.pos = pos;
         this.moveList = moveList;
         this.moveList.owner = this;
+        this.moveList.pos = { x: pos.x-50, y: pos.y + 70 };
+
         this.hasSprite = false;
         this.hasTurnControl = false;
 

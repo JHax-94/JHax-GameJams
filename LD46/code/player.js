@@ -1,9 +1,17 @@
 class Player {
     constructor(pos, moveList)
     {
+        this.originalPos = {};
+        this.originalPos.x = pos.x;
+        this.originalPos.y = pos.y;
+
         this.pos = pos;
         this.moveList = moveList;
+        this.moveList.owner = this;
         this.hasSprite = false;
+        this.hasTurnControl = false;
+
+        this.index = 0;
 
         this.addToLists();
     }
@@ -17,6 +25,26 @@ class Player {
     {
         this.hasSprite = true;
         this.sprite = sprite;
+    }
+
+    giveTurn()
+    {
+        console.log("Player turn...");
+
+        this.hasTurnControl = true;
+        this.moveList.setActive(true);
+    }
+
+    takeTurn()
+    {
+        this.hasTurnControl = false;
+        this.moveList.setActive(false);
+    }
+
+    setPos(pos)
+    {
+        this.pos.x = pos.x;
+        this.pos.y = pos.y;
     }
 
     draw()

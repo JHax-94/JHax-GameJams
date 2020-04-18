@@ -4,7 +4,6 @@ const BATTLE_SCREEN = 2;
 
 var screens = [];
 
-
 var menuUpButton;
 var menuDownButton;
 var menuSubmitButton;
@@ -13,12 +12,13 @@ var arenaBg;
 
 var thumbsDown;
 var thumbsUp;
+var title;
 
 var menuUpHeld = false;
 var menuDownHeld = false;
 var menuSubmitHeld = false;
 
-var activeScreen = BATTLE_SCREEN;
+var activeScreen = TITLE_SCREEN;
 
 var gameMaster;
 var fullTechsList;
@@ -38,6 +38,11 @@ function setKeys()
 function mod(val, comp)
 {
   return (val + comp) % comp;
+}
+
+function setActiveScreen(newScreen)
+{
+  activeScreen = newScreen;
 }
 
 function setup() {
@@ -99,12 +104,17 @@ function setup() {
   gameMaster.addEnemy(enemy);
   gameMaster.nextTurn();
 
+  var titles = new TitleScreen({ x: width / 2, y: height / 2 - 100 }, title);
+
   setKeys();
 }
 
 function preload()
 {
-  console.log("Preloading...")
+  console.log("Preloading...");
+
+  title = loadImage("assets/sprites/title.png");
+
   arenaBg = loadImage("assets/sprites/arenaBackground.png");
   thumbsUp = loadImage("assets/sprites/thumbsUp.png");
   thumbsDown = loadImage("assets/sprites/thumbsDown.png");
@@ -113,7 +123,7 @@ function preload()
 
   playerSheetData = loadJSON("assets/sprites/playerSheet.json");
   playerSheet = loadImage("assets/sprites/playerSheet.png");
-
+  
   console.log("Preload complete!");
 }
 
@@ -157,7 +167,7 @@ function draw() {
   clear();
   imageMode(CORNER);
   background(arenaBg);
-
+  
   screens[activeScreen].update(deltaTime/1000);
   screens[activeScreen].draw();
   screens[activeScreen].animate();

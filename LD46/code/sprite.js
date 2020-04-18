@@ -1,6 +1,6 @@
 class Sprite
 {
-    constructor(animation, speed)
+    constructor(animation, speed, targetScreen)
     {
         this.animation = animation;
         this.len = animation.length;
@@ -12,12 +12,12 @@ class Sprite
 
         this.dims;
 
-        this.addToLists();
+        this.addToLists(targetScreen);
     }   
 
-    addToLists()
+    addToLists(targetScreen)
     {
-        animationsList.push(this);
+        screens[targetScreen].animationsList.push(this);
     }
 
     setDims(dims)

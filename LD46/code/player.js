@@ -20,7 +20,7 @@ class Player {
 
     addToLists()
     {
-        drawablesList.push(this);
+        screens[BATTLE_SCREEN].drawablesList.push(this);
     }
 
     setSprite(sprite)

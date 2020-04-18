@@ -26,7 +26,7 @@ class GameMaster
 
     addToLists()
     {
-        updateableList.push(this);
+        screens[BATTLE_SCREEN].updateableList.push(this);
     }
 
     addPlayer(player)

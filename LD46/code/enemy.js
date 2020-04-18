@@ -9,6 +9,12 @@ class Enemy
         this.pos = pos;
         this.statsOffset = { x: -15, y: -50 };
         this.addToLists();
+
+        var barPos = { x: this.pos.x + this.statsOffset.x, y: this.pos.y + this.statsOffset.y };
+        var barDims = { w: 50, h: 15 };
+        
+        this.healthBar = new Bar(barPos, barDims, { r: 255, g: 0, b: 0 }, { r: 0, g: 255, b: 0});
+        this.healthBar.setFilled(this.health, this.maxHealth);
     }
 
     addToLists()
@@ -44,6 +50,7 @@ class Enemy
         }
 
         this.health = newHealth;
+        this.healthBar.setFilled(this.health, this.maxHealth);
     }
 
     draw()
@@ -53,6 +60,8 @@ class Enemy
 
         this.setStatsDrawMode()
         text(this.health + " / " + this.maxHealth, this.pos.x + this.statsOffset.x, this.pos.y + this.statsOffset.y);
+
+        this.healthBar.draw();
     }
 
 

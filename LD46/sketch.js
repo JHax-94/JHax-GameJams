@@ -1,7 +1,8 @@
 
 var drawablesList = [];
-
 var menuKeyReactors = [];
+
+var animationsList = [];
 
 var menuUpButton;
 var menuDownButton;
@@ -13,6 +14,11 @@ var menuSubmitHeld = false;
 
 var gameMaster;
 var fullTechsList;
+
+var playerAnim = [];
+var playerSheet;
+var playerSheetData;
+
 
 function setKeys()
 {
@@ -28,6 +34,7 @@ function mod(val, comp)
 
 function setup() {
   // put setup code here
+  console.log("Setup starting...");
 
   var canvas = createCanvas(800, 600);
   canvas.parent('sketch-holder');
@@ -45,7 +52,6 @@ function setup() {
 
   console.log(fullTechsList);
 
-
   for(var i = 0; i < fullTechsList.techniques.length && i < 4; i ++)
   {
     console.log("add tech...");
@@ -54,7 +60,7 @@ function setup() {
   }
 
   var player = new Player({x: 50, y: height/2}, moveList);
-
+  
   var enemy = new Enemy({x: width - 50, y: height/2}, 100, 10);
   
   /*
@@ -63,6 +69,20 @@ function setup() {
   drawablesList.push(player);
   */
 
+  console.log("Load spritesheet");
+  console.log(playerSheetData);
+  for(var i = 0; i < playerSheetData.frames.length; i ++)
+  {
+    var pos = playerSheetData.frames[i].position;
+    var img = playerSheet.get(pos.x, pos.y, pos.w, pos.h);
+    playerAnim.push(img);
+  }
+
+  var playerSprite = new Sprite(playerAnim, 0.2);
+  playerSprite.setDims({ w: 60, h: 120 });
+
+  player.setSprite(playerSprite);
+  
   gameMaster = new GameMaster();
   gameMaster.setEmperor(emperor);
   gameMaster.addPlayer(player);
@@ -73,7 +93,13 @@ function setup() {
 
 function preload()
 {
+  console.log("Preloading...")
   fullTechsList = loadJSON("assets/data/techniques.json");
+
+  playerSheetData = loadJSON("assets/sprites/playerSheet.json");
+  playerSheet = loadImage("assets/sprites/playerSheet.png");
+
+  console.log("Preload complete!");
 }
 
 function keyPressed()
@@ -132,5 +158,10 @@ function draw() {
   for(var i = 0; i < drawablesList.length; i++)
   {
     drawablesList[i].draw();
+  }
+
+  for(var i = 0; i < animationsList.length; i ++)
+  {
+    animationsList[i].animate();
   }
 }

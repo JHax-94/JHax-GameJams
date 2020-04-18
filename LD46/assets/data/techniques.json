@@ -1,0 +1,18 @@
+{
+    "techniques": [
+    {
+        "name": "Attack",
+        "baseDamage": 50,
+        "baseExcitement": 10
+    },
+    {
+        "name": "Backflip",
+        "baseDamage": 0,
+        "baseExcitement": 100        
+    },
+    {
+        "name": "Insult Enemy's Mother",
+        "baseDamage": 10,
+        "baseExcitement": 60
+    }]
+}

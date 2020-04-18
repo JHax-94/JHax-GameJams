@@ -31,6 +31,16 @@ class MoveList
         stroke(255);
     }
 
+    menuRight()
+    {
+
+    }
+
+    menuLeft()
+    {
+        
+    }
+
     setToSelectedItemBox()
     {
         rectMode(CORNER);

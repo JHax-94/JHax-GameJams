@@ -21,6 +21,11 @@ class GameMaster
         
         this.moveOn = false;
 
+        var battleEndDims = { w: width / 2, h: height / 2 };
+        var battleEndPos = { x: width /2, y: height / 2 };
+
+        this.battleEnd = new BattleEndPopup(battleEndPos, battleEndDims);
+
         this.addToLists();
     }
 
@@ -96,12 +101,6 @@ class GameMaster
                 y: lerp(movePlayer.originalPos.y, this.leftActivePoint.y, lerpVal)
             };
 
-            if(this.moveDirection < 0)
-            {
-                console.log("moving backwards..." + lerpVal);
-                console.log(playerPos);
-            } 
-
             var enemyPos = {
                 x: lerp(moveEnemy.originalPos.x, this.rightActivePoint.x, lerpVal),
                 y: lerp(moveEnemy.originalPos.y, this.rightActivePoint.y, lerpVal)
@@ -156,10 +155,12 @@ class GameMaster
         }
     }
 
-    startEnemyTurn(enemy, player, moveToCentre)
+    startEnemyTurn(enemy, player, enemyTurn)
     {
-        if(moveToCentre)
+        if(enemyTurn.attacking)
         {
+            console.log("enemy attacking");
+
             this.activePlayer = player;
             this.activeEnemy = enemy.index;
 
@@ -170,7 +171,23 @@ class GameMaster
         }
         else
         {
-            this.processEnemyTurn(moveToCentre);
+            console.log("battle finished...");
+            if(enemyTurn.surrendering === true || enemyTurn.dead === true)
+            {
+                if(this.emperor.isPleased() === false)
+                {
+                    enemyTurn.dead = true;
+                }
+
+                var battleEnd = {
+                    winnings: 500,
+                    compensation: (enemyTurn.dead ? 1000 : 0)
+                };
+
+                this.battleEnd.showBattleEnd(battleEnd);
+            }
+
+            //this.processEnemyTurn(enemyTurn);
         }
     }
 

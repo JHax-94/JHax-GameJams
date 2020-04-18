@@ -101,23 +101,29 @@ class Enemy
 
     makeMove()
     {
-        var attacking = false;
+        var enemyTurn = {
+            attacking: false,
+            surrendering: false,
+            dead: false
+        }
 
         if(this.health == 0)
         {
             this.setSpeech("Zounds, I am undone!");
+            enemyTurn.dead = true;
         }
         else if(this.health < (this.maxHealth - this.willToFight))
         {
             this.setSpeech("I surrender!");
+            enemyTurn.surrendering = true;
         }
         else 
         {
             this.setSpeech("Death or glory!");
-            attacking = true;
+            enemyTurn.attacking = true;
         }
 
-        gameMaster.startEnemyTurn(this, 0, attacking);
+        gameMaster.startEnemyTurn(this, 0, enemyTurn);
     }
 
     addToHealth(diff)

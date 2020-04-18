@@ -4,6 +4,8 @@ var menuKeyReactors = [];
 
 var animationsList = [];
 
+var updateableList = [];
+
 var menuUpButton;
 var menuDownButton;
 var menuSubmitButton;
@@ -59,16 +61,10 @@ function setup() {
     moveList.push(tech);
   }
 
-  var player = new Player({x: 100, y: height/2}, moveList);
+  var player = new Player({x: 100, y: height/2}, moveBox);
   
-  var enemy = new Enemy({x: width - 100, y: height/2}, 100, 10);
+  var enemy = new Enemy({x: width - 100, y: height/2}, 100, 60);
   
-  /*
-
-  drawablesList.push(moveBox);
-  drawablesList.push(player);
-  */
-
   console.log("Load spritesheet");
   console.log(playerSheetData);
   for(var i = 0; i < playerSheetData.frames.length; i ++)
@@ -91,6 +87,7 @@ function setup() {
   gameMaster.setEmperor(emperor);
   gameMaster.addPlayer(player);
   gameMaster.addEnemy(enemy);
+  gameMaster.nextTurn();
 
   setKeys();
 }
@@ -128,8 +125,6 @@ function keyReleased()
   {
     menuUpHeld = false;
 
-    console.log("menu up!");
-
     for(var i = 0; i < menuKeyReactors.length; i ++)
     {
       menuKeyReactors[i].menuUp();
@@ -137,7 +132,6 @@ function keyReleased()
   }
   else if(keyCode === menuDownButton && menuDownHeld === true)
   {
-    console.log("menu down!");
     menuDownHeld = false;
     for(var i = 0; i < menuKeyReactors.length; i ++)
     {
@@ -146,7 +140,6 @@ function keyReleased()
   }
   else if(keyCode === menuSubmitButton && menuSubmitHeld === true)
   {
-    console.log("menu select!");
     menuSubmitHeld = false;
     for(var i = 0; i < menuKeyReactors.length; i ++)
     {
@@ -157,6 +150,11 @@ function keyReleased()
 
 function draw() {
   // put drawing code here
+  for(var i = 0; i < updateableList.length; i ++)
+  {
+    updateableList[i].update(deltaTime/1000);
+  }
+
   background(50);
 
   for(var i = 0; i < drawablesList.length; i++)

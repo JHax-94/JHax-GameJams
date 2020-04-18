@@ -3,16 +3,19 @@
     {
         "name": "Attack",
         "baseDamage": 50,
-        "baseExcitement": 10
+        "baseExcitement": 10,
+        "moveToCentre": true
     },
     {
         "name": "Backflip",
         "baseDamage": 0,
-        "baseExcitement": 100        
+        "baseExcitement": 100,
+        "moveToCentre": false
     },
     {
         "name": "Insult Enemy's Mother",
         "baseDamage": 10,
-        "baseExcitement": 60
+        "baseExcitement": 60,
+        "moveToCentre": true
     }]
 }

@@ -8,5 +8,16 @@ class Technique
         this.name = techObj.name;
         this.baseDamage = techObj.baseDamage;
         this.baseExcitement = techObj.baseExcitement;
+        this.moveToCentre = techObj.moveToCentre;
+    }
+
+    damage()
+    {
+        return this.baseDamage;
+    }
+
+    excitement()
+    {
+        return this.baseExcitement;
     }
 }

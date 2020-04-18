@@ -2,6 +2,7 @@ class MoveList
 {
     constructor(techniques)
     {
+        this.isActive = false;
         this.techniques = techniques;
         this.pos = { x: 50, y: height/2+60 };
 
@@ -39,44 +40,59 @@ class MoveList
 
     menuUp()
     {
-        this.selectedItem = mod(this.selectedItem - 1, this.techniques.length);
-        console.log("new selected item: " + this.selectedItem);
+        if(this.isActive)
+        {
+            this.selectedItem = mod(this.selectedItem - 1, this.techniques.length);
+            console.log("new selected item: " + this.selectedItem);
+        }
     }
 
     menuDown()
     {
-        this.selectedItem = mod(this.selectedItem + 1, this.techniques.length);
-        console.log("new selected item: " + this.selectedItem);
+        if(this.isActive)
+        {
+            this.selectedItem = mod(this.selectedItem + 1, this.techniques.length);
+            console.log("new selected item: " + this.selectedItem);
+        }
     }
 
     menuSubmit()
     {
-        var selectedTech = this.techniques[this.selectedItem];
-        var target = 0;
+        if(this.isActive)
+        {
+            var selectedTech = this.techniques[this.selectedItem];
+            var target = 0;
 
-        console.log(gameMaster);
-        gameMaster.processTechnique(selectedTech, target);
+            console.log(this.owner);
+            gameMaster.startTechnique(selectedTech, target, this.owner);
+        }
+    }
+
+    setActive(activeState)
+    {
+        this.isActive = activeState;
     }
 
     draw()
     {
-        this.setToContainerDrawMode();
-        rect(this.pos.x, this.pos.y, 200, 100, 20);
-
-
-        this.setToTextDrawMode();
-        for(var i = 0; i < this.techniques.length; i ++)
+        if(this.isActive)
         {
-            if(this.selectedItem == i)
-            {
-                this.setToContainerDrawMode();
-                rect(this.pos.x + 10, this.pos.y + 10 + i * 20, 180, 15);
-                this.setToTextDrawMode();
-            }
-            
-            text(this.techniques[i].name, this.pos.x + 15, this.pos.y + 20 + i * 20);
-        }
-        
-    }
+            this.setToContainerDrawMode();
+            rect(this.pos.x, this.pos.y, 200, 100, 20);
 
+
+            this.setToTextDrawMode();
+            for(var i = 0; i < this.techniques.length; i ++)
+            {
+                if(this.selectedItem == i)
+                {
+                    this.setToContainerDrawMode();
+                    rect(this.pos.x + 10, this.pos.y + 10 + i * 20, 180, 15);
+                    this.setToTextDrawMode();
+                }
+                
+                text(this.techniques[i].name, this.pos.x + 15, this.pos.y + 20 + i * 20);
+            }
+        }        
+    }
 }

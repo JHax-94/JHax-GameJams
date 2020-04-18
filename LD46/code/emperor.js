@@ -17,7 +17,7 @@ class Emperor
 
     addToLists()
     {   
-        drawablesList.push(this);
+        screens[BATTLE_SCREEN].drawablesList.push(this);
     }
 
     addToExcitement(diff)

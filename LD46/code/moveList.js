@@ -13,8 +13,8 @@ class MoveList
 
     addToLists()
     {
-        drawablesList.push(this);
-        menuKeyReactors.push(this);
+        screens[BATTLE_SCREEN].drawablesList.push(this);
+        screens[BATTLE_SCREEN].menuKeyReactors.push(this);
     }
 
     setToTextDrawMode()

@@ -35,8 +35,8 @@ class Enemy
 
     addToLists()
     {
-        drawablesList.push(this);   
-        updateableList.push(this);
+        screens[BATTLE_SCREEN].drawablesList.push(this);   
+        screens[BATTLE_SCREEN].updateableList.push(this);
     }
 
     setSprite(sprite)

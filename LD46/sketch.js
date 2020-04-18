@@ -1,10 +1,9 @@
+const TITLE_SCREEN = 0;
+const PRE_BATTLE_SCREEN = 1;
+const BATTLE_SCREEN = 2;
 
-var drawablesList = [];
-var menuKeyReactors = [];
+var screens = [];
 
-var animationsList = [];
-
-var updateableList = [];
 
 var menuUpButton;
 var menuDownButton;
@@ -18,6 +17,8 @@ var thumbsUp;
 var menuUpHeld = false;
 var menuDownHeld = false;
 var menuSubmitHeld = false;
+
+var activeScreen = BATTLE_SCREEN;
 
 var gameMaster;
 var fullTechsList;
@@ -42,19 +43,23 @@ function mod(val, comp)
 function setup() {
   // put setup code here
   console.log("Setup starting...");
-
   var canvas = createCanvas(1024, 768);
   canvas.parent('sketch-holder');
+
+  var titleScreen = new Screen();
+  screens.push(titleScreen);
+  var preBattleScreen = new Screen();
+  screens.push(preBattleScreen);
+  var battleScreen = new Screen();
+  screens.push(battleScreen);
+
+  console.log(screens);
+
   var emperor = new Emperor(400, 1000);
-  drawablesList.push(emperor);
+  //drawablesList.push(emperor);
   
   var moveList = [];
 
-  /*
-  moveList.push(new Technique("Attack", 50, 10));
-  moveList.push(new Technique("Backflip", 0, 100));
-  moveList.push(new Technique("Insult Enemy's Mother", 10, 60));
-  */
   var moveBox = new MoveList(moveList);
 
   console.log(fullTechsList);
@@ -79,11 +84,11 @@ function setup() {
     playerAnim.push(img);
   }
 
-  var playerSprite = new Sprite(playerAnim, 0.2);
+  var playerSprite = new Sprite(playerAnim, 0.2, BATTLE_SCREEN);
   playerSprite.setDims({ w: 60, h: 120 });
   player.setSprite(playerSprite);
 
-  var enemySprite = new Sprite(playerAnim, 0.2);
+  var enemySprite = new Sprite(playerAnim, 0.2, BATTLE_SCREEN);
   enemySprite.setDims({ w: 60, h: 120 });
   enemy.setSprite(enemySprite);
   enemySprite.flip = true;
@@ -134,26 +139,17 @@ function keyReleased()
   {
     menuUpHeld = false;
 
-    for(var i = 0; i < menuKeyReactors.length; i ++)
-    {
-      menuKeyReactors[i].menuUp();
-    }
+    screens[activeScreen].menuUp();
   }
   else if(keyCode === menuDownButton && menuDownHeld === true)
   {
     menuDownHeld = false;
-    for(var i = 0; i < menuKeyReactors.length; i ++)
-    {
-      menuKeyReactors[i].menuDown();
-    }
+    screens[activeScreen].menuDown();
   }
   else if(keyCode === menuSubmitButton && menuSubmitHeld === true)
   {
     menuSubmitHeld = false;
-    for(var i = 0; i < menuKeyReactors.length; i ++)
-    {
-      menuKeyReactors[i].menuSubmit();
-    }
+    screens[activeScreen].menuSubmit();
   }
 }
 
@@ -162,19 +158,7 @@ function draw() {
   imageMode(CORNER);
   background(arenaBg);
 
-  // put drawing code here
-  for(var i = 0; i < updateableList.length; i ++)
-  {
-    updateableList[i].update(deltaTime/1000);
-  }
-  
-  for(var i = 0; i < drawablesList.length; i++)
-  {
-    drawablesList[i].draw();
-  }
-
-  for(var i = 0; i < animationsList.length; i ++)
-  {
-    animationsList[i].animate();
-  }
+  screens[activeScreen].update(deltaTime/1000);
+  screens[activeScreen].draw();
+  screens[activeScreen].animate();
 }

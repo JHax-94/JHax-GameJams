@@ -7,7 +7,7 @@ class Enemy
 
         this.willToFight = willToFight;
         this.pos = pos;
-        this.statsOffset = { x: -15, y: -50 };
+        this.statsOffset = { x: -15, y: -60 };
         this.addToLists();
 
         var barPos = { x: this.pos.x + this.statsOffset.x, y: this.pos.y + this.statsOffset.y };
@@ -15,6 +15,14 @@ class Enemy
         
         this.healthBar = new Bar(barPos, barDims, { r: 255, g: 0, b: 0 }, { r: 0, g: 255, b: 0});
         this.healthBar.setFilled(this.health, this.maxHealth);
+
+        this.hasSprite = false;
+    }
+
+    setSprite(sprite)
+    {
+        this.hasSprite = true;
+        this.sprite = sprite;
     }
 
     addToLists()
@@ -55,8 +63,16 @@ class Enemy
 
     draw()
     {
-        this.setCharacterDrawMode();
-        rect(this.pos.x, this.pos.y, 30, 60);
+        if(this.hasSprite === false)
+        {
+            this.setCharacterDrawMode();
+            rect(this.pos.x, this.pos.y, 30, 60);
+        }
+        else
+        {
+            this.sprite.drawAt(this.pos, { w: 30, h: 60});
+        }
+        
 
         this.setStatsDrawMode()
         text(this.health + " / " + this.maxHealth, this.pos.x + this.statsOffset.x, this.pos.y + this.statsOffset.y);

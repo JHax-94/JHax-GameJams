@@ -9,12 +9,4 @@ class Technique
         this.baseDamage = techObj.baseDamage;
         this.baseExcitement = techObj.baseExcitement;
     }
-
-    /*
-    constructor(name, baseDamage, baseExcitement)
-    {
-        this.name = name;
-        this.baseDamage = baseDamage;
-        this.baseExcitement = baseExcitement;
-    } */  
 }

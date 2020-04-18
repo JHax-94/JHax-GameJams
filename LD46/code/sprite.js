@@ -8,6 +8,8 @@ class Sprite
         this.index = 0;
         this.hasDims = false;
 
+        this.flip = false;
+
         this.dims;
 
         this.addToLists();
@@ -28,14 +30,28 @@ class Sprite
     {
         imageMode(CENTER);
         var showIndex = mod(floor(this.index), this.len);
+        var scaleMod = 1;
+        if(this.flip)
+        {
+            scaleMod = -1;
+            scale(1/scaleMod, 1);
+        }
+        
 
         if(this.hasDims)
         {
-            image(this.animation[showIndex], pos.x, pos.y, this.dims.w, this.dims.h);
+            imageMode(CENTER);
+            image(this.animation[showIndex], scaleMod * pos.x, pos.y, this.dims.w, this.dims.h);
         }
         else
+        {   
+            imageMode(CENTER);
+            image(this.animation[showIndex], scaleMod * pos.x, pos.y);
+        }
+
+        if(this.flip)
         {
-            image(this.animation[showIndex], pos.x, pos.y);
+            scale(scaleMod, 1);
         }
     }
 

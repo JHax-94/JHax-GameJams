@@ -36,7 +36,7 @@ function setup() {
   // put setup code here
   console.log("Setup starting...");
 
-  var canvas = createCanvas(800, 600);
+  var canvas = createCanvas(1024, 768);
   canvas.parent('sketch-holder');
   var emperor = new Emperor(400, 1000);
   drawablesList.push(emperor);
@@ -59,9 +59,9 @@ function setup() {
     moveList.push(tech);
   }
 
-  var player = new Player({x: 50, y: height/2}, moveList);
+  var player = new Player({x: 100, y: height/2}, moveList);
   
-  var enemy = new Enemy({x: width - 50, y: height/2}, 100, 10);
+  var enemy = new Enemy({x: width - 100, y: height/2}, 100, 10);
   
   /*
 
@@ -80,9 +80,13 @@ function setup() {
 
   var playerSprite = new Sprite(playerAnim, 0.2);
   playerSprite.setDims({ w: 60, h: 120 });
-
   player.setSprite(playerSprite);
-  
+
+  var enemySprite = new Sprite(playerAnim, 0.2);
+  enemySprite.setDims({ w: 60, h: 120 });
+  enemy.setSprite(enemySprite);
+  enemySprite.flip = true;
+
   gameMaster = new GameMaster();
   gameMaster.setEmperor(emperor);
   gameMaster.addPlayer(player);

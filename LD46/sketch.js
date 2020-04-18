@@ -23,7 +23,7 @@ var menuLeftHeld = false;
 var menuRightHeld = false;
 var menuSubmitHeld = false;
 
-var activeScreen = PRE_BATTLE_SCREEN;
+var activeScreen = TITLE_SCREEN;
 
 var gameMaster;
 var fullTechsList;
@@ -49,6 +49,12 @@ function mod(val, comp)
 
 function setActiveScreen(newScreen)
 {
+  if(newScreen === BATTLE_SCREEN)
+  {
+    gameMaster.reset();
+  }
+  
+
   activeScreen = newScreen;
 }
 

@@ -42,6 +42,12 @@ class Emperor
         this.barRender.setFilled(this.excitement, this.maxExcitement);
     }
 
+    reset()
+    {
+        this.excitement = 400;
+        this.barRender.setFilled(this.excitement, this.maxExcitement);
+    }
+
     draw()
     {
         this.barRender.draw();

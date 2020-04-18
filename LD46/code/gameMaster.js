@@ -29,6 +29,24 @@ class GameMaster
         this.addToLists();
     }
 
+    reset()
+    {
+        for(var i = 0; i < this.enemies.length; i ++)
+        {
+            var setEnemy = { 
+                maxHealth: 100,
+                willToFight: 60
+            };  
+
+            this.enemies[i].set(setEnemy);
+        }
+
+        this.emperor.reset();
+        this.battleEnd.isActive = false;
+        this.turn = 0;
+        this.nextTurn();
+    }
+
     addToLists()
     {
         screens[BATTLE_SCREEN].updateableList.push(this);

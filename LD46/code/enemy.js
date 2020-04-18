@@ -33,6 +33,17 @@ class Enemy
         this.speechOffset = { x: -30, y: -60 };
     }
 
+    set(setFrom)
+    {   
+        this.maxHealth = setFrom.maxHealth;
+        this.health = setFrom.maxHealth;
+
+        this.willToFight = setFrom.willToFight;
+
+        this.healthBar.setFilled(this.health, this.maxHealth);
+        this.clearSpeech();
+    }
+
     addToLists()
     {
         screens[BATTLE_SCREEN].drawablesList.push(this);   

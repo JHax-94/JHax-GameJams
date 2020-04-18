@@ -4,7 +4,9 @@ class GameMaster
     {
         this.round = 0;
         this.turn = 0;
-
+        
+        this.money = 5000;
+        
         this.players = [];
         this.enemies = [];
         this.emperor = {};
@@ -27,6 +29,16 @@ class GameMaster
         this.battleEnd = new BattleEndPopup(battleEndPos, battleEndDims);
 
         this.addToLists();
+    }
+
+    playerHealth()
+    {
+        return this.players[0].health;
+    }
+
+    playerMaxHealth()
+    {
+        return this.players[0].maxHealth;
     }
 
     reset()
@@ -131,13 +143,9 @@ class GameMaster
             {
                 if(this.moveDirection > 0)
                 {
-                    var playerTurn = this.playerTurn();
-
-                    console.log("Is player turn? " + playerTurn);
-
                     this.playerTurn() ? 
                         this.processTechnique(this.activeTechnique, this.activeEnemy, movePlayer) :
-                        this.processEnemyTurn(true);
+                        this.processEnemyTurn(true, this.enemyTurn);
                 }
                 else 
                 {  
@@ -173,6 +181,12 @@ class GameMaster
         }
     }
 
+    addMoney(value)
+    {
+        this.money += value;
+    }
+
+
     startEnemyTurn(enemy, player, enemyTurn)
     {
         if(enemyTurn.attacking)
@@ -181,7 +195,7 @@ class GameMaster
 
             this.activePlayer = player;
             this.activeEnemy = enemy.index;
-
+            this.enemyTurn = enemyTurn;
             this.moveOn = true;
             this.moveDuration = 2.0;
             this.moveDirection = 1;
@@ -204,8 +218,6 @@ class GameMaster
 
                 this.battleEnd.showBattleEnd(battleEnd);
             }
-
-            //this.processEnemyTurn(enemyTurn);
         }
     }
 
@@ -232,8 +244,12 @@ class GameMaster
         }
     }
 
-    processEnemyTurn(moveToCentre)
-    {
+    processEnemyTurn(moveToCentre, turnData)
+    {  
+        console.log(moveToCentre);
+        console.log(turnData);
+
+
         if(moveToCentre)
         {
             this.enemies[this.activeEnemy].clearSpeech();
@@ -242,6 +258,11 @@ class GameMaster
             this.moveDuration = 1;
             this.moveTime = this.moveDuration;
             this.moveOn = true;
+
+            if(turnData.attacking)
+            {
+                this.players[0].addToHealth(-turnData.damage);
+            }
         }
     }
 

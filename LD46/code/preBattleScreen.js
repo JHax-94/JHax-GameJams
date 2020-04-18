@@ -122,8 +122,8 @@ class PreBattleScreen
         rect(this.pos.x, this.pos.y, this.dims.w, this.dims.h);
 
         this.setTextMode();
-        text("Money: 100000 denarii", this.moneyPos.x, this.moneyPos.y);
-        text("HP: 5000", this.healthPos.x, this.healthPos.y);
+        text("Money: " + gameMaster.money + " denarii", this.moneyPos.x, this.moneyPos.y);
+        text("HP: " + gameMaster.playerHealth() + " / " + gameMaster.playerMaxHealth(), this.healthPos.x, this.healthPos.y);
 
         for(var i = 0; i < this.panels.length; i ++)
         {

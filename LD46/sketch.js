@@ -89,7 +89,7 @@ function setup() {
     moveList.push(tech);
   }
 
-  var player = new Player({x: 150, y: height/2 + 100}, moveBox);
+  var player = new Player({x: 150, y: height/2 + 100}, 10000, moveBox);
   
   var enemy = new Enemy({x: width - 150, y: height/2 + 100}, 100, 60);
   
@@ -117,7 +117,7 @@ function setup() {
   gameMaster.addEnemy(enemy);
   gameMaster.nextTurn();
 
-  var titles = new TitleScreen({ x: width / 2, y: height / 2 - 100 }, title);
+  var titles = new TitleScreen({ x: width / 2, y: height / 2 - 50 }, title);
   var preBattleMenu = new PreBattleScreen({x: width/2, y: height/2}, {w: width - 100, h: height - 100}, 1);
 
   textSize(24);

@@ -132,6 +132,7 @@ class Enemy
         {
             this.setSpeech("Death or glory!");
             enemyTurn.attacking = true;
+            enemyTurn.damage = 50;
         }
 
         gameMaster.startEnemyTurn(this, 0, enemyTurn);

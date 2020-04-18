@@ -12,6 +12,7 @@ var menuDownHeld = false;
 var menuSubmitHeld = false;
 
 var gameMaster;
+var fullTechsList;
 
 function setKeys()
 {
@@ -35,11 +36,22 @@ function setup() {
   
   var moveList = [];
 
+  /*
   moveList.push(new Technique("Attack", 50, 10));
   moveList.push(new Technique("Backflip", 0, 100));
   moveList.push(new Technique("Insult Enemy's Mother", 10, 60));
-
+  */
   var moveBox = new MoveList(moveList);
+
+  console.log(fullTechsList);
+
+
+  for(var i = 0; i < fullTechsList.techniques.length && i < 4; i ++)
+  {
+    console.log("add tech...");
+    var tech = new Technique(fullTechsList.techniques[i]);
+    moveList.push(tech);
+  }
 
   var player = new Player({x: 50, y: height/2}, moveList);
 
@@ -57,6 +69,11 @@ function setup() {
   gameMaster.addEnemy(enemy);
 
   setKeys();
+}
+
+function preload()
+{
+  fullTechsList = loadJSON("assets/data/techniques.json");
 }
 
 function keyPressed()

@@ -33,6 +33,17 @@ class Enemy
         this.speechOffset = { x: -30, y: -60 };
     }
 
+    set(setFrom)
+    {   
+        this.maxHealth = setFrom.maxHealth;
+        this.health = setFrom.maxHealth;
+
+        this.willToFight = setFrom.willToFight;
+
+        this.healthBar.setFilled(this.health, this.maxHealth);
+        this.clearSpeech();
+    }
+
     addToLists()
     {
         screens[BATTLE_SCREEN].drawablesList.push(this);   
@@ -101,23 +112,30 @@ class Enemy
 
     makeMove()
     {
-        var attacking = false;
+        var enemyTurn = {
+            attacking: false,
+            surrendering: false,
+            dead: false
+        }
 
         if(this.health == 0)
         {
             this.setSpeech("Zounds, I am undone!");
+            enemyTurn.dead = true;
         }
         else if(this.health < (this.maxHealth - this.willToFight))
         {
             this.setSpeech("I surrender!");
+            enemyTurn.surrendering = true;
         }
         else 
         {
             this.setSpeech("Death or glory!");
-            attacking = true;
+            enemyTurn.attacking = true;
+            enemyTurn.damage = 50;
         }
 
-        gameMaster.startEnemyTurn(this, 0, attacking);
+        gameMaster.startEnemyTurn(this, 0, enemyTurn);
     }
 
     addToHealth(diff)

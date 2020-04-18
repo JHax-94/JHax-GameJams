@@ -1,26 +1,60 @@
 class Player {
-    constructor(pos, moveList)
+    constructor(pos, maxHealth, moveList)
     {
         this.originalPos = {};
         this.originalPos.x = pos.x;
         this.originalPos.y = pos.y;
 
+        this.maxHealth = maxHealth;
+        this.health = maxHealth;
+
         this.pos = pos;
         this.moveList = moveList;
         this.moveList.owner = this;
-        this.moveList.pos = { x: pos.x-50, y: pos.y + 70 };
+        this.moveList.pos = { x: pos.x + 50, y: pos.y };
 
         this.hasSprite = false;
         this.hasTurnControl = false;
 
         this.index = 0;
+        this.statsOffset = { x: -30, y: 75 };
+
+        var barPos = this.barPosition();
+        var barDims = { w: 50, h: 15 };
+
+        this.healthBar = new Bar(barPos, barDims, { r: 255, g: 0, b: 0}, { r: 0, g: 255, b: 0 });
+
+        this.healthBar.setFilled(this.health, this.maxHealth);
 
         this.addToLists();
     }
 
+    barPosition()
+    {
+        return { x: this.pos.x + this.statsOffset.x, y: this.pos.y + this.statsOffset.y };
+    }
+
+
     addToLists()
     {
         screens[BATTLE_SCREEN].drawablesList.push(this);
+    }
+
+    addToHealth(diff)
+    {
+        var newHealth = this.health + diff;
+
+        if(newHealth > this.maxHealth)
+        {
+            newHealth = this.maxHealth;
+        }
+        else if(newHealth < 0)
+        {   
+            newHealth = 0;
+        }
+
+        this.health = newHealth;
+        this.healthBar.setFilled(this.health, this.maxHealth);
     }
 
     setSprite(sprite)
@@ -47,6 +81,8 @@ class Player {
     {
         this.pos.x = pos.x;
         this.pos.y = pos.y;
+
+        this.healthBar.pos = this.barPosition();
     }
 
     draw()
@@ -59,7 +95,9 @@ class Player {
         }
         else
         {
-            this.sprite.drawAt(this.pos, { w: 30, h: 60});
+            this.sprite.drawAt(this.pos, { w: 30, h: 60 });
         }
+
+        this.healthBar.draw("PLayer health bar!");
     }
 }

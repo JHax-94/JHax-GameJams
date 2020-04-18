@@ -15,6 +15,11 @@ class Emperor
         this.addToLists();
     }
 
+    isPleased()
+    {
+        return this.excitement > this.maxExcitement / 2;
+    }
+
     addToLists()
     {   
         screens[BATTLE_SCREEN].drawablesList.push(this);
@@ -34,6 +39,12 @@ class Emperor
         }
 
         this.excitement = newExcite;
+        this.barRender.setFilled(this.excitement, this.maxExcitement);
+    }
+
+    reset()
+    {
+        this.excitement = 400;
         this.barRender.setFilled(this.excitement, this.maxExcitement);
     }
 

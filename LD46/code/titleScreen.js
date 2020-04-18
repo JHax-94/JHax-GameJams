@@ -24,10 +24,20 @@ class TitleScreen
 
     }
 
+    menuRight()
+    {
+
+    }
+
+    menuLeft()
+    {
+        
+    }
+
     menuSubmit()
     {
         console.log("Begin!");
-        setActiveScreen(BATTLE_SCREEN);
+        setActiveScreen(PRE_BATTLE_SCREEN);
     }
 
     draw()

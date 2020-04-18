@@ -40,6 +40,22 @@ class Screen
         }
     }
 
+    menuLeft()
+    {
+        for(var i = 0; i < this.menuKeyReactors.length; i ++)
+        {
+            this.menuKeyReactors[i].menuLeft();
+        }
+    }
+
+    menuRight()
+    {
+        for(var i = 0; i < this.menuKeyReactors.length; i ++)
+        {
+            this.menuKeyReactors[i].menuRight();
+        }
+    }
+
     menuDown()
     {
         for(var i = 0; i < this.menuKeyReactors.length; i ++)

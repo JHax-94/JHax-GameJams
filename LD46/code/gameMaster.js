@@ -4,7 +4,9 @@ class GameMaster
     {
         this.round = 0;
         this.turn = 0;
-
+        
+        this.money = 5000;
+        
         this.players = [];
         this.enemies = [];
         this.emperor = {};
@@ -21,7 +23,40 @@ class GameMaster
         
         this.moveOn = false;
 
+        var battleEndDims = { w: width / 2, h: height / 2 };
+        var battleEndPos = { x: width /2, y: height / 2 };
+
+        this.battleEnd = new BattleEndPopup(battleEndPos, battleEndDims);
+
         this.addToLists();
+    }
+
+    playerHealth()
+    {
+        return this.players[0].health;
+    }
+
+    playerMaxHealth()
+    {
+        return this.players[0].maxHealth;
+    }
+
+    reset()
+    {
+        for(var i = 0; i < this.enemies.length; i ++)
+        {
+            var setEnemy = { 
+                maxHealth: 100,
+                willToFight: 60
+            };  
+
+            this.enemies[i].set(setEnemy);
+        }
+
+        this.emperor.reset();
+        this.battleEnd.isActive = false;
+        this.turn = 0;
+        this.nextTurn();
     }
 
     addToLists()
@@ -96,12 +131,6 @@ class GameMaster
                 y: lerp(movePlayer.originalPos.y, this.leftActivePoint.y, lerpVal)
             };
 
-            if(this.moveDirection < 0)
-            {
-                console.log("moving backwards..." + lerpVal);
-                console.log(playerPos);
-            } 
-
             var enemyPos = {
                 x: lerp(moveEnemy.originalPos.x, this.rightActivePoint.x, lerpVal),
                 y: lerp(moveEnemy.originalPos.y, this.rightActivePoint.y, lerpVal)
@@ -114,13 +143,9 @@ class GameMaster
             {
                 if(this.moveDirection > 0)
                 {
-                    var playerTurn = this.playerTurn();
-
-                    console.log("Is player turn? " + playerTurn);
-
                     this.playerTurn() ? 
                         this.processTechnique(this.activeTechnique, this.activeEnemy, movePlayer) :
-                        this.processEnemyTurn(true);
+                        this.processEnemyTurn(true, this.enemyTurn);
                 }
                 else 
                 {  
@@ -156,13 +181,21 @@ class GameMaster
         }
     }
 
-    startEnemyTurn(enemy, player, moveToCentre)
+    addMoney(value)
     {
-        if(moveToCentre)
+        this.money += value;
+    }
+
+
+    startEnemyTurn(enemy, player, enemyTurn)
+    {
+        if(enemyTurn.attacking)
         {
+            console.log("enemy attacking");
+
             this.activePlayer = player;
             this.activeEnemy = enemy.index;
-
+            this.enemyTurn = enemyTurn;
             this.moveOn = true;
             this.moveDuration = 2.0;
             this.moveDirection = 1;
@@ -170,7 +203,21 @@ class GameMaster
         }
         else
         {
-            this.processEnemyTurn(moveToCentre);
+            console.log("battle finished...");
+            if(enemyTurn.surrendering === true || enemyTurn.dead === true)
+            {
+                if(this.emperor.isPleased() === false)
+                {
+                    enemyTurn.dead = true;
+                }
+
+                var battleEnd = {
+                    winnings: 500,
+                    compensation: (enemyTurn.dead ? 1000 : 0)
+                };
+
+                this.battleEnd.showBattleEnd(battleEnd);
+            }
         }
     }
 
@@ -197,8 +244,12 @@ class GameMaster
         }
     }
 
-    processEnemyTurn(moveToCentre)
-    {
+    processEnemyTurn(moveToCentre, turnData)
+    {  
+        console.log(moveToCentre);
+        console.log(turnData);
+
+
         if(moveToCentre)
         {
             this.enemies[this.activeEnemy].clearSpeech();
@@ -207,6 +258,11 @@ class GameMaster
             this.moveDuration = 1;
             this.moveTime = this.moveDuration;
             this.moveOn = true;
+
+            if(turnData.attacking)
+            {
+                this.players[0].addToHealth(-turnData.damage);
+            }
         }
     }
 

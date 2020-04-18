@@ -6,6 +6,9 @@ var screens = [];
 
 var menuUpButton;
 var menuDownButton;
+var menuLeftButton;
+var menuRightButton;
+
 var menuSubmitButton;
 
 var arenaBg;
@@ -16,6 +19,8 @@ var title;
 
 var menuUpHeld = false;
 var menuDownHeld = false;
+var menuLeftHeld = false;
+var menuRightHeld = false;
 var menuSubmitHeld = false;
 
 var activeScreen = TITLE_SCREEN;
@@ -33,6 +38,8 @@ function setKeys()
   menuUpButton = UP_ARROW;
   menuDownButton = DOWN_ARROW;
   menuSubmitButton = RETURN;
+  menuRightButton = RIGHT_ARROW;
+  menuLeftButton = LEFT_ARROW;
 }
 
 function mod(val, comp)
@@ -42,6 +49,12 @@ function mod(val, comp)
 
 function setActiveScreen(newScreen)
 {
+  if(newScreen === BATTLE_SCREEN)
+  {
+    gameMaster.reset();
+  }
+  
+
   activeScreen = newScreen;
 }
 
@@ -76,7 +89,7 @@ function setup() {
     moveList.push(tech);
   }
 
-  var player = new Player({x: 150, y: height/2 + 100}, moveBox);
+  var player = new Player({x: 150, y: height/2 + 100}, 10000, moveBox);
   
   var enemy = new Enemy({x: width - 150, y: height/2 + 100}, 100, 60);
   
@@ -104,8 +117,10 @@ function setup() {
   gameMaster.addEnemy(enemy);
   gameMaster.nextTurn();
 
-  var titles = new TitleScreen({ x: width / 2, y: height / 2 - 100 }, title);
+  var titles = new TitleScreen({ x: width / 2, y: height / 2 - 50 }, title);
+  var preBattleMenu = new PreBattleScreen({x: width/2, y: height/2}, {w: width - 100, h: height - 100}, 1);
 
+  textSize(24);
   setKeys();
 }
 
@@ -141,6 +156,14 @@ function keyPressed()
   {
     menuSubmitHeld = true;
   }
+  else if(keyCode === menuLeftButton && menuLeftHeld === false)
+  {
+    menuLeftHeld = true;
+  }
+  else if(keyCode === menuRightButton && menuRightHeld === false)
+  {
+    menuRightHeld = true;
+  }
 }
 
 function keyReleased()
@@ -161,10 +184,23 @@ function keyReleased()
     menuSubmitHeld = false;
     screens[activeScreen].menuSubmit();
   }
+  else if(keyCode === menuLeftButton && menuLeftHeld === true)
+  {
+    console.log("Menu left!");
+    menuLeftHeld = false;
+    screens[activeScreen].menuLeft();    
+  }
+  else if(keyCode === menuRightButton && menuRightHeld === true)
+  {
+    console.log("Menu right!");
+    menuRightHeld = false;
+    screens[activeScreen].menuRight();
+  }
 }
 
 function draw() {
   clear();
+  textSize(18);
   imageMode(CORNER);
   background(arenaBg);
   

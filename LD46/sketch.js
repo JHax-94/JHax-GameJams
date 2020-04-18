@@ -10,6 +10,11 @@ var menuUpButton;
 var menuDownButton;
 var menuSubmitButton;
 
+var arenaBg;
+
+var thumbsDown;
+var thumbsUp;
+
 var menuUpHeld = false;
 var menuDownHeld = false;
 var menuSubmitHeld = false;
@@ -61,9 +66,9 @@ function setup() {
     moveList.push(tech);
   }
 
-  var player = new Player({x: 100, y: height/2}, moveBox);
+  var player = new Player({x: 150, y: height/2 + 100}, moveBox);
   
-  var enemy = new Enemy({x: width - 100, y: height/2}, 100, 60);
+  var enemy = new Enemy({x: width - 150, y: height/2 + 100}, 100, 60);
   
   console.log("Load spritesheet");
   console.log(playerSheetData);
@@ -95,6 +100,10 @@ function setup() {
 function preload()
 {
   console.log("Preloading...")
+  arenaBg = loadImage("assets/sprites/arenaBackground.png");
+  thumbsUp = loadImage("assets/sprites/thumbsUp.png");
+  thumbsDown = loadImage("assets/sprites/thumbsDown.png");
+
   fullTechsList = loadJSON("assets/data/techniques.json");
 
   playerSheetData = loadJSON("assets/sprites/playerSheet.json");
@@ -149,14 +158,16 @@ function keyReleased()
 }
 
 function draw() {
+  clear();
+  imageMode(CORNER);
+  background(arenaBg);
+
   // put drawing code here
   for(var i = 0; i < updateableList.length; i ++)
   {
     updateableList[i].update(deltaTime/1000);
   }
-
-  background(50);
-
+  
   for(var i = 0; i < drawablesList.length; i++)
   {
     drawablesList[i].draw();

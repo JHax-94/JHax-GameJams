@@ -9,8 +9,8 @@ class GameMaster
         this.enemies = [];
         this.emperor = {};
 
-        this.leftActivePoint = { x: width/2 - 60, y: height/2 };
-        this.rightActivePoint = { x: width/2 + 60, y: height/2 };
+        this.leftActivePoint = { x: width/2 - 60, y: height/2 + 40 };
+        this.rightActivePoint = { x: width/2 + 60, y: height/2 + 40 };
 
         this.activePlayer = 0;
         this.activeEnemy = 0;

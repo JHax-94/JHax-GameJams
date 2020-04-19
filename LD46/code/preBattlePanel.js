@@ -69,6 +69,11 @@ class PreBattlePanel
         this.subMenuSelected = mod(this.subMenuSelected + 1, this.subMenu.length);
     }
 
+    resetSelection()
+    {
+        this.subMenuSelected = 0;
+    }
+
     draw()
     {
         fill(255)

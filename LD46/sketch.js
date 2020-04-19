@@ -1,6 +1,7 @@
 const TITLE_SCREEN = 0;
 const PRE_BATTLE_SCREEN = 1;
 const BATTLE_SCREEN = 2;
+const LOADOUT_SCREEN = 3;
 
 var screens = [];
 
@@ -29,10 +30,14 @@ var gameMaster;
 var fullTechsList;
 var shop;
 
+var PLAYER_LOADOUT = {};
+var NEXT_OPPONENT_LIST;
+
 var playerAnim = [];
 var playerSheet;
 var playerSheetData;
 
+var preBattleMenu;
 
 function setKeys()
 {
@@ -52,10 +57,15 @@ function setActiveScreen(newScreen)
 {
   if(newScreen === BATTLE_SCREEN)
   {
+    console.log("Resetting battle state");
     gameMaster.reset();
   }
+  else if(newScreen === PRE_BATTLE_SCREEN)
+  {
+    console.log("Reset pre battle menu");
+    preBattleMenu.resetSelection(1);
+  }
   
-
   activeScreen = newScreen;
 }
 
@@ -71,6 +81,8 @@ function setup() {
   screens.push(preBattleScreen);
   var battleScreen = new Screen();
   screens.push(battleScreen);
+  var loadoutScreen = new Screen();
+  screens.push(loadoutScreen);
 
   console.log(screens);
 
@@ -98,15 +110,35 @@ function setup() {
       }
     }
 
+    fullTechsList.techniques[techIndex].owned = true;
+    fullTechsList.techniques[techIndex].equipped = true;
+
     var tech = new Technique(fullTechsList.techniques[techIndex]);
 
-    fullTechsList.techniques[techIndex].owned = true;
     moveList.push(tech);
   }
 
-  var player = new Player({x: 150, y: height/2 + 100}, 10000, moveBox);
+  var weapons = [];
+
+  for(var i = 0; i < shop.startingItems.length; i ++)
+  {
+    var shopIndex = -1;
+    for(var j = 0; j < shop.shopItems.length && shopIndex < 0; j ++)
+    {
+      if(shop.shopItems[j].name === shop.startingItems[i])
+      {
+        shopIndex = j;
+      }
+    } 
+
+    shop.shopItems[shopIndex].owned = true;
+    shop.shopItems[shopIndex].equipped = true;
+    weapons.push(shop.shopItems[shopIndex]);
+  }
+
+  var player = new Player({x: 150, y: height/2 + 100}, 10000, moveBox, weapons);
   
-  var enemy = new Enemy({x: width - 150, y: height/2 + 100}, 100, 60);
+  var enemy = new Enemy({x: width - 150, y: height/2 + 100}, 100, 60, 50);
   
   console.log("Load spritesheet");
   console.log(playerSheetData);
@@ -133,7 +165,8 @@ function setup() {
   gameMaster.nextTurn();
 
   var titles = new TitleScreen({ x: width / 2, y: height / 2 - 50 }, title);
-  var preBattleMenu = new PreBattleScreen({x: width/2, y: height/2}, {w: width - 100, h: height - 100}, 1, shop, fullTechsList);
+  preBattleMenu = new PreBattleScreen({x: width/2, y: height/2}, {w: width - 100, h: height - 100}, 1, shop, fullTechsList);
+  var loadoutScreen = new LoadoutScreen({ x: width / 2, y: height /2 }, { w: width / 2, h: height / 2}, player);
 
   textSize(24);
   setKeys();

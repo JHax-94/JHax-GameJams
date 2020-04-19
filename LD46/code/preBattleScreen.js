@@ -21,19 +21,30 @@ class PreBattleScreen
             menu: []        
         };
         
+        var hasWoodenGladius = false;
+
         for(var i = 0; i < shopInfo.shopItems.length; i ++)
         {
-            var shopEntry = {
-                hasPrice: true,
-                label: shopInfo.shopItems[i].name,
-                price: shopInfo.shopItems[i].price,
-                masterIndex: i,
-                command: "BUY"
+            if(shopInfo.shopItems[i].owned)
+            {
+                if(shopInfo.shopItems[i].name === "Wooden Gladius")
+                {
+                    hasWoodenGladius = true;
+                }
             }
-
-            shopPanelObj.menu.push(shopEntry)
+            else
+            {
+                var shopEntry = {
+                    hasPrice: true,
+                    label: shopInfo.shopItems[i].name,
+                    price: shopInfo.shopItems[i].price,
+                    masterIndex: i,
+                    command: "BUY"
+                }
+    
+                shopPanelObj.menu.push(shopEntry)
+            }
         }
-
 
         var fightPanelObj = { 
             title: "Fight",
@@ -42,8 +53,24 @@ class PreBattleScreen
                 hasPrice: false,
                 label: "Begin fight!!",
                 command: "FIGHT"
+            },
+            {
+                hasPrice: false,
+                label: "Prepare for battle",
+                command: "LOADOUT"
             }] 
         };
+
+        if(hasWoodenGladius)
+        {
+            var retire = {
+                hasPrice: false,
+                label: "Retire",
+                command: "RETIRE"
+            }
+
+            fightPanelObj.menu.push(retire);
+        }
 
         var trainingPanelObj = { 
             title: "Training",
@@ -79,6 +106,12 @@ class PreBattleScreen
 
         this.select(startSelected);
         this.addToLists();
+    }
+
+    resetSelection(menu)
+    {
+        this.select(menu);
+        this.panels[menu].resetSelection();
     }
 
     addToLists()
@@ -128,9 +161,16 @@ class PreBattleScreen
 
         if(subMenu !== 0)
         {
+            
             if(subMenu.command === "FIGHT")
             {
+                console.log("Start fight!");
                 setActiveScreen(BATTLE_SCREEN);
+            }
+            else if(subMenu.command === "LOADOUT")
+            {
+                console.log("Go to loadout screen! (" + subMenu.command + ")");
+                setActiveScreen(LOADOUT_SCREEN);
             }
         }
     }

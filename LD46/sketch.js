@@ -5,6 +5,8 @@ const LOADOUT_SCREEN = 3;
 
 var screens = [];
 
+var enemyId = 0;
+
 var menuUpButton;
 var menuDownButton;
 var menuLeftButton;
@@ -27,6 +29,8 @@ var menuDownHeld = false;
 var menuLeftHeld = false;
 var menuRightHeld = false;
 var menuSubmitHeld = false;
+
+var BATTLE_COUNTER = 0;
 
 var activeScreen = PRE_BATTLE_SCREEN;
 
@@ -97,7 +101,7 @@ function setActiveScreen(newScreen)
 
 function generateEnemyList()
 {
-  var enemyList = battleGenerator.generateBattle(0);
+  var enemyList = battleGenerator.generateBattle(BATTLE_COUNTER);
 
   NEXT_OPPONENT_LIST = enemyList;
 
@@ -211,6 +215,20 @@ function setup() {
   textSize(24);
   setKeys();
   console.log("Setup finished...");
+}
+
+function nextBattle()
+{
+  BATTLE_COUNTER ++;
+  gameMaster.prepareEnemyList();
+}
+
+function getEnemyId()
+{
+  var thisId = enemyId;
+  enemyId ++;
+
+  return thisId;
 }
 
 function buyItem(name)

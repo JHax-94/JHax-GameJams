@@ -56,8 +56,18 @@ class GameMaster
         return enemyPositions;
     }
 
+    clearEnemyList()
+    {
+        for(var i = 0; i < this.enemies.length; i ++)
+        {
+            this.enemies[i].removeFromLists();
+        }
+        this.enemies = [];
+    }
+
     prepareEnemyList()
     {
+        this.clearEnemyList();
         generateEnemyList();
         console.log("=== POPULATE ENEMY LIST WITH ===");
         console.log(NEXT_OPPONENT_LIST);

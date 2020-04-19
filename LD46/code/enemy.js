@@ -3,6 +3,8 @@ class Enemy
     constructor(pos, maxHealth, willToFight, damage, compensation)
     {  
         console.log("Enemy constructor called...");
+        console.log("Will to fight: " + willToFight);
+        this.id = getEnemyId();
 
         this.compensation = compensation;
 
@@ -15,7 +17,6 @@ class Enemy
 
         this.willToFight = willToFight;
         this.damage = damage;
-
 
         this.pos = pos;
         this.statsOffset = { x: -15, y: 70 };
@@ -59,10 +60,18 @@ class Enemy
         screens[BATTLE_SCREEN].updateableList.push(this);
     }
 
+    removeFromLists()
+    {
+        screens[BATTLE_SCREEN].deleteFromDrawables(this.id);
+        screens[BATTLE_SCREEN].deleteFromUpdatables(this.id);
+        screens[BATTLE_SCREEN].deleteFromAnimations(this.id);
+    }
+
     setSprite(sprite)
     {
         this.hasSprite = true;
         this.sprite = sprite;
+        this.sprite.id = this.id;
     }
 
     setPos(pos)
@@ -122,6 +131,9 @@ class Enemy
     checkState()
     {
         console.log("check state..");
+        console.log(" > HEALTH: " + this.health);
+        console.log(" > SURRENDER AT: " + (this.maxHealth - this.willToFight));
+
         if(this.health == 0)
         {
             this.setSpeech("Zounds, I am undone!");

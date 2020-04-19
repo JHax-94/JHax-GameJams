@@ -17,7 +17,7 @@
             {
                 "compensation": 1500,
                 "health": 70,
-                "willToLive": 70,
+                "willToFight": 35,
                 "damage": 50
             }
         ]        
@@ -29,13 +29,13 @@
             {
                 "compensation": 1500,
                 "health": 100,
-                "willToLive": 50,
+                "willToFight": 50,
                 "damage": 20
             },
             {
                 "compensation": 1500,
                 "health": 120,
-                "willToLive": 80,
+                "willToFight": 80,
                 "damage": 30
             }
         ]
@@ -47,25 +47,25 @@
             {
                 "compensation": 1500,
                 "health": 100,
-                "willToLive": 50,
+                "willToFight": 50,
                 "damage": 20
             },
             {
                 "compensation": 1500,
                 "health": 120,
-                "willToLive": 80,
+                "willToFight": 80,
                 "damage": 30
             },
             {
                 "compensation": 1500,
                 "health": 100,
-                "willToLive": 50,
+                "willToFight": 50,
                 "damage": 20
             },
             {
                 "compensation": 1500,
                 "health": 120,
-                "willToLive": 80,
+                "willToFight": 80,
                 "damage": 30
             }
         ]

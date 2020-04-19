@@ -30,6 +30,43 @@ class Screen
         }
     }
 
+    deleteFromDrawables(id)
+    {
+        for(var i = 0; i < this.drawablesList.length; i ++)
+        {
+            if(this.drawablesList[i].id === id)
+            {
+                this.drawablesList.splice(i, 1);
+                i --;
+            }
+        }   
+    }
+
+    deleteFromUpdatables(id)
+    {
+        for(var i = 0; i < this.updateableList.length; i ++)
+        {
+            if(this.updateableList[i].id === id)
+            {
+                this.updateableList.splice(i, 1);
+                i --;
+            }
+            
+        }   
+    }
+
+    deleteFromAnimations(id)
+    {
+        for(var i = 0; i < this.animationsList.length; i ++)
+        {
+            if(this.animationsList[i].id === id)
+            {
+                this.animationsList.splice(i, 1);
+                i --;
+            }
+        }   
+    }
+
     animate()
     {
         for(var i = 0; i < this.animationsList.length; i ++)

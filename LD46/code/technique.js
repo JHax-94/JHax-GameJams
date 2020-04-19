@@ -117,7 +117,7 @@ class Technique
         return this.generateVagueString(this.damage());
     }
 
-    excitement()
+    excitement(log)
     {
         var weaponMod = 0;
 
@@ -126,19 +126,20 @@ class Technique
         if(this.usesWeapon)
         {
             var weapon = getActiveWeapon();
-
+            if(log) console.log(weapon);
             if(weapon != 0)
             {
                 if(weaponMod.lastUsedWithWeapon !== weapon.name)
                 {
-                    weaponMod = weapon.excitmentBonus;
+                    weaponMod = weapon.excitementBonus;
+                    //if(log) console.log("Weapon Mod: " + weapon.excitmentBonus)
                 }                
             }
         }
 
         var totalExcitement = excitement + weaponMod;
 
-        //console.log(totalExcitement);
+        if(log) console.log(totalExcitement);
 
         return totalExcitement;
     }

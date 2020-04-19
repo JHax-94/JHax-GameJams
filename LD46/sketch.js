@@ -56,6 +56,14 @@ function mod(val, comp)
   return (val + comp) % comp;
 }
 
+function setActiveWeapon(weaponName)
+{
+  for(var i = 0; i < PLAYER_LOADOUT.inventory.length; i ++)
+  {
+    PLAYER_LOADOUT.inventory[i].active = PLAYER_LOADOUT.inventory[i].name == weaponName;
+  }
+}
+
 function setActiveScreen(newScreen)
 {
   if(newScreen === BATTLE_SCREEN)

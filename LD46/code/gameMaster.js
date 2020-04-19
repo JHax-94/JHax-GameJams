@@ -59,6 +59,31 @@ class GameMaster
             this.players[i].setForBattle(PLAYER_LOADOUT);
         }
 
+        var hasActiveWeapon = false;
+        var firstEquipped = "";
+
+        for(var i = 0; i < PLAYER_LOADOUT.inventory.length; i ++)
+        {
+            if(firstEquipped.length === 0)
+            {
+                if(PLAYER_LOADOUT.inventory[i].equipped)
+                {
+                    firstEquipped = PLAYER_LOADOUT.inventory[i].name;
+                }
+            }
+
+            if(PLAYER_LOADOUT.inventory[i].active === true)
+            {
+                hasActiveWeapon = true;
+            }
+        }
+
+        if(hasActiveWeapon === false)
+        {
+            console.log("set active weapon to " + firstEquipped);
+            setActiveWeapon(firstEquipped);
+        }
+
         for(var i = 0; i < PLAYER_LOADOUT.techs.length; i ++)
         {
             PLAYER_LOADOUT.techs[i].reset();
@@ -184,7 +209,11 @@ class GameMaster
            this.moveDirection = 1;
            this.moveTime = 0;
         } 
-        else 
+        else if(technique.changeWeapon)
+        {
+           this.changeWeapon(technique);
+        }
+        else
         {
             this.processTechnique(technique, target, source);
         }
@@ -244,12 +273,24 @@ class GameMaster
         }
     }
 
+    changeWeapon(weaponChange)
+    {
+        console.log(weaponChange);
+
+        setActiveWeapon(weaponChange.newWeapon);
+
+        this.endTechnique();
+    }
+
     processTechnique(technique, target, source)
     {
         var targetEnemy = this.enemies[target];
         var damage = technique.damage(true);
         var excitement = technique.excitement(true);
 
+        var weapon = getActiveWeapon();
+        console.log("WEAPON: " + weapon);
+        
         console.log("DAMAGE: " + damage);
         console.log("RATING: " + technique.generateVagueString(damage));
         console.log("EXCITE: " + excitement);

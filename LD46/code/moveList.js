@@ -54,9 +54,11 @@ class MoveList
     {
         this.equippedWeapons = [];
 
+        var hasActiveWeapon = false;
+
         for(var i = 0; i < this.weapons.length; i ++)
         {
-            if(this.weapons[i].equipped)
+            if(this.weapons[i].equipped && !this.weapons[i].active)
             {
                 this.equippedWeapons.push(this.weapons[i]);
             }
@@ -165,6 +167,20 @@ class MoveList
 
                 console.log(this.owner);
                 gameMaster.startTechnique(selectedTech, target, this.owner);
+            }
+            else if(this.menuMode === this.WEAPONS)
+            {
+                var selectedWeapon = this.weapons[this.selectedItem];
+                
+                var changeWeapon = {
+                    moveToCentre: false,
+                    changeWeapon: true,
+                    newWeapon: selectedWeapon.name
+                };
+
+                this.updateMode(this.TOP_LEVEL);
+
+                gameMaster.startTechnique(changeWeapon, 0, this.owner);
             }
             else if(this.menuMode === this.TOP_LEVEL)
             {

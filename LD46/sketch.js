@@ -116,7 +116,11 @@ function setup() {
     fullTechsList.techniques[i].owned = startingTech;
     fullTechsList.techniques[i].equipped = startingTech;
 
-    PLAYER_LOADOUT.techs.push(new Technique(fullTechsList.techniques[i]));
+    console.log("--- TECH ADDED ---");
+    var newTech = new Technique(fullTechsList.techniques[i]);
+    console.log(newTech);
+
+    PLAYER_LOADOUT.techs.push(newTech);
   }
 
   PLAYER_LOADOUT.inventory = [];
@@ -200,6 +204,19 @@ function buyTech(name)
       nameFound = true;
     }
   }
+}
+
+function getActiveWeapon()
+{
+  var weapon = 0;
+  for(var i = 0; i < PLAYER_LOADOUT.inventory.length; i ++)
+  {
+    if(PLAYER_LOADOUT.inventory[i].active === true)
+    {
+      weapon = PLAYER_LOADOUT.inventory[i];
+    }
+  }
+  return weapon;
 }
 
 function preload()

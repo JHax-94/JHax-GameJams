@@ -5,35 +5,60 @@
         "baseDamage": 30,
         "baseExcitement": 20,
         "moveToCentre": true,
-        "price": 0
+        "price": 0,
+        "reusePenalty": 15,
+        "cooldown": 2,
+        "usesWeapon": true
     },
     {
         "name": "Slice",
         "baseDamage": 30,
         "baseExcitement": 30,
         "moveToCentre": true,
-        "price": 0
+        "price": 0,
+        "reusePenalty": 10,
+        "cooldown": 2,
+        "usesWeapon": true
     },
     {
         "name": "Punch",
         "baseDamage": 5,
         "baseExcitement": 10,
         "moveToCentre": true,
-        "price": 0
+        "price": 0,
+        "reusePenalty": 10,
+        "cooldown": 1,
+        "usesWeapon": false
     },
     {
-        "name": "Appeal to the Crowd",
+        "name": "Brag to Crowd",
         "baseDamage": 0,
         "baseExcitement": 20,
         "moveToCentre": true,
-        "price": 5000
+        "price": 100,
+        "reusePenalty": 50,
+        "cooldown": 5,
+        "usesWeapon": false
     },
     {
-        "name": "Insult Enemy's Mother",
+        "name": "Taunt",
         "baseDamage": 10,
         "baseExcitement": 60,
         "moveToCentre": false,
-        "price": 10000
+        "price": 10000,
+        "reusePenalty": 40,
+        "cooldown": 2,
+        "usesWeapon": false
+    },
+    {
+        "name": "Lewd Joke",
+        "baseDamage": 0,
+        "baseExcitement": 25,
+        "moveToCentre": false,
+        "price": 5000,
+        "reusePenalty": 50,
+        "cooldown": 2,
+        "usesWeapon": false
     }],
     "startingTechniques": [ "Stab", "Slice", "Punch" ]
 }

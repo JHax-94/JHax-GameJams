@@ -39,6 +39,7 @@ class Player {
         console.log(loadout)
         
         this.moveList.setEquippedTechs(loadout.techs);
+        this.moveList.setEquippedWeapons(loadout.inventory);
     }
 
     barPosition()
@@ -87,6 +88,21 @@ class Player {
     {
         this.hasTurnControl = false;
         this.moveList.setActive(false);
+
+        this.updateLoadoutState();
+    }   
+
+    updateLoadoutState()
+    {
+        for(var i = 0; i < PLAYER_LOADOUT.techs.length; i ++)
+        {
+            if(PLAYER_LOADOUT.techs[i].equipped)
+            {
+                PLAYER_LOADOUT.techs[i].iterateCooldown();
+            }
+        }
+
+        this.setForBattle(PLAYER_LOADOUT);
     }
 
     setPos(pos)

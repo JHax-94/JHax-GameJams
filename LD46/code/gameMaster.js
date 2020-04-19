@@ -59,6 +59,11 @@ class GameMaster
             this.players[i].setForBattle(PLAYER_LOADOUT);
         }
 
+        for(var i = 0; i < PLAYER_LOADOUT.techs.length; i ++)
+        {
+            PLAYER_LOADOUT.techs[i].reset();
+        }
+
         this.emperor.reset();
         this.battleEnd.isActive = false;
         this.turn = 0;
@@ -202,7 +207,7 @@ class GameMaster
             this.activeEnemy = enemy.index;
             this.enemyTurn = enemyTurn;
             this.moveOn = true;
-            this.moveDuration = 2.0;
+            this.moveDuration = 1.2;
             this.moveDirection = 1;
             this.moveTime = 0;
         }
@@ -227,13 +232,37 @@ class GameMaster
         }
     }
 
+    setPenalty(tech)
+    {
+        for(var i = 0; i < PLAYER_LOADOUT.techs.length; i ++)
+        {
+            if(PLAYER_LOADOUT.techs[i].name == tech.name)
+            {
+                console.log("Set penalty for " + PLAYER_LOADOUT.techs[i].name);
+                PLAYER_LOADOUT.techs[i].deductPenalty();                
+            }
+        }
+    }
+
     processTechnique(technique, target, source)
     {
         var targetEnemy = this.enemies[target];
-        targetEnemy.addToHealth(-technique.damage());
+        var damage = technique.damage(true);
+        var excitement = technique.excitement(true);
 
-        this.emperor.addToExcitement(technique.excitement());
+        console.log("DAMAGE: " + damage);
+        console.log("RATING: " + technique.generateVagueString(damage));
+        console.log("EXCITE: " + excitement);
+        console.log("RATING: " + technique.generateVagueString(excitement));
+
+
+
+        targetEnemy.addToHealth(-damage);
+
+        this.emperor.addToExcitement(excitement);
         
+        this.setPenalty(technique);
+
         if(technique.moveToCentre)
         {
             console.log("move back to start points...");

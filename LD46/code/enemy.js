@@ -136,7 +136,7 @@ class Enemy
             this.setSpeech("Death or glory!");
             enemyTurn.attacking = true;
             enemyTurn.damage = this.damage;
-            console.log(enemyTurn.damage);
+            //console.log(enemyTurn.damage);
         }
 
         gameMaster.startEnemyTurn(this, 0, enemyTurn);

@@ -43,22 +43,6 @@ class GameMaster
 
     reset()
     {
-        for(var i = 0; i < this.enemies.length; i ++)
-        {
-            var setEnemy = { 
-                maxHealth: 100,
-                willToFight: 60,
-                damage: 50
-            };  
-
-            this.enemies[i].set(setEnemy);
-        }
-
-        for(var i = 0; i < this.players.length; i ++)
-        {
-            this.players[i].setForBattle(PLAYER_LOADOUT);
-        }
-
         var hasActiveWeapon = false;
         var firstEquipped = "";
 
@@ -81,9 +65,26 @@ class GameMaster
         if(hasActiveWeapon === false)
         {
             console.log("set active weapon to " + firstEquipped);
-            setActiveWeapon(firstEquipped);
+            setActiveWeapon(firstEquipped, this.players[0]);
         }
 
+        for(var i = 0; i < this.enemies.length; i ++)
+        {
+            var setEnemy = { 
+                maxHealth: 100,
+                willToFight: 60,
+                damage: 50
+            };  
+
+            this.enemies[i].set(setEnemy);
+        }
+
+        for(var i = 0; i < this.players.length; i ++)
+        {
+            this.players[i].setForBattle(PLAYER_LOADOUT);
+        }
+
+        
         for(var i = 0; i < PLAYER_LOADOUT.techs.length; i ++)
         {
             PLAYER_LOADOUT.techs[i].reset();
@@ -195,8 +196,8 @@ class GameMaster
 
     startTechnique(technique, target, source)
     {
-        console.log("Processing technique: " + technique.name);
-        console.log(technique);
+        //console.log("Processing technique: " + technique.name);
+        //console.log(technique);
         source.takeTurn();
 
         if(technique.moveToCentre)
@@ -229,7 +230,7 @@ class GameMaster
     {
         if(enemyTurn.attacking)
         {
-            console.log("enemy attacking");
+            //console.log("enemy attacking");
             console.log(enemyTurn);
         
             this.activePlayer = player;
@@ -242,8 +243,8 @@ class GameMaster
         }
         else
         {
-            console.log("battle finished...");
-            console.log(enemyTurn);
+            //console.log("battle finished...");
+            //console.log(enemyTurn);
             if(enemyTurn.surrendering === true || enemyTurn.dead === true)
             {
                 if(this.emperor.isPleased() === false)
@@ -267,7 +268,7 @@ class GameMaster
         {
             if(PLAYER_LOADOUT.techs[i].name == tech.name)
             {
-                console.log("Set penalty for " + PLAYER_LOADOUT.techs[i].name);
+                //console.log("Set penalty for " + PLAYER_LOADOUT.techs[i].name);
                 PLAYER_LOADOUT.techs[i].deductPenalty();                
             }
         }
@@ -277,7 +278,7 @@ class GameMaster
     {
         console.log(weaponChange);
 
-        setActiveWeapon(weaponChange.newWeapon);
+        setActiveWeapon(weaponChange.newWeapon, this.players[0]);
 
         this.endTechnique();
     }
@@ -289,13 +290,14 @@ class GameMaster
         var excitement = technique.excitement(true);
 
         var weapon = getActiveWeapon();
+        /*
         console.log("WEAPON: " + weapon);
         
         console.log("DAMAGE: " + damage);
         console.log("RATING: " + technique.generateVagueString(damage));
         console.log("EXCITE: " + excitement);
         console.log("RATING: " + technique.generateVagueString(excitement));
-
+        */
 
 
         targetEnemy.addToHealth(-damage);

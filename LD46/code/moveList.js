@@ -54,6 +54,10 @@ class MoveList
     {
         this.equippedWeapons = [];
 
+        var weapon = getActiveWeapon();
+
+        console.log("Active Weapons: " + weapon);
+        console.log(this.weapons);
         var hasActiveWeapon = false;
 
         for(var i = 0; i < this.weapons.length; i ++)
@@ -67,7 +71,7 @@ class MoveList
 
     updateMode(newMode)
     {
-        console.log("Setting mode to: " + newMode);
+        //console.log("Setting mode to: " + newMode);
         this.menuMode = newMode;
         this.selectedItem = 0;
 
@@ -84,7 +88,7 @@ class MoveList
             this.activeList = this.equippedWeapons;
         }
 
-        console.log(this.activeList);
+        //console.log(this.activeList);
     }
 
     addToLists()
@@ -170,8 +174,13 @@ class MoveList
             }
             else if(this.menuMode === this.WEAPONS)
             {
-                var selectedWeapon = this.weapons[this.selectedItem];
+                /*
+                console.log("- CHANGE WEAPON SUBMIT -");
+                console.log("selected index " + this.selectedItem);
+                console.log(this.weapons);*/
+                var selectedWeapon = this.equippedWeapons[this.selectedItem];
                 
+                //console.log(selectedWeapon);
                 var changeWeapon = {
                     moveToCentre: false,
                     changeWeapon: true,

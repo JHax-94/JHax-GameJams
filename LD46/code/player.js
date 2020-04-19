@@ -1,5 +1,5 @@
 class Player {
-    constructor(pos, maxHealth, moveList, weapons)
+    constructor(pos, maxHealth)
     {
         this.originalPos = {};
         this.originalPos.x = pos.x;
@@ -9,11 +9,11 @@ class Player {
         this.health = maxHealth;
 
         this.pos = pos;
-        this.moveList = moveList;
+        this.moveList = new MoveList(PLAYER_LOADOUT.techs);
         this.moveList.owner = this;
         this.moveList.pos = { x: pos.x + 50, y: pos.y };
 
-        this.weapons = weapons;
+        this.weapons = PLAYER_LOADOUT.inventory;
 
         console.log(this.weapons);
         console.log(this.moveList);

@@ -59,6 +59,11 @@ class PreBattlePanel
         }
     }
 
+    setOwned()
+    {
+        this.subMenu[this.subMenuSelected].owned = true;
+    }
+
     menuUp()
     {
         this.subMenuSelected = mod(this.subMenuSelected - 1, this.subMenu.length);
@@ -110,7 +115,15 @@ class PreBattlePanel
 
                 if(this.subMenu[i].hasPrice)
                 {
-                    text(this.subMenu[i].price, this.pos.x + 80, this.pos.y + 20 * i);
+                    if(this.subMenu[i].owned)
+                    {
+                        text("\u2713", this.pos.x + 80, this.pos.y + 20 * i);
+                    }
+                    else
+                    {
+                        text(this.subMenu[i].price, this.pos.x + 80, this.pos.y + 20 * i);
+                    }
+                    
                 }
             }
         }

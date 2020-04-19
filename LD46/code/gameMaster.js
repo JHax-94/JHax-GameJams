@@ -47,10 +47,16 @@ class GameMaster
         {
             var setEnemy = { 
                 maxHealth: 100,
-                willToFight: 60
+                willToFight: 60,
+                damage: 50
             };  
 
             this.enemies[i].set(setEnemy);
+        }
+
+        for(var i = 0; i < this.players.length; i ++)
+        {
+            this.players[i].setForBattle(PLAYER_LOADOUT);
         }
 
         this.emperor.reset();
@@ -157,8 +163,6 @@ class GameMaster
         }
     }
 
-    
-
     startTechnique(technique, target, source)
     {
         console.log("Processing technique: " + technique.name);
@@ -192,7 +196,8 @@ class GameMaster
         if(enemyTurn.attacking)
         {
             console.log("enemy attacking");
-
+            console.log(enemyTurn);
+        
             this.activePlayer = player;
             this.activeEnemy = enemy.index;
             this.enemyTurn = enemyTurn;
@@ -204,6 +209,7 @@ class GameMaster
         else
         {
             console.log("battle finished...");
+            console.log(enemyTurn);
             if(enemyTurn.surrendering === true || enemyTurn.dead === true)
             {
                 if(this.emperor.isPleased() === false)
@@ -246,9 +252,8 @@ class GameMaster
 
     processEnemyTurn(moveToCentre, turnData)
     {  
-        console.log(moveToCentre);
+        console.log("PROCESS ENEMY TURN");
         console.log(turnData);
-
 
         if(moveToCentre)
         {

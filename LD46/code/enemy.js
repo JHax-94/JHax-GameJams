@@ -1,6 +1,6 @@
 class Enemy
 {
-    constructor(pos, maxHealth, willToFight)
+    constructor(pos, maxHealth, willToFight, damage)
     {
         this.originalPos = {};
         this.originalPos.x = pos.x;
@@ -10,6 +10,9 @@ class Enemy
         this.maxHealth = maxHealth;
 
         this.willToFight = willToFight;
+        this.damage = damage;
+
+
         this.pos = pos;
         this.statsOffset = { x: -15, y: 70 };
         this.addToLists();
@@ -21,7 +24,7 @@ class Enemy
         this.healthBar.setFilled(this.health, this.maxHealth);
 
         this.thinkingDuration = 1;
-        this.thinkingTime = 0;
+        this.thinkingTime = 0;        
         this.isThinking = false;
 
         this.hasSprite = false;
@@ -132,7 +135,8 @@ class Enemy
         {
             this.setSpeech("Death or glory!");
             enemyTurn.attacking = true;
-            enemyTurn.damage = 50;
+            enemyTurn.damage = this.damage;
+            console.log(enemyTurn.damage);
         }
 
         gameMaster.startEnemyTurn(this, 0, enemyTurn);

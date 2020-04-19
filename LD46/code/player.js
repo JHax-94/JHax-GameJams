@@ -1,5 +1,5 @@
 class Player {
-    constructor(pos, maxHealth, moveList)
+    constructor(pos, maxHealth, moveList, weapons)
     {
         this.originalPos = {};
         this.originalPos.x = pos.x;
@@ -12,6 +12,11 @@ class Player {
         this.moveList = moveList;
         this.moveList.owner = this;
         this.moveList.pos = { x: pos.x + 50, y: pos.y };
+
+        this.weapons = weapons;
+
+        console.log(this.weapons);
+        console.log(this.moveList);
 
         this.hasSprite = false;
         this.hasTurnControl = false;
@@ -27,6 +32,13 @@ class Player {
         this.healthBar.setFilled(this.health, this.maxHealth);
 
         this.addToLists();
+    }
+
+    setForBattle(loadout)
+    {
+        console.log(loadout)
+        
+        this.moveList.setEquippedTechs(loadout.techs);
     }
 
     barPosition()

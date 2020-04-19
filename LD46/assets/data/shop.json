@@ -1,8 +1,12 @@
 {
     "shopItems": [
         {
+            "name": "Gladius",
+            "price": 0
+        },
+        {
             "name": "Wooden Gladius",
             "price": 1000000
-        }
-    ]
-}
+        }],
+    "startingItems": ["Gladius"]
+} 

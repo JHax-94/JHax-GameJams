@@ -8,7 +8,27 @@ class MoveList
 
         this.selectedItem = 0;
 
+        this.equippedTech = [];
+
         this.addToLists();
+    }
+
+    setEquippedTechs(playerTechs)
+    {
+        this.techniques = playerTechs;
+
+        this.equippedTech = [];
+
+        for(var i = 0; i < this.techniques.length; i ++)
+        {
+            if(this.techniques[i].equipped)
+            {
+                this.equippedTech.push(this.techniques[i]);
+            }
+        }
+
+        console.log("Build equipped list...");
+        console.log(this.equippedTech);
     }
 
     addToLists()
@@ -53,7 +73,7 @@ class MoveList
     {
         if(this.isActive)
         {
-            this.selectedItem = mod(this.selectedItem - 1, this.techniques.length);
+            this.selectedItem = mod(this.selectedItem - 1, this.equippedTech.length);
             console.log("new selected item: " + this.selectedItem);
         }
     }
@@ -62,7 +82,7 @@ class MoveList
     {
         if(this.isActive)
         {
-            this.selectedItem = mod(this.selectedItem + 1, this.techniques.length);
+            this.selectedItem = mod(this.selectedItem + 1, this.equippedTech.length);
             console.log("new selected item: " + this.selectedItem);
         }
     }
@@ -71,7 +91,7 @@ class MoveList
     {
         if(this.isActive)
         {
-            var selectedTech = this.techniques[this.selectedItem];
+            var selectedTech = this.equippedTech[this.selectedItem];
             var target = 0;
 
             console.log(this.owner);
@@ -91,9 +111,8 @@ class MoveList
             this.setToContainerDrawMode();
             rect(this.pos.x, this.pos.y, 200, 100, 20);
 
-
             this.setToTextDrawMode();
-            for(var i = 0; i < this.techniques.length; i ++)
+            for(var i = 0; i < this.equippedTech.length; i ++)
             {
                 if(this.selectedItem == i)
                 {
@@ -102,7 +121,7 @@ class MoveList
                     this.setToTextDrawMode();
                 }
                 
-                text(this.techniques[i].name, this.pos.x + 15, this.pos.y + 20 + i * 20);
+                text(this.equippedTech[i].name, this.pos.x + 15, this.pos.y + 20 + i * 20);
             }
         }        
     }

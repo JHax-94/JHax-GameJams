@@ -161,7 +161,6 @@ class PreBattleScreen
 
         if(subMenu !== 0)
         {
-            
             if(subMenu.command === "FIGHT")
             {
                 console.log("Start fight!");
@@ -172,7 +171,32 @@ class PreBattleScreen
                 console.log("Go to loadout screen! (" + subMenu.command + ")");
                 setActiveScreen(LOADOUT_SCREEN);
             }
+            else if(subMenu.command === "LEARN")
+            {
+                console.log("=== Learn ===");
+                if(this.canPurchase(gameMaster.money, subMenu.price))
+                {
+                    gameMaster.money -= subMenu.price;
+                    this.panels[this.selectedPanel].setOwned();
+                    buyTech(subMenu.label);
+                }
+            }
+            else if(subMenu.command === "BUY")
+            {
+                console.log("=== Buy ===");
+                if(this.canPurchase(gameMaster.money, subMenu.price))
+                {
+                    gameMaster.money -= subMenu.price;
+                    this.panels[this.selectedPanel].setOwned();
+                    buyItem(subMenu.label);
+                }
+            }
         }
+    }
+
+    canPurchase(currentMoney, itemPrice)
+    {
+        return itemPrice <= currentMoney;
     }
 
     setWindowDrawMode()

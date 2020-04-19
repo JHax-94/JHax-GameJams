@@ -27,7 +27,6 @@ class LoadoutPanel
             this.inventory = [];
         }
 
-
         this.selectedRow = 0;
 
         this.topLeft =  { x: this.pos.x - this.dims.w / 2, y: this.pos.y - this.dims.h / 2 };

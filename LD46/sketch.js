@@ -29,6 +29,9 @@ var activeScreen = PRE_BATTLE_SCREEN;
 var gameMaster;
 var fullTechsList;
 var shop;
+var loadouts;
+
+var player;
 
 var PLAYER_LOADOUT = {};
 var NEXT_OPPONENT_LIST;
@@ -65,6 +68,11 @@ function setActiveScreen(newScreen)
     console.log("Reset pre battle menu");
     preBattleMenu.resetSelection(1);
   }
+  else if(newScreen === LOADOUT_SCREEN)
+  {
+    console.log("Update loadout options");
+    loadouts.reset(PLAYER_LOADOUT);
+  }
   
   activeScreen = newScreen;
 }
@@ -87,56 +95,49 @@ function setup() {
   console.log(screens);
 
   var emperor = new Emperor(400, 1000);
-  //drawablesList.push(emperor);
   
-  var moveList = [];
-
-  var moveBox = new MoveList(moveList);
-
   console.log(fullTechsList);
 
   var startTech = fullTechsList.startingTechniques;
-
-  for(var i = 0; i < startTech.length; i ++)
+  
+  PLAYER_LOADOUT.techs = [];
+  for(var i = 0; i < fullTechsList.techniques.length; i ++)
   {
-    console.log("add tech...");
+    var startingTech = false;
 
-    var techIndex = -1;
-    for(var j = 0; j < fullTechsList.techniques.length && techIndex < 0; j ++)
+    for(var j = 0; j < startTech.length && startingTech === false; j ++)
     {
-      if(fullTechsList.techniques[j].name === startTech[i])
+      if(startTech[j] === fullTechsList.techniques[i].name)
       {
-        techIndex = j;
+        startingTech = true;
       }
     }
 
-    fullTechsList.techniques[techIndex].owned = true;
-    fullTechsList.techniques[techIndex].equipped = true;
+    fullTechsList.techniques[i].owned = startingTech;
+    fullTechsList.techniques[i].equipped = startingTech;
 
-    var tech = new Technique(fullTechsList.techniques[techIndex]);
-
-    moveList.push(tech);
+    PLAYER_LOADOUT.techs.push(new Technique(fullTechsList.techniques[i]));
   }
 
-  var weapons = [];
-
-  for(var i = 0; i < shop.startingItems.length; i ++)
+  PLAYER_LOADOUT.inventory = [];
+  for(var i = 0; i < shop.shopItems.length; i ++)
   {
-    var shopIndex = -1;
-    for(var j = 0; j < shop.shopItems.length && shopIndex < 0; j ++)
+    var startingItem = false;
+    for(var j = 0; j < shop.startingItems.length && startingItem === false; j ++)
     {
-      if(shop.shopItems[j].name === shop.startingItems[i])
+      if(shop.shopItems[i].name === shop.startingItems[j])
       {
-        shopIndex = j;
+        startingItem = true;
       }
-    } 
+    }
+    
+    shop.shopItems[i].owned = startingItem;
+    shop.shopItems[i].equipped = startingItem;
 
-    shop.shopItems[shopIndex].owned = true;
-    shop.shopItems[shopIndex].equipped = true;
-    weapons.push(shop.shopItems[shopIndex]);
+    PLAYER_LOADOUT.inventory.push(shop.shopItems[i]);
   }
 
-  var player = new Player({x: 150, y: height/2 + 100}, 10000, moveBox, weapons);
+  player = new Player({x: 150, y: height/2 + 100}, 10000, );
   
   var enemy = new Enemy({x: width - 150, y: height/2 + 100}, 100, 60, 50);
   
@@ -166,10 +167,39 @@ function setup() {
 
   var titles = new TitleScreen({ x: width / 2, y: height / 2 - 50 }, title);
   preBattleMenu = new PreBattleScreen({x: width/2, y: height/2}, {w: width - 100, h: height - 100}, 1, shop, fullTechsList);
-  var loadoutScreen = new LoadoutScreen({ x: width / 2, y: height /2 }, { w: width / 2, h: height / 2}, player);
+  loadouts = new LoadoutScreen({ x: width / 2, y: height /2 }, { w: width / 2, h: height / 2}, PLAYER_LOADOUT);
+
+  console.log(PLAYER_LOADOUT);
 
   textSize(24);
   setKeys();
+  console.log("Setup finished...");
+}
+
+function buyItem(name)
+{
+  var nameFound = false;
+  for(var i = 0; i < PLAYER_LOADOUT.inventory.length && nameFound === false; i ++)
+  {
+    if(PLAYER_LOADOUT.inventory[i].name === name)
+    {
+      PLAYER_LOADOUT.inventory[i].owned = true;
+      nameFound = true;
+    }
+  }
+}
+
+function buyTech(name)
+{
+  var nameFound = false;
+  for(var i = 0; i < PLAYER_LOADOUT.techs.length && nameFound === false; i ++)
+  {
+    if(PLAYER_LOADOUT.techs[i].name === name)
+    {
+      PLAYER_LOADOUT.techs[i].owned = true;
+      nameFound = true;
+    }
+  }
 }
 
 function preload()

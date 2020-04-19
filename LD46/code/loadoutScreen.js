@@ -6,20 +6,10 @@ class LoadoutScreen
         this.TECHS = 1;
 
         this.pos = pos;
-        this.dims = dims,
-
-        console.log("LOADING LOADOUT");
-        console.log(playerLoadout);
-
-        this.playerLoadout = playerLoadout
-        /*this.items = items;
-        this.techniques = techniques;
-        this.opponents = opponents;*/
+        this.dims = dims;
 
         var topLeft = { x: this.pos.x - (this.dims.w / 2), y: this.pos.y - (this.dims.h/2) };
 
-        var panelDims = { w: this.dims.w / 2 - 30, h: this.dims.h / 2 };
-        
         this.weaponsPos = { x: this.pos.x - this.dims.w / 4, y: this.pos.y };
 
         this.techniquesPos = { x: this.pos.x + this.dims.w /4, y: this.pos.y };
@@ -28,17 +18,36 @@ class LoadoutScreen
 
         this.confirmPos = { x: this.pos.x, y: this.pos.y + this.dims.h / 2 - 15};
 
+        console.log("LOADING LOADOUT");
+        console.log(playerLoadout);
+
+        this.reset(playerLoadout);
+
+        this.addToLists();
+    }
+
+    reset(playerLoadout)
+    {
         this.panels = [];
-        
+        console.log("RESETTING LOADOUT");
+        console.log(playerLoadout);
+        this.playerLoadout = playerLoadout
+
         var weaponsPanelObj = {
             title: "Weapons",
             maxEquipped: 2,
             inventory: []
         }
 
-        for(var i = 0; i < this.playerLoadout.weapons.length; i ++)
+        var panelDims = { w: this.dims.w / 2 - 30, h: this.dims.h / 2 };
+
+        for(var i = 0; i < this.playerLoadout.inventory.length; i ++)
         {
-            weaponsPanelObj.inventory.push(this.playerLoadout.weapons[i]);
+            if(this.playerLoadout.inventory[i].owned)
+            {
+                weaponsPanelObj.inventory.push(this.playerLoadout.inventory[i]);
+            }
+            
         }   
 
         var weaponPanel = new LoadoutPanel(this.weaponsPos, panelDims, weaponsPanelObj);
@@ -49,9 +58,12 @@ class LoadoutScreen
             inventory: []
         };
 
-        for(var i = 0; i < this.playerLoadout.moveList.techniques.length; i ++)
+        for(var i = 0; i < this.playerLoadout.techs.length; i ++)
         {
-            techPanelObj.inventory.push(playerLoadout.moveList.techniques[i]);
+            if(this.playerLoadout.techs[i].owned)
+            {
+                techPanelObj.inventory.push(this.playerLoadout.techs[i]);    
+            }
         }
 
         this.confirmSelected = false;
@@ -67,10 +79,9 @@ class LoadoutScreen
             this.select(0);
         }
 
+        /*
         PLAYER_LOADOUT.inventory = this.panels[this.WEAPONS].inventory;
-        PLAYER_LOADOUT.techs = this.panels[this.TECHS].inventory;
-
-        this.addToLists();
+        PLAYER_LOADOUT.techs = this.panels[this.TECHS].inventory;*/
     }
 
     select(panelNo)

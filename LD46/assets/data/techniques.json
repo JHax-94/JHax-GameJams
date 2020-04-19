@@ -8,7 +8,8 @@
         "price": 0,
         "reusePenalty": 15,
         "cooldown": 2,
-        "usesWeapon": true
+        "usesWeapon": true,
+        "needsTarget": true
     },
     {
         "name": "Slice",
@@ -18,7 +19,8 @@
         "price": 0,
         "reusePenalty": 10,
         "cooldown": 2,
-        "usesWeapon": true
+        "usesWeapon": true,
+        "needsTarget": true
     },
     {
         "name": "Punch",
@@ -28,7 +30,8 @@
         "price": 0,
         "reusePenalty": 10,
         "cooldown": 1,
-        "usesWeapon": false
+        "usesWeapon": false,
+        "needsTarget": true
     },
     {
         "name": "Brag to Crowd",
@@ -38,7 +41,8 @@
         "price": 100,
         "reusePenalty": 50,
         "cooldown": 5,
-        "usesWeapon": false
+        "usesWeapon": false,
+        "needsTarget": false
     },
     {
         "name": "Taunt",
@@ -48,7 +52,8 @@
         "price": 10000,
         "reusePenalty": 40,
         "cooldown": 2,
-        "usesWeapon": false
+        "usesWeapon": false,
+        "needsTarget": false
     },
     {
         "name": "Lewd Joke",
@@ -58,7 +63,8 @@
         "price": 5000,
         "reusePenalty": 50,
         "cooldown": 2,
-        "usesWeapon": false
+        "usesWeapon": false,
+        "needsTarget": false
     }],
     "startingTechniques": [ "Stab", "Slice", "Punch" ]
 }

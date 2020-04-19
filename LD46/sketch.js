@@ -18,6 +18,10 @@ var thumbsDown;
 var thumbsUp;
 var title;
 
+var battleGenerator;
+
+var LEVEL_DATA;
+
 var menuUpHeld = false;
 var menuDownHeld = false;
 var menuLeftHeld = false;
@@ -34,7 +38,7 @@ var loadouts;
 var player;
 
 var PLAYER_LOADOUT = {};
-var NEXT_OPPONENT_LIST;
+var NEXT_OPPONENT_LIST = {};
 
 var playerAnim = [];
 var playerSheet;
@@ -65,7 +69,7 @@ function setActiveWeapon(weaponName, equipToPlayer)
   }
 
   console.log(PLAYER_LOADOUT);
-  
+
   equipToPlayer.moveList.setEquippedWeapons(PLAYER_LOADOUT.inventory);
 }
 
@@ -79,6 +83,7 @@ function setActiveScreen(newScreen)
   else if(newScreen === PRE_BATTLE_SCREEN)
   {
     console.log("Reset pre battle menu");
+
     preBattleMenu.resetSelection(1);
   }
   else if(newScreen === LOADOUT_SCREEN)
@@ -88,6 +93,16 @@ function setActiveScreen(newScreen)
   }
   
   activeScreen = newScreen;
+}
+
+function generateEnemyList()
+{
+  var enemyList = battleGenerator.generateBattle(0);
+
+  NEXT_OPPONENT_LIST = enemyList;
+
+  console.log("NEXT_OPPONENT_LIST SET!");
+  console.log(NEXT_OPPONENT_LIST);
 }
 
 function setup() {
@@ -101,6 +116,7 @@ function setup() {
   var preBattleScreen = new Screen();
   screens.push(preBattleScreen);
   var battleScreen = new Screen();
+  battleScreen.ySort = true;
   screens.push(battleScreen);
   var loadoutScreen = new Screen();
   screens.push(loadoutScreen);
@@ -129,9 +145,7 @@ function setup() {
     fullTechsList.techniques[i].owned = startingTech;
     fullTechsList.techniques[i].equipped = startingTech;
 
-    console.log("--- TECH ADDED ---");
     var newTech = new Technique(fullTechsList.techniques[i]);
-    console.log(newTech);
 
     PLAYER_LOADOUT.techs.push(newTech);
   }
@@ -156,7 +170,7 @@ function setup() {
 
   player = new Player({x: 150, y: height/2 + 100}, 10000, );
   
-  var enemy = new Enemy({x: width - 150, y: height/2 + 100}, 100, 60, 50);
+  //var enemy = new Enemy({x: width - 150, y: height/2 + 100}, 100, 60, 50);
   
   console.log("Load spritesheet");
   console.log(playerSheetData);
@@ -171,15 +185,21 @@ function setup() {
   playerSprite.setDims({ w: 60, h: 120 });
   player.setSprite(playerSprite);
 
+  /*
   var enemySprite = new Sprite(playerAnim, 0.2, BATTLE_SCREEN);
   enemySprite.setDims({ w: 60, h: 120 });
   enemy.setSprite(enemySprite);
   enemySprite.flip = true;
+  */
+
+  battleGenerator = new BattleGenerator();
+
+  generateEnemyList();
 
   gameMaster = new GameMaster();
   gameMaster.setEmperor(emperor);
   gameMaster.addPlayer(player);
-  gameMaster.addEnemy(enemy);
+  gameMaster.prepareEnemyList();
   gameMaster.nextTurn();
 
   var titles = new TitleScreen({ x: width / 2, y: height / 2 - 50 }, title);
@@ -248,6 +268,8 @@ function preload()
   playerSheetData = loadJSON("assets/sprites/playerSheet.json");
   playerSheet = loadImage("assets/sprites/playerSheet.png");
   
+  LEVEL_DATA = loadJSON("assets/data/battles.json");
+
   console.log("Preload complete!");
 }
 

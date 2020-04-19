@@ -15,6 +15,7 @@ class Technique
         this.reusePenalty = techObj.reusePenalty;
         this.cooldown = techObj.cooldown;
         this.usesWeapon = techObj.usesWeapon;
+        this.needsTarget = techObj.needsTarget;
 
         this.currentPenalty = 0;
         this.lastUsedWithWeapon = "";

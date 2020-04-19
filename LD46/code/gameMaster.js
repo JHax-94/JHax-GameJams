@@ -20,7 +20,9 @@ class GameMaster
         this.moveDirection = 1;
         this.moveDuration = 2.0;
         this.moveTime = 0;
-        
+
+        this.prizeMoney = 0;
+
         this.moveOn = false;
 
         var battleEndDims = { w: width / 2, h: height / 2 };
@@ -40,9 +42,53 @@ class GameMaster
     {
         return this.players[0].maxHealth;
     }
+    
+    getEnemyPositions()
+    {
+        var enemyPositions = [];
+        for(var i = 0; i < this.enemies.length; i ++)
+        {
+            enemyPositions.push({ index: i, x: this.enemies[i].pos.x, y: this.enemies[i].pos.y });
+        }
+
+        enemyPositions.sort(function(a, b){ return a.y - b.y }); 
+
+        return enemyPositions;
+    }
+
+    prepareEnemyList()
+    {
+        generateEnemyList();
+        console.log("=== POPULATE ENEMY LIST WITH ===");
+        console.log(NEXT_OPPONENT_LIST);
+        this.emperor.setExcitement(NEXT_OPPONENT_LIST.startExc);
+
+        this.prizeMoney = NEXT_OPPONENT_LIST.prizeMoney;
+
+        for(var i = 0; i < NEXT_OPPONENT_LIST.enemies.length; i ++)
+        {
+            var enemyData = NEXT_OPPONENT_LIST.enemies[i];
+
+            var newEnemy = new Enemy(
+                {x: width + enemyData.x, y: height/2 + enemyData.y}, 
+                NEXT_OPPONENT_LIST.enemies[i].health, 
+                NEXT_OPPONENT_LIST.enemies[i].willToFight, 
+                NEXT_OPPONENT_LIST.enemies[i].damage,
+                NEXT_OPPONENT_LIST.enemies[i].compensation);
+            var enemySprite = new Sprite(playerAnim, 0.2, BATTLE_SCREEN);
+            newEnemy.setSprite(enemySprite);
+            enemySprite.flip = true;
+
+            newEnemy.index = i;
+            this.addEnemy(newEnemy);
+        }
+
+        console.log(this.enemies);
+    }
 
     reset()
     {
+        //this.prepareEnemyList();
         var hasActiveWeapon = false;
         var firstEquipped = "";
 
@@ -68,29 +114,17 @@ class GameMaster
             setActiveWeapon(firstEquipped, this.players[0]);
         }
 
-        for(var i = 0; i < this.enemies.length; i ++)
-        {
-            var setEnemy = { 
-                maxHealth: 100,
-                willToFight: 60,
-                damage: 50
-            };  
-
-            this.enemies[i].set(setEnemy);
-        }
-
         for(var i = 0; i < this.players.length; i ++)
         {
             this.players[i].setForBattle(PLAYER_LOADOUT);
         }
-
         
         for(var i = 0; i < PLAYER_LOADOUT.techs.length; i ++)
         {
             PLAYER_LOADOUT.techs[i].reset();
         }
 
-        this.emperor.reset();
+        //this.emperor.reset();
         this.battleEnd.isActive = false;
         this.turn = 0;
         this.nextTurn();
@@ -118,16 +152,64 @@ class GameMaster
 
     nextTurn()
     {
-        if(this.turn % 2 == 0)
+        var continueBattle = this.isBattleOver();
+
+        if(continueBattle)
         {
-            this.enemies[0].takeTurn();
-            this.players[0].giveTurn();
+            console.log("Go to next turn " + this.turn);
+            var playerTurn = (this.turn % 2 == 0);
+            
+            var enemyTurn = (this.turn/2) % this.enemies.length;
+            console.log(enemyTurn);
+
+            if(playerTurn)
+            {
+                this.enemies[enemyTurn].takeTurnAway();
+                this.players[0].giveTurn();
+            }
+            else
+            {
+                enemyTurn = ((this.turn - 1) / 2) % this.enemies.length;
+
+                var loops = 0;
+
+                while(this.enemies[enemyTurn].canTakeTurns === false && loops < this.enemies.length * 2)
+                {
+                    enemyTurn = mod(enemyTurn + 1, this.enemies.length);
+                    loops ++;
+                }
+
+                this.players[0].takeTurnAway();
+                this.enemies[enemyTurn].giveTurn();
+            }
         }
         else
         {
-            this.players[0].takeTurn();
-            this.enemies[0].giveTurn();
+            /// --- BATTLE END CODE ---
+
+            var compensation = this.calculateCompensation();
+
+            var battleEnd = {
+                winnings: this.prizeMoney,
+                compensation: compensation
+            };
+
+            this.battleEnd.showBattleEnd(battleEnd);
         }
+    }
+
+    calculateCompensation()
+    {
+        var total = 0;
+        for(var i = 0; i < this.enemies.length; i ++)
+        {
+            if(this.enemies[i].dead)
+            {
+                total += this.enemies[i].compensation;
+            }
+        }
+
+        return total;
     }
 
     enemyTurnFinished()
@@ -187,7 +269,7 @@ class GameMaster
                 else 
                 {  
                     this.playerTurn() ?
-                        this.endTechnique() :
+                        this.endTechnique(this.activeEnemy) :
                         this.enemyTurnFinished();
                 }
             }
@@ -198,7 +280,7 @@ class GameMaster
     {
         //console.log("Processing technique: " + technique.name);
         //console.log(technique);
-        source.takeTurn();
+        source.takeTurnAway();
 
         if(technique.moveToCentre)
         {  
@@ -206,7 +288,7 @@ class GameMaster
            this.activeEnemy = target; 
            this.activeTechnique = technique;
            this.moveOn = true;
-           this.moveDuration = 2.0;
+           this.moveDuration = 1.0;
            this.moveDirection = 1;
            this.moveTime = 0;
         } 
@@ -224,7 +306,6 @@ class GameMaster
     {
         this.money += value;
     }
-
 
     startEnemyTurn(enemy, player, enemyTurn)
     {
@@ -252,14 +333,29 @@ class GameMaster
                     enemyTurn.dead = true;
                 }
 
-                var battleEnd = {
-                    winnings: 500,
-                    compensation: (enemyTurn.dead ? 1000 : 0)
-                };
+                var battleOver = this.isBattleOver();
 
-                this.battleEnd.showBattleEnd(battleEnd);
+                if(battleOver)
+                {
+                    
+                }
             }
         }
+    }
+    
+    isBattleOver()
+    {
+        var allDown = true; 
+
+        for(var i = 0; i < this.enemies.length && allDown; i ++)
+        {
+            if(this.enemies[i].canTakeTurns)
+            {
+                allDown = false;
+            }
+        }
+
+        return !allDown;
     }
 
     setPenalty(tech)
@@ -318,7 +414,7 @@ class GameMaster
         }
         else
         {
-            this.endTechnique();
+            this.endTechnique(-1);
         }
     }
 
@@ -343,8 +439,13 @@ class GameMaster
         }
     }
 
-    endTechnique()
+    endTechnique(enemyIndex)
     {
+        if(enemyIndex >= 0)
+        {
+            this.enemies[enemyIndex].checkState();
+        }
+        
         this.turn ++;
         this.nextTurn();
     }

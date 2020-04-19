@@ -56,12 +56,17 @@ function mod(val, comp)
   return (val + comp) % comp;
 }
 
-function setActiveWeapon(weaponName)
+function setActiveWeapon(weaponName, equipToPlayer)
 {
+  console.log("==== SETTING ACTIVE WEAPON TO " + weaponName + " ====");
   for(var i = 0; i < PLAYER_LOADOUT.inventory.length; i ++)
   {
     PLAYER_LOADOUT.inventory[i].active = PLAYER_LOADOUT.inventory[i].name == weaponName;
   }
+
+  console.log(PLAYER_LOADOUT);
+  
+  equipToPlayer.moveList.setEquippedWeapons(PLAYER_LOADOUT.inventory);
 }
 
 function setActiveScreen(newScreen)

@@ -15,7 +15,7 @@ class LoadoutPanel
         this.equipCount = 0;
 
         //console.log(this.slotList);
-        console.log(this.inventory);
+        //console.log(this.inventory);
 
         /*
         if(typeof(this.slotList) === 'undefined' )

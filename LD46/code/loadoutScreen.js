@@ -18,9 +18,10 @@ class LoadoutScreen
 
         this.confirmPos = { x: this.pos.x, y: this.pos.y + this.dims.h / 2 - 15};
 
+        /*
         console.log("LOADING LOADOUT");
         console.log(playerLoadout);
-
+        */
         this.reset(playerLoadout);
 
         this.addToLists();
@@ -29,8 +30,10 @@ class LoadoutScreen
     reset(playerLoadout)
     {
         this.panels = [];
+        /*
         console.log("RESETTING LOADOUT");
         console.log(playerLoadout);
+        */  
         this.playerLoadout = playerLoadout
 
         var weaponsPanelObj = {

@@ -2,9 +2,9 @@ class Technique
 {
     constructor(techObj)
     {
-        console.log("construct technique");
+        //console.log("construct technique");
 
-        console.log(techObj);
+        //console.log(techObj);
         this.name = techObj.name;
         this.baseDamage = techObj.baseDamage;
         this.baseExcitement = techObj.baseExcitement;
@@ -126,7 +126,7 @@ class Technique
         if(this.usesWeapon)
         {
             var weapon = getActiveWeapon();
-            if(log) console.log(weapon);
+            //if(log) console.log(weapon);
             if(weapon != 0)
             {
                 if(weaponMod.lastUsedWithWeapon !== weapon.name)
@@ -139,7 +139,7 @@ class Technique
 
         var totalExcitement = excitement + weaponMod;
 
-        if(log) console.log(totalExcitement);
+        //if(log) console.log(totalExcitement);
 
         return totalExcitement;
     }

@@ -11,7 +11,7 @@
     },    
     "levels": [
     {
-        "emperorStart": 450,
+        "emperorStart": 600,
         "prizeMoney": 1000,
         "enemies": [
             {

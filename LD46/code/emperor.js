@@ -2,6 +2,9 @@ class Emperor
 {
     constructor(startExcitement, maxExcitement)
     {
+        this.THUMBS_UP = 0;
+        this.THUMBS_DOWN = 1;
+
         this.pos = {x: width/2, y: 0 };
         this.excitement = startExcitement;
         this.maxExcitement = maxExcitement;
@@ -12,6 +15,18 @@ class Emperor
         
         this.barRender = new Bar(barPos, barDims, {r: 255, g: 0, b: 0}, {r: 0, g: 255, b: 0});
         this.barRender.setFilled(this.excitement, this.maxExcitement);
+
+        this.thumbsUpStartPos = { x: this.barRender.pos.x + this.barRender.dims.w + 25, y: this.barRender.pos.y + 10 };
+        this.thumbsUpStartDims = { w: 30, h: 30 };
+
+        this.thumbsDownStartPos = { x: this.barRender.pos.x - 25, y: this.barRender.pos.y + 10 };
+        this.thumbsDownStartDims = { w: 30, h: 30 };
+
+        this.thumbsUpPos = this.thumbsUpStartPos;
+        this.thumbsUpDims = this.thumbsUpStartDims;
+
+        this.thumbsDownPos = this.thumbsDownStartPos;
+        this.thumbsDownDims = this.thumbsDownStartDims;
 
         this.addToLists();
     }
@@ -55,6 +70,34 @@ class Emperor
         this.barRender.setFilled(this.excitement, this.maxExcitement);
     }
 
+    lerpThumb(whichThumb, targetPoint, targetScale, lerpVal)
+    {
+        if(whichThumb === this.THUMBS_UP)
+        {
+            this.thumbsUpPos = {
+                x: lerp(this.thumbsUpStartPos.x, targetPoint.x, lerpVal),
+                y: lerp(this.thumbsUpStartPos.y, targetPoint.y, lerpVal)
+            };
+
+            this.thumbsUpDims = {
+                w: lerp(this.thumbsUpStartDims.w, this.thumbsUpStartDims.w * targetScale, lerpVal),
+                h: lerp(this.thumbsUpStartDims.h, this.thumbsUpStartDims.h * targetScale, lerpVal),
+            };
+        }
+        if(whichThumb === this.THUMBS_DOWN)
+        {
+            this.thumbsDownPos = {
+                x: lerp(this.thumbsDownStartPos.x, targetPoint.x, lerpVal),
+                y: lerp(this.thumbsDownStartPos.y, targetPoint.y, lerpVal)
+            };
+
+            this.thumbsDownDims = {
+                w: lerp(this.thumbsDownStartDims.w, this.thumbsDownStartDims.w * targetScale, lerpVal),
+                h: lerp(this.thumbsDownStartDims.h, this.thumbsDownStartDims.h * targetScale, lerpVal),
+            };
+        }
+    }
+
     draw()
     {
         this.barRender.draw();
@@ -65,8 +108,8 @@ class Emperor
         text(this.excitement + ' / ' + this.maxExcitement, width/2, 50);
 
         imageMode(CENTER);
-        image(thumbsDown, this.barRender.pos.x - 25, this.barRender.pos.y + 10, 30, 30);
+        image(thumbsDown, this.thumbsDownPos.x, this.thumbsDownPos.y, this.thumbsDownDims.w, this.thumbsDownDims.h);
 
-        image(thumbsUp, this.barRender.pos.x + this.barRender.dims.w + 25, this.barRender.pos.y+ 10, 30, 30);
+        image(thumbsUp, this.thumbsUpPos.x, this.thumbsUpPos.y, this.thumbsUpDims.w, this.thumbsUpDims.h);
     }
 }

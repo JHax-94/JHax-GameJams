@@ -128,25 +128,40 @@ class Enemy
         }
     }
 
+    kill()
+    {
+        if(this.health > 0)
+        {
+            this.health = 0;
+            this.healthBar.setFilled(this.health, this.maxHealth);
+        }
+
+        this.setSpeech("Zounds, I am undone!");
+        //enemyTurn.dead = true;
+        this.dead = true;
+        this.canTakeTurns = false;
+    }
+
     checkState()
     {
+        var state = "";
         console.log("check state..");
         console.log(" > HEALTH: " + this.health);
         console.log(" > SURRENDER AT: " + (this.maxHealth - this.willToFight));
 
         if(this.health == 0)
         {
-            this.setSpeech("Zounds, I am undone!");
-            //enemyTurn.dead = true;
-            this.dead = true;
-            this.canTakeTurns = false;
+            this.kill();
         }
         else if(this.health < (this.maxHealth - this.willToFight))
         {
             this.setSpeech("I surrender!");
             this.surrendered = true;
             this.canTakeTurns = false;
+            state = "surrendered";
         }
+
+        return state;
     }
 
     makeMove()

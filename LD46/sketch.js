@@ -23,10 +23,11 @@ var menuLeftHeld = false;
 var menuRightHeld = false;
 var menuSubmitHeld = false;
 
-var activeScreen = TITLE_SCREEN;
+var activeScreen = PRE_BATTLE_SCREEN;
 
 var gameMaster;
 var fullTechsList;
+var shop;
 
 var playerAnim = [];
 var playerSheet;
@@ -82,10 +83,24 @@ function setup() {
 
   console.log(fullTechsList);
 
-  for(var i = 0; i < fullTechsList.techniques.length && i < 4; i ++)
+  var startTech = fullTechsList.startingTechniques;
+
+  for(var i = 0; i < startTech.length; i ++)
   {
     console.log("add tech...");
-    var tech = new Technique(fullTechsList.techniques[i]);
+
+    var techIndex = -1;
+    for(var j = 0; j < fullTechsList.techniques.length && techIndex < 0; j ++)
+    {
+      if(fullTechsList.techniques[j].name === startTech[i])
+      {
+        techIndex = j;
+      }
+    }
+
+    var tech = new Technique(fullTechsList.techniques[techIndex]);
+
+    fullTechsList.techniques[techIndex].owned = true;
     moveList.push(tech);
   }
 
@@ -118,7 +133,7 @@ function setup() {
   gameMaster.nextTurn();
 
   var titles = new TitleScreen({ x: width / 2, y: height / 2 - 50 }, title);
-  var preBattleMenu = new PreBattleScreen({x: width/2, y: height/2}, {w: width - 100, h: height - 100}, 1);
+  var preBattleMenu = new PreBattleScreen({x: width/2, y: height/2}, {w: width - 100, h: height - 100}, 1, shop, fullTechsList);
 
   textSize(24);
   setKeys();
@@ -135,6 +150,7 @@ function preload()
   thumbsDown = loadImage("assets/sprites/thumbsDown.png");
 
   fullTechsList = loadJSON("assets/data/techniques.json");
+  shop = loadJSON("assets/data/shop.json");
 
   playerSheetData = loadJSON("assets/sprites/playerSheet.json");
   playerSheet = loadImage("assets/sprites/playerSheet.png");

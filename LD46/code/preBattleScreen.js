@@ -1,6 +1,6 @@
 class PreBattleScreen
 {
-    constructor(pos, dims, startSelected)
+    constructor(pos, dims, startSelected, shopInfo, techniqueInfo)
     {
         this.pos = pos;
         this.dims = dims;
@@ -17,12 +17,29 @@ class PreBattleScreen
 
         var shopPanelObj = { 
             title: "Shop",
-            menu: []
+            alignMenu: LEFT,
+            menu: []        
         };
         
+        for(var i = 0; i < shopInfo.shopItems.length; i ++)
+        {
+            var shopEntry = {
+                hasPrice: true,
+                label: shopInfo.shopItems[i].name,
+                price: shopInfo.shopItems[i].price,
+                masterIndex: i,
+                command: "BUY"
+            }
+
+            shopPanelObj.menu.push(shopEntry)
+        }
+
+
         var fightPanelObj = { 
             title: "Fight",
+            alignMenu: CENTER,
             menu: [{
+                hasPrice: false,
                 label: "Begin fight!!",
                 command: "FIGHT"
             }] 
@@ -30,8 +47,25 @@ class PreBattleScreen
 
         var trainingPanelObj = { 
             title: "Training",
+            alignMenu: LEFT,
             menu: []
         }; 
+
+        for(var i = 0; i < techniqueInfo.techniques.length; i ++ )
+        {
+            if(!techniqueInfo.techniques[i].owned)
+            {
+                var trainingEntry = {
+                    hasPrice: true,
+                    label: techniqueInfo.techniques[i].name,
+                    price: techniqueInfo.techniques[i].price,
+                    masterIndex: i,
+                    command: "LEARN"
+                }
+    
+                trainingPanelObj.menu.push(trainingEntry);
+            }
+        }
 
         var panelDims = { w: panelOffset-20 , h: (this.dims.h - 20 - 100) };
 
@@ -62,19 +96,17 @@ class PreBattleScreen
 
         this.panels[panelNo].selected = true;
 
-        console.log(this.panels);
-
         this.selectedPanel = panelNo;
     }
 
     menuUp()
     {
-
+        this.panels[this.selectedPanel].menuUp();
     }
 
     menuDown()
     {
-
+        this.panels[this.selectedPanel].menuDown();
     }
 
     menuRight()

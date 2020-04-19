@@ -191,9 +191,10 @@ class LoadoutScreen
     {
         if(this.confirmSelected)
         {
+            /*
             PLAYER_LOADOUT.inventory = this.panels[this.WEAPONS].inventory;
             PLAYER_LOADOUT.techs = this.panels[this.TECHS].inventory;
-
+            */
             setActiveScreen(PRE_BATTLE_SCREEN);
         }
         else if(this.panelFocused)

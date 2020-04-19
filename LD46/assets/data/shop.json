@@ -2,11 +2,38 @@
     "shopItems": [
         {
             "name": "Gladius",
-            "price": 0
+            "price": 0,
+            "active": false,
+            "damageBonus": 10,
+            "excitementBonus": 0
+        },
+        {
+            "name": "Trident",
+            "price": 1000,
+            "active": false,
+            "damageBonus": 10,
+            "excitementBonus": 15
+        },
+        {
+            "name": "Spear",
+            "price": 7000,
+            "active": false,
+            "damageBonus": 10,
+            "excitementBonus": 5
+        },
+        {
+            "name": "Net",
+            "price": 9000,
+            "active": false,
+            "damageBonus": 10,
+            "excitementBonus": 10
         },
         {
             "name": "Wooden Gladius",
-            "price": 1000000
+            "price": 1000000,
+            "active": false,
+            "damageBonus": 2,
+            "excitementBonus": 1
         }],
     "startingItems": ["Gladius"]
 } 

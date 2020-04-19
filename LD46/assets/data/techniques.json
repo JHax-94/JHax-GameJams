@@ -1,21 +1,39 @@
 {
     "techniques": [
     {
-        "name": "Attack",
-        "baseDamage": 50,
-        "baseExcitement": 10,
-        "moveToCentre": true
+        "name": "Stab",
+        "baseDamage": 30,
+        "baseExcitement": 20,
+        "moveToCentre": true,
+        "price": 0
     },
     {
-        "name": "Backflip",
+        "name": "Slice",
+        "baseDamage": 30,
+        "baseExcitement": 30,
+        "moveToCentre": true,
+        "price": 0
+    },
+    {
+        "name": "Punch",
+        "baseDamage": 5,
+        "baseExcitement": 10,
+        "moveToCentre": true,
+        "price": 0
+    },
+    {
+        "name": "Appeal to the Crowd",
         "baseDamage": 0,
-        "baseExcitement": 100,
-        "moveToCentre": false
+        "baseExcitement": 20,
+        "moveToCentre": true,
+        "price": 5000
     },
     {
         "name": "Insult Enemy's Mother",
         "baseDamage": 10,
         "baseExcitement": 60,
-        "moveToCentre": true
-    }]
+        "moveToCentre": false,
+        "price": 10000
+    }],
+    "startingTechniques": [ "Stab", "Slice", "Punch" ]
 }

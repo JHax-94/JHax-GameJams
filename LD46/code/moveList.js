@@ -21,7 +21,8 @@ class MoveList
     {
         fill(255);
         noStroke();
-        textAlign(LEFT);
+        textAlign(LEFT, CENTER);
+        textSize(16)                
     }
 
     setToContainerDrawMode()
@@ -97,7 +98,7 @@ class MoveList
                 if(this.selectedItem == i)
                 {
                     this.setToContainerDrawMode();
-                    rect(this.pos.x + 10, this.pos.y + 10 + i * 20, 180, 15);
+                    rect(this.pos.x + 10, this.pos.y + 10 + i * 20, 180, 17);
                     this.setToTextDrawMode();
                 }
                 

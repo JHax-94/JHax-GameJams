@@ -15,22 +15,23 @@ class Bar
 
     setFilled(current, max)
     {
-        console.log("Setting bar fill " + current + "/ " + max);
+        //console.log("Setting bar fill " + current + "/ " + max);
 
         var proportion = current / max;
         
         this.filledPortion = proportion;
-        console.log(this.filledPortion);
+        //console.log(this.filledPortion);
 
         this.filledWidth = this.dims.w * this.filledPortion;
         this.unfilledWidth = this.dims.w - this.filledWidth;
-
+        
+        /*
         console.log("Bar width:");
         console.log(this.dims.w);
         console.log("Filled: ");
         console.log(this.filledWidth);
         console.log("Unfilled: ");
-        console.log(this.unfilledWidth);
+        console.log(this.unfilledWidth);*/
     }
 
     setFilledRectMode()

@@ -6,13 +6,17 @@ class PreBattlePanel
         this.dims = dims;
         this.selected = false;
 
+        console.log(menuObj);
+
         if(typeof(menuObj.menu) !== 'undefined')
         {
             this.subMenu = menuObj.menu;
+            this.menuTextAlign = menuObj.menuAlign;
         }
         else
         {
             this.subMenu = [];
+            this.menuTextAlign = CENTER;
         }
 
         if(this.subMenu.length > 0)
@@ -25,6 +29,7 @@ class PreBattlePanel
         }
 
         this.title = menuObj.title;
+
     }
 
     setMenuTextMode()
@@ -32,7 +37,7 @@ class PreBattlePanel
         fill(255);
         textSize(18);
         noStroke();
-        textAlign(CENTER, CENTER);
+        textAlign(this.menuTextAlign, CENTER);
     }
 
     setSelectedItemMode()
@@ -52,6 +57,16 @@ class PreBattlePanel
         {
             return 0;
         }
+    }
+
+    menuUp()
+    {
+        this.subMenuSelected = mod(this.subMenuSelected - 1, this.subMenu.length);
+    }
+
+    menuDown()
+    {
+        this.subMenuSelected = mod(this.subMenuSelected + 1, this.subMenu.length);
     }
 
     draw()
@@ -77,11 +92,21 @@ class PreBattlePanel
                 if(i === this.subMenuSelected && this.selected === true)
                 {
                     this.setSelectedItemMode();
-                    rect(this.pos.x, this.pos.y, this.dims.w - 60, 25);
+                    rect(this.pos.x, this.pos.y + 20 * i - 5, this.dims.w - 30, 25);
                     this.setMenuTextMode();
                 }
-                
-                text(this.subMenu[i].label, this.pos.x, this.pos.y + 20 * i);
+                var labelMod = 0;
+                if(this.subMenu[i].hasPrice)
+                {
+                    labelMod = -56;
+                }
+
+                text(this.subMenu[i].label, this.pos.x + labelMod, this.pos.y + 20 * i);
+
+                if(this.subMenu[i].hasPrice)
+                {
+                    text(this.subMenu[i].price, this.pos.x + 80, this.pos.y + 20 * i);
+                }
             }
         }
     }

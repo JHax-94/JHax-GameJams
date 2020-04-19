@@ -1,0 +1,74 @@
+{
+    "enemyOffsets":{
+        "offsetFrom": "centre-right",
+        "list": [
+            { "x": -150, "y": 100 },
+            { "x": -200, "y": 0 },
+            { "x": -200, "y": 200 },
+            {"x": -150, "y": 300 }
+        ]
+
+    },    
+    "levels": [
+    {
+        "emperorStart": 450,
+        "prizeMoney": 1000,
+        "enemies": [
+            {
+                "compensation": 1500,
+                "health": 70,
+                "willToLive": 70,
+                "damage": 50
+            }
+        ]        
+    },
+    {
+        "emperorStart": 400,
+        "prizeMoney": 1000,
+        "enemies": [
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToLive": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 1500,
+                "health": 120,
+                "willToLive": 80,
+                "damage": 30
+            }
+        ]
+    },
+    {
+        "emperorStart": 400,
+        "prizeMoney": 1000,
+        "enemies": [
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToLive": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 1500,
+                "health": 120,
+                "willToLive": 80,
+                "damage": 30
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToLive": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 1500,
+                "health": 120,
+                "willToLive": 80,
+                "damage": 30
+            }
+        ]
+    }
+]
+}

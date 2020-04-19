@@ -1,7 +1,11 @@
 class Enemy
 {
-    constructor(pos, maxHealth, willToFight, damage)
-    {
+    constructor(pos, maxHealth, willToFight, damage, compensation)
+    {  
+        console.log("Enemy constructor called...");
+
+        this.compensation = compensation;
+
         this.originalPos = {};
         this.originalPos.x = pos.x;
         this.originalPos.y = pos.y;
@@ -23,9 +27,11 @@ class Enemy
         this.healthBar = new Bar(barPos, barDims, { r: 255, g: 0, b: 0 }, { r: 0, g: 255, b: 0});
         this.healthBar.setFilled(this.health, this.maxHealth);
 
-        this.thinkingDuration = 1;
+        this.thinkingDuration = 0.5;
         this.thinkingTime = 0;        
         this.isThinking = false;
+
+        this.canTakeTurns = true;
 
         this.hasSprite = false;
 
@@ -113,6 +119,24 @@ class Enemy
         }
     }
 
+    checkState()
+    {
+        console.log("check state..");
+        if(this.health == 0)
+        {
+            this.setSpeech("Zounds, I am undone!");
+            //enemyTurn.dead = true;
+            this.dead = true;
+            this.canTakeTurns = false;
+        }
+        else if(this.health < (this.maxHealth - this.willToFight))
+        {
+            this.setSpeech("I surrender!");
+            this.surrendered = true;
+            this.canTakeTurns = false;
+        }
+    }
+
     makeMove()
     {
         var enemyTurn = {
@@ -121,23 +145,10 @@ class Enemy
             dead: false
         }
 
-        if(this.health == 0)
-        {
-            this.setSpeech("Zounds, I am undone!");
-            enemyTurn.dead = true;
-        }
-        else if(this.health < (this.maxHealth - this.willToFight))
-        {
-            this.setSpeech("I surrender!");
-            enemyTurn.surrendering = true;
-        }
-        else 
-        {
-            this.setSpeech("Death or glory!");
-            enemyTurn.attacking = true;
-            enemyTurn.damage = this.damage;
-            //console.log(enemyTurn.damage);
-        }
+        this.setSpeech("Death or glory!");
+        enemyTurn.attacking = true;
+        enemyTurn.damage = this.damage;
+        //console.log(enemyTurn.damage);
 
         gameMaster.startEnemyTurn(this, 0, enemyTurn);
     }
@@ -155,7 +166,10 @@ class Enemy
             newHealth = 0;
         }
 
+        
         this.health = newHealth;
+        
+        console.log("ENEMY HEALTH: " + this.health + "/" + this.maxHealth);
         this.healthBar.setFilled(this.health, this.maxHealth);
     }
 
@@ -164,9 +178,12 @@ class Enemy
         this.isThinking = true;
     }
 
-    takeTurn()
+    takeTurnAway()
     {
-        this.clearSpeech();
+        if(this.canTakeTurns)
+        {
+            this.clearSpeech();
+        }
     }
 
     draw()

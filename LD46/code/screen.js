@@ -6,6 +6,7 @@ class Screen
         this.menuKeyReactors = [];
         this.animationsList = [];
         this.updateableList = [];
+        this.ySort = false;
     }
 
     update(dt)
@@ -18,6 +19,11 @@ class Screen
 
     draw()
     {
+        if(this.ySort)
+        {
+            this.drawablesList.sort(function(a, b) { return a.pos.y - b.pos.y });
+        }
+        
         for(var i = 0; i < this.drawablesList.length; i++)
         {
             this.drawablesList[i].draw();

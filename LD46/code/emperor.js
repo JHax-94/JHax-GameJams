@@ -2,6 +2,7 @@ class Emperor
 {
     constructor(startExcitement, maxExcitement)
     {
+        this.pos = {x: width/2, y: 0 };
         this.excitement = startExcitement;
         this.maxExcitement = maxExcitement;
         
@@ -23,6 +24,12 @@ class Emperor
     addToLists()
     {   
         screens[BATTLE_SCREEN].drawablesList.push(this);
+    }
+
+    setExcitement(value)
+    {
+        this.excitement = value;
+        this.barRender.setFilled(this.excitement, this.maxExcitement);
     }
 
     addToExcitement(diff)

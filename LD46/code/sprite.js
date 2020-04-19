@@ -13,6 +13,9 @@ class Sprite
         this.dims;
 
         this.addToLists(targetScreen);
+
+        this.pos = { x: 0, y: 0 };
+
     }   
 
     addToLists(targetScreen)
@@ -37,7 +40,6 @@ class Sprite
             scale(1/scaleMod, 1);
         }
         
-
         if(this.hasDims)
         {
             imageMode(CENTER);

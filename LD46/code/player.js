@@ -84,7 +84,7 @@ class Player {
         this.moveList.setActive(true);
     }
 
-    takeTurn()
+    takeTurnAway()
     {
         this.hasTurnControl = false;
         this.moveList.setActive(false);

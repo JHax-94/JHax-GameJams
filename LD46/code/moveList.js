@@ -5,6 +5,7 @@ class MoveList
         this.TOP_LEVEL = 0;
         this.MOVES = 1;
         this.WEAPONS = 2;
+        this.TARGET_SELECT = 3;
 
         this.menuMode = 0;
 
@@ -21,6 +22,8 @@ class MoveList
         this.equippedTech = [];
         this.equippedWeapons = [];
         this.activeList = this.topMenu;
+
+        this.enemyPositions = [];
 
         this.addToLists();
     }
@@ -71,7 +74,7 @@ class MoveList
 
     updateMode(newMode)
     {
-        //console.log("Setting mode to: " + newMode);
+        console.log("Setting mode to: " + newMode);
         this.menuMode = newMode;
         this.selectedItem = 0;
 
@@ -87,8 +90,11 @@ class MoveList
         {
             this.activeList = this.equippedWeapons;
         }
-
-        //console.log(this.activeList);
+        else if(newMode === this.TARGET_SELECT)
+        {
+            this.activeList = this.enemyPositions;
+        }
+        console.log(this.activeList);
     }
 
     addToLists()
@@ -119,20 +125,27 @@ class MoveList
         stroke(255);
     }
 
-    menuRight()
+
+    modeBack()
     {
-        if(this.menuMode != this.TOP_LEVEL)
+        if(this.menuMode === this.TARGET_SELECT)
+        {
+            this.updateMode(this.MOVES);
+        }
+        else if(this.menuMode != this.TOP_LEVEL)
         {
             this.updateMode(this.TOP_LEVEL);
         }
     }
 
+    menuRight()
+    {
+        this.modeBack();
+    }
+
     menuLeft()
     {
-        if(this.menuMode != this.TOP_LEVEL)
-        {
-            this.updateMode(this.TOP_LEVEL);
-        }
+        this.modeBack();
     }
 
     setToSelectedItemBox()
@@ -170,7 +183,26 @@ class MoveList
                 var target = 0;
 
                 console.log(this.owner);
-                gameMaster.startTechnique(selectedTech, target, this.owner);
+                if(selectedTech.needsTarget)
+                {
+                    console.log("set target...");
+                    this.enemyPositions = gameMaster.getEnemyPositions();
+
+                    this.storedTech = selectedTech;
+
+                    this.updateMode(this.TARGET_SELECT);
+                }
+                else
+                {
+                    gameMaster.startTechnique(selectedTech, target, this.owner);
+                }
+            }
+            else if(this.menuMode === this.TARGET_SELECT)
+            {
+                var target = this.enemyPositions[this.selectedItem].index;
+
+                this.updateMode(this.MOVES);
+                gameMaster.startTechnique(this.storedTech, target, this.owner);
             }
             else if(this.menuMode === this.WEAPONS)
             {
@@ -213,13 +245,22 @@ class MoveList
         }
     }
 
+    targetTriangle()
+    {
+        fill(255, 0, 0);
+        stroke(0);
+    }
+
     draw()
     {
         if(this.isActive)
         {
-            this.setToContainerDrawMode();
-            rect(this.pos.x, this.pos.y, this.dims.w, this.dims.h, 20);
-            
+            if(this.menuMode !== this.TARGET_SELECT)
+            {
+                this.setToContainerDrawMode();
+                rect(this.pos.x, this.pos.y, this.dims.w, this.dims.h, 20);
+            }
+
             this.setToTextDrawMode();
             if(this.menuMode === this.TOP_LEVEL)
             {
@@ -230,7 +271,20 @@ class MoveList
                     text(this.topMenu[i], this.pos.x + 15, this.pos.y + 41 + (i)*20);
                 }
             }
-            else if(this.menuMode !== this.TOP_LEVEL)
+            else if(this.menuMode === this.TARGET_SELECT)
+            {
+                var targetPosition = this.enemyPositions[this.selectedItem];
+                this.targetTriangle();
+
+                var offset = { x: -30, y: 0 };
+
+                var point = { x: targetPosition.x + offset.x, y: targetPosition.y + offset.y };
+                var top = { x: targetPosition.x - 30 + offset.x, y: targetPosition.y - 15 + offset.y };
+                var bottom = { x: targetPosition.x - 30 + offset.x, y: targetPosition.y + 15 + offset.y };
+
+                triangle(point.x, point.y, bottom.x, bottom.y, top.x, top.y);
+            }
+            else
             {
                 if(this.menuMode === this.MOVES)
                 {

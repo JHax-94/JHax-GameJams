@@ -1,17 +1,28 @@
 class PreBattlePanel
 {
-    constructor(pos, dims, menuObj)
+    constructor(pos, dims, menuObj, defaultIndex)
     {
         this.pos = pos;
         this.dims = dims;
         this.selected = false;
 
+        this.default = 0;
+        if(defaultIndex)
+        {
+            this.default = defaultIndex;
+        }
+
         console.log(menuObj);
+
+        this.itemsCentered = false;
+
+
+        this.topLeft = { x: this.pos.x - this.dims.w/2, y: this.pos.y - this.dims.h/2}
 
         if(typeof(menuObj.menu) !== 'undefined')
         {
             this.subMenu = menuObj.menu;
-            this.menuTextAlign = menuObj.menuAlign;
+            this.itemsCentered = menuObj.isCentered;
         }
         else
         {
@@ -30,6 +41,8 @@ class PreBattlePanel
 
         this.title = menuObj.title;
 
+        
+        console.log(this.itemsCentered);
     }
 
     setMenuTextMode()
@@ -37,7 +50,15 @@ class PreBattlePanel
         fill(255);
         textSize(18);
         noStroke();
-        textAlign(this.menuTextAlign, CENTER);
+        if(this.itemsCentered)
+        {
+            textAlign(CENTER, CENTER);
+        }
+        else
+        {
+            textAlign(LEFT, CENTER);
+        }
+        
     }
 
     setSelectedItemMode()
@@ -76,15 +97,11 @@ class PreBattlePanel
 
     resetSelection()
     {
-        this.subMenuSelected = 0;
+        this.subMenuSelected = this.default;
     }
 
     draw()
     {
-        fill(255)
-        textAlign(CENTER);
-        text(this.title, this.pos.x, this.pos.y - this.dims.h / 2 + 30);
-
         if(this.selected)
         {
             noFill();
@@ -96,32 +113,45 @@ class PreBattlePanel
 
         if(this.subMenu.length > 0)
         {
-            this.setMenuTextMode();
             for(var i = 0; i < this.subMenu.length; i ++)
             {
+                var drawX = this.itemsCentered ? this.pos.x : this.topLeft.x;
+
+                var spacing = 25;
+                var width = this.dims.w - 30
+
                 if(i === this.subMenuSelected && this.selected === true)
                 {
                     this.setSelectedItemMode();
-                    rect(this.pos.x, this.pos.y + 20 * i - 5, this.dims.w - 30, 25);
+                    rect(this.pos.x, this.topLeft.y + spacing * i  + 20, width, 25);
                     this.setMenuTextMode();
                 }
                 var labelMod = 0;
-                if(this.subMenu[i].hasPrice)
+
+                if(!this.itemsCentered)
+                {
+                    labelMod = 20;
+                } 
+
+                /*if(this.subMenu[i].hasPrice)
                 {
                     labelMod = -56;
-                }
+                }*/
 
-                text(this.subMenu[i].label, this.pos.x + labelMod, this.pos.y + 20 * i);
+                this.setMenuTextMode();
+                text(this.subMenu[i].label, drawX + labelMod, this.topLeft.y + 20 + spacing * i);
 
                 if(this.subMenu[i].hasPrice)
                 {
+                    var priceX = drawX + width / 2 + 60;
+
                     if(this.subMenu[i].owned)
                     {
-                        text("\u2713", this.pos.x + 80, this.pos.y + 20 * i);
+                        text("\u2713", priceX, this.topLeft.y + spacing * i + 20);
                     }
                     else
                     {
-                        text(this.subMenu[i].price, this.pos.x + 80, this.pos.y + 20 * i);
+                        text(this.subMenu[i].price, priceX, this.topLeft.y + spacing * i + 20);
                     }
                     
                 }

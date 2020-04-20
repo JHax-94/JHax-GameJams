@@ -7,8 +7,8 @@ class PreBattleScreen
 
         this.topLeft = { x: this.pos.x - this.dims.w/2, y: this.pos.y - this.dims.h/2 };
 
-        this.moneyPos = { x: this.topLeft.x + 15, y: this.topLeft.y + 20 };
-        this.healthPos = { x: this.topLeft.x + 15, y: this.topLeft.y + 40 };
+        this.moneyPos = { x: this.topLeft.x + this.dims.w/6, y: this.topLeft.y + 115 };
+        this.healthPos = { x: this.pos.x, y: this.topLeft.y + 115 };
 
         this.selectedPanel = -1;
         this.panels = [];
@@ -17,7 +17,7 @@ class PreBattleScreen
 
         var shopPanelObj = { 
             title: "Shop",
-            alignMenu: LEFT,
+            isCentered: false,
             menu: []        
         };
         
@@ -48,7 +48,7 @@ class PreBattleScreen
 
         var fightPanelObj = { 
             title: "Fight",
-            alignMenu: CENTER,
+            isCentered: true,
             menu: [{
                 hasPrice: false,
                 label: "Begin fight!!",
@@ -68,7 +68,7 @@ class PreBattleScreen
 
         var trainingPanelObj = { 
             title: "Training",
-            alignMenu: LEFT,
+            isCentered: false,
             menu: []
         }; 
 
@@ -88,17 +88,19 @@ class PreBattleScreen
             }
         }
 
-        var panelDims = { w: panelOffset-20 , h: (this.dims.h - 20 - 100) };
+        var panelDims = { w: panelOffset-20 , h: (this.dims.h / 3) };
+        var centrePanelDims = { w: panelDims.w, h: 0.75 * this.dims.h }
 
-        var shopPanel = new PreBattlePanel({ x: this.pos.x - panelOffset, y: this.pos.y + 50 }, panelDims, shopPanelObj);
-        var fightPanel = new PreBattlePanel({ x: this.pos.x, y: this.pos.y + 50 }, panelDims, fightPanelObj);
-        var trainingPanel = new PreBattlePanel({ x: this.pos.x + panelOffset, y: this.pos.y + 50 }, panelDims, trainingPanelObj);
+        var shopPanel = new PreBattlePanel({ x: this.pos.x - panelOffset, y: this.pos.y + panelDims.h }, panelDims, shopPanelObj);
+        var fightPanel = new PreBattlePanel({ x: this.pos.x, y: this.pos.y + centrePanelDims.h/2 }, centrePanelDims, fightPanelObj, 1);
+        var trainingPanel = new PreBattlePanel({ x: this.pos.x + panelOffset, y: this.pos.y + panelDims.h }, panelDims, trainingPanelObj);
 
         this.panels.push(shopPanel);
         this.panels.push(fightPanel);
         this.panels.push(trainingPanel);
 
         this.select(startSelected);
+        this.panels[startSelected].resetSelection()
         this.addToLists();
     }
 
@@ -220,16 +222,17 @@ class PreBattleScreen
 
     setTextMode()
     {
-        textAlign(LEFT);
+        textAlign(CENTER);
         fill(255);
         noStroke();
     }
 
     draw()
     {
+        /*
         this.setWindowDrawMode();
         rect(this.pos.x, this.pos.y, this.dims.w, this.dims.h);
-
+        */
         this.setTextMode();
         text("Money: " + gameMaster.money + " denarii", this.moneyPos.x, this.moneyPos.y);
         text("HP: " + gameMaster.playerHealth() + " / " + gameMaster.playerMaxHealth(), this.healthPos.x, this.healthPos.y);

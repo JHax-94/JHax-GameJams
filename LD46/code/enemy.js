@@ -293,7 +293,7 @@ class Enemy
         }
         else if(this.damage < 25)
         {
-            rating = "strong";
+            rating = "Strong";
         }
         else if(this.damage < 60)
         {

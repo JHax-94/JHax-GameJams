@@ -92,6 +92,10 @@ class MoveList
         else if(newMode === this.TARGET_SELECT)
         {
             this.activeList = this.enemyPositions;
+            if(!this.checkValidTarget())
+            {
+                this.menuDown();
+            }
         }
         console.log(this.activeList);
     }
@@ -154,11 +158,29 @@ class MoveList
         stroke(255);
     }
 
+    checkValidTarget()
+    {
+        var index = this.enemyPositions[this.selectedItem].index;
+
+        var target = gameMaster.enemies[index];
+        
+        return target.canTakeTurns;
+    }
+
     menuUp()
     {
         if(this.isActive)
         {
             this.selectedItem = mod(this.selectedItem - 1, this.activeList.length);
+
+            if(this.menuMode === this.TARGET_SELECT)
+            {
+                if(this.checkValidTarget() === false)
+                {
+                    this.menuUp();
+                }
+            }   
+
             console.log("new selected item: " + this.selectedItem);
         }
     }
@@ -168,6 +190,15 @@ class MoveList
         if(this.isActive)
         {
             this.selectedItem = mod(this.selectedItem + 1, this.activeList.length);
+            
+            if(this.menuMode === this.TARGET_SELECT)
+            {
+                if(this.checkValidTarget() === false)
+                {
+                    this.menuDown();
+                }
+            }   
+
             console.log("new selected item: " + this.selectedItem);
         }
     }
@@ -268,6 +299,8 @@ class MoveList
         noStroke();
     }
 
+    menuBack() { }
+
     draw()
     {
         if(this.isActive)
@@ -291,7 +324,7 @@ class MoveList
             else if(this.menuMode === this.TARGET_SELECT)
             {
                 var targetPosition = this.enemyPositions[this.selectedItem];
-                var target = gameMaster.enemies[this.selectedItem];
+                var target = gameMaster.enemies[targetPosition.index];
 
                 var tough = target.getToughRating();
                 var will = target.getWillRating();

@@ -383,13 +383,16 @@ class GameMaster
 
     changeWeapon(weaponChange)
     {
-        console.log(weaponChange);
-
         if(this.lastChangeWeaponTurn >= 0)
         {
-            if(this.lastChangeWeaponTurn - this.turn < 3)
+            console.log(this.lastChangeWeaponTurn);
+            console.log(this.turn);
+            var turnDiff = (this.turn - this.lastChangeWeaponTurn);
+            console.log(turnDiff);
+
+            if(turnDiff < 3)
             {
-                this.emperor.addToExcitement(-200);
+                this.emperor.addToExcitement(-100);
             }
         }
 

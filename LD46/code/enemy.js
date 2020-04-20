@@ -71,7 +71,7 @@ function damageRatingString(dmg)
     }
     else if(dmg < 25)
     {
-        rating = "strong";
+        rating = "Strong";
     }
     else if(dmg < 60)
     {

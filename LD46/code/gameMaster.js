@@ -32,7 +32,7 @@ class GameMaster
         this.moveDuration = 2.0;
         this.moveTime = 0;
 
-        this.windUpDuration = 0.6;
+        this.windUpDuration = 0.4;
         this.windUpTime = 0.0;
 
         this.windUpTarget = { x: 0, y: 0 };
@@ -61,8 +61,8 @@ class GameMaster
 
         this.judgementState = 0;
 
-        this.judgementInDuration = 2;
-        this.judgementHoldDuration = 1;
+        this.judgementInDuration = 1.5;
+        this.judgementHoldDuration = 0.75;
         this.judgementOutDuration = 0.5;
 
         this.judgementPoint = { x: width / 2, y: height / 2 };
@@ -336,6 +336,7 @@ class GameMaster
         else if(technique.hasSpeech)
         {
             this.waitForSpeech = true;
+            this.speechTechnique = technique;
         }
         else
         {
@@ -610,8 +611,8 @@ class GameMaster
             {
                 this.speechTime = 0;
                 this.waitForSpeech = false;
-                this.turn ++;
-                this.nextTurn();
+
+                this.processTechnique(this.speechTechnique, this.activeEnemy);
             }
         }
     }

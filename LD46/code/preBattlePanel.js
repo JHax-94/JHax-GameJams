@@ -180,9 +180,11 @@ class PreBattlePanel
                     {
                         text(this.subMenu[i].price, priceX, this.topLeft.y + spacing * i + 20);
                     }
-                    
                 }
             }
         }
+
+        
+
     }
 }

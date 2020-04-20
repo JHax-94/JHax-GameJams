@@ -119,14 +119,24 @@ class Emperor
         textAlign(LEFT, TOP);
     }
 
+    barCentreMode()
+    {
+        fill(0);
+        noStroke();
+        rectMode(CENTER);
+    }
+
     draw()
     {
         this.barRender.draw();
-
+        /*
         fill(255)
         textAlign(CENTER);
-        /*noStroke();
+        noStroke();
         text(this.excitement + ' / ' + this.maxExcitement, width/2, 50);*/
+        this.barCentreMode();
+        rect(this.pos.x, this.barRender.pos.y + this.barRender.dims.h / 2, 3, this.barRender.dims.h + 10, 1);
+
         fill(0);
         textAlign(CENTER, TOP)
         if(this.tutorialOn)

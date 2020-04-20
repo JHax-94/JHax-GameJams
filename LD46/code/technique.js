@@ -17,6 +17,8 @@ class Technique
         this.usesWeapon = techObj.usesWeapon;        
         this.needsTarget = techObj.needsTarget;
 
+        this.flavourText = techObj.flavourText;
+
         this.hasSpeech = techObj.hasSpeech;
 
         this.speeches = [];
@@ -108,33 +110,57 @@ class Technique
         {
             vague = "-~";
         }
-        else if(from <= -15 && from > -50)
+        else if(from <= -15 && from > -25)
         {
             vague = "-";
         }
-        else if(from <= -50 && from > -100)
+        else if(from <= -25 && from > -50)
         {
             vague = "--";
         }
-        else if(from <= -100)
+        else if(from <= -50 && from > -75)
         {
             vague = "---";
+        }
+        else if(from <= -25 && from > -100)
+        {
+            vague = "----";
+        }
+        else if(from <= -25 && from > -125)
+        {
+            vague = "-----";
+        }
+        else if(from <= -125)
+        {
+            vage = "------";
         }
         else if(from >= 5 && from < 15)
         {
             vague = "+~";
         }
-        else if(from >= 15 && from < 50)
+        else if(from >= 15 && from < 25)
         {
             vague = "+";
         }
-        else if(from >= 50 && from < 100)
+        else if(from >= 25 && from < 50)
         {
             vague = "++";
         }
-        else if(from >= 100)
+        else if(from >= 50 && from < 75)
         {
             vague = "+++";
+        }
+        else if(from >= 75 && from < 100)
+        {
+            vague = "++++";
+        }
+        else if(from >= 100 && from < 125)
+        {
+            vague = "+++++";
+        }
+        else if(from >= 125)
+        {
+            vague = "++++++";
         }
 
         return vague;

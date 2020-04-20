@@ -1,3 +1,87 @@
+function compensationString(comp)
+{
+    return comp + " d";
+}
+
+function toughRatingString(maxHp)
+{
+    var rating = "Immovable";
+
+    if(maxHp < 50)
+    {
+        rating = "Flimsy";
+    }
+    else if(maxHp < 100)
+    {
+        rating = "Sturdy";
+    }
+    else if(maxHp < 150)
+    {
+        rating = "Hardened";
+    }
+    else if(maxHp < 250)
+    {
+        rating = "Stalwart";
+    }
+
+
+    return rating;
+}
+    
+function willRatingString(willToFight, maxHp)
+{
+        var ratio = willToFight / maxHp;
+
+        var rating = "Has a deathwish";
+
+        if(ratio < 0.5)
+        {
+            rating = "Cowardly";
+        }
+        else if(ratio < 0.6)
+        {
+            rating = "Afraid";
+        }
+        else if(ratio < 0.7)
+        {
+            ratio = "Stoic";
+        }
+        else if(ratio < 0.8)
+        {
+            ratio = "Brave";
+        }
+        else if(ratio < 0.9)
+        {
+            rating = "Heroic";
+        }
+
+        return rating;
+    }
+    
+function damageRatingString(dmg)
+{
+      var rating = "Herculean";
+
+      if(this.damage < 10)
+      {
+          rating = "Feeble";
+      }
+      else if(this.damage < 15)
+      {
+          rating = "Weak";
+      }
+      else if(this.damage < 25)
+      {
+          rating = "Strong";
+      }
+      else if(this.damage < 60)
+      {
+          rating = "Mighty";
+      } 
+
+      return rating;
+}
+
 class Enemy
 {
     constructor(pos, maxHealth, willToFight, damage, compensation)
@@ -221,86 +305,22 @@ class Enemy
 
     getCompensation()
     {
-        return this.compensation + " d";
+        return compensationString(this.compensation);
     }
 
     getToughRating()
     {
-        var rating = "Immovable";
-
-        if(this.maxHealth < 50)
-        {
-            rating = "Flimsy";
-        }
-        else if(this.maxHealth < 100)
-        {
-            rating = "Sturdy";
-        }
-        else if(this.maxHealth < 150)
-        {
-            rating = "Hardened";
-        }
-        else if(this.maxHealth < 250)
-        {
-            rating = "Stalwart";
-        }
-
-
-        return rating;
+        return toughRatingString(this.maxHealth);
     }
     
     getWillRating()
     {
-        var ratio = this.willToFight / this.maxHealth
-
-        var rating = "Has a deathwish";
-
-        if(ratio < 0.5)
-        {
-            rating = "Cowardly";
-        }
-        else if(ratio < 0.6)
-        {
-            rating = "Afraid";
-        }
-        else if(ratio < 0.7)
-        {
-            ratio = "Stoic";
-        }
-        else if(ratio < 0.8)
-        {
-            ratio = "Brave";
-        }
-        else if(ratio < 0.9)
-        {
-            rating = "Heroic";
-        }
-
-        return rating;
+        return willRatingString(this.willToFight, this.maxHealth);
     }
     
     getDamageRating()
     {
-        var rating = "Herculean";
-        
-        if(this.damage < 10)
-        {
-            rating = "Feeble";
-        }
-        else if(this.damage < 15)
-        {
-            rating = "Weak";
-        }
-        else if(this.damage < 25)
-        {
-            rating = "Strong";
-        }
-        else if(this.damage < 60)
-        {
-            rating = "Mighty";
-        } 
-
-        return rating;
+        return damageRatingString(this.damage);
     }
 
     setSpeechDrawMode()

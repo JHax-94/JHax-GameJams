@@ -85,16 +85,16 @@
     {
         "notes": "Level 1: Simple fight with two basic enemies",
         "emperorStart": 400,
-        "prizeMoney": 1000,
+        "prizeMoney": 2000,
         "enemies": [
             {
-                "compensation": 500,
+                "compensation": 1000,
                 "health": 100,
                 "willToFight": 50,
-                "damage": 5
+                "damage": 15
             },
             {
-                "compensation": 500,
+                "compensation": 1000,
                 "health": 120,
                 "willToFight": 80,
                 "damage": 15
@@ -103,172 +103,265 @@
     },
     {
         "notes": "Level 2: Quick battle with four weak enemies",
-        "emperorStart": 400,
-        "prizeMoney": 1000,
+        "emperorStart": 380,
+        "prizeMoney": 4000,
         "enemies": [
             {
                 "compensation": 500,
-                "health": 100,
-                "willToFight": 50,
+                "health": 80,
+                "willToFight": 40,
                 "damage": 5
             },
             {
                 "compensation": 500,
-                "health": 120,
-                "willToFight": 80,
-                "damage": 15
+                "health": 70,
+                "willToFight": 40,
+                "damage": 5
+            },
+            {
+                "compensation": 500,
+                "health": 70,
+                "willToFight": 40,
+                "damage": 5
+            },
+            {
+                "compensation": 500,
+                "health": 80,
+                "willToFight": 40,
+                "damage": 5
             }
         ]
     },
     {
         "notes": "Level 3: Battle against one tougher enemy",
-        "emperorStart": 400,
-        "prizeMoney": 1000,
+        "emperorStart": 300,
+        "prizeMoney": 5000,
         "enemies": [
             {
-                "compensation": 500,
-                "health": 100,
-                "willToFight": 50,
-                "damage": 5
-            },
-            {
-                "compensation": 500,
-                "health": 120,
-                "willToFight": 80,
-                "damage": 15
+                "compensation": 2000,
+                "health": 240,
+                "willToFight": 210,
+                "damage": 30
             }
         ]
     },
     {
         "notes": "Level 4: Start the fight with very low EXC, three medium enemies to deal with",
-        "emperorStart": 400,
-        "prizeMoney": 1000,
+        "emperorStart": 200,
+        "prizeMoney": 6000,
         "enemies": [
             {
-                "compensation": 500,
-                "health": 100,
-                "willToFight": 50,
-                "damage": 5
+                "compensation": 1000,
+                "health": 150,
+                "willToFight": 100,
+                "damage": 15
             },
             {
-                "compensation": 500,
-                "health": 120,
-                "willToFight": 80,
+                "compensation": 900,
+                "health": 130,
+                "willToFight": 100,
                 "damage": 15
+            },
+            {
+                "compensation": 1200,
+                "health": 170,
+                "willToFight": 140,
+                "damage": 20
             }
         ]
     },
     {
         "notes": "Level 5: Fairly low EXC, one big enemy and one weak one",
-        "emperorStart": 400,
-        "prizeMoney": 1000,
+        "emperorStart": 200,
+        "prizeMoney": 8000,
         "enemies": [
             {
-                "compensation": 500,
-                "health": 100,
-                "willToFight": 50,
-                "damage": 5
+                "compensation": 3500,
+                "health": 300,
+                "willToFight": 250,
+                "damage": 20
             },
             {
                 "compensation": 500,
-                "health": 120,
-                "willToFight": 80,
-                "damage": 15
+                "health": 45,
+                "willToFight": 5,
+                "damage": 5
             }
         ]
     },
     {
         "notes": "Level 6: 3 enemies who deal varying amounts of damage, so players prioritise stronger ones first",
-        "emperorStart": 400,
-        "prizeMoney": 1000,
+        "emperorStart": 300,
+        "prizeMoney": 10000,
         "enemies": [
             {
-                "compensation": 500,
+                "compensation": 2000,
                 "health": 100,
                 "willToFight": 50,
                 "damage": 5
             },
             {
-                "compensation": 500,
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 25
+            },
+            {
+                "compensation": 2000,
                 "health": 120,
                 "willToFight": 80,
+                "damage": 45
+            }
+        ]
+    },
+    {
+        "notes": "Level 7: One enemy with incredibly high compensation and low health",
+        "emperorStart": 400,
+        "prizeMoney": 12500,
+        "enemies": [
+            {
+                "compensation": 12000,
+                "health": 90,
+                "willToFight": 60,
                 "damage": 15
             }
         ]
     },
     {
-        "notes": "Level 7: One enemy with incredibly high compensation but high damage too",
+        "notes": "Level 8: Two very beefy, fairly strong enemies",
         "emperorStart": 400,
-        "prizeMoney": 1000,
+        "prizeMoney": 14000,
         "enemies": [
             {
-                "compensation": 500,
+                "compensation": 5000,
+                "health": 240,
+                "willToFight": 200,
+                "damage": 40
+            },
+            {
+                "compensation": 5000,
+                "health": 240,
+                "willToFight": 200,
+                "damage": 40
+            }
+        ]
+    },
+    {
+        "notes": "Level 9: Four enemies, very varied stats",
+        "emperorStart": 400,
+        "prizeMoney": 16000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 30
+            },
+            {
+                "compensation": 2000,
                 "health": 100,
                 "willToFight": 50,
                 "damage": 5
             },
             {
-                "compensation": 500,
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 2000,
                 "health": 120,
                 "willToFight": 80,
+                "damage": 10
+            }
+        ]
+    },
+    {
+        "notes": "Level 10: The champion of the colosseum",
+        "emperorStart": 400,
+        "prizeMoney": 20000,
+        "enemies": [
+            {
+                "compensation": 12000,
+                "health": 400,
+                "willToFight": 370,
+                "damage": 60
+            }
+        ]
+    },
+    {
+        "notes": "Etc 1: Three enemies",
+        "emperorStart": 400,
+        "prizeMoney": 6000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 150,
+                "willToFight": 100,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 60,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 120,
+                "willToFight": 40,
+                "damage": 20
+            }
+        ]
+    },
+    {
+        "notes": "Etc 2: Two enemies",
+        "emperorStart": 400,
+        "prizeMoney": 5000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 250,
+                "willToFight": 210,
+                "damage": 20
+            },
+            {
+                "compensation": 2000,
+                "health": 200,
+                "willToFight": 170,
                 "damage": 15
             }
         ]
     },
     {
-        "notes": "Level 8: Simple fight with two basic enemies.",
+        "notes": "Etc 3: Four enemies",
         "emperorStart": 400,
-        "prizeMoney": 1000,
+        "prizeMoney": 8000,
         "enemies": [
             {
-                "compensation": 500,
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 30
+            },
+            {
+                "compensation": 1500,
                 "health": 100,
                 "willToFight": 50,
                 "damage": 5
             },
             {
-                "compensation": 500,
-                "health": 120,
-                "willToFight": 80,
-                "damage": 15
-            }
-        ]
-    },
-    {
-        "notes": "Level 9: Simple fight with two basic enemies.",
-        "emperorStart": 400,
-        "prizeMoney": 1000,
-        "enemies": [
-            {
-                "compensation": 500,
+                "compensation": 1500,
                 "health": 100,
                 "willToFight": 50,
-                "damage": 5
+                "damage": 20
             },
             {
-                "compensation": 500,
+                "compensation": 1500,
                 "health": 120,
                 "willToFight": 80,
-                "damage": 15
-            }
-        ]
-    },
-    {
-        "notes": "Level 10: Simple fight with two basic enemies.",
-        "emperorStart": 400,
-        "prizeMoney": 1000,
-        "enemies": [
-            {
-                "compensation": 500,
-                "health": 100,
-                "willToFight": 50,
-                "damage": 5
-            },
-            {
-                "compensation": 500,
-                "health": 120,
-                "willToFight": 80,
-                "damage": 15
+                "damage": 10
             }
         ]
     }

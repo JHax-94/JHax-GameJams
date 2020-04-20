@@ -67,11 +67,15 @@ class Enemy
         screens[BATTLE_SCREEN].deleteFromAnimations(this.id);
     }
 
-    setSprite(sprite)
+    setSprites(spriteList)
     {
         this.hasSprite = true;
-        this.sprite = sprite;
-        this.sprite.id = this.id;
+        this.sprites = spriteList;
+        for(var i = 0; i < this.sprites.length; i ++)
+        {
+            this.sprites[i].id = this.id;
+            this.sprites[i].flip = true;
+        }
     }
 
     setPos(pos)
@@ -222,7 +226,10 @@ class Enemy
         }
         else
         {
-            this.sprite.drawAt(this.pos, { w: 30, h: 60});
+            for(var i = 0; i < this.sprites.length; i ++)
+            {
+                this.sprites[i].drawAt(this.pos, { w: 30, h: 60});
+            }
         }
 
         this.setStatsDrawMode()

@@ -120,9 +120,9 @@ class MoveList
 
     setToContainerDrawMode()
     {
-        rectMode(CORNER);
         fill(0);
         stroke(255);
+        rectMode(CORNER);
     }
 
 

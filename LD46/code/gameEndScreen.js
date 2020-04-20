@@ -50,7 +50,7 @@ class GameEndScreen
 
     windowMode()
     {
-        fill(0);
+        fill(color(51, 51, 51, 200));
 
         rectMode(CENTER);
     }

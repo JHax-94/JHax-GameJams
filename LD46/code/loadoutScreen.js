@@ -105,21 +105,6 @@ class LoadoutScreen
         screens[LOADOUT_SCREEN].menuKeyReactors.push(this);
     }
 
-    setWindowDrawMode()
-    {
-        noStroke();
-        fill(color(51, 51, 51, 200));
-        rectMode(CENTER);
-    }
-
-    setTextMode()
-    {
-        textAlign(CENTER, CENTER);
-        textSize(18);
-        fill(255);
-        noStroke();
-    }
-
     menuUp()
     {
         if(!this.panelFocused)
@@ -217,6 +202,28 @@ class LoadoutScreen
         stroke(255);
         rectMode(CENTER);
     }
+    
+    setConfirmTextMode()
+    {
+        fill(255);
+        noStroke();
+        textAlign(CENTER);
+    }
+
+    setWindowDrawMode()
+    {
+        noStroke();
+        fill(color(51, 51, 51, 200));
+        rectMode(CENTER);
+    }
+
+    setTextMode()
+    {
+        textAlign(CENTER, CENTER);
+        textSize(18);
+        fill(255);
+        noStroke();
+    }
 
     draw()
     {
@@ -240,6 +247,7 @@ class LoadoutScreen
             this.setTextMode();
         }
 
+        this.setConfirmTextMode();
         text("Confirm", this.confirmPos.x, this.confirmPos.y);
     }
 }

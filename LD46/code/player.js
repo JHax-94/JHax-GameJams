@@ -41,6 +41,8 @@ class Player {
         this.health = this.maxHealth;
         this.moveList = new MoveList(PLAYER_LOADOUT.techs);
         this.moveList.owner = this;
+        this.moveList.pos = { x: this.pos.x + 50, y: this.pos.y };
+
         this.weapons = PLAYER_LOADOUT.inventory;
         this.healthBar.setFilled(this.health, this.maxHealth);
     }

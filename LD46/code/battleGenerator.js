@@ -38,6 +38,14 @@ class BattleGenerator
         {
             opponentList.startExc = buildFromData.emperorStart;
             opponentList.prizeMoney = buildFromData.prizeMoney;
+            if(buildFromData.tutorialText)
+            {
+                opponentList.tutorialText = buildFromData.tutorialText;
+            }
+            else
+            {
+                opponentList.tutorialText = "";
+            }
 
             for(var i = 0; i < buildFromData.enemies.length; i ++)
             {

@@ -27,8 +27,22 @@ class Emperor
 
         this.thumbsDownPos = this.thumbsDownStartPos;
         this.thumbsDownDims = this.thumbsDownStartDims;
+        
+        this.tutorialText = "";
+        this.tutorialOn = false;
+
 
         this.addToLists();
+    }
+
+    setTutorial(text)
+    {
+        console.log("TUTORIAL: " + text);
+        this.tutorialText = text;
+        if(text.length > 0 && TUTORIAL_ON)
+        {
+            this.tutorialOn = true;
+        }
     }
 
     isPleased()
@@ -106,10 +120,18 @@ class Emperor
         textAlign(CENTER);
         noStroke();
         text(this.excitement + ' / ' + this.maxExcitement, width/2, 50);
+        fill(0);
+        textAlign(CENTER, TOP)
+        if(this.tutorialOn)
+        {
+            text(this.tutorialText, width / 2, 70);
+        }
 
         imageMode(CENTER);
         image(thumbsDown, this.thumbsDownPos.x, this.thumbsDownPos.y, this.thumbsDownDims.w, this.thumbsDownDims.h);
 
         image(thumbsUp, this.thumbsUpPos.x, this.thumbsUpPos.y, this.thumbsUpDims.w, this.thumbsUpDims.h);
+
+        
     }
 }

@@ -47,6 +47,8 @@ class GameMaster
         this.speechLineDuration = 1.5;
         this.speechTime = 0;
 
+        this.lastChangeWeaponTurn = -1;
+
         this.waitForSpeech = false;
 
         this.addToLists();
@@ -382,6 +384,15 @@ class GameMaster
     {
         console.log(weaponChange);
 
+        if(this.lastChangeWeaponTurn >= 0)
+        {
+            if(this.lastChangeWeaponTurn - this.turn < 3)
+            {
+                this.emperor.addToExcitement(-200);
+            }
+        }
+
+        this.lastChangeWeaponTurn = this.turn;
         setActiveWeapon(weaponChange.newWeapon, this.players[0]);
 
         this.endTechnique();

@@ -16,10 +16,10 @@
         "tutorialText": "You are Rome's mightiest gladiator!\nFight to earn enough money to gain the Wooden Gladius, and with it, your freedom!",
         "enemies": [
             {
-                "compensation": 1500,
-                "health": 150,
-                "willToFight": 5,
-                "damage": 50000
+                "compensation": 1000,
+                "health": 50,
+                "willToFight": 25,
+                "damage": 5
             }]
     },
     {
@@ -28,7 +28,7 @@
         "tutorialText": "But you might want to pull your punches...\nIf you kill a gladiator their owner will take some money as compensation",
         "enemies": [
             {
-                "compensation": 1500,
+                "compensation": 1000,
                 "health": 5,
                 "willToFight": 5,
                 "damage": 0

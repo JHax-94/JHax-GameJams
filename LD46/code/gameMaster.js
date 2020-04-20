@@ -44,6 +44,11 @@ class GameMaster
         this.judgementScale = 2;
         this.judgementTime = 0;
 
+        this.speechLineDuration = 1.5;
+        this.speechTime = 0;
+
+        this.waitForSpeech = false;
+
         this.addToLists();
     }
 
@@ -269,6 +274,10 @@ class GameMaster
         {
             this.animateJudgement(dt);
         }
+        if(this.waitForSpeech)
+        {
+            this.processSpeech(dt);            
+        }
     }
 
     startTechnique(technique, target, source)
@@ -290,6 +299,10 @@ class GameMaster
         else if(technique.changeWeapon)
         {
            this.changeWeapon(technique);
+        }
+        else if(technique.hasSpeech)
+        {
+            this.waitForSpeech = true;
         }
         else
         {
@@ -510,6 +523,28 @@ class GameMaster
             }
         }
 
+    }
+
+    processSpeech(dt)
+    {
+        this.speechTime += dt;
+
+        if(this.speechTime >= this.speechLineDuration)
+        {
+            var isFinished = player.moveSpeechOn();   
+
+            if(isFinished === false)
+            {
+                this.speechTime = 0;
+            }
+            else 
+            {
+                this.speechTime = 0;
+                this.waitForSpeech = false;
+                this.turn ++;
+                this.nextTurn();
+            }
+        }
     }
 
     moveCharactersToCentre(dt)

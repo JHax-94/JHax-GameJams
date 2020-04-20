@@ -2,9 +2,9 @@ class Technique
 {
     constructor(techObj)
     {
-        //console.log("construct technique");
+        console.log("==== construct technique ====");
 
-        //console.log(techObj);
+        console.log(techObj);
         this.name = techObj.name;
         this.baseDamage = techObj.baseDamage;
         this.baseExcitement = techObj.baseExcitement;
@@ -14,8 +14,35 @@ class Technique
 
         this.reusePenalty = techObj.reusePenalty;
         this.cooldown = techObj.cooldown;
-        this.usesWeapon = techObj.usesWeapon;
+        this.usesWeapon = techObj.usesWeapon;        
         this.needsTarget = techObj.needsTarget;
+
+        this.hasSpeech = techObj.hasSpeech;
+
+        this.speeches = [];
+        
+        if(this.hasSpeech)
+        {
+            console.log("Load speeches...");
+            console.log(fullTechsList.speeches);
+            for(var i = 0; i < fullTechsList.speeches.length; i ++)
+            {
+                var speechList = fullTechsList.speeches[i];
+                if(speechList.tech === this.name)
+                {
+                    console.log("Matching speech found!");
+                    for(var spch = 0; spch < speechList.texts.length; spch ++)
+                    {
+                        this.speeches.push(speechList.texts[spch]);
+                    }
+                }
+            }
+
+            console.log("SPEECHES LOADED!");
+            console.log(this);
+        }
+
+
 
         this.currentPenalty = 0;
         this.lastUsedWithWeapon = "";

@@ -60,26 +60,26 @@ function willRatingString(willToFight, maxHp)
     
 function damageRatingString(dmg)
 {
-    var rating = "Herculean";
-    
-    if(dmg < 10)
-    {
-        rating = "Feeble";
-    }
-    else if(dmg < 15)
-    {
-        rating = "Weak";
-    }
-    else if(dmg < 25)
-    {
-        rating = "strong";
-    }
-    else if(dmg < 60)
-    {
-        rating = "Mighty";
-    } 
+      var rating = "Herculean";
 
-    return rating;
+      if(this.damage < 10)
+      {
+          rating = "Feeble";
+      }
+      else if(this.damage < 15)
+      {
+          rating = "Weak";
+      }
+      else if(this.damage < 25)
+      {
+          rating = "Strong";
+      }
+      else if(this.damage < 60)
+      {
+          rating = "Mighty";
+      } 
+
+      return rating;
 }
 
 class Enemy

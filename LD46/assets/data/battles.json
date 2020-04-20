@@ -11,7 +11,7 @@
     },
     "levels": [
     {
-        "notes": "Prove the player's strength, enemy gladiator should lose lots of health, but surrender",
+        "notes": "Tutorial 1: Prove the player's strength, enemy gladiator should lose lots of health, but surrender",
         "emperorStart": 600,
         "prizeMoney": 1000,
         "tutorialText": "You are Rome's mightiest gladiator!\nFight to earn enough money to gain the Wooden Gladius, and with it, your freedom!",
@@ -24,7 +24,7 @@
             }]
     },
     {
-        "notes": "Player can't avoid killing this enemy - demonstrates compensation",
+        "notes": "Tutorial 2: Player can't avoid killing this enemy - demonstrates compensation",
         "emperorStart": 700,
         "prizeMoney": 1500,
         "tutorialText": "But you might want to pull your punches...\nIf you kill a gladiator their owner will take some money as compensation",
@@ -37,7 +37,7 @@
             }]
     },
     {
-        "notes": "Whatever happens here, the enemy will surrender and the emperor will have them killed",
+        "notes": "Tutorial 3: Whatever happens here, the enemy will surrender and the emperor will have them killed",
         "emperorStart": 200,
         "prizeMoney": 1000,
         "tutorialText": "Watch out for the Emperor's mood - if he's bored he'll have a surrendering gladiator killed...\nAnd you still have to pay the compensation!",
@@ -50,7 +50,7 @@
             }]
     },
     {
-        "notes": "Show an enemy surrendering and the battle finishing without losing compensation money",
+        "notes": "Tutorial 4: Show an enemy surrendering and the battle finishing without losing compensation money",
         "emperorStart": 499,
         "prizeMoney": 1000,
         "tutorialText": "Keep the vibe alive by switching weapons and mixing up your moves!\nEXC shows how exciting a move will be this turn",
@@ -63,24 +63,27 @@
             }]
     },
     {
-        "emperorStart": 400,
+        "notes": "Tutorial 5: Introduce different enemy variables",
+        "emperorStart": 600,
         "prizeMoney": 1000,
-        "enemies": [
+        "tutorialText": "Targeting an opponent will give you a hint about how much health they have,\nhow much it will take to get them to surrender, and how much damage they'll do.",
+		"enemies": [
             {
                 "compensation": 1500,
-                "health": 100,
-                "willToFight": 50,
+                "health": 35,
+                "willToFight": 20,
                 "damage": 20
             },
             {
                 "compensation": 1500,
-                "health": 120,
-                "willToFight": 80,
+                "health": 250,
+                "willToFight": 10,
                 "damage": 30
             }
         ]
     },
     {
+        "notes": "Level 1: Simple fight with two basic enemies.",
         "emperorStart": 400,
         "prizeMoney": 1000,
         "enemies": [

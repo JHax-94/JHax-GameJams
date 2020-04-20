@@ -11,9 +11,24 @@
       padding: 0;
       margin: 0;
     }
+    
+    p {
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      
+      margin: 5px; 
+    }
+    
+    .h1 {
+      padding: 50px;
+    }
 
-    td {
-      padding:15px;
+    canvas {
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
     }
   </style>
   <script src="lib/p5/p5.min.js"></script>
@@ -52,16 +67,13 @@
 
 <body>
   <div id="sketch-holder"></div>
-  <p>Controls</p>
-  <table>
-    <tr>
-      <td>navigate menus</td>
-      <td>up / down arrows</td>
-    </tr>
-    <tr>
-      <td>menu select</td>
-      <td>enter</td>
-    </tr>
-  </table>
+  <p><strong>Controls</strong></p>
+  <hr/>
+  <p>Menu Navigation: Arrow keys</p>
+  <p>Menu Select: Enter / Return </p>
+  <p>Menu Back: Escape</p>
+  <hr/>
+  <p>&copy; Josh Haxell & Sammy El-Bahrawy - 2020</p>
+  <p>Made with: <a href="https://p5js.org/copyright.html" target="_blank">p5.js</a> (follow link for copyright information)</p>
 </body>
 </html>

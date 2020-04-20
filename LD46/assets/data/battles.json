@@ -11,49 +11,53 @@
     },
     "levels": [
     {
+        "notes": "Prove the player's strength, enemy gladiator should lose lots of health, but surrender",
         "emperorStart": 600,
         "prizeMoney": 1000,
         "tutorialText": "You are Rome's mightiest gladiator!\nFight to earn enough money to gain the Wooden Gladius, and with it, your freedom!",
         "enemies": [
             {
-                "compensation": 1000,
-                "health": 50,
-                "willToFight": 25,
+                "compensation": 0,
+                "health": 100,
+                "willToFight": 1,
                 "damage": 5
             }]
     },
     {
+        "notes": "Player can't avoid killing this enemy - demonstrates compensation",
         "emperorStart": 700,
-        "prizeMoney": 1000,
+        "prizeMoney": 1500,
         "tutorialText": "But you might want to pull your punches...\nIf you kill a gladiator their owner will take some money as compensation",
         "enemies": [
             {
                 "compensation": 1000,
-                "health": 5,
-                "willToFight": 5,
+                "health": 1,
+                "willToFight": 1,
                 "damage": 0
             }]
     },
     {
+        "notes": "Whatever happens here, the enemy will surrender and the emperor will have them killed",
         "emperorStart": 200,
         "prizeMoney": 1000,
         "tutorialText": "Watch out for the Emperor's mood - if he's bored he'll have a surrendering gladiator killed...\nAnd you still have to pay the compensation!",
         "enemies": [
             {
                 "compensation": 1500,
-                "health": 200,
+                "health": 500,
                 "willToFight": 10,
                 "damage": 0
             }]
     },
     {
-        "emperorStart": 200,
+        "notes": "Show an enemy surrendering and the battle finishing without losing compensation money",
+        "emperorStart": 499,
         "prizeMoney": 1000,
         "tutorialText": "Keep the vibe alive by switching weapons and mixing up your moves!\nEXC shows how exciting a move will be this turn",
         "enemies": [
             {
                 "compensation": 1500,
-                "health": 200,
+                "health": 150,
                 "willToFight": 10,
                 "damage": 0
             }]

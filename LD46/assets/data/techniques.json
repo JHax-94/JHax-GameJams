@@ -2,7 +2,7 @@
     "techniques": [
     {
         "name": "Punch",
-        "baseDamage": 10,
+        "baseDamage": 15,
         "baseExcitement": 15,
         "moveToCentre": true,
         "price": 0,

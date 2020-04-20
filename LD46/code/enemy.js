@@ -217,6 +217,85 @@ class Enemy
         }
     }
 
+    getToughRating()
+    {
+        var rating = "Immovable";
+
+        if(this.maxHealth < 50)
+        {
+            rating = "Flimsy";
+        }
+        else if(this.maxHealth < 100)
+        {
+            rating = "Sturdy";
+        }
+        else if(this.maxHealth < 150)
+        {
+            rating = "Hardened";
+        }
+        else if(this.maxHealth < 250)
+        {
+            rating = "Stalwart";
+        }
+
+
+        return rating;
+    }
+    
+    getWillRating()
+    {
+        var ratio = this.willToFight / this.maxHealth
+
+        var rating = "Has a deathwish";
+
+        if(ratio < 0.5)
+        {
+            rating = "Cowardly";
+        }
+        else if(ratio < 0.6)
+        {
+            rating = "Afraid";
+        }
+        else if(ratio < 0.7)
+        {
+            ratio = "Stoic";
+        }
+        else if(ratio < 0.8)
+        {
+            ratio = "Brave";
+        }
+        else if(ratio < 0.9)
+        {
+            rating = "Heroic";
+        }
+
+        return rating;
+    }
+    
+    getDamageRating()
+    {
+        var rating = "Herculean";
+        
+        if(this.damage < 10)
+        {
+            rating = "Feeble";
+        }
+        else if(this.damage < 15)
+        {
+            rating = "Weak";
+        }
+        else if(this.damage < 25)
+        {
+            rating = "strong";
+        }
+        else if(this.damage < 60)
+        {
+            rating = "Mighty";
+        } 
+
+        return rating;
+    }
+
     draw()
     {
         if(this.hasSprite === false)

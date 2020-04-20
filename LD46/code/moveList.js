@@ -251,6 +251,13 @@ class MoveList
         stroke(0);
     }
 
+    setTargetDetailsMode()
+    {
+        textAlign(RIGHT, CENTER);
+        fill(0);
+        noStroke();
+    }
+
     draw()
     {
         if(this.isActive)
@@ -274,6 +281,12 @@ class MoveList
             else if(this.menuMode === this.TARGET_SELECT)
             {
                 var targetPosition = this.enemyPositions[this.selectedItem];
+                var target = gameMaster.enemies[this.selectedItem];
+
+                var tough = target.getToughRating();
+                var will = target.getWillRating();
+                var damage = target.getDamageRating();
+
                 this.targetTriangle();
 
                 var offset = { x: -30, y: 0 };
@@ -283,6 +296,12 @@ class MoveList
                 var bottom = { x: targetPosition.x - 30 + offset.x, y: targetPosition.y + 15 + offset.y };
 
                 triangle(point.x, point.y, bottom.x, bottom.y, top.x, top.y);
+
+                this.setTargetDetailsMode();
+
+                text(tough, top.x - 10, top.y - 5);
+                text(will, top.x - 10, point.y);
+                text(damage, top.x - 10, bottom.y + 5);
             }
             else
             {

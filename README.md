@@ -11,7 +11,7 @@ p5 Copyright info [here](https://p5js.org/copyright.html)
 matter-js libraries included / used under MIT License in lib/matter/
 
 
-# Unnamed LD46 Entry
+# Pollice Verso - LD46 Entry
 
 p5.js libraries included / used under GNU Lesser GPL v2.1 in lib/p5/
 p5 Copyright info [here](https://p5js.org/copyright.html)

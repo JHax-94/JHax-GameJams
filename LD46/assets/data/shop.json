@@ -6,7 +6,8 @@
             "active": false,
             "damageBonus": 30,
             "excitementBonus": 0,
-            "anim": "Club"
+            "anim": "Club",
+            "flavourText": "Test text 0"
         },
         {
             "name": "Spear",
@@ -14,14 +15,16 @@
             "active": false,
             "damageBonus": 10,
             "excitementBonus": 5,
-            "anim": "Spear"
+            "anim": "Spear",
+            "flavourText": "Test text 1"
         },
         {
             "name": "Gladius",
             "price": 2000,
             "damageBonus": 20,
             "excitementBonus": 15,
-            "anim": "Gladius"
+            "anim": "Gladius",
+            "flavourText": "Test text 2"
         },
         {
             "name": "Mace",
@@ -29,7 +32,8 @@
             "active": false,
             "damageBonus": 40,
             "excitementBonus": 60,
-            "anim": "Mace"
+            "anim": "Mace",
+            "flavourText": "Test text 3"
         },
         {
             "name": "Trident",
@@ -37,7 +41,8 @@
             "active": false,
             "damageBonus": 15,
             "excitementBonus": 50,
-            "anim": "Trident"
+            "anim": "Trident",
+            "flavourText": "Test text 4"
         },
         {
             "name": "Wooden Gladius",
@@ -45,7 +50,8 @@
             "active": false,
             "damageBonus": 2,
             "excitementBonus": 1,
-            "anim": "Gladius"
+            "anim": "Gladius",
+            "flavourText": "Test text 5"
 
         }],
     "startingItems": ["Club"]

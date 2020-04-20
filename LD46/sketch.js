@@ -133,7 +133,7 @@ function setActiveScreen(newScreen)
   {
     BACKGROUND = preBattleBg;
     console.log("Reset pre battle menu");
-
+    console.log(NEXT_OPPONENT_LIST);
     preBattleMenu.resetSelection(1);
   }
   else if(newScreen === LOADOUT_SCREEN)

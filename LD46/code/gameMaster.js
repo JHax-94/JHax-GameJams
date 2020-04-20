@@ -9,8 +9,8 @@ class GameMaster
         this.round = 0;
         this.turn = 0;
         
-        this.money = 5000;
-        
+        //this.money = 5000;
+        this.money = 500000;
         this.players = [];
         this.enemies = [];
         this.emperor = {};

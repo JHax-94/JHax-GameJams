@@ -91,11 +91,13 @@ class PreBattleScreen
         }
 
         var panelDims = { w: panelOffset-20 , h: (this.dims.h / 3) };
-        var centrePanelDims = { w: panelDims.w, h: 0.75 * this.dims.h }
+        var centrePanelDims = { w: panelDims.w + 20, h: 0.75 * this.dims.h }
 
         var shopPanel = new PreBattlePanel({ x: this.pos.x - panelOffset, y: this.pos.y + panelDims.h }, panelDims, shopPanelObj);
-        var fightPanel = new PreBattlePanel({ x: this.pos.x, y: this.pos.y + centrePanelDims.h/2 }, centrePanelDims, fightPanelObj, 1);
+        var fightPanel = new PreBattlePanel({ x: this.pos.x, y: this.pos.y + centrePanelDims.h/2 - 25 }, centrePanelDims, fightPanelObj, 1);
         var trainingPanel = new PreBattlePanel({ x: this.pos.x + panelOffset, y: this.pos.y + panelDims.h }, panelDims, trainingPanelObj);
+
+        this.panelDims = panelDims;
 
         this.panels.push(shopPanel);
         this.panels.push(fightPanel);
@@ -246,6 +248,14 @@ class PreBattleScreen
         noStroke();
     }
 
+    setEnemySummaryMode()
+    {
+        textSize(16);
+        textAlign(LEFT, CENTER);
+        fill(255),
+        noStroke();
+    }
+
     draw()
     {
         /*
@@ -259,6 +269,29 @@ class PreBattleScreen
         for(var i = 0; i < this.panels.length; i ++)
         {
             this.panels[i].draw();
+        }
+
+        
+        
+        var leftBox = { x: this.pos.x - this.panelDims.w /2 , y: this.pos.y + 150 };
+
+        var rightBox = { x: this.pos.x, y: this.pos.y + 60 } 
+        
+        this.setEnemySummaryMode();
+        text("Next fight:", leftBox.x + 5, leftBox.y - 50);
+        text("Prize money: " + NEXT_OPPONENT_LIST.prizeMoney, leftBox.x + 5, leftBox.y - 30);
+
+        for(var i = 0; i < NEXT_OPPONENT_LIST.enemies.length; i ++)
+        {
+            var box = { x: 5 + ((i%2 == 0) ? leftBox.x : rightBox.x), y: leftBox.y + 120 * floor(i/2) };
+
+            var enem = NEXT_OPPONENT_LIST.enemies[i];
+            this.setEnemySummaryMode();
+
+            text("Comp: " + compensationString(enem.compensation), box.x, box.y);
+            text(toughRatingString(enem.maxHealth), box.x, box.y + 20); 
+            text(willRatingString(enem.willToFight, enem.maxHealth), box.x, box.y + 40);
+            text(damageRatingString(enem.damage), box.x, box.y + 60);
         }
     }
 }

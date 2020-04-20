@@ -91,8 +91,6 @@ class GameMaster
 
         this.prizeMoney = NEXT_OPPONENT_LIST.prizeMoney;
 
-
-
         for(var i = 0; i < NEXT_OPPONENT_LIST.enemies.length; i ++)
         {
             var enemyData = NEXT_OPPONENT_LIST.enemies[i];
@@ -241,6 +239,17 @@ class GameMaster
 
     enemyTurnFinished()
     {
+        var state = this.players[0].checkState();
+
+        if(state === "dead")
+        {
+            END_STATE = {
+                endStateTitle: "GAME OVER\nYou are dead!"
+            }
+
+            setActiveScreen(GAME_END);
+        }
+
         this.turn ++;
         this.nextTurn();
     }
@@ -264,8 +273,8 @@ class GameMaster
 
     startTechnique(technique, target, source)
     {
-        //console.log("Processing technique: " + technique.name);
-        //console.log(technique);
+        console.log("Processing technique: " + technique.name);
+        console.log(source);
         source.takeTurnAway();
 
         if(technique.moveToCentre)

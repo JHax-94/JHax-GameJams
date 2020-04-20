@@ -21,6 +21,8 @@ class Sprite
 
         this.addToLists(targetScreen);
 
+        this.paused = false;
+
         this.pos = { x: 0, y: 0 };
     }   
 
@@ -42,6 +44,11 @@ class Sprite
         this.animation = newAnimation.frames;
         this.drawOffset = newAnimation.offset;
     }
+
+    pause()
+    {
+        this.paused = true;
+    }   
 
     drawAt(pos)
     {
@@ -71,7 +78,8 @@ class Sprite
         }
     }
 
-    animate() {
-        this.index += this.speed;
+    animate() 
+    {
+        if(!this.paused) this.index += this.speed;
     }
 }

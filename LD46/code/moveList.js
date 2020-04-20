@@ -182,6 +182,12 @@ class MoveList
                 var selectedTech = this.equippedTech[this.selectedItem];
                 var target = 0;
 
+                if(selectedTech.hasSpeech)
+                {
+                    var chosenSpeech = selectedTech.speeches[randomNum(0, selectedTech.speeches.length)];
+                    this.owner.setSpeech(chosenSpeech);
+                }
+
                 console.log(this.owner);
                 if(selectedTech.needsTarget)
                 {

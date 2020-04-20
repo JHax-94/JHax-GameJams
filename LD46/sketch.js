@@ -4,7 +4,7 @@ const BATTLE_SCREEN = 2;
 const LOADOUT_SCREEN = 3;
 const GAME_END = 4;
 
-var FORCE_RANDOM = true;
+var FORCE_RANDOM = false;
 
 var BACKGROUND;
 

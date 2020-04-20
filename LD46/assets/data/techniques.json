@@ -34,15 +34,16 @@
         "needsTarget": true
     },
     {
-        "name": "Brag to Crowd",
+        "name": "Hype the Crowd",
         "baseDamage": 0,
         "baseExcitement": 20,
-        "moveToCentre": true,
+        "moveToCentre": false,
         "price": 100,
         "reusePenalty": 50,
         "cooldown": 5,
         "usesWeapon": false,
-        "needsTarget": false
+        "needsTarget": false,
+        "hasSpeech": true
     },
     {
         "name": "Taunt",
@@ -53,10 +54,11 @@
         "reusePenalty": 40,
         "cooldown": 2,
         "usesWeapon": false,
-        "needsTarget": false
+        "needsTarget": false,
+        "hasSpeech": true
     },
     {
-        "name": "Lewd Joke",
+        "name": "Joke",
         "baseDamage": 0,
         "baseExcitement": 25,
         "moveToCentre": false,
@@ -64,7 +66,20 @@
         "reusePenalty": 50,
         "cooldown": 2,
         "usesWeapon": false,
-        "needsTarget": false
+        "needsTarget": false,
+        "hasSpeech": true
+    },
+    {
+        "name": "Battlecry",
+        "baseDamage": 0,
+        "baseExcitement": 30,
+        "moveToCentre": false,
+        "price": 500,
+        "reusePenalty": 60,
+        "cooldown": 5,
+        "usesWeapon": false,
+        "needsTarget": false,
+        "hasSpeech": true
     },
     {
         "name": "Mighty Strike",
@@ -77,5 +92,41 @@
         "usesWeapon": true,
         "needsTarget": true
     }],
-    "startingTechniques": [ "Stab", "Mighty Strike", "Punch" ]
+    "startingTechniques": [ "Stab", "Mighty Strike", "Punch", "Battlecry" ],
+    "speeches": [
+        {
+            "tech": "Hype the Crowd",
+            "texts": [
+                {
+                    "lines": [ "Are you not entertained?!" ]
+                }
+            ]   
+        },
+        {
+            "tech": "Taunt",
+            "texts": [
+                {
+                    "lines": [ "You fight like a dead fish!" ]
+                }
+            ]
+        },
+        {
+            "tech": "Joke",
+            "texts": [
+                {
+                    "lines": [ "What do you call a Gladiator's dog..." ]
+                }
+            ]
+        },
+        {
+            "tech": "Battlecry",
+            "texts": [
+                {
+                    "text": [ "Jupito, optimo, maximo!" ]
+                }
+            ]
+        }
+    ]
+
+
 }

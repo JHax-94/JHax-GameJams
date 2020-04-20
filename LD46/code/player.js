@@ -33,6 +33,12 @@ class Player {
 
         this.healthBar.setFilled(this.health, this.maxHealth);
 
+        this.isSpeaking = false;
+        this.speech = {};
+        this.speechLine = 0;
+
+        this.speechOffset = {x: 15, y:-  30};
+
         this.addToLists();
     }
 
@@ -107,6 +113,15 @@ class Player {
         this.updateLoadoutState();
     }   
 
+    setSpeech(speechObj)
+    {
+        console.log("-START SPEECH-");
+        console.log(speechObj);
+        this.speech = speechObj.text;
+        this.speechLine = 0;
+        this.isSpeaking = true;
+    }
+
     updateLoadoutState()
     {
         for(var i = 0; i < PLAYER_LOADOUT.techs.length; i ++)
@@ -133,6 +148,28 @@ class Player {
         return this.health > 0 ? "" : "dead";
     }
 
+    setSpeechMode()
+    {
+        fill(0);
+        textAlign(LEFT, BOTTOM);
+    }
+
+    moveSpeechOn()
+    {
+        var finished = false;
+
+        this.speechLine ++;
+        if(this.speech.length <= this.speechLine)
+        {
+            finished = true;
+            this.isSpeaking = false;
+            this.speech = [];
+            this.speechLine = 0;
+        }
+
+        return finished;
+    }
+
     draw()
     {
         if(this.hasSprite === false)
@@ -147,6 +184,13 @@ class Player {
             {
                 this.sprites[i].drawAt(this.pos, { w: 30, h: 60 });
             }
+        }
+
+        if(this.isSpeaking)
+        {
+            //console.log("SPEAK:" + this.speech[this.speechLine]);
+            this.setSpeechMode();
+            text(this.speech[this.speechLine], this.pos.x + this.speechOffset.x, this.pos.y + this.speechOffset.y);
         }
 
         this.healthBar.draw("Player health bar!");

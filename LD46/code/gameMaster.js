@@ -2,6 +2,10 @@ class GameMaster
 {
     constructor()
     {
+        this.JUDGE_IN = 1;
+        this.JUDGE_HOLD = 2;
+        this.JUDGE_OUT = 3;
+
         this.round = 0;
         this.turn = 0;
         
@@ -26,9 +30,19 @@ class GameMaster
         this.moveOn = false;
 
         var battleEndDims = { w: width / 2, h: height / 2 };
-        var battleEndPos = { x: width /2, y: height / 2 };
-
+        var battleEndPos = { x: width / 2, y: height / 2 };
+        
         this.battleEnd = new BattleEndPopup(battleEndPos, battleEndDims);
+
+        this.judgementState = 0;
+
+        this.judgementInDuration = 2;
+        this.judgementHoldDuration = 1;
+        this.judgementOutDuration = 0.5;
+
+        this.judgementPoint = { x: width / 2, y: height / 2 };
+        this.judgementScale = 2;
+        this.judgementTime = 0;
 
         this.addToLists();
     }
@@ -56,8 +70,18 @@ class GameMaster
         return enemyPositions;
     }
 
+    clearEnemyList()
+    {
+        for(var i = 0; i < this.enemies.length; i ++)
+        {
+            this.enemies[i].removeFromLists();
+        }
+        this.enemies = [];
+    }
+
     prepareEnemyList()
     {
+        this.clearEnemyList();
         generateEnemyList();
         console.log("=== POPULATE ENEMY LIST WITH ===");
         console.log(NEXT_OPPONENT_LIST);
@@ -227,52 +251,11 @@ class GameMaster
     {
         if(this.moveOn)
         {
-            var movePlayer = this.players[this.activePlayer];
-            var moveEnemy = this.enemies[this.activeEnemy];
-
-            this.moveTime += this.moveDirection * dt;
-            
-            if(this.moveDirection > 0 && this.moveTime >= this.moveDuration)
-            {
-                this.moveTime = this.moveDuration;
-                this.moveOn = false;
-            }
-            else if(this.moveDirection < 0 && this.moveTime <= 0)
-            {
-                this.moveTime = 0;
-                this.moveOn = false;
-            }
-            
-            var lerpVal = this.moveTime / this.moveDuration;
-
-            var playerPos = { 
-                x: lerp(movePlayer.originalPos.x, this.leftActivePoint.x, lerpVal), 
-                y: lerp(movePlayer.originalPos.y, this.leftActivePoint.y, lerpVal)
-            };
-
-            var enemyPos = {
-                x: lerp(moveEnemy.originalPos.x, this.rightActivePoint.x, lerpVal),
-                y: lerp(moveEnemy.originalPos.y, this.rightActivePoint.y, lerpVal)
-            };
-
-            movePlayer.setPos(playerPos);
-            moveEnemy.setPos(enemyPos);
-            
-            if(this.moveOn === false)
-            {
-                if(this.moveDirection > 0)
-                {
-                    this.playerTurn() ? 
-                        this.processTechnique(this.activeTechnique, this.activeEnemy, movePlayer) :
-                        this.processEnemyTurn(true, this.enemyTurn);
-                }
-                else 
-                {  
-                    this.playerTurn() ?
-                        this.endTechnique(this.activeEnemy) :
-                        this.enemyTurnFinished();
-                }
-            }
+            this.moveCharactersToCentre(dt);
+        }
+        if(this.judgementState > 0)
+        {
+            this.animateJudgement(dt);
         }
     }
 
@@ -443,10 +426,127 @@ class GameMaster
     {
         if(enemyIndex >= 0)
         {
-            this.enemies[enemyIndex].checkState();
+            var enemyState = this.enemies[enemyIndex].checkState();
+
+            if(enemyState === "surrendered")            
+            {
+                var judgement = this.emperor.isPleased();
+                console.log(judgement);
+                this.judgementState = this.JUDGE_IN;
+                
+                this.judgementDirection = judgement ? this.emperor.THUMBS_UP : this.emperor.THUMBS_DOWN;
+            }
+        }
+
+        if(this.judgementState === 0)
+        {
+            this.turn ++;
+            this.nextTurn();
+        }
+    }
+
+    animateJudgement(dt)
+    {
+        this.judgementTime += dt;
+        
+        if(this.judgementState == this.JUDGE_IN)
+        {
+            var lerpVal = this.judgementTime / this.judgementInDuration;
+            if(lerpVal > 1)
+            {
+                lerpVal = 1;
+            }
+
+            this.emperor.lerpThumb(this.judgementDirection, this.judgementPoint, this.judgementScale, lerpVal);
+
+            if(lerpVal === 1)
+            {
+                this.judgementTime = 0;
+                this.judgementState = this.JUDGE_HOLD;
+            }
+        }
+        else if(this.judgementState === this.JUDGE_HOLD)
+        {
+            if(this.judgementDirection === this.emperor.THUMBS_DOWN)
+            {
+                this.enemies[this.activeEnemy].kill();
+            }
+
+            if(this.judgementHoldDuration <= this.judgementTime)
+            {
+                this.judgementTime = 0;
+                this.judgementState = this.JUDGE_OUT
+            }
+        }
+        else if(this.judgementState === this.JUDGE_OUT)
+        {
+            var lerpVal = 1 - (this.judgementTime / this.judgementOutDuration);
+            if(lerpVal < 0)
+            {
+                lerpVal = 0;
+            }
+
+            this.emperor.lerpThumb(this.judgementDirection, this.judgementPoint, this.judgementScale, lerpVal);
+
+            if(lerpVal === 0)
+            {
+                this.judgementTime = 0;
+                this.judgementState = 0;
+
+                this.turn ++;
+                this.nextTurn();
+            }
+        }
+
+    }
+
+    moveCharactersToCentre(dt)
+    {
+        var movePlayer = this.players[this.activePlayer];
+        var moveEnemy = this.enemies[this.activeEnemy];
+
+        this.moveTime += this.moveDirection * dt;
+        
+        if(this.moveDirection > 0 && this.moveTime >= this.moveDuration)
+        {
+            this.moveTime = this.moveDuration;
+            this.moveOn = false;
+        }
+        else if(this.moveDirection < 0 && this.moveTime <= 0)
+        {
+            this.moveTime = 0;
+            this.moveOn = false;
         }
         
-        this.turn ++;
-        this.nextTurn();
+        var lerpVal = this.moveTime / this.moveDuration;
+
+        var playerPos = { 
+            x: lerp(movePlayer.originalPos.x, this.leftActivePoint.x, lerpVal), 
+            y: lerp(movePlayer.originalPos.y, this.leftActivePoint.y, lerpVal)
+        };
+
+        var enemyPos = {
+            x: lerp(moveEnemy.originalPos.x, this.rightActivePoint.x, lerpVal),
+            y: lerp(moveEnemy.originalPos.y, this.rightActivePoint.y, lerpVal)
+        };
+
+        movePlayer.setPos(playerPos);
+        moveEnemy.setPos(enemyPos);
+        
+        if(this.moveOn === false)
+        {
+            if(this.moveDirection > 0)
+            {
+                this.playerTurn() ? 
+                    this.processTechnique(this.activeTechnique, this.activeEnemy, movePlayer) :
+                    this.processEnemyTurn(true, this.enemyTurn);
+            }
+            else 
+            {  
+                this.playerTurn() ?
+                    this.endTechnique(this.activeEnemy) :
+                    this.enemyTurnFinished();
+            }
+        }
     }
 }

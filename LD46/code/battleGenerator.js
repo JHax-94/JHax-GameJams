@@ -47,7 +47,6 @@ class BattleGenerator
                 enemyObj.x = startPos.x;
                 enemyObj.y = startPos.y;
 
-
                 console.log("Push enemy obj");
                 console.log(enemyObj);
                 opponentList.enemies.push(enemyObj);

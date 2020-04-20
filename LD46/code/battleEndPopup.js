@@ -61,6 +61,7 @@ class BattleEndPopup
         if(this.isActive)
         {
             gameMaster.addMoney(this.winnings - this.compensation);
+            nextBattle();
             setActiveScreen(PRE_BATTLE_SCREEN);
         }
     }

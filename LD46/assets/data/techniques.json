@@ -10,7 +10,7 @@
         "cooldown": 1,
         "usesWeapon": false,
         "needsTarget": true,
-        "flavourText": "Test text 0"
+        "flavourText": "A basic punch.\n\nNot very damaging,\nnot very exciting."
     },
     {
         "name": "Stab",
@@ -22,7 +22,7 @@
         "cooldown": 2,
         "usesWeapon": true,
         "needsTarget": true,
-        "flavourText": "Test text 1"
+        "flavourText": "A quick stab with a weapon.\n\nPretty straightforward."
     },
     {
         "name": "Slice",
@@ -34,7 +34,7 @@
         "cooldown": 2,
         "usesWeapon": true,
         "needsTarget": true,
-        "flavourText": "Test text 2"
+        "flavourText": "Slash an enemy\nwith your weapon.\n\nSomewhat interesting,\nthough someone could get hurt."
     },
     {
         "name": "Wild Swing",
@@ -46,7 +46,7 @@
         "cooldown": 4,
         "usesWeapon": true,
         "needsTarget": true,
-        "flavourText": "Test text 3"
+        "flavourText": "An all-out attack\nwith your weapon.\n\nVery powerful, and the crowd\nloves that sort of thing."
     },
     {
         "name": "Hype the Crowd",
@@ -54,16 +54,16 @@
         "baseExcitement": 20,
         "moveToCentre": false,
         "price": 1500,
-        "reusePenalty": 50,
+        "reusePenalty": 20,
         "cooldown": 5,
         "usesWeapon": false,
         "needsTarget": false,
         "hasSpeech": true,
-        "flavourText": "Test text 4"
+        "flavourText": "Use your natural charisma\nto get the audience excited.\n\nDon't keep them waiting\nfor the action though."
     },
     {
         "name": "Taunt",
-        "baseDamage": 10,
+        "baseDamage": 0,
         "baseExcitement": 60,
         "moveToCentre": false,
         "price": 1500,
@@ -72,7 +72,7 @@
         "usesWeapon": false,
         "needsTarget": false,
         "hasSpeech": true,
-        "flavourText": "Test text 5"
+        "flavourText": "Belittle your opponent in\nfront of all their friends.\n\nThat'll show them."
     },
     {
         "name": "Joke",
@@ -81,11 +81,11 @@
         "moveToCentre": false,
         "price": 3000,
         "reusePenalty": 50,
-        "cooldown": 2,
+        "cooldown": 0,
         "usesWeapon": false,
         "needsTarget": false,
         "hasSpeech": true,
-        "flavourText": "Test text 6"
+        "flavourText": "Ok, I'll teach you the\none about the dog.\n\nCareful - the Emperor will\nonly laugh once (until he\nforgets the punchline after\nthe fight ends, of course)."
     },
     {
         "name": "Battlecry",
@@ -98,7 +98,7 @@
         "usesWeapon": false,
         "needsTarget": false,
         "hasSpeech": true,
-        "flavourText": "Test text 7"
+        "flavourText": "Let out a mighty roar\nthat will wake up anyone\nnapping in the audience."
     },
     {
         "name": "Mighty Strike",
@@ -110,7 +110,7 @@
         "cooldown": 20,
         "usesWeapon": true,
         "needsTarget": true,
-        "flavourText": "Test text 8"
+        "flavourText": "Demonstrate your mastery\nof your weapon with this\ndeadly attack.\n\nYou might slay your opponent,\nbut you'll definitely slay the crowd."
     }],
     "startingTechniques": [ "Punch", "Wild Swing", "Stab" ],
     "speeches": [

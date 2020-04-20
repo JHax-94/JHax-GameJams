@@ -7,7 +7,7 @@
             "damageBonus": 30,
             "excitementBonus": 0,
             "anim": "Club",
-            "flavourText": "Test text 0"
+            "flavourText": "A simple wooden club.\n\nRather uninspiring,\nbut gets the job done."
         },
         {
             "name": "Spear",
@@ -16,7 +16,7 @@
             "damageBonus": 10,
             "excitementBonus": 5,
             "anim": "Spear",
-            "flavourText": "Test text 1"
+            "flavourText": "The spears are light,\nbut a bit blunt.\n\nStill, they look... ok?"
         },
         {
             "name": "Gladius",
@@ -24,7 +24,7 @@
             "damageBonus": 20,
             "excitementBonus": 15,
             "anim": "Gladius",
-            "flavourText": "Test text 2"
+            "flavourText": "Here we go,\na real sword.\n\nLooks pretty nice,\nas long as you're not\non the receiving end."
         },
         {
             "name": "Mace",
@@ -33,7 +33,7 @@
             "damageBonus": 40,
             "excitementBonus": 60,
             "anim": "Mace",
-            "flavourText": "Test text 3"
+            "flavourText": "This thing hurts - a lot.\n\nA crowd favourite,\nmostly because of\nall the spikes."
         },
         {
             "name": "Trident",
@@ -42,7 +42,7 @@
             "damageBonus": 15,
             "excitementBonus": 50,
             "anim": "Trident",
-            "flavourText": "Test text 4"
+            "flavourText": "Basically a fancy spear.\n\nNot as many spikes\nas the mace, though..."
         },
         {
             "name": "Wooden Gladius",
@@ -51,7 +51,7 @@
             "damageBonus": 2,
             "excitementBonus": 1,
             "anim": "Gladius",
-            "flavourText": "Test text 5"
+            "flavourText": "The prize that will\nearn you your freedom.\n\nPretty much useless\nin a fight."
 
         }],
     "startingItems": ["Club"]

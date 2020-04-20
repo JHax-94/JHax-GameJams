@@ -67,6 +67,18 @@ class Player {
     }
 
 
+    switchWeaponAnimation(animations)
+    {
+        for(var i = 0; i < this.sprites.length; i ++)
+        {
+            console.log("Check sprite: " + this.sprites[i].name);
+            if(this.sprites[i].name.startsWith("weapon"))
+            {
+                this.sprites[i].setAnimation(animations);
+            }
+        }   
+    }
+
     addToLists()
     {
         screens[BATTLE_SCREEN].drawablesList.push(this);
@@ -117,7 +129,7 @@ class Player {
     {
         console.log("-START SPEECH-");
         console.log(speechObj);
-        this.speech = speechObj.text;
+        this.speech = speechObj.lines;
         this.speechLine = 0;
         this.isSpeaking = true;
     }

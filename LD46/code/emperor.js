@@ -118,8 +118,8 @@ class Emperor
 
         fill(255)
         textAlign(CENTER);
-        noStroke();
-        text(this.excitement + ' / ' + this.maxExcitement, width/2, 50);
+        /*noStroke();
+        text(this.excitement + ' / ' + this.maxExcitement, width/2, 50);*/
         fill(0);
         textAlign(CENTER, TOP)
         if(this.tutorialOn)

@@ -25,13 +25,12 @@ class Bar
         this.filledWidth = this.dims.w * this.filledPortion;
         this.unfilledWidth = this.dims.w - this.filledWidth;
         
-        /*
         console.log("Bar width:");
         console.log(this.dims.w);
         console.log("Filled: ");
         console.log(this.filledWidth);
         console.log("Unfilled: ");
-        console.log(this.unfilledWidth);*/
+        console.log(this.unfilledWidth);
     }
 
     setFilledRectMode()
@@ -50,7 +49,6 @@ class Bar
 
     draw()
     {
-        
         this.setFilledRectMode();
         rect(this.pos.x, this.pos.y, this.filledWidth, this.dims.h);
 

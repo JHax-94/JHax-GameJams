@@ -1,7 +1,13 @@
 class Sprite
 {
-    constructor(animation, speed, targetScreen, drawOffset)
+    constructor(animation, speed, targetScreen, drawOffset, name)
     {
+        this.name = "";
+        if(name)
+        {
+            this.name = name;
+        }
+        
         this.drawOffset = drawOffset;
         this.animation = animation;
         this.len = animation.length;
@@ -27,6 +33,14 @@ class Sprite
     {
         this.dims = dims;
         this.hasDims = true;
+    }
+
+    setAnimation(newAnimation)
+    {
+        console.log("Set new animation");
+        console.log(newAnimation);
+        this.animation = newAnimation.frames;
+        this.drawOffset = newAnimation.offset;
     }
 
     drawAt(pos)

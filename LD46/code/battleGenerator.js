@@ -121,13 +121,10 @@ class BattleGenerator
         }
         var excitement = randomNum(minExcitement, maxExcitement);
         
-        console.log("--- BREAK ----");
         var fightDifficulty = this.getDifficulty(fightNumber);
-        console.log(fightDifficulty);
 
         var prizeMoney = randomNum(1000, 2000 + 1000 * fightDifficulty);
-        console.log(prizeMoney);
-
+        
         enemyList.excitement = excitement;
         enemyList.prizeMoney = prizeMoney;
 
@@ -187,35 +184,27 @@ class BattleGenerator
 
             var newEn;
 
-            console.log()
-
             if(nextEnemy === this.EASY_ENEMY)
             {
-                console.log("-EASY-");
                 newEn = this.generateEasyEnemy();
             }
             else if(nextEnemy === this.BRAVE_ENEMY)
             {
-                console.log("-BRAVE-");
                 newEn = this.generateBraveEnemy();
             }
             else if(nextEnemy === this.HEALTHY_ENEMY)
             {
-                console.log("-HEALTHY-");
                 newEn = this.generateHealthyEnemy();
             }
             else if(nextEnemy === this.STRONG_ENEMY)
             {
-                console.log("-STRONG-");
                 newEn = this.generateStrongEnemy();
             }
             else if(nextEnemy === this.WEAK_ENEMY)
             {
-                console.log("-WEAK-");
                 newEn = this.generateWeakEnemy();
             }
             
-            console.log("-PUSH-");
             enemyList.enemies.push(newEn);
         }
 

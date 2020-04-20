@@ -21,6 +21,8 @@ class Player {
         this.hasSprite = false;
         this.hasTurnControl = false;
 
+        this.sprites = [];
+
         this.index = 0;
         this.statsOffset = { x: -30, y: 75 };
 
@@ -70,10 +72,12 @@ class Player {
         this.healthBar.setFilled(this.health, this.maxHealth);
     }
 
-    setSprite(sprite)
+    setSprites(spriteList)
     {
         this.hasSprite = true;
-        this.sprite = sprite;
+        this.sprites = spriteList;
+        console.log("PLAYER SPRITES SET");
+        console.log(this.sprites);
     }
 
     giveTurn()
@@ -123,9 +127,12 @@ class Player {
         }
         else
         {
-            this.sprite.drawAt(this.pos, { w: 30, h: 60 });
+            for(var i = 0; i < this.sprites.length; i ++)
+            {
+                this.sprites[i].drawAt(this.pos, { w: 30, h: 60 });
+            }
         }
 
-        this.healthBar.draw("PLayer health bar!");
+        this.healthBar.draw("Player health bar!");
     }
 }

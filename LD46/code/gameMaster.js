@@ -99,9 +99,8 @@ class GameMaster
                 NEXT_OPPONENT_LIST.enemies[i].willToFight, 
                 NEXT_OPPONENT_LIST.enemies[i].damage,
                 NEXT_OPPONENT_LIST.enemies[i].compensation);
-            var enemySprite = new Sprite(playerAnim, 0.2, BATTLE_SCREEN);
-            newEnemy.setSprite(enemySprite);
-            enemySprite.flip = true;
+            var enemySprites = getCharacterAnims();
+            newEnemy.setSprites(enemySprites);
 
             newEnemy.index = i;
             this.addEnemy(newEnemy);

@@ -1,7 +1,8 @@
 class Sprite
 {
-    constructor(animation, speed, targetScreen)
+    constructor(animation, speed, targetScreen, drawOffset)
     {
+        this.drawOffset = drawOffset;
         this.animation = animation;
         this.len = animation.length;
         this.speed = speed;
@@ -15,7 +16,6 @@ class Sprite
         this.addToLists(targetScreen);
 
         this.pos = { x: 0, y: 0 };
-
     }   
 
     addToLists(targetScreen)
@@ -43,12 +43,12 @@ class Sprite
         if(this.hasDims)
         {
             imageMode(CENTER);
-            image(this.animation[showIndex], scaleMod * pos.x, pos.y, this.dims.w, this.dims.h);
+            image(this.animation[showIndex], scaleMod * (pos.x + scaleMod * this.drawOffset.x), (pos.y + this.drawOffset.y), this.dims.w, this.dims.h);
         }
         else
         {   
             imageMode(CENTER);
-            image(this.animation[showIndex], scaleMod * pos.x, pos.y);
+            image(this.animation[showIndex], scaleMod * (pos.x + scaleMod * this.drawOffset.x), (pos.y + this.drawOffset.y));
         }
 
         if(this.flip)

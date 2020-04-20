@@ -1,0 +1,88 @@
+{
+    "frameDims": {
+        "w": 60,
+        "h": 120,
+        "animLength": 8
+    },
+    "definitions": [
+        {
+            "name": "head-0",
+            "row": 0
+        },
+        {
+            "name": "head-1",
+            "row": 1
+        },
+        {
+            "name": "body-0",
+            "row": 2
+        },
+        {
+            "name": "body-1",
+            "row": 3
+        },
+        {
+            "name": "weapon-0",
+            "row": 4
+        },
+        {
+            "name": "weapon-1",
+            "row": 5,
+            "offset": { "x": 7, "y": 3 }
+        }
+    ],
+    "definitionsBIG": [
+        {
+            "name": "head-0",
+            "row": 0
+        },
+        {
+            "name": "head-1",
+            "row": 1
+        },
+        {
+            "name": "head-2",
+            "row": 2
+        },
+        {
+            "name": "head-3",
+            "row": 3
+        },
+        {
+            "name": "head-4",
+            "row": 4
+        },
+        {
+            "name": "body-0",
+            "row": 13
+        },        
+        {
+            "name": "body-1",
+            "row": 14
+        },
+        {
+            "name": "weapon-0",
+            "info": "sword",
+            "row": 17
+        },
+        {
+            "name": "weapon-1",
+            "info": "spear",
+            "row": 18
+        },
+        {
+            "name": "weapon-2",
+            "info": "trident",
+            "row": 19
+        },
+        {
+            "name": "weapon-3",
+            "info": "mace",
+            "row": 20
+        },
+        {
+            "name": "weapon-4",
+            "info": "club",
+            "row": 21
+        }]
+}

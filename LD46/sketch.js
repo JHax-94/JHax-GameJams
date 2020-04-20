@@ -3,6 +3,8 @@ const PRE_BATTLE_SCREEN = 1;
 const BATTLE_SCREEN = 2;
 const LOADOUT_SCREEN = 3;
 
+var BACKGROUND;
+
 var screens = [];
 
 var enemyId = 0;
@@ -15,6 +17,7 @@ var menuRightButton;
 var menuSubmitButton;
 
 var arenaBg;
+var preBattleBg;
 
 var thumbsDown;
 var thumbsUp;
@@ -50,6 +53,11 @@ var playerSheetData;
 
 var preBattleMenu;
 
+var characterAtlas;
+var characterAtlasData;
+
+var ANIMATIONS;
+
 function setKeys()
 {
   menuUpButton = UP_ARROW;
@@ -81,17 +89,20 @@ function setActiveScreen(newScreen)
 {
   if(newScreen === BATTLE_SCREEN)
   {
+    BACKGROUND = arenaBg;
     console.log("Resetting battle state");
     gameMaster.reset();
   }
   else if(newScreen === PRE_BATTLE_SCREEN)
   {
+    BACKGROUND = preBattleBg;
     console.log("Reset pre battle menu");
 
     preBattleMenu.resetSelection(1);
   }
   else if(newScreen === LOADOUT_SCREEN)
   {
+    BACKGROUND = preBattleBg;
     console.log("Update loadout options");
     loadouts.reset(PLAYER_LOADOUT);
   }
@@ -175,8 +186,12 @@ function setup() {
   player = new Player({x: 150, y: height/2 + 100}, 10000, );
   
   //var enemy = new Enemy({x: width - 150, y: height/2 + 100}, 100, 60, 50);
+  loadAtlas();
   
-  console.log("Load spritesheet");
+  var playerSprites = getCharacterAnims();
+  player.setSprites(playerSprites);
+
+  /*
   console.log(playerSheetData);
   for(var i = 0; i < playerSheetData.frames.length; i ++)
   {
@@ -187,8 +202,8 @@ function setup() {
 
   var playerSprite = new Sprite(playerAnim, 0.2, BATTLE_SCREEN);
   playerSprite.setDims({ w: 60, h: 120 });
-  player.setSprite(playerSprite);
-
+  player.setSprites(playerSprite);
+  */
   /*
   var enemySprite = new Sprite(playerAnim, 0.2, BATTLE_SCREEN);
   enemySprite.setDims({ w: 60, h: 120 });
@@ -211,6 +226,8 @@ function setup() {
   loadouts = new LoadoutScreen({ x: width / 2, y: height /2 }, { w: width / 2, h: height / 2}, PLAYER_LOADOUT);
 
   console.log(PLAYER_LOADOUT);
+
+  this.setActiveScreen(activeScreen);
 
   textSize(24);
   setKeys();
@@ -257,6 +274,87 @@ function buyTech(name)
   }
 }
 
+function randomNum(from, to)
+{
+  return Math.floor((Math.random() * to) + from);
+}
+
+function getCharacterAnims(head, body, weapon)
+{
+  var random = false;
+  if(typeof(head) === 'undefined')
+  {
+    random = true;
+  }
+
+  if(random)
+  {
+    head = randomNum(0, ANIMATIONS.HEADS.length);
+    body = randomNum(0, ANIMATIONS.BODIES.length);
+    weapon = randomNum(0, ANIMATIONS.WEAPONS.length);
+  }
+
+  var spriteList = [];
+
+  spriteList.push(new Sprite(ANIMATIONS.HEADS[head].frames, 0.2, BATTLE_SCREEN, ANIMATIONS.HEADS[head].offset));
+  spriteList.push(new Sprite(ANIMATIONS.BODIES[body].frames, 0.2, BATTLE_SCREEN, ANIMATIONS.BODIES[body].offset));
+  spriteList.push(new Sprite(ANIMATIONS.WEAPONS[weapon].frames, 0.2, BATTLE_SCREEN, ANIMATIONS.WEAPONS[weapon].offset));
+
+  return spriteList;
+}
+
+function loadAtlas()
+{
+  console.log("Load spritesheet");
+  console.log(characterAtlasData);
+
+  ANIMATIONS = {};
+  ANIMATIONS.HEADS = [];
+  ANIMATIONS.BODIES = [];
+  ANIMATIONS.WEAPONS = [];
+
+  var frameDims = characterAtlasData.frameDims;
+  var defs = characterAtlasData.definitions;
+
+  for(var i = 0; i < defs.length; i ++)
+  {
+    console.log("Load row: ");
+    console.log(defs[i]);
+
+    anim = {
+      name: defs[i].name,
+      frames: [],
+      offset: { x: 0, y: 0 }
+    }
+
+    for(var frm = 0; frm < frameDims.animLength; frm ++)
+    {
+      var row = defs[i].row;
+      anim.frames.push(characterAtlas.get(frm * frameDims.w, row * frameDims.h, frameDims.w, frameDims.h));
+      if(defs[i].offset)
+      {
+        anim.offset = defs[i].offset;
+      }
+    }
+
+    if(anim.name.startsWith("head"))
+    {
+      ANIMATIONS.HEADS.push(anim);
+    }
+    else if(anim.name.startsWith("body"))
+    {
+      ANIMATIONS.BODIES.push(anim);
+    }
+    else if(anim.name.startsWith("weapon"))
+    {
+      ANIMATIONS.WEAPONS.push(anim);
+    }
+  }
+
+  console.log(" === ATLAS LOADED === ");
+  console.log(ANIMATIONS);
+}
+
 function getActiveWeapon()
 {
   var weapon = 0;
@@ -277,11 +375,16 @@ function preload()
   title = loadImage("assets/sprites/title.png");
 
   arenaBg = loadImage("assets/sprites/arenaBackground.png");
+  preBattleBg = loadImage("assets/sprites/preBattle.png");
+
   thumbsUp = loadImage("assets/sprites/thumbsUp.png");
   thumbsDown = loadImage("assets/sprites/thumbsDown.png");
 
   fullTechsList = loadJSON("assets/data/techniques.json");
   shop = loadJSON("assets/data/shop.json");
+
+  characterAtlas = loadImage("assets/sprites/characterAtlas.png");
+  characterAtlasData = loadJSON("assets/sprites/characterAtlas.json");
 
   playerSheetData = loadJSON("assets/sprites/playerSheet.json");
   playerSheet = loadImage("assets/sprites/playerSheet.png");
@@ -351,7 +454,7 @@ function draw() {
   clear();
   textSize(18);
   imageMode(CORNER);
-  background(arenaBg);
+  background(BACKGROUND);
   
   screens[activeScreen].update(deltaTime/1000);
   screens[activeScreen].draw();

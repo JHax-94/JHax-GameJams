@@ -14,37 +14,10 @@
             "row": 1
         },
         {
-            "name": "body-0",
-            "row": 2
-        },
-        {
-            "name": "body-1",
-            "row": 3
-        },
-        {
-            "name": "weapon-0",
-            "row": 4
-        },
-        {
-            "name": "weapon-1",
-            "row": 5,
-            "offset": { "x": 7, "y": 3 }
-        }
-    ],
-    "definitionsBIG": [
-        {
-            "name": "head-0",
-            "row": 0
-        },
-        {
-            "name": "head-1",
-            "row": 1
-        },
-        {
             "name": "head-2",
             "row": 2
         },
-        {
+        {            
             "name": "head-3",
             "row": 3
         },
@@ -53,36 +26,43 @@
             "row": 4
         },
         {
+            "name": "head-5",
+            "row": 5
+        },
+        {
             "name": "body-0",
             "row": 13
-        },        
+        },
         {
             "name": "body-1",
             "row": 14
         },
         {
             "name": "weapon-0",
-            "info": "sword",
-            "row": 17
+            "row": 16,
+            "info": "Gladius"
         },
         {
             "name": "weapon-1",
-            "info": "spear",
-            "row": 18
+            "row": 17,
+            "offset": { "x": 7, "y": 3 },
+            "info": "Spear"
         },
         {
             "name": "weapon-2",
-            "info": "trident",
-            "row": 19
+            "row": 18,
+            "offset": { "x": 7, "y": 3 },
+            "info": "Trident"
         },
         {
             "name": "weapon-3",
-            "info": "mace",
-            "row": 20
+            "row": 19,
+            "info": "Mace"
         },
         {
             "name": "weapon-4",
-            "info": "club",
-            "row": 21
-        }]
+            "row": 20,
+            "info": "Club"             
+        }
+    ]
 }

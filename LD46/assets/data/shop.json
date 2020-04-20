@@ -1,39 +1,52 @@
 {
     "shopItems": [
         {
-            "name": "Gladius",
+            "name": "Club",
             "price": 0,
             "active": false,
-            "damageBonus": 10,
-            "excitementBonus": 0
-        },
-        {
-            "name": "Trident",
-            "price": 1000,
-            "active": false,
-            "damageBonus": 10,
-            "excitementBonus": 15
+            "damageBonus": 30,
+            "excitementBonus": 0,
+            "anim": "Club"
         },
         {
             "name": "Spear",
-            "price": 7000,
+            "price": 1000,
             "active": false,
             "damageBonus": 10,
-            "excitementBonus": 5
+            "excitementBonus": 5,
+            "anim": "Spear"
         },
         {
-            "name": "Net",
-            "price": 9000,
+            "name": "Gladius",
+            "price": 2000,
+            "damageBonus": 20,
+            "excitementBonus": 15,
+            "anim": "Gladius"
+        },
+        {
+            "name": "Mace",
+            "price": 3000,
             "active": false,
-            "damageBonus": 10,
-            "excitementBonus": 10
+            "damageBonus": 40,
+            "excitementBonus": 60,
+            "anim": "Mace"
+        },
+        {
+            "name": "Trident",
+            "price": 4000,
+            "active": false,
+            "damageBonus": 15,
+            "excitementBonus": 50,
+            "anim": "Trident"
         },
         {
             "name": "Wooden Gladius",
-            "price": 1000000,
+            "price": 10000,
             "active": false,
             "damageBonus": 2,
-            "excitementBonus": 1
+            "excitementBonus": 1,
+            "anim": "Gladius"
+
         }],
-    "startingItems": ["Gladius"]
+    "startingItems": ["Club"]
 } 

@@ -82,14 +82,27 @@ function mod(val, comp)
 function setActiveWeapon(weaponName, equipToPlayer)
 {
   console.log("==== SETTING ACTIVE WEAPON TO " + weaponName + " ====");
+
+  var inventoryItem = {}
   for(var i = 0; i < PLAYER_LOADOUT.inventory.length; i ++)
   {
     PLAYER_LOADOUT.inventory[i].active = PLAYER_LOADOUT.inventory[i].name == weaponName;
+    if(PLAYER_LOADOUT.inventory[i].name == weaponName)
+    {
+      inventoryItem = PLAYER_LOADOUT.inventory[i];
+    }
   }
 
   console.log(PLAYER_LOADOUT);
 
   equipToPlayer.moveList.setEquippedWeapons(PLAYER_LOADOUT.inventory);
+  var animIndex = getWeaponAnimIndex(inventoryItem.anim);
+  var animation = ANIMATIONS.WEAPONS[animIndex];
+
+  console.log("Set Weapon animation...");
+  console.log(animation);
+  player.switchWeaponAnimation(animation);
+
 }
 
 function setActiveScreen(newScreen)
@@ -198,7 +211,7 @@ function loadTechAndWeapons()
 
 function setupPlayer()
 {
-  var playerSprites = getCharacterAnims();
+  var playerSprites = getCharacterAnims(shop.startingItems[0]);
   player.setSprites(playerSprites);
 }
 
@@ -298,28 +311,47 @@ function randomNum(from, to)
   return Math.floor((Math.random() * to) + from);
 }
 
-function getCharacterAnims(head, body, weapon)
+function getCharacterAnims(specificWeapon)
 {
-  var random = false;
-  if(typeof(head) === 'undefined')
+  var random = true;
+  if(specificWeapon)
   {
-    random = true;
+    random = false;
   }
+
+  head = randomNum(0, ANIMATIONS.HEADS.length);
+  body = randomNum(0, ANIMATIONS.BODIES.length);
 
   if(random)
   {
-    head = randomNum(0, ANIMATIONS.HEADS.length);
-    body = randomNum(0, ANIMATIONS.BODIES.length);
     weapon = randomNum(0, ANIMATIONS.WEAPONS.length);
+  }
+  else
+  {
+    weapon = getWeaponAnimIndex(specificWeapon);
+    console.log(specificWeapon + " index: " + weapon);
   }
 
   var spriteList = [];
 
   spriteList.push(new Sprite(ANIMATIONS.HEADS[head].frames, 0.2, BATTLE_SCREEN, ANIMATIONS.HEADS[head].offset));
   spriteList.push(new Sprite(ANIMATIONS.BODIES[body].frames, 0.2, BATTLE_SCREEN, ANIMATIONS.BODIES[body].offset));
-  spriteList.push(new Sprite(ANIMATIONS.WEAPONS[weapon].frames, 0.2, BATTLE_SCREEN, ANIMATIONS.WEAPONS[weapon].offset));
+  spriteList.push(new Sprite(ANIMATIONS.WEAPONS[weapon].frames, 0.2, BATTLE_SCREEN, ANIMATIONS.WEAPONS[weapon].offset, "weapon"));
 
   return spriteList;
+}
+
+function getWeaponAnimIndex(weaponName)
+{
+  var index = -1;
+  for(var i = 0; i < ANIMATIONS.WEAPONS.length && index < 0; i ++)
+  {
+    if(ANIMATIONS.WEAPONS[i].info === weaponName)
+    {
+      index = i;
+    }
+  }
+  return index;
 }
 
 function loadAtlas()
@@ -343,7 +375,7 @@ function loadAtlas()
     anim = {
       name: defs[i].name,
       frames: [],
-      offset: { x: 0, y: 0 }
+      offset: { x: 0, y: 0 },
     }
 
     for(var frm = 0; frm < frameDims.animLength; frm ++)
@@ -353,6 +385,10 @@ function loadAtlas()
       if(defs[i].offset)
       {
         anim.offset = defs[i].offset;
+      }
+      if(defs[i].info)
+      {
+        anim.info = defs[i].info;
       }
     }
 

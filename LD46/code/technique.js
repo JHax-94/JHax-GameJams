@@ -17,6 +17,8 @@ class Technique
         this.usesWeapon = techObj.usesWeapon;        
         this.needsTarget = techObj.needsTarget;
 
+        this.flavourText = techObj.flavourText;
+
         this.hasSpeech = techObj.hasSpeech;
 
         this.speeches = [];

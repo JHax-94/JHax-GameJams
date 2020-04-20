@@ -273,7 +273,7 @@ function setup() {
 
   var titles = new TitleScreen({ x: width / 2, y: height / 2 - 50 }, title);
   preBattleMenu = new PreBattleScreen({x: width/2, y: height/2 }, {w: width - 100, h: height - 100}, 1, shop, fullTechsList);
-  loadouts = new LoadoutScreen({ x: width / 2, y: height /2 }, { w: width / 2, h: height / 2}, PLAYER_LOADOUT);
+  loadouts = new LoadoutScreen({ x: (width / 2) - (width/5), y: height /2 }, { w: width / 2, h: height / 2}, PLAYER_LOADOUT);
 
   console.log(PLAYER_LOADOUT);
 

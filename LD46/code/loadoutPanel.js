@@ -40,6 +40,11 @@ class LoadoutPanel
         this.inventoryRowBase = { x: this.pos.x /*+ this.dims.w / 4*/, y: this.topLeft + 30 };
     }
 
+    valid()
+    {
+        return this.equipCount > 0 && this.equipCount <= this.maxEquip;
+    }
+
     titleMode()
     {
         noStroke();

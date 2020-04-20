@@ -63,7 +63,7 @@ class PreBattleScreen
 
         if(hasWoodenGladius)
         {
-            this.addRetireOption();
+            this.addRetireOption(fightPanelObj);
         }
 
         var trainingPanelObj = { 
@@ -104,7 +104,7 @@ class PreBattleScreen
         this.addToLists();
     }
 
-    addRetireOption()
+    addRetireOption(targetPanel)
     {
         var retire = {
             hasPrice: false,
@@ -112,7 +112,15 @@ class PreBattleScreen
             command: "RETIRE"
         }
 
-        fightPanelObj.menu.push(retire);
+        if(targetPanel.menu)
+        {
+            targetPanel.menu.push(retire);
+        }
+        else 
+        {
+            targetPanel.subMenu.push(retire);
+        }
+        
     }
 
     resetSelection(menu)
@@ -181,7 +189,7 @@ class PreBattleScreen
             else if(subMenu.command === "LEARN")
             {
                 console.log("=== Learn ===");
-                if(this.canPurchase(gameMaster.money, subMenu.price))
+                if(this.canPurchase(gameMaster.money, subMenu.price) && !subMenu.owned)
                 {
                     gameMaster.money -= subMenu.price;
                     this.panels[this.selectedPanel].setOwned();
@@ -196,6 +204,10 @@ class PreBattleScreen
                     gameMaster.money -= subMenu.price;
                     this.panels[this.selectedPanel].setOwned();
                     buyItem(subMenu.label);
+                    if(subMenu.label === "Wooden Gladius")
+                    {
+                        this.addRetireOption(this.panels[1]);
+                    }
                 }
             }
             else if(subMenu.command === "RETIRE")

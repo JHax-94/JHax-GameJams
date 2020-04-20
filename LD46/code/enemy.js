@@ -312,7 +312,7 @@ class Enemy
         }
 
         this.setStatsDrawMode()
-        text(this.health + " / " + this.maxHealth, this.pos.x + this.statsOffset.x, this.pos.y + this.statsOffset.y);
+        //text(this.health + " / " + this.maxHealth, this.pos.x + this.statsOffset.x, this.pos.y + this.statsOffset.y);
         this.healthBar.draw();
 
         if(this.isSpeaking)

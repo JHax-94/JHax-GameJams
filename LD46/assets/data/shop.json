@@ -41,7 +41,7 @@
         },
         {
             "name": "Wooden Gladius",
-            "price": 10000,
+            "price": 100000,
             "active": false,
             "damageBonus": 2,
             "excitementBonus": 1,

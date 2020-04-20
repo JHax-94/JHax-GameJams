@@ -81,7 +81,7 @@ function mod(val, comp)
 
 function setActiveWeapon(weaponName, equipToPlayer)
 {
-  console.log("==== SETTING ACTIVE WEAPON TO " + weaponName + " ====");
+  //console.log("==== SETTING ACTIVE WEAPON TO " + weaponName + " ====");
 
   var inventoryItem = {}
   for(var i = 0; i < PLAYER_LOADOUT.inventory.length; i ++)
@@ -93,14 +93,16 @@ function setActiveWeapon(weaponName, equipToPlayer)
     }
   }
 
-  console.log(PLAYER_LOADOUT);
+  //console.log(PLAYER_LOADOUT);
 
   equipToPlayer.moveList.setEquippedWeapons(PLAYER_LOADOUT.inventory);
   var animIndex = getWeaponAnimIndex(inventoryItem.anim);
   var animation = ANIMATIONS.WEAPONS[animIndex];
 
+  /*
   console.log("Set Weapon animation...");
   console.log(animation);
+  */
   player.switchWeaponAnimation(animation);
 
 }
@@ -142,8 +144,8 @@ function generateEnemyList()
 
   NEXT_OPPONENT_LIST = enemyList;
 
-  console.log("NEXT_OPPONENT_LIST SET!");
-  console.log(NEXT_OPPONENT_LIST);
+  //console.log("NEXT_OPPONENT_LIST SET!");
+  //console.log(NEXT_OPPONENT_LIST);
 }
 
 function buildScreens()
@@ -329,7 +331,7 @@ function getCharacterAnims(specificWeapon)
   else
   {
     weapon = getWeaponAnimIndex(specificWeapon);
-    console.log(specificWeapon + " index: " + weapon);
+    //console.log(specificWeapon + " index: " + weapon);
   }
 
   var spriteList = [];
@@ -356,9 +358,10 @@ function getWeaponAnimIndex(weaponName)
 
 function loadAtlas()
 {
+  /*
   console.log("Load spritesheet");
   console.log(characterAtlasData);
-
+  */
   ANIMATIONS = {};
   ANIMATIONS.HEADS = [];
   ANIMATIONS.BODIES = [];
@@ -369,9 +372,10 @@ function loadAtlas()
 
   for(var i = 0; i < defs.length; i ++)
   {
+    /*
     console.log("Load row: ");
     console.log(defs[i]);
-
+    */
     anim = {
       name: defs[i].name,
       frames: [],
@@ -407,7 +411,7 @@ function loadAtlas()
   }
 
   console.log(" === ATLAS LOADED === ");
-  console.log(ANIMATIONS);
+  //console.log(ANIMATIONS);
 }
 
 function getActiveWeapon()

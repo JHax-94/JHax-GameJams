@@ -8,13 +8,11 @@ class LoadoutScreen
         this.pos = pos;
         this.dims = dims;
 
-        var topLeft = { x: this.pos.x - (this.dims.w / 2), y: this.pos.y - (this.dims.h/2) };
-
         this.weaponsPos = { x: this.pos.x - this.dims.w / 4, y: this.pos.y };
 
         this.techniquesPos = { x: this.pos.x + this.dims.w /4, y: this.pos.y };
 
-        this.opponentsPos = { x: this.pos.x, y: topLeft.y + 20}
+        //this.opponentsPos = { x: this.pos.x, y: topLeft.y + 20}
 
         this.confirmPos = { x: this.pos.x, y: this.pos.y + this.dims.h / 2 - 15};
 
@@ -42,7 +40,7 @@ class LoadoutScreen
             inventory: []
         }
 
-        var panelDims = { w: this.dims.w / 2 - 30, h: this.dims.h / 2 };
+        var panelDims = { w: this.dims.w / 2 - 30, h: this.dims.h - 80 };
 
         for(var i = 0; i < this.playerLoadout.inventory.length; i ++)
         {
@@ -196,6 +194,18 @@ class LoadoutScreen
 
     }
 
+    canConfirm()
+    {
+        var panelsValid = true;
+
+        for(var i = 0; i < this.panels.length && panelsValid; i ++)
+        {
+            panelsValid = this.panels[i].valid();
+        }
+
+        return panelsValid;
+    }
+
     confirmBoxMode()
     {
         noFill();
@@ -230,24 +240,24 @@ class LoadoutScreen
         this.setWindowDrawMode()
         rect(this.pos.x, this.pos.y, this.dims.w, this.dims.h);
 
-        this.setTextMode()
-        text("Opponents", this.opponentsPos.x, this.opponentsPos.y);
-
         for(var i = 0; i < this.panels.length; i ++)
         {
             this.panels[i].draw();
         }
 
-        if(this.confirmSelected)
+        if(this.canConfirm())
         {
-            this.confirmBoxMode();
+            if(this.confirmSelected)
+            {
+                this.confirmBoxMode();
 
-            rect(this.confirmPos.x, this.confirmPos.y, 80, 25);
-            
-            this.setTextMode();
+                rect(this.confirmPos.x, this.confirmPos.y, 80, 25);
+                
+                this.setTextMode();
+            }
+
+            this.setConfirmTextMode();
+            text("Confirm", this.confirmPos.x, this.confirmPos.y);
         }
-
-        this.setConfirmTextMode();
-        text("Confirm", this.confirmPos.x, this.confirmPos.y);
     }
 }

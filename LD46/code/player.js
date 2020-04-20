@@ -129,7 +129,7 @@ class Player {
     {
         console.log("-START SPEECH-");
         console.log(speechObj);
-        this.speech = speechObj.text;
+        this.speech = speechObj.lines;
         this.speechLine = 0;
         this.isSpeaking = true;
     }

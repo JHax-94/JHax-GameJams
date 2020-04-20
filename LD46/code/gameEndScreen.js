@@ -7,7 +7,7 @@ class GameEndScreen
 
         this.endStateTitle = "";
 
-        this.promptText = "Press Enter to return to title...";
+        this.promptText = "Press F5 to restart...";
 
         this.addToLists();
     }   
@@ -39,7 +39,7 @@ class GameEndScreen
 
     menuSubmit()
     {
-        setActiveScreen(TITLE_SCREEN);
+        //setActiveScreen(TITLE_SCREEN);
     }
 
     menuBack()

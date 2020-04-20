@@ -38,6 +38,7 @@ class PreBattleScreen
                     hasPrice: true,
                     label: shopInfo.shopItems[i].name,
                     price: shopInfo.shopItems[i].price,
+                    flavourText: shopInfo.shopItems[i].flavourText,
                     masterIndex: i,
                     command: "BUY"
                 }
@@ -80,6 +81,7 @@ class PreBattleScreen
                     hasPrice: true,
                     label: techniqueInfo.techniques[i].name,
                     price: techniqueInfo.techniques[i].price,
+                    flavourText: techniqueInfo.techniques[i].flavourText,
                     masterIndex: i,
                     command: "LEARN"
                 }

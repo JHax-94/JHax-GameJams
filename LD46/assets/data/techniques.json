@@ -9,7 +9,8 @@
         "reusePenalty": 10,
         "cooldown": 1,
         "usesWeapon": false,
-        "needsTarget": true
+        "needsTarget": true,
+        "flavourText": "Test text 0"
     },
     {
         "name": "Stab",
@@ -20,7 +21,8 @@
         "reusePenalty": 15,
         "cooldown": 2,
         "usesWeapon": true,
-        "needsTarget": true
+        "needsTarget": true,
+        "flavourText": "Test text 1"
     },
     {
         "name": "Slice",
@@ -31,7 +33,8 @@
         "reusePenalty": 10,
         "cooldown": 2,
         "usesWeapon": true,
-        "needsTarget": true
+        "needsTarget": true,
+        "flavourText": "Test text 2"
     },
     {
         "name": "Wild Swing",
@@ -42,7 +45,8 @@
         "reusePenalty": 40,
         "cooldown": 4,
         "usesWeapon": true,
-        "needsTarget": true
+        "needsTarget": true,
+        "flavourText": "Test text 3"
     },
     {
         "name": "Hype the Crowd",
@@ -54,7 +58,8 @@
         "cooldown": 5,
         "usesWeapon": false,
         "needsTarget": false,
-        "hasSpeech": true
+        "hasSpeech": true,
+        "flavourText": "Test text 4"
     },
     {
         "name": "Taunt",
@@ -66,7 +71,8 @@
         "cooldown": 2,
         "usesWeapon": false,
         "needsTarget": false,
-        "hasSpeech": true
+        "hasSpeech": true,
+        "flavourText": "Test text 5"
     },
     {
         "name": "Joke",
@@ -78,7 +84,8 @@
         "cooldown": 2,
         "usesWeapon": false,
         "needsTarget": false,
-        "hasSpeech": true
+        "hasSpeech": true,
+        "flavourText": "Test text 6"
     },
     {
         "name": "Battlecry",
@@ -90,7 +97,8 @@
         "cooldown": 5,
         "usesWeapon": false,
         "needsTarget": false,
-        "hasSpeech": true
+        "hasSpeech": true,
+        "flavourText": "Test text 7"
     },
     {
         "name": "Mighty Strike",
@@ -101,7 +109,8 @@
         "reusePenalty": 200,
         "cooldown": 20,
         "usesWeapon": true,
-        "needsTarget": true
+        "needsTarget": true,
+        "flavourText": "Test text 8"
     }],
     "startingTechniques": [ "Punch", "Wild Swing", "Stab" ],
     "speeches": [
@@ -110,6 +119,9 @@
             "texts": [
                 {
                     "lines": [ "Are you not entertained?!" ]
+                },
+                {
+                    "lines": [ "Blah blhab blah" ]
                 }
             ]   
         },

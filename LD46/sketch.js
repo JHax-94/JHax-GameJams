@@ -231,7 +231,7 @@ function loadTechAndWeapons()
 
 function setupPlayer()
 {
-  var playerSprites = getCharacterAnims(shop.startingItems[0]);
+  var playerSprites = getCharacterAnims({ head: 0, body: 0, weapon: shop.startingItems[0] });
   player.setSprites(playerSprites);
 }
 
@@ -329,25 +329,25 @@ function randomNum(from, to)
   return Math.floor((Math.random() * to) + from);
 }
 
-function getCharacterAnims(specificWeapon)
+function getCharacterAnims(specific)
 {
   var random = true;
-  if(specificWeapon)
+  if(specific)
   {
     random = false;
   }
 
-  head = randomNum(0, ANIMATIONS.HEADS.length);
-  body = randomNum(0, ANIMATIONS.BODIES.length);
-
   if(random)
   {
+    head = randomNum(0, ANIMATIONS.HEADS.length);
+    body = randomNum(0, ANIMATIONS.BODIES.length);
     weapon = randomNum(0, ANIMATIONS.WEAPONS.length);
   }
   else
   {
-    weapon = getWeaponAnimIndex(specificWeapon);
-    //console.log(specificWeapon + " index: " + weapon);
+    head = specific.head;
+    body = specific.body;
+    weapon = getWeaponAnimIndex(specific.weapon);
   }
 
   var spriteList = [];

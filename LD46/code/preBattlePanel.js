@@ -6,16 +6,17 @@ class PreBattlePanel
         this.dims = dims;
         this.selected = false;
 
+        this.flavourTextPos = { x: this.pos.x, y: this.pos.y - this.dims.h };
+
         this.default = 0;
         if(defaultIndex)
         {
             this.default = defaultIndex;
         }
-
+        console.log("==== BATTLE PANEL ====");
         console.log(menuObj);
 
         this.itemsCentered = false;
-
 
         this.topLeft = { x: this.pos.x - this.dims.w/2, y: this.pos.y - this.dims.h/2}
 
@@ -100,6 +101,21 @@ class PreBattlePanel
         this.subMenuSelected = this.default;
     }
 
+    setFlavourWindowMode()
+    {
+        fill(color(51, 51, 51, 200));
+        noStroke();
+        rectMode(CENTER);
+    }
+
+    setFlavourTextMode()
+    {
+        fill(255);
+        noStroke();
+        textAlign(CENTER);
+    }
+
+
     draw()
     {
         if(this.selected)
@@ -125,6 +141,17 @@ class PreBattlePanel
                     this.setSelectedItemMode();
                     rect(this.pos.x, this.topLeft.y + spacing * i  + 20, width, 25);
                     this.setMenuTextMode();
+
+                    var flavourText = this.subMenu[i].flavourText;
+
+                    if(flavourText)
+                    {
+                        this.setFlavourWindowMode();
+                        rect(this.flavourTextPos.x, this.flavourTextPos.y, this.dims.w, this.dims.h);
+
+                        this.setFlavourTextMode();
+                        text(flavourText, this.flavourTextPos.x, this.flavourTextPos.y);
+                    }
                 }
                 var labelMod = 0;
 

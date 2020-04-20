@@ -2,6 +2,7 @@ const TITLE_SCREEN = 0;
 const PRE_BATTLE_SCREEN = 1;
 const BATTLE_SCREEN = 2;
 const LOADOUT_SCREEN = 3;
+const GAME_END = 4;
 
 var BACKGROUND;
 
@@ -28,6 +29,8 @@ var battleGenerator;
 var LEVEL_DATA;
 var TUTORIAL_ON = true;
 
+var END_STATE = {};
+
 var menuUpHeld = false;
 var menuDownHeld = false;
 var menuLeftHeld = false;
@@ -42,6 +45,7 @@ var gameMaster;
 var fullTechsList;
 var shop;
 var loadouts;
+var endWindow;
 
 var player;
 
@@ -107,6 +111,12 @@ function setActiveScreen(newScreen)
     console.log("Update loadout options");
     loadouts.reset(PLAYER_LOADOUT);
   }
+  else if(newScreen === GAME_END)
+  {
+    resetGame();
+    BACKGROUND = arenaBg;
+    endWindow.setEndState(END_STATE);
+  }
   
   activeScreen = newScreen;
 }
@@ -121,12 +131,8 @@ function generateEnemyList()
   console.log(NEXT_OPPONENT_LIST);
 }
 
-function setup() {
-  // put setup code here
-  console.log("Setup starting...");
-  var canvas = createCanvas(1024, 768);
-  canvas.parent('sketch-holder');
-
+function buildScreens()
+{
   var titleScreen = new Screen();
   screens.push(titleScreen);
   var preBattleScreen = new Screen();
@@ -136,11 +142,14 @@ function setup() {
   screens.push(battleScreen);
   var loadoutScreen = new Screen();
   screens.push(loadoutScreen);
+  var endScreen = new Screen();
+  screens.push(endScreen);
 
   console.log(screens);
+}
 
-  var emperor = new Emperor(400, 1000);
-  
+function loadTechAndWeapons()
+{
   console.log(fullTechsList);
 
   var startTech = fullTechsList.startingTechniques;
@@ -183,34 +192,41 @@ function setup() {
 
     PLAYER_LOADOUT.inventory.push(shop.shopItems[i]);
   }
+}
 
-  player = new Player({x: 150, y: height/2 + 100}, 10000, );
-  
-  //var enemy = new Enemy({x: width - 150, y: height/2 + 100}, 100, 60, 50);
-  loadAtlas();
-  
+function setupPlayer()
+{
   var playerSprites = getCharacterAnims();
   player.setSprites(playerSprites);
+}
 
-  /*
-  console.log(playerSheetData);
-  for(var i = 0; i < playerSheetData.frames.length; i ++)
-  {
-    var pos = playerSheetData.frames[i].position;
-    var img = playerSheet.get(pos.x, pos.y, pos.w, pos.h);
-    playerAnim.push(img);
-  }
+function resetGame()
+{
+  BATTLE_COUNTER = 0;
+  loadTechAndWeapons();
+  setupPlayer();
+  player.reset();
+  gameMaster.prepareEnemyList();
+}
 
-  var playerSprite = new Sprite(playerAnim, 0.2, BATTLE_SCREEN);
-  playerSprite.setDims({ w: 60, h: 120 });
-  player.setSprites(playerSprite);
-  */
-  /*
-  var enemySprite = new Sprite(playerAnim, 0.2, BATTLE_SCREEN);
-  enemySprite.setDims({ w: 60, h: 120 });
-  enemy.setSprite(enemySprite);
-  enemySprite.flip = true;
-  */
+function setup() {
+  // put setup code here
+  console.log("Setup starting...");
+  var canvas = createCanvas(1024, 768);
+  canvas.parent('sketch-holder');
+
+  this.buildScreens();
+
+  this.endWindow = new GameEndScreen({x: width/2, y: height/2}, {w: width/2, h: height/2});
+
+  var emperor = new Emperor(400, 1000);
+  
+  this.loadTechAndWeapons();  
+
+  loadAtlas();
+
+  player = new Player({x: 150, y: height/2 + 100}, 5000);
+  this.setupPlayer();
 
   battleGenerator = new BattleGenerator();
 

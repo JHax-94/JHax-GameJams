@@ -63,13 +63,7 @@ class PreBattleScreen
 
         if(hasWoodenGladius)
         {
-            var retire = {
-                hasPrice: false,
-                label: "Retire",
-                command: "RETIRE"
-            }
-
-            fightPanelObj.menu.push(retire);
+            this.addRetireOption();
         }
 
         var trainingPanelObj = { 
@@ -106,6 +100,17 @@ class PreBattleScreen
 
         this.select(startSelected);
         this.addToLists();
+    }
+
+    addRetireOption()
+    {
+        var retire = {
+            hasPrice: false,
+            label: "Retire",
+            command: "RETIRE"
+        }
+
+        fightPanelObj.menu.push(retire);
     }
 
     resetSelection(menu)
@@ -190,6 +195,14 @@ class PreBattleScreen
                     this.panels[this.selectedPanel].setOwned();
                     buyItem(subMenu.label);
                 }
+            }
+            else if(subMenu.command === "RETIRE")
+            {
+                console.log("=== Retire ===")
+                END_STATE = {
+                    endStateTitle: "Congratulations!\nYou have retired to a long and peaceful life!"
+                };
+                setActiveScreen(GAME_END);
             }
         }
     }

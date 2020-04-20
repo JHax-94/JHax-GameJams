@@ -36,6 +36,15 @@ class Player {
         this.addToLists();
     }
 
+    reset()
+    {
+        this.health = this.maxHealth;
+        this.moveList = new MoveList(PLAYER_LOADOUT.techs);
+        this.moveList.owner = this;
+        this.weapons = PLAYER_LOADOUT.inventory;
+        this.healthBar.setFilled(this.health, this.maxHealth);
+    }
+
     setForBattle(loadout)
     {
         console.log(loadout)
@@ -115,6 +124,11 @@ class Player {
         this.pos.y = pos.y;
 
         this.healthBar.pos = this.barPosition();
+    }
+    
+    checkState()
+    {
+        return this.health > 0 ? "" : "dead";
     }
 
     draw()

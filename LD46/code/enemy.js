@@ -24,62 +24,61 @@ function toughRatingString(maxHp)
         rating = "Stalwart";
     }
 
-
     return rating;
 }
     
 function willRatingString(willToFight, maxHp)
 {
-        var ratio = willToFight / maxHp;
+    var ratio = willToFight / maxHp;
 
-        var rating = "Has a deathwish";
+    var rating = "Has a deathwish";
 
-        if(ratio < 0.5)
-        {
-            rating = "Cowardly";
-        }
-        else if(ratio < 0.6)
-        {
-            rating = "Afraid";
-        }
-        else if(ratio < 0.7)
-        {
-            ratio = "Stoic";
-        }
-        else if(ratio < 0.8)
-        {
-            ratio = "Brave";
-        }
-        else if(ratio < 0.9)
-        {
-            rating = "Heroic";
-        }
-
-        return rating;
+    if(ratio < 0.5)
+    {
+        rating = "Cowardly";
     }
+    else if(ratio < 0.6)
+    {
+        rating = "Afraid";
+    }
+    else if(ratio < 0.7)
+    {
+        ratio = "Stoic";
+    }
+    else if(ratio < 0.8)
+    {
+        ratio = "Brave";
+    }
+    else if(ratio < 0.9)
+    {
+        rating = "Heroic";
+    }
+
+    return rating;
+}
     
 function damageRatingString(dmg)
 {
-      var rating = "Herculean";
+    var rating = "Herculean";
+    
+    if(dmg < 10)
+    {
+        rating = "Feeble";
+    }
+    else if(dmg < 15)
+    {
+        rating = "Weak";
+    }
+    else if(dmg < 25)
+    {
+        rating = "strong";
+    }
+    else if(dmg < 60)
+    {
+        rating = "Mighty";
+    } 
 
-      if(this.damage < 10)
-      {
-          rating = "Feeble";
-      }
-      else if(this.damage < 15)
-      {
-          rating = "Weak";
-      }
-      else if(this.damage < 25)
-      {
-          rating = "Strong";
-      }
-      else if(this.damage < 60)
-      {
-          rating = "Mighty";
-      } 
-
-      return rating;
+    return rating;
 }
 
 class Enemy
@@ -226,10 +225,15 @@ class Enemy
             this.healthBar.setFilled(this.health, this.maxHealth);
         }
 
-        this.setSpeech("Zounds, I am undone!");
+        //this.setSpeech("Zounds, I am undone!");
+        this.clearSpeech();
         //enemyTurn.dead = true;
         this.dead = true;
         this.canTakeTurns = false;
+        for(var i = 0; i < this.sprites.length; i ++)
+        {
+            this.sprites[i].pause();
+        }
     }
 
     checkState()
@@ -340,7 +344,26 @@ class Enemy
         {
             for(var i = 0; i < this.sprites.length; i ++)
             {
-                this.sprites[i].drawAt(this.pos, { w: 30, h: 60});
+                var draw = true;                
+
+                var position = { x: this.pos.x, y: this.pos.y };
+
+                if(i == 2 && this.surrendered)
+                {
+                    draw = false;
+                }
+
+                if(this.dead)
+                {
+                    if(i != 0)
+                    {
+                        draw = false;
+                    }
+
+                    position.y += 60;
+                }
+
+                if (draw) this.sprites[i].drawAt(position, { w: 30, h: 60});
             }
         }
 

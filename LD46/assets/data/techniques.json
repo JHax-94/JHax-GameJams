@@ -2,8 +2,8 @@
     "techniques": [
     {
         "name": "Punch",
-        "baseDamage": 5,
-        "baseExcitement": 10,
+        "baseDamage": 10,
+        "baseExcitement": 15,
         "moveToCentre": true,
         "price": 0,
         "reusePenalty": 10,
@@ -13,8 +13,8 @@
     },
     {
         "name": "Stab",
-        "baseDamage": 30,
-        "baseExcitement": 20,
+        "baseDamage": 15,
+        "baseExcitement": 10,
         "moveToCentre": true,
         "price": 0,
         "reusePenalty": 15,
@@ -24,12 +24,23 @@
     },
     {
         "name": "Slice",
-        "baseDamage": 30,
-        "baseExcitement": 30,
+        "baseDamage": 20,
+        "baseExcitement": 20,
         "moveToCentre": true,
         "price": 50,
         "reusePenalty": 10,
         "cooldown": 2,
+        "usesWeapon": true,
+        "needsTarget": true
+    },
+    {
+        "name": "Wild Swing",
+        "baseDamage": 40,
+        "baseExictement": 30,
+        "moveToCentre": true,
+        "price": 100,
+        "reusePenalty": 40,
+        "cooldown": 4,
         "usesWeapon": true,
         "needsTarget": true
     },
@@ -92,7 +103,7 @@
         "usesWeapon": true,
         "needsTarget": true
     }],
-    "startingTechniques": [ "Stab", "Mighty Strike", "Punch", "Battlecry" ],
+    "startingTechniques": [ "Wild Swing", "Punch" ],
     "speeches": [
         {
             "tech": "Hype the Crowd",

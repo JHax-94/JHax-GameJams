@@ -26,6 +26,7 @@ var title;
 var battleGenerator;
 
 var LEVEL_DATA;
+var TUTORIAL_ON = true;
 
 var menuUpHeld = false;
 var menuDownHeld = false;

@@ -35,6 +35,19 @@
   <script src="code/enemy.js"></script>
   <script src="code/gameMaster.js"></script>
   <script src="sketch.js"></script>
+  <script>
+      document.addEventListener('keydown', (function(e) {
+          var key = e.which;
+            console.log(key);
+            if(key==UP_ARROW || key == DOWN_ARROW)
+            {
+                e.preventDefault();
+                return false;
+            }
+            return true;
+      }));
+
+  </script>
 </head>
 
 <body>

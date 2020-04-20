@@ -61,7 +61,6 @@ class MoveList
 
         console.log("Active Weapons: " + weapon);
         console.log(this.weapons);
-        var hasActiveWeapon = false;
 
         for(var i = 0; i < this.weapons.length; i ++)
         {
@@ -292,6 +291,7 @@ class MoveList
                 var tough = target.getToughRating();
                 var will = target.getWillRating();
                 var damage = target.getDamageRating();
+                var comp = target.getCompensation();
 
                 this.targetTriangle();
 
@@ -305,9 +305,10 @@ class MoveList
 
                 this.setTargetDetailsMode();
 
-                text(tough, top.x - 10, top.y - 5);
-                text(will, top.x - 10, point.y);
-                text(damage, top.x - 10, bottom.y + 5);
+                text(tough, top.x - 10, point.y- 30);
+                text(will, top.x - 10, point.y-10);
+                text(damage, top.x - 10, point.y + 10);
+                text(comp, top.x-10, point.y + 30);
             }
             else
             {

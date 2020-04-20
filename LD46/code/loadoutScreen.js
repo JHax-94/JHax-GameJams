@@ -8,6 +8,8 @@ class LoadoutScreen
         this.pos = pos;
         this.dims = dims;
 
+        this.flavourPos = { x: this.pos.x + 0.9 * this.dims.w, y: this.pos.y };
+
         this.weaponsPos = { x: this.pos.x - this.dims.w / 4, y: this.pos.y };
 
         this.techniquesPos = { x: this.pos.x + this.dims.w /4, y: this.pos.y };
@@ -244,6 +246,14 @@ class LoadoutScreen
         noStroke();
     }
 
+    setFlavourTextMode()
+    {
+        textAlign(CENTER, CENTER);
+        text(21);
+        fill(255);
+        noStroke();
+    }
+
     draw()
     {
         this.setWindowDrawMode()
@@ -252,6 +262,20 @@ class LoadoutScreen
         for(var i = 0; i < this.panels.length; i ++)
         {
             this.panels[i].draw();
+        }
+
+        this.setWindowDrawMode()
+        rect(this.flavourPos.x, this.flavourPos.y, this.dims.w - 120, this.dims.h);
+    
+        if(this.panelFocused)
+        {
+            var item = this.panels[this.selectedPanel].selectedItem();
+
+            if(item.flavourText)
+            {
+                this.setFlavourTextMode();
+                text(item.flavourText, this.flavourPos.x, this.flavourPos.y);
+            }
         }
 
         if(this.canConfirm())

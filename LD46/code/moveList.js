@@ -172,6 +172,11 @@ class MoveList
         }
     }
 
+    menuBack()
+    {
+        this.modeBack();
+    }
+
     menuSubmit()
     {
         if(this.isActive)

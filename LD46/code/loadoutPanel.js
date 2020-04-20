@@ -108,6 +108,11 @@ class LoadoutPanel
         this.calculateSelected();
     }
 
+    menuBack()
+    {
+        
+    }
+
     draw()
     {   
         if(this.selected && !this.focused)

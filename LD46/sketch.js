@@ -16,6 +16,7 @@ var menuUpButton;
 var menuDownButton;
 var menuLeftButton;
 var menuRightButton;
+var menuBackButton;
 
 var menuSubmitButton;
 
@@ -38,10 +39,11 @@ var menuDownHeld = false;
 var menuLeftHeld = false;
 var menuRightHeld = false;
 var menuSubmitHeld = false;
+var menuBackHeld = false;
 
 var BATTLE_COUNTER = 0;
 
-var activeScreen = PRE_BATTLE_SCREEN;
+var activeScreen = TITLE_SCREEN;
 
 var gameMaster;
 var fullTechsList;
@@ -72,6 +74,7 @@ function setKeys()
   menuSubmitButton = RETURN;
   menuRightButton = RIGHT_ARROW;
   menuLeftButton = LEFT_ARROW;
+  menuBackButton = ESCAPE;
 }
 
 function mod(val, comp)
@@ -109,6 +112,17 @@ function setActiveWeapon(weaponName, equipToPlayer)
 
 function setActiveScreen(newScreen)
 {
+  if(this.activeScreen === TITLE_SCREEN && newScreen === PRE_BATTLE_SCREEN)
+  {
+    if(TUTORIAL_ON === false)
+    {
+      BATTLE_COUNTER = LEVEL_DATA.skipTutorial;
+    }
+
+    gameMaster.prepareEnemyList();
+    gameMaster.nextTurn();
+  }
+
   if(newScreen === BATTLE_SCREEN)
   {
     BACKGROUND = arenaBg;
@@ -133,6 +147,10 @@ function setActiveScreen(newScreen)
     resetGame();
     BACKGROUND = arenaBg;
     endWindow.setEndState(END_STATE);
+  }
+  else
+  {
+    BACKGROUND = arenaBg;
   }
   
   activeScreen = newScreen;
@@ -252,8 +270,6 @@ function setup() {
   gameMaster = new GameMaster();
   gameMaster.setEmperor(emperor);
   gameMaster.addPlayer(player);
-  gameMaster.prepareEnemyList();
-  gameMaster.nextTurn();
 
   var titles = new TitleScreen({ x: width / 2, y: height / 2 - 50 }, title);
   preBattleMenu = new PreBattleScreen({x: width/2, y: height/2 }, {w: width - 100, h: height - 100}, 1, shop, fullTechsList);
@@ -475,6 +491,10 @@ function keyPressed()
   {
     menuRightHeld = true;
   }
+  else if(keyCode === menuBackButton && menuBackHeld === false)
+  {
+    menuBackHeld = true;
+  }
 }
 
 function keyReleased()
@@ -506,6 +526,11 @@ function keyReleased()
     console.log("Menu right!");
     menuRightHeld = false;
     screens[activeScreen].menuRight();
+  }
+  else if(keyCode === menuBackButton && menuBackHeld === true)
+  {
+    menuBackHeld = false;
+    screens[activeScreen].menuBack();
   }
 }
 

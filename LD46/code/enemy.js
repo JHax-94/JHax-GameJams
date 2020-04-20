@@ -40,8 +40,10 @@ class Enemy
 
         this.isSpeaking = false;
         this.speech = "";
-        this.speechOffset = { x: -30, y: -60 };
+        this.speechOffset = { x: -15, y: -45 };
     }
+
+
 
     set(setFrom)
     {   
@@ -217,6 +219,11 @@ class Enemy
         }
     }
 
+    getCompensation()
+    {
+        return this.compensation + " d";
+    }
+
     getToughRating()
     {
         var rating = "Immovable";
@@ -296,6 +303,12 @@ class Enemy
         return rating;
     }
 
+    setSpeechDrawMode()
+    {
+        fill(0);
+        textAlign(RIGHT, BOTTOM);
+    }
+
     draw()
     {
         if(this.hasSprite === false)
@@ -317,8 +330,7 @@ class Enemy
 
         if(this.isSpeaking)
         {
-            this.setStatsDrawMode();
-            fill(0);
+            this.setSpeechDrawMode();
             text(this.speech, this.pos.x + this.speechOffset.x, this.pos.y + this.speechOffset.y);
         }
     }

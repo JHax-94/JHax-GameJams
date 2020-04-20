@@ -91,10 +91,11 @@ class GameMaster
         console.log("=== POPULATE ENEMY LIST WITH ===");
         console.log(NEXT_OPPONENT_LIST);
         this.emperor.setExcitement(NEXT_OPPONENT_LIST.startExc);
-
+        
         this.emperor.setTutorial(NEXT_OPPONENT_LIST.tutorialText);
 
         this.prizeMoney = NEXT_OPPONENT_LIST.prizeMoney;
+        this.emperor.prizeMoney = this.prizeMoney;
 
         for(var i = 0; i < NEXT_OPPONENT_LIST.enemies.length; i ++)
         {

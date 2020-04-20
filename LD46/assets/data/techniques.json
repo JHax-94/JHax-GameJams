@@ -121,7 +121,13 @@
                     "lines": [ "Are you not entertained?!" ]
                 },
                 {
-                    "lines": [ "Blah blhab blah" ]
+                    "lines": [ "All roads lead to my victory!" ] 
+				},
+                {
+                    "lines": [ "I thirst... for battle!" ] 
+				},
+                {
+                    "lines": [ "*flexes muscles*" ]
                 }
             ]   
         },
@@ -130,6 +136,12 @@
             "texts": [
                 {
                     "lines": [ "You fight like a dead fish!" ]
+                },
+				{
+                    "lines": [ "The only thing worse than your breath\nis the face it comes out of!" ]
+                },
+				{
+                    "lines": [ "Was that an attack? It felt like a mosquito!" ]
                 }
             ]
         },
@@ -146,6 +158,12 @@
             "texts": [
                 {
                     "lines": [ "Jupito, optimo, maximo!" ]
+                },
+				{
+                    "lines": [ "Strength and honour!" ]
+                },
+				{
+                    "lines": [ "Aaaaaaaargh!!" ]
                 }
             ]
         }

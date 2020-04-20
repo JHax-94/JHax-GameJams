@@ -194,6 +194,15 @@ class LoadoutScreen
 
     }
 
+    menuBack()
+    {
+        if(this.panelFocused)
+        {
+            this.panels[this.selectedPanel].unfocus();
+            this.panelFocused = false;
+        }
+    }
+
     canConfirm()
     {
         var panelsValid = true;

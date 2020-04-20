@@ -115,4 +115,11 @@ class Screen
         }
     }
 
+    menuBack()
+    {
+        for(var i = 0; i < this.menuKeyReactors.length; i++)
+        {
+            this.menuKeyReactors[i].menuBack();
+        }
+    }
 }

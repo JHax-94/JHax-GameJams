@@ -42,6 +42,11 @@ class GameEndScreen
         setActiveScreen(TITLE_SCREEN);
     }
 
+    menuBack()
+    {
+        
+    }
+
     addToLists()
     {
         screens[GAME_END].drawablesList.push(this);

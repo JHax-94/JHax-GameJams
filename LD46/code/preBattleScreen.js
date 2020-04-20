@@ -167,6 +167,11 @@ class PreBattleScreen
         this.select(mod(this.selectedPanel - 1, this.panels.length));
     }
 
+    menuBack()
+    {
+        
+    }
+
     menuSubmit()
     {
         var subMenu = this.panels[this.selectedPanel].selectedItem();

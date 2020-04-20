@@ -6,11 +6,18 @@ class GameMaster
         this.JUDGE_HOLD = 2;
         this.JUDGE_OUT = 3;
 
+        this.PLAYER = 1;
+        this.ENEMY = 2;
+
+        this.WIND_UP = 1;
+        this.RELEASE = 2;
+        this.DECAY = 3;
+
         this.round = 0;
         this.turn = 0;
         
-        //this.money = 5000;
-        this.money = 500000;
+        this.money = 5000;
+        
         this.players = [];
         this.enemies = [];
         this.emperor = {};
@@ -25,6 +32,22 @@ class GameMaster
         this.moveDuration = 2.0;
         this.moveTime = 0;
 
+        this.windUpDuration = 0.6;
+        this.windUpTime = 0.0;
+
+        this.windUpTarget = { x: 0, y: 0 };
+        this.releaseTarget = { x: 0, y: 0 };
+        this.decayTarget = { x: 0, y: 0 };
+
+        this.releaseDuration = 0.2;
+        this.releaseTime = 0;
+
+        this.decayDuration = 0.3;
+        this.decayTime = 0;
+
+        this.attacker;
+        this.defender;
+        
         this.prizeMoney = 0;
 
         this.moveOn = false;
@@ -33,6 +56,8 @@ class GameMaster
         var battleEndPos = { x: width / 2, y: height / 2 };
         
         this.battleEnd = new BattleEndPopup(battleEndPos, battleEndDims);
+
+        this.fightState = 0;
 
         this.judgementState = 0;
 
@@ -281,6 +306,11 @@ class GameMaster
         {
             this.processSpeech(dt);            
         }
+        if(this.fightState > 0)
+        {
+            //console.log("Battle animation...");
+            this.battleAnimation(dt);
+        }
     }
 
     startTechnique(technique, target, source)
@@ -309,7 +339,7 @@ class GameMaster
         }
         else
         {
-            this.processTechnique(technique, target, source);
+            this.processTechnique(technique, target);
         }
     }
 
@@ -342,13 +372,6 @@ class GameMaster
                 if(this.emperor.isPleased() === false)
                 {
                     enemyTurn.dead = true;
-                }
-
-                var battleOver = this.isBattleOver();
-
-                if(battleOver)
-                {
-                    
                 }
             }
         }
@@ -402,7 +425,45 @@ class GameMaster
         this.endTechnique();
     }
 
-    processTechnique(technique, target, source)
+    setToReturn()
+    {
+        this.moveDirection = -1;
+        this.moveDuration = 1;
+        this.moveTime = this.moveDuration;
+        this.moveOn = true;
+    }
+
+    startFightAnimation(fightTeam)
+    {
+        this.windUpTime = 0.0;
+        this.fightTeam = fightTeam;
+        this.fightState = this.WIND_UP;
+
+        var windUpDist = 20;
+
+        if(this.fightTeam === this.PLAYER)
+        {
+            this.windUpTarget = { x: this.leftActivePoint.x - windUpDist, y: this.rightActivePoint.y };
+            this.releaseTarget = { x: this.rightActivePoint.x, y: this.rightActivePoint.y };
+            this.decayTarget = this.leftActivePoint;
+
+            this.attacker = this.players[this.activePlayer];
+            this.defender = this.enemies[this.activeEnemy];
+        }
+        else 
+        {
+            console.log("Setup anim for Enemy!");
+
+            this.windUpTarget = { x: this.rightActivePoint.x + windUpDist, y: this.rightActivePoint.y };
+            this.releaseTarget = { x: this.leftActivePoint.x, y: this.rightActivePoint.y };
+            this.decayTarget = this.rightActivePoint;
+
+            this.attacker = this.enemies[this.activeEnemy];
+            this.defender = this.players[this.activePlayer];
+        }
+    }
+
+    processTechnique(technique, target)
     {
         var targetEnemy = this.enemies[target];
         var damage = technique.damage(true);
@@ -418,7 +479,6 @@ class GameMaster
         console.log("RATING: " + technique.generateVagueString(excitement));
         */
 
-
         targetEnemy.addToHealth(-damage);
 
         this.emperor.addToExcitement(excitement);
@@ -427,13 +487,7 @@ class GameMaster
 
         if(technique.moveToCentre)
         {
-            console.log("move back to start points...");
-            this.activeTechnique = source.index;
-            this.activeEnemy = target;
-            this.moveDirection = -1;
-            this.moveDuration = 1;
-            this.moveTime = this.moveDuration;
-            this.moveOn = true;
+            //this.startFightAnimation(this.PLAYER);
         }
         else
         {
@@ -449,12 +503,12 @@ class GameMaster
         if(moveToCentre)
         {
             this.enemies[this.activeEnemy].clearSpeech();
-
+            /*
             this.moveDirection = -1;
             this.moveDuration = 1;
             this.moveTime = this.moveDuration;
             this.moveOn = true;
-
+                */
             if(turnData.attacking)
             {
                 this.players[0].addToHealth(-turnData.damage);
@@ -562,6 +616,86 @@ class GameMaster
         }
     }
 
+    battleAnimation(dt)
+    {
+        if(this.fightState === this.WIND_UP)
+        {
+            this.windUpTime += dt;
+            console.log(this.windUpTime + "/"+  this.windUpDuration);
+            
+            var lerpVal = this.windUpTime / this.windUpDuration;
+            console.log(lerpVal);
+            if(lerpVal >= 1)
+            {
+                lerpVal = 1;
+            }
+            
+            this.attacker.pos = {
+                x: lerp(this.decayTarget.x, this.windUpTarget.x, lerpVal),
+                y: lerp(this.decayTarget.y, this.windUpTarget.y, lerpVal)
+            };
+
+            if(lerpVal === 1)
+            {
+                console.log("wind up -> release");
+                this.windUpTime = 0;
+                this.fightState = this.RELEASE;
+            }
+
+        }
+        else if(this.fightState === this.RELEASE)
+        {
+            this.releaseTime += dt;
+            
+            var lerpVal = this.releaseTime / this.releaseDuration;
+            if(lerpVal >= 1)
+            {
+                lerpVal = 1;
+            }
+
+            this.attacker.pos = {
+                x: lerp(this.windUpTarget.x, this.releaseTarget.x, lerpVal),
+                y: lerp(this.windUpTarget.y, this.releaseTarget.y, lerpVal)
+            };
+
+            if(lerpVal === 1)
+            {
+                if(this.fightTeam === this.PLAYER)
+                {
+                    this.processTechnique(this.activeTechnique, this.activeEnemy);
+                }
+                else
+                {
+                    this.processEnemyTurn(true, this.enemyTurn);
+                }
+                console.log("release -> decay");
+                this.releaseTime = 0;
+                this.fightState = this.DECAY;
+            }
+        }
+        else if(this.fightState === this.DECAY)
+        {
+           this.decayTime += dt;
+           var lerpVal = this.decayTime / this.decayDuration;
+            if(lerpVal >= 1)
+            {
+                lerpVal = 1;
+            } 
+
+            this.attacker.pos = {
+                x: lerp(this.releaseTarget.x, this.decayTarget.x, lerpVal),
+                y: lerp(this.releaseTarget.y, this.decayTarget.y, lerpVal)
+            };
+
+           if(lerpVal === 1)
+           {
+                this.setToReturn();
+               this.decayTime = 0;
+               this.fightState = 0;
+           }
+        }
+    }
+
     moveCharactersToCentre(dt)
     {
         var movePlayer = this.players[this.activePlayer];
@@ -600,8 +734,8 @@ class GameMaster
             if(this.moveDirection > 0)
             {
                 this.playerTurn() ? 
-                    this.processTechnique(this.activeTechnique, this.activeEnemy, movePlayer) :
-                    this.processEnemyTurn(true, this.enemyTurn);
+                    this.startFightAnimation(this.PLAYER) :
+                    this.startFightAnimation(this.ENEMY);
             }
             else 
             {  

@@ -172,14 +172,14 @@ class GameMaster
             setActiveWeapon(firstEquipped, this.players[0]);
         }
 
-        for(var i = 0; i < this.players.length; i ++)
-        {
-            this.players[i].setForBattle(PLAYER_LOADOUT);
-        }
-        
         for(var i = 0; i < PLAYER_LOADOUT.techs.length; i ++)
         {
             PLAYER_LOADOUT.techs[i].reset();
+        }
+
+        for(var i = 0; i < this.players.length; i ++)
+        {
+            this.players[i].setForBattle(PLAYER_LOADOUT);
         }
 
         //this.emperor.reset();

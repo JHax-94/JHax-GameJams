@@ -86,6 +86,7 @@
         "notes": "Level 1: Simple fight with two basic enemies",
         "emperorStart": 400,
         "prizeMoney": 2000,
+        "tutorialText": "Round 1: Billus and Bennus",
         "enemies": [
             {
                 "compensation": 1000,
@@ -105,6 +106,7 @@
         "notes": "Level 2: Quick battle with four weak enemies",
         "emperorStart": 380,
         "prizeMoney": 4000,
+        "tutorialText": "Round 2: The Lil Brothers",
         "enemies": [
             {
                 "compensation": 500,
@@ -136,6 +138,7 @@
         "notes": "Level 3: Battle against one tougher enemy",
         "emperorStart": 300,
         "prizeMoney": 5000,
+        "tutorialText": "Round 3: Gluteus Maxiumus",
         "enemies": [
             {
                 "compensation": 2000,
@@ -149,6 +152,7 @@
         "notes": "Level 4: Start the fight with very low EXC, three medium enemies to deal with",
         "emperorStart": 200,
         "prizeMoney": 6000,
+        "tutorialText": "Round 4: The Titus Triplets",
         "enemies": [
             {
                 "compensation": 1000,
@@ -174,6 +178,7 @@
         "notes": "Level 5: Fairly low EXC, one big enemy and one weak one",
         "emperorStart": 200,
         "prizeMoney": 8000,
+        "tutorialText": "Round 5: David and Goliath",
         "enemies": [
             {
                 "compensation": 3500,
@@ -193,6 +198,7 @@
         "notes": "Level 6: 3 enemies who deal varying amounts of damage, so players prioritise stronger ones first",
         "emperorStart": 300,
         "prizeMoney": 10000,
+        "tutorialText": "Round 6: Maim, Maul and Murder",
         "enemies": [
             {
                 "compensation": 2000,
@@ -218,6 +224,7 @@
         "notes": "Level 7: One enemy with incredibly high compensation and low health",
         "emperorStart": 400,
         "prizeMoney": 12500,
+        "tutorialText": "Round 7: The Golden Boy",
         "enemies": [
             {
                 "compensation": 12000,
@@ -229,8 +236,9 @@
     },
     {
         "notes": "Level 8: Two very beefy, fairly strong enemies",
-        "emperorStart": 400,
+        "emperorStart": 200,
         "prizeMoney": 14000,
+        "tutorialText": "Round 8: Gluteus and Gropius",
         "enemies": [
             {
                 "compensation": 5000,
@@ -248,8 +256,9 @@
     },
     {
         "notes": "Level 9: Four enemies, very varied stats",
-        "emperorStart": 400,
+        "emperorStart": 300,
         "prizeMoney": 16000,
+        "tutorialText": "Round 9: The Crazy Crew",
         "enemies": [
             {
                 "compensation": 2000,
@@ -279,14 +288,691 @@
     },
     {
         "notes": "Level 10: The champion of the colosseum",
-        "emperorStart": 400,
+        "emperorStart": 150,
         "prizeMoney": 20000,
+        "tutorialText": "Round 10: The Champion",
         "enemies": [
             {
                 "compensation": 12000,
                 "health": 400,
                 "willToFight": 370,
                 "damage": 60
+            }
+        ]
+    },
+    {
+        "notes": "Etc 1: Three enemies",
+        "emperorStart": 400,
+        "prizeMoney": 6000,
+        "tutorialText": "Congratulations, you are now the champion of the colosseum!\nYou can keep on fighting for extra denarii now.",
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 150,
+                "willToFight": 100,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 60,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 120,
+                "willToFight": 40,
+                "damage": 20
+            }
+        ]
+    },
+    {
+        "notes": "Etc 2: Two enemies",
+        "emperorStart": 400,
+        "prizeMoney": 5000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 250,
+                "willToFight": 210,
+                "damage": 20
+            },
+            {
+                "compensation": 2000,
+                "health": 200,
+                "willToFight": 170,
+                "damage": 15
+            }
+        ]
+    },
+    {
+        "notes": "Etc 3: Four enemies",
+        "emperorStart": 400,
+        "prizeMoney": 8000,
+        "enemies": [
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 30
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 5
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 1500,
+                "health": 120,
+                "willToFight": 80,
+                "damage": 10
+            }
+        ]
+    },
+    {
+        "notes": "Etc 1: Three enemies",
+        "emperorStart": 400,
+        "prizeMoney": 6000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 150,
+                "willToFight": 100,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 60,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 120,
+                "willToFight": 40,
+                "damage": 20
+            }
+        ]
+    },
+    {
+        "notes": "Etc 2: Two enemies",
+        "emperorStart": 400,
+        "prizeMoney": 5000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 250,
+                "willToFight": 210,
+                "damage": 20
+            },
+            {
+                "compensation": 2000,
+                "health": 200,
+                "willToFight": 170,
+                "damage": 15
+            }
+        ]
+    },
+    {
+        "notes": "Etc 3: Four enemies",
+        "emperorStart": 400,
+        "prizeMoney": 8000,
+        "enemies": [
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 30
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 5
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 1500,
+                "health": 120,
+                "willToFight": 80,
+                "damage": 10
+            }
+        ]
+    },
+    {
+        "notes": "Etc 1: Three enemies",
+        "emperorStart": 400,
+        "prizeMoney": 6000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 150,
+                "willToFight": 100,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 60,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 120,
+                "willToFight": 40,
+                "damage": 20
+            }
+        ]
+    },
+    {
+        "notes": "Etc 2: Two enemies",
+        "emperorStart": 400,
+        "prizeMoney": 5000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 250,
+                "willToFight": 210,
+                "damage": 20
+            },
+            {
+                "compensation": 2000,
+                "health": 200,
+                "willToFight": 170,
+                "damage": 15
+            }
+        ]
+    },
+    {
+        "notes": "Etc 3: Four enemies",
+        "emperorStart": 400,
+        "prizeMoney": 8000,
+        "enemies": [
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 30
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 5
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 1500,
+                "health": 120,
+                "willToFight": 80,
+                "damage": 10
+            }
+        ]
+    },
+    {
+        "notes": "Etc 1: Three enemies",
+        "emperorStart": 400,
+        "prizeMoney": 6000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 150,
+                "willToFight": 100,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 60,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 120,
+                "willToFight": 40,
+                "damage": 20
+            }
+        ]
+    },
+    {
+        "notes": "Etc 2: Two enemies",
+        "emperorStart": 400,
+        "prizeMoney": 5000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 250,
+                "willToFight": 210,
+                "damage": 20
+            },
+            {
+                "compensation": 2000,
+                "health": 200,
+                "willToFight": 170,
+                "damage": 15
+            }
+        ]
+    },
+    {
+        "notes": "Etc 3: Four enemies",
+        "emperorStart": 400,
+        "prizeMoney": 8000,
+        "enemies": [
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 30
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 5
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 1500,
+                "health": 120,
+                "willToFight": 80,
+                "damage": 10
+            }
+        ]
+    },
+    {
+        "notes": "Etc 1: Three enemies",
+        "emperorStart": 400,
+        "prizeMoney": 6000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 150,
+                "willToFight": 100,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 60,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 120,
+                "willToFight": 40,
+                "damage": 20
+            }
+        ]
+    },
+    {
+        "notes": "Etc 2: Two enemies",
+        "emperorStart": 400,
+        "prizeMoney": 5000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 250,
+                "willToFight": 210,
+                "damage": 20
+            },
+            {
+                "compensation": 2000,
+                "health": 200,
+                "willToFight": 170,
+                "damage": 15
+            }
+        ]
+    },
+    {
+        "notes": "Etc 3: Four enemies",
+        "emperorStart": 400,
+        "prizeMoney": 8000,
+        "enemies": [
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 30
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 5
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 1500,
+                "health": 120,
+                "willToFight": 80,
+                "damage": 10
+            }
+        ]
+    },
+    {
+        "notes": "Etc 1: Three enemies",
+        "emperorStart": 400,
+        "prizeMoney": 6000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 150,
+                "willToFight": 100,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 60,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 120,
+                "willToFight": 40,
+                "damage": 20
+            }
+        ]
+    },
+    {
+        "notes": "Etc 2: Two enemies",
+        "emperorStart": 400,
+        "prizeMoney": 5000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 250,
+                "willToFight": 210,
+                "damage": 20
+            },
+            {
+                "compensation": 2000,
+                "health": 200,
+                "willToFight": 170,
+                "damage": 15
+            }
+        ]
+    },
+    {
+        "notes": "Etc 3: Four enemies",
+        "emperorStart": 400,
+        "prizeMoney": 8000,
+        "enemies": [
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 30
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 5
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 1500,
+                "health": 120,
+                "willToFight": 80,
+                "damage": 10
+            }
+        ]
+    },
+    {
+        "notes": "Etc 1: Three enemies",
+        "emperorStart": 400,
+        "prizeMoney": 6000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 150,
+                "willToFight": 100,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 60,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 120,
+                "willToFight": 40,
+                "damage": 20
+            }
+        ]
+    },
+    {
+        "notes": "Etc 2: Two enemies",
+        "emperorStart": 400,
+        "prizeMoney": 5000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 250,
+                "willToFight": 210,
+                "damage": 20
+            },
+            {
+                "compensation": 2000,
+                "health": 200,
+                "willToFight": 170,
+                "damage": 15
+            }
+        ]
+    },
+    {
+        "notes": "Etc 3: Four enemies",
+        "emperorStart": 400,
+        "prizeMoney": 8000,
+        "enemies": [
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 30
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 5
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 1500,
+                "health": 120,
+                "willToFight": 80,
+                "damage": 10
+            }
+        ]
+    },
+    {
+        "notes": "Etc 1: Three enemies",
+        "emperorStart": 400,
+        "prizeMoney": 6000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 150,
+                "willToFight": 100,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 60,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 120,
+                "willToFight": 40,
+                "damage": 20
+            }
+        ]
+    },
+    {
+        "notes": "Etc 2: Two enemies",
+        "emperorStart": 400,
+        "prizeMoney": 5000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 250,
+                "willToFight": 210,
+                "damage": 20
+            },
+            {
+                "compensation": 2000,
+                "health": 200,
+                "willToFight": 170,
+                "damage": 15
+            }
+        ]
+    },
+    {
+        "notes": "Etc 3: Four enemies",
+        "emperorStart": 400,
+        "prizeMoney": 8000,
+        "enemies": [
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 30
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 5
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 1500,
+                "health": 120,
+                "willToFight": 80,
+                "damage": 10
+            }
+        ]
+    },
+    {
+        "notes": "Etc 1: Three enemies",
+        "emperorStart": 400,
+        "prizeMoney": 6000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 150,
+                "willToFight": 100,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 100,
+                "willToFight": 60,
+                "damage": 15
+            },
+            {
+                "compensation": 2000,
+                "health": 120,
+                "willToFight": 40,
+                "damage": 20
+            }
+        ]
+    },
+    {
+        "notes": "Etc 2: Two enemies",
+        "emperorStart": 400,
+        "prizeMoney": 5000,
+        "enemies": [
+            {
+                "compensation": 2000,
+                "health": 250,
+                "willToFight": 210,
+                "damage": 20
+            },
+            {
+                "compensation": 2000,
+                "health": 200,
+                "willToFight": 170,
+                "damage": 15
+            }
+        ]
+    },
+    {
+        "notes": "Etc 3: Four enemies",
+        "emperorStart": 400,
+        "prizeMoney": 8000,
+        "enemies": [
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 30
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 5
+            },
+            {
+                "compensation": 1500,
+                "health": 100,
+                "willToFight": 50,
+                "damage": 20
+            },
+            {
+                "compensation": 1500,
+                "health": 120,
+                "willToFight": 80,
+                "damage": 10
             }
         ]
     },

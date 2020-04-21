@@ -84,7 +84,7 @@ function mod(val, comp)
 
 function setActiveWeapon(weaponName, equipToPlayer)
 {
-  //console.log("==== SETTING ACTIVE WEAPON TO " + weaponName + " ====");
+  console.log("==== SETTING ACTIVE WEAPON TO " + weaponName + " ====");
 
   var inventoryItem = {}
   for(var i = 0; i < PLAYER_LOADOUT.inventory.length; i ++)
@@ -96,16 +96,16 @@ function setActiveWeapon(weaponName, equipToPlayer)
     }
   }
 
-  //console.log(PLAYER_LOADOUT);
+  console.log(PLAYER_LOADOUT);
 
   equipToPlayer.moveList.setEquippedWeapons(PLAYER_LOADOUT.inventory);
   var animIndex = getWeaponAnimIndex(inventoryItem.anim);
   var animation = ANIMATIONS.WEAPONS[animIndex];
 
-  /*
+  
   console.log("Set Weapon animation...");
   console.log(animation);
-  */
+  
   player.switchWeaponAnimation(animation);
 
 }

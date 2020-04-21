@@ -132,7 +132,7 @@ class Technique
         }
         else if(from <= -125)
         {
-            vage = "------";
+            vague = "------";
         }
         else if(from >= 5 && from < 15)
         {

@@ -160,10 +160,11 @@ class GameMaster
                 }
             }
 
+            /*
             if(PLAYER_LOADOUT.inventory[i].active === true)
             {
                 hasActiveWeapon = true;
-            }
+            }*/
         }
 
         if(hasActiveWeapon === false)

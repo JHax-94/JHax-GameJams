@@ -285,10 +285,10 @@ class PreBattleScreen
         {
             var box = { x: 5 + ((i%2 == 0) ? leftBox.x : rightBox.x), y: leftBox.y + 120 * floor(i/2) };
 
-            console.log("POPULATE NEXT ENEMY LIST");
+            //console.log("POPULATE NEXT ENEMY LIST");
             var enem = NEXT_OPPONENT_LIST.enemies[i];
             this.setEnemySummaryMode();
-            console.log(enem);
+            //console.log(enem);
 
             text("Comp: " + compensationString(enem.compensation), box.x, box.y);
             text(toughRatingString(enem.health), box.x, box.y + 20); 

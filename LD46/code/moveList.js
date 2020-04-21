@@ -71,6 +71,11 @@ class MoveList
         }
     }
 
+    nudge()
+    {
+        this.updateMode(this.menuMode);
+    }
+
     updateMode(newMode)
     {
         console.log("Setting mode to: " + newMode);

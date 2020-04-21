@@ -59,6 +59,7 @@ class Player {
         
         this.moveList.setEquippedTechs(loadout.techs);
         this.moveList.setEquippedWeapons(loadout.inventory);
+        this.moveList.nudge();
     }
 
     barPosition()

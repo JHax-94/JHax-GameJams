@@ -139,7 +139,7 @@ class Emperor
 
         fill(0);
         textAlign(CENTER, TOP)
-        if(this.tutorialOn)
+        if(this.tutorialText)
         {
             text(this.tutorialText, width / 2, 70);
         }

@@ -481,7 +481,10 @@ class GameMaster
         console.log("RATING: " + technique.generateVagueString(excitement));
         */
 
-        targetEnemy.addToHealth(-damage);
+        if(targetEnemy)
+        {
+            targetEnemy.addToHealth(-damage);
+        }
         
         this.emperor.addToExcitement(excitement);
         

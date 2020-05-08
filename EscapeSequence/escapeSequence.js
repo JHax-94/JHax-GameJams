@@ -101,7 +101,6 @@ function RandomInt(from, to)
 
 function loading()
 {
-	console.log("Check load state...");
 	if(typeof(machineConfig) === 'undefined')
 	{
 		console.log("Loading...");
@@ -109,16 +108,22 @@ function loading()
 	else
 	{
 		machine = RandomInt(0, machineConfig.machines.length);
-		console.log("Done loading! Machine: " + machine);
 		gameState = GAME_STATE_RUNNING;
 
 		cmd = new CommandLine(machineConfig.gameSetup.caretBlinkOn, machineConfig.gameSetup.caretBlinkOff, input);
 
-		cmd.addLine("Loading...");
-		cmd.addLine("Machine loaded!");
-		cmd.addLine("Loading machine config...");
-		cmd.addLine("Loaded " + machineConfig.machines[machine].role + " machine!");
-		cmd.addLine("");
+		var loadingProgram = [];
+
+		loadingProgram.push("print Loading...");
+		loadingProgram.push("wait 1");
+		loadingProgram.push("print Machine loaded!");
+		loadingProgram.push("wait 0.5");
+		loadingProgram.push("print Loading machine config...");
+		loadingProgram.push("wait 1");
+		loadingProgram.push("print Loaded " + machineConfig.machines[machine].role + " machine!");
+		loadingProgram.push("print");
+
+		cmd.runProgram(loadingProgram);
 	}
 }
 
@@ -139,14 +144,9 @@ function update(dt)
 }
 
 function masterLoop(timestamp) {
-	//console.log("Master loop: " + timestamp + "::" + lastFrameMs + "/" + frameTime);
-
     if(timestamp < lastFrameMs + (frameTime)) {
     }
     else {
-        
-		//ctx.clearRect(0, 0, canvas.width, canvas.height)
-
 		if(gameState === GAME_STATE_RUNNING)
 		{
 			var deltaTime = (timestamp - lastFrameMs)/1000;

@@ -8,6 +8,8 @@ class CommandLine
         updateList.push(this);
     }
 
+    inputOn = false;
+
     inputSource;
     lines = [];        
     base = { x: 10, y: 30 };
@@ -26,12 +28,24 @@ class CommandLine
     caretTime = 0.0;
     caretBlinkOff = 0.5;
     caretBlinkOn = 0.2;
-
     caretPosition = 0;
+
+    program = [];
 
     addLine(line)
     {
         this.lines.push(line);
+    }
+
+    runProgram(newProgram)
+    {
+        this.program = newProgram;
+        this.executeNextStep();
+    }
+
+    executeNextStep()
+    {
+        this.processCommand(this.program[0]);
     }
     
     submitLine()
@@ -40,49 +54,101 @@ class CommandLine
         var fullCommand = this.commandPrompt + this.inputText;
 
         this.addLine(fullCommand);
-        this.addLine("");
-
         this.processCommand(command);
-
+        
+        this.addLine("");
         this.inputText = "";
         this.inputSource.value = this.inputText;
     }
 
     processCommand(cmd)
     {
-        if(cmd.toLowerCase() === 'cls')
+        var cmdList = cmd.split(" ");
+        
+        console.log(cmdList);
+
+        if(cmdList.length > 0)
         {
-            this.lines = [];
+            if(cmdList[0].toLowerCase() === 'cls')
+            {
+                this.lines = [];
+                this.stepFinished();
+            }
+            else if(cmdList[0].toLowerCase() === 'wait')
+            {
+                this.waitFor = parseFloat(cmdList[1]);
+                console.log("Wait time set to: " + this.waitFor);
+                this.inputOn = false;
+            }
+            else if(cmdList[0].toLowerCase() === 'print')
+            {
+                var printString = cmd.substr('print '.length, cmd.length - 'print '.length);
+                this.addLine(printString);
+                this.stepFinished();
+            }
         }
+    }
+
+    stepFinished()
+    {
+        if(this.program.length > 0)
+        {
+            this.program.splice(0, 1);
+
+            if(this.program.length > 0)
+            {
+                this.executeNextStep();
+            }
+        }
+
+        if(this.program.length === 0)
+        {
+            this.inputOn = true;
+        }
+
     }
 
     update(dt)
     {
         this.caretTime += dt;
 
-        if(this.caretPosition !== this.inputSource.selectionStart)
+        if(this.waitFor > 0)
         {
-            console.log("caret changed...");
-            this.caretPosition = this.inputSource.selectionStart;
-            console.log(this.caretPosition + "/" + this.inputText.length);
-        }
+            this.waitTime += dt;
 
-        this.inputText = this.inputSource.value;
-
-        if(this.caretOn)
-        {
-            if(this.caretTime >= this.caretBlinkOn)
+            if(this.waitTime >= this.waitFor)
             {
-                this.caretTime = 0.0;
-                this.caretOn = false;
+                this.waitFor = 0.0;
+                this.waitTime = 0.0;
+                this.inputOn = true;
+                
+                this.stepFinished();
             }
         }
         else
         {
-            if(this.caretTime >= this.caretBlinkOff)
+            if(this.caretPosition !== this.inputSource.selectionStart)
             {
-                this.caretTime = 0.0;
-                this.caretOn = true;
+                this.caretPosition = this.inputSource.selectionStart;
+            }
+
+            this.inputText = this.inputSource.value;
+
+            if(this.caretOn)
+            {
+                if(this.caretTime >= this.caretBlinkOn)
+                {
+                    this.caretTime = 0.0;
+                    this.caretOn = false;
+                }
+            }
+            else
+            {
+                if(this.caretTime >= this.caretBlinkOff)
+                {
+                    this.caretTime = 0.0;
+                    this.caretOn = true;
+                }
             }
         }
     }
@@ -99,21 +165,27 @@ class CommandLine
             ctx.fillText(this.lines[i], this.base.x, this.base.y + i*this.lineSpacing);
         }
 
-        var promptString = this.inputText;
 
-        if(this.caretOn)
+        if(this.inputOn)
         {
-            if(this.caretPosition < promptString.length)
-            {
-                promptString = promptString.substr(0, this.caretPosition) + this.caret + promptString.substr(this.caretPosition + 1, promptString.length - (this.caretPosition+1));
-                console.log(promptString);
-            }
-            else
-            {
-                promptString += this.caret;
-            }
-        }
+            var promptString = this.inputText;
 
-        ctx.fillText(this.commandPrompt +promptString, this.base.x, this.base.y + this.lines.length * this.lineSpacing);
+            if(this.caretOn)
+            {
+                if(this.caretPosition < promptString.length)
+                {
+                    promptString = 
+                        promptString.substr(0, this.caretPosition) + 
+                        this.caret + 
+                        promptString.substr(this.caretPosition + 1, promptString.length - (this.caretPosition+1));
+                }
+                else
+                {
+                    promptString += this.caret;
+                }
+            }
+
+            ctx.fillText(this.commandPrompt +promptString, this.base.x, this.base.y + this.lines.length * this.lineSpacing);
+        }
     }
 }

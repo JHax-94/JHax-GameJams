@@ -1,0 +1,28 @@
+{  
+    "gameSetup": {
+        "caretBlinkOn": 0.5,
+        "caretBlinkOff": 0.5
+    },
+    "machines": [
+        {
+            "number": 1,
+            "role": "Admin",
+            "textColour": "#ffffff"
+        },
+        {
+            "number": 2,
+            "role": "Utility",
+            "textColour": "#00ff80"
+        },
+        {
+            "number": 3,
+            "role": "Security",
+            "textColour": "#ff8000"
+        },
+        {
+            "number": 4,
+            "role": "Core Systems",
+            "textColour": "#00ffff"
+        }
+    ]
+}

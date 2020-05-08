@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escape Sequence</title>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    
+    @font-face {
+      font-family: 'cmd-font';
+      src: url('fonts/Share_Tech_Mono/ShareTechMono-Regular.ttf') format("truetype");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    p {
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+    }
+    
+    .h1 {
+      padding: 50px;
+    }
+    
+    input {
+      position: absolute;
+      top: -100px;
+    }
+
+    canvas {
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+  </style>
+  <!--<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">-->
+  <script src="code/commandLine.js"></script>
+  <script src="escapeSequence.js"></script>
+</head>
+<body>
+   <p class="h1"><strong>Escape Sequence</strong></p>   
+   <input type="text" id="cmdLine"/>
+   <div id="canvas-holder">
+   </div>
+</body>
+
+<footer>
+  <div>
+    <p>&copy; Josh Haxell - 2020</p>
+  </div>
+</footer>
+</html>

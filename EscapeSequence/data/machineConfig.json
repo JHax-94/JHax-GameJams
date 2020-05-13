@@ -7,22 +7,26 @@
         {
             "number": 1,
             "role": "Admin",
-            "textColour": "#ffffff"
+            "textColour": "#ffffff",
+            "files": "fileSystem.json"
         },
         {
             "number": 2,
             "role": "Utility",
-            "textColour": "#00ff80"
+            "textColour": "#00ff80",
+            "files": "fileSystem.json"
         },
         {
             "number": 3,
             "role": "Security",
-            "textColour": "#ff8000"
+            "textColour": "#ff8000",
+            "files": "fileSystem.json"
         },
         {
             "number": 4,
             "role": "Core Systems",
-            "textColour": "#00ffff"
+            "textColour": "#00ffff",
+            "files": "fileSystem.json"
         }
     ]
 }

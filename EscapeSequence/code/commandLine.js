@@ -1,12 +1,18 @@
 class CommandLine
 {
-    constructor(blinkOnTime, blinkOffTime, cmdInput)
+    constructor(ad, blinkOnTime, blinkOffTime, cmdInput)
     {
+        console.log("Constructing cmd...");
+        console.log(ad);
+
+        this.ad = ad;
         this.caretBlinkOn = blinkOnTime;
         this.caretBlinkOff = blinkOffTime;
         this.inputSource = cmdInput;
         updateList.push(this);
     }
+    
+    separator = new RegExp("[\\|/]");
 
     inputOn = false;
 
@@ -14,7 +20,7 @@ class CommandLine
     lines = [];        
     base = { x: 10, y: 30 };
     lineSpacing = 30;
-    commandPrompt = "C:\\> ";
+    commandPrompt = "> ";
 
     inputText = "";
 
@@ -51,8 +57,9 @@ class CommandLine
     submitLine()
     {
         var command = this.inputText;
-        var fullCommand = this.commandPrompt + this.inputText;
 
+        var fullCommand = this.ad.path + this.commandPrompt + this.inputText;
+        
         this.addLine(fullCommand);
         this.processCommand(command);
         
@@ -61,29 +68,63 @@ class CommandLine
         this.inputSource.value = this.inputText;
     }
 
+    isCommand(cmdA, cmdB)
+    {
+        return strComp(cmdA, cmdB);
+    }
+
     processCommand(cmd)
     {
         var cmdList = cmd.split(" ");
         
-        console.log(cmdList);
+        //console.log(cmdList);
 
         if(cmdList.length > 0)
         {
-            if(cmdList[0].toLowerCase() === 'cls')
+            if(this.isCommand(cmdList[0],'cls'))
             {
                 this.lines = [];
                 this.stepFinished();
             }
-            else if(cmdList[0].toLowerCase() === 'wait')
+            else if(this.isCommand(cmdList[0], 'wait'))
             {
                 this.waitFor = parseFloat(cmdList[1]);
-                console.log("Wait time set to: " + this.waitFor);
+                //console.log("Wait time set to: " + this.waitFor);
                 this.inputOn = false;
             }
-            else if(cmdList[0].toLowerCase() === 'print')
+            else if(this.isCommand(cmdList[0], 'print'))
             {
                 var printString = cmd.substr('print '.length, cmd.length - 'print '.length);
                 this.addLine(printString);
+                this.stepFinished();
+            }
+            else if(this.isCommand(cmdList[0], 'dir') || this.isCommand(cmdList[0], 'ls'))
+            {
+                this.ad.listContents();
+                this.stepFinished();
+            }
+            else if(this.isCommand(cmdList[0], 'cd'))
+            {
+                var pathList = cmdList[1].split(this.separator);
+                
+                var error = "";
+                var newDir = this.ad.changeDirectory(pathList, error);
+                
+                if(newDir)
+                {
+                    console.log(newDir);
+                    this.ad = newDir;                    
+                }
+                else if(error)
+                {
+                    console.log("Error: " + error);
+                    this.addLine(error);
+                }
+                else
+                {
+                    console.log("eep");
+                }
+
                 this.stepFinished();
             }
         }
@@ -185,7 +226,7 @@ class CommandLine
                 }
             }
 
-            ctx.fillText(this.commandPrompt +promptString, this.base.x, this.base.y + this.lines.length * this.lineSpacing);
+            ctx.fillText(this.ad.path + this.commandPrompt +promptString, this.base.x, this.base.y + this.lines.length * this.lineSpacing);
         }
     }
 }

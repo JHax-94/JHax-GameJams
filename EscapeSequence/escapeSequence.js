@@ -6,9 +6,17 @@ canvas.style.zIndex = 8;
 canvas.position = "absolute";
 canvas.border = "1px solid";
 
+var os;
+
 var updateList = [];
 
 var ctx;
+
+var LS_MACHINE_CONFIG = 0;
+var LS_FILE_SYSTEM = 1;
+var LS_FINISHED = 2;
+
+var loadingStep = 0;
 
 var KEYCODE_ENTER = 13;
 var enterDown = false;
@@ -16,6 +24,8 @@ var enterDown = false;
 var delta = 0;
 var lastFrameMs = 0;
 var fps = 60;
+
+var computer;
 
 var GAME_STATE_LOADING = 0;
 var GAME_STATE_RUNNING = 1;
@@ -32,7 +42,10 @@ var input;
 
 var cmd;
 
-console.log(canvas);
+function strComp(strA, strB)
+{
+	return strA.toLowerCase() === strB.toLowerCase();
+}
 
 window.onload = function() {
 	var holder = document.getElementById("canvas-holder");
@@ -43,14 +56,10 @@ window.onload = function() {
 
 	ctx = canvas.getContext('2d');
 	
-	this.loadJSON(function(response) {
-		machineConfig = JSON.parse(response);
-		console.log(machineConfig);
-	});
+	this.loadJSON(function(response) { machineConfig = JSON.parse(response); }, "data/machineConfig.json");
 
 	canvas.onfocus = function()
 	{
-		console.log("Canvas focused...");
 		input.focus();
 	};
 
@@ -73,18 +82,17 @@ window.onload = function() {
 
 	canvas.onclick = function() 
 	{
-		console.log("On click!");
 		input.focus();
 	}
 
 	requestAnimationFrame(masterLoop);
 }
 
-function loadJSON(callback)
+function loadJSON(callback, jsonFile)
 {
 	var xobj = new XMLHttpRequest();
 	xobj.overrideMimeType("application/json");
-	xobj.open('GET', 'data/machineConfig.json', true);
+	xobj.open('GET', jsonFile, true);
 	xobj.onreadystatechange = function() {
 		if(xobj.readyState == 4 && xobj.status == "200")
 		{
@@ -101,25 +109,40 @@ function RandomInt(from, to)
 
 function loading()
 {
-	if(typeof(machineConfig) === 'undefined')
+	if(loadingStep === LS_MACHINE_CONFIG)
 	{
-		console.log("Loading...");
+		if(typeof(machineConfig) !== 'undefined')
+		{
+			console.log("Machine configs loaded...");
+			machine = RandomInt(0, machineConfig.machines.length);
+			loadingStep = LS_FILE_SYSTEM;
+			var fileSystem = machineConfig.machines[machine].files;
+			this.loadJSON(function(response) { os = JSON.parse(response) }, "data/" + fileSystem);
+		}
+	}
+	else if(loadingStep === LS_FILE_SYSTEM)
+	{
+		if(typeof(os) !== 'undefined')
+		{
+			console.log("File system loaded");
+			loadingStep = LS_FINISHED;
+		}
 	}
 	else
 	{
-		machine = RandomInt(0, machineConfig.machines.length);
 		gameState = GAME_STATE_RUNNING;
 
-		cmd = new CommandLine(machineConfig.gameSetup.caretBlinkOn, machineConfig.gameSetup.caretBlinkOff, input);
+		computer = new Directory(os.os.drive[0]);
+
+		cmd = new CommandLine(computer, machineConfig.gameSetup.caretBlinkOn, machineConfig.gameSetup.caretBlinkOff, input);
 
 		var loadingProgram = [];
-
 		loadingProgram.push("print Loading...");
-		loadingProgram.push("wait 1");
+		loadingProgram.push("wait 0.2");
 		loadingProgram.push("print Machine loaded!");
-		loadingProgram.push("wait 0.5");
+		loadingProgram.push("wait 0.2");
 		loadingProgram.push("print Loading machine config...");
-		loadingProgram.push("wait 1");
+		loadingProgram.push("wait 0.2");
 		loadingProgram.push("print Loaded " + machineConfig.machines[machine].role + " machine!");
 		loadingProgram.push("print");
 

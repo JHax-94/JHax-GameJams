@@ -1,0 +1,23 @@
+{
+	"os": {
+		"drive": [{
+			"name": "C:\\",
+			"contents": [
+				{	
+					"type": "dir", "name": "Temp", 
+				  	"contents": [
+						{ "type": "file", "name": "ShoppingList.txt" }
+				  	]
+				},
+				{ 
+					"type": "dir", "name": "Config",
+					"contents": [
+						{ "type": "file", "name": "machine.config" }
+					]
+				},
+				{ "type": "file", "name": "machine-setup.exe" },
+				{ "type": "file", "name": "help.exe" }
+			]
+		}]
+	}
+}

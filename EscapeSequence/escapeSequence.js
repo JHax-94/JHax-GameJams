@@ -133,8 +133,12 @@ function loading()
 		gameState = GAME_STATE_RUNNING;
 
 		computer = new Directory(os.os.drive[0]);
-
+		
+		computer.programs = [];
+		
 		cmd = new CommandLine(computer, machineConfig.gameSetup.caretBlinkOn, machineConfig.gameSetup.caretBlinkOff, input);
+		
+		computer.programs.push({ name: "sys_auth", program: new SysAuth(cmd) });
 
 		var loadingProgram = [];
 		loadingProgram.push("print Loading...");

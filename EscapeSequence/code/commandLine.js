@@ -73,6 +73,31 @@ class CommandLine
         return strComp(cmdA, cmdB);
     }
 
+    lookForProgram(prog, args)
+    {
+        var program = this.ad.getProgram(prog);
+
+        if(program)
+        {
+            console.log("Program found!");
+            console.log(program);  
+            for(var i = 0; i < computer.programs.length; i ++)
+            {
+                var progReg = computer.programs[i];
+                if(progReg.name === program.fileName)
+                {
+                    console.log("RUN CODE!");
+                    progReg.program.main(args);
+                }
+            }          
+        }
+    }
+
+    cls()
+    {
+        this.lines = [];
+    }
+
     processCommand(cmd)
     {
         var cmdList = cmd.split(" ");
@@ -83,7 +108,7 @@ class CommandLine
         {
             if(this.isCommand(cmdList[0],'cls'))
             {
-                this.lines = [];
+                this.clearScreen();
                 this.stepFinished();
             }
             else if(this.isCommand(cmdList[0], 'wait'))
@@ -126,6 +151,11 @@ class CommandLine
                 }
 
                 this.stepFinished();
+            }
+            else
+            {
+                var name = cmdList.splice(0, 1);
+                this.lookForProgram(name[0], cmdList);
             }
         }
     }

@@ -2,6 +2,10 @@
 	"os": {
 		"drive": [{
 			"name": "C:\\",
+			"type": "dir",
+			"auth": [
+				""
+			],
 			"contents": [
 				{	
 					"type": "dir", "name": "Temp", 
@@ -13,6 +17,12 @@
 					"type": "dir", "name": "Config",
 					"contents": [
 						{ "type": "file", "name": "machine.config" }
+					]
+				},
+				{ "type": "dir", "name": "System",					
+					"contents": [
+						{ "type": "file", "name": "sys_auth.exe" },
+						{ "type": "file", "name": "path.txt" }
 					]
 				},
 				{ "type": "file", "name": "machine-setup.exe" },

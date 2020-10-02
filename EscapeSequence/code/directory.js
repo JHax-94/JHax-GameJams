@@ -1,14 +1,12 @@
-class Directory
+class Directory extends FileSystemObj
 {
     constructor(dirConf, parentDir)
     {
-        console.log("Constructing dir: " + dirConf.name + " | Parent:");
-        console.log(parentDir)
-        this.name = dirConf.name;
+        super(dirConf);
         this.contents = [];
         this.path = "";
         this.parent = parentDir;
-
+        
         if(this.parent)
         {
             var parentPath = parentDir.path;
@@ -29,7 +27,15 @@ class Directory
             {
                 console.log("Recurse!");
                 console.log(this);
-                this.contents.push(new Directory(dirConf.contents[i], this));
+
+                if(dirConf.contents[i].type==='dir')
+                {
+                    this.contents.push(new Directory(dirConf.contents[i], this));
+                }
+                else if(dirConf.contents[i].type==='file')
+                {
+                    this.contents.push(new FileObj(dirConf.contents[i]));
+                }
             }
         }
     }
@@ -40,6 +46,32 @@ class Directory
         {
             cmd.addLine(this.contents[i].name);
         }
+    }
+
+    getProgram(programName)
+    {
+        console.log("Searching for prog " + programName);
+        var returnProg = null;
+
+        for(var i = 0; i < this.contents.length; i ++)
+        {
+            var item = this.contents[i];
+            console.log("Check item:");
+            console.log(item);
+            if(item.type === 'file' && item.extension === 'exe')
+            {
+                console.log(programName);
+
+                var matchesFull = strComp(item.name, programName);
+                var matchesPartial = strComp(item.fileName, programName);
+                if(matchesFull || matchesPartial)
+                {
+                    returnProg = item;
+                }
+            }
+        }
+
+        return returnProg;
     }
 
     changeDirectory(pathArr, errorStr)

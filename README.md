@@ -21,3 +21,5 @@ p5 Copyright info [here](https://p5js.org/copyright.html)
 # LD47 Entry
 
 Thanks to cstoquer for PixelBox, used under MIT Licence
+
+Game by Josh Haxell & Sammy El-Bahrawy 2020

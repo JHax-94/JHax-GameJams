@@ -2,6 +2,16 @@ import EntityManager from './EntityManager.js'
 import Battery from './Battery.js'
 import Component from './Component.js'
 import RailPoint from './RailPoint.js';
+import DirectionSwitcher from './DirectionSwitcher.js';
+import Selector from './Selector.js';
+
+var pointerEvents = require('pixelbox/pointerEvents');
+var p2 = require('p2');
+
+var UP = 0;
+var RIGHT = 1;
+var DOWN = 2;
+var LEFT = 3;
 
 var hasRunSetup = false;
 
@@ -10,9 +20,15 @@ var TOTAL_SPRITES = 255;
 var PIXEL_SCALE = 16;
 
 var em;
-var p2 = require('p2');
 
 var CONSOLE_ON = true;
+
+var arrowDirMap = [
+    { dir: UP, flipX: false, flipY: false, flipR: false },
+    { dir: RIGHT, flipX: false, flipY: false, flipR: true },
+    { dir: DOWN, flipX: false, flipY: true, flipR: false },
+    { dir: LEFT, flipX: true, flipY: false, flipR: true }
+];
 
 var cornerDirMap = [
     { dir: "RD", flipX: false, flipY: false, flipR: false },
@@ -20,7 +36,7 @@ var cornerDirMap = [
     { dir: "LD", flipX: true, flipY: false, flipR: false },
     { dir: "LU", flipX: true, flipY: false, flipR: true },
     { dir: "LU", flipX: true, flipY: true, flipR: false }
-]
+];
 
 var componentTiles = [
     {
@@ -35,7 +51,42 @@ var componentTiles = [
         type: "Corner",
         index: 2
     },
-]
+];
+
+function GetArrowDirMapFromFlips(flipX, flipY, flipR)
+{
+    var dirMap = null;
+
+    for(var i = 0; i < arrowDirMap.length; i ++)
+    {
+        if(arrowDirMap[i].flipX === flipX && arrowDirMap[i].flipY === flipY && arrowDirMap[i].flipR === flipR)
+        {
+            dirMap = arrowDirMap[i];
+            break;
+        }
+    }
+
+    console.log("Flips - X:" + flipX + ", Y: " + flipY + ", R: " + flipR);
+    console.log(dirMap);
+
+    return dirMap;
+}
+
+function GetArrowDirMapFromDir(dir)
+{
+    var dirMap = null;
+
+    for(var i = 0; i < arrowDirMap.length; i ++)
+    {
+        if(arrowDirMap[i].dir === dir)
+        {
+            dirMap = arrowDirMap[i];
+            break;
+        }
+    }
+
+    return dirMap;
+}
 
 function GetDirMapFromFlips(flipX, flipY, flipR)
 {
@@ -178,18 +229,22 @@ function LoadMap(mapName)
 
         if(comp.component) 
         {
-            //consoleLog("NEW COMPONENT");
-            var component = new Component(
+            if(comp.tileType === "Direction")
             {
-                x: comp.tileX,
-                y: comp.tileY
-            },
-            {
-                index: comp.component.sprite,
-                flipX: comp.component.flipX,
-                flipY: comp.component.flipY,
-                flipR: comp.component.flipR
-            });
+                //consoleLog("NEW COMPONENT");
+                var component = new DirectionSwitcher(
+                {
+                    x: comp.tileX,
+                    y: comp.tileY
+                },
+                {
+                    index: comp.component.sprite,
+                    flipX: comp.component.flipX,
+                    flipY: comp.component.flipY,
+                    flipR: comp.component.flipR
+                },
+                comp.isControllable);
+            }
         }
         else if(comp.battery)
         {
@@ -215,6 +270,10 @@ function LoadMap(mapName)
     }
 }
 
+pointerEvents.onPress(function(x, y, pointerId, evt) {
+    em.MouseClick(x, y);
+});
+
 function Setup()
 {
     paper(1);
@@ -223,6 +282,7 @@ function Setup()
 
     //consoleLog(mapDefs);
     em = new EntityManager();
+    em.selector = new Selector(20);    
 
     LoadMap('map');
 
@@ -239,9 +299,9 @@ exports.update = function () {
         Setup();
     }
 
-    
+    em.Input();
     em.Update(FPS);
     em.Render();
 };
 
-export { em, p2, consoleLog, TOTAL_SPRITES, PIXEL_SCALE };
+export { em, p2, consoleLog, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, TOTAL_SPRITES, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT };

@@ -1,15 +1,90 @@
-import { consoleLog, p2 } from './main.js';
+import { consoleLog, p2, UP, RIGHT, DOWN, LEFT } from './main.js';
+import Selector from './Selector.js';
 
 export default class EntityManager
 {
    constructor(noPhys)
     {
         this.phys = (!noPhys) ? new p2.World({gravity: [0, 0]}) : null; 
+        this.selector = null;
         this.map = null;
         this.renderers = [];
         this.updates = [];
 
+        this.clickables = [];
+
+        this.selected = null;
+
         if(this.phys) this.SetupPhys();
+    }
+
+    Selected()
+    {
+        return this.selected;
+    }
+
+    SetSelected(selectable)
+    {
+        this.selected = selectable;
+
+        if(selectable !== null)
+        {
+            var bounds = this.selected.Bounds();
+
+            this.selector.position = { x: bounds.x, y: bounds.y };
+            this.selector.isActive = true;
+        }
+        else
+        {
+            this.selector.isActive = false;
+        }
+        
+    }
+
+    Overlap(clickable, x, y)
+    {
+        var bounds = clickable.Bounds();
+
+        var xOverlap = bounds.x < x && x < bounds.x + bounds.w;
+        var yOverlap = bounds.y < y && y < bounds.y + bounds.h;
+
+        return xOverlap && yOverlap;
+    }
+
+    Input()
+    {
+        var dir = -1;
+
+        if(btn.up) dir = UP;
+        else if(btn.right) dir = RIGHT;
+        else if(btn.down) dir = DOWN;
+        else if(btn.left) dir = LEFT;
+
+        if(dir >= 0 && this.selected !== null)
+        {
+            if(this.selected.Input)
+            {
+                this.selected.Input(dir);
+            }
+        }
+    }
+
+    MouseClick(x, y)
+    {
+        var clicked = false;
+
+        for(var i = 0; i < this.clickables.length; i ++)
+        {
+            if(this.Overlap(this.clickables[i], x, y))
+            {
+                this.clickables[i].Click();
+
+                clicked = true;
+                break;
+            }
+        }
+
+        if(!clicked) this.SetSelected(null);
     }
 
     CompareTags(evt, tag1, tag2)
@@ -45,6 +120,16 @@ export default class EntityManager
                 electron.obj.SetContact(points.obj);
             }
         });
+
+        this.phys.on("postStep", function(evt)
+        {
+            manager.UpdateLoop(manager.deltaTime);
+        });
+    }
+
+    AddClickable(clickable)
+    {
+        this.clickables.push(clickable);
     }
 
     AddPhys(obj, phys)
@@ -139,13 +224,19 @@ export default class EntityManager
         }
     }
 
-    Update(deltaTime)
+    UpdateLoop(deltaTime)
     {
-        if(this.phys) this.phys.step(deltaTime);
-        
         for(var i = 0; i < this.updates.length; i ++)
         {
             this.updates[i].Update(deltaTime);
         }
+    }
+
+    Update(deltaTime)
+    {
+        this.deltaTime = deltaTime;
+
+        if(this.phys) this.phys.step(deltaTime, deltaTime, 20);
+        else this.UpdateLoop(deltaTime);
     }
 }

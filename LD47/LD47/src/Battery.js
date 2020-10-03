@@ -35,8 +35,8 @@ export default class Battery
         if(this.pulseCount === 0)
         {
             newElectron.logging = true;
-        }*/
-
+        }
+        */
         this.pulseCount ++;
 
         newElectron.SetVelocity({x: this.pulseSpeed, y: 0});

@@ -1,4 +1,4 @@
-import { consoleLog, em, PIXEL_SCALE } from "./main";
+import { consoleLog, em, PIXEL_SCALE, UP, DOWN, RIGHT, LEFT } from "./main";
 
 //import { em, consoleLog, PIXEL_SCALE } from './main.js'
 
@@ -54,11 +54,6 @@ export default class Electron
 
         var dist =  contact.phys.position[axis] - electron.phys.position[axis];
 
-        if(this.logging)
-        {
-            console.log("Centre Dist: x=" + xDist + ", y=" + yDist + ", PIXEL_SCALE=" + PIXEL_SCALE);
-        }
-
         if(Math.sign(dist) !== this.approach.dir)
         {
             centreMatch = true;
@@ -95,18 +90,16 @@ export default class Electron
         else
         {
             consoleLog("Something has gone horribly wrong in Electron.SetContact");
-            consoleLog(xDiff);
-            consoleLog(yDiff);
         }
         
-
-
+        /*
         if(this.logging)
         {
             consoleLog("CONTACT SET!");
             consoleLog(this);
             consoleLog(contact);
         }
+        */
     }
 
     SetVelocity(vel)
@@ -114,12 +107,35 @@ export default class Electron
         this.velocity = vel;
     }
 
-    SnapToContact(contact)
+    SnapToContact(contact, dir)
     {
+        /*
+        if(!this.contact.z)
+        {
+            consoleLog("SNAP TO");
+            consoleLog(contact);
+        }*/
+
         for(var i = 0; i < contact.phys.position.length; i ++)
         {
+            /*
+            if(this.logging)
+            {
+                consoleLog("SNAP: " + i + " = " + contact.phys.position[i]);
+            }*/
             this.phys.position[i] = contact.phys.position[i];
         }
+
+        var screenDims = { x: Math.floor(this.phys.position[0] - 0.5*PIXEL_SCALE), y: Math.floor(-this.phys.position[1] - 0.5*PIXEL_SCALE) };
+        /*
+        consoleLog("POS");
+        consoleLog(this.phys.position);
+        consoleLog("SCREEN");
+        consoleLog(screenDims);
+        consoleLog("POS AGAIN");
+        consoleLog(this.phys.position);
+        consoleLog("PHYS");
+        consoleLog(this.phys);*/
     }
 
     Update(deltaTime)
@@ -131,10 +147,17 @@ export default class Electron
             if(this.CompareCentre(this, this.contact))
             {
                 var newDir = this.contact.GetFlippedDirection(this.phys.velocity);
-
-                this.SnapToContact(this.contact);
-
+                /*
+                if(!this.contact.z)
+                {
+                    consoleLog("NEW DIR SET BY:");
+                    consoleLog(this.contact, newDir);
+                }*/
+                
+                this.phys.setZeroForce();
                 this.SetVelocity({x: newDir[0] * this.speed, y: newDir[1] * this.speed});
+                this.SnapToContact(this.contact, newDir);
+                this.SnapToContact(this.contact, newDir);
                 this.contact = null;
             }
         }
@@ -142,6 +165,12 @@ export default class Electron
 
     Draw()
     {
-        sprite(this.isCharged ? this.chargedSprite : this.unchargedSprite, this.phys.position[0] - 0.5*PIXEL_SCALE, - this.phys.position[1] - 0.5*PIXEL_SCALE);
+        //consoleLog("DRAW SPRITE");
+
+        var screenDims = { x: this.phys.position[0] - 0.5*PIXEL_SCALE, y: -this.phys.position[1] - 0.5*PIXEL_SCALE };
+
+        //consoleLog(this.phys.position);
+
+        sprite(this.isCharged ? this.chargedSprite : this.unchargedSprite, screenDims.x, screenDims.y);
     }
 }

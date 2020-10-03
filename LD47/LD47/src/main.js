@@ -101,6 +101,18 @@ function LoadMap(mapName)
                 flipR: comp.component.flipR
             });
         }
+        else if(comp.battery)
+        {
+            var battery = new Battery(
+                {
+                    x: comp.tileX,
+                    y: comp.tileY,
+                },
+                comp.battery.charges,
+                comp.battery.pulseTime,
+                comp.battery.pulseSpeed
+            );
+        }
     }
 }
 

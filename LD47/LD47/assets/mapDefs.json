@@ -4,7 +4,13 @@
 		{
 			"name": "map",
 			"components": [
-				{"tileX":7,"tileY":0,"tileType":"Battery","tileSprite":0},
+				{"tileX":7,"tileY":0,"tileType":"Battery","tileSprite":0,
+					"battery": {
+						"charges": 10,
+						"pulseTime": 1,
+						"pulseSpeed": 3
+					},
+				},
 				{
 					"tileX":0,"tileY":7,"tileType":"Direction","tileSprite":5, 
 					"component": {

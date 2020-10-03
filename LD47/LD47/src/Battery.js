@@ -1,36 +1,59 @@
-import { em, consoleLog } from './main.js'
+import Electron from './Electron.js';
+import { em, consoleLog, PIXEL_SCALE } from './main.js'
 
 export default class Battery
 {
-    constructor(position, pulseTime)
+    constructor(tilePos, charges, pulseTime, pulseSpeed)
     {
         this.sprite = 0;
 
         this.z = 1;
 
-        this.pos = position;
+        this.tilePos = tilePos;
 
         this.pulseTime = pulseTime;
 
-        this.pulseTimer = 0;
+        this.pulseSpeed = pulseSpeed;
 
+        this.charges = charges;
+
+        this.pulseCount = 0;
+
+        this.pulseTimer = 0;
+        /*
+        consoleLog("BATTERY CONSTRUCTED");
+        consoleLog(this);
+        */
         em.AddUpdate(this);
-        em.AddRender(this);
+        //em.AddRender(this);
     }
 
+    Pulse()
+    {
+        var newElectron = new Electron({x: (2 + this.pulseCount) * PIXEL_SCALE, y: 5 * PIXEL_SCALE}, { chargedSprite: 18, unchargedSprite: 19 });
+        this.pulseCount ++;
+    }
+
+    /*
     Draw()
     {
         sprite(this.sprite, this.pos.x, this.pos.y);
-    }
+    }*/
 
     Update(deltaTime)
     {
-        this.pulseTimer += deltaTime;
-
-        if(this.pulseTimer >= this.pulseTime)
+        if(this.pulseCount < this.charges)
         {
-            this.pulseTimer -= this.pulseTime;
-            this.sprite ++;
+            //consoleLog("Can pulse...");
+            this.pulseTimer += deltaTime;
+
+            if(this.pulseTimer >= this.pulseTime)
+            {
+                //consoleLog("PULSE!");
+                this.Pulse();
+                this.pulseTimer -= this.pulseTime;
+                this.sprite ++;
+            }
         }
     }
 }

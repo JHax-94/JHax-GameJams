@@ -1,10 +1,39 @@
+import { p2 } from './main.js';
+
 export default class EntityManager
 {
-    constructor()
+   constructor(noPhys)
     {
+        this.phys = (!noPhys) ? new p2.World({gravity: [0, 0]}) : null; 
         this.map = null;
         this.renderers = [];
         this.updates = [];
+    }
+
+    AddPhys(obj, phys)
+    {
+        obj.phys = new p2.Body({
+            mass: phys.mass,
+            position: phys.position,
+            fixedRotation: true
+        })
+        
+        obj.phys.obj = obj;
+
+        if(phys.tag)
+        {
+            obj.phys.tag = phys.tag;
+        }
+
+        if(phys.isSensor)
+        {
+            obj.phys.sensor = phys.isSensor;
+        }
+
+        var collider = new p2.Box(phys.colliderRect);
+        obj.phys.addShape(collider);
+
+        this.phys.addBody(obj.phys);
     }
 
     SortRenders()
@@ -51,6 +80,10 @@ export default class EntityManager
 
     Render()
     {
+        cls();
+
+        if(this.map) this.map.draw(0, 0);
+
         for(var i = 0; i < this.renderers.length; i ++)
         {
             this.renderers[i].Draw();
@@ -59,9 +92,7 @@ export default class EntityManager
 
     Update(deltaTime)
     {
-        cls();
-
-        if(this.map) this.map.draw(0, 0);
+        if(this.phys) this.phys.step(deltaTime);
         
         for(var i = 0; i < this.updates.length; i ++)
         {

@@ -9,7 +9,7 @@ var TOTAL_SPRITES = 255;
 var PIXEL_SCALE = 16;
 
 var em;
-
+var p2 = require('p2');
 
 var CONSOLE_ON = true;
 
@@ -145,4 +145,4 @@ exports.update = function () {
     em.Render();
 };
 
-export { em, consoleLog, TOTAL_SPRITES, PIXEL_SCALE };
+export { em, p2, consoleLog, TOTAL_SPRITES, PIXEL_SCALE };

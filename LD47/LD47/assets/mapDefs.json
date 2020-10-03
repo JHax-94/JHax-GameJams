@@ -7,8 +7,8 @@
 				{"tileX":7,"tileY":0,"tileType":"Battery","tileSprite":0,
 					"battery": {
 						"charges": 10,
-						"pulseTime": 1,
-						"pulseSpeed": 3
+						"pulseTime": 2,
+						"pulseSpeed": 10
 					},
 				},
 				{

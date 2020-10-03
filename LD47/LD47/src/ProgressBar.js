@@ -25,7 +25,6 @@ export default class ProgressBar
     {
         if(max !== 0)
         {
-            
             this.SetValue(current / max);
         }
         else

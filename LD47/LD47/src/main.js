@@ -7,6 +7,7 @@ import Selector from './Selector.js';
 import Bulb from './Bulb.js';
 import { Label } from './Label.js';
 import AltSwitch from './AltSwitch.js';
+import Transistor from './Transistor.js';
 
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
@@ -44,8 +45,9 @@ var cornerDirMap = [
     { dir: "RU", flipX: false, flipY: true, flipR: false },
     { dir: "RU", flipX: false, flipY: false, flipR: true },
     { dir: "LD", flipX: true, flipY: false, flipR: false },
+    { dir: "LD", flipX: true, flipY: true, flipR: true },
     { dir: "LU", flipX: true, flipY: false, flipR: true },
-    { dir: "LU", flipX: true, flipY: true, flipR: false }
+    { dir: "LU", flipX: true, flipY: true, flipR: false },
 ];
 
 var componentTiles = [
@@ -65,6 +67,10 @@ var componentTiles = [
         type: "Bulb",
         index: 16
     },
+    {
+        type: "Transistor",
+        index: 32
+    }
 ];
 
 function GetAltSwitchDirMapFromDir(dir) 
@@ -288,6 +294,9 @@ function LoadMap(mapName)
     consoleLog("=== ADDITIONAL MAP DEF ===");
     consoleLog(mapDef);
     consoleLog("==========================");
+
+    var addedComponents = [];
+
     for(var i = 0; i < mapDef.components.length; i ++)
     {
         var comp = mapDef.components[i];
@@ -305,22 +314,24 @@ function LoadMap(mapName)
                 flipY: comp.tileData.flipV,
                 flipR: comp.tileData.flipR
             };
+
+            var newComp = null;
             
             if(comp.type === "Direction")
             {
                 //consoleLog("NEW COMPONENT");
-                var component = new DirectionSwitcher(
+                newComp = new DirectionSwitcher(
                     pos,
                     spriteInfo,
                     comp.direction);
             }
             else if(comp.type === "Bulb")
             {
-                var comp = new Bulb(pos, spriteInfo, comp.bulb);
+                newComp = new Bulb(pos, spriteInfo, comp.bulb);
             }
             else if(comp.type === "Battery")
             {
-                var battery = new Battery(
+                newComp = new Battery(
                     pos,
                     spriteInfo,
                     comp.battery.charges,
@@ -330,8 +341,23 @@ function LoadMap(mapName)
             }
             else if(comp.type === "AltSwitch")
             {
-                var altSwitch = new AltSwitch(pos, spriteInfo, comp.altSwitch);
+                newComp = new AltSwitch(pos, spriteInfo, comp.altSwitch);
             }
+            else if(comp.type === "Transistor") 
+            {
+                comp.transistor.connections = [];
+                for(var i = 0; i < addedComponents.length; i ++)
+                {
+                    if(addedComponents[i].src.transistorId === comp.transistor.transistorId)
+                    {
+                        comp.transistor.connections.push(addedComponents[i].obj);
+                    }
+                }
+
+                newComp = new Transistor(pos, spriteInfo, comp.transistor);
+            }
+
+            addedComponents.push({ src: comp, obj: newComp });
         }
         else if(comp.type === "Label")
         {
@@ -341,6 +367,7 @@ function LoadMap(mapName)
         {
             var button = new Button(comp.tileRect, comp.text, comp.value, comp.colours);
         }
+        
     }
 
     for(var i = 0; i < points.length; i ++)
@@ -377,7 +404,7 @@ function Setup()
 {
     paper(1);
 
-    LoadLevel("title");
+    LoadLevel("transistorTest");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 

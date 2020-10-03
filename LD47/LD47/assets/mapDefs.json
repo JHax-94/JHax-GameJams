@@ -41,6 +41,8 @@
 				{"type": "Label", "text": "Stuck in a Loop", "position": {"tileX": 6, "tileY": 3.2 }, "colour": 4 },
 				{"type": "Button", "text": "Level 1", "value": "map", "tileRect": { "x": 6.5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
 				{"type": "Button", "text": "Level 2", "value": "switcherLevel", "tileRect": { "x": 6.5, "y": 7.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				{"type": "Button", "text": "Level 3", "value": "decayTest", "tileRect": { "x": 6.5, "y": 9, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				{"type": "Button", "text": "Level 4", "value": "transistorTest", "tileRect": { "x": 6.5, "y": 10.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
 				{"tileX":7,"tileY":4,"type":"Battery","tileSprite":0,"tileData":{"x":7,"y":4,"sprite":0,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"battery": {
 						"charges": 4,
@@ -96,10 +98,94 @@
 							"chargesRequired": 5,
 							"chargedSprite": 17
 						}}
-				
 				]
+		},
+		{
+			"name": "decayTest",
+			"components": [
+				{"tileX":5,"tileY":1,"type":"Battery","tileSprite":0,"tileData":{"x":5,"y":1,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 1,
+						"pulseTime": 2,
+						"pulseSpeed": 60
+					}
+				},
+				{"tileX":6,"tileY":3,"type":"Direction","tileSprite":6,"tileData":{"x":6,"y":3,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":9,"tileY":1,"type":"Direction","tileSprite":6,"tileData":{"x":9,"y":1,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "RIGHT"
+					}
+				},
+				{"tileX":7,"tileY":1,"type":"Bulb","tileSprite":16,"tileData":{"x":7,"y":1,"sprite":16,"flipH":true,"flipV":true,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+							"chargesRequired": 3,
+							"chargedSprite": 17,
+							"chargeDecayTime": 5
+						}
+				}]
+		},
+		{
+			"name": "transistorTest",
+			"components": [
+				{"tileX":3,"tileY":1,"type":"Battery","tileSprite":0,"tileData":{"x":3,"y":1,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 5,
+						"pulseTime": 2,
+						"pulseSpeed": 60
+					}
+				},
+				{"tileX":5,"tileY":1,"type":"Direction","tileSprite":6,"tileData":{"x":5,"y":1,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "RIGHT"
+					}
+				},
+				{"tileX":5,"tileY":5,"type":"Direction","tileSprite":6,"tileData":{"x":5,"y":5,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":7,"tileY":1,"type":"Direction","tileSprite":6,"tileData":{"x":7,"y":1,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "DOWN"
+					}
+				},
+				{"tileX":7,"tileY":5,"type":"Direction","tileSprite":6,"tileData":{"x":7,"y":5,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":5,"tileY":3,"type":"Bulb","tileSprite":16,"tileData":{"x":5,"y":3,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 3,
+						"chargedSprite": 17,
+						"chargeDecayTime": 5
+					}
+				},
+				{"tileX":9,"tileY":1,"type":"Bulb","tileSprite":16,"tileData":{"x":9,"y":1,"sprite":16,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 1,
+						"chargedSprite": 17,
+						"chargeDecayTime": 5
+					},
+					"transistorId": 0
+				},
+				{"tileX":7,"tileY":3,"type":"Transistor","tileSprite":32,"tileData":{"x":7,"y":3,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 0,
+						"chargesRequired": 3
+					}
+				}
+			]
 		}
-		
-		
 	]
 }

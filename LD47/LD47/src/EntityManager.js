@@ -3,8 +3,9 @@ import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL } from './main.js';
 
 export default class EntityManager
 {
-   constructor(noPhys)
+    constructor(noPhys)
     {
+        this.canShowEnd = CURRENT_LVL !== "title";
         this.bgColour = 1;
         this.phys = (!noPhys) ? new p2.World({gravity: [0, 0]}) : null; 
         this.selector = null;
@@ -268,33 +269,36 @@ export default class EntityManager
 
     CheckEndGame()
     {
-        if(this.electrons.length === 0 && CURRENT_LVL !== "title")
+        if(this.canShowEnd)
         {
-            var chargeRemaining = false;
-
-            for(var i = 0; i < this.batteries.length; i ++)
+            if(this.electrons.length === 0)
             {
-                if(this.batteries[i].HasChargesLeft())
+                var chargeRemaining = false;
+
+                for(var i = 0; i < this.batteries.length; i ++)
                 {
-                    chargeRemaining = true;
-                    break;
+                    if(this.batteries[i].HasChargesLeft())
+                    {
+                        chargeRemaining = true;
+                        break;
+                    }
+                }
+
+                if(!chargeRemaining)
+                {
+                    consoleLog("Game over!");
+                    this.endScreen.ShowScreen(false);
+                    this.endScreenOn = true;
                 }
             }
-
-            if(!chargeRemaining)
+            else 
             {
-                consoleLog("Game over!");
-                this.endScreen.ShowScreen(false);
-                this.endScreenOn = true;
-            }
-        }
-        else 
-        {
-            if(this.AllBulbsLit())
-            {
-                consoleLog("You Win!");
-                this.endScreen.ShowScreen(true);
-                this.endScreenOn = true;
+                if(this.AllBulbsLit())
+                {
+                    consoleLog("You Win!");
+                    this.endScreen.ShowScreen(true);
+                    this.endScreenOn = true;
+                }
             }
         }
     }

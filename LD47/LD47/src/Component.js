@@ -11,6 +11,14 @@ export default class Component
 
         this.chargesRequired = 0;
         this.currentCharges = 0;
+        this.chargeDecayTime = 0.0;
+        this.chargeDecayTimer = 0.0;
+
+        this.resetOnFullyCharged = false;
+
+        this.decayWhenFull = false;
+        this.decayToZero = false;
+
         this.overcharge = false;
 
         if(physTag)
@@ -28,6 +36,45 @@ export default class Component
         em.AddRender(this);
     }
 
+    ShouldDecay()
+    {
+        return (this.chargeDecayTime > 0) &&
+            ((this.decayWhenFull && this.currentCharges >= this.chargesRequired) || (this.currentCharges > 0));
+    }
+
+    SetCharge(value)
+    {
+        this.currentCharges = value;
+    }
+
+    Decay()
+    {
+        if(this.decayToZero)
+        {
+            this.SetCharge(0);
+        }
+        else 
+        {
+            this.SetCharge(this.currentCharges - 1);
+        }
+    }
+
+    ChargeDecay(deltaTime)
+    {
+        if(this.chargeDecayTime > 0.0 && this.ShouldDecay())
+        {
+            this.chargeDecayTimer += deltaTime;
+
+            if(this.chargeDecayTimer >= this.chargeDecayTime)
+            {
+                this.Decay();
+                this.chargeDecayTimer = 0;
+            }
+        }
+    }
+
+
+
     Charged() {}
     
     AddCharge()
@@ -35,12 +82,21 @@ export default class Component
         if(this.chargesRequired > 0)
         {
             this.currentCharges ++;
+            
+            if(this.chargeDecayTime > 0)
+            {
+                this.chargeDecayTimer = 0;
+            }
 
             //consoleLog("Charges: " + this.currentCharges + "/" + this.chargesRequired);
             if(this.currentCharges >= this.chargesRequired)
             {
                 //consoleLog("Call charge!");
                 this.Charged();
+                if(this.resetOnFullyCharged)
+                {
+                    this.SetCharge(0);
+                }
             }
         }
     }

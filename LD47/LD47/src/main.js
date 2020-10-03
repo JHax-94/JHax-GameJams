@@ -1,6 +1,7 @@
 import EntityManager from './EntityManager.js'
 import Battery from './Battery.js'
 import Component from './Component.js'
+import RailPoint from './RailPoint.js';
 
 var hasRunSetup = false;
 
@@ -13,6 +14,14 @@ var p2 = require('p2');
 
 var CONSOLE_ON = true;
 
+var cornerDirMap = [
+    { dir: "RD", flipX: false, flipY: false, flipR: false },
+    { dir: "RU", flipX: false, flipY: true, flipR: false },
+    { dir: "LD", flipX: true, flipY: false, flipR: false },
+    { dir: "LU", flipX: true, flipY: false, flipR: true },
+    { dir: "LU", flipX: true, flipY: true, flipR: false }
+]
+
 var componentTiles = [
     {
         type: "Battery",
@@ -21,8 +30,70 @@ var componentTiles = [
     {
         type: "Direction",
         index: 5
-    }
+    },
+    {
+        type: "Corner",
+        index: 2
+    },
 ]
+
+function GetDirMapFromFlips(flipX, flipY, flipR)
+{
+    /*
+    consoleLog("GET DIR MAP: X: " + flipX + ", Y:" + flipY + ", R: " + flipR);
+    consoleLog(cornerDirMap);
+    */
+    var dirMap = null;
+
+    for(var i = 0; i < cornerDirMap.length; i ++)
+    {
+        var cdMap = cornerDirMap[i];
+        if(cdMap.flipX === flipX && cdMap.flipY === flipY && cdMap.flipR === flipR)
+        {
+            dirMap = cdMap;
+            break;
+        }
+    }
+    if(dirMap===null)
+    {
+        consoleLog("DIR MAP NOT FOUND!");
+        consoleLog("GET DIR MAP: X: " + flipX + ", Y:" + flipY + ", R: " + flipR);
+    }
+
+    return dirMap;
+}
+
+function GetDirMapFromDir(dir)
+{
+    var dirMap = null;
+
+    for(var i = 0; i < cornerDirMap.length; i ++)
+    {
+        if(cornerDirMap[i].dir === dir)
+        {
+            dirMap = cornerDirMap[i];
+            break;
+        }
+    }
+
+    return dirMap;
+}
+
+function GetCornerTileType()
+{
+    var tileType = 0;
+
+    for(var i = 0; i < componentTiles.length; i ++)
+    {
+        if(componentTiles[i].type === "Corner")
+        {
+            tileType = componentTiles[i].index;
+            break;
+        }
+    }
+
+    return tileType;
+}
 
 function consoleLog(obj)
 {
@@ -53,20 +124,38 @@ function LoadMap(mapName)
 {
     var map = getMap(mapName);
     var mapComponents = [];
+    var points = [];
+
+    var cornerType = GetCornerTileType();
+
+    /*
+    consoleLog("Find tiles...");
+    consoleLog(componentTiles);*/
 
     for(var i = 0; i < componentTiles.length; i ++)
     {
+        //consoleLog("find tiles with index: " + componentTiles[i].index);
         var tilesOfType = map.find(componentTiles[i].index);
-        
+        //console.log(tilesOfType);
+
         for(var j = 0; j < tilesOfType.length; j ++)
         {
             var tile = tilesOfType[j];
-            mapComponents.push({
-                tileX: tile.x,
-                tileY: tile.y,
-                tileType: componentTiles[i].type,
-                tileSprite: tile.sprite
-            });
+
+            if(componentTiles[i].index === cornerType)
+            {
+                points.push(tile);
+            }
+            else
+            {
+                mapComponents.push({
+                    tileX: tile.x,
+                    tileY: tile.y,
+                    tileType: componentTiles[i].type,
+                    tileSprite: tile.sprite,
+                    tileData: tile
+                });
+            }
         }
     }
 
@@ -85,10 +174,11 @@ function LoadMap(mapName)
     {
         var comp = mapDef.components[i];
 
-        //consoleLog(comp.component);
+        //consoleLog(comp);
 
         if(comp.component) 
         {
+            //consoleLog("NEW COMPONENT");
             var component = new Component(
             {
                 x: comp.tileX,
@@ -103,6 +193,7 @@ function LoadMap(mapName)
         }
         else if(comp.battery)
         {
+            //consoleLog("New Battery!");
             var battery = new Battery(
                 {
                     x: comp.tileX,
@@ -113,6 +204,14 @@ function LoadMap(mapName)
                 comp.battery.pulseSpeed
             );
         }
+    }
+
+    for(var i = 0; i < points.length; i ++)
+    {
+        /*consoleLog("Corner tile!");
+        consoleLog(points[i]);*/
+
+        new RailPoint({ x: points[i].x, y: points[i].y }, GetDirMapFromFlips(points[i].flipH, points[i].flipV, points[i].flipR));
     }
 }
 

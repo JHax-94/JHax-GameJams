@@ -30,7 +30,13 @@ export default class Battery
 
     Pulse()
     {
-        var newElectron = new Electron({x: (this.tilePos.x + 1.5) *PIXEL_SCALE, y: (this.tilePos.y+0.5) * PIXEL_SCALE}, { chargedSprite: 18, unchargedSprite: 19 });
+        var newElectron = new Electron({x: (this.tilePos.x + 1.5) *PIXEL_SCALE, y: (this.tilePos.y+0.5) * PIXEL_SCALE}, { chargedSprite: 18, unchargedSprite: 19 }, this.pulseSpeed);
+        /*
+        if(this.pulseCount === 0)
+        {
+            newElectron.logging = true;
+        }*/
+
         this.pulseCount ++;
 
         newElectron.SetVelocity({x: this.pulseSpeed, y: 0});
@@ -51,7 +57,7 @@ export default class Battery
 
             if(this.pulseTimer >= this.pulseTime)
             {
-                consoleLog("PULSE!");
+                //consoleLog("PULSE!");
                 this.Pulse();
                 this.pulseTimer -= this.pulseTime;
                 this.sprite ++;

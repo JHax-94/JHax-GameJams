@@ -1,4 +1,4 @@
-import { p2 } from './main.js';
+import { consoleLog, p2 } from './main.js';
 
 export default class EntityManager
 {
@@ -8,6 +8,43 @@ export default class EntityManager
         this.map = null;
         this.renderers = [];
         this.updates = [];
+
+        if(this.phys) this.SetupPhys();
+    }
+
+    CompareTags(evt, tag1, tag2)
+    {
+        return (evt.bodyA.tag === tag1 && evt.bodyB.tag === tag2) || (evt.bodyA.tag === tag2 && evt.bodyB.tag === tag1);
+    }
+
+    BodyWithTag(evt, tag)
+    {
+        var body = null;
+
+        if(evt.bodyA.tag === tag) body = evt.bodyA;
+        else if(evt.bodyB.tag === tag) body = evt.bodyB;
+        
+        return body;
+    }
+
+    SetupPhys()
+    {
+        var manager = this;
+        this.phys.on("beginContact", function (evt)
+        {
+            if(manager.CompareTags(evt, "ELECTRON", "POINTS"))
+            {
+                //consoleLog("COLLISION!");
+
+                var electron = manager.BodyWithTag(evt, "ELECTRON");
+                var points = manager.BodyWithTag(evt, "POINTS");
+                /*
+                consoleLog(electron.obj);
+                consoleLog(points.obj);*/
+
+                electron.obj.SetContact(points.obj);
+            }
+        });
     }
 
     AddPhys(obj, phys)
@@ -25,15 +62,27 @@ export default class EntityManager
             obj.phys.tag = phys.tag;
         }
 
-        if(phys.isSensor)
+        if(phys.isKinematic)
         {
-            obj.phys.sensor = phys.isSensor;
+            obj.phys.type = p2.Body.KINEMATIC;
         }
 
         var collider = new p2.Box(phys.colliderRect);
+        collider.friction = 0.0;
+
+        if(phys.isSensor)
+        {
+            collider.sensor = phys.isSensor;
+        }
+
         obj.phys.addShape(collider);
 
         this.phys.addBody(obj.phys);
+        
+        /*consoleLog("PHYS ADDED");
+        consoleLog(obj.phys);
+        consoleLog(collider);*/
+
     }
 
     SortRenders()

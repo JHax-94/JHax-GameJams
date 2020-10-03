@@ -1,5 +1,6 @@
 import Component from "./Component";
-import { consoleLog, em } from "./main";
+import { consoleLog, em, PIXEL_SCALE } from "./main";
+import ProgressBar from "./ProgressBar";
 
 export default class Bulb extends Component
 {
@@ -11,10 +12,28 @@ export default class Bulb extends Component
 
         this.chargesRequired = bulb.chargesRequired;
         this.chargedSprite = bulb.chargedSprite;
+
+        this.chargeProgress = new ProgressBar(
+            { x: tilePos.x * PIXEL_SCALE, y: (tilePos.y - 0.5) * PIXEL_SCALE, w:PIXEL_SCALE, h: 4}, 
+            { background: 4, foreground: 15 });
+        
+        this.chargeProgress.CalculateValue(this.currentCharges, this.chargesRequired);
     }
     
     Charged()
     {
         this.spriteInfo.index = this.chargedSprite;
+    }
+
+    AddCharge()
+    {
+        super.AddCharge();
+        this.chargeProgress.CalculateValue(this.currentCharges, this.chargesRequired);
+    }
+
+    Draw()
+    {
+        super.Draw();
+        this.chargeProgress.Draw();
     }
 }

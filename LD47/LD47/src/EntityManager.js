@@ -5,6 +5,7 @@ export default class EntityManager
 {
    constructor(noPhys)
     {
+        this.bgColour = 1;
         this.phys = (!noPhys) ? new p2.World({gravity: [0, 0]}) : null; 
         this.selector = null;
         this.map = null;
@@ -229,6 +230,7 @@ export default class EntityManager
 
     Render()
     {
+        paper(this.bgColour);
         cls();
 
         if(this.map) this.map.draw(0, 0);

@@ -11,6 +11,7 @@ export default class Component
 
         this.chargesRequired = 0;
         this.currentCharges = 0;
+        this.overcharge = false;
 
         if(physTag)
         {
@@ -36,7 +37,6 @@ export default class Component
             this.currentCharges ++;
 
             //consoleLog("Charges: " + this.currentCharges + "/" + this.chargesRequired);
-
             if(this.currentCharges >= this.chargesRequired)
             {
                 //consoleLog("Call charge!");

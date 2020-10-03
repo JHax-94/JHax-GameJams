@@ -9,7 +9,7 @@
 						"charges": 10,
 						"pulseTime": 2,
 						"pulseSpeed": 10
-					},
+					}
 				},
 				{
 					"tileX":0,"tileY":7,"tileType":"Direction","tileSprite":5, 

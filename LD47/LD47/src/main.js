@@ -26,10 +26,10 @@ var em;
 var CONSOLE_ON = true;
 
 var arrowDirMap = [
-    { dir: UP, flipX: false, flipY: false, flipR: false },
-    { dir: RIGHT, flipX: false, flipY: false, flipR: true },
-    { dir: DOWN, flipX: false, flipY: true, flipR: false },
-    { dir: LEFT, flipX: true, flipY: false, flipR: true }
+    { name: "UP", dir: UP, flipX: false, flipY: false, flipR: false },
+    { name: "RIGHT", dir: RIGHT, flipX: false, flipY: false, flipR: true },
+    { name: "DOWN", dir: DOWN, flipX: false, flipY: true, flipR: false },
+    { name: "LEFT", dir: LEFT, flipX: true, flipY: false, flipR: true }
 ];
 
 var cornerDirMap = [
@@ -86,6 +86,22 @@ function GetArrowDirMapFromDir(dir)
     for(var i = 0; i < arrowDirMap.length; i ++)
     {
         if(arrowDirMap[i].dir === dir)
+        {
+            dirMap = arrowDirMap[i];
+            break;
+        }
+    }
+
+    return dirMap;
+}
+
+function GetArrowDirMapFromName(name)
+{
+    var dirMap = null;
+
+    for(var i = 0; i < arrowDirMap.length; i ++)
+    {
+        if(arrowDirMap[i].name === name)
         {
             dirMap = arrowDirMap[i];
             break;
@@ -213,7 +229,7 @@ function LoadMap(mapName)
                 mapComponents.push({
                     tileX: tile.x,
                     tileY: tile.y,
-                    tileType: componentTiles[i].type,
+                    type: componentTiles[i].type,
                     tileSprite: tile.sprite,
                     tileData: tile
                 });
@@ -238,31 +254,31 @@ function LoadMap(mapName)
 
         //consoleLog(comp);
 
-        if(comp.component) 
+        if(comp.tileData) 
         {
             var pos = { x: comp.tileX, y: comp.tileY };
 
             var spriteInfo = 
             {
-                index: comp.component.sprite,
-                flipX: comp.component.flipX,
-                flipY: comp.component.flipY,
-                flipR: comp.component.flipR
+                index: comp.tileSprite,
+                flipX: comp.tileData.flipH,
+                flipY: comp.tileData.flipV,
+                flipR: comp.tileData.flipR
             };
             
-            if(comp.tileType === "Direction")
+            if(comp.type === "Direction")
             {
                 //consoleLog("NEW COMPONENT");
                 var component = new DirectionSwitcher(
                     pos,
                     spriteInfo,
-                    comp.isControllable);
+                    comp.direction);
             }
-            else if(comp.tileType === "Bulb")
+            else if(comp.type === "Bulb")
             {
                 var comp = new Bulb(pos, spriteInfo, comp.bulb);
             }
-            else if(comp.tileType === "Battery")
+            else if(comp.type === "Battery")
             {
                 var battery = new Battery(
                     pos,
@@ -333,4 +349,4 @@ exports.update = function () {
     em.Render();
 };
 
-export { em, p2, consoleLog, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, LoadLevel, TOTAL_SPRITES, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT };
+export { em, p2, consoleLog, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, GetArrowDirMapFromName, LoadLevel, TOTAL_SPRITES, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT };

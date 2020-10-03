@@ -1,20 +1,23 @@
 import Component from "./Component";
-import { consoleLog, UP, DOWN, RIGHT, LEFT, em, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, PIXEL_SCALE } from "./main";
+import { consoleLog, UP, DOWN, RIGHT, LEFT, em, GetArrowDirMapFromDir, GetArrowDirMapFromName,  PIXEL_SCALE } from "./main";
 
 export default class DirectionSwitcher extends Component
 {
-    constructor(tilePos, spriteData, isControllable)
+    constructor(tilePos, spriteData, direction)
     {
         //consoleLog("Constructing Direction Switcher!");
         super(tilePos, spriteData, "POINTS");
 
         //consoleLog(this.tilePos);
 
-        this.isControllable = isControllable;
+        this.isControllable = direction.isControllable;
 
-        var dirMap = GetArrowDirMapFromFlips(this.spriteInfo.flipX, this.spriteInfo.flipY, this.spriteInfo.flipR);
+        var dirMap = GetArrowDirMapFromName(direction.dir);
 
-        this.currentDirection = dirMap.dir;
+        this.SetDirectionFromMap(dirMap);
+        
+        consoleLog("DIR SWITCHER CONSTRUCTED");
+        consoleLog(this);
 
         em.AddClickable(this);
     }
@@ -41,17 +44,21 @@ export default class DirectionSwitcher extends Component
         }
     }
 
+    SetDirectionFromMap(dirMap)
+    {
+        this.spriteInfo.flipX = dirMap.flipX;
+        this.spriteInfo.flipY = dirMap.flipY;
+        this.spriteInfo.flipR = dirMap.flipR;
+
+        this.currentDirection = dirMap.dir;
+    }
+
     ChangeDir(dir)
     {
         //consoleLog("SET DIR: " + dir);
 
         var dirMap = GetArrowDirMapFromDir(dir);
-
-        this.spriteInfo.flipX = dirMap.flipX;
-        this.spriteInfo.flipY = dirMap.flipY;
-        this.spriteInfo.flipR = dirMap.flipR;
-
-        this.currentDirection = dir;
+        this.SetDirectionFromMap(dirMap);
     }
 
     Input(dir)

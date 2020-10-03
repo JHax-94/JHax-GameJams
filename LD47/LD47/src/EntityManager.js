@@ -119,6 +119,21 @@ export default class EntityManager
 
                 electron.obj.SetContact(points.obj);
             }
+            else if(manager.CompareTags(evt, "ELECTRON", "POWERED"))
+            {
+                consoleLog("POWERED COLLISION");
+                var electron = manager.BodyWithTag(evt, "ELECTRON");
+                var powered = manager.BodyWithTag(evt, "POWERED");
+
+                electron.obj.ChargeComponent(powered.obj);
+            }
+            else if(manager.CompareTags(evt, "ELECTRON", "BATTERY"))
+            {
+                console.log("BATTERY COLLISION");
+                var electron = manager.BodyWithTag(evt, "ELECTRON");
+
+                electron.obj.Charge();
+            }
         });
 
         this.phys.on("postStep", function(evt)

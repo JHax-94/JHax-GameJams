@@ -9,6 +9,9 @@ export default class Component
 
         this.z = 10;
 
+        this.chargesRequired = 0;
+        this.currentCharges = 0;
+
         if(physTag)
         {
             em.AddPhys(this, { 
@@ -22,6 +25,24 @@ export default class Component
         }
 
         em.AddRender(this);
+    }
+
+    Charged() {}
+    
+    AddCharge()
+    {
+        if(this.chargesRequired > 0)
+        {
+            this.currentCharges ++;
+
+            //consoleLog("Charges: " + this.currentCharges + "/" + this.chargesRequired);
+
+            if(this.currentCharges >= this.chargesRequired)
+            {
+                //consoleLog("Call charge!");
+                this.Charged();
+            }
+        }
     }
 
     Draw()

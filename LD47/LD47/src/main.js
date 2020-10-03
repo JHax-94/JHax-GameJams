@@ -4,6 +4,7 @@ import Component from './Component.js'
 import RailPoint from './RailPoint.js';
 import DirectionSwitcher from './DirectionSwitcher.js';
 import Selector from './Selector.js';
+import Bulb from './Bulb.js';
 
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
@@ -50,6 +51,10 @@ var componentTiles = [
     {
         type: "Corner",
         index: 2
+    },
+    {
+        type: "Bulb",
+        index: 16
     },
 ];
 
@@ -229,35 +234,43 @@ function LoadMap(mapName)
 
         if(comp.component) 
         {
+            var pos = { x: comp.tileX, y: comp.tileY };
+
+            var spriteInfo = 
+            {
+                index: comp.component.sprite,
+                flipX: comp.component.flipX,
+                flipY: comp.component.flipY,
+                flipR: comp.component.flipR
+            };
+            
             if(comp.tileType === "Direction")
             {
                 //consoleLog("NEW COMPONENT");
                 var component = new DirectionSwitcher(
-                {
-                    x: comp.tileX,
-                    y: comp.tileY
-                },
-                {
-                    index: comp.component.sprite,
-                    flipX: comp.component.flipX,
-                    flipY: comp.component.flipY,
-                    flipR: comp.component.flipR
-                },
-                comp.isControllable);
+                    pos,
+                    spriteInfo,
+                    comp.isControllable);
+            }
+            else if(comp.tileType === "Bulb")
+            {
+                var comp = new Bulb(pos, spriteInfo, comp.bulb);
+            }
+            else if(comp.tileType === "Battery")
+            {
+                var battery = new Battery(
+                    pos,
+                    spriteInfo,
+                    comp.battery.charges,
+                    comp.battery.pulseTime,
+                    comp.battery.pulseSpeed
+                );
             }
         }
         else if(comp.battery)
         {
             //consoleLog("New Battery!");
-            var battery = new Battery(
-                {
-                    x: comp.tileX,
-                    y: comp.tileY,
-                },
-                comp.battery.charges,
-                comp.battery.pulseTime,
-                comp.battery.pulseSpeed
-            );
+            
         }
     }
 

@@ -5,8 +5,14 @@
 			"name": "map",
 			"components": [
 				{"tileX":7,"tileY":0,"tileType":"Battery","tileSprite":0,
+					"component": {
+						"sprite": 0,
+						"flipX": false,
+						"flipY": false,
+						"flipR": false
+					},
 					"battery": {
-						"charges": 1,
+						"charges": 4,
 						"pulseTime": 2,
 						"pulseSpeed": 60
 					}
@@ -27,6 +33,18 @@
 						"flipX": false,
 						"flipY": true,
 						"flipR": false
+					}
+				},
+				{"tileX":7,"tileY":7,"tileType":"Bulb","tileSprite":16,
+					"component": {
+						"sprite": 16,
+						"flipX": false,
+						"flipY": false,
+						"flipR": false
+					},
+					"bulb": {
+						"chargesRequired": 5,
+						"chargedSprite": 17
 					}
 				}
 			]

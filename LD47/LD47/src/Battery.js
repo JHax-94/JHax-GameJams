@@ -1,13 +1,12 @@
+import Component from './Component.js';
 import Electron from './Electron.js';
 import { em, consoleLog, PIXEL_SCALE } from './main.js'
 
-export default class Battery
+export default class Battery extends Component
 {
-    constructor(tilePos, charges, pulseTime, pulseSpeed)
+    constructor(tilePos, spriteInfo, charges, pulseTime, pulseSpeed)
     {
-        this.sprite = 0;
-
-        this.z = 1;
+        super(tilePos, spriteInfo, "BATTERY");
 
         this.tilePos = tilePos;
 

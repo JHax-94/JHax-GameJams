@@ -138,6 +138,20 @@ export default class Electron
         consoleLog(this.phys);*/
     }
 
+    Charge()
+    {
+        if(!this.isCharged) this.isCharged = true;
+    }
+
+    ChargeComponent(component)
+    {
+        if(this.isCharged)
+        {
+            component.AddCharge();
+            this.isCharged = false;
+        }
+    }
+
     Update(deltaTime)
     {
         this.phys.velocity = [ this.velocity.x, this.velocity.y ];

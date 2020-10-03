@@ -1,0 +1,29 @@
+{
+	"mapDefs":
+	[
+		{
+			"name": "map",
+			"components": [
+				{"tileX":7,"tileY":0,"tileType":"Battery","tileSprite":0},
+				{
+					"tileX":0,"tileY":7,"tileType":"Direction","tileSprite":5, 
+					"component": {
+						"sprite": 6,
+						"flipX": false,
+						"flipY": false,
+						"flipR": false
+					}
+				},
+				{
+					"tileX":13,"tileY":7,"tileType":"Direction","tileSprite":5,
+					"component": {
+						"sprite": 6,
+						"flipX": false,
+						"flipY": true,
+						"flipR": false
+					}
+				}
+			]
+		}
+	]
+}

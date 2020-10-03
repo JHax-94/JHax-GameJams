@@ -2,6 +2,7 @@ export default class EntityManager
 {
     constructor()
     {
+        this.map = null;
         this.renderers = [];
         this.updates = [];
     }
@@ -60,6 +61,8 @@ export default class EntityManager
     {
         cls();
 
+        if(this.map) this.map.draw(0, 0);
+        
         for(var i = 0; i < this.updates.length; i ++)
         {
             this.updates[i].Update(deltaTime);

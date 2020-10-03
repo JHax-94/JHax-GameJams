@@ -27,10 +27,8 @@ export default class Battery
     {
         this.pulseTimer += deltaTime;
 
-        consoleLog(this);
         if(this.pulseTimer >= this.pulseTime)
         {
-            consoleLog("PULSE!");
             this.pulseTimer -= this.pulseTime;
             this.sprite ++;
         }

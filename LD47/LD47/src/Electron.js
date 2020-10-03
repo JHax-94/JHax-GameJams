@@ -41,6 +41,7 @@ export default class Electron
         })
 
         em.AddUpdate(this);
+        em.AddElectron(this);
     }
 
     CompareCentre(electron, contact)
@@ -136,6 +137,14 @@ export default class Electron
         consoleLog(this.phys.position);
         consoleLog("PHYS");
         consoleLog(this.phys);*/
+    }
+
+    Destroy()
+    {
+        em.phys.removeBody(this.phys);
+        em.RemoveUpdate(this);
+        em.RemoveRender(this);
+        em.RemoveElectron(this);
     }
 
     Charge()

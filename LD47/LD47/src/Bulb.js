@@ -18,11 +18,20 @@ export default class Bulb extends Component
             { background: 4, foreground: 15 });
         
         this.chargeProgress.CalculateValue(this.currentCharges, this.chargesRequired);
+
+        em.AddBulb(this);
     }
     
+    IsLit()
+    {
+        return this.isOn;
+    }
+
     Charged()
     {
         this.spriteInfo.index = this.chargedSprite;
+        this.isOn = true;
+        em.CheckEndGame();
     }
 
     AddCharge()

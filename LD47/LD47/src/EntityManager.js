@@ -1,5 +1,5 @@
-import { consoleLog, p2, UP, RIGHT, DOWN, LEFT } from './main.js';
-import Selector from './Selector.js';
+import EndScreen from './EndScreen.js';
+import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL } from './main.js';
 
 export default class EntityManager
 {
@@ -12,8 +12,21 @@ export default class EntityManager
         this.renderers = [];
         this.updates = [];
 
+        this.endScreenOn = false;
+
         this.hovers = [];
         this.clickables = [];
+
+        this.electrons = [];
+        this.batteries = [];
+        this.bulbs = [];
+
+        this.endScreen = new EndScreen(
+            { tileX: 5, tileY: 3, tileW: 5, tileH: 2}, 
+            { pos: { tileX: 6, tileY: 3.1 }, winText: "Congratulations!", loseText: "Game Over!" },
+            { pos: { tileX: 6, tileY: 4 }, text: "Press Esc to"},
+            { pos: { tileX: 6, tileY: 4.5 }, text: "return to menu"},
+            { win: { background: 3, foreground: 7 }, lose: { background: 12, foreground: 9 }});
 
         this.trackMouse = false;
 
@@ -67,18 +80,21 @@ export default class EntityManager
 
     Input()
     {
-        var dir = -1;
-
-        if(btn.up) dir = UP;
-        else if(btn.right) dir = RIGHT;
-        else if(btn.down) dir = DOWN;
-        else if(btn.left) dir = LEFT;
-
-        if(dir >= 0 && this.selected !== null)
+        if(!this.endScreenOn)
         {
-            if(this.selected.Input)
+            var dir = -1;
+
+            if(btn.up) dir = UP;
+            else if(btn.right) dir = RIGHT;
+            else if(btn.down) dir = DOWN;
+            else if(btn.left) dir = LEFT;
+
+            if(dir >= 0 && this.selected !== null)
             {
-                this.selected.Input(dir);
+                if(this.selected.Input)
+                {
+                    this.selected.Input(dir);
+                }
             }
         }
     }
@@ -96,20 +112,23 @@ export default class EntityManager
 
     MouseClick(x, y)
     {
-        var clicked = false;
-
-        for(var i = 0; i < this.clickables.length; i ++)
+        if(!this.endScreenOn)
         {
-            if(this.Overlap(this.clickables[i], x, y))
+            var clicked = false;
+
+            for(var i = 0; i < this.clickables.length; i ++)
             {
-                this.clickables[i].Click();
+                if(this.Overlap(this.clickables[i], x, y))
+                {
+                    this.clickables[i].Click();
 
-                clicked = true;
-                break;
+                    clicked = true;
+                    break;
+                }
             }
-        }
 
-        if(!clicked) this.SetSelected(null);
+            if(!clicked) this.SetSelected(null);
+        }
     }
 
     CompareTags(evt, tag1, tag2)
@@ -167,6 +186,11 @@ export default class EntityManager
                 electron.obj.SetContact(powered.obj);
                 electron.obj.ChargeComponent(powered.obj);
             }
+            else if(manager.CompareTags(evt, "ELECTRON", "ELECTRON"))
+            {
+                evt.bodyA.obj.Destroy();
+                evt.bodyB.obj.Destroy();
+            }
         });
 
         this.phys.on("postStep", function(evt)
@@ -218,6 +242,84 @@ export default class EntityManager
 
     }
 
+    AddBulb(bulb)
+    {
+        this.bulbs.push(bulb);
+    }
+
+    AddElectron(electron)
+    {
+        this.electrons.push(electron);
+    }
+
+    RemoveElectron(electron)
+    {
+        for(var i = 0; i < this.electrons.length; i ++)
+        {
+            if(this.electrons[i] === electron)
+            {
+                this.electrons.splice(i, 1);
+                break;
+            }
+        }
+
+        this.CheckEndGame();
+    }
+
+    CheckEndGame()
+    {
+        if(this.electrons.length === 0 && CURRENT_LVL !== "title")
+        {
+            var chargeRemaining = false;
+
+            for(var i = 0; i < this.batteries.length; i ++)
+            {
+                if(this.batteries[i].HasChargesLeft())
+                {
+                    chargeRemaining = true;
+                    break;
+                }
+            }
+
+            if(!chargeRemaining)
+            {
+                consoleLog("Game over!");
+                this.endScreen.ShowScreen(false);
+                this.endScreenOn = true;
+            }
+        }
+        else 
+        {
+            if(this.AllBulbsLit())
+            {
+                consoleLog("You Win!");
+                this.endScreen.ShowScreen(true);
+                this.endScreenOn = true;
+            }
+        }
+    }
+
+    AllBulbsLit()
+    {
+        var allLit = true;
+
+        for(var i = 0; i < this.bulbs.length; i ++)
+        {
+            if(!this.bulbs[i].IsLit())
+            {
+                allLit = false;
+                break;
+            }
+        }
+
+        return allLit;
+    }
+
+    AddBattery(battery)
+    {
+        this.batteries.push(battery);
+    }
+
     SortRenders()
     {
         this.renderers.sort(function(a, b) { return a.z - b.z });
@@ -254,7 +356,7 @@ export default class EntityManager
         {
             if(this.updates[i] === updatable)
             {
-                this.updatable.splice(i, 1);
+                this.updates.splice(i, 1);
                 break;
             }
         }

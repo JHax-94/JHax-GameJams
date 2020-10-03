@@ -16,6 +16,7 @@ export class Label
     Draw()
     {
         locate(0, 0);
+        pen(this.colour);
         print(this.text, this.pos.tileX * PIXEL_SCALE, this.pos.tileY * PIXEL_SCALE);
     }
 }

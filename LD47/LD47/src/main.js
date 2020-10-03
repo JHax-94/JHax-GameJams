@@ -416,4 +416,4 @@ exports.update = function () {
     em.Render();
 };
 
-export { em, p2, consoleLog, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, GetArrowDirMapFromName, LoadLevel, GetAltSwitchDirMapFromDir, TOTAL_SPRITES, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT };
+export { em, p2, consoleLog, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, GetArrowDirMapFromName, LoadLevel, GetAltSwitchDirMapFromDir, CURRENT_LVL, TOTAL_SPRITES, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT };

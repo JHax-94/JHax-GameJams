@@ -1,10 +1,11 @@
-import EntityManager from './EntityManager.js'
-import Battery from './Battery.js'
-import Component from './Component.js'
+import EntityManager from './EntityManager.js';
+import Battery from './Battery.js';
+import Button from './Button.js';
 import RailPoint from './RailPoint.js';
 import DirectionSwitcher from './DirectionSwitcher.js';
 import Selector from './Selector.js';
 import Bulb from './Bulb.js';
+import { Label } from './Label.js';
 
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
@@ -34,6 +35,7 @@ var arrowDirMap = [
 var cornerDirMap = [
     { dir: "RD", flipX: false, flipY: false, flipR: false },
     { dir: "RU", flipX: false, flipY: true, flipR: false },
+    { dir: "RU", flipX: false, flipY: false, flipR: true },
     { dir: "LD", flipX: true, flipY: false, flipR: false },
     { dir: "LU", flipX: true, flipY: false, flipR: true },
     { dir: "LU", flipX: true, flipY: true, flipR: false }
@@ -163,6 +165,9 @@ function GetMapDefs(mapName)
 {
     var mapDefs = assets.mapDefs.mapDefs;
 
+    consoleLog("GET MAP: " + mapName);
+    consoleLog(mapDefs);
+
     var def = null;
 
     for(var i = 0; i < mapDefs.length; i ++)
@@ -170,6 +175,7 @@ function GetMapDefs(mapName)
         if(mapDefs[i].name === mapName)
         {
             def = mapDefs[i];
+            break;
         }
     }
 
@@ -267,10 +273,13 @@ function LoadMap(mapName)
                 );
             }
         }
-        else if(comp.battery)
+        else if(comp.type === "Label")
         {
-            //consoleLog("New Battery!");
-            
+            var label = new Label(comp.position, comp.text, comp.colour);
+        }
+        else if(comp.type === "Button")
+        {
+            var button = new Button(comp.tileRect, comp.text, comp.value, comp.colours);
         }
     }
 
@@ -287,17 +296,24 @@ pointerEvents.onPress(function(x, y, pointerId, evt) {
     em.MouseClick(x, y);
 });
 
+pointerEvents.onMove(function(x, y, pointerId, evt) {
+    em.MouseMove(x, y);
+});
+
+function LoadLevel(levelName)
+{
+    consoleLog("LOADING: " + levelName);
+    em = new EntityManager();
+    em.selector = new Selector(20);
+
+    LoadMap(levelName);
+}
+
 function Setup()
 {
     paper(1);
 
-    var mapDefs = assets.mapDefs.mapDefs;
-
-    //consoleLog(mapDefs);
-    em = new EntityManager();
-    em.selector = new Selector(20);    
-
-    LoadMap('map');
+    LoadLevel("title");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 
@@ -317,4 +333,4 @@ exports.update = function () {
     em.Render();
 };
 
-export { em, p2, consoleLog, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, TOTAL_SPRITES, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT };
+export { em, p2, consoleLog, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, LoadLevel, TOTAL_SPRITES, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT };

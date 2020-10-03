@@ -12,11 +12,24 @@ export default class EntityManager
         this.renderers = [];
         this.updates = [];
 
+        this.hovers = [];
         this.clickables = [];
+
+        this.trackMouse = false;
 
         this.selected = null;
 
         if(this.phys) this.SetupPhys();
+    }
+
+    AddHover(hover)
+    {
+        if(this.trackMouse === false)
+        {
+            this.trackMouse = true;
+        }
+
+        this.hovers.push(hover);
     }
 
     Selected()
@@ -66,6 +79,19 @@ export default class EntityManager
             if(this.selected.Input)
             {
                 this.selected.Input(dir);
+            }
+        }
+    }
+
+    
+
+    MouseMove(x, y)
+    {
+        if(this.trackMouse)
+        {
+            for(var i = 0; i < this.hovers.length; i ++ )
+            {
+                this.hovers[i].hover = this.Overlap(this.hovers[i], x, y);
             }
         }
     }

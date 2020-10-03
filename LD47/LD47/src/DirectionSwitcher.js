@@ -5,10 +5,10 @@ export default class DirectionSwitcher extends Component
 {
     constructor(tilePos, spriteData, isControllable)
     {
-        consoleLog("Constructing Direction Switcher!");
+        //consoleLog("Constructing Direction Switcher!");
         super(tilePos, spriteData, "POINTS");
 
-        consoleLog(this.tilePos);
+        //consoleLog(this.tilePos);
 
         this.isControllable = isControllable;
 

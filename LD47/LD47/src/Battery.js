@@ -38,7 +38,7 @@ export default class Battery extends Component
         */
         this.pulseCount ++;
 
-        newElectron.SetVelocity({x: this.pulseSpeed, y: 0});
+        newElectron.SetVelocity({x: this.pulseSpeed * (this.spriteInfo.flipX ? -1 : 1), y: 0});
     }
 
     /*

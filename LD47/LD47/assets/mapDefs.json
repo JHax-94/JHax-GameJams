@@ -48,6 +48,39 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "title",
+			"components": [
+				{"type": "Label", "text": "Circuit!", "position": {"tileX": 6.5, "tileY": 2.5 }, "colour": 4 },
+				{"type": "Button", "text": "Level 1", "value": "map", "tileRect": { "x": 6.5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				{"tileX":7,"tileY":4,"tileType":"Battery","tileSprite":0,"tileData":{"x":7,"y":4,"sprite":0,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"component": {
+						"sprite": 0,
+						"flipX": true,
+						"flipY": false,
+						"flipR": false
+					},
+					"battery": {
+						"charges": 4,
+						"pulseTime": 2,
+						"pulseSpeed": 60
+					}
+				},
+					{"tileX":7,"tileY":1,"tileType":"Bulb","tileSprite":16,"tileData":{"x":7,"y":1,"sprite":16,"flipH":true,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+						"component": {
+							"sprite": 16,
+							"flipX": false,
+							"flipY": false,
+							"flipR": false
+						},
+						"bulb": {
+							"chargesRequired": 5,
+							"chargedSprite": 17
+						}
+				}]
 		}
+		
+		
 	]
 }

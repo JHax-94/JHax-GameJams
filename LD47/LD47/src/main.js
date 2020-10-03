@@ -6,6 +6,7 @@ import DirectionSwitcher from './DirectionSwitcher.js';
 import Selector from './Selector.js';
 import Bulb from './Bulb.js';
 import { Label } from './Label.js';
+import AltSwitch from './AltSwitch.js';
 
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
@@ -17,6 +18,7 @@ var LEFT = 3;
 
 var hasRunSetup = false;
 
+var CURRENT_LVL = "";
 var FPS = 1/60;
 var TOTAL_SPRITES = 255;
 var PIXEL_SCALE = 16;
@@ -24,6 +26,11 @@ var PIXEL_SCALE = 16;
 var em;
 
 var CONSOLE_ON = true;
+
+var altSwitchDirMap = [
+    { name: "LD", dir: "LD", setDir: DOWN, flipX: true, flipY: false, flipR: true },
+    { name: "DL", dir: "DL", setDir: LEFT, flipX: true, flipY: true, flipR: false }
+];
 
 var arrowDirMap = [
     { name: "UP", dir: UP, flipX: false, flipY: false, flipR: false },
@@ -59,6 +66,38 @@ var componentTiles = [
         index: 16
     },
 ];
+
+function GetAltSwitchDirMapFromDir(dir) 
+{   
+    var dirMap = null;
+
+    for(var i = 0; i < altSwitchDirMap.length; i ++)
+    {
+        if(altSwitchDirMap[i].dir === dir)
+        {
+            dirMap = altSwitchDirMap[i];
+            break;
+        }
+    }
+
+    return dirMap;
+}
+
+function GetAltSwitchDirMapFromFlips(flipX, flipY, flipR)
+{
+    var dirMap = null;
+
+    for(var i = 0; i < altSwitchDirMap.length; i ++)
+    {
+        if(altSwitchDirMap[i].flipX === flipX && altSwitchDirMap[i].flipY === flipY && altSwitchDirMap[i].flipR === flipR)
+        {
+            dirMap = arrowDirMap[i];
+            break;
+        }
+    }
+
+    return dirMap;
+}
 
 function GetArrowDirMapFromFlips(flipX, flipY, flipR)
 {
@@ -199,7 +238,8 @@ function GetMapDefs(mapName)
 }
 
 function LoadMap(mapName)
-{
+{   
+
     var map = getMap(mapName);
     var mapComponents = [];
     var points = [];
@@ -288,6 +328,10 @@ function LoadMap(mapName)
                     comp.battery.pulseSpeed
                 );
             }
+            else if(comp.type === "AltSwitch")
+            {
+                var altSwitch = new AltSwitch(pos, spriteInfo, comp.altSwitch);
+            }
         }
         else if(comp.type === "Label")
         {
@@ -318,11 +362,15 @@ pointerEvents.onMove(function(x, y, pointerId, evt) {
 
 function LoadLevel(levelName)
 {
-    consoleLog("LOADING: " + levelName);
-    em = new EntityManager();
-    em.selector = new Selector(20);
+    if(CURRENT_LVL !== levelName)
+    {
+        CURRENT_LVL = levelName;
+        consoleLog("LOADING: " + levelName);
+        em = new EntityManager();
+        em.selector = new Selector(20);
 
-    LoadMap(levelName);
+        LoadMap(levelName);
+    }
 }
 
 function Setup()
@@ -335,6 +383,25 @@ function Setup()
 
     hasRunSetup = true;
 }
+
+function BackToMenu()
+{
+    LoadLevel("title");
+}
+
+window.addEventListener("keydown", function (evt) {
+    if (evt.defaultPrevented) {
+      return; // Do nothing if the event was already processed
+    }
+
+    if(evt.key === "Escape")
+    {
+        console.log("Return to menu...");
+        BackToMenu();
+    }
+  
+    evt.preventDefault();
+  }, true);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // Update is called once per frame
@@ -349,4 +416,4 @@ exports.update = function () {
     em.Render();
 };
 
-export { em, p2, consoleLog, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, GetArrowDirMapFromName, LoadLevel, TOTAL_SPRITES, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT };
+export { em, p2, consoleLog, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, GetArrowDirMapFromName, LoadLevel, GetAltSwitchDirMapFromDir, TOTAL_SPRITES, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT };

@@ -83,8 +83,6 @@ export default class EntityManager
         }
     }
 
-    
-
     MouseMove(x, y)
     {
         if(this.trackMouse)
@@ -160,6 +158,14 @@ export default class EntityManager
                 var electron = manager.BodyWithTag(evt, "ELECTRON");
 
                 electron.obj.Charge();
+            }
+            else if(manager.CompareTags(evt, "ELECTRON", "POWERED_ALT"))
+            {
+                var electron = manager.BodyWithTag(evt, "ELECTRON");
+                var powered = manager.BodyWithTag(evt, "POWERED_ALT");
+
+                electron.obj.SetContact(powered.obj);
+                electron.obj.ChargeComponent(powered.obj);
             }
         });
 

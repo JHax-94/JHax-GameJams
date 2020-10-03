@@ -29,7 +29,7 @@ export default class Battery extends Component
 
     Pulse()
     {
-        var newElectron = new Electron({x: (this.tilePos.x + 1.5) *PIXEL_SCALE, y: (this.tilePos.y+0.5) * PIXEL_SCALE}, { chargedSprite: 18, unchargedSprite: 19 }, this.pulseSpeed);
+        var newElectron = new Electron({x: (this.tilePos.x + (this.spriteInfo.flipX ? 0 : 1.5)) *PIXEL_SCALE, y: (this.tilePos.y+0.5) * PIXEL_SCALE}, { chargedSprite: 18, unchargedSprite: 19 }, this.pulseSpeed);
         /*
         if(this.pulseCount === 0)
         {

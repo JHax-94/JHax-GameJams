@@ -15,7 +15,7 @@
 					"tileX":0,"tileY":7,"type":"Direction","tileSprite":6, "isControllable": true, "tileData":{"x":0,"y":7,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"direction": {
 						"isControllable": true,
-						"dir": "UP",
+						"dir": "UP"
 					}
 					
 				},
@@ -23,7 +23,7 @@
 					"tileX":13,"tileY":7,"type":"Direction","tileSprite":6, "isControllable": true, "tileData":{"x":13,"y":7,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"direction": {
 						"isControllable": true,
-						"dir": "DOWN",
+						"dir": "DOWN"
 					}
 				},
 				{"tileX":7,"tileY":7,"type":"Bulb","tileSprite":16, "tileData":{"x":7,"y":7,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
@@ -40,6 +40,7 @@
 				{"type": "Label", "text": "Circuit Game!", "position": {"tileX": 6.3, "tileY": 2.5 }, "colour": 4 },
 				{"type": "Label", "text": "Stuck in a Loop", "position": {"tileX": 6, "tileY": 3.2 }, "colour": 4 },
 				{"type": "Button", "text": "Level 1", "value": "map", "tileRect": { "x": 6.5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				{"type": "Button", "text": "Level 2", "value": "switcherLevel", "tileRect": { "x": 6.5, "y": 7.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
 				{"tileX":7,"tileY":4,"type":"Battery","tileSprite":0,"tileData":{"x":7,"y":4,"sprite":0,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"battery": {
 						"charges": 4,
@@ -53,6 +54,50 @@
 							"chargedSprite": 17
 						}
 				}]
+		},
+		{
+			"name":"switcherLevel",
+			"components": [
+				{"tileX":2,"tileY":1,"type":"Battery","tileSprite":0,"tileData":{"x":2,"y":1,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 4,
+						"pulseTime": 2,
+						"pulseSpeed": 60
+					}},
+				{"tileX":0,"tileY":4,"type":"Direction","tileSprite":6,"tileData":{"x":0,"y":4,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "UP"
+					}
+				},
+				{"tileX":6,"tileY":1,"type":"Direction","tileSprite":6,"tileData":{"x":6,"y":1,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "DOWN"
+					}
+				},
+				{
+					"tileX":6,"tileY":4,"type":"Direction","tileSprite":6,"tileData":{"x":6,"y":4,"sprite":5,"flipH":false,"flipV":true,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{
+					"tileX":10,"tileY":4,"type":"AltSwitch","tileSprite":7,"tileData":{"x":10,"y":4,"sprite":5,"flipH":false,"flipV":true,"flipR":false,"flagA":false,"flagB":false},
+					"altSwitch": {
+						"dir": "LD",
+						"alt": "DL",
+						"chargesRequired": 1
+					}
+				},
+				{"tileX":3,"tileY":6,"type":"Bulb","tileSprite":16,"tileData":{"x":3,"y":6,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+							"chargesRequired": 5,
+							"chargedSprite": 17
+						}}
+				
+				]
 		}
 		
 		

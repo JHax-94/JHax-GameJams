@@ -78,7 +78,11 @@ var componentTiles = [
     {
         type: "Direction",
         index: 5,
-        replaceSprite: 6,
+        replaceSprite: 6
+    },
+    {
+        type: "AltSwitch",
+        index: 9
     },
     {
         type: "Corner",

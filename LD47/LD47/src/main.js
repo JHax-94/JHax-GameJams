@@ -34,6 +34,7 @@ var CONSOLE_ON = true;
 
 var diodeDirMap = [
     { dir: UP, flipX: true, flipY: false, flipR: true },
+    { dir: UP, flipX: false, flipY: false, flipR: true },
     { dir: RIGHT, flipX: true, flipY: false, flipR: false },
     { dir: RIGHT, flipX: true, flipY: true, flipR: false },
     { dir: DOWN, flipX: true, flipY: true, flipR: true },
@@ -113,6 +114,12 @@ function GetDiodeDirMapFromFlips(flipX, flipY, flipR)
             dirMap = diodeDirMap[i];
             break;
         }
+    }
+
+    if(dirMap === null)
+    {
+        console.log("DIODE: Flips - X:" + flipX + ", Y: " + flipY + ", R: " + flipR);
+        console.log(dirMap);
     }
 
     return dirMap;
@@ -505,7 +512,7 @@ function Setup()
 
     COLOURS = assets.colourMap;
 
-    LoadLevel("title");
+    LoadLevel("transistorSwitchedAlt");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 

@@ -73,7 +73,7 @@
 		"gamepad": true,
 		"AudioManager": true,
 		"patatracker": false,
-		"bleeper": false,
+		"bleeper": true,
 		"TINA": false,
 		"polyfill": false
 	},

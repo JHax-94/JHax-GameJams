@@ -1,5 +1,5 @@
 import { Label } from "./Label";
-import { consoleLog, em, PIXEL_SCALE, LoadLevel } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LoadLevel, SFX, VOL } from "./main";
 
 export default class Button
 {
@@ -40,6 +40,10 @@ export default class Button
         if(button === 0)
         {
             consoleLog("Load Level: " + this.value);
+
+            consoleLog(sfx, VOL);
+            sfx(SFX.victory, VOL);
+
             this.hover = false;
             LoadLevel(this.value);
         }

@@ -15,6 +15,9 @@ var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
 
 var COLOURS;
+var SFX;
+
+var VOL = 0;
 
 var UP = 0;
 var RIGHT = 1;
@@ -596,6 +599,7 @@ function Setup()
     paper(1);
 
     COLOURS = assets.colourMap;
+    SFX = assets.soundMap;
 
     LoadLevel("title");
 
@@ -669,5 +673,7 @@ export {
     RIGHT, 
     DOWN, 
     LEFT, 
-    COLOURS 
+    COLOURS,
+    SFX,
+    VOL
 };

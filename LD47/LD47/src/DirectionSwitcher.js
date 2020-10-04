@@ -3,10 +3,12 @@ import { consoleLog, UP, DOWN, RIGHT, LEFT, em, GetArrowDirMapFromDir, GetArrowD
 
 export default class DirectionSwitcher extends Component
 {
-    constructor(tilePos, spriteData, direction)
+    constructor(tilePos, spriteData, direction, validDirections)
     {
         //consoleLog("Constructing Direction Switcher!");
         super(tilePos, spriteData, "POINTS");
+
+        this.validDirections = validDirections;
 
         //consoleLog(this.tilePos);
 
@@ -67,11 +69,30 @@ export default class DirectionSwitcher extends Component
         this.SetDirectionFromMap(dirMap);
     }
 
+    IsValidDir(dir)
+    {
+        var valid = false;
+
+        for(var i = 0; i < this.validDirections.length; i ++)
+        {
+            if(this.validDirections[i].dir === dir)
+            {
+                valid = true;
+                break;
+            }
+        }
+
+        return valid;
+    }
+
     Input(dir)
     {
         if(this.currentDirection !== dir)
         {
-            this.ChangeDir(dir);
+            if(this.IsValidDir(dir))
+            {
+                this.ChangeDir(dir);
+            }
         }
     }
 
@@ -83,6 +104,25 @@ export default class DirectionSwitcher extends Component
         {
             sprite(HOVER_SPRITE, this.tilePos.x * PIXEL_SCALE, this.tilePos.y * PIXEL_SCALE);
         }       
+    }
+
+    NextValidDirection()
+    {
+        var returnDir = this.currentDirection;
+
+        for(var i = 1; i < 4; i ++)
+        {
+            var newDir = (this.currentDirection + i) % 4;
+            consoleLog("IS " + newDir + " VALID?");
+
+            if(this.IsValidDir(newDir))
+            {
+                returnDir = newDir;
+                break;
+            }
+        }
+        
+        return returnDir;
     }
 
     Click()
@@ -100,7 +140,9 @@ export default class DirectionSwitcher extends Component
             }
             else
             {
-                this.ChangeDir((this.currentDirection + 1) % 4);
+                var dir = this.NextValidDirection();
+
+                this.ChangeDir(dir);
             }
         }
     }

@@ -72,6 +72,21 @@ var cornerDirMap = [
     { dir: "LU", flipX: true, flipY: true, flipR: false },
 ];
 
+var validAdjacentTiles = [
+    { spriteId: 0 },
+    { spriteId: 1 },
+    { spriteId: 2 },
+    { spriteId: 3 },
+    { spriteId: 4 },
+    { spriteId: 5 },
+    { spriteId: 9 },
+    { spriteId: 16 },
+    { spriteId: 23 },
+    { spriteId: 24 },
+    { spriteId: 32 },
+    { spriteId: 33 }
+];
+
 var componentTiles = [
     {
         type: "Battery",
@@ -333,6 +348,55 @@ function GetMapDefs(mapName)
     return def;
 }
 
+function IsTileValid(tile)
+{
+    var valid = false;
+
+    for(var i = 0; i < validAdjacentTiles.length; i ++)
+    {
+        if(validAdjacentTiles[i].spriteId === tile.sprite)
+        {
+            valid = true;
+            break;
+        }
+    }
+
+    return valid;
+}
+
+function GetValidAdjacentTiles(map, tilePos)
+{
+    var validTiles = [];
+    var coords = [];
+
+    consoleLog(tilePos);
+
+    consoleLog("GETTING ADJACENT TILES");
+
+    coords.push({ x: tilePos.x, y: tilePos.y - 1, dir: UP });
+    coords.push({ x: tilePos.x + 1, y: tilePos.y, dir: RIGHT });
+    coords.push({ x: tilePos.x, y: tilePos.y + 1, dir: DOWN });
+    coords.push({ x: tilePos.x - 1, y: tilePos.y, dir: LEFT });
+
+    for( var i = 0; i < coords.length; i ++)
+    {
+        var tile = map.get(coords[i].x, coords[i].y);
+
+        if(tile !== null)
+        {
+            consoleLog("Adjacent Tile:");
+            consoleLog(tile);
+
+            if(IsTileValid(tile))
+            {
+                validTiles.push({ dir: coords[i].dir });
+            }
+        }
+    }
+
+    return validTiles;
+}
+
 function LoadMap(mapName)
 {   
 
@@ -418,11 +482,15 @@ function LoadMap(mapName)
             
             if(comp.type === "Direction")
             {
-                //consoleLog("NEW COMPONENT");
+                consoleLog("NEW DIRECTION SWITCHER");
+
+                var adjacentTiles = GetValidAdjacentTiles(map, pos);
+
                 newComp = new DirectionSwitcher(
                     pos,
                     spriteInfo,
-                    comp.direction);
+                    comp.direction,
+                    adjacentTiles);
             }
             else if(comp.type === "Bulb")
             {

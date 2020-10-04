@@ -85,10 +85,10 @@ export default class EntityManager
         {
             var dir = -1;
 
-            if(btn.up) dir = UP;
-            else if(btn.right) dir = RIGHT;
-            else if(btn.down) dir = DOWN;
-            else if(btn.left) dir = LEFT;
+            if(btn.up || btn.up_alt) dir = UP;
+            else if(btn.right || btn.right_alt) dir = RIGHT;
+            else if(btn.down || btn.down_alt) dir = DOWN;
+            else if(btn.left || btn.left_alt) dir = LEFT;
 
             if(dir >= 0 && this.selected !== null)
             {
@@ -111,7 +111,7 @@ export default class EntityManager
         }
     }
 
-    MouseClick(x, y)
+    MouseClick(x, y, button)
     {
         if(!this.endScreenOn)
         {
@@ -121,7 +121,7 @@ export default class EntityManager
             {
                 if(this.Overlap(this.clickables[i], x, y))
                 {
-                    this.clickables[i].Click();
+                    this.clickables[i].Click(button);
 
                     clicked = true;
                     break;

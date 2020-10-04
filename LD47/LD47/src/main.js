@@ -8,6 +8,7 @@ import Bulb from './Bulb.js';
 import { Label } from './Label.js';
 import AltSwitch from './AltSwitch.js';
 import Transistor from './Transistor.js';
+import WireSwitch from './WireSwitch.js';
 
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
@@ -29,6 +30,11 @@ var PIXEL_SCALE = 16;
 var em;
 
 var CONSOLE_ON = true;
+
+var wireSwitchMap = [
+    { dir: "H", flipX: false, flipY: false, flipR: false },
+    { dir: "V", flipX: false, flipY: false, flipR: true }
+];
 
 var altSwitchDirMap = [
     { name: "LD", dir: "LD", setDir: LEFT, flipX: true, flipY: false, flipR: true },
@@ -70,10 +76,46 @@ var componentTiles = [
         index: 16
     },
     {
+        type: "Switch",
+        index: 23
+    },
+    {
         type: "Transistor",
         index: 32
     }
 ];
+
+function GetWireSwitchDirFromDir(dir)
+{
+    var dirMap = null;
+
+    for(var i = 0; i < wireSwitchMap.length; i ++)
+    {
+        if(wireSwitchMap[i].dir === dir)
+        {
+            dirMap = wireSwitchMap[i];
+            break;
+        }
+    }
+
+    return dirMap;
+}
+
+function GetWireSwitchDirFromFlips(flipX, flipY, flipR)
+{
+    var dirMap = null;
+
+    for(var i = 0; i < altSwitchDirMap.length; i ++)
+    {
+        if(wireSwitchMap[i].flipX === flipX && wireSwitchMap[i].flipY === flipY && wireSwitchMap[i].flipR === flipR)
+        {
+            dirMap = wireSwitchMap[i];
+            break;
+        }
+    }
+
+    return dirMap;
+}
 
 function GetAltSwitchDirMapFromDir(dir) 
 {   
@@ -345,8 +387,16 @@ function LoadMap(mapName)
             {
                 newComp = new AltSwitch(pos, spriteInfo, comp.altSwitch);
             }
+            else if(comp.type === "Switch")
+            {
+                consoleLog("Add wire Switch");
+                newComp = new WireSwitch(pos, spriteInfo, comp.wireSwitch);
+            }
             else if(comp.type === "Transistor") 
             {
+                consoleLog("Add transistor");
+                consoleLog("Added components:");
+                consoleLog(addedComponents);
                 comp.transistor.connections = [];
                 for(var i = 0; i < addedComponents.length; i ++)
                 {
@@ -459,4 +509,24 @@ exports.update = function () {
     em.Render();
 };
 
-export { em, p2, consoleLog, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, GetArrowDirMapFromName, LoadLevel, GetAltSwitchDirMapFromDir, GetDirectionFromString, CURRENT_LVL, TOTAL_SPRITES, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT, COLOURS };
+export { 
+    em, 
+    p2, 
+    consoleLog, 
+    GetArrowDirMapFromDir, 
+    GetArrowDirMapFromFlips, 
+    GetArrowDirMapFromName, 
+    LoadLevel, 
+    GetAltSwitchDirMapFromDir, 
+    GetDirectionFromString,
+    GetWireSwitchDirFromFlips, 
+    GetWireSwitchDirFromDir,
+    CURRENT_LVL, 
+    TOTAL_SPRITES, 
+    PIXEL_SCALE, 
+    UP, 
+    RIGHT, 
+    DOWN, 
+    LEFT, 
+    COLOURS 
+};

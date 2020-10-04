@@ -1,4 +1,4 @@
-import { UP, RIGHT, DOWN, LEFT } from "./main";
+import { UP, RIGHT, DOWN, LEFT, consoleLog } from "./main";
 import Component from "./Component";
 
 export default class Transistor extends Component
@@ -26,6 +26,7 @@ export default class Transistor extends Component
 
     Charged()
     {
+        consoleLog("Pulse to " + this.connections.length + " connections");
         for(var i = 0; i < this.connections.length; i ++)
         {
             this.connections[i].AddCharge();

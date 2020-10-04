@@ -192,6 +192,16 @@ export default class EntityManager
                 evt.bodyA.obj.Destroy();
                 evt.bodyB.obj.Destroy();
             }
+            else if(manager.CompareTags(evt, "ELECTRON", "WIRE_SWITCH"))
+            {
+                var electron = manager.BodyWithTag(evt, "ELECTRON");
+                var wireSwitch = manager.BodyWithTag(evt, "WIRE_SWITCH");
+
+                if(!wireSwitch.obj.AllowPassage(electron.obj))
+                {
+                    electron.obj.Destroy();
+                }
+            }
         });
 
         this.phys.on("postStep", function(evt)

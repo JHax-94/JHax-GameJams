@@ -170,7 +170,10 @@ export default class Component
         {
             this.chargeDecayTimer += deltaTime;
 
-            this.decayProgress.CalculateValue(this.chargeDecayTime - this.chargeDecayTimer, this.chargeDecayTime);
+            if(this.decayProgress !== null)
+            {
+                this.decayProgress.CalculateValue(this.chargeDecayTime - this.chargeDecayTimer, this.chargeDecayTime);
+            }
 
             if(this.chargeDecayTimer >= this.chargeDecayTime)
             {

@@ -117,6 +117,8 @@ export default class Electron
             consoleLog(contact);
         }*/
 
+        this.reSnap = [];
+
         for(var i = 0; i < contact.phys.position.length; i ++)
         {
             /*
@@ -125,10 +127,12 @@ export default class Electron
                 consoleLog("SNAP: " + i + " = " + contact.phys.position[i]);
             }*/
             this.phys.position[i] = contact.phys.position[i];
-        }
 
-        var screenDims = { x: Math.floor(this.phys.position[0] - 0.5*PIXEL_SCALE), y: Math.floor(-this.phys.position[1] - 0.5*PIXEL_SCALE) };
+            this.reSnap[i] = contact.phys.position[i];
+        }
         /*
+        var screenDims = { x: Math.floor(this.phys.position[0] - 0.5*PIXEL_SCALE), y: Math.floor(-this.phys.position[1] - 0.5*PIXEL_SCALE) };
+        
         consoleLog("POS");
         consoleLog(this.phys.position);
         consoleLog("SCREEN");
@@ -191,9 +195,18 @@ export default class Electron
                 this.phys.setZeroForce();
                 this.SetVelocity({x: newDir[0] * this.speed, y: newDir[1] * this.speed});
                 this.SnapToContact(this.contact, newDir);
-                this.SnapToContact(this.contact, newDir);
+                if(this.contact.phys.tag === "POWERED_ALT")
+                {
+                    this.ChargeComponent(this.contact);
+                }
+                
                 this.contact = null;
             }
+        }
+        else if(this.reSnap)
+        {
+            this.phys.position = this.reSnap;
+            this.reSnap = null;
         }
     }
 

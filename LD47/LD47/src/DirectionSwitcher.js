@@ -1,5 +1,5 @@
 import Component from "./Component";
-import { consoleLog, UP, DOWN, RIGHT, LEFT, em, GetArrowDirMapFromDir, GetArrowDirMapFromName,  PIXEL_SCALE } from "./main";
+import { consoleLog, UP, DOWN, RIGHT, LEFT, em, GetArrowDirMapFromDir, GetArrowDirMapFromName,  PIXEL_SCALE, HOVER_SPRITE } from "./main";
 
 export default class DirectionSwitcher extends Component
 {
@@ -19,6 +19,12 @@ export default class DirectionSwitcher extends Component
         consoleLog("DIR SWITCHER CONSTRUCTED");
         consoleLog(this);
 
+        this.hover = false;
+
+        if(this.isControllable)
+        {
+            em.AddHover(this);
+        }
         em.AddClickable(this);
     }
 
@@ -67,6 +73,16 @@ export default class DirectionSwitcher extends Component
         {
             this.ChangeDir(dir);
         }
+    }
+
+    Draw() 
+    {
+        super.Draw();
+
+        if(this.hover)
+        {
+            sprite(HOVER_SPRITE, this.tilePos.x * PIXEL_SCALE, this.tilePos.y * PIXEL_SCALE);
+        }       
     }
 
     Click()

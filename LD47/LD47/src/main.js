@@ -21,6 +21,8 @@ var RIGHT = 1;
 var DOWN = 2;
 var LEFT = 3;
 
+var HOVER_SPRITE = 36;
+
 var hasRunSetup = false;
 
 var CURRENT_LVL = "";
@@ -580,6 +582,7 @@ export {
     GetWireSwitchDirFromFlips, 
     GetWireSwitchDirFromDir,
     GetDiodeDirMapFromFlips,
+    HOVER_SPRITE,
     CURRENT_LVL, 
     TOTAL_SPRITES, 
     PIXEL_SCALE, 

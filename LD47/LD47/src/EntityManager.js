@@ -185,7 +185,6 @@ export default class EntityManager
                 var powered = manager.BodyWithTag(evt, "POWERED_ALT");
 
                 electron.obj.SetContact(powered.obj);
-                electron.obj.ChargeComponent(powered.obj);
             }
             else if(manager.CompareTags(evt, "ELECTRON", "ELECTRON"))
             {

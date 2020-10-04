@@ -1,4 +1,4 @@
-import { consoleLog, em, PIXEL_SCALE, UP, DOWN, RIGHT, LEFT } from "./main";
+import { consoleLog, em, PIXEL_SCALE, UP, DOWN, RIGHT, LEFT, SFX } from "./main";
 
 //import { em, consoleLog, PIXEL_SCALE } from './main.js'
 
@@ -153,7 +153,11 @@ export default class Electron
 
     Charge()
     {
-        if(!this.isCharged) this.isCharged = true;
+        if(!this.isCharged)
+        {   
+            this.isCharged = true;
+            sfx(SFX.electronCharged);
+        } 
     }
 
     ChargeComponent(component)
@@ -166,7 +170,7 @@ export default class Electron
             if(chargeAdded) 
             {
                 consoleLog("Switch off electron!");
-                this.isCharged = false;
+                this.RemoveCharge();
             }
         }
     }
@@ -174,6 +178,7 @@ export default class Electron
     RemoveCharge()
     {
         this.isCharged = false;
+        sfx(SFX.chargeSpent);
     }
 
     Update(deltaTime)

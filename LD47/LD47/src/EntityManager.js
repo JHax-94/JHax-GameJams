@@ -1,5 +1,5 @@
 import EndScreen from './EndScreen.js';
-import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL } from './main.js';
+import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX } from './main.js';
 
 export default class EntityManager
 {
@@ -106,7 +106,7 @@ export default class EntityManager
         {
             for(var i = 0; i < this.hovers.length; i ++ )
             {
-                this.hovers[i].hover = this.Overlap(this.hovers[i], x, y);
+                this.hovers[i].Hover(this.Overlap(this.hovers[i], x, y));
             }
         }
     }
@@ -190,6 +190,8 @@ export default class EntityManager
             {
                 evt.bodyA.obj.Destroy();
                 evt.bodyB.obj.Destroy();
+
+                sfx(SFX.electronCollision);
             }
             else if(manager.CompareTags(evt, "ELECTRON", "WIRE_SWITCH"))
             {
@@ -199,6 +201,7 @@ export default class EntityManager
                 if(!wireSwitch.obj.AllowPassage(electron.obj))
                 {
                     electron.obj.Destroy();
+                    sfx(SFX.electronLost);
                 }
             }
             else if(manager.CompareTags(evt, "ELECTRON", "DIODE"))

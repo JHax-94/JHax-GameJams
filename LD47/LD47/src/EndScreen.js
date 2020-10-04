@@ -1,5 +1,5 @@
 import { Label } from "./Label";
-import { em, PIXEL_SCALE } from "./main";
+import { em, PIXEL_SCALE, SFX } from "./main";
 
 export default class EndScreen
 {
@@ -26,6 +26,15 @@ export default class EndScreen
         
         this.tertiaryLabel = new Label(this.tertiaryText.pos, this.tertiaryText.text, 4);
         this.tertiaryLabel.z = 1010;
+
+        if(winLose)
+        {
+            sfx(SFX.victory);
+        }
+        else
+        {
+            sfx(SFX.defeat);
+        }
 
         em.AddRender(this);
     }

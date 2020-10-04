@@ -41,9 +41,6 @@ export default class Button
         {
             consoleLog("Load Level: " + this.value);
 
-            consoleLog(sfx, VOL);
-            sfx(SFX.victory, VOL);
-
             this.hover = false;
             LoadLevel(this.value);
         }

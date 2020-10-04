@@ -1,5 +1,5 @@
 import Component from "./Component";
-import { consoleLog, em, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT, COLOURS } from "./main";
+import { consoleLog, em, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT, COLOURS, SFX } from "./main";
 
 export default class Bulb extends Component
 {
@@ -53,6 +53,7 @@ export default class Bulb extends Component
     {
         consoleLog("BULB DECAY");
         super.Decay();
+        sfx(SFX.bulbOff);
 
         if(this.isOn)
         {
@@ -70,6 +71,7 @@ export default class Bulb extends Component
     {
         this.spriteInfo.index = this.chargedSprite;
         this.isOn = true;
+        sfx(SFX.bulbOn);
         em.CheckEndGame();
     }
 

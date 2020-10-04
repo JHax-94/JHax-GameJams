@@ -518,7 +518,7 @@ function Setup()
 
     COLOURS = assets.colourMap;
 
-    LoadLevel("transistorSwitchedAlt");
+    LoadLevel("title");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 

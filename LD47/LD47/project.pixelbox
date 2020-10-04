@@ -46,8 +46,8 @@
 		"right": 39,
 		"up_alt": 87,
 		"down_alt": 83,
-        "left_alt": 65,
-	    "right_alt": 68
+		"left_alt": 65,
+		"right_alt": 68
 	},
 	"touchEvent": {
 		"multiTouch": false,

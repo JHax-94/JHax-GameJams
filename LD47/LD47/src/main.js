@@ -52,7 +52,11 @@ var wireSwitchMap = [
 
 var altSwitchDirMap = [
     { name: "LD", dir: "LD", setDir: LEFT, flipX: true, flipY: false, flipR: true },
-    { name: "DL", dir: "DL", setDir: DOWN, flipX: true, flipY: true, flipR: false }
+    { name: "DL", dir: "DL", setDir: DOWN, flipX: true, flipY: true, flipR: false },
+    { name: "RL", dir: "RL", setDir: RIGHT, flipX: false, flipY: false, flipR: true },
+    { name: "LR", dir: "LR", setDir: LEFT, flipX: true, flipY: true, flipR: true },
+    { name: "UD", dir: "UD", setDir: UP, flipX: false, flipY: false, flipR: false },
+    { name: "DU", dir: "DU", setDir: DOWN, flipX: true, flipY: true, flipR: false } 
 ];
 
 var arrowDirMap = [

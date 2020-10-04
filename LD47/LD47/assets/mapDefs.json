@@ -565,6 +565,177 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "splitterAlternatorTest",
+			"components": [
+				{"tileX":6,"tileY":1,"type":"Battery","tileSprite":0,"tileData":{"x":6,"y":1,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 9,
+						"pulseTime": 1.5,
+						"pulseSpeed": 50
+					}
+				},
+				{"tileX":3,"tileY":1,"type":"Direction","tileSprite":6,"tileData":{"x":3,"y":1,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "RIGHT"
+					}
+				},
+				{"tileX":3,"tileY":10,"type":"Direction","tileSprite":6,"tileData":{"x":3,"y":10,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "UP"
+					}
+				},
+				{"tileX":3,"tileY":12,"type":"Direction","tileSprite":6,"tileData":{"x":3,"y":12,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "UP"
+					}
+				},
+				{"tileX":6,"tileY":7,"type":"Direction","tileSprite":6,"tileData":{"x":6,"y":7,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":6,"tileY":10,"type":"Direction","tileSprite":6,"tileData":{"x":6,"y":10,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":6,"tileY":12,"type":"Direction","tileSprite":6,"tileData":{"x":6,"y":12,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":6,"tileY":14,"type":"Direction","tileSprite":6,"tileData":{"x":6,"y":14,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":10,"tileY":1,"type":"Direction","tileSprite":6,"tileData":{"x":10,"y":1,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "DOWN"
+					}
+				},
+				{"tileX":10,"tileY":4,"type":"Direction","tileSprite":6,"tileData":{"x":10,"y":4,"sprite":5,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "DOWN"
+					}
+				},
+				{"tileX":10,"tileY":10,"type":"Direction","tileSprite": 6,"tileData":{"x":10,"y":10,"sprite":5,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":10,"tileY":12,"type":"Direction","tileSprite":6,"tileData":{"x":10,"y":12,"sprite":5,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":10,"tileY":14,"type":"Direction","tileSprite":6,"tileData":{"x":10,"y":14,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "UP"
+					}
+				},
+				{"tileX":13,"tileY":1,"type":"Direction","tileSprite":6,"tileData":{"x":13,"y":1,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":13,"tileY":4,"type":"Direction","tileSprite":6,"tileData":{"x":13,"y":4,"sprite":5,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "RIGHT"
+					}
+				},
+				{"tileX":13,"tileY":10,"type":"Direction","tileSprite":6,"tileData":{"x":13,"y":10,"sprite":5,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":13,"tileY":12,"type":"Direction","tileSprite":6,"tileData":{"x":13,"y":12,"sprite":5,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":15,"tileY":4,"type":"Direction","tileSprite":6,"tileData":{"x":15,"y":4,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "UP"
+					}
+				},
+				{"tileX":3,"tileY":7,"type":"AltSwitch","tileSprite":8,"tileData":{"x":3,"y":7,"sprite":9,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"altSwitch": {
+						"dir": "UD",
+						"alt": "DU",
+						"chargesRequired": 1,
+						"chargeDecayTime": 20,
+						"decayWhenFull": true,
+						"chargeBarDir": "RIGHT",
+						"decayBarDir": "RIGHT",
+						"chargeResetsDecay": false,
+						"decayToZero": true,
+						"overrideDecayColour": 7
+					}
+				},
+				{"tileX":10,"tileY":7,"type":"AltSwitch","tileSprite":8,"tileData":{"x":10,"y":7,"sprite":9,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"altSwitch": {
+						"dir": "RL",
+						"alt": "LR",
+						"chargesRequired": 1,
+						"chargeDecayTime": 20,
+						"decayWhenFull": true,
+						"chargeBarDir": "RIGHT",
+						"decayBarDir": "RIGHT",
+						"chargeResetsDecay": false,
+						"decayToZero": true,
+						"overrideDecayColour": 7
+					}
+				},
+				{"tileX":13,"tileY":7,"type":"AltSwitch","tileSprite":8,"tileData":{"x":13,"y":7,"sprite":9,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"altSwitch": {
+						"dir": "UD",
+						"alt": "DU",
+						"chargesRequired": 1,
+						"chargeDecayTime": 20,
+						"decayWhenFull": true,
+						"chargeBarDir": "RIGHT",
+						"decayBarDir": "RIGHT",
+						"chargeResetsDecay": false,
+						"decayToZero": true,
+						"overrideDecayColour": 7
+					}
+				},
+				{"tileX":8,"tileY":14,"type":"Bulb","tileSprite":16,"tileData":{"x":8,"y":14,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 5,
+						"chargedSprite": 17,
+						"chargeBarDir": "UP"
+					}	
+				},
+				{"tileX":12,"tileY":14,"type":"Bulb","tileSprite":16,"tileData":{"x":12,"y":14,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 5,
+						"chargedSprite": 17,
+						"chargeBarDir": "UP"
+					}
+				},
+				{"tileX":12,"tileY":1,"type":"Diode","tileSprite":33,"tileData":{"x":12,"y":1,"sprite":33,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false}}
+			]
 		}
 	]
 }

@@ -39,15 +39,41 @@
 			"components": [
 				{"type": "Label", "text": "Circuit Game!", "position": {"tileX": 6.3, "tileY": 2.5 }, "colour": 4 },
 				{"type": "Label", "text": "Stuck in a Loop", "position": {"tileX": 6, "tileY": 3.2 }, "colour": 4 },
-				{"type": "Button", "text": "Level 1", "value": "map", "tileRect": { "x": 3.5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
-				{"type": "Button", "text": "Level 2", "value": "alternatorLevel", "tileRect": { "x": 3.5, "y": 7.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
-				{"type": "Button", "text": "Level 3", "value": "decayTest", "tileRect": { "x": 3.5, "y": 9, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
-				{"type": "Button", "text": "Level 4", "value": "transistorTest", "tileRect": { "x": 3.5, "y": 10.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
-				{"type": "Button", "text": "Level 5", "value": "switchTest", "tileRect": { "x": 3.5, "y": 12, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
-				{"type": "Button", "text": "Level 6", "value": "doubleSwitch", "tileRect": { "x": 3.5, "y": 13.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
-				{"type": "Button", "text": "Level 7", "value": "parallel", "tileRect": { "x": 7.5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
-				{"type": "Button", "text": "Level 8", "value": "transistorSwitchedAlt", "tileRect": { "x": 7.5, "y": 7.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
-				{"tileX":7,"tileY":4,"type":"Battery","tileSprite":0,"tileData":{"x":7,"y":4,"sprite":0,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+				{"type": "Button", "text": "Level 1", "value": "map", "tileRect": { "x": 1.25, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				{"type": "Button", "text": "Level 2", "value": "alternatorLevel", "tileRect": { "x": 1.25, "y": 7.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				{"type": "Button", "text": "Level 3", "value": "decayTest", "tileRect": { "x": 1.25, "y": 9, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				{"type": "Button", "text": "Level 4", "value": "transistorTest", "tileRect": { "x": 1.25, "y": 10.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				{"type": "Button", "text": "Level 5", "value": "switchTest", "tileRect": { "x": 1.25, "y": 12, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				{"type": "Button", "text": "Level 6", "value": "doubleSwitch", "tileRect": { "x": 1.25, "y": 13.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				{"type": "Button", "text": "Level 7", "value": "parallel", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				{"type": "Button", "text": "Level 8", "value": "transistorSwitchedAlt", "tileRect": { "x": 5, "y": 7.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				
+				{"type": "Label", "text": "L-Click:", "position": {"tileX": 9.25, "tileY": 6 }, "colour": 4 },
+				{"type": "Label", "text": "Select Arrow", "position": {"tileX": 9.5, "tileY": 6.5 }, "colour": 4 },
+				{"type": "Label", "text": "Turn Arrow Clockwise", "position": {"tileX": 9.5, "tileY": 7 }, "colour": 4 },
+
+				{"type": "Label", "text": "R-Click:", "position": {"tileX": 9.25, "tileY": 8 }, "colour": 4 },
+				{"type": "Label", "text": "Turn Arrow Anti-Clockwise", "position": {"tileX": 9.5, "tileY": 8.5 }, "colour": 4 },
+				
+				{"type": "Label", "text": "Arrow Keys / WASD:", "position": {"tileX": 9.25, "tileY": 9.5 }, "colour": 4 },
+				{"type": "Label", "text": "Change Arrow Direction", "position": {"tileX": 9.5, "tileY": 10 }, "colour": 4 },
+
+				{"type": "Label", "text": "Goal:", "position": {"tileX": 9.25, "tileY": 11 }, "colour": 4 },
+				{"type": "Label", "text": "- Point the electrons ", "position": {"tileX": 9.5, "tileY": 11.5 }, "colour": 4 },
+				{"type": "Label", "text": "  in the right direction", "position": {"tileX": 9.5, "tileY": 12 }, "colour": 4 },
+				{"type": "Label", "text": "- Light all the bulbs in ", "position": {"tileX": 9.5, "tileY": 12.5 }, "colour": 4 },
+				{"type": "Label", "text": "  each level", "position": {"tileX": 9.5, "tileY": 13 }, "colour": 4 },
+
+				{"type": "Label", "text": "Made with:", "position": {"tileX": 10.75, "tileY": 14 }, "colour": 4 },
+				{"type": "Label", "text": "Cstoquer's PixelBox", "position": {"tileX": 11.25, "tileY": 14.5 }, "colour": 4 },
+				{"type": "Label", "text": "schteppe's p2.js", "position": {"tileX": 11.25, "tileY": 15 }, "colour": 4 },
+
+				{"type": "Label", "text": "Game by:", "position": {"tileX": 10.75, "tileY": 0.25 }, "colour": 4 },
+				{"type": "Label", "text": "Josh Haxell +", "position": {"tileX": 11.25, "tileY": 0.75 }, "colour": 4 },
+				{"type": "Label", "text": "Sammy El-Bahrawy", "position": {"tileX": 11.25, "tileY": 1.25 }, "colour": 4 },
+
+
+				{"tileX":7,"tileY":4,"type":"Battery","tileSprite":0,"tileData":{"x":6,"y":4,"sprite":0,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"battery": {
 						"charges": 4,
 						"pulseTime": 2,

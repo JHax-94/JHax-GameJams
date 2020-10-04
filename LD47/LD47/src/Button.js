@@ -35,11 +35,14 @@ export default class Button
         }
     }
 
-    Click()
+    Click(button)
     {
-        consoleLog("Load Level: " + this.value);
-        this.hover = false;
-        LoadLevel(this.value);
+        if(button === 0)
+        {
+            consoleLog("Load Level: " + this.value);
+            this.hover = false;
+            LoadLevel(this.value);
+        }
     }
 
     Draw()

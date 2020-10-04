@@ -560,7 +560,8 @@ function LoadMap(mapName)
 }
 
 pointerEvents.onPress(function(x, y, pointerId, evt) {
-    em.MouseClick(x, y);
+    consoleLog(evt);
+    em.MouseClick(x, y, evt.button);
 });
 
 pointerEvents.onMove(function(x, y, pointerId, evt) {

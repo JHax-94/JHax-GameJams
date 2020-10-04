@@ -21,7 +21,7 @@ export default class RailPoint
             isKinematic: true,
             colliderRect: { width: PIXEL_SCALE, height: PIXEL_SCALE }
         });
-        em.AddRender(this);
+        //em.AddRender(this);
     }
 
     GetVert()
@@ -123,11 +123,11 @@ export default class RailPoint
 
         return velocity;
     }
-
+    /*
     Draw()
     {
         pen(9);
         rect(this.phys.position[0] - 0.5*PIXEL_SCALE, - this.phys.position[1] - 0.5*PIXEL_SCALE, PIXEL_SCALE, PIXEL_SCALE);
-    }
+    }*/
 
 }

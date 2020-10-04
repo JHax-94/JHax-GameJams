@@ -106,13 +106,13 @@ export default class DirectionSwitcher extends Component
         }       
     }
 
-    NextValidDirection()
+    NextValidDirection(checkDirection)
     {
         var returnDir = this.currentDirection;
 
         for(var i = 1; i < 4; i ++)
         {
-            var newDir = (this.currentDirection + i) % 4;
+            var newDir = (this.currentDirection + i * checkDirection + 4) % 4;
             consoleLog("IS " + newDir + " VALID?");
 
             if(this.IsValidDir(newDir))
@@ -125,7 +125,7 @@ export default class DirectionSwitcher extends Component
         return returnDir;
     }
 
-    Click()
+    Click(button)
     {
         /*
         consoleLog("Direction Switcher Clicked!");
@@ -140,7 +140,7 @@ export default class DirectionSwitcher extends Component
             }
             else
             {
-                var dir = this.NextValidDirection();
+                var dir = this.NextValidDirection(button === 0 ? 1 : -1);
 
                 this.ChangeDir(dir);
             }

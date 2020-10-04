@@ -518,7 +518,7 @@ function Setup()
 
     COLOURS = assets.colourMap;
 
-    LoadLevel("title");
+    LoadLevel("diode2");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 

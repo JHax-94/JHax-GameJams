@@ -408,7 +408,7 @@ function Setup()
 
     COLOURS = assets.colourMap;
 
-    LoadLevel("transistorTest");
+    LoadLevel("title");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 

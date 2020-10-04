@@ -14,14 +14,18 @@ export default class Transistor extends Component
 
         this.SetBarDirections(transistor);
 
+        this.logging = true;
+        this.logName = "TRANSISTOR";
+
         this.chargeProgress = this.AddProgressBar(this.chargeBarDir, { bg: 4, fg: 15 });
         this.ResetProgressBars();
     }
 
     AddCharge()
     {
-        super.AddCharge();
+        var charged = super.AddCharge();
         console.log("TRANSISTOR CHARGE:" + this.currentCharges + " / " + this.chargesRequired);
+        return charged;
     }
 
     Charged()

@@ -157,12 +157,19 @@ export default class Electron
         if(this.isCharged)
         {
             var chargeAdded = component.AddCharge();
+            consoleLog("CHARGE USED: " + chargeAdded);
 
             if(chargeAdded) 
             {
+                consoleLog("Switch off electron!");
                 this.isCharged = false;
             }
         }
+    }
+
+    RemoveCharge()
+    {
+        this.isCharged = false;
     }
 
     Update(deltaTime)

@@ -202,6 +202,21 @@ export default class EntityManager
                     electron.obj.Destroy();
                 }
             }
+            else if(manager.CompareTags(evt, "ELECTRON", "DIODE"))
+            {
+                var electron = manager.BodyWithTag(evt, "ELECTRON");
+                var diode = manager.BodyWithTag(evt, "DIODE");
+
+                consoleLog("Diode collision!");
+
+                if(!diode.obj.AllowPassage(electron.obj))
+                {
+                    consoleLog("Remove electron charge!");
+
+                    electron.obj.RemoveCharge();
+                }
+
+            }
         });
 
         this.phys.on("postStep", function(evt)

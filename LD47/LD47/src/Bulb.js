@@ -25,7 +25,7 @@ export default class Bulb extends Component
 
         this.chargeProgress = this.AddProgressBar(this.chargeBarDir, { bg: COLOURS.barBg, fg: COLOURS.chargeBarFg });
         
-        if(bulb.decayTime > 0)
+        if(bulb.chargeDecayTime > 0)
         {
             this.decayProgress = this.AddProgressBar(this.decayBarDir, {bg: COLOURS.barBg, fg: COLOURS.decayBarFg });
         }
@@ -44,6 +44,9 @@ export default class Bulb extends Component
         {
             em.AddUpdate(this);
         }
+
+        consoleLog("==== BULB CONSTRUCTED ====");
+        consoleLog(this);
     }
     
     Decay()

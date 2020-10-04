@@ -71,6 +71,11 @@ export default class Component
         {
             this.chargeResetsDecay = decay.chargeResetsDecay;
         }
+
+        if(decay.overrideDecayColour)
+        {
+            this.decayProgress.colours.foreground = decay.overrideDecayColour;
+        }
     }
 
     SetBarDirections(barDirs)

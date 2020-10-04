@@ -16,13 +16,11 @@ export default class AltSwitch extends Component
         this.currentMap = 0;
 
         this.SetBarDirections(altSwitch);
-        this.SetupDecay(altSwitch);
-
+        
         this.chargeProgress = this.AddProgressBar(this.chargeBarDir, { bg: COLOURS.barBg, fg: COLOURS.chargeBarFg });
         this.decayProgress = this.AddProgressBar(this.decayBarDir, { bg: COLOURS.barBg, fg: COLOURS.decayBarFg });
 
-        consoleLog("Alt Switch constructed:");
-        consoleLog(this);
+        this.SetupDecay(altSwitch);
 
         this.SwitchDirection(0);
         this.ResetProgressBars();
@@ -31,6 +29,9 @@ export default class AltSwitch extends Component
         this.logName = "ALT SWITCH";
 
         em.AddUpdate(this);
+
+        consoleLog("====== ALT SWITCH CONSTRUCTED =====");
+        consoleLog(this);
     }
 
     GetFlippedDirection()

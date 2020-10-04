@@ -9,6 +9,7 @@ import { Label } from './Label.js';
 import AltSwitch from './AltSwitch.js';
 import Transistor from './Transistor.js';
 import WireSwitch from './WireSwitch.js';
+import Diode from './Diode.js';
 
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
@@ -30,6 +31,16 @@ var PIXEL_SCALE = 16;
 var em;
 
 var CONSOLE_ON = true;
+
+var diodeDirMap = [
+    { dir: UP, flipX: true, flipY: false, flipR: true },
+    { dir: RIGHT, flipX: true, flipY: false, flipR: false },
+    { dir: RIGHT, flipX: true, flipY: true, flipR: false },
+    { dir: DOWN, flipX: true, flipY: true, flipR: true },
+    { dir: DOWN, flipX: false, flipY: true, flipR: true },
+    { dir: LEFT, flipX: false, flipY: false, flipR: false },
+    { dir: LEFT, flipX: false, flipY: true, flipR: false },
+];
 
 var wireSwitchMap = [
     { dir: "H", flipX: false, flipY: false, flipR: false },
@@ -65,7 +76,8 @@ var componentTiles = [
     },
     {
         type: "Direction",
-        index: 5
+        index: 5,
+        replaceSprite: 6,
     },
     {
         type: "Corner",
@@ -77,13 +89,34 @@ var componentTiles = [
     },
     {
         type: "Switch",
-        index: 23
+        index: 23,
+        replaceSprite: 39
+    },
+    {
+        type: "Diode",
+        index:33  
     },
     {
         type: "Transistor",
         index: 32
     }
 ];
+
+function GetDiodeDirMapFromFlips(flipX, flipY, flipR)
+{
+    var dirMap = null;
+
+    for(var i = 0; i < diodeDirMap.length; i ++)
+    {
+        if(diodeDirMap[i].flipX === flipX && diodeDirMap[i].flipY === flipY && diodeDirMap[i].flipR === flipR)
+        {
+            dirMap = diodeDirMap[i];
+            break;
+        }
+    }
+
+    return dirMap;
+}
 
 function GetWireSwitchDirFromDir(dir)
 {
@@ -105,7 +138,7 @@ function GetWireSwitchDirFromFlips(flipX, flipY, flipR)
 {
     var dirMap = null;
 
-    for(var i = 0; i < altSwitchDirMap.length; i ++)
+    for(var i = 0; i < wireSwitchMap.length; i ++)
     {
         if(wireSwitchMap[i].flipX === flipX && wireSwitchMap[i].flipY === flipY && wireSwitchMap[i].flipR === flipR)
         {
@@ -306,6 +339,15 @@ function LoadMap(mapName)
         var tilesOfType = map.find(componentTiles[i].index);
         //console.log(tilesOfType);
 
+        /*
+        var replaceSprite = componentTiles[i].replaceSprite != null;
+        var replaceWith = 0;
+
+        if(replaceSprite)
+        {
+            replaceWith = componentTiles[i].replaceSprite;
+        }*/
+
         for(var j = 0; j < tilesOfType.length; j ++)
         {
             var tile = tilesOfType[j];
@@ -391,6 +433,11 @@ function LoadMap(mapName)
             {
                 consoleLog("Add wire Switch");
                 newComp = new WireSwitch(pos, spriteInfo, comp.wireSwitch);
+            }
+            else if(comp.type === "Diode")
+            {
+                consoleLog("Add diode");
+                newComp = new Diode(pos, spriteInfo);
             }
             else if(comp.type === "Transistor") 
             {
@@ -521,6 +568,7 @@ export {
     GetDirectionFromString,
     GetWireSwitchDirFromFlips, 
     GetWireSwitchDirFromDir,
+    GetDiodeDirMapFromFlips,
     CURRENT_LVL, 
     TOTAL_SPRITES, 
     PIXEL_SCALE, 

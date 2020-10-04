@@ -7,6 +7,8 @@ export default class WireSwitch extends Component
     {
         super(tilePos, spriteData, "WIRE_SWITCH");
 
+        this.z = 3;
+
         this.dirs = [ "H", "V" ];
 
         this.chargesRequired = wireSwitch.chargesRequired;

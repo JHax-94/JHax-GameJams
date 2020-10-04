@@ -12,6 +12,8 @@ import Transistor from './Transistor.js';
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
 
+var COLOURS;
+
 var UP = 0;
 var RIGHT = 1;
 var DOWN = 2;
@@ -404,11 +406,25 @@ function Setup()
 {
     paper(1);
 
+    COLOURS = assets.colourMap;
+
     LoadLevel("transistorTest");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 
     hasRunSetup = true;
+}
+
+function GetDirectionFromString(directionString)
+{
+    var dir = 0;
+
+    if(directionString === "UP") dir = UP;
+    else if(directionString === "DOWN") dir = DOWN;
+    else if(directionString === "RIGHT") dir = RIGHT;
+    else if(directionString === "LEFT") dir = LEFT;
+
+    return dir;
 }
 
 function BackToMenu()
@@ -443,4 +459,4 @@ exports.update = function () {
     em.Render();
 };
 
-export { em, p2, consoleLog, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, GetArrowDirMapFromName, LoadLevel, GetAltSwitchDirMapFromDir, CURRENT_LVL, TOTAL_SPRITES, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT };
+export { em, p2, consoleLog, GetArrowDirMapFromDir, GetArrowDirMapFromFlips, GetArrowDirMapFromName, LoadLevel, GetAltSwitchDirMapFromDir, GetDirectionFromString, CURRENT_LVL, TOTAL_SPRITES, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT, COLOURS };

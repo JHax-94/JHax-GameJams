@@ -135,9 +135,9 @@
 			"components": [
 				{"tileX":3,"tileY":1,"type":"Battery","tileSprite":0,"tileData":{"x":3,"y":1,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"battery": {
-						"charges": 5,
-						"pulseTime": 2,
-						"pulseSpeed": 60
+						"charges": 3,
+						"pulseTime": 3,
+						"pulseSpeed": 50
 					}
 				},
 				{"tileX":5,"tileY":1,"type":"Direction","tileSprite":6,"tileData":{"x":5,"y":1,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
@@ -168,7 +168,9 @@
 					"bulb": {
 						"chargesRequired": 3,
 						"chargedSprite": 17,
-						"chargeDecayTime": 5
+						"chargeDecayTime": 5,
+						"chargeBarDir": "LEFT",
+						"decayBarDir": "LEFT"
 					}
 				},
 				{"tileX":9,"tileY":1,"type":"Bulb","tileSprite":16,"tileData":{"x":9,"y":1,"sprite":16,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
@@ -182,7 +184,8 @@
 				{"tileX":7,"tileY":3,"type":"Transistor","tileSprite":32,"tileData":{"x":7,"y":3,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"transistor": {
 						"transistorId": 0,
-						"chargesRequired": 3
+						"chargesRequired": 3,
+						"chargeBarDir": "LEFT"
 					}
 				}
 			]

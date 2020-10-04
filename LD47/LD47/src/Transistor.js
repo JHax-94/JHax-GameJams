@@ -1,3 +1,4 @@
+import { UP, RIGHT, DOWN, LEFT } from "./main";
 import Component from "./Component";
 
 export default class Transistor extends Component
@@ -10,6 +11,11 @@ export default class Transistor extends Component
         this.connections = transistor.connections;
 
         this.resetOnFullyCharged = true;
+
+        this.SetBarDirections(transistor);
+
+        this.chargeProgress = this.AddProgressBar(this.chargeBarDir, { bg: 4, fg: 15 });
+        this.ResetProgressBars();
     }
 
     AddCharge()

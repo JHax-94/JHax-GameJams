@@ -8,6 +8,13 @@ export default class ProgressBar
         this.colours = colours;
         this.SetValue(0.5);
 
+        this.flip = false;
+
+        if(rect.flip)
+        {
+            this.flip = rect.flip;
+        }
+
         consoleLog("PROGRESS BAR CONSTRUCTED");
         consoleLog(this);
     }
@@ -17,7 +24,10 @@ export default class ProgressBar
         if(this.value !== val)
         {
             this.value = val;
-            this.filledWidth = clamp(this.rect.w * this.value, 0, this.rect.w);
+            
+            var fillDim = this.flip ? this.rect.h : this.rect.w;
+
+            this.filledWidth = clamp(fillDim * this.value, 0, fillDim);
         }
     }
     
@@ -37,10 +47,15 @@ export default class ProgressBar
     {
         paper(this.colours.background);
         //pen(this.colours.background);
+        
         rectf(this.rect.x, this.rect.y, this.rect.w, this.rect.h);
+        
+        
         paper(this.colours.foreground);
         //pen(this.colours.foreground);
-        rectf(this.rect.x, this.rect.y, this.filledWidth, this.rect.h);
+        if(this.flip) rectf(this.rect.x, this.rect.y + this.rect.h - this.filledWidth, this.rect.w, Math.ceil(this.filledWidth));
+        else rectf(this.rect.x, this.rect.y, this.filledWidth, this.rect.h);
+        
 
     }
 }

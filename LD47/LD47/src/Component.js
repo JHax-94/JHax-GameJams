@@ -28,6 +28,8 @@ export default class Component
         this.decayWhenFull = false;
         this.decayToZero = false;
 
+        this.chargeResetsDecay = true;
+
         this.overcharge = false;
 
         if(physTag)
@@ -60,6 +62,14 @@ export default class Component
         if(decay.decayToZero)
         {
             this.decayToZero = decay.decayToZero;
+        }
+
+        consoleLog("RESET DECAY?");
+        consoleLog(decay.chargeResetsDecay);
+
+        if(decay.chargeResetsDecay != null)
+        {
+            this.chargeResetsDecay = decay.chargeResetsDecay;
         }
     }
 
@@ -129,7 +139,7 @@ export default class Component
     ShouldDecay()
     {
         return (this.chargeDecayTime > 0) &&
-            ((this.decayWhenFull && this.currentCharges >= this.chargesRequired) || (this.currentCharges > 0));
+            ((this.decayWhenFull && this.currentCharges >= this.chargesRequired) || (this.decayWhenFull === false && this.currentCharges > 0));
     }
 
     SetCharge(value)
@@ -180,19 +190,35 @@ export default class Component
     
     AddCharge()
     {
+        if(this.logging) consoleLog("TRY TO ADD CHARGE TO: " + this.logName);
+        var charged = false;
         if(this.chargesRequired > 0)
         {
-            this.SetCharge(this.currentCharges + 1);
-            
-            if(this.chargeDecayTime > 0)
+            if(this.overcharge || (this.currentCharges < this.chargesRequired))
             {
+                if(this.logging) 
+                {
+                    consoleLog("overcharge: " + this.overcharge);
+                    consoleLog("charges below required: " + (this.currentCharges < this.chargesRequired));
+                    consoleLog("USED CHARGE TO POWER UP!");
+                }
+
+                this.SetCharge(this.currentCharges + 1);    
+                charged = true;
+            }
+            
+            if(this.chargeDecayTime > 0 && this.chargeResetsDecay)
+            {
+                if(this.logging) consoleLog("USED CHARGE TO RESET DECAY");
+
                 this.chargeDecayTimer = 0;
+                charged = true;
             }
 
             //consoleLog("Charges: " + this.currentCharges + "/" + this.chargesRequired);
-            if(this.currentCharges >= this.chargesRequired)
+            if(charged && this.currentCharges >= this.chargesRequired)
             {
-                //consoleLog("Call charge!");
+                if(this.logging) consoleLog("Call charge!");
                 this.Charged();
                 if(this.resetOnFullyCharged)
                 {
@@ -200,6 +226,10 @@ export default class Component
                 }
             }
         }
+
+        if(this.logging) consoleLog("Return charged: " + charged);
+
+        return charged;
     }
 
     Draw()

@@ -166,7 +166,7 @@ export default class EntityManager
             }
             else if(manager.CompareTags(evt, "ELECTRON", "POWERED"))
             {
-                consoleLog("POWERED COLLISION");
+                //consoleLog("POWERED COLLISION");
                 var electron = manager.BodyWithTag(evt, "ELECTRON");
                 var powered = manager.BodyWithTag(evt, "POWERED");
 
@@ -174,7 +174,7 @@ export default class EntityManager
             }
             else if(manager.CompareTags(evt, "ELECTRON", "BATTERY"))
             {
-                console.log("BATTERY COLLISION");
+                //console.log("BATTERY COLLISION");
                 var electron = manager.BodyWithTag(evt, "ELECTRON");
 
                 electron.obj.Charge();

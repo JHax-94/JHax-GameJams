@@ -24,7 +24,11 @@ export default class Bulb extends Component
         this.SetBarDirections(bulb);
 
         this.chargeProgress = this.AddProgressBar(this.chargeBarDir, { bg: COLOURS.barBg, fg: COLOURS.chargeBarFg });
-        this.decayProgress = this.AddProgressBar(this.decayBarDir, {bg: COLOURS.barBg, fg: COLOURS.decayBarFg });
+        
+        if(bulb.decayTime > 0)
+        {
+            this.decayProgress = this.AddProgressBar(this.decayBarDir, {bg: COLOURS.barBg, fg: COLOURS.decayBarFg });
+        }
         
         consoleLog("ASSIGN BULB PROG BARS");
         consoleLog(this.chargeProgress);

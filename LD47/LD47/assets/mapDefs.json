@@ -90,7 +90,13 @@
 					"altSwitch": {
 						"dir": "LD",
 						"alt": "DL",
-						"chargesRequired": 1
+						"chargesRequired": 3,
+						"chargeDecayTime": 10,
+						"decayWhenFull": true,
+						"chargeBarDir": "RIGHT",
+						"decayBarDir": "RIGHT",
+						"chargeResetsDecay": false,
+						"decayToZero": true
 					}
 				},
 				{"tileX":3,"tileY":6,"type":"Bulb","tileSprite":16,"tileData":{"x":3,"y":6,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},

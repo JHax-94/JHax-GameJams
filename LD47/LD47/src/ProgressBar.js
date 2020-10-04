@@ -39,7 +39,7 @@ export default class ProgressBar
         }
         else
         {
-            consoleLog("Ooopsie");
+            consoleLog("Progress Bar Went wrong: " + current + " / " + max);
         }
     }
 
@@ -50,12 +50,12 @@ export default class ProgressBar
         
         rectf(this.rect.x, this.rect.y, this.rect.w, this.rect.h);
         
-        
-        paper(this.colours.foreground);
-        //pen(this.colours.foreground);
-        if(this.flip) rectf(this.rect.x, this.rect.y + this.rect.h - this.filledWidth, this.rect.w, Math.ceil(this.filledWidth));
-        else rectf(this.rect.x, this.rect.y, this.filledWidth, this.rect.h);
-        
-
+        if(this.value > 0)
+        {
+            paper(this.colours.foreground);
+            //pen(this.colours.foreground);
+            if(this.flip) rectf(this.rect.x, Math.floor(this.rect.y + this.rect.h - this.filledWidth), this.rect.w, Math.ceil(this.filledWidth));
+            else rectf(this.rect.x, this.rect.y, this.filledWidth, this.rect.h);
+        }        
     }
 }

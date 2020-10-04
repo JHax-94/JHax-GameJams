@@ -1,5 +1,5 @@
 import Component from "./Component"
-import { consoleLog, GetAltSwitchDirMapFromDir, UP, DOWN, LEFT, RIGHT } from "./main";
+import { consoleLog, GetAltSwitchDirMapFromDir, UP, DOWN, LEFT, RIGHT, COLOURS, em } from "./main";
 
 export default class AltSwitch extends Component
 {
@@ -15,22 +15,37 @@ export default class AltSwitch extends Component
         this.chargesRequired = altSwitch.chargesRequired;
         this.currentMap = 0;
 
+        this.SetBarDirections(altSwitch);
+        this.SetupDecay(altSwitch);
+
+        this.chargeProgress = this.AddProgressBar(this.chargeBarDir, { bg: COLOURS.barBg, fg: COLOURS.chargeBarFg });
+        this.decayProgress = this.AddProgressBar(this.decayBarDir, { bg: COLOURS.barBg, fg: COLOURS.decayBarFg });
+
         consoleLog("Alt Switch constructed:");
         consoleLog(this);
 
         this.SwitchDirection(0);
+        this.ResetProgressBars();
+
+        this.logging = true;
+        this.logName = "ALT SWITCH";
+
+        em.AddUpdate(this);
     }
 
     GetFlippedDirection()
     {
         var vector = [0, 0];
         
-        var currentDir = this.dirMaps[this.currentMap].setDir;
+        var dMap = this.dirMaps[this.currentMap];
 
-        if(currentDir === UP) vector[1] = 1;
-        else if(currentDir === DOWN) vector[1] = -1;
-        else if(currentDir === RIGHT) vector[0] = 1;
-        else if(currentDir === LEFT) vector[0] = -1;
+        consoleLog("USE D MAP");
+        consoleLog(dMap);
+
+        if(dMap.setDir === UP) vector[1] = 1;
+        else if(dMap.setDir === DOWN) vector[1] = -1;
+        else if(dMap.setDir === RIGHT) vector[0] = 1;
+        else if(dMap.setDir === LEFT) vector[0] = -1;
 
         return vector;
     }
@@ -42,6 +57,11 @@ export default class AltSwitch extends Component
         this.spriteInfo.flipX = this.dirMaps[this.currentMap].flipX;
         this.spriteInfo.flipY = this.dirMaps[this.currentMap].flipY;
         this.spriteInfo.flipR = this.dirMaps[this.currentMap].flipR;
+    }
+
+    Update(deltaTime)
+    {
+        super.ChargeDecay(deltaTime);
     }
 
     Charged()

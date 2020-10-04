@@ -156,8 +156,12 @@ export default class Electron
     {
         if(this.isCharged)
         {
-            component.AddCharge();
-            this.isCharged = false;
+            var chargeAdded = component.AddCharge();
+
+            if(chargeAdded) 
+            {
+                this.isCharged = false;
+            }
         }
     }
 

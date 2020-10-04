@@ -31,8 +31,8 @@ var em;
 var CONSOLE_ON = true;
 
 var altSwitchDirMap = [
-    { name: "LD", dir: "LD", setDir: DOWN, flipX: true, flipY: false, flipR: true },
-    { name: "DL", dir: "DL", setDir: LEFT, flipX: true, flipY: true, flipR: false }
+    { name: "LD", dir: "LD", setDir: LEFT, flipX: true, flipY: false, flipR: true },
+    { name: "DL", dir: "DL", setDir: DOWN, flipX: true, flipY: true, flipR: false }
 ];
 
 var arrowDirMap = [

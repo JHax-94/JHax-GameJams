@@ -657,8 +657,60 @@
 				{"tileX":7,"tileY":5,"type":"Diode","tileSprite":33,"tileData":{"x":7,"y":5,"sprite":33,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false}},
 				{"tileX":11,"tileY":5,"type":"Diode","tileSprite":33,"tileData":{"x":11,"y":5,"sprite":33,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false}}
 			]
+		},
+		{
+			"name": "synchronise",
+			"components": 
+				[
+					{"tileX":2,"tileY":0,"type":"Battery","tileSprite":0,"tileData":{"x":2,"y":0,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+						"battery": {
+							"charges": 6,
+							"pulseTime": 0.75,
+							"pulseSpeed": 50
+						}
+					},
+					{"tileX":8,"tileY":0,"type":"Battery","tileSprite":0,"tileData":{"x":8,"y":0,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+						"battery": {
+							"charges": 1,
+							"pulseTime": 1,
+							"pulseSpeed": 250
+						}
+					},
+					{"tileX":6,"tileY":3,"type":"Direction","tileSprite":6,"tileData":{"x":6,"y":3,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+						"direction": {
+							"isControllable": false,
+							"dir": "UP"
+						}
+					},
+					{"tileX":10,"tileY":3,"type":"Direction","tileSprite":6,"tileData":{"x":10,"y":3,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+						"direction": {
+							"isControllable": true,
+							"dir": "LEFT"
+						}
+					},
+					{"tileX":6,"tileY":5,"type":"Bulb","tileSprite":16,"tileData":{"x":6,"y":5,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+						"bulb": {
+							"chargesRequired": 1,
+							"chargedSprite": 17,
+							"chargeBarDir": "RIGHT"
+						}
+					},
+					{"tileX":8,"tileY":7,"type":"Switch","tileSprite":39,"tileData":{"x":8,"y":7,"sprite":23,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+						"transistorId": 0,
+						"wireSwitch": {
+							"chargesRequired": 1
+						}					
+					},
+					{"tileX":4,"tileY":12,"type":"Transistor","tileSprite":32,"tileData":{"x":4,"y":12,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+						"transistor": {
+							"transistorId": 0,
+							"chargesRequired": 3,
+							"chargeBarDir": "LEFT"
+						}
+					}
+				]
+
+			
 		}
 	]
 }
-
-

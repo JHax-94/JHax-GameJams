@@ -52,7 +52,14 @@ var wireSwitchMap = [
 
 var altSwitchDirMap = [
     { name: "LD", dir: "LD", setDir: LEFT, flipX: true, flipY: false, flipR: true },
-    { name: "DL", dir: "DL", setDir: DOWN, flipX: true, flipY: true, flipR: false }
+    { name: "DL", dir: "DL", setDir: DOWN, flipX: true, flipY: true, flipR: false },
+    { name: "UR", dir: "UR", setDir: UP, flipX: false, flipY: false, flipR: false },
+    { name: "UL", dir: "UL", setDir: UP, flipX: true, flipY: false, flipR: false },
+    { name: "DR", dir: "DR", setDir: DOWN, flipX: false, flipY: true, flipR: false },
+    { name: "RD", dir: "RD", setDir: LEFT, flipX: false, flipY: false, flipR: true },
+    { name: "RU", dir: "RU", setDir: LEFT, flipX: false, flipY: true, flipR: true },
+    { name: "LU", dir: "LU", setDir: LEFT, flipX: true, flipY: true, flipR: true },
+
 ];
 
 var arrowDirMap = [
@@ -518,7 +525,7 @@ function Setup()
 
     COLOURS = assets.colourMap;
 
-    LoadLevel("diode1");
+    LoadLevel("title");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 

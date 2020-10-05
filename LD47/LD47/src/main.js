@@ -10,12 +10,17 @@ import AltSwitch from './AltSwitch.js';
 import Transistor from './Transistor.js';
 import WireSwitch from './WireSwitch.js';
 import Diode from './Diode.js';
+import SoundSettings from './SoundSettings.js';
 
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
 
 var COLOURS;
 var SFX;
+
+var soundPos = { tileX: 0.5, tileY: 0.5 };
+
+var SOUND;
 
 var VOL = 0;
 
@@ -563,7 +568,19 @@ function LoadMap(mapName)
         }
         else if(comp.type === "Button")
         {
-            var button = new Button(comp.tileRect, comp.text, comp.value, comp.colours);
+            var options = {};
+            
+            if(comp.btn_type)
+            {
+                options.type = comp.btn_type;
+            }   
+            else 
+            {
+                options.value = comp.value;
+                options.btn_type = "LVL";
+            }
+
+            var button = new Button(comp.tileRect, comp.text, options, comp.colours);
         }
         
     }
@@ -606,6 +623,7 @@ function Setup()
 
     COLOURS = assets.colourMap;
     SFX = assets.soundMap;
+    SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
 
     LoadLevel("title");
 
@@ -682,5 +700,6 @@ export {
     LEFT, 
     COLOURS,
     SFX,
-    VOL
+    VOL,
+    SOUND
 };

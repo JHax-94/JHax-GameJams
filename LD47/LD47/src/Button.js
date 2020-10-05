@@ -3,11 +3,11 @@ import { consoleLog, em, PIXEL_SCALE, LoadLevel, SFX, VOL } from "./main";
 
 export default class Button
 {
-    constructor(tileRect,  text, value, colours)
+    constructor(tileRect, text, options, colours)
     {
         this.tileRect = tileRect;
         this.label = new Label({ tileX: tileRect.x + 0.25, tileY: tileRect.y +0.25 }, text, 4);
-        this.value = value;
+        this.options = options;
         this.colours = colours;
         this.z = 190;
 
@@ -39,10 +39,18 @@ export default class Button
     {
         if(button === 0)
         {
-            consoleLog("Load Level: " + this.value);
+            if(this.options.type === "LVL")
+            {
+                consoleLog("Load Level: " + this.options.value);
 
-            this.hover = false;
-            LoadLevel(this.value);
+                this.hover = false;
+                LoadLevel(this.options.value);
+            }
+            else if(this.options.type === "SFX_TOGGLE")
+            {
+                em.soundControl.Toggle();
+            }
+            
         }
     }
 

@@ -1,7 +1,6 @@
 import EndScreen from './EndScreen.js';
-import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX, LoadLevel } from './main.js';
+import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX, LoadLevel, SOUND } from './main.js';
 import PauseMenu from './PauseMenu.js';
-import Label from './Label.js';
 
 export default class EntityManager
 {
@@ -38,6 +37,12 @@ export default class EntityManager
         this.selected = null;
 
         if(this.phys) this.SetupPhys();
+
+        if(CURRENT_LVL === "title")
+        {
+            this.soundControl = SOUND;
+            this.AddRender(this.soundControl);
+        }
     }
 
     Initialise()

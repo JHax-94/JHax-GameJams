@@ -1,5 +1,5 @@
 import EndScreen from './EndScreen.js';
-import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX, LoadLevel, SOUND } from './main.js';
+import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX, LoadLevel, SOUND, getAnimation } from './main.js';
 import PauseMenu from './PauseMenu.js';
 
 export default class EntityManager
@@ -501,6 +501,45 @@ export default class EntityManager
                 this.updates.splice(i, 1);
                 break;
             }
+        }
+    }
+
+    AddAnimateFunctions(object)
+    {
+        object.Animate = function(deltaTime)
+        {
+            if(object.currentAnimation)
+            {
+                object.frameTimer += deltaTime;
+    
+                if(object.frameTimer >= object.currentAnimation.frameTime)
+                {
+                    //consoleLog("CHANGE FRAME");
+                    object.frameTimer -= object.currentAnimation.frameTime;
+                    object.currentFrame = (object.currentFrame + 1) % object.currentAnimation.frames.length;
+    
+                    //consoleLog("FRAME: " + this.currentFrame + " / " + this.currentAnimation.frames.length);
+    
+                    if(object.currentFrame === 0 && object.loopAnimation === false)
+                    {
+                        object.AnimationFinished(object.currentAnimation);
+                    }
+                    else
+                    {
+                        object.UpdateFrame();
+                    }
+                }
+            }
+        }
+
+        object.SetAnimation = function(animName, loops)
+        {
+            object.loopAnimation = loops;
+            object.currentAnimation = getAnimation(animName);
+            object.currentFrame = 0;
+            object.frameTimer = 0;
+
+            object.UpdateFrame();
         }
     }
 

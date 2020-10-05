@@ -6,6 +6,7 @@ export default class Electron
 {
     constructor(position, spriteInfo, speed)
     {
+        em.AddAnimateFunctions(this);
         /*
         consoleLog("Construct electron");
 
@@ -53,45 +54,8 @@ export default class Electron
         em.AddElectron(this);
     }
 
-    SetAnimation(animName, loops)
-    {
-        this.loopAnimation = loops;
-        this.currentAnimation = getAnimation(animName);
-        this.currentFrame = 0;
-        this.frameTimer = 0;
-
-        this.UpdateFrame();
-    }
-
-    Animate(deltaTime)
-    {
-        if(this.currentAnimation)
-        {
-            this.frameTimer += deltaTime;
-
-            if(this.frameTimer >= this.currentAnimation.frameTime)
-            {
-                //consoleLog("CHANGE FRAME");
-                this.frameTimer -= this.currentAnimation.frameTime;
-                this.currentFrame = (this.currentFrame + 1) % this.currentAnimation.frames.length;
-
-                //consoleLog("FRAME: " + this.currentFrame + " / " + this.currentAnimation.frames.length);
-
-                if(this.currentFrame === 0 && this.loopAnimation === false)
-                {
-                    this.AnimationFinished(this.currentAnimation);
-                }
-                else
-                {
-                    this.UpdateFrame();
-                }
-            }
-        }
-    }
-
     AnimationFinished(animation)
     {
-
         consoleLog("Animation: " + animation.name + " Ended!");
         if(animation.name.includes("ELECTRON_DESTROY"))
         {
@@ -174,39 +138,16 @@ export default class Electron
         this.velocity = vel;
     }
 
-    SnapToContact(contact, dir)
+    SnapToContact(contact)
     {
-        /*
-        if(!this.contact.z)
-        {
-            consoleLog("SNAP TO");
-            consoleLog(contact);
-        }*/
-
         this.reSnap = [];
 
         for(var i = 0; i < contact.phys.position.length; i ++)
         {
-            /*
-            if(this.logging)
-            {
-                consoleLog("SNAP: " + i + " = " + contact.phys.position[i]);
-            }*/
             this.phys.position[i] = contact.phys.position[i];
 
             this.reSnap[i] = contact.phys.position[i];
         }
-        /*
-        var screenDims = { x: Math.floor(this.phys.position[0] - 0.5*PIXEL_SCALE), y: Math.floor(-this.phys.position[1] - 0.5*PIXEL_SCALE) };
-        
-        consoleLog("POS");
-        consoleLog(this.phys.position);
-        consoleLog("SCREEN");
-        consoleLog(screenDims);
-        consoleLog("POS AGAIN");
-        consoleLog(this.phys.position);
-        consoleLog("PHYS");
-        consoleLog(this.phys);*/
     }
 
     Delete()

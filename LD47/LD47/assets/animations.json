@@ -12,7 +12,7 @@
 				{ "sprite": 50, "flipX": true, "flipY": false, "flipR": true },
 				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": true },
 				{ "sprite": 50, "flipX": true, "flipY": false, "flipR": false }
-			],
+			]
 		},
 		{
 			"name": "ELECTRON_TRAVEL",
@@ -21,8 +21,8 @@
 				{ "sprite": 18, "flipX": false, "flipY": false, "flipR": false },
 				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": false },
 				{ "sprite": 18, "flipX": false, "flipY": false, "flipR": false },
-				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": true },
-			],			
+				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": true }
+			]			
 		},
 		{
 			"name": "CHARGED_ELECTRON_DESTROY_H",
@@ -74,7 +74,18 @@
 				{ "sprite": 51, "flipX": false, "flipY": false, "flipR": true },
 				{ "sprite": 83, "flipX": false, "flipY": false, "flipR": true }
 			]
+		},
+		{
+			"name": "TRANSISTOR_ANIM",
+			"frameTime": 0.16,			
+			"frames": [
+				{ "corner": 56, "side": 72 },
+				{ "corner": 57, "side": 73 },
+				{ "corner": 58, "side": 74 },
+				{ "corner": 59, "side": 75 },
+				{ "corner": 56, "side": 72 },
+				{ "corner": 57, "side": 73 }
+			]
 		}
-		
 	]
 }

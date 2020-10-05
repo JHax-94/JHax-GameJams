@@ -1,5 +1,6 @@
 import { em, consoleLog, SFX } from "./main";
 import Component from "./Component";
+import TransistorEffect from "./TransistorEffect";
 
 export default class Transistor extends Component
 {
@@ -32,9 +33,12 @@ export default class Transistor extends Component
     {
         consoleLog("Pulse to " + this.connections.length + " connections");
         em.QueueSound(SFX.transistor);
+        new TransistorEffect({ x: this.tilePos.x, y: this.tilePos.y });
+
         for(var i = 0; i < this.connections.length; i ++)
         {
             this.connections[i].AddCharge();
+            new TransistorEffect({ x: this.connections[i].tilePos.x, y: this.connections[i].tilePos.y });
         }
     }
 }

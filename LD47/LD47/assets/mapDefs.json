@@ -366,7 +366,7 @@
 				},
 				{"tileX":3,"tileY":3,"type":"Bulb","tileSprite":16,"tileData":{"x":3,"y":3,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"bulb": {
-						"chargesRequired": 5,
+						"chargesRequired": 3,
 						"chargedSprite": 17,
 						"chargeBarDir": "UP"
 					}
@@ -1111,7 +1111,7 @@
 				},
 				{"tileX":10,"tileY":2,"type":"Bulb","tileSprite":16,"tileData":{"x":10,"y":2,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"bulb": {
-						"chargesRequired": 6,
+						"chargesRequired": 4,
 						"chargedSprite": 17,
 						"chargeBarDir": "UP"
 					}

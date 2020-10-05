@@ -8,6 +8,7 @@ export default class SoundSettings
         this.pos = position;
 
         this.soundOn = true;
+        audioManager.channels['sfx'].volume = 5;
     }
 
     SetOn(powerOn)

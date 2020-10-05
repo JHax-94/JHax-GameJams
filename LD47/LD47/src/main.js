@@ -577,7 +577,7 @@ function LoadMap(mapName)
             else 
             {
                 options.value = comp.value;
-                options.btn_type = "LVL";
+                options.type = "LVL";
             }
 
             var button = new Button(comp.tileRect, comp.text, options, comp.colours);

@@ -37,6 +37,8 @@ export default class Button
 
     Click(button)
     {
+        consoleLog("CLICKED BUTTON");
+        consoleLog(this);
         if(button === 0)
         {
             if(this.options.type === "LVL")

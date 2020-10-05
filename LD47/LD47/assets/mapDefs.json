@@ -3,6 +3,7 @@
 	[
 		{
 			"name": "loopStorage",
+			"electronLossThreshold": 1,
 			"components": [
 				{"tileX":5,"tileY":2,"type":"Battery","tileSprite":0,"tileData":{"x":5,"y":2,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"battery": {
@@ -263,6 +264,7 @@
 		},
 		{
 			"name": "transistorTest",
+			"electronLossThreshold": 1,
 			"components": [
 				{"tileX":3,"tileY":1,"type":"Battery","tileSprite":0,"tileData":{"x":3,"y":1,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"battery": {
@@ -773,6 +775,7 @@
 		},
 		{
 			"name": "synchronise",
+			"electronLossThreshold": 1,
 			"components": 
 				[
 					{"tileX":2,"tileY":0,"type":"Battery","tileSprite":0,"tileData":{"x":2,"y":0,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
@@ -791,7 +794,7 @@
 					},
 					{"tileX":6,"tileY":3,"type":"Direction","tileSprite":6,"tileData":{"x":6,"y":3,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 						"direction": {
-							"isControllable": false,
+							"isControllable": true,
 							"dir": "UP"
 						}
 					},
@@ -801,7 +804,7 @@
 							"dir": "LEFT"
 						}
 					},
-					{"tileX":6,"tileY":5,"type":"Bulb","tileSprite":16,"tileData":{"x":6,"y":5,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					{"tileX":6,"tileY":6,"type":"Bulb","tileSprite":16,"tileData":{"x":6,"y":6,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 						"bulb": {
 							"chargesRequired": 1,
 							"chargedSprite": 17,
@@ -814,6 +817,7 @@
 							"chargesRequired": 1
 						}					
 					},
+					{"tileX":6,"tileY":4,"type":"Diode","tileSprite":33,"tileData":{"x":6,"y":4,"sprite":33,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false}},
 					{"tileX":4,"tileY":12,"type":"Transistor","tileSprite":32,"tileData":{"x":4,"y":12,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 						"transistor": {
 							"transistorId": 0,
@@ -997,6 +1001,7 @@
 		},
 		{
 			"name": "oppositeSwitch",
+			"electronLossThreshold": 3,
 			"components": [
 				{"tileX":6,"tileY":6,"type":"Battery","tileSprite":0,"tileData":{"x":6,"y":6,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"battery": {

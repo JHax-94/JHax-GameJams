@@ -26,14 +26,14 @@ export default class SoundSettings
     }
 
     PlaySong(songName)
-    {/*
+    {
         if((this.currentSong != songName && this.songElapsed >= 10) || this.isSongPlaying === false)
         {
             this.songElapsed = 0;
             if(this.soundOn) patatracker.playSong(songName);
             this.currentSong = songName;
             this.isSongPlaying = true;
-        }*/
+        }
     }
 
     PlayRandomSong()
@@ -55,7 +55,7 @@ export default class SoundSettings
             patatracker.stop();
             this.isSongPlaying = false;
         } 
-        else PlaySong(this.titleSong);
+        else this.PlaySong(this.titleSong);
     }
 
     Toggle()

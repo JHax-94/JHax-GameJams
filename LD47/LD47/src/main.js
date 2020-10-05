@@ -718,7 +718,6 @@ function LoadLevel(levelName, force)
             }
         } 
 
-
         if(levelName === "title")
         {
             SOUND.PlayTitle();

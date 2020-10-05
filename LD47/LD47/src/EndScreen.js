@@ -1,4 +1,4 @@
-import { Label } from "./Label";
+import Label from "./Label";
 import { consoleLog, em, PIXEL_SCALE, SFX } from "./main";
 
 export default class EndScreen

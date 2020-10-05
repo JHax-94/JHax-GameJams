@@ -5,7 +5,7 @@ import RailPoint from './RailPoint.js';
 import DirectionSwitcher from './DirectionSwitcher.js';
 import Selector from './Selector.js';
 import Bulb from './Bulb.js';
-import { Label } from './Label.js';
+import Label from './Label.js';
 import AltSwitch from './AltSwitch.js';
 import Transistor from './Transistor.js';
 import WireSwitch from './WireSwitch.js';
@@ -593,6 +593,7 @@ function LoadLevel(levelName, force)
         CURRENT_LVL = levelName;
         consoleLog("LOADING: " + levelName);
         em = new EntityManager();
+        em.Initialise();
         em.selector = new Selector(20);
 
         LoadMap(levelName);

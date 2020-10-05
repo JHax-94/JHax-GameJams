@@ -1,4 +1,4 @@
-import { Label } from "./Label";
+import Label from "./Label";
 import { consoleLog, em, PIXEL_SCALE, LoadLevel, SFX, VOL } from "./main";
 
 export default class Button

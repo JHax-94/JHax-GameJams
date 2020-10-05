@@ -1,5 +1,7 @@
 import EndScreen from './EndScreen.js';
 import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX, LoadLevel } from './main.js';
+import PauseMenu from './PauseMenu.js';
+import Label from './Label.js';
 
 export default class EntityManager
 {
@@ -28,13 +30,40 @@ export default class EntityManager
         this.bulbs = [];
 
         this.endScreen = null;
-        this.CreateNewEndScreenBox();
-        
+        /*this.CreateNewEndScreenBox();
+        this.CreatePauseMenu();*/
+
         this.trackMouse = false;
 
         this.selected = null;
 
         if(this.phys) this.SetupPhys();
+    }
+
+    Initialise()
+    {
+        this.CreateNewEndScreenBox();
+        this.CreatePauseMenu();
+    }
+
+    CreatePauseMenu()
+    {
+        this.pauseMenu = new PauseMenu(
+            { tileX: 4, tileY: 3, tileW: 6, tileH: 4.5 },
+            [
+                { pos: { tileX: 5, tileY: 3.1 }, text: "PAUSED" },
+                
+                { pos: {tileX: 5, tileY: 4 }, text: "Press R to" },
+                { pos: {tileX: 5.5, tileY: 4.5 }, text: "Restart"},
+
+                { pos: {tileX: 5, tileY: 5.25 }, text: "Press Space to" },
+                { pos: { tileX: 5.5, tileY: 5.75 }, text: "Unpause" },
+
+                { pos: { tileX: 5, tileY: 6.5 }, text: "Press Esc to"},
+                { pos: { tileX: 5.5, tileY: 7 }, text: "return to menu"}
+            ],
+            { background: 13, foreground: 14 }
+        );
     }
 
     CreateNewEndScreenBox()
@@ -100,14 +129,14 @@ export default class EntityManager
 
     Input()
     {
-        if(!this.endScreenOn)
+        if(!this.endScreenOn && !this.pause)
         {
             var dir = -1;
 
-            if(btn.up || btn.up_alt) dir = UP;
-            else if(btn.right || btn.right_alt) dir = RIGHT;
-            else if(btn.down || btn.down_alt) dir = DOWN;
-            else if(btn.left || btn.left_alt) dir = LEFT;
+            if(btnp.up || btnp.up_alt) dir = UP;
+            else if(btnp.right || btnp.right_alt) dir = RIGHT;
+            else if(btnp.down || btnp.down_alt) dir = DOWN;
+            else if(btnp.left || btnp.left_alt) dir = LEFT;
 
             if(dir >= 0 && this.selected !== null)
             {
@@ -116,24 +145,35 @@ export default class EntityManager
                     this.selected.Input(dir);
                 }
             }
+
+            if(btnp.esc || btnp.reset || btnp.space)
+            {
+                this.pause = true;
+                this.pauseMenu.Show(true);
+            }
         }
         else
         {
-            if(btn.esc) 
+            if(btnp.esc) 
             {
                 LoadLevel("title");
             }
-            else if(btn.reset) 
+            else if(btnp.reset) 
             {
                 LoadLevel(CURRENT_LVL, true);
             }
-            else if(btn.space) 
+            else if(btnp.space) 
             {
-                this.endScreen.Collapse();
-                this.CreateNewEndScreenBox();
+                if(this.endScreenOn)
+                {
+                    this.continued = true;
+                    this.endScreen.Collapse();
+                    this.CreateNewEndScreenBox();
+                }
+
                 this.pause = false;
                 this.endScreenOn = false;
-                this.continued = true;
+                this.pauseMenu.Show(false);
             }
         }
     }

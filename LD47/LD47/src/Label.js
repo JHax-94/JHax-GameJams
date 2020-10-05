@@ -1,6 +1,6 @@
 import { em, PIXEL_SCALE } from "./main";
 
-export class Label
+export default class Label
 {
     constructor(pos, text, colour)
     {

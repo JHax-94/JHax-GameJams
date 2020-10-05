@@ -1,4 +1,4 @@
-import { consoleLog, em, PIXEL_SCALE, SFX, getAnimation } from "./main";
+import { consoleLog, em, PIXEL_SCALE, SFX } from "./main";
 
 //import { em, consoleLog, PIXEL_SCALE } from './main.js'
 

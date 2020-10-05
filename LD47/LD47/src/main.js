@@ -11,6 +11,7 @@ import Transistor from './Transistor.js';
 import WireSwitch from './WireSwitch.js';
 import Diode from './Diode.js';
 import SoundSettings from './SoundSettings.js';
+import Menu from './Menu.js';
 
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
@@ -20,6 +21,8 @@ var GAME_SIZE_SCALE = 1;
 var SIZE_SMALL = 0;
 var SIZE_MEDIUM = 1;
 var SIZE_LARGE = 2;
+
+var CURRENT_PAGE = 0;
 
 var GAME_SIZE = SIZE_LARGE;
 
@@ -405,8 +408,6 @@ function GetMapDefs(mapName)
 
 function getAnimation(animName)
 {
-    consoleLog(assets.animations.anims);
-
     var anims = assets.animations.anims;
     var anim = null;
 
@@ -485,7 +486,6 @@ function GetValidAdjacentTiles(map, tilePos)
 
 function LoadMap(mapName)
 {   
-
     var map = getMap(mapName);
     var mapComponents = [];
     var points = [];
@@ -636,6 +636,7 @@ function LoadMap(mapName)
         }
         else if(comp.type === "Button")
         {
+            consoleLog("ADD BUTTON");
             var options = {};
             
             if(comp.btn_type)
@@ -649,7 +650,24 @@ function LoadMap(mapName)
             }
 
             var button = new Button(comp.tileRect, comp.text, options, comp.colours);
+
+            if(em.menu !== null && options.type === "LVL")
+            {
+                consoleLog("ADD BUTTON TO MENU");
+                em.menu.AddButton(button);
+            }
         }
+        else if(comp.type === "Menu")
+        {
+            consoleLog("ADD MENU");
+            em.menu = new Menu(
+                comp.position, 
+                comp.pageLength, 
+                comp.buttonOptions,
+                comp.pagesLabel,
+                comp.prevButton,
+                comp.nextButton);
+        }        
         
     }
 
@@ -692,6 +710,14 @@ function LoadLevel(levelName, force)
 {
     if(CURRENT_LVL !== levelName || force)
     {
+        if(em)
+        {
+            if(em.menu !== null)
+            {
+                CURRENT_PAGE = em.menu.currentPage;
+            }
+        } 
+
 
         if(levelName === "title")
         {
@@ -709,6 +735,11 @@ function LoadLevel(levelName, force)
         em.selector = new Selector(20);
 
         LoadMap(levelName);
+
+        if(em.menu !== null)
+        {
+            em.menu.OpenPage(CURRENT_PAGE);
+        }
     }
 }
 

@@ -16,6 +16,8 @@ export default class EntityManager
         this.renderers = [];
         this.updates = [];
 
+        this.menu = null;
+
         this.pause = false;
         this.continued = false;
         
@@ -222,7 +224,10 @@ export default class EntityManager
 
             for(var i = 0; i < this.clickables.length; i ++)
             {
-                if(this.Overlap(this.clickables[i], x, y))
+                if(this.clickables[i].hide)
+                {
+                }
+                else if(this.Overlap(this.clickables[i], x, y))
                 {
                     this.clickables[i].Click(button);
 

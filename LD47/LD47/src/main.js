@@ -714,24 +714,13 @@ function LoadLevel(levelName, force)
 
 function Setup()
 {
-    patatracker.context.onstatechange = function(evt) {
-        consoleLog("AUDIO MANAGER CHANGE!");
-        consoleLog(audioManager);
-        consoleLog(evt);
-    };
-
-    audioManager.onEnded = function()
-    {
-        consoleLog("==== AUDIO ENDED! ====");
-    };
-
     paper(1);   
     
     COLOURS = assets.colourMap;
     SFX = assets.soundMap;
     SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
 
-    LoadLevel("rechargeTest");
+    LoadLevel("title");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 

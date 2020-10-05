@@ -8,6 +8,12 @@ export default class Battery extends Component
     {
         super(tilePos, spriteInfo, "BATTERY");
 
+        this.speedMultiplier = 1;
+
+        var speed = getGameSpeed();
+
+        this.speedMultiplier = speed.speed;
+
         this.tilePos = tilePos;
 
         this.pulseTime = pulseTime;
@@ -55,7 +61,7 @@ export default class Battery extends Component
         if(this.pulseCount < this.charges)
         {
             //consoleLog("Can pulse...");
-            this.pulseTimer += deltaTime;
+            this.pulseTimer += (deltaTime * this.speedMultiplier);
 
             if(this.pulseTimer >= this.pulseTime)
             {

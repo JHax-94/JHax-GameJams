@@ -1,5 +1,5 @@
 import ProgressBar from "./ProgressBar";
-import { consoleLog, em, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT, GetDirectionFromString } from "./main";
+import { consoleLog, em, PIXEL_SCALE, UP, RIGHT, DOWN, LEFT, GetDirectionFromString, getGameSpeed } from "./main";
 
 export default class Component
 {
@@ -17,6 +17,12 @@ export default class Component
 
         this.chargeProgress = null;
         this.decayProgress = null;
+
+        this.decayMultiplier = 1;
+
+        var gameSpeed = getGameSpeed();
+
+        this.decayMultiplier = gameSpeed.speed;
 
         this.chargesRequired = 0;
         this.currentCharges = 0;
@@ -171,19 +177,22 @@ export default class Component
 
     ChargeDecay(deltaTime)
     {
-        if(this.chargeDecayTime > 0.0 && this.ShouldDecay())
+        if(em.endScreenOn === false)
         {
-            this.chargeDecayTimer += deltaTime;
-
-            if(this.decayProgress !== null)
+            if(this.chargeDecayTime > 0.0 && this.ShouldDecay())
             {
-                this.decayProgress.CalculateValue(this.chargeDecayTime - this.chargeDecayTimer, this.chargeDecayTime);
-            }
+                this.chargeDecayTimer += (deltaTime * this.decayMultiplier);
 
-            if(this.chargeDecayTimer >= this.chargeDecayTime)
-            {
-                this.Decay();
-                this.chargeDecayTimer = 0;
+                if(this.decayProgress !== null)
+                {
+                    this.decayProgress.CalculateValue(this.chargeDecayTime - this.chargeDecayTimer, this.chargeDecayTime);
+                }
+
+                if(this.chargeDecayTimer >= this.chargeDecayTime)
+                {
+                    this.Decay();
+                    this.chargeDecayTimer = 0;
+                }
             }
         }
     }

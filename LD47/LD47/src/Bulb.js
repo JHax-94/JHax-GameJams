@@ -53,12 +53,13 @@ export default class Bulb extends Component
     {
         consoleLog("BULB DECAY");
         super.Decay();
+        
         em.QueueSound(SFX.bulbOff);
-
+        
         if(this.isOn)
         {
             this.isOn = false;
-            this.spriteInfo.index = this.un
+            this.spriteInfo.index = this.unchargedSprite;
         }
     }
 

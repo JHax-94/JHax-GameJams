@@ -55,7 +55,7 @@ export default class SoundSettings
             patatracker.stop();
             this.isSongPlaying = false;
         } 
-        else PlaySong(this.titleSong);
+        else this.PlaySong(this.titleSong);
     }
 
     Toggle()

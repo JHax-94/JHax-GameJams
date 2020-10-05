@@ -692,6 +692,16 @@ function LoadLevel(levelName, force)
 {
     if(CURRENT_LVL !== levelName || force)
     {
+
+        if(levelName === "title")
+        {
+            SOUND.PlayTitle();
+        }
+        else
+        {
+            SOUND.PlayRandomSong();
+        }
+
         CURRENT_LVL = levelName;
         consoleLog("LOADING: " + levelName);
         em = new EntityManager();
@@ -704,10 +714,19 @@ function LoadLevel(levelName, force)
 
 function Setup()
 {
+    patatracker.context.onstatechange = function(evt) {
+        consoleLog("AUDIO MANAGER CHANGE!");
+        consoleLog(audioManager);
+        consoleLog(evt);
+    };
+
+    audioManager.onEnded = function()
+    {
+        consoleLog("==== AUDIO ENDED! ====");
+    };
+
     paper(1);   
-    /*
     
-    */
     COLOURS = assets.colourMap;
     SFX = assets.soundMap;
     SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
@@ -717,6 +736,8 @@ function Setup()
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 
     hasRunSetup = true;
+
+    SOUND.PlaySong("bgm1");
 }
 
 function GetDirectionFromString(directionString)

@@ -23,12 +23,11 @@ export default class Button
         this.colours = colours;
         this.z = 190;
 
-        
-
         this.hover = false;
 
+        /*
         consoleLog("BUTTON CONSTRUCTED");
-        consoleLog(this);
+        consoleLog(this);*/
 
         em.AddHover(this);
         em.AddClickable(this);
@@ -51,8 +50,9 @@ export default class Button
 
     Click(button)
     {
+        /*
         consoleLog("CLICKED BUTTON");
-        consoleLog(this);
+        consoleLog(this);*/
         if(button === 0)
         {
             if(this.options.type === "LVL")

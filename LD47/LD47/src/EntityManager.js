@@ -40,11 +40,14 @@ export default class EntityManager
 
         if(this.phys) this.SetupPhys();
 
+        this.soundControl = SOUND;
+
         if(CURRENT_LVL === "title")
         {
-            this.soundControl = SOUND;
             this.AddRender(this.soundControl);
         }
+
+        this.AddUpdate(this.soundControl);
     }
 
     QueueSound(sound, delay)
@@ -56,7 +59,7 @@ export default class EntityManager
         }
 
         this.soundQueue.push({ sound: sound, delay: setDelay});
-        consoleLog(this.soundQueue);
+        //consoleLog(this.soundQueue);
     }
 
     Initialise()

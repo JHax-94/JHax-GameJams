@@ -9,6 +9,38 @@ export default class SoundSettings
 
         this.soundOn = true;
         audioManager.channels['sfx'].volume = 5;
+
+        this.songElapsed = 0;
+        this.currentSong = "";
+
+        this.isSongPlaying = false;
+
+        consoleLog(assets.songs);
+        this.titleSong = assets.songs.title;
+        this.levelSongs = assets.songs.levels;
+    }
+
+    PlayTitle()
+    {
+        this.PlaySong(this.titleSong);
+    }
+
+    PlaySong(songName)
+    {
+        if((this.currentSong != songName && this.songElapsed >= 10) || this.isSongPlaying === false)
+        {
+            this.songElapsed = 0;
+            if(this.soundOn) patatracker.playSong(songName);
+            this.currentSong = songName;
+            this.isSongPlaying = true;
+        }
+    }
+
+    PlayRandomSong()
+    {
+        var pickSong = random(this.levelSongs.length-1);
+
+        this.PlaySong(this.levelSongs[pickSong]);
     }
 
     SetOn(powerOn)
@@ -17,11 +49,26 @@ export default class SoundSettings
         this.soundOn = powerOn;
         consoleLog(audioManager);
         audioManager.muted = !powerOn;
+        
+        if(!powerOn)
+        {
+            patatracker.stop();
+            this.isSongPlaying = false;
+        } 
+        else PlaySong(this.titleSong);
     }
 
     Toggle()
     {
         this.SetOn(!this.soundOn);
+    }
+
+    Update(deltaTime)
+    {
+        if(this.soundOn)
+        {
+            this.songElapsed += deltaTime;
+        }
     }
 
     Draw()

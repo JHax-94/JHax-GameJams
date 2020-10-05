@@ -4,7 +4,7 @@
 	"appid": "NcimdFsF2f2kAzBq",
 	"screen": {
 		"fullscreen": false,
-		"resizable": true,
+		"resizable": false,
 		"keepAspectRatio": false,
 		"width": 256,
 		"height": 256,
@@ -75,7 +75,7 @@
 		"keyboard": true,
 		"gamepad": true,
 		"AudioManager": true,
-		"patatracker": false,
+		"patatracker": true,
 		"bleeper": true,
 		"TINA": false,
 		"polyfill": false

@@ -67,7 +67,7 @@ export default class DirectionSwitcher extends Component
 
         var dirMap = GetArrowDirMapFromDir(dir);
         this.SetDirectionFromMap(dirMap);
-        sfx(SFX.arrowChange);
+        em.QueueSound(SFX.arrowChange);
     }
 
     IsValidDir(dir)
@@ -96,7 +96,7 @@ export default class DirectionSwitcher extends Component
             }
             else 
             {
-                sfx(SFX.arrowDirectionInvalid);
+                em.QueueSound(SFX.arrowDirectionInvalid);
             }
         }
     }
@@ -107,7 +107,7 @@ export default class DirectionSwitcher extends Component
         {
             this.hover = onOff;
             
-            if(this.hover) sfx(SFX.hoverArrow);
+            if(this.hover) em.QueueSound(SFX.hoverArrow);
         }
     }
 
@@ -152,7 +152,7 @@ export default class DirectionSwitcher extends Component
             {
                 //consoleLog("Set selected!");
                 em.SetSelected(this);
-                sfx(SFX.selectArrow);
+                em.QueueSound(SFX.selectArrow);
             }
             else
             {

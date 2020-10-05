@@ -52,7 +52,6 @@ export default class Button
             {
                 em.soundControl.Toggle();
             }
-            
         }
     }
 

@@ -56,15 +56,16 @@ export default class EndScreen
         this.tertiaryLabel = new Label(this.tertiaryText.pos, this.tertiaryText.text, 4);
         this.tertiaryLabel.z = 1010;
     */
+   /*
         if(winLose)
         {
-            sfx(SFX.victory);
+            em.QueueSound(SFX.victory);
         }
         else
         {
-            sfx(SFX.defeat);
+            em.QueueSound(SFX.defeat);
         }
-
+    */
         em.AddRender(this);
     }
 

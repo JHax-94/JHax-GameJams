@@ -1,4 +1,4 @@
-import { UP, RIGHT, DOWN, LEFT, consoleLog, SFX } from "./main";
+import { em, consoleLog, SFX } from "./main";
 import Component from "./Component";
 
 export default class Transistor extends Component
@@ -31,7 +31,7 @@ export default class Transistor extends Component
     Charged()
     {
         consoleLog("Pulse to " + this.connections.length + " connections");
-        sfx(SFX.transistor);
+        em.QueueSound(SFX.transistor);
         for(var i = 0; i < this.connections.length; i ++)
         {
             this.connections[i].AddCharge();

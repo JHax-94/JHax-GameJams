@@ -36,6 +36,8 @@ export default class EntityManager
 
         this.selected = null;
 
+        this.soundQueue = [];
+
         if(this.phys) this.SetupPhys();
 
         if(CURRENT_LVL === "title")
@@ -43,6 +45,18 @@ export default class EntityManager
             this.soundControl = SOUND;
             this.AddRender(this.soundControl);
         }
+    }
+
+    QueueSound(sound, delay)
+    {
+        var setDelay = 0;
+        if(delay)
+        {
+            setDelay = delay;
+        }
+
+        this.soundQueue.push({ sound: sound, delay: setDelay});
+        consoleLog(this.soundQueue);
     }
 
     Initialise()
@@ -271,10 +285,10 @@ export default class EntityManager
             }
             else if(manager.CompareTags(evt, "ELECTRON", "ELECTRON"))
             {
+                manager.QueueSound(SFX.electronCollision);
+
                 evt.bodyA.obj.Destroy();
                 evt.bodyB.obj.Destroy();
-
-                sfx(SFX.electronCollision);
             }
             else if(manager.CompareTags(evt, "ELECTRON", "WIRE_SWITCH"))
             {
@@ -283,8 +297,8 @@ export default class EntityManager
 
                 if(!wireSwitch.obj.AllowPassage(electron.obj))
                 {
+                    manager.QueueSound(SFX.electronLost);
                     electron.obj.Destroy();
-                    sfx(SFX.electronLost);
                 }
             }
             else if(manager.CompareTags(evt, "ELECTRON", "DIODE"))
@@ -401,6 +415,7 @@ export default class EntityManager
                 {
                     this.pause = true;
                     consoleLog("Game over!");
+                    this.QueueSound(SFX.defeat, 0.5);
                     this.endScreen.ShowScreen(false, this.electrons.length);
                     this.endScreenOn = true;
                 }
@@ -410,6 +425,7 @@ export default class EntityManager
                 if(this.AllBulbsLit())
                 {
                     consoleLog("You Win!");
+                    this.QueueSound(SFX.victory, 0.5);
                     this.endScreen.ShowScreen(true);
                     this.endScreenOn = true;
                 }
@@ -517,6 +533,20 @@ export default class EntityManager
 
             if(this.phys) this.phys.step(deltaTime, deltaTime, 20);
             else this.UpdateLoop(deltaTime);
+        }
+
+        if(this.soundQueue.length > 0)
+        {
+            consoleLog(this.soundQueue);
+
+            this.soundQueue[0].delay -= deltaTime;
+
+            if(this.soundQueue[0].delay <= 0)
+            {
+                consoleLog("PLAY SOUND: " + this.soundQueue[0].sound );
+                sfx(this.soundQueue[0].sound);
+                this.soundQueue.splice(0, 1);
+            }
         }
     }
 }

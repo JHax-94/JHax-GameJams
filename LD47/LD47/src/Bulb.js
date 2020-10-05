@@ -53,7 +53,7 @@ export default class Bulb extends Component
     {
         consoleLog("BULB DECAY");
         super.Decay();
-        sfx(SFX.bulbOff);
+        em.QueueSound(SFX.bulbOff);
 
         if(this.isOn)
         {
@@ -69,9 +69,9 @@ export default class Bulb extends Component
 
     Charged()
     {
+        if(this.isOn === false) em.QueueSound(SFX.bulbOn);
         this.spriteInfo.index = this.chargedSprite;
         this.isOn = true;
-        sfx(SFX.bulbOn);
         em.CheckEndGame();
     }
 

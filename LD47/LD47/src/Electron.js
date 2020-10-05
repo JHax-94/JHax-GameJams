@@ -156,7 +156,7 @@ export default class Electron
         if(!this.isCharged)
         {   
             this.isCharged = true;
-            sfx(SFX.electronCharged);
+            em.QueueSound(SFX.electronCharged);
         } 
     }
 
@@ -178,7 +178,7 @@ export default class Electron
     RemoveCharge()
     {
         this.isCharged = false;
-        sfx(SFX.chargeSpent);
+        em.QueueSound(SFX.chargeSpent);
     }
 
     Update(deltaTime)

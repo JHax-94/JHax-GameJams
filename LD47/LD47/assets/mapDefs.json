@@ -64,7 +64,8 @@
 					"bulb": {
 						"chargesRequired": 4,
 						"chargedSprite": 17,
-						"chargeDecayTime": 4.5
+						"chargeDecayTime": 3,
+						"decayToZero": true
 					}
 				}
 			]

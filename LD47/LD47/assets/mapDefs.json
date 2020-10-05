@@ -549,14 +549,14 @@
 					"transistor": {
 						"transistorId": 0,
 						"chargesRequired": 3,
-						"chargeBarDir": "DOWN"
+						"chargeBarDir": "UP"
 					}
 				},
 				{"tileX":12,"tileY":7,"type":"Transistor","tileSprite":32,"tileData":{"x":12,"y":7,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"transistor": {
 						"transistorId": 1,
 						"chargesRequired": 3,
-						"chargeBarDir": "DOWN"
+						"chargeBarDir": "UP"
 					}
 				}
 			]
@@ -642,14 +642,14 @@
 					"transistor": {
 						"transistorId": 0,
 						"chargesRequired": 3,
-						"chargeBarDir": "DOWN"
+						"chargeBarDir": "UP"
 					}
 				},
 				{"tileX":13,"tileY":6,"type":"Transistor","tileSprite":32,"tileData":{"x":13,"y":6,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"transistor": {
 						"transistorId": 1,
 						"chargesRequired": 3,
-						"chargeBarDir": "DOWN"
+						"chargeBarDir": "UP"
 					}
 				}
 			]
@@ -946,8 +946,8 @@
 						"chargesRequired": 1,
 						"chargeDecayTime": 20,
 						"decayWhenFull": true,
-						"chargeBarDir": "RIGHT",
-						"decayBarDir": "RIGHT",
+						"chargeBarDir": "LEFT",
+						"decayBarDir": "LEFT",
 						"chargeResetsDecay": false,
 						"decayToZero": true,
 						"overrideDecayColour": 7
@@ -960,8 +960,8 @@
 						"chargesRequired": 1,
 						"chargeDecayTime": 20,
 						"decayWhenFull": true,
-						"chargeBarDir": "RIGHT",
-						"decayBarDir": "RIGHT",
+						"chargeBarDir": "DOWN",
+						"decayBarDir": "DOWN",
 						"chargeResetsDecay": false,
 						"decayToZero": true,
 						"overrideDecayColour": 7
@@ -1046,7 +1046,7 @@
 					"bulb": {
 						"chargesRequired": 3,
 						"chargedSprite": 17,
-						"chargeBarDir": "UP"
+						"chargeBarDir": "DOWN"
 					}
 				},
 				{"tileX":10,"tileY":4,"type":"Switch","tileSprite":39,"tileData":{"x":10,"y":4,"sprite":23,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
@@ -1066,7 +1066,7 @@
 					"transistor": {
 						"transistorId": 0,
 						"chargesRequired": 3,
-						"chargeBarDir": "LEFT"
+						"chargeBarDir": "RIGHT"
 					}
 				}
 			]

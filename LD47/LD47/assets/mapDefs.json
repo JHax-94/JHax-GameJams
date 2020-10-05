@@ -123,8 +123,6 @@
 				{"type": "Label", "text": "Game Size:", "position": {"tileX": 0.25, "tileY": 4.125 }, "colour": 4 },
 				{"type": "Button", "text": "Large", "btn_type": "SIZE_TOGGLE", "tileRect": { "x": 0.25, "y": 4.625, "w": 3.5, "h": 0.75 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }, "colour": 4 },
 
-				{"type": "Label", "text": "Age of Amperes", "position": {"tileX": 6.3, "tileY": 2.5 }, "colour": 4 },
-				
 				{"type": "Button", "text": "Level 1", "value": "map", "tileRect": { "x": 1.25, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
 				{"type": "Button", "text": "Level 2", "value": "diode1", "tileRect": { "x": 1.25, "y": 7.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
 				{"type": "Button", "text": "Level 3", "value": "diode2", "tileRect": { "x": 1.25, "y": 9, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },

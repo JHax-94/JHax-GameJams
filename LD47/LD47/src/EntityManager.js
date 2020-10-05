@@ -540,13 +540,13 @@ export default class EntityManager
 
         if(this.soundQueue.length > 0)
         {
-            consoleLog(this.soundQueue);
+            //consoleLog(this.soundQueue);
 
             this.soundQueue[0].delay -= deltaTime;
 
             if(this.soundQueue[0].delay <= 0)
             {
-                consoleLog("PLAY SOUND: " + this.soundQueue[0].sound );
+                //consoleLog("PLAY SOUND: " + this.soundQueue[0].sound );
                 sfx(this.soundQueue[0].sound);
                 this.soundQueue.splice(0, 1);
             }

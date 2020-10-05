@@ -1,0 +1,80 @@
+{
+	"anims": [
+		{
+			"name": "ELECTRON_TRAVEL_",
+			"frameTime": 0.08, 
+			"frames": [
+				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 50, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 50, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 50, "flipX": true, "flipY": false, "flipR": true },
+				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 50, "flipX": true, "flipY": false, "flipR": false }
+			],
+		},
+		{
+			"name": "ELECTRON_TRAVEL",
+			"frameTime": 0.12, 
+			"frames": [
+				{ "sprite": 18, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 18, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": true },
+			],			
+		},
+		{
+			"name": "CHARGED_ELECTRON_DESTROY_H",
+			"frameTime": 0.08,
+			"frames": [
+				{ "sprite": 18, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 66, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 66, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 18, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 82, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 98, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 114, "flipX": false, "flipY": false, "flipR": false }
+			]
+		},
+		{
+			"name": "UNCHARGED_ELECTRON_DESTROY_H",
+			"frameTime": 0.12,
+			"frames": [
+				{ "sprite": 19, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 35, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 51, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 67, "flipX": false, "flipY": false, "flipR": false },
+				{ "sprite": 83, "flipX": false, "flipY": false, "flipR": false }
+			]
+		},
+		{
+			"name": "CHARGED_ELECTRON_DESTROY_V",
+			"frameTime": 0.08,
+			"frames": [
+				{ "sprite": 18, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 66, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 66, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 18, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 34, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 82, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 98, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 114, "flipX": false, "flipY": false, "flipR": true }
+			]
+		},
+		{
+			"name": "UNCHARGED_ELECTRON_DESTROY_V",
+			"frameTime": 0.12,
+			"frames": [
+				{ "sprite": 19, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 35, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 51, "flipX": false, "flipY": false, "flipR": true },
+				{ "sprite": 83, "flipX": false, "flipY": false, "flipR": true }
+			]
+		}
+		
+	]
+}

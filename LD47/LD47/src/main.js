@@ -403,6 +403,25 @@ function GetMapDefs(mapName)
     return def;
 }
 
+function getAnimation(animName)
+{
+    consoleLog(assets.animations.anims);
+
+    var anims = assets.animations.anims;
+    var anim = null;
+
+    for(var i = 0; i < anims.length; i ++)
+    {
+        if(anims[i].name === animName)
+        {
+            anim = anims[i];
+            break;
+        }
+    }
+
+    return anim;
+}
+
 function ToggleGameSpeed()
 {
     GAME_SPEED = (GAME_SPEED + 1) % gameSpeeds.length;
@@ -762,6 +781,7 @@ export {
     ToggleGameSpeed,
     getGameSpeed,
     getGameSize,
+    getAnimation,
     HOVER_SPRITE,
     CURRENT_LVL, 
     TOTAL_SPRITES, 

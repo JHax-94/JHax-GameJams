@@ -1,4 +1,4 @@
-import { consoleLog, em, PIXEL_SCALE, UP, DOWN, RIGHT, LEFT, SFX } from "./main";
+import { consoleLog, em, PIXEL_SCALE, SFX, getAnimation } from "./main";
 
 //import { em, consoleLog, PIXEL_SCALE } from './main.js'
 
@@ -12,8 +12,15 @@ export default class Electron
         consoleLog(position);
         consoleLog(spriteInfo);
         */  
+        this.frameTimer = 0;
+        this.currentAnimation = null;
+        this.currentFrame = 0;
+        this.loopAnimation = false;
+
         this.chargedSprite = spriteInfo.chargedSprite;
         this.unchargedSprite = spriteInfo.unchargedSprite;
+
+        this.spriteInfo = spriteInfo;
         this.isCharged = true;
         //this.pos = position;
 
@@ -32,6 +39,8 @@ export default class Electron
         consoleLog("Electron constructed!");
         consoleLog(this);
         */
+        this.SetAnimation("ELECTRON_TRAVEL", true);
+
         em.AddRender(this);
         em.AddPhys(this, {
             mass: 1,
@@ -42,6 +51,63 @@ export default class Electron
 
         em.AddUpdate(this);
         em.AddElectron(this);
+    }
+
+    SetAnimation(animName, loops)
+    {
+        this.loopAnimation = loops;
+        this.currentAnimation = getAnimation(animName);
+        this.currentFrame = 0;
+        this.frameTimer = 0;
+
+        this.UpdateFrame();
+    }
+
+    Animate(deltaTime)
+    {
+        if(this.currentAnimation)
+        {
+            this.frameTimer += deltaTime;
+
+            if(this.frameTimer >= this.currentAnimation.frameTime)
+            {
+                //consoleLog("CHANGE FRAME");
+                this.frameTimer -= this.currentAnimation.frameTime;
+                this.currentFrame = (this.currentFrame + 1) % this.currentAnimation.frames.length;
+
+                //consoleLog("FRAME: " + this.currentFrame + " / " + this.currentAnimation.frames.length);
+
+                if(this.currentFrame === 0 && this.loopAnimation === false)
+                {
+                    this.AnimationFinished(this.currentAnimation);
+                }
+                else
+                {
+                    this.UpdateFrame();
+                }
+            }
+        }
+    }
+
+    AnimationFinished(animation)
+    {
+
+        consoleLog("Animation: " + animation.name + " Ended!");
+        if(animation.name.includes("ELECTRON_DESTROY"))
+        {
+            consoleLog("Delete this!");
+            this.Delete();
+        }
+    }
+
+    UpdateFrame()
+    {
+        var frame = this.currentAnimation.frames[this.currentFrame];
+
+        this.spriteInfo.index = frame.sprite;
+        this.spriteInfo.flipX = frame.flipX;
+        this.spriteInfo.flipY = frame.flipY;
+        this.spriteInfo.flipR = frame.flipR;
     }
 
     CompareCentre(electron, contact)
@@ -143,12 +209,28 @@ export default class Electron
         consoleLog(this.phys);*/
     }
 
-    Destroy()
+    Delete()
     {
         em.phys.removeBody(this.phys);
         em.RemoveUpdate(this);
         em.RemoveRender(this);
         em.RemoveElectron(this);
+    }
+
+    Destroy()
+    {
+        //consoleLog("ELECTRON DESTROY:");
+
+        var dirString = Math.abs(this.phys.velocity[0]) > 0 ? "_H" : "_V";
+        var baseAnim = this.isCharged ? "CHARGED_ELECTRON_DESTROY" : "UNCHARGED_ELECTRON_DESTROY";
+
+        this.SetAnimation(baseAnim + dirString, false)
+        consoleLog(this.phys);
+        this.phys.shapes = [];
+
+        this.isCharged = true;
+        this.setDeleteSpeed = true;
+        
     }
 
     Charge()
@@ -183,6 +265,8 @@ export default class Electron
 
     Update(deltaTime)
     {
+        this.Animate(deltaTime);
+
         this.phys.velocity = [ this.velocity.x, this.velocity.y ];
 
         if(this.contact) 
@@ -213,6 +297,11 @@ export default class Electron
             this.phys.position = this.reSnap;
             this.reSnap = null;
         }
+        else if(this.setDeleteSpeed)
+        {
+            this.phys.velocity[0] = this.phys.velocity[0] * 0.1;
+            this.phys.velocity[1] = this.phys.velocity[1] * 0.1;
+        }
     }
 
     Draw()
@@ -223,6 +312,6 @@ export default class Electron
 
         //consoleLog(this.phys.position);
 
-        sprite(this.isCharged ? this.chargedSprite : this.unchargedSprite, screenDims.x, screenDims.y);
+        sprite(this.isCharged ? this.spriteInfo.index : this.unchargedSprite, screenDims.x, screenDims.y, this.spriteInfo.flipX, this.spriteInfo.flipY, this.spriteInfo.flipR);
     }
 }

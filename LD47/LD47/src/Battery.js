@@ -37,7 +37,7 @@ export default class Battery extends Component
     {
         var speed = getGameSpeed();
 
-        var newElectron = new Electron({x: (this.tilePos.x + (this.spriteInfo.flipX ? 0 : 1.5)) *PIXEL_SCALE, y: (this.tilePos.y+0.5) * PIXEL_SCALE}, { chargedSprite: 18, unchargedSprite: 19 }, this.pulseSpeed * speed.speed);
+        var newElectron = new Electron({x: (this.tilePos.x + (this.spriteInfo.flipX ? 0 : 1.5)) *PIXEL_SCALE, y: (this.tilePos.y+0.5) * PIXEL_SCALE}, { index: 18, unchargedSprite: 19, flipX: false, flipY: false, flipR: false }, this.pulseSpeed * speed.speed);
         
         this.pulseCount ++;
 

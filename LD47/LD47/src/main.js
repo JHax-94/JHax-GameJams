@@ -731,7 +731,7 @@ function Setup()
     SFX = assets.soundMap;
     SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
 
-    LoadLevel("title");
+    LoadLevel("oppositeSwitch");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 

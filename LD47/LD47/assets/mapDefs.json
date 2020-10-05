@@ -919,6 +919,80 @@
 				},
 				{"tileX":12,"tileY":1,"type":"Diode","tileSprite":33,"tileData":{"x":12,"y":1,"sprite":33,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false}}
 			]
+		},
+		{
+			"name": "oppositeSwitch",
+			"components": [
+				{"tileX":6,"tileY":6,"type":"Battery","tileSprite":0,"tileData":{"x":6,"y":6,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 4,
+						"pulseTime": 2,
+						"pulseSpeed": 40
+					}
+				},
+				{"tileX":8,"tileY":4,"type":"Battery","tileSprite":0,"tileData":{"x":8,"y":4,"sprite":0,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 0,
+						"pulseTime": 2,
+						"pulseSpeed": 60
+					}
+				},
+				{"tileX":8,"tileY":8,"type":"Battery","tileSprite":0,"tileData":{"x":8,"y":8,"sprite":0,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 0,
+						"pulseTime": 2,
+						"pulseSpeed": 60
+					}
+				},
+				{"tileX":1,"tileY":6,"type":"Direction","tileSprite":6,"tileData":{"x":1,"y":6,"sprite":5,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "RIGHT"
+					}
+				},
+				{"tileX":14,"tileY":6,"type":"Direction","tileSprite":6,"tileData":{"x":14,"y":6,"sprite":5,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "UP"
+					}
+				},
+				{"tileX":4,"tileY":4,"type":"Bulb","tileSprite":16,"tileData":{"x":4,"y":4,"sprite":16,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 3,
+						"chargedSprite": 17,
+						"chargeBarDir": "UP"
+					}
+				},
+				{"tileX":4,"tileY":8,"type":"Bulb","tileSprite":16,"tileData":{"x":4,"y":8,"sprite":16,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 3,
+						"chargedSprite": 17,
+						"chargeBarDir": "UP"
+					}
+				},
+				{"tileX":10,"tileY":4,"type":"Switch","tileSprite":39,"tileData":{"x":10,"y":4,"sprite":23,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 0,
+					"wireSwitch": {
+						"chargesRequired": 1
+					}
+				},
+				{"tileX":10,"tileY":8,"type":"Switch","tileSprite":39,"tileData":{"x":10,"y":8,"sprite":23,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"transistorId": 0,
+					"wireSwitch": {
+						"chargesRequired": 1
+					}
+				},
+				{"tileX":4,"tileY":6,"type":"Diode","tileSprite":33,"tileData":{"x":4,"y":6,"sprite":33,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false}},
+				{"tileX":9,"tileY":6,"type":"Transistor","tileSprite":32,"tileData":{"x":9,"y":6,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 0,
+						"chargesRequired": 3,
+						"chargeBarDir": "LEFT"
+					}
+				}
+			]
+
 		}
+
 	]
 }

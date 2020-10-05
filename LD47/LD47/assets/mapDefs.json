@@ -991,7 +991,56 @@
 					}
 				}
 			]
-
+		},
+		{
+			"name": "rechargeTest",
+			"components": [
+				{"tileX":3,"tileY":7,"type":"Battery","tileSprite":0,"tileData":{"x":3,"y":7,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 4,
+						"pulseTime": 0.5,
+						"pulseSpeed": 40
+					}
+				},
+				{"tileX":6,"tileY":2,"type":"Battery","tileSprite":0,"tileData":{"x":6,"y":2,"sprite":0,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 0,
+						"pulseTime": 2,
+						"pulseSpeed": 40
+					}
+				},
+				{"tileX":11,"tileY":7,"type":"Battery","tileSprite":0,"tileData":{"x":11,"y":7,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 0,
+						"pulseTime": 2,
+						"pulseSpeed": 40
+					}
+				},
+				{"tileX":0,"tileY":7,"type":"Direction","tileSprite":6,"tileData":{"x":0,"y":7,"sprite":5,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "RIGHT"
+					}
+				},
+				{"tileX":15,"tileY":7,"type":"Direction","tileSprite":6,"tileData":{"x":15,"y":7,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "UP"
+					}
+				},
+				{"tileX":10,"tileY":2,"type":"Bulb","tileSprite":16,"tileData":{"x":10,"y":2,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 6,
+						"chargedSprite": 17,
+						"chargeBarDir": "UP"
+					}
+				},
+				{"tileX":1,"tileY":2,"type":"Diode","tileSprite":33,"tileData":{"x":1,"y":2,"sprite":33,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false}},
+				{"tileX":1,"tileY":7,"type":"Diode","tileSprite":33,"tileData":{"x":1,"y":7,"sprite":33,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false}},
+				{"tileX":6,"tileY":7,"type":"Diode","tileSprite":33,"tileData":{"x":6,"y":7,"sprite":33,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false}},
+				{"tileX":8,"tileY":7,"type":"Diode","tileSprite":33,"tileData":{"x":8,"y":7,"sprite":33,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false}},
+				{"tileX":14,"tileY":7,"type":"Diode","tileSprite":33,"tileData":{"x":14,"y":7,"sprite":33,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false}}
+			]
 		}
 
 	]

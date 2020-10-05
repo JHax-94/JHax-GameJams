@@ -1,0 +1,15 @@
+{
+    "arrowChange": "changeArDir",
+	"arrowDirectionInvalid": "invArrDir",
+	"bulbOn": "bulbOn_A",
+	"bulbOff": "bulbOff_A",
+	"selectArrow": "selectArr",
+	"hoverArrow": "hoverArr",
+	"victory": "Victory",
+	"defeat": "Defeat",
+	"electronCollision": "electColl",
+	"electronLost": "electLost",
+	"electronCharged": "chargedUp",
+	"chargeSpent": "chargeSpent",
+	"transistor": "transistorB"
+}

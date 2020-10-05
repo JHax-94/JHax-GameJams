@@ -1,5 +1,5 @@
 import Component from "./Component";
-import { consoleLog, UP, DOWN, RIGHT, LEFT, em, GetArrowDirMapFromDir, GetArrowDirMapFromName,  PIXEL_SCALE, HOVER_SPRITE } from "./main";
+import { consoleLog, UP, DOWN, RIGHT, LEFT, em, GetArrowDirMapFromDir, GetArrowDirMapFromName,  PIXEL_SCALE, HOVER_SPRITE, SFX } from "./main";
 
 export default class DirectionSwitcher extends Component
 {
@@ -67,6 +67,7 @@ export default class DirectionSwitcher extends Component
 
         var dirMap = GetArrowDirMapFromDir(dir);
         this.SetDirectionFromMap(dirMap);
+        em.QueueSound(SFX.arrowChange);
     }
 
     IsValidDir(dir)
@@ -93,6 +94,20 @@ export default class DirectionSwitcher extends Component
             {
                 this.ChangeDir(dir);
             }
+            else 
+            {
+                em.QueueSound(SFX.arrowDirectionInvalid);
+            }
+        }
+    }
+
+    Hover(onOff)
+    {
+        if(onOff !== this.hover)
+        {
+            this.hover = onOff;
+            
+            if(this.hover) em.QueueSound(SFX.hoverArrow);
         }
     }
 
@@ -137,6 +152,7 @@ export default class DirectionSwitcher extends Component
             {
                 //consoleLog("Set selected!");
                 em.SetSelected(this);
+                em.QueueSound(SFX.selectArrow);
             }
             else
             {

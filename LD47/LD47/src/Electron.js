@@ -1,4 +1,4 @@
-import { consoleLog, em, PIXEL_SCALE, UP, DOWN, RIGHT, LEFT } from "./main";
+import { consoleLog, em, PIXEL_SCALE, SFX, getAnimation } from "./main";
 
 //import { em, consoleLog, PIXEL_SCALE } from './main.js'
 
@@ -6,14 +6,22 @@ export default class Electron
 {
     constructor(position, spriteInfo, speed)
     {
+        em.AddAnimateFunctions(this);
         /*
         consoleLog("Construct electron");
 
         consoleLog(position);
         consoleLog(spriteInfo);
         */  
+        this.frameTimer = 0;
+        this.currentAnimation = null;
+        this.currentFrame = 0;
+        this.loopAnimation = false;
+
         this.chargedSprite = spriteInfo.chargedSprite;
         this.unchargedSprite = spriteInfo.unchargedSprite;
+
+        this.spriteInfo = spriteInfo;
         this.isCharged = true;
         //this.pos = position;
 
@@ -32,6 +40,8 @@ export default class Electron
         consoleLog("Electron constructed!");
         consoleLog(this);
         */
+        this.SetAnimation("ELECTRON_TRAVEL", true);
+
         em.AddRender(this);
         em.AddPhys(this, {
             mass: 1,
@@ -42,6 +52,26 @@ export default class Electron
 
         em.AddUpdate(this);
         em.AddElectron(this);
+    }
+
+    AnimationFinished(animation)
+    {
+        consoleLog("Animation: " + animation.name + " Ended!");
+        if(animation.name.includes("ELECTRON_DESTROY"))
+        {
+            consoleLog("Delete this!");
+            this.Delete();
+        }
+    }
+
+    UpdateFrame()
+    {
+        var frame = this.currentAnimation.frames[this.currentFrame];
+
+        this.spriteInfo.index = frame.sprite;
+        this.spriteInfo.flipX = frame.flipX;
+        this.spriteInfo.flipY = frame.flipY;
+        this.spriteInfo.flipR = frame.flipR;
     }
 
     CompareCentre(electron, contact)
@@ -108,38 +138,19 @@ export default class Electron
         this.velocity = vel;
     }
 
-    SnapToContact(contact, dir)
+    SnapToContact(contact)
     {
-        /*
-        if(!this.contact.z)
-        {
-            consoleLog("SNAP TO");
-            consoleLog(contact);
-        }*/
+        this.reSnap = [];
 
         for(var i = 0; i < contact.phys.position.length; i ++)
         {
-            /*
-            if(this.logging)
-            {
-                consoleLog("SNAP: " + i + " = " + contact.phys.position[i]);
-            }*/
             this.phys.position[i] = contact.phys.position[i];
-        }
 
-        var screenDims = { x: Math.floor(this.phys.position[0] - 0.5*PIXEL_SCALE), y: Math.floor(-this.phys.position[1] - 0.5*PIXEL_SCALE) };
-        /*
-        consoleLog("POS");
-        consoleLog(this.phys.position);
-        consoleLog("SCREEN");
-        consoleLog(screenDims);
-        consoleLog("POS AGAIN");
-        consoleLog(this.phys.position);
-        consoleLog("PHYS");
-        consoleLog(this.phys);*/
+            this.reSnap[i] = contact.phys.position[i];
+        }
     }
 
-    Destroy()
+    Delete()
     {
         em.phys.removeBody(this.phys);
         em.RemoveUpdate(this);
@@ -147,9 +158,29 @@ export default class Electron
         em.RemoveElectron(this);
     }
 
+    Destroy()
+    {
+        //consoleLog("ELECTRON DESTROY:");
+
+        var dirString = Math.abs(this.phys.velocity[0]) > 0 ? "_H" : "_V";
+        var baseAnim = this.isCharged ? "CHARGED_ELECTRON_DESTROY" : "UNCHARGED_ELECTRON_DESTROY";
+
+        this.SetAnimation(baseAnim + dirString, false)
+        consoleLog(this.phys);
+        this.phys.shapes = [];
+
+        this.isCharged = true;
+        this.setDeleteSpeed = true;
+        
+    }
+
     Charge()
     {
-        if(!this.isCharged) this.isCharged = true;
+        if(!this.isCharged)
+        {   
+            this.isCharged = true;
+            em.QueueSound(SFX.electronCharged);
+        } 
     }
 
     ChargeComponent(component)
@@ -162,7 +193,7 @@ export default class Electron
             if(chargeAdded) 
             {
                 consoleLog("Switch off electron!");
-                this.isCharged = false;
+                this.RemoveCharge();
             }
         }
     }
@@ -170,10 +201,13 @@ export default class Electron
     RemoveCharge()
     {
         this.isCharged = false;
+        em.QueueSound(SFX.chargeSpent);
     }
 
     Update(deltaTime)
     {
+        this.Animate(deltaTime);
+
         this.phys.velocity = [ this.velocity.x, this.velocity.y ];
 
         if(this.contact) 
@@ -191,9 +225,23 @@ export default class Electron
                 this.phys.setZeroForce();
                 this.SetVelocity({x: newDir[0] * this.speed, y: newDir[1] * this.speed});
                 this.SnapToContact(this.contact, newDir);
-                this.SnapToContact(this.contact, newDir);
+                if(this.contact.phys.tag === "POWERED_ALT")
+                {
+                    this.ChargeComponent(this.contact);
+                }
+                
                 this.contact = null;
             }
+        }
+        else if(this.reSnap)
+        {
+            this.phys.position = this.reSnap;
+            this.reSnap = null;
+        }
+        else if(this.setDeleteSpeed)
+        {
+            this.phys.velocity[0] = this.phys.velocity[0] * 0.1;
+            this.phys.velocity[1] = this.phys.velocity[1] * 0.1;
         }
     }
 
@@ -205,6 +253,6 @@ export default class Electron
 
         //consoleLog(this.phys.position);
 
-        sprite(this.isCharged ? this.chargedSprite : this.unchargedSprite, screenDims.x, screenDims.y);
+        sprite(this.isCharged ? this.spriteInfo.index : this.unchargedSprite, screenDims.x, screenDims.y, this.spriteInfo.flipX, this.spriteInfo.flipY, this.spriteInfo.flipR);
     }
 }

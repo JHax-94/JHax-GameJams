@@ -5,16 +5,61 @@ import RailPoint from './RailPoint.js';
 import DirectionSwitcher from './DirectionSwitcher.js';
 import Selector from './Selector.js';
 import Bulb from './Bulb.js';
-import { Label } from './Label.js';
+import Label from './Label.js';
 import AltSwitch from './AltSwitch.js';
 import Transistor from './Transistor.js';
 import WireSwitch from './WireSwitch.js';
 import Diode from './Diode.js';
+import SoundSettings from './SoundSettings.js';
 
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
 
+var GAME_SIZE_SCALE = 1;
+
+var SIZE_SMALL = 0;
+var SIZE_MEDIUM = 1;
+var SIZE_LARGE = 2;
+
+var GAME_SIZE = SIZE_LARGE;
+
+var SPEED_SLOW = 0.5;
+var SPEED_NORMAL = 1;
+var SPEED_FAST = 2;
+
+var gameSpeeds = [
+    { name: "Slow", speed: SPEED_SLOW },
+    { name: "Normal", speed: SPEED_NORMAL },
+    { name: "Fast", speed: SPEED_FAST }
+]
+
+var GAME_SPEED = 1;
+
+var sizeMaps = [
+    { name: "Small", windowDims: 512, mouseScale: 2 },
+    { name: "Medium", windowDims: 768, mouseScale: 4/3 },
+    { name: "Large", windowDims: 1024, mouseScale: 1 }
+]
+
+function getGameSpeed()
+{
+    return gameSpeeds[GAME_SPEED];
+}
+
+function getGameSize()
+{
+    return sizeMaps[GAME_SIZE];
+}
+
+
 var COLOURS;
+var SFX;
+
+var soundPos = { tileX: 0.25, tileY: 0.25 };
+
+var SOUND;
+
+var VOL = 0;
 
 var UP = 0;
 var RIGHT = 1;
@@ -358,6 +403,37 @@ function GetMapDefs(mapName)
     return def;
 }
 
+function getAnimation(animName)
+{
+    consoleLog(assets.animations.anims);
+
+    var anims = assets.animations.anims;
+    var anim = null;
+
+    for(var i = 0; i < anims.length; i ++)
+    {
+        if(anims[i].name === animName)
+        {
+            anim = anims[i];
+            break;
+        }
+    }
+
+    return anim;
+}
+
+function ToggleGameSpeed()
+{
+    GAME_SPEED = (GAME_SPEED + 1) % gameSpeeds.length;
+    LoadLevel("title", true);
+}
+
+function ToggleGameSize()
+{
+    SetGameSize((GAME_SIZE + 1) % sizeMaps.length);
+    LoadLevel("title", true);
+}
+
 function IsTileValid(tile)
 {
     var valid = false;
@@ -464,6 +540,11 @@ function LoadMap(mapName)
 
     var mapDef = GetMapDefs(mapName);
     
+    if(mapDef.electronLossThreshold)
+    {
+        em.electronLossThreshold = mapDef.electronLossThreshold;
+    }
+
     consoleLog("=== ADDITIONAL MAP DEF ===");
     consoleLog(mapDef);
     consoleLog("==========================");
@@ -555,7 +636,19 @@ function LoadMap(mapName)
         }
         else if(comp.type === "Button")
         {
-            var button = new Button(comp.tileRect, comp.text, comp.value, comp.colours);
+            var options = {};
+            
+            if(comp.btn_type)
+            {
+                options.type = comp.btn_type;
+            }   
+            else 
+            {
+                options.value = comp.value;
+                options.type = "LVL";
+            }
+
+            var button = new Button(comp.tileRect, comp.text, options, comp.colours);
         }
         
     }
@@ -569,22 +662,40 @@ function LoadMap(mapName)
     }
 }
 
+function mapMousePos(x, y)
+{
+    return { x: x * GAME_SIZE_SCALE, y: y * GAME_SIZE_SCALE };
+}
+
 pointerEvents.onPress(function(x, y, pointerId, evt) {
-    consoleLog(evt);
-    em.MouseClick(x, y, evt.button);
+    var mapped = mapMousePos(x, y);
+    em.MouseClick(mapped.x, mapped.y, evt.button);
 });
 
 pointerEvents.onMove(function(x, y, pointerId, evt) {
-    em.MouseMove(x, y);
+    var mapped = mapMousePos(x, y);
+    em.MouseMove(mapped.x, mapped.y);
 });
 
-function LoadLevel(levelName)
+
+function SetGameSize(size)
 {
-    if(CURRENT_LVL !== levelName)
+    GAME_SIZE = size;
+    var canvas = document.getElementsByTagName("canvas")[0];
+    canvas.style.width = sizeMaps[size].windowDims;
+    canvas.style.height = sizeMaps[size].windowDims;
+
+    GAME_SIZE_SCALE = sizeMaps[size].mouseScale;
+}
+
+function LoadLevel(levelName, force)
+{
+    if(CURRENT_LVL !== levelName || force)
     {
         CURRENT_LVL = levelName;
         consoleLog("LOADING: " + levelName);
         em = new EntityManager();
+        em.Initialise();
         em.selector = new Selector(20);
 
         LoadMap(levelName);
@@ -593,9 +704,13 @@ function LoadLevel(levelName)
 
 function Setup()
 {
-    paper(1);
-
+    paper(1);   
+    /*
+    
+    */
     COLOURS = assets.colourMap;
+    SFX = assets.soundMap;
+    SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
 
     LoadLevel("title");
 
@@ -621,6 +736,7 @@ function BackToMenu()
     LoadLevel("title");
 }
 
+/*
 window.addEventListener("keydown", function (evt) {
     if (evt.defaultPrevented) {
       return; // Do nothing if the event was already processed
@@ -634,7 +750,7 @@ window.addEventListener("keydown", function (evt) {
   
     evt.preventDefault();
   }, true);
-
+*/
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // Update is called once per frame
 exports.update = function () {
@@ -661,6 +777,11 @@ export {
     GetWireSwitchDirFromFlips, 
     GetWireSwitchDirFromDir,
     GetDiodeDirMapFromFlips,
+    ToggleGameSize,
+    ToggleGameSpeed,
+    getGameSpeed,
+    getGameSize,
+    getAnimation,
     HOVER_SPRITE,
     CURRENT_LVL, 
     TOTAL_SPRITES, 
@@ -669,5 +790,8 @@ export {
     RIGHT, 
     DOWN, 
     LEFT, 
-    COLOURS 
+    COLOURS,
+    SFX,
+    VOL,
+    SOUND
 };

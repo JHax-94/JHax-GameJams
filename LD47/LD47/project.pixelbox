@@ -4,7 +4,7 @@
 	"appid": "NcimdFsF2f2kAzBq",
 	"screen": {
 		"fullscreen": false,
-		"resizable": false,
+		"resizable": true,
 		"keepAspectRatio": false,
 		"width": 256,
 		"height": 256,
@@ -44,8 +44,13 @@
 		"down": 40,
 		"left": 37,
 		"right": 39,
-		"A": 32,
-		"B": 88
+		"up_alt": 87,
+		"down_alt": 83,
+		"left_alt": 65,
+		"right_alt": 68,
+		"esc": 27,
+		"reset": 82,
+		"space": 32
 	},
 	"touchEvent": {
 		"multiTouch": false,
@@ -71,7 +76,7 @@
 		"gamepad": true,
 		"AudioManager": true,
 		"patatracker": false,
-		"bleeper": false,
+		"bleeper": true,
 		"TINA": false,
 		"polyfill": false
 	},

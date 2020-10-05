@@ -15,10 +15,47 @@ import SoundSettings from './SoundSettings.js';
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
 
+var GAME_SIZE_SCALE = 1;
+
+var SIZE_SMALL = 0;
+var SIZE_MEDIUM = 1;
+var SIZE_LARGE = 2;
+
+var GAME_SIZE = SIZE_LARGE;
+
+var SPEED_SLOW = 0.5;
+var SPEED_NORMAL = 1;
+var SPEED_FAST = 2;
+
+var gameSpeeds = [
+    { name: "Slow", speed: SPEED_SLOW },
+    { name: "Normal", speed: SPEED_NORMAL },
+    { name: "Fast", speed: SPEED_FAST }
+]
+
+var GAME_SPEED = 1;
+
+var sizeMaps = [
+    { name: "Small", windowDims: 512, mouseScale: 2 },
+    { name: "Medium", windowDims: 768, mouseScale: 4/3 },
+    { name: "Large", windowDims: 1024, mouseScale: 1 }
+]
+
+function getGameSpeed()
+{
+    return gameSpeeds[GAME_SPEED];
+}
+
+function getGameSize()
+{
+    return sizeMaps[GAME_SIZE];
+}
+
+
 var COLOURS;
 var SFX;
 
-var soundPos = { tileX: 0.5, tileY: 0.5 };
+var soundPos = { tileX: 0.25, tileY: 0.25 };
 
 var SOUND;
 
@@ -366,6 +403,18 @@ function GetMapDefs(mapName)
     return def;
 }
 
+function ToggleGameSpeed()
+{
+    GAME_SPEED = (GAME_SPEED + 1) % gameSpeeds.length;
+    LoadLevel("title", true);
+}
+
+function ToggleGameSize()
+{
+    SetGameSize((GAME_SIZE + 1) % sizeMaps.length);
+    LoadLevel("title", true);
+}
+
 function IsTileValid(tile)
 {
     var valid = false;
@@ -594,14 +643,31 @@ function LoadMap(mapName)
     }
 }
 
+function mapMousePos(x, y)
+{
+    return { x: x * GAME_SIZE_SCALE, y: y * GAME_SIZE_SCALE };
+}
+
 pointerEvents.onPress(function(x, y, pointerId, evt) {
-    consoleLog(evt);
-    em.MouseClick(x, y, evt.button);
+    var mapped = mapMousePos(x, y);
+    em.MouseClick(mapped.x, mapped.y, evt.button);
 });
 
 pointerEvents.onMove(function(x, y, pointerId, evt) {
-    em.MouseMove(x, y);
+    var mapped = mapMousePos(x, y);
+    em.MouseMove(mapped.x, mapped.y);
 });
+
+
+function SetGameSize(size)
+{
+    GAME_SIZE = size;
+    var canvas = document.getElementsByTagName("canvas")[0];
+    canvas.style.width = sizeMaps[size].windowDims;
+    canvas.style.height = sizeMaps[size].windowDims;
+
+    GAME_SIZE_SCALE = sizeMaps[size].mouseScale;
+}
 
 function LoadLevel(levelName, force)
 {
@@ -619,8 +685,10 @@ function LoadLevel(levelName, force)
 
 function Setup()
 {
-    paper(1);
-
+    paper(1);   
+    /*
+    
+    */
     COLOURS = assets.colourMap;
     SFX = assets.soundMap;
     SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
@@ -690,6 +758,10 @@ export {
     GetWireSwitchDirFromFlips, 
     GetWireSwitchDirFromDir,
     GetDiodeDirMapFromFlips,
+    ToggleGameSize,
+    ToggleGameSpeed,
+    getGameSpeed,
+    getGameSize,
     HOVER_SPRITE,
     CURRENT_LVL, 
     TOTAL_SPRITES, 

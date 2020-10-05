@@ -1,15 +1,29 @@
 import Label from "./Label";
-import { consoleLog, em, PIXEL_SCALE, LoadLevel, SFX, VOL } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LoadLevel, ToggleGameSize, ToggleGameSpeed, getGameSize, getGameSpeed } from "./main";
 
 export default class Button
 {
     constructor(tileRect, text, options, colours)
     {
         this.tileRect = tileRect;
+        
+        if(options.type === "SIZE_TOGGLE")
+        {
+            var size = getGameSize();
+            text = size.name;
+        }
+        else if(options.type === "SPEED_TOGGLE")
+        {
+            var speed = getGameSpeed();
+            text = speed.name;
+        }
+
         this.label = new Label({ tileX: tileRect.x + 0.25, tileY: tileRect.y +0.25 }, text, 4);
         this.options = options;
         this.colours = colours;
         this.z = 190;
+
+        
 
         this.hover = false;
 
@@ -51,6 +65,14 @@ export default class Button
             else if(this.options.type === "SFX_TOGGLE")
             {
                 em.soundControl.Toggle();
+            }
+            else if(this.options.type === "SPEED_TOGGLE")
+            {
+                ToggleGameSpeed();   
+            }
+            else if(this.options.type === "SIZE_TOGGLE")
+            {
+                ToggleGameSize();
             }
         }
     }

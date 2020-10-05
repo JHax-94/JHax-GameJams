@@ -1,6 +1,6 @@
 import Component from './Component.js';
 import Electron from './Electron.js';
-import { em, consoleLog, PIXEL_SCALE } from './main.js'
+import { em, consoleLog, PIXEL_SCALE, getGameSpeed } from './main.js'
 
 export default class Battery extends Component
 {
@@ -35,17 +35,13 @@ export default class Battery extends Component
 
     Pulse()
     {
-        var newElectron = new Electron({x: (this.tilePos.x + (this.spriteInfo.flipX ? 0 : 1.5)) *PIXEL_SCALE, y: (this.tilePos.y+0.5) * PIXEL_SCALE}, { chargedSprite: 18, unchargedSprite: 19 }, this.pulseSpeed);
+        var speed = getGameSpeed();
+
+        var newElectron = new Electron({x: (this.tilePos.x + (this.spriteInfo.flipX ? 0 : 1.5)) *PIXEL_SCALE, y: (this.tilePos.y+0.5) * PIXEL_SCALE}, { chargedSprite: 18, unchargedSprite: 19 }, this.pulseSpeed * speed.speed);
         
-        /*
-        if(this.pulseCount === 0)
-        {
-            newElectron.logging = true;
-        }
-        */
         this.pulseCount ++;
 
-        newElectron.SetVelocity({x: this.pulseSpeed * (this.spriteInfo.flipX ? -1 : 1), y: 0});
+        newElectron.SetVelocity({x: speed.speed * this.pulseSpeed * (this.spriteInfo.flipX ? -1 : 1), y: 0});
     }
 
     /*

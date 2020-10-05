@@ -165,10 +165,13 @@ export default class EntityManager
                 }
             }
 
-            if(btnp.esc || btnp.reset || btnp.space)
+            if(this.canShowEnd)
             {
-                this.pause = true;
-                this.pauseMenu.Show(true);
+                if(btnp.esc || btnp.reset || btnp.space)
+                {
+                    this.pause = true;
+                    this.pauseMenu.Show(true);
+                }
             }
         }
         else

@@ -467,6 +467,11 @@ function LoadMap(mapName)
 
     var mapDef = GetMapDefs(mapName);
     
+    if(mapDef.electronLossThreshold)
+    {
+        em.electronLossThreshold = mapDef.electronLossThreshold;
+    }
+
     consoleLog("=== ADDITIONAL MAP DEF ===");
     consoleLog(mapDef);
     consoleLog("==========================");
@@ -581,9 +586,9 @@ pointerEvents.onMove(function(x, y, pointerId, evt) {
     em.MouseMove(x, y);
 });
 
-function LoadLevel(levelName)
+function LoadLevel(levelName, force)
 {
-    if(CURRENT_LVL !== levelName)
+    if(CURRENT_LVL !== levelName || force)
     {
         CURRENT_LVL = levelName;
         consoleLog("LOADING: " + levelName);
@@ -625,6 +630,7 @@ function BackToMenu()
     LoadLevel("title");
 }
 
+/*
 window.addEventListener("keydown", function (evt) {
     if (evt.defaultPrevented) {
       return; // Do nothing if the event was already processed
@@ -638,7 +644,7 @@ window.addEventListener("keydown", function (evt) {
   
     evt.preventDefault();
   }, true);
-
+*/
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // Update is called once per frame
 exports.update = function () {

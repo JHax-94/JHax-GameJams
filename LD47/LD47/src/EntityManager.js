@@ -1,10 +1,12 @@
 import EndScreen from './EndScreen.js';
-import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX } from './main.js';
+import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX, LoadLevel } from './main.js';
 
 export default class EntityManager
 {
     constructor(noPhys)
     {
+        this.electronLossThreshold = 0;
+        this.electronsLost = 0;
         this.canShowEnd = CURRENT_LVL !== "title";
         this.bgColour = 1;
         this.phys = (!noPhys) ? new p2.World({gravity: [0, 0]}) : null; 
@@ -13,6 +15,9 @@ export default class EntityManager
         this.renderers = [];
         this.updates = [];
 
+        this.pause = false;
+        this.continued = false;
+        
         this.endScreenOn = false;
 
         this.hovers = [];
@@ -22,18 +27,32 @@ export default class EntityManager
         this.batteries = [];
         this.bulbs = [];
 
-        this.endScreen = new EndScreen(
-            { tileX: 5, tileY: 3, tileW: 5, tileH: 2}, 
-            { pos: { tileX: 6, tileY: 3.1 }, winText: "Congratulations!", loseText: "Game Over!" },
-            { pos: { tileX: 6, tileY: 4 }, text: "Press Esc to"},
-            { pos: { tileX: 6, tileY: 4.5 }, text: "return to menu"},
-            { win: { background: 3, foreground: 7 }, lose: { background: 12, foreground: 9 }});
-
+        this.endScreen = null;
+        this.CreateNewEndScreenBox();
+        
         this.trackMouse = false;
 
         this.selected = null;
 
         if(this.phys) this.SetupPhys();
+    }
+
+    CreateNewEndScreenBox()
+    {
+        this.endScreen = new EndScreen(
+            { tileX: 4, tileY: 3, tileW: 6, tileH: 3.5 }, 
+            { pos: { tileX: 5, tileY: 3.1 }, winText: "Congratulations!", loseText: "Game Over!", altLose: "Current too low!" },
+            [
+                { pos: {tileX: 5, tileY: 4 }, text: "Press R to" },
+                { pos: {tileX: 5, tileY: 4.5 }, text: "Restart Level"},
+
+                { pos: { tileX: 5, tileY: 5.25 }, text: "Press Esc to"},
+                { pos: { tileX: 5, tileY: 5.75 }, text: "return to menu"},
+
+                { pos: { tileX: 5, tileY: 6.5 }, text: "Press Space to" },
+                { pos: { tileX: 5, tileY: 7 }, text: "Continue Regardless" }
+            ],
+            { win: { background: 3, foreground: 7 }, lose: { background: 12, foreground: 9 }});
     }
 
     AddHover(hover)
@@ -96,6 +115,25 @@ export default class EntityManager
                 {
                     this.selected.Input(dir);
                 }
+            }
+        }
+        else
+        {
+            if(btn.esc) 
+            {
+                LoadLevel("title");
+            }
+            else if(btn.reset) 
+            {
+                LoadLevel(CURRENT_LVL, true);
+            }
+            else if(btn.space) 
+            {
+                this.endScreen.Collapse();
+                this.CreateNewEndScreenBox();
+                this.pause = false;
+                this.endScreenOn = false;
+                this.continued = true;
             }
         }
     }
@@ -287,6 +325,7 @@ export default class EntityManager
             if(this.electrons[i] === electron)
             {
                 this.electrons.splice(i, 1);
+                this.electronsLost ++;
                 break;
             }
         }
@@ -296,9 +335,11 @@ export default class EntityManager
 
     CheckEndGame()
     {
-        if(this.canShowEnd)
+        if(this.canShowEnd && this.endScreenOn === false)
         {
-            if(this.electrons.length === 0)
+            var hasCrossedElectronThreshold = ( (this.electronLossThreshold > 0) && (this.electronsLost >= this.electronLossThreshold) );
+
+            if(this.electrons.length === 0 || (hasCrossedElectronThreshold && this.continued === false ))
             {
                 var chargeRemaining = false;
 
@@ -311,10 +352,11 @@ export default class EntityManager
                     }
                 }
 
-                if(!chargeRemaining)
+                if(!chargeRemaining || (hasCrossedElectronThreshold && this.continued === false))
                 {
+                    this.pause = true;
                     consoleLog("Game over!");
-                    this.endScreen.ShowScreen(false);
+                    this.endScreen.ShowScreen(false, this.electrons.length);
                     this.endScreenOn = true;
                 }
             }
@@ -362,13 +404,18 @@ export default class EntityManager
         this.SortRenders();
     }
 
-    RemoveRender(renderer)
+    RemoveRender(renderer, log)
     {
         for(var i = 0; i < this.renderers.length; i ++)
         {
             if(this.renderers[i] === renderer)
             {
                 this.renderers.splice(i, 1);
+                if(log) 
+                {
+                    consoleLog("Renderer removed!");
+                    consoleLog(renderer);
+                }
                 break;            
             }
         }
@@ -402,7 +449,10 @@ export default class EntityManager
 
         for(var i = 0; i < this.renderers.length; i ++)
         {
-            this.renderers[i].Draw();
+            if(!this.renderers[i].hide)
+            {
+                this.renderers[i].Draw();
+            }
         }
     }
 
@@ -416,9 +466,12 @@ export default class EntityManager
 
     Update(deltaTime)
     {
-        this.deltaTime = deltaTime;
+        if(!this.pause)
+        {
+            this.deltaTime = deltaTime;
 
-        if(this.phys) this.phys.step(deltaTime, deltaTime, 20);
-        else this.UpdateLoop(deltaTime);
+            if(this.phys) this.phys.step(deltaTime, deltaTime, 20);
+            else this.UpdateLoop(deltaTime);
+        }
     }
 }

@@ -4,7 +4,7 @@
 	"appid": "NcimdFsF2f2kAzBq",
 	"screen": {
 		"fullscreen": false,
-		"resizable": false,
+		"resizable": true,
 		"keepAspectRatio": false,
 		"width": 256,
 		"height": 256,
@@ -47,7 +47,10 @@
 		"up_alt": 87,
 		"down_alt": 83,
 		"left_alt": 65,
-		"right_alt": 68
+		"right_alt": 68,
+		"esc": 27,
+		"reset": 82,
+		"space": 32
 	},
 	"touchEvent": {
 		"multiTouch": false,

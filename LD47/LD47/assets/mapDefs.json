@@ -364,7 +364,7 @@
 				},
 				{"tileX":3,"tileY":3,"type":"Bulb","tileSprite":16,"tileData":{"x":3,"y":3,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"bulb": {
-						"chargesRequired": 3,
+						"chargesRequired": 4,
 						"chargedSprite": 17,
 						"chargeBarDir": "UP"
 					}
@@ -730,20 +730,20 @@
 			"components": [
 				{"tileX":3,"tileY":0,"type":"Battery","tileSprite":0,"tileData":{"x":3,"y":0,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"battery": {
-						"charges": 5,
+						"charges": 4,
 						"pulseTime": 1,
 						"pulseSpeed": 50
 					}
 				},
 				{"tileX":0,"tileY":3,"type":"Direction","tileSprite":6,"tileData":{"x":0,"y":3,"sprite":5,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"direction": {
-						"isControllable": false,
+						"isControllable": true,
 						"dir": "UP"
 					}
 				},
 				{"tileX":5,"tileY":7,"type":"Direction","tileSprite":6,"tileData":{"x":5,"y":7,"sprite":5,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"direction": {
-						"isControllable": false,
+						"isControllable": true,
 						"dir": "LEFT"
 					}
 				},
@@ -761,7 +761,7 @@
 				},
 				{"tileX":2,"tileY":7,"type":"Bulb","tileSprite":16,"tileData":{"x":2,"y":7,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"bulb": {
-						"chargesRequired": 5,
+						"chargesRequired": 4,
 						"chargedSprite": 17,
 						"chargeBarDir": "UP"
 					}

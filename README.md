@@ -18,7 +18,7 @@ p5 Copyright info [here](https://p5js.org/copyright.html)
 
 (c) Josh Haxell & Sammy El-Bahrawy 2020
 
-# LD47 Entry
+# Age of Amperes LD47 Entry
 
 Thanks to cstoquer for PixelBox, used under MIT Licence
 Thanks to schteppe for p2.js, used under MIT Licence

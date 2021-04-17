@@ -143,6 +143,31 @@ export default class Electron
         this.velocity = vel;
     }
 
+    GetDirectionVector()
+    {
+        var unitVec = { x: 0, y: 0 };
+
+        if(this.phys.velocity[0] > 0)
+        {
+            unitVec.x = 1;
+        }
+        else if (this.phys.velocity[0] < 0)
+        {
+            unitVec.x = -1;
+        }
+
+        if(this.phys.velocity[1] > 0)
+        {
+            unitVec.y = -1;
+        }
+        else if(this.phys.velocity < 0)
+        {
+            unitVec.y = 1;
+        }
+
+        return unitVec;
+    }
+
     SnapToContact(contact)
     {
         this.reSnap = [];

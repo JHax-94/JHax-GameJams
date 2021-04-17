@@ -16,6 +16,8 @@ export default class EntityManager
         this.renderers = [];
         this.updates = [];
 
+        this.allComponents = [];
+
         this.menu = null;
 
         this.pause = false;
@@ -63,6 +65,33 @@ export default class EntityManager
         this.soundQueue.push({ sound: sound, delay: setDelay});
         //consoleLog(this.soundQueue);
     }
+
+    AddComponent(component)
+    {
+        this.allComponents.push(component);
+    }
+
+    GetComponentOnTile(tilePos)
+    {
+        var comp = null;
+
+        for(var i = 0; i < this.allComponents.length; i ++)
+        {
+            var componentTilePos = this.allComponents[i].tilePos;
+
+            if(componentTilePos)
+            {
+                if(componentTilePos.x === tilePos.x && componentTilePos.y === tilePos.y)
+                {
+                    comp = this.allComponents[i];
+                    break;
+                }
+            }
+        }
+
+        return comp;
+    }
+
 
     Initialise()
     {
@@ -326,6 +355,21 @@ export default class EntityManager
                     electron.obj.RemoveCharge();
                 }
 
+            }
+        });
+
+        this.phys.on("endContact", function(evt)
+        {
+            if(manager.CompareTags(evt, "ELECTRON", "DANGER_WIRE"))
+            {
+                var electron = manager.BodyWithTag(evt, "ELECTRON");
+                var dangerWire = manager.BodyWithTag(evt, "DANGER_WIRE");
+
+                if(!dangerWire.obj.ElectronIsSafe(electron.obj))
+                {
+                    manager.QueueSound(SFX.electronLost);
+                    electron.obj.Destroy();
+                }
             }
         });
 

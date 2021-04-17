@@ -8,6 +8,8 @@ export default class Component
         this.tilePos = tilePos;
         this.spriteInfo = spriteData;
 
+        this.hide = false;
+
         this.z = 10;
 
         this.progressBars = [];
@@ -42,7 +44,7 @@ export default class Component
         {
             em.AddPhys(this, { 
                 mass: 1,
-                position: [ (this.tilePos.x+0.5)*PIXEL_SCALE, -(this.tilePos.y + 0.5)*PIXEL_SCALE ],
+                position: this.GetPhysPosition(),
                 isSensor: true,
                 tag: physTag,
                 isKinematic: true,
@@ -51,6 +53,12 @@ export default class Component
         }
 
         em.AddRender(this);
+        em.AddComponent(this);
+    }
+
+    GetPhysPosition()
+    {
+        return [ (this.tilePos.x+0.5)*PIXEL_SCALE, -(this.tilePos.y + 0.5)*PIXEL_SCALE ];
     }
 
     SetupDecay(decay)
@@ -116,8 +124,9 @@ export default class Component
         {
             newBar = new ProgressBar(
                 { 
-                    x: this.tilePos.x * PIXEL_SCALE, 
-                    y: (this.tilePos.y + (direction === UP ? (- 0.25 - 3/16 * barsInThisDirection) : (1.125 + 3/16 * barsInThisDirection) )) * PIXEL_SCALE, 
+                    base: { x: this.tilePos.x * PIXEL_SCALE, y: this.tilePos.y * PIXEL_SCALE },
+                    x: 0, 
+                    y: (direction === UP ? (- 0.25 - 3/16 * barsInThisDirection) : (1.125 + 3/16 * barsInThisDirection) ) * PIXEL_SCALE, 
                     w: PIXEL_SCALE, 
                     h: 3
                 }, 
@@ -128,8 +137,9 @@ export default class Component
         {
             newBar = new ProgressBar(
                 {
-                    x: (this.tilePos.x + (direction === LEFT ? (- 0.25 - 3/16 * barsInThisDirection) : (1.125 + 3/16 * barsInThisDirection))) * PIXEL_SCALE,
-                    y: this.tilePos.y * PIXEL_SCALE,
+                    base: { x: this.tilePos.x * PIXEL_SCALE, y: this.tilePos.y * PIXEL_SCALE },
+                    x: (direction === LEFT ? (- 0.25 - 3/16 * barsInThisDirection) : (1.125 + 3/16 * barsInThisDirection)) * PIXEL_SCALE,
+                    y: 0,
                     w: 3,
                     h: PIXEL_SCALE,
                     flip: true
@@ -211,6 +221,7 @@ export default class Component
         var charged = false;
         if(this.chargesRequired > 0)
         {
+
             if(this.overcharge || (this.currentCharges < this.chargesRequired))
             {
                 if(this.logging) 
@@ -222,6 +233,7 @@ export default class Component
 
                 this.SetCharge(this.currentCharges + 1);    
                 charged = true;
+
             }
             
             if(this.chargeDecayTime > 0 && this.chargeResetsDecay)
@@ -232,7 +244,7 @@ export default class Component
                 charged = true;
             }
 
-            //consoleLog("Charges: " + this.currentCharges + "/" + this.chargesRequired);
+            consoleLog("Charges: " + this.currentCharges + "/" + this.chargesRequired);
             if(charged && this.currentCharges >= this.chargesRequired)
             {
                 if(this.logging) consoleLog("Call charge!");
@@ -249,11 +261,36 @@ export default class Component
         return charged;
     }
 
+    MoveToTile(newTile)
+    {
+        consoleLog("Move to new tile: ");
+        consoleLog(newTile);
+        this.tilePos.x = newTile.x;
+        this.tilePos.y = newTile.y;
+
+        consoleLog("Move progress bars...");
+        consoleLog(this.progressBars);
+
+        if(this.phys)
+        {
+            this.phys.position = this.GetPhysPosition();
+        }
+
+        for(var i = 0; i < this.progressBars.length; i ++)
+        {
+            this.progressBars[i].bar.base.x = this.tilePos.x * PIXEL_SCALE;
+            this.progressBars[i].bar.base.y = this.tilePos.y * PIXEL_SCALE;
+        }
+    }
+
     Draw()
     {
-        sprite(this.spriteInfo.index, this.tilePos.x * PIXEL_SCALE, this.tilePos.y * PIXEL_SCALE, this.spriteInfo.flipX, this.spriteInfo.flipY, this.spriteInfo.flipR);
+        if(!this.hide)
+        {
+            sprite(this.spriteInfo.index, this.tilePos.x * PIXEL_SCALE, this.tilePos.y * PIXEL_SCALE, this.spriteInfo.flipX, this.spriteInfo.flipY, this.spriteInfo.flipR);
 
-        if(this.chargeProgress !== null) this.chargeProgress.Draw();
-        if(this.decayProgress !== null && this.ShouldDecay()) this.decayProgress.Draw();
+            if(this.chargeProgress !== null) this.chargeProgress.Draw();
+            if(this.decayProgress !== null && this.ShouldDecay()) this.decayProgress.Draw();
+        }
     }
 }

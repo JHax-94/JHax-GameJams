@@ -4,6 +4,15 @@ export default class ProgressBar
 {
     constructor(rect, colours)
     {
+        if(rect.base)
+        {
+            this.base = rect.base;
+        }
+        else 
+        {
+            this.base = { x: 0, y: 0 };
+        }
+
         this.rect = rect;
         this.colours = colours;
         this.SetValue(0.5);
@@ -43,19 +52,29 @@ export default class ProgressBar
         }
     }
 
+    DrawX()
+    {
+        return this.base.x + this.rect.x;
+    }
+
+    DrawY()
+    {
+        return this.base.y + this.rect.y;
+    }
+
     Draw()
     {
         paper(this.colours.background);
         //pen(this.colours.background);
         
-        rectf(this.rect.x, this.rect.y, this.rect.w, this.rect.h);
+        rectf(this.DrawX(), this.DrawY(), this.rect.w, this.rect.h);
         
         if(this.value > 0)
         {
             paper(this.colours.foreground);
             //pen(this.colours.foreground);
-            if(this.flip) rectf(this.rect.x, Math.floor(this.rect.y + this.rect.h - this.filledWidth), this.rect.w, Math.ceil(this.filledWidth));
-            else rectf(this.rect.x, this.rect.y, this.filledWidth, this.rect.h);
+            if(this.flip) rectf(this.DrawX(), Math.floor(this.DrawY() + this.rect.h - this.filledWidth), this.rect.w, Math.ceil(this.filledWidth));
+            else rectf(this.DrawX(), this.DrawY(), this.filledWidth, this.rect.h);
         }        
     }
 }

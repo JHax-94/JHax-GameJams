@@ -12,6 +12,9 @@ import WireSwitch from './WireSwitch.js';
 import Diode from './Diode.js';
 import SoundSettings from './SoundSettings.js';
 import Menu from './Menu.js';
+import Shifter from './Shifter.js';
+import Wire from './Wire.js';
+import DangerWire from './DangerWire.js';
 
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
@@ -142,7 +145,8 @@ var validAdjacentTiles = [
     { spriteId: 23 },
     { spriteId: 24 },
     { spriteId: 32 },
-    { spriteId: 33 }
+    { spriteId: 33 },
+    { spriteId: 109 }
 ];
 
 var componentTiles = [
@@ -175,6 +179,14 @@ var componentTiles = [
     {
         type: "Diode",
         index:33  
+    },
+    {
+        type: "DangerWire",
+        index: 109
+    },
+    {
+        type: "Shifter",
+        index: 93
     },
     {
         type: "Transistor",
@@ -484,9 +496,27 @@ function GetValidAdjacentTiles(map, tilePos)
     return validTiles;
 }
 
+function GetSpriteInfoFromTile(index, tileData)
+{
+    var spriteInfo = null;
+
+    if(tileData)
+    {
+        spriteInfo = {
+            index: index,
+            flipX: tileData.flipH,
+            flipY: tileData.flipV,
+            flipR: tileData.flipR
+        }
+    }
+
+    return spriteInfo;
+}
+
 function LoadMap(mapName)
 {   
-    var map = getMap(mapName);
+    var map = getMap(mapName).copy();
+
     var mapComponents = [];
     var points = [];
 
@@ -561,14 +591,8 @@ function LoadMap(mapName)
         {
             var pos = { x: comp.tileX, y: comp.tileY };
 
-            var spriteInfo = 
-            {
-                index: comp.tileSprite,
-                flipX: comp.tileData.flipH,
-                flipY: comp.tileData.flipV,
-                flipR: comp.tileData.flipR
-            };
-
+            var spriteInfo = GetSpriteInfoFromTile(comp.tileSprite, comp.tileData);
+            
             var newComp = null;
             
             if(comp.type === "Direction")
@@ -582,6 +606,22 @@ function LoadMap(mapName)
                     spriteInfo,
                     comp.direction,
                     adjacentTiles);
+            }
+            else if(comp.type === "ShiftWire")
+            {
+                var tileData = map.get(pos.x, pos.y);
+
+                consoleLog("CONSTRUCT SHIFTWIRE");
+
+                var spriteInfo = GetSpriteInfoFromTile(tileData.sprite, tileData);
+
+                newComp = new Wire(pos, spriteInfo);
+                consoleLog(tileData);
+            }
+            else if(comp.type === "DangerWire")
+            {
+                consoleLog("CREATE A DANGER WIRE!");
+                newComp = new DangerWire(pos, spriteInfo);
             }
             else if(comp.type === "Bulb")
             {
@@ -622,11 +662,29 @@ function LoadMap(mapName)
                 {
                     if(addedComponents[i].src.transistorId === comp.transistor.transistorId)
                     {
+                        consoleLog("Adding transistor component: ");
+                        consoleLog(addedComponents[i].obj);
+
                         comp.transistor.connections.push(addedComponents[i].obj);
                     }
                 }
 
                 newComp = new Transistor(pos, spriteInfo, comp.transistor);
+            }
+            else if(comp.type === "Shifter")
+            {
+                consoleLog("Add shifter");
+                
+                comp.shifter.connections = [];
+                for(var i = 0; i < addedComponents.length; i ++)
+                {
+                    if(addedComponents[i].src.shifterId === comp.shifter.shifterId)
+                    {
+                        comp.shifter.connections.push(addedComponents[i].obj);
+                    }
+                }
+
+                newComp = new Shifter(pos, spriteInfo, comp.shifter, map);
             }
 
             addedComponents.push({ src: comp, obj: newComp });

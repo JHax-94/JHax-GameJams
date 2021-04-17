@@ -821,7 +821,6 @@ function Setup()
     COLOURS = assets.colourMap;
     SFX = assets.soundMap;
     SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
-    SOUND.soundOn = false;
 
     LoadLevel("title");
 

@@ -144,6 +144,7 @@
 				{"type": "Button", "text": "Level 19", "value": "shifterPlay", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 } },
 				{"type": "Button", "text": "Level 20", "value": "shifterPlay2", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 } },
 				{"type": "Button", "text": "Level 21", "value": "chargedBattery", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 } },
+				{"type": "Button", "text": "Level 21", "value": "timeItOut", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 } },
 				
 				{"type": "Label", "text": "L-Click:", "position": {"tileX": 9.25, "tileY": 6 }, "colour": 4 },
 				{"type": "Label", "text": "Select Arrow", "position": {"tileX": 9.5, "tileY": 6.5 }, "colour": 4 },
@@ -1663,8 +1664,98 @@
 				}
 			]
 			
+		},		
+		{
+			"name": "timeItOut",
+			"components": [
+				{"tileX":7,"tileY":1,"type":"Battery","tileSprite":0,"tileData":{"x":7,"y":1,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 4,
+						"pulseTime": 0.75,
+						"pulseSpeed": 60
+					}
+				},
+				{"tileX":4,"tileY":10,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":4,"y":10,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 0,
+					"rechargeBattery": {
+						"chargesRequired": 2,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 2,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 3,
+						"blinkTime": 0.5,
+						"pulseBarDir": "UP"
+					}
+				},
+				{"tileX":7,"tileY":7,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":7,"y":7,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 0,
+					"rechargeBattery": {
+						"chargesRequired": 2,
+						"chargeBarDir": "DOWN",
+						"chargeDecayTime": 2,
+						"decayBarDir": "DOWN",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 3,
+						"blinkTime": 0.5,
+						"pulseBarDir": "DOWN"
+					}
+				},
+				{"tileX":3,"tileY":10,"type":"Direction","tileSprite":6,"tileData":{"x":3,"y":10,"sprite":5,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "UP"
+						}
+				},
+				{"tileX":6,"tileY":7,"type":"Direction","tileSprite":6,"tileData":{"x":6,"y":7,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "RIGHT"
+						}
+				},
+				{"tileX":6,"tileY":10,"type":"Direction","tileSprite":6,"tileData":{"x":6,"y":10,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "RIGHT"
+						}
+				},
+				{"tileX":9,"tileY":10,"type":"Direction","tileSprite":6,"tileData":{"x":9,"y":10,"sprite":5,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":4,"tileY":13,"type":"Bulb","tileSprite":16,"tileData":{"x":4,"y":13,"sprite":16,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 1,
+						"chargedSprite": 17,
+						"chargeBarDir": "UP"
+					}
+				},
+				{"tileX":6,"tileY":13,"type":"Bulb","tileSprite":16,"tileData":{"x":6,"y":13,"sprite":16,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 1,
+						"chargedSprite": 17,
+						"chargeBarDir": "UP"
+					}
+				},
+				{"tileX":8,"tileY":13,"type":"Bulb","tileSprite":16,"tileData":{"x":8,"y":13,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 1,
+						"chargedSprite": 17,
+						"chargeBarDir": "UP"
+					}
+				},
+				{"tileX":11,"tileY":3,"type":"Transistor","tileSprite":32,"tileData":{"x":11,"y":3,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 0,
+						"chargesRequired": 2,
+						"chargeBarDir": "UP"
+					}
+				}
+			]
 		}
-		
-		
 	]
 }

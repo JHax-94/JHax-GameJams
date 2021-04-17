@@ -138,6 +138,8 @@
 				{"type": "Button", "text": "Level 13", "value": "alternatorLevel", "tileRect": { "x": 5, "y": 13.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
 				{"type": "Button", "text": "Level 14", "value": "transistorSwitchedAlt", "tileRect": { "x": 5, "y": 13.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
 				{"type": "Button", "text": "Level 15", "value": "splitterAlternatorTest", "tileRect": { "x": 5, "y": 13.5, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 }  },
+				{"type": "Button", "text": "Level 16", "value": "oneLifeSwitch", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 } },
+				{"type": "Button", "text": "Level 17", "value": "crossing", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 } },
 				
 				{"type": "Label", "text": "L-Click:", "position": {"tileX": 9.25, "tileY": 6 }, "colour": 4 },
 				{"type": "Label", "text": "Select Arrow", "position": {"tileX": 9.5, "tileY": 6.5 }, "colour": 4 },
@@ -1259,9 +1261,106 @@
 					}
 				}
 			]
-			
+		},
+		{
+			"name": "crossing",
+			"components": [
+				{"tileX":1,"tileY":5,"type":"Battery","tileSprite":0,"tileData":{"x":1,"y":5,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 6,
+						"pulseTime": 0.75,
+						"pulseSpeed": 40,
+						"maxLostElectrons": 5
+					}
+				},
+				{"tileX":7,"tileY":1,"type":"Battery","tileSprite":0,"tileData":{"x":7,"y":1,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 3,
+						"pulseTime": 0.75,
+						"pulseSpeed": 40,
+						"maxLostElectrons": 5
+					}
+				},
+				{"tileX":0,"tileY":3,"type":"Direction","tileSprite":6,"tileData":{"x":0,"y":3,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "DOWN"
+					}
+				},			
+				{"tileX":3,"tileY":3,"type":"Direction","tileSprite":6,"tileData":{"x":3,"y":3,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "RIGHT"
+					}
+				},				
+				{"tileX":0,"tileY":5,"type":"Direction","tileSprite":6,"tileData":{"x":0,"y":5,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "RIGHT"
+					}
+				},
+				{"tileX":3,"tileY":5,"type":"Direction","tileSprite":6,"tileData":{"x":3,"y":5,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "RIGHT"
+					}
+				},
+				{"tileX":5,"tileY":6,"type":"Direction","tileSprite":6,"tileData":{"x":5,"y":6,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+						"direction": {
+						"isControllable": true,
+						"dir": "RIGHT"
+					}
+				},
+				{"tileX":7,"tileY":4,"type":"Direction","tileSprite":6,"tileData":{"x":7,"y":4,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "LEFT"
+					}
+				},
+				{"tileX":7,"tileY":8,"type":"Direction","tileSprite":6,"tileData":{"x":7,"y":8,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "RIGHT"
+					}
+				},
+				{"tileX":9,"tileY":6,"type":"Direction","tileSprite":6,"tileData":{"x":9,"y":6,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+						"isControllable": true,
+						"dir": "UP"
+					}
+				},
+				{"tileX":7,"tileY":11,"type":"Bulb","tileSprite":16,"tileData":{"x":7,"y":11,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 3,
+						"chargedSprite": 17,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 18,
+						"decayBarDir": "DOWN"
+					}
+				},
+				{"tileX":12,"tileY":6,"type":"Bulb","tileSprite":16,"tileData":{"x":12,"y":6,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 3,
+						"chargedSprite": 17,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 6,
+						"decayBarDir": "DOWN"
+					}
+				},
+				{"tileX":7,"tileY":6,"type":"Switch","tileSprite":39,"tileData":{"x":7,"y":6,"sprite":23,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 0,
+					"wireSwitch": {
+						"chargesRequired": 1
+					}
+				},
+				{"tileX":4,"tileY":1,"type":"Transistor","tileSprite":32,"tileData":{"x":4,"y":1,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+							"transistorId": 0,
+							"chargesRequired": 3,
+							"chargeBarDir": "LEFT"
+						}
+				}
+			]
 		}
-		
-
 	]
 }

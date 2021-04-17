@@ -405,11 +405,27 @@ export default class EntityManager
 
     CheckEndGame()
     {
+        consoleLog("===== ENDGAME CHECK =====");
         if(this.canShowEnd && this.endScreenOn === false)
         {
             var hasCrossedElectronThreshold = ( (this.electronLossThreshold > 0) && (this.electronsLost >= this.electronLossThreshold) );
 
-            if(this.electrons.length === 0 || (hasCrossedElectronThreshold && this.continued === false ))
+            consoleLog("")
+
+            var anyBatteryDepleted = false;
+            var gameLost = false;
+
+            for(var i = 0; i < this.batteries.length; i ++)
+            {
+                if(this.batteries[i].BatteryDepleted())
+                {
+                    anyBatteryDepleted = true;
+                    gameLost = true;
+                    break;
+                }
+            }
+            
+            if(!gameLost && (this.electrons.length === 0 || (hasCrossedElectronThreshold && this.continued === false )))
             {
                 var chargeRemaining = false;
 
@@ -422,24 +438,30 @@ export default class EntityManager
                     }
                 }
 
+                consoleLog("Charge remaining: " + chargeRemaining);
+                consoleLog("Electron Threshold: " + hasCrossedElectronThreshold);
+                consoleLog("Any battery depleted: " + anyBatteryDepleted);
+
                 if(!chargeRemaining || (hasCrossedElectronThreshold && this.continued === false))
                 {
-                    this.pause = true;
-                    consoleLog("Game over!");
-                    this.QueueSound(SFX.defeat, 0.5);
-                    this.endScreen.ShowScreen(false, this.electrons.length);
-                    this.endScreenOn = true;
+                    gameLost = true;
                 }
             }
-            else 
+
+            if(gameLost)
             {
-                if(this.AllBulbsLit())
-                {
-                    consoleLog("You Win!");
-                    this.QueueSound(SFX.victory, 0.5);
-                    this.endScreen.ShowScreen(true);
-                    this.endScreenOn = true;
-                }
+                this.pause = true;
+                consoleLog("Game over!");
+                this.QueueSound(SFX.defeat, 0.5);
+                this.endScreen.ShowScreen(false, anyBatteryDepleted ? 0 : this.electrons.length);
+                this.endScreenOn = true;
+            }
+            else if(this.AllBulbsLit()) 
+            {
+                consoleLog("You Win!");
+                this.QueueSound(SFX.victory, 0.5);
+                this.endScreen.ShowScreen(true);
+                this.endScreenOn = true;
             }
         }
     }

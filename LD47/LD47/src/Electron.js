@@ -13,6 +13,8 @@ export default class Electron
         consoleLog(position);
         consoleLog(spriteInfo);
         */  
+        this.parentBattery = null;
+
         this.frameTimer = 0;
         this.currentAnimation = null;
         this.currentFrame = 0;
@@ -79,16 +81,19 @@ export default class Electron
         var centreMatch = false;
 
         var axis = 0;
-
-        if(this.approach.axis === "X") axis = 0;
-        else if(this.approach.axis === "Y") axis = 1;
-
-        var dist =  contact.phys.position[axis] - electron.phys.position[axis];
-
-        if(Math.sign(dist) !== this.approach.dir)
+        if(this.approach)
         {
-            centreMatch = true;
+            if(this.approach.axis === "X") axis = 0;
+            else if(this.approach.axis === "Y") axis = 1;
+        
+            var dist =  contact.phys.position[axis] - electron.phys.position[axis];
+
+            if(Math.sign(dist) !== this.approach.dir)
+            {
+                centreMatch = true;
+            }
         }
+        else centreMatch = true;
 
         return centreMatch;
     }
@@ -152,6 +157,11 @@ export default class Electron
 
     Delete()
     {
+        if(this.parentBattery !== null)
+        {
+            this.parentBattery.ElectronLost();
+        }
+
         em.phys.removeBody(this.phys);
         em.RemoveUpdate(this);
         em.RemoveRender(this);

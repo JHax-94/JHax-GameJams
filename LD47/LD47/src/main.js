@@ -594,7 +594,8 @@ function LoadMap(mapName)
                     spriteInfo,
                     comp.battery.charges,
                     comp.battery.pulseTime,
-                    comp.battery.pulseSpeed
+                    comp.battery.pulseSpeed,
+                    comp.battery.maxLostElectrons
                 );
             }
             else if(comp.type === "AltSwitch")
@@ -749,8 +750,9 @@ function Setup()
     COLOURS = assets.colourMap;
     SFX = assets.soundMap;
     SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
+    SOUND.soundOn = false;
 
-    LoadLevel("oneLifeSwitch");
+    LoadLevel("title");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 

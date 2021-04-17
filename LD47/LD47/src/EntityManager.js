@@ -316,6 +316,16 @@ export default class EntityManager
 
                 electron.obj.Charge();
             }
+            else if(manager.CompareTags(evt, "ELECTRON", "RECHARGE_BATTERY"))
+            {
+                var battery = manager.BodyWithTag(evt, "RECHARGE_BATTERY");
+                var electron = manager.BodyWithTag(evt, "ELECTRON");
+
+                if(battery.obj.HasPulses())
+                {
+                    battery.obj.ChargeWithPulse(electron.obj);
+                }
+            }
             else if(manager.CompareTags(evt, "ELECTRON", "POWERED_ALT"))
             {
                 var electron = manager.BodyWithTag(evt, "ELECTRON");

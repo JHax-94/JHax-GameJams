@@ -15,6 +15,7 @@ import Menu from './Menu.js';
 import Shifter from './Shifter.js';
 import Wire from './Wire.js';
 import DangerWire from './DangerWire.js';
+import RechargeableBattery from './RechargeableBattery.js';
 
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
@@ -153,6 +154,10 @@ var componentTiles = [
     {
         type: "Battery",
         index: 0
+    },
+    {
+        type: "RechargeBattery",
+        index: 48
     },
     {
         type: "Direction",
@@ -637,6 +642,14 @@ function LoadMap(mapName)
                     comp.battery.pulseSpeed,
                     comp.battery.maxLostElectrons
                 );
+            }
+            else if(comp.type === "RechargeBattery")
+            {
+                newComp = new RechargeableBattery(
+                    pos,
+                    spriteInfo,
+                    comp.rechargeBattery)
+                
             }
             else if(comp.type === "AltSwitch")
             {

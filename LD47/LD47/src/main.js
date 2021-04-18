@@ -48,6 +48,8 @@ var sizeMaps = [
     { name: "Large", windowDims: 1024, mouseScale: 1 }
 ]
 
+var SAFE_TILES = [ 1, 2, 3, 4, 24, 40 ];
+
 function getGameSpeed()
 {
     return gameSpeeds[GAME_SPEED];
@@ -586,6 +588,17 @@ function LoadMap(mapName)
 
     var addedComponents = [];
 
+    var railPoints = [];
+
+    for(var i = 0; i < points.length; i ++)
+    {
+        /*consoleLog("Corner tile!");
+        consoleLog(points[i]);*/
+
+        railPoints.push(new RailPoint({ x: points[i].x, y: points[i].y }, GetDirMapFromFlips(points[i].flipH, points[i].flipV, points[i].flipR)));
+    }
+
+
     for(var i = 0; i < mapDef.components.length; i ++)
     {
         var comp = mapDef.components[i];
@@ -621,6 +634,21 @@ function LoadMap(mapName)
                 var spriteInfo = GetSpriteInfoFromTile(tileData.sprite, tileData);
 
                 newComp = new Wire(pos, spriteInfo);
+                
+                consoleLog("New Comp");
+                consoleLog(newComp);
+                consoleLog("Rail Points");
+                consoleLog(railPoints);
+
+                for(var rp = 0; rp < railPoints.length; rp ++)
+                {
+                    if(railPoints[rp].tilePos.x === newComp.tilePos.x && railPoints[rp].tilePos.y === newComp.tilePos.y)
+                    {
+                        consoleLog("ADDED RAIL POINT!");
+                        newComp.SetRailPoint(railPoints[rp]);
+                        break;
+                    }
+                }
                 consoleLog(tileData);
             }
             else if(comp.type === "DangerWire")
@@ -742,14 +770,6 @@ function LoadMap(mapName)
         }        
         
     }
-
-    for(var i = 0; i < points.length; i ++)
-    {
-        /*consoleLog("Corner tile!");
-        consoleLog(points[i]);*/
-
-        new RailPoint({ x: points[i].x, y: points[i].y }, GetDirMapFromFlips(points[i].flipH, points[i].flipV, points[i].flipR));
-    }
 }
 
 function mapMousePos(x, y)
@@ -821,8 +841,9 @@ function Setup()
     COLOURS = assets.colourMap;
     SFX = assets.soundMap;
     SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
+    SOUND.soundOn = false;
 
-    LoadLevel("title");
+    LoadLevel("trickyShift");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 
@@ -898,6 +919,7 @@ export {
     CURRENT_LVL, 
     TOTAL_SPRITES, 
     PIXEL_SCALE, 
+    SAFE_TILES,
     UP, 
     RIGHT, 
     DOWN, 

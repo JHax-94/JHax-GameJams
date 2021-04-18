@@ -1,5 +1,5 @@
 import EndScreen from './EndScreen.js';
-import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX, LoadLevel, SOUND, getAnimation } from './main.js';
+import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX, LoadLevel, SOUND, getAnimation, SAFE_TILES } from './main.js';
 import PauseMenu from './PauseMenu.js';
 
 export default class EntityManager
@@ -381,6 +381,17 @@ export default class EntityManager
                     electron.obj.Destroy();
                 }
             }
+            else if (manager.CompareTags(evt, "ELECTRON", "POINTS"))
+            {
+                var electron = manager.BodyWithTag(evt, "ELECTRON");
+                var railPoint = manager.BodyWithTag(evt, "POINTS");
+
+                if(!railPoint.obj.ElectronIsSafe(electron.obj))
+                {
+                    manager.QueueSound(SFX.electronLost);
+                    electron.obj.Destroy();
+                }
+            }
         });
 
         this.phys.on("postStep", function(evt)
@@ -674,5 +685,38 @@ export default class EntityManager
                 this.soundQueue.splice(0, 1);
             }
         }
+    }
+
+    ElectronIsSafe(sourceTile, electron)
+    {
+        var safe = false;
+        var dirVec = electron.GetDirectionVector();
+
+        var targetTile = { x: sourceTile.x + dirVec.x, y: sourceTile.y + dirVec.y };
+
+        var movingToTile = this.GetComponentOnTile(targetTile);
+
+        if(movingToTile)
+        {
+            safe = true;
+        }
+        else
+        {
+            var tileData = this.map.get(targetTile.x, targetTile.y);
+            
+            if(tileData)
+            {
+                for(var i = 0; i < SAFE_TILES.length; i ++)
+                {
+                    if(SAFE_TILES[i] === tileData.sprite)
+                    {
+                        safe = true;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return safe;
     }
 }

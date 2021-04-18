@@ -162,4 +162,9 @@ export default class DirectionSwitcher extends Component
             }
         }
     }
+
+    ElectronIsSafe(electron)
+    {
+        return em.ElectronIsSafe(this.tilePos, electron);
+    }
 }

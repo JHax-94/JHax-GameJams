@@ -1,4 +1,4 @@
-import { consoleLog, em, PIXEL_SCALE } from "./main";
+import { consoleLog, em, PIXEL_SCALE, SAFE_TILES } from "./main";
 
 export default class RailPoint
 {
@@ -22,6 +22,11 @@ export default class RailPoint
             colliderRect: { width: PIXEL_SCALE, height: PIXEL_SCALE }
         });
         //em.AddRender(this);
+    }
+
+    ElectronIsSafe(electron)
+    {
+        return em.ElectronIsSafe(this.tilePos, electron);
     }
 
     GetVert()

@@ -144,7 +144,8 @@
 				{"type": "Button", "text": "Level 19", "value": "shifterPlay", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 } },
 				{"type": "Button", "text": "Level 20", "value": "shifterPlay2", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 } },
 				{"type": "Button", "text": "Level 21", "value": "chargedBattery", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 } },
-				{"type": "Button", "text": "Level 21", "value": "timeItOut", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 } },
+				{"type": "Button", "text": "Level 22", "value": "timeItOut", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 } },
+				{"type": "Button", "text": "Level 23", "value": "trickyShift", "tileRect": { "x": 5, "y": 6, "w": 3, "h": 1 }, "colours": { "shadow": 13, "top": 14, "hover": 15 } },
 				
 				{"type": "Label", "text": "L-Click:", "position": {"tileX": 9.25, "tileY": 6 }, "colour": 4 },
 				{"type": "Label", "text": "Select Arrow", "position": {"tileX": 9.5, "tileY": 6.5 }, "colour": 4 },

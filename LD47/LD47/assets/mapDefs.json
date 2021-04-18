@@ -2371,7 +2371,7 @@
 				{"tileX":12,"tileY":3,"type":"Direction","tileSprite":6,"tileData":{"x":12,"y":3,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"direction": {
 							"isControllable": true,
-							"dir": "DOWN"
+							"dir": "LEFT"
 						}
 				},
 				{"tileX":13,"tileY":0,"type":"Direction","tileSprite":6,"tileData":{"x":13,"y":0,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
@@ -2445,7 +2445,7 @@
 				{"tileX":11,"tileY":12,"type":"Shifter","tileSprite":93,"tileData":{"x":11,"y":12,"sprite":93,"flipH":false,"flipV":true,"flipR":false,"flagA":false,"flagB":false},
 					"shifter": {
 						"shifterId": 0,
-						"direction": "H+",
+						"direction": "V+",
 						"chargesRequired": 1
 					},
 					"transistorId": 1
@@ -2453,7 +2453,7 @@
 				{"tileX":12,"tileY":5,"type":"Shifter","tileSprite":93,"tileData":{"x":12,"y":5,"sprite":93,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
 					"shifter": {
 						"shifterId": 0,
-						"direction": "V+",
+						"direction": "H+",
 						"chargesRequired": 1
 					},
 					"transistorId": 2

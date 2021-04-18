@@ -284,6 +284,36 @@ export default class EntityManager
         return body;
     }
 
+
+    CheckElectronLeavingTag(evt, leavingTag)
+    {
+        var continueChecks = true;
+
+        if(this.CompareTags(evt, "ELECTRON", leavingTag))
+        {
+            continueChecks = false;
+            var electron = this.BodyWithTag(evt, "ELECTRON");
+
+            if(!electron.obj.AlreadyDead())
+            {
+                var leavingTile = this.BodyWithTag(evt, leavingTag);
+
+                consoleLog("LEAVING DANGER WIRE!!!!");
+
+                if(!this.ElectronIsSafe(leavingTile.obj.tilePos, electron.obj))
+                {
+                    console.log("DESTROY ELECTRONS (UNSAFE DANGER WIRE EXIT)");
+
+                    this.QueueSound(SFX.electronLost);
+                    electron.obj.Destroy();
+                }
+            }
+        }
+
+        return !continueChecks;
+    }
+
+
     SetupPhys()
     {
         var manager = this;
@@ -337,18 +367,26 @@ export default class EntityManager
             {
                 manager.QueueSound(SFX.electronCollision);
 
+                consoleLog("DESTROY ELECTRONS (COLLISION)");
+
                 evt.bodyA.obj.Destroy();
                 evt.bodyB.obj.Destroy();
             }
             else if(manager.CompareTags(evt, "ELECTRON", "WIRE_SWITCH"))
             {
                 var electron = manager.BodyWithTag(evt, "ELECTRON");
-                var wireSwitch = manager.BodyWithTag(evt, "WIRE_SWITCH");
 
-                if(!wireSwitch.obj.AllowPassage(electron.obj))
+                if(!electron.obj.AlreadyDead())
                 {
-                    manager.QueueSound(SFX.electronLost);
-                    electron.obj.Destroy();
+                    var wireSwitch = manager.BodyWithTag(evt, "WIRE_SWITCH");
+
+                    if(!wireSwitch.obj.AllowPassage(electron.obj))
+                    {
+                        console.log("DESTROY ELECTRONS (SWITCH IN WRONG POSITION)");
+
+                        manager.QueueSound(SFX.electronLost);
+                        electron.obj.Destroy();
+                    }
                 }
             }
             else if(manager.CompareTags(evt, "ELECTRON", "DIODE"))
@@ -370,32 +408,14 @@ export default class EntityManager
 
         this.phys.on("endContact", function(evt)
         {
-            if(manager.CompareTags(evt, "ELECTRON", "DANGER_WIRE"))
-            {
-                var electron = manager.BodyWithTag(evt, "ELECTRON");
-                var dangerWire = manager.BodyWithTag(evt, "DANGER_WIRE");
-
-                consoleLog("LEAVING DANGER WIRE!!!!");
-
-                if(!dangerWire.obj.ElectronIsSafe(electron.obj))
-                {
-                    manager.QueueSound(SFX.electronLost);
-                    electron.obj.Destroy();
-                }
-            }
-            else if (manager.CompareTags(evt, "ELECTRON", "POINTS"))
-            {
-                var electron = manager.BodyWithTag(evt, "ELECTRON");
-                var railPoint = manager.BodyWithTag(evt, "POINTS");
-
-                consoleLog("LEAVING RAIL POINT!!!!");
-
-                if(!railPoint.obj.ElectronIsSafe(electron.obj))
-                {
-                    manager.QueueSound(SFX.electronLost);
-                    electron.obj.Destroy();
-                }
-            }
+            if(manager.CheckElectronLeavingTag(evt, "DANGER_WIRE")) {}
+            else if(manager.CheckElectronLeavingTag(evt, "POINTS")) {}
+            else if(manager.CheckElectronLeavingTag(evt, "POWERED")) {}
+            else if(manager.CheckElectronLeavingTag(evt, "POWERED_ALT")) {}
+            else if(manager.CheckElectronLeavingTag(evt, "DIODE")) {}
+            else if(manager.CheckElectronLeavingTag(evt, "BATTERY")) {}
+            else if(manager.CheckElectronLeavingTag(evt, "RECHARGE_BATTERY")) {}
+            else if(manager.CheckElectronLeavingTag(evt, "WIRED_SWITCH")) {}
         });
 
         this.phys.on("postStep", function(evt)
@@ -736,14 +756,14 @@ export default class EntityManager
                         consoleLog("Left move OK");
                         safe = true;
                     }
-                    else if(dirVec.y > 0 && dirs.includes("D"))
+                    else if(dirVec.y < 0 && dirs.includes("D"))
                     {
                         consoleLog("Up Move OK");
                         safe = true;
                     }
-                    else if(dirVec.y < 0 && dirs.includes("U"))
+                    else if(dirVec.y > 0 && dirs.includes("U"))
                     {
-                        consoleLog("Left move OK");
+                        consoleLog("Down move OK");
                         safe = true;
                     }
 
@@ -798,6 +818,9 @@ export default class EntityManager
             }
         }
         
+
+        consoleLog("ELECTRON SAFETY END | RETURN: " + safe);
+
         return safe;
     }
 }

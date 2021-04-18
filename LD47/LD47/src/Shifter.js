@@ -62,18 +62,30 @@ export default class Shifter extends Component
             {
                 newPos.x = oldPos.x;
                 newPos.y = oldPos.y + this.shiftAmount;
+
+                if(this.shiftAmount < 0 && newPos.y <= this.tilePos.y || this.shiftAmount > 0 && newPos.y >= this.tilePos.y)
+                {
+                    canMoveAll = false;
+                }
             }
             else if(this.shiftDir === "H")
             {
                 newPos.x = oldPos.x + this.shiftAmount;
                 newPos.y = oldPos.y;
+                
+                if(this.shiftAmount < 0 && newPos.x <= this.tilePos.x || this.shiftAmount > 0 && newPos.x >= this.tilePos.x)
+                {
+                    canMoveAll = false;
+                }
             }
-
+            /*
             if(this.tilePos.x === newPos.x && this.tilePos.y === newPos.y)
             {
                 canMoveAll = false;
                 break;
-            }
+            }*/
+
+            if(!canMoveAll) break;
 
             newPositions.push(newPos);
         }

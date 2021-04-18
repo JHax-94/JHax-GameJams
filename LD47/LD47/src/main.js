@@ -48,7 +48,7 @@ var sizeMaps = [
     { name: "Large", windowDims: 1024, mouseScale: 1 }
 ]
 
-var ALL_DIR_SAFE_TILES = [ 5, 16, 17, 23, 32, 39 ];
+var ALL_DIR_SAFE_TILES = [ 5, 6, 16, 17, 23, 32, 39 ];
 var SAFE_TILES = [ 0, 1, 2, 3, 4, 24, 40, 109 ];
 
 function getGameSpeed()
@@ -141,7 +141,7 @@ var cornerDirMap = [
 var straightDirMap = [
     { dir: "LR", flipX: false, flipY: false, flipR: false },
     { dir: "UD", flipX: false, flipY: false, flipR: true },
-    { dir: "LD", flipX: false, flipY: true, flipR: false },
+    { dir: "LR", flipX: false, flipY: true, flipR: false },
     { dir: "UD", flipX: false, flipY: true, flipR: true },
     { dir: "LR", flipX: true, flipY: false, flipR: false },
     { dir: "UD", flipX: true, flipY: false, flipR: true },

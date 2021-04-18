@@ -898,7 +898,7 @@ function Setup()
     SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
     SOUND.soundOn = false;
 
-    LoadLevel("title");
+    LoadLevel("weirdWarps");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 

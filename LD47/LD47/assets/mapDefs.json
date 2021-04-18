@@ -2522,6 +2522,419 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "weirdWarps",
+			"components": [
+				{"tileX":3,"tileY":0,"type":"Battery","tileSprite":0,"tileData":{"x":3,"y":0,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 1,
+						"pulseTime": 1,
+						"pulseSpeed": 60,
+						"maxLostElectrons": 0
+					}
+				},
+
+				{"tileX":1,"tileY":11,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":1,"y":11,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 2,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":1,"tileY":11,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":1,"y":11,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 21,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":2,"tileY":7,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":2,"y":7,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 5,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":2,"tileY":7,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":2,"y":7,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 51,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":2,"tileY":7,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":2,"y":7,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 52,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":4,"tileY":3,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":4,"y":3,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 7,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":4,"tileY":15,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":4,"y":15,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 6,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":5,"tileY":11,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":5,"y":11,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 8,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":7,"tileY":7,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":7,"y":7,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 3,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":9,"tileY":11,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":9,"y":11,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 9,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":10,"tileY":3,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":10,"y":3,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 1,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":10,"tileY":3,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":10,"y":3,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 11,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":10,"tileY":3,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":10,"y":3,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 12,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":12,"tileY":7,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":12,"y":7,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 10,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":13,"tileY":11,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":13,"y":11,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 4,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 0.01,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 1,
+						"blinkTime": 0.5
+					}
+				},
+
+				{"tileX":0,"tileY":12,"type":"Direction","tileSprite":6,"tileData":{"x":0,"y":12,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":1,"tileY":8,"type":"Direction","tileSprite":6,"tileData":{"x":1,"y":8,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":2,"tileY":12,"type":"Direction","tileSprite":6,"tileData":{"x":2,"y":12,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":3,"tileY":8,"type":"Direction","tileSprite":6,"tileData":{"x":3,"y":8,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":4,"tileY":4,"type":"Direction","tileSprite":6,"tileData":{"x":4,"y":4,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":5,"tileY":12,"type":"Direction","tileSprite":6,"tileData":{"x":5,"y":12,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":6,"tileY":8,"type":"Direction","tileSprite":6,"tileData":{"x":6,"y":8,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":7,"tileY":1,"type":"Direction","tileSprite":6,"tileData":{"x":7,"y":1,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "LEFT"
+						}
+				},
+				{"tileX":8,"tileY":8,"type":"Direction","tileSprite":6,"tileData":{"x":8,"y":8,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":9,"tileY":12,"type":"Direction","tileSprite":6,"tileData":{"x":9,"y":12,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":10,"tileY":4,"type":"Direction","tileSprite":6,"tileData":{"x":10,"y":4,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":11,"tileY":8,"type":"Direction","tileSprite":6,"tileData":{"x":11,"y":8,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":12,"tileY":12,"type":"Direction","tileSprite":6,"tileData":{"x":12,"y":12,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":13,"tileY":8,"type":"Direction","tileSprite":6,"tileData":{"x":13,"y":8,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+				{"tileX":14,"tileY":12,"type":"Direction","tileSprite":6,"tileData":{"x":14,"y":12,"sprite":5,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"direction": {
+							"isControllable": true,
+							"dir": "DOWN"
+						}
+				},
+
+				{"tileX":11,"tileY":15,"type":"Bulb","tileSprite":16,"tileData":{"x":11,"y":15,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 1,
+						"chargedSprite": 17
+					}
+				},
+
+				{"tileX":0,"tileY":13,"type":"Transistor","tileSprite":32,"tileData":{"x":0,"y":13,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 11,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":1,"tileY":9,"type":"Transistor","tileSprite":32,"tileData":{"x":1,"y":9,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 6,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":2,"tileY":13,"type":"Transistor","tileSprite":32,"tileData":{"x":2,"y":13,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 3,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":3,"tileY":9,"type":"Transistor","tileSprite":32,"tileData":{"x":3,"y":9,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 10,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":4,"tileY":5,"type":"Transistor","tileSprite":32,"tileData":{"x":4,"y":5,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 21,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":5,"tileY":13,"type":"Transistor","tileSprite":32,"tileData":{"x":5,"y":13,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 9,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":6,"tileY":9,"type":"Transistor","tileSprite":32,"tileData":{"x":6,"y":9,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 4,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":8,"tileY":9,"type":"Transistor","tileSprite":32,"tileData":{"x":8,"y":9,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 7,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":9,"tileY":13,"type":"Transistor","tileSprite":32,"tileData":{"x":9,"y":13,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 12,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":10,"tileY":1,"type":"Transistor","tileSprite":32,"tileData":{"x":10,"y":1,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 1,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":10,"tileY":5,"type":"Transistor","tileSprite":32,"tileData":{"x":10,"y":5,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 2,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":11,"tileY":9,"type":"Transistor","tileSprite":32,"tileData":{"x":11,"y":9,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 51,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":12,"tileY":13,"type":"Transistor","tileSprite":32,"tileData":{"x":12,"y":13,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 5,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":13,"tileY":9,"type":"Transistor","tileSprite":32,"tileData":{"x":13,"y":9,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 52,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				},
+				{"tileX":14,"tileY":13,"type":"Transistor","tileSprite":32,"tileData":{"x":14,"y":13,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 8,
+						"chargesRequired": 1,
+						"chargeBarDir": "DOWN"
+					}
+				}
+			]
 		}
 		
 				

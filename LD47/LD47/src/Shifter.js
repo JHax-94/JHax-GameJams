@@ -7,6 +7,8 @@ export default class Shifter extends Component
     {
         super(tilePos, spriteData);
 
+        this.shifterBoundaryTiles = [ 108, 109, 124 ];
+
         this.logName = "SHIFTER";
 
         this.logging = true;
@@ -62,31 +64,38 @@ export default class Shifter extends Component
             {
                 newPos.x = oldPos.x;
                 newPos.y = oldPos.y + this.shiftAmount;
-
-                if(this.shiftAmount < 0 && newPos.y <= this.tilePos.y || this.shiftAmount > 0 && newPos.y >= this.tilePos.y)
-                {
-                    canMoveAll = false;
-                }
             }
             else if(this.shiftDir === "H")
             {
                 newPos.x = oldPos.x + this.shiftAmount;
                 newPos.y = oldPos.y;
-                
-                if(this.shiftAmount < 0 && newPos.x <= this.tilePos.x || this.shiftAmount > 0 && newPos.x >= this.tilePos.x)
-                {
-                    canMoveAll = false;
-                }
             }
-            /*
+
             if(this.tilePos.x === newPos.x && this.tilePos.y === newPos.y)
             {
                 canMoveAll = false;
                 break;
-            }*/
+            }
 
-            if(!canMoveAll) break;
-
+            if(canMoveAll)
+            {
+                var newTile = em.map.get(newPos.x, newPos.y);
+                consoleLog(newTile);
+                
+                if(newTile != null)
+                {
+                    for(var j = 0; j < this.shifterBoundaryTiles.length; j ++)
+                    {
+                        if(newTile.sprite === this.shifterBoundaryTiles[j])
+                        {
+                            canMoveAll = false;
+                            break;
+                        }
+                    }
+                }
+                
+            }
+            
             newPositions.push(newPos);
         }
 

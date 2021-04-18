@@ -48,7 +48,8 @@ var sizeMaps = [
     { name: "Large", windowDims: 1024, mouseScale: 1 }
 ]
 
-var SAFE_TILES = [ 1, 2, 3, 4, 24, 40 ];
+var ALL_DIR_SAFE_TILES = [ 5, 16, 17, 23, 32, 39 ];
+var SAFE_TILES = [ 0, 1, 2, 3, 4, 24, 40, 109 ];
 
 function getGameSpeed()
 {
@@ -127,13 +128,25 @@ var arrowDirMap = [
 ];
 
 var cornerDirMap = [
-    { dir: "RD", flipX: false, flipY: false, flipR: false },
-    { dir: "RU", flipX: false, flipY: true, flipR: false },
-    { dir: "RU", flipX: false, flipY: false, flipR: true },
-    { dir: "LD", flipX: true, flipY: false, flipR: false },
-    { dir: "LD", flipX: true, flipY: true, flipR: true },
-    { dir: "LU", flipX: true, flipY: false, flipR: true },
-    { dir: "LU", flipX: true, flipY: true, flipR: false },
+    { dir: "LD", flipX: false, flipY: false, flipR: false },
+    { dir: "LU", flipX: false, flipY: false, flipR: true },
+    { dir: "LU", flipX: false, flipY: true, flipR: false },
+    { dir: "LD", flipX: false, flipY: true, flipR: true },
+    { dir: "DR", flipX: true, flipY: false, flipR: false },
+    { dir: "UR", flipX: true, flipY: false, flipR: true },
+    { dir: "UR", flipX: true, flipY: true, flipR: false },
+    { dir: "DR", flipX: true, flipY: true, flipR: true },
+];
+
+var straightDirMap = [
+    { dir: "LR", flipX: false, flipY: false, flipR: false },
+    { dir: "UD", flipX: false, flipY: false, flipR: true },
+    { dir: "LD", flipX: false, flipY: true, flipR: false },
+    { dir: "UD", flipX: false, flipY: true, flipR: true },
+    { dir: "LR", flipX: true, flipY: false, flipR: false },
+    { dir: "UD", flipX: true, flipY: false, flipR: true },
+    { dir: "LR", flipX: true, flipY: true, flipR: false },
+    { dir: "UD", flipX: true, flipY: true, flipR: true }
 ];
 
 var validAdjacentTiles = [
@@ -150,6 +163,15 @@ var validAdjacentTiles = [
     { spriteId: 32 },
     { spriteId: 33 },
     { spriteId: 109 }
+];
+
+var dirMaps = [
+    { spriteIndex: 0, map: straightDirMap },
+    { spriteIndex: 1, map: straightDirMap },
+    { spriteIndex: 2, map: cornerDirMap },
+    { spriteIndex: 24, map: straightDirMap },
+    { spriteIndex: 40, map: straightDirMap },
+    { spriteIndex: 109, map: straightDirMap },
 ];
 
 var componentTiles = [
@@ -834,6 +856,39 @@ function LoadLevel(levelName, force)
     }
 }
 
+function GetTileSafePoints(index, spriteInfo)
+{
+    consoleLog("Get tile safe points for index & sprite info");
+    consoleLog(index);
+    consoleLog(spriteInfo);
+    var validDirs = "";
+
+    for(var i = 0; i < dirMaps.length; i ++)
+    {
+        if(dirMaps[i].spriteIndex === index)
+        {
+            var targetMap = dirMaps[i].map;
+
+            consoleLog("Get Matching directions from map");
+            consoleLog(targetMap);
+            consoleLog(spriteInfo);
+
+            for(var j = 0; j < targetMap.length; j ++)
+            {
+                if(targetMap[j].flipX === spriteInfo.flipX && targetMap[j].flipY === spriteInfo.flipY && targetMap[j].flipR === spriteInfo.flipR)
+                {
+                    validDirs = targetMap[j].dir;
+                    break;
+                }
+            }
+            
+            break;
+        }
+    }
+
+    return validDirs;
+}
+
 function Setup()
 {
     paper(1);   
@@ -841,7 +896,7 @@ function Setup()
     COLOURS = assets.colourMap;
     SFX = assets.soundMap;
     SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
-    //SOUND.soundOn = false;
+    SOUND.soundOn = false;
 
     LoadLevel("Slide-A-Bulb");
 
@@ -910,6 +965,8 @@ export {
     GetWireSwitchDirFromFlips, 
     GetWireSwitchDirFromDir,
     GetDiodeDirMapFromFlips,
+    GetTileSafePoints,
+    GetSpriteInfoFromTile,
     ToggleGameSize,
     ToggleGameSpeed,
     getGameSpeed,
@@ -920,6 +977,7 @@ export {
     TOTAL_SPRITES, 
     PIXEL_SCALE, 
     SAFE_TILES,
+    ALL_DIR_SAFE_TILES,
     UP, 
     RIGHT, 
     DOWN, 

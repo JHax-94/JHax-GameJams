@@ -263,14 +263,21 @@ export default class Component
 
     MoveToTile(newTile)
     {
-        consoleLog("Move to new tile: ");
-        consoleLog(newTile);
+        if(this.logging)
+        {
+            consoleLog("Move to new tile: ");
+            consoleLog(newTile);
+        }
+        
         this.tilePos.x = newTile.x;
         this.tilePos.y = newTile.y;
 
-        consoleLog("Move progress bars...");
-        consoleLog(this.progressBars);
-
+        if(this.logging)
+        {
+            consoleLog("Move progress bars...");
+            consoleLog(this.progressBars);
+        }
+        
         if(this.phys)
         {
             this.phys.position = this.GetPhysPosition();

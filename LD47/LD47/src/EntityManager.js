@@ -351,7 +351,7 @@ export default class EntityManager
                 var battery = manager.BodyWithTag(evt, "RECHARGE_BATTERY");
                 var electron = manager.BodyWithTag(evt, "ELECTRON");
 
-                if(battery.obj.HasPulses())
+                if(battery.obj.HasPulses() && electron.obj.isCharged === false)
                 {
                     battery.obj.ChargeWithPulse(electron.obj);
                 }

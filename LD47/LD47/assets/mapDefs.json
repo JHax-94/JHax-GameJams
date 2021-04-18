@@ -2481,7 +2481,49 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "rechargeEasy",
+			"components": [
+				{"tileX":6,"tileY":5,"type":"Battery","tileSprite":0,"tileData":{"x":6,"y":5,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"battery": {
+						"charges": 3,
+						"pulseTime": 1,
+						"pulseSpeed": 60,
+						"maxLostElectrons": 0
+					}
+				},
+				{"tileX":8,"tileY":7,"type":"RechargeBattery","tileSprite":48,"tileData":{"x":8,"y":7,"sprite":48,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistorId": 0,
+					"rechargeBattery": {
+						"chargesRequired": 1,
+						"chargeBarDir": "UP",
+						"chargeDecayTime": 6,
+						"decayBarDir": "UP",
+						"decayToZero": true,
+						"pulseSpeed": 60,
+						"maxPulses": 3,
+						"blinkTime": 0.5
+					}
+				},
+				{"tileX":6,"tileY":11,"type":"Bulb","tileSprite":16,"tileData":{"x":6,"y":11,"sprite":16,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"bulb": {
+						"chargesRequired": 4,
+						"chargedSprite": 17,
+						"chargeDecayTime": 3,
+						"decayToZero": true
+					}
+				},
+				{"tileX":8,"tileY":5,"type":"Transistor","tileSprite":32,"tileData":{"x":8,"y":5,"sprite":32,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
+					"transistor": {
+						"transistorId": 0,
+						"chargesRequired": 1,
+						"chargeBarDir": "UP"
+					}
+				}
+			]
 		}
+		
 				
 	]
 }

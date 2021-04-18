@@ -65,6 +65,15 @@ export default class RechargeableBattery extends Component
 
     Pulse()
     {
+        consoleLog("START | Electron pulse!");
+        consoleLog(this);
+
+        this.pulseCount = this.pulseCount - 1;
+        if(this.pulseCount < 0)
+        {
+            this.pulseCount = 0;
+        }
+
         var speed = getGameSpeed();
 
         var spawnPos = { x: (this.tilePos.x + (this.spriteInfo.flipX ? 0 : 1.5)) * PIXEL_SCALE, y: (this.tilePos.y+0.5) * PIXEL_SCALE };
@@ -75,6 +84,9 @@ export default class RechargeableBattery extends Component
         var newElectron = new Electron({x: spawnPos.x, y: spawnPos.y }, { index: 18, unchargedSprite: 19, flipX: false, flipY: false, flipR: false }, this.pulseSpeed * speed.speed);
 
         newElectron.SetVelocity({x: speed.speed * this.pulseSpeed * (this.spriteInfo.flipX ? -1 : 1), y: 0});
+
+        consoleLog("END | Electron pulse!");
+        consoleLog(this);
     }
 
     Update(deltaTime)
@@ -111,6 +123,9 @@ export default class RechargeableBattery extends Component
 
     ChargeWithPulse(electron)
     {
+        consoleLog("START | Charge with pulse!");
+        consoleLog(this);
+
         this.pulseCount = this.pulseCount - 1;
         if(this.pulseCount < 0)
         {
@@ -134,6 +149,9 @@ export default class RechargeableBattery extends Component
         }
 
         this.ResetProgressBars();
+
+        consoleLog("END | Charge with pulse!");
+        consoleLog(this);
     }
 
     Decay()
@@ -141,11 +159,6 @@ export default class RechargeableBattery extends Component
         super.Decay();
 
         this.Pulse();
-        this.pulseCount = this.pulseCount - 1;
-        if(this.pulseCount < 0)
-        {
-            this.pulseCount = 0;
-        }
         
         this.UpdatePulseBar();
         

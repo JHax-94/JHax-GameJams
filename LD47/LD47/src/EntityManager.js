@@ -1,5 +1,5 @@
 import EndScreen from './EndScreen.js';
-import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX, LoadLevel, SOUND, getAnimation, SAFE_TILES } from './main.js';
+import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX, LoadLevel, SOUND, getAnimation, SAFE_TILES, GetTileSafePoints, GetSpriteInfoFromTile, ALL_DIR_SAFE_TILES } from './main.js';
 import PauseMenu from './PauseMenu.js';
 
 export default class EntityManager
@@ -375,6 +375,8 @@ export default class EntityManager
                 var electron = manager.BodyWithTag(evt, "ELECTRON");
                 var dangerWire = manager.BodyWithTag(evt, "DANGER_WIRE");
 
+                consoleLog("LEAVING DANGER WIRE!!!!");
+
                 if(!dangerWire.obj.ElectronIsSafe(electron.obj))
                 {
                     manager.QueueSound(SFX.electronLost);
@@ -385,6 +387,8 @@ export default class EntityManager
             {
                 var electron = manager.BodyWithTag(evt, "ELECTRON");
                 var railPoint = manager.BodyWithTag(evt, "POINTS");
+
+                consoleLog("LEAVING RAIL POINT!!!!");
 
                 if(!railPoint.obj.ElectronIsSafe(electron.obj))
                 {
@@ -687,33 +691,110 @@ export default class EntityManager
         }
     }
 
+
+    CheckSafeTileDirection(spriteIndex, spriteFlips, dirVec)
+    {
+        var safe = false;
+
+        for(var i = 0; i < ALL_DIR_SAFE_TILES.length; i++)
+        {
+            if(ALL_DIR_SAFE_TILES[i] === spriteIndex)
+            {
+                safe = true;
+            }
+        }
+
+        if(!safe)
+        {
+            for(var i = 0; i < SAFE_TILES.length; i ++)
+            {
+                if(SAFE_TILES[i] === spriteIndex)
+                {
+                    var dirs = GetTileSafePoints(spriteIndex, spriteFlips);
+                    consoleLog("---------- CHECK TILE FOR ELECTRON SAFETY ---------");
+                    consoleLog(spriteFlips);
+                    consoleLog(spriteIndex);
+                    consoleLog(dirs);
+                    consoleLog(dirVec);
+
+                    consoleLog("Up down check");
+                    consoleLog("Up: " + dirs.includes("U"));
+                    consoleLog("Down: " + dirs.includes("D"));
+
+                    if(dirs.length === 0)
+                    {
+                        safe = true;
+                    }
+
+                    if(dirVec.x > 0 && dirs.includes("L"))
+                    {
+                        consoleLog("Right move OK");
+                        safe = true;
+                    }
+                    else if(dirVec.x < 0 && dirs.includes("R"))
+                    {
+                        consoleLog("Left move OK");
+                        safe = true;
+                    }
+                    else if(dirVec.y > 0 && dirs.includes("D"))
+                    {
+                        consoleLog("Up Move OK");
+                        safe = true;
+                    }
+                    else if(dirVec.y < 0 && dirs.includes("U"))
+                    {
+                        consoleLog("Left move OK");
+                        safe = true;
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        if(!safe) consoleLog(" !!!!! NOT SAFE DESTINATION !!!!!");
+
+        return safe;
+    }
+
     ElectronIsSafe(sourceTile, electron)
     {
+        consoleLog("Electron safety check...");
         var safe = false;
         var dirVec = electron.GetDirectionVector();
 
+        consoleLog("Source tile:");
+        consoleLog(sourceTile);
+        
+        consoleLog("Electron movement:");
+        consoleLog(dirVec);
+
         var targetTile = { x: sourceTile.x + dirVec.x, y: sourceTile.y + dirVec.y };
+
+        consoleLog("Safety check target tile");
+        consoleLog(targetTile);
 
         var movingToTile = this.GetComponentOnTile(targetTile);
 
         if(movingToTile)
         {
-            safe = true;
+            consoleLog("electron moving to tile...");
+            consoleLog(movingToTile);
+
+            safe = this.CheckSafeTileDirection(movingToTile.spriteInfo.index, movingToTile.spriteInfo, dirVec);
         }
         else
         {
             var tileData = this.map.get(targetTile.x, targetTile.y);
             
+            consoleLog("ELECTRON SAFETY DESTINATION");
+            consoleLog(tileData);
+
             if(tileData)
             {
-                for(var i = 0; i < SAFE_TILES.length; i ++)
-                {
-                    if(SAFE_TILES[i] === tileData.sprite)
-                    {
-                        safe = true;
-                        break;
-                    }
-                }
+                var spriteInfo = GetSpriteInfoFromTile(tileData.sprite, tileData);
+
+                safe = this.CheckSafeTileDirection(spriteInfo.index, spriteInfo, dirVec);
             }
         }
         

@@ -83,12 +83,12 @@ export default class RailPoint
             
             //consoleLog("H to V");
 
-            if(velocity[0] > 0 && h === "R" || velocity[0] < 0 && h === "L")
+            if(velocity[0] > 0 && h === "L" || velocity[0] < 0 && h === "R")
             {
                 //consoleLog("FORWARD FLIP");
                 velocity[1] = v === "U" ? 1 : -1;
             }
-            else if(velocity[0] > 0 && h === "L" || velocity[0] < 0 && h === "R")
+            else if(velocity[0] > 0 && h === "R" || velocity[0] < 0 && h === "L")
             {
                 //consoleLog("BACKWARDS FLIP");
                 velocity[1] = v === "U" ? -1 : 1;
@@ -108,12 +108,12 @@ export default class RailPoint
             consoleLog(this.dirMap.dir);
             consoleLog("E Direction: " + ((velocity[1] > 0) ? "UP" : "DOWN"));
             */
-            if(velocity[1] > 0 && v === "U" || velocity[1] < 0 && v === "D")
+            if(velocity[1] > 0 && v === "D" || velocity[1] < 0 && v === "U")
             {
                 //consoleLog("FOLLOW HORIZ");
-                velocity[0] = h === "R" ? -1 : 1;
+                velocity[0] = h === "R" ? 1 : -1;
             }
-            else if(velocity[1] > 0 && v === "D" || velocity[1] < 0 && v === "U")
+            else if(velocity[1] > 0 && v === "U" || velocity[1] < 0 && v === "D")
             {
                 //consoleLog("FLIP HORIZ");
                 velocity[0] = h === "R" ? -1 : 1;

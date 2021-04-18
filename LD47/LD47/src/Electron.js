@@ -160,7 +160,7 @@ export default class Electron
         {
             unitVec.y = -1;
         }
-        else if(this.phys.velocity < 0)
+        else if(this.phys.velocity[1] < 0)
         {
             unitVec.y = 1;
         }

@@ -195,7 +195,7 @@ export default class Electron
 
     Destroy()
     {
-        //consoleLog("ELECTRON DESTROY:");
+        consoleLog("ELECTRON DESTROY:");
 
         var dirString = Math.abs(this.phys.velocity[0]) > 0 ? "_H" : "_V";
         var baseAnim = this.isCharged ? "CHARGED_ELECTRON_DESTROY" : "UNCHARGED_ELECTRON_DESTROY";
@@ -207,6 +207,11 @@ export default class Electron
         this.isCharged = true;
         this.setDeleteSpeed = true;
         
+    }
+
+    AlreadyDead()
+    {
+        return this.setDeleteSpeed;
     }
 
     Charge()

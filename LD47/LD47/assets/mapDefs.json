@@ -1993,7 +1993,7 @@
 			"components": [
 				{"tileX":3,"tileY":2,"type":"Battery","tileSprite":0,"tileData":{"x":3,"y":2,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"battery": {
-						"charges": 1,
+						"charges": 0,
 						"pulseTime": 1,
 						"pulseSpeed": 60,
 						"maxLostElectrons": 0
@@ -2049,7 +2049,7 @@
 				},
 				{"tileX":11,"tileY":12,"type":"Battery","tileSprite":0,"tileData":{"x":11,"y":12,"sprite":0,"flipH":true,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"battery": {
-						"charges": 1,
+						"charges": 0,
 						"pulseTime": 1,
 						"pulseSpeed": 60,
 						"maxLostElectrons": 0
@@ -2146,7 +2146,7 @@
 				{"tileX":5,"tileY":7,"type":"Shifter","tileSprite":93,"tileData":{"x":5,"y":7,"sprite":93,"flipH":true,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
 					"shifter": {
 						"shifterId": 0,
-						"direction": "H+",
+						"direction": "H-",
 						"chargesRequired": 1
 					},
 					"transistorId": 0
@@ -2170,7 +2170,7 @@
 				{"tileX":9,"tileY":7,"type":"Shifter","tileSprite":93,"tileData":{"x":9,"y":7,"sprite":93,"flipH":false,"flipV":false,"flipR":true,"flagA":false,"flagB":false},
 					"shifter": {
 						"shifterId": 0,
-						"direction": "H-",
+						"direction": "H+",
 						"chargesRequired": 1
 					},
 					"transistorId": 3

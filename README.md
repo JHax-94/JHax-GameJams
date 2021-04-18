@@ -1,7 +1,7 @@
 # JHax-GameJams
 Open source repository for any game jam code I need to share
 
-(c) Josh Haxell 2020
+(c) Josh Haxell 2021
 
 # Windmill Tennis
 

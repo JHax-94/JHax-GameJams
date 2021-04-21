@@ -49,7 +49,7 @@ var sizeMaps = [
 ]
 
 var ALL_DIR_SAFE_TILES = [ 5, 6, 16, 17, 23, 32, 39 ];
-var SAFE_TILES = [ 0, 1, 2, 3, 4, 24, 40, 109 ];
+var SAFE_TILES = [ 0, 1, 2, 3, 4, 24, 33, 40, 48, 49, 109 ];
 
 function getGameSpeed()
 {
@@ -170,6 +170,7 @@ var dirMaps = [
     { spriteIndex: 1, map: straightDirMap },
     { spriteIndex: 2, map: cornerDirMap },
     { spriteIndex: 24, map: straightDirMap },
+    { spriteIndex: 33, map: straightDirMap },
     { spriteIndex: 40, map: straightDirMap },
     { spriteIndex: 109, map: straightDirMap },
 ];

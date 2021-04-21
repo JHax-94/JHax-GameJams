@@ -539,10 +539,10 @@ export default class EntityManager
         {
             var hasCrossedElectronThreshold = ( (this.electronLossThreshold > 0) && (this.electronsLost >= this.electronLossThreshold) );
 
-            consoleLog("")
-
             var anyBatteryDepleted = false;
             var gameLost = false;
+
+            consoleLog(this.batteries);
 
             for(var i = 0; i < this.batteries.length; i ++)
             {

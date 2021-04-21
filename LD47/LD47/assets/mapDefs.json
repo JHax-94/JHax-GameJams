@@ -1140,21 +1140,24 @@
 					"battery": {
 						"charges": 1,
 						"pulseTime": 0.5,
-						"pulseSpeed": 40
+						"pulseSpeed": 40,
+						"maxLostElectrons": 1
 					}
 				},
 				{"tileX":2,"tileY":5,"type":"Battery","tileSprite":0,"tileData":{"x":2,"y":5,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"battery": {
 						"charges": 1,
 						"pulseTime": 0.5,
-						"pulseSpeed": 40
+						"pulseSpeed": 40,
+						"maxLostElectrons": 1
 					}
 				},
 				{"tileX":4,"tileY":9,"type":"Battery","tileSprite":0,"tileData":{"x":4,"y":9,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},
 					"battery": {
 						"charges": 3,
 						"pulseTime": 0.5,
-						"pulseSpeed": 40
+						"pulseSpeed": 40,
+						"maxLostElectrons": 3
 					}
 				},
 				{"tileX":8,"tileY":13,"type":"Battery","tileSprite":0,"tileData":{"x":8,"y":13,"sprite":0,"flipH":false,"flipV":false,"flipR":false,"flagA":false,"flagB":false},

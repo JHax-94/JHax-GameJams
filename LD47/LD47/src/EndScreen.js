@@ -1,5 +1,6 @@
+import Button from "./Button";
 import Label from "./Label";
-import { consoleLog, em, PIXEL_SCALE, SFX } from "./main";
+import { consoleLog, em, GetNumberedLevel, PIXEL_SCALE, GetNumberedLevelName, SFX } from "./main";
 
 export default class EndScreen
 {
@@ -32,7 +33,7 @@ export default class EndScreen
 
     ShowScreen(winLose, electronsLeft)
     {
-        consoleLog("Electrons Left:" + electronsLeft);
+        //consoleLog("Electrons Left:" + electronsLeft);
         this.isWin = winLose;
         this.mainLabel = new Label(this.mainText.pos, winLose ? this.mainText.winText : ( electronsLeft === 0 ? this.mainText.loseText : this.mainText.altLose), 4);
         this.mainLabel.z = 1010;
@@ -41,7 +42,6 @@ export default class EndScreen
 
         if(this.isWin == false && electronsLeft > 0)
         {
-            consoleLog("Add Tile for extra lines...");
             this.displayRect.tileH += 1;
         } 
 
@@ -52,6 +52,19 @@ export default class EndScreen
             this.additionalLabels.push(newLabel);
         }
         
+        if(this.isWin && em.lvlNumber < em.maxLevel)
+        {
+            var buttonParams = {
+                tileRect: { x: this.displayRect.tileX, y: (this.displayRect.tileY + this.displayRect.tileH + 0.75), w: this.displayRect.tileW, h: 1 },
+                text: "Next Level (Space)",
+                options: { type: "LVL", value: GetNumberedLevelName(em.lvlNumber + 1), endScreen: true },
+                colours: { shadow: 3, top: 7, hover: 15 }
+            }
+
+            this.nextLevelButton = new Button(buttonParams.tileRect, buttonParams.text, buttonParams.options, buttonParams.colours);
+            this.nextLevelButton.SetIsVisible(true);
+        }
+
         /*
         this.tertiaryLabel = new Label(this.tertiaryText.pos, this.tertiaryText.text, 4);
         this.tertiaryLabel.z = 1010;

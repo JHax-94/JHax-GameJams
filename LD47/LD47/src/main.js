@@ -22,6 +22,10 @@ var p2 = require('p2');
 
 var GAME_SIZE_SCALE = 1;
 
+var MENU_MAP = "title";
+
+var LEVEL_BASE = "Level ";
+
 var SIZE_SMALL = 0;
 var SIZE_MEDIUM = 1;
 var SIZE_LARGE = 2;
@@ -430,10 +434,10 @@ function consoleLog(obj)
 function GetMapDefs(mapName)
 {
     var mapDefs = assets.mapDefs.mapDefs;
-
+    /*
     consoleLog("GET MAP: " + mapName);
     consoleLog(mapDefs);
-
+    */  
     var def = null;
 
     for(var i = 0; i < mapDefs.length; i ++)
@@ -543,6 +547,81 @@ function GetSpriteInfoFromTile(index, tileData)
     return spriteInfo;
 }
 
+function GetLevelNumber(mapName)
+{  
+    //consoleLog("==== GET LEVEL NUMBER FOR " + mapName + " ====");
+
+    var levelNumber = 0;
+
+    if(mapName !== MENU_MAP)
+    {
+        var menuMapDef = GetMapDefs(MENU_MAP);
+        
+        for(var i = 0; i < menuMapDef.components.length; i ++)
+        {
+            /*
+            consoleLog("Check component for being a level button...");
+            consoleLog(menuMapDef.components[i]);*/
+
+            if(menuMapDef.components[i].type === "Button" && menuMapDef.components[i].value === mapName)
+            {
+                var levelString = menuMapDef.components[i].text;
+
+                //consoleLog("Found button for " + mapName + " Text: " +  levelString);
+
+                var numString = levelString.substring(LEVEL_BASE.length, levelString.length);
+                
+                //consoleLog("NUM STRING: " + numString);
+
+                levelNumber = parseInt(numString)
+                
+                break;
+            }
+        }
+    }
+    
+    return levelNumber;
+}
+
+function GetLevelCount()
+{
+    var count = 0;
+
+    //consoleLog("==== COUNT LEVELS ====");
+    //consoleLog(MENU_MAP);
+    var menuMapDef = GetMapDefs(MENU_MAP);
+    //consoleLog(menuMapDef)
+
+    for(var i = 0; i < menuMapDef.components.length; i ++)
+    {
+        var isLevel = false;
+    
+        if(menuMapDef.components[i].type === "Button")
+        {
+            var testText = menuMapDef.components[i].text;
+
+            //consoleLog("Check if " + testText + " is level...");
+
+            if(testText.length > LEVEL_BASE.length)
+            {
+                var subStr = testText.substring(0, LEVEL_BASE.length);
+
+                if(subStr === LEVEL_BASE)
+                {
+                    isLevel = true;
+                }
+            }
+
+            if(isLevel)
+            {
+                count ++;
+            }
+        }
+    }
+
+    return count;
+}
+
 function LoadMap(mapName)
 {   
     var map = getMap(mapName).copy();
@@ -600,6 +679,12 @@ function LoadMap(mapName)
 
     var mapDef = GetMapDefs(mapName);
     
+    em.lvlNumber= GetLevelNumber(mapName);
+    em.maxLevel = GetLevelCount(); // Menu Doesn't Count
+
+    consoleLog("LEVEL NUMBER: " + em.lvlNumber);
+    consoleLog("LEVEL COUNT: " + em.maxLevel);
+
     if(mapDef.electronLossThreshold)
     {
         em.electronLossThreshold = mapDef.electronLossThreshold;
@@ -821,6 +906,29 @@ function SetGameSize(size)
     GAME_SIZE_SCALE = sizeMaps[size].mouseScale;
 }
 
+function GetNumberedLevelName(number)
+{
+    var menuDefs = GetMapDefs(MENU_MAP);
+
+    var returnName = "";
+
+    for(var i = 0; i < menuDefs.components.length; i ++)
+    {
+        if(menuDefs.components[i].type === "Button")
+        {
+            var button = menuDefs.components[i];
+            
+            if(button.text === (LEVEL_BASE + number)) 
+            {
+                returnName = button.value;
+                break;
+            }   
+        }
+    }
+
+    return returnName;
+}
+
 function LoadLevel(levelName, force)
 {
     if(CURRENT_LVL !== levelName || force)
@@ -859,9 +967,10 @@ function LoadLevel(levelName, force)
 
 function GetTileSafePoints(index, spriteInfo)
 {
+    /*
     consoleLog("Get tile safe points for index & sprite info");
     consoleLog(index);
-    consoleLog(spriteInfo);
+    consoleLog(spriteInfo);*/
     var validDirs = "";
 
     for(var i = 0; i < dirMaps.length; i ++)
@@ -869,10 +978,10 @@ function GetTileSafePoints(index, spriteInfo)
         if(dirMaps[i].spriteIndex === index)
         {
             var targetMap = dirMaps[i].map;
-
+            /*
             consoleLog("Get Matching directions from map");
             consoleLog(targetMap);
-            consoleLog(spriteInfo);
+            consoleLog(spriteInfo);*/
 
             for(var j = 0; j < targetMap.length; j ++)
             {
@@ -899,7 +1008,7 @@ function Setup()
     SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
     SOUND.soundOn = false;
 
-    LoadLevel("weirdWarps");
+    LoadLevel("title");
 
     //var testBox = new Battery({x: 0, y: 0}, 1);    
 
@@ -973,6 +1082,7 @@ export {
     getGameSpeed,
     getGameSize,
     getAnimation,
+    GetNumberedLevelName,
     HOVER_SPRITE,
     CURRENT_LVL, 
     TOTAL_SPRITES, 

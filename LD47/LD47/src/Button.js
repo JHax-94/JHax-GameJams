@@ -24,14 +24,21 @@ export default class Button
         this.z = 190;
 
         this.hover = false;
-
         /*
         consoleLog("BUTTON CONSTRUCTED");
-        consoleLog(this);*/
-
+        consoleLog(this);
+        */
         em.AddHover(this);
-        em.AddClickable(this);
-        
+
+        if(options.endScreen)
+        {
+            em.AddEndScreenClickable(this);
+        }
+        else
+        {
+            em.AddClickable(this);
+        }
+
         em.AddRender(this);
     }
 
@@ -71,7 +78,7 @@ export default class Button
     Click(button)
     {
         if(this.GetIsVisible())
-        {
+        {  
             /*
             consoleLog("CLICKED BUTTON");
             consoleLog(this);*/

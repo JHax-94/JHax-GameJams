@@ -27,6 +27,7 @@ export default class EntityManager
 
         this.hovers = [];
         this.clickables = [];
+        this.endScreenClickables = [];
 
         this.electrons = [];
         this.batteries = [];
@@ -222,9 +223,23 @@ export default class EntityManager
             {
                 if(this.endScreenOn)
                 {
-                    this.continued = true;
-                    this.endScreen.Collapse();
-                    this.CreateNewEndScreenBox();
+                    if(!this.endScreen.isWin)
+                    {
+                        this.continued = true;
+                        this.endScreen.Collapse();
+                        this.CreateNewEndScreenBox();
+                    }
+                    else
+                    {
+                        if(this.endScreen.nextLevelButton)
+                        {
+                            this.endScreen.nextLevelButton.Click(0);
+                        }
+                        else
+                        {
+                            LoadLevel("title");
+                        }
+                    }
                 }
 
                 this.pause = false;
@@ -267,6 +282,26 @@ export default class EntityManager
 
             if(!clicked) this.SetSelected(null);
         }
+        else
+        {
+            var clicked = false;
+
+            for(var i = 0; i < this.endScreenClickables.length; i ++)
+            {
+                if(this.endScreenClickables[i].hide)
+                {
+                }
+                else if(this.Overlap(this.endScreenClickables[i], x, y))
+                {
+                    this.endScreenClickables[i].Click(button);
+
+                    clicked = true;
+                    break;
+                }
+            }
+
+            if(!clicked) this.SetSelected(null);
+        }
     }
 
     CompareTags(evt, tag1, tag2)
@@ -298,7 +333,7 @@ export default class EntityManager
             {
                 var leavingTile = this.BodyWithTag(evt, leavingTag);
 
-                consoleLog("LEAVING DANGER WIRE!!!!");
+                ///consoleLog("LEAVING DANGER WIRE!!!!");
 
                 if(!this.ElectronIsSafe(leavingTile.obj.tilePos, electron.obj))
                 {
@@ -427,6 +462,11 @@ export default class EntityManager
     AddClickable(clickable)
     {
         this.clickables.push(clickable);
+    }
+
+    AddEndScreenClickable(clickable)
+    {
+        this.endScreenClickables.push(clickable);
     }
 
     AddPhys(obj, phys)
@@ -731,7 +771,7 @@ export default class EntityManager
                 if(SAFE_TILES[i] === spriteIndex)
                 {
                     var dirs = GetTileSafePoints(spriteIndex, spriteFlips);
-                    consoleLog("---------- CHECK TILE FOR ELECTRON SAFETY ---------");
+                    /*consoleLog("---------- CHECK TILE FOR ELECTRON SAFETY ---------");
                     consoleLog(spriteFlips);
                     consoleLog(spriteIndex);
                     consoleLog(dirs);
@@ -739,7 +779,7 @@ export default class EntityManager
 
                     consoleLog("Up down check");
                     consoleLog("Up: " + dirs.includes("U"));
-                    consoleLog("Down: " + dirs.includes("D"));
+                    consoleLog("Down: " + dirs.includes("D"));*/
 
                     if(dirs.length === 0)
                     {
@@ -748,22 +788,22 @@ export default class EntityManager
 
                     if(dirVec.x > 0 && dirs.includes("L"))
                     {
-                        consoleLog("Right move OK");
+                        //consoleLog("Right move OK");
                         safe = true;
                     }
                     else if(dirVec.x < 0 && dirs.includes("R"))
                     {
-                        consoleLog("Left move OK");
+                        //consoleLog("Left move OK");
                         safe = true;
                     }
                     else if(dirVec.y < 0 && dirs.includes("D"))
                     {
-                        consoleLog("Up Move OK");
+                        //consoleLog("Up Move OK");
                         safe = true;
                     }
                     else if(dirVec.y > 0 && dirs.includes("U"))
                     {
-                        consoleLog("Down move OK");
+                        //consoleLog("Down move OK");
                         safe = true;
                     }
 
@@ -779,36 +819,37 @@ export default class EntityManager
 
     ElectronIsSafe(sourceTile, electron)
     {
-        consoleLog("Electron safety check...");
+        //consoleLog("Electron safety check...");
         var safe = false;
         var dirVec = electron.GetDirectionVector();
-
+        /*
         consoleLog("Source tile:");
         consoleLog(sourceTile);
         
         consoleLog("Electron movement:");
         consoleLog(dirVec);
-
+        */
         var targetTile = { x: sourceTile.x + dirVec.x, y: sourceTile.y + dirVec.y };
-
+        /*
         consoleLog("Safety check target tile");
         consoleLog(targetTile);
-
+            */
         var movingToTile = this.GetComponentOnTile(targetTile);
 
         if(movingToTile)
         {
+            /*
             consoleLog("electron moving to tile...");
             consoleLog(movingToTile);
-
+            */
             safe = this.CheckSafeTileDirection(movingToTile.spriteInfo.index, movingToTile.spriteInfo, dirVec);
         }
         else
         {
             var tileData = this.map.get(targetTile.x, targetTile.y);
-            
+            /*
             consoleLog("ELECTRON SAFETY DESTINATION");
-            consoleLog(tileData);
+            consoleLog(tileData);*/
 
             if(tileData)
             {
@@ -819,7 +860,7 @@ export default class EntityManager
         }
         
 
-        consoleLog("ELECTRON SAFETY END | RETURN: " + safe);
+        //consoleLog("ELECTRON SAFETY END | RETURN: " + safe);
 
         return safe;
     }

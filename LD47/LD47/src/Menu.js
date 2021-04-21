@@ -4,7 +4,7 @@ import { COLOURS, consoleLog } from "./main";
 
 export default class Menu
 {
-    constructor(position, pageLength, buttonOptions, pagesLabel, prevButton, nextButton)
+    constructor(position, pageLength, buttonOptions, pagesLabel, prevButton, nextButton, postJamLabel)
     {
         this.position = position;
         this.currentPage = 0;
@@ -12,7 +12,14 @@ export default class Menu
         this.buttonOptions = buttonOptions;
         consoleLog(pagesLabel);
         
+        this.showPostJam = postJamLabel.startsAtPage;
+
         this.pagesLabel = new Label({ tileX: pagesLabel.tileX, tileY: pagesLabel.tileY }, "NULL", pagesLabel.colour);
+        
+        this.postJamLabel = new Label({ tileX: postJamLabel.tileX, tileY: postJamLabel.tileY}, postJamLabel.text, postJamLabel.colour);
+
+        this.postJamLabel.hide = true;
+
         this.prevButton = new Button(prevButton.tileRect, prevButton.text, { type: "MENU_PREV", menu: this }, prevButton.colours);
         this.nextButton = new Button(nextButton.tileRect, nextButton.text, { type: "MENU_NEXT", menu: this }, nextButton.colours);
 
@@ -76,6 +83,8 @@ export default class Menu
 
         this.prevButton.SetIsVisible(this.currentPage > 0);
         this.nextButton.SetIsVisible(this.currentPage < this.totalPages-1);
+
+        this.postJamLabel.hide = (this.currentPage+1) < this.showPostJam;
 
         this.pagesLabel.text = (this.currentPage + 1) + " / " + this.totalPages;
     }

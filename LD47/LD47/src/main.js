@@ -874,7 +874,8 @@ function LoadMap(mapName)
                 comp.buttonOptions,
                 comp.pagesLabel,
                 comp.prevButton,
-                comp.nextButton);
+                comp.nextButton, 
+                comp.postJamLabel);
         }        
         
     }

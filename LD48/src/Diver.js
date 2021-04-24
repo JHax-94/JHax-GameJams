@@ -11,9 +11,9 @@ export default class Diver
         this.width = 0;
         this.height = 0;
 
-        this.moveSpeed = { x: 5, y: 1 };
+        this.moveSpeed = { x: 1*PIXEL_SCALE, y: 0.2*PIXEL_SCALE };
 
-        this.jumpSpeed = 8;
+        this.jumpSpeed = 2 * PIXEL_SCALE;
         this.canJump = false;        
 
         var phys = {

@@ -15,7 +15,7 @@ export default class EntityManager
 
         this.pause = false;
 
-        this.phys = (!noPhys) ? new p2.World({gravity: [0, -2]}) : null;
+        this.phys = (!noPhys) ? new p2.World({gravity: [0, -4]}) : null;
 
         if(this.phys) this.SetupPhys();
     }

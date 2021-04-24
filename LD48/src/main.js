@@ -17,7 +17,7 @@ var em = null;
 
 var FPS =  1/60;
 
-var PIXEL_SCALE = 8;
+var PIXEL_SCALE = 16;
 
 function consoleLog(obj)
 {
@@ -35,8 +35,8 @@ function Setup()
         { x: 0, y: 0 }, 
         {
             spriteList: [
-                { index: 192, offset: { x: 0, y: 0}},
-                { index: 225, offset: { x: 0, y: 1}}
+                { index: 16, offset: { x: 0, y: 0}},
+                { index: 48, offset: { x: 0, y: 1}}
             ]        
         })
 

@@ -6,11 +6,11 @@
 		"fullscreen": false,
 		"resizable": false,
 		"keepAspectRatio": false,
-		"width": 256,
-		"height": 256,
+		"width": 512,
+		"height": 512,
 		"pixelSize": {
-			"width": 4,
-			"height": 4
+			"width": 2,
+			"height": 2
 		}
 	},
 	"tileSize": {

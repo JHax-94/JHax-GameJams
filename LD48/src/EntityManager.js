@@ -27,18 +27,17 @@ export default class EntityManager
 
     DrawColliders(phys)
     {
-        consoleLog(phys);
+        //consoleLog(phys);
 
         for(var i = 0; i < phys.shapes.length; i ++)
         {
             var shape = phys.shapes[i];
 
             var box = { x: (phys.position[0]-(0.5*shape.width)), y: -(phys.position[1] + (0.5*shape.height)), width: shape.width, height: shape.height };
-            
-            
+            /*
             consoleLog("Draw box");
             consoleLog(box);
-            
+            */
             pen(42);
             rect(box.x, box.y, box.width, box.height);
         }
@@ -80,7 +79,7 @@ export default class EntityManager
 
     AddPhys(obj, phys)
     {
-        consoleLog("ADDING PHYSICS");
+        //consoleLog("ADDING PHYSICS");
 
         if(phys.tileTransform)
         {
@@ -96,8 +95,8 @@ export default class EntityManager
         else if(phys.transform)
         {
             phys.position = [   
-                (phys.transform.x),
-                - (phys.transform.y) 
+                (phys.transform.x + 0.5*phys.transform.w),
+                - (phys.transform.y + 0.5* phys.transform.h) 
             ];
             phys.colliderRect = { width: phys.transform.w, height: phys.transform.h };
 
@@ -105,9 +104,10 @@ export default class EntityManager
             obj.height = phys.colliderRect.height;
         }
 
+        /*
         consoleLog("ADD BODY");
         consoleLog(phys);
-
+        */
         obj.phys = new p2.Body({
             mass: phys.mass,
             position: phys.position,
@@ -134,16 +134,17 @@ export default class EntityManager
             collider.sensor = phys.isSensor;
         }
 
+        /*
         consoleLog("adding shape:");
         consoleLog(collider);
-
+        */
         obj.phys.addShape(collider);
 
         obj.phys.position = phys.position;
+        /*
         consoleLog("Physics added!");
         consoleLog(obj);
-
-        
+        */
 
         this.phys.addBody(obj.phys);        
     }
@@ -227,6 +228,7 @@ export default class EntityManager
                 var diver = manager.BodyWithTag(evt, "DIVER");
                 var interactable = manager.BodyWithTag(evt, "CONTAINER");
 
+                
                 diver.obj.SetInteractable(interactable.obj);
             }
             else if(manager.CompareTags(evt, "DIVER", "COLLECTABLE"))

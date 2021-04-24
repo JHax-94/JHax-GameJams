@@ -5,8 +5,8 @@
 			"w": 16,
 			"h": 16,
 			"name": "map",
-			"sheet": "",
-			"data": "!!.P#&|J"
+			"sheet": "tilesheet",
+			"data": "!!.q"
 		}
 	]
 }

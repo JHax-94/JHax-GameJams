@@ -1,4 +1,4 @@
-import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, DOWN, INTERACT } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, DOWN, INTERACT, LoadChart } from "./main";
 
 export default class Diver
 {
@@ -98,11 +98,11 @@ export default class Diver
 
     Input(inputs)
     {
-        var velocity = this.GetVelocity();
+        //var velocity = this.GetVelocity();
 
         if(inputs.right)
         {
-            consoleLog("MOVE RIGHT");
+            //consoleLog("MOVE RIGHT");
             //this.SetVelocity(this.moveSpeed.x, velocity.y);
             this.phys.applyForce([this.moveSpeed.x, 0])
         }
@@ -177,6 +177,7 @@ export default class Diver
         if(this.oxygen <= 0)
         {
             this.oxygen = 0;
+            LoadChart();
         }
 
         this.UpdateOxygenMeter();

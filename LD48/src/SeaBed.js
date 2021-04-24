@@ -5,7 +5,8 @@ export default class SeaBed
     constructor(mapName)
     {
         this.map = getMap(mapName);
-
+        tilesheet(assets.tilesheet_dive);
+        
         this.mapPosition = { x: 4, y: 0 };
 
         this.seaBedPos = { x: 0 , y: 14};

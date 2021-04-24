@@ -5,7 +5,9 @@ import TreasureChest from './TreasureChest.js';
 import Clam from './Clam.js';
 import BubbleCluster from './BubbleCluster.js';
 import OxygenMeter from './OxygenMeter.js';
+import Chart from './Chart.js';
 
+var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
 
 var UP = 1;
@@ -26,6 +28,21 @@ var FPS =  1/60;
 
 var PIXEL_SCALE = 16;
 
+function mapMousePos(x, y)
+{
+    return { x: x, y: y };
+}
+
+pointerEvents.onPress(function(x, y, pointerId, evt) {
+    var mapped = mapMousePos(x, y);
+    em.MouseClick(mapped.x, mapped.y, evt.button);
+});
+
+pointerEvents.onMove(function(x, y, pointerId, evt) {
+    var mapped = mapMousePos(x, y);
+    em.MouseMove(mapped.x, mapped.y);
+});
+
 function consoleLog(obj)
 {
     if(CONSOLE_ON)
@@ -34,10 +51,20 @@ function consoleLog(obj)
     }
 }
 
-function Setup()
+function LoadChart()
+{
+    em = new EntityManager();
+
+    tilesheet("tilesheet");
+    new Chart("chart", { x:0, y: 0 }, {x: 0, y: 0});
+}
+
+function LoadDive(diveCoordinates)
 {
     em = new EntityManager();
     
+    tilesheet("tilesheet_dive");
+
     var seabed = new SeaBed("map");
     
     var chest = new TreasureChest({ x: 9, y: 13}, 3, { type: "OXYGEN" });
@@ -55,9 +82,16 @@ function Setup()
         },
         new OxygenMeter({x: 480, y: 60, w: 30, h: 400}));
 
-    em.drawColliders = true;
-    
+    //em.drawColliders = true;
+}
+
+function Setup()
+{
+    LoadChart();
+
     LOAD_COMPLETE = true;
+
+    consoleLog(assets);
 
     consoleLog("setup complete!");
     consoleLog(em);
@@ -82,5 +116,7 @@ export {
     PIXEL_SCALE,
     UP, DOWN, LEFT, RIGHT, INTERACT,
     BUBBLE_SPRITES,
+    LoadDive,
+    LoadChart,
     consoleLog
 }

@@ -13,11 +13,21 @@ export default class EntityManager
         this.renders = [];
         this.inputListeners = [];
 
+        this.trackMouse = false;
+
+        this.clickables = [];
+        this.hovers = [];
+
         this.pause = false;
 
         this.phys = (!noPhys) ? new p2.World({gravity: [0, -4]}) : null;
 
         if(this.phys) this.SetupPhys();
+    }
+
+    AddClickable(clickable)
+    {
+        this.clickables.push(clickable);
     }
 
     AddUpdate(obj)
@@ -326,6 +336,64 @@ export default class EntityManager
             if(this.drawColliders && this.renders[i].phys)
             {
                 this.DrawColliders(this.renders[i].phys);
+            }
+        }
+    }
+
+    Overlap(clickable, x, y)
+    {
+        var bounds = clickable.Bounds();
+        /*
+        consoleLog("Check (" + x + ", " + y + ") against:");
+        consoleLog(bounds);*/
+
+        var xOverlap = bounds.x < x && x < bounds.x + bounds.w;
+        var yOverlap = bounds.y < y && y < bounds.y + bounds.h;
+
+        return xOverlap && yOverlap;
+    }
+    
+    AddHover(hover)
+    {
+        consoleLog("===== ADD HOVER! =====");
+
+        if(this.trackMouse === false)
+        {
+            this.trackMouse = true;
+        }
+
+        this.hovers.push(hover);
+    }
+
+    MouseMove(x, y)
+    {
+        if(this.trackMouse)
+        {
+            for(var i = 0; i < this.hovers.length; i ++)
+            {
+                this.hovers[i].Hover(this.Overlap(this.hovers[i], x, y), { x: x, y: y});
+            }
+        }
+    }
+
+    MouseClick(x, y, button)
+    {
+        if(!this.endScreenOn)
+        {
+            var clicked = false;
+
+            for(var i = 0; i < this.clickables.length; i ++)
+            {
+                if(this.clickables[i].hide)
+                {
+                }
+                else if(this.Overlap(this.clickables[i], x, y))
+                {
+                    this.clickables[i].Click(button);
+
+                    clicked = true;
+                    break;
+                }
             }
         }
     }

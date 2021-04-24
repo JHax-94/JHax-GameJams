@@ -44,8 +44,8 @@
 		"down": 40,
 		"left": 37,
 		"right": 39,
-		"A": 32,
-		"B": 88
+		"B": 88,
+		"interact": 32
 	},
 	"touchEvent": {
 		"multiTouch": false,

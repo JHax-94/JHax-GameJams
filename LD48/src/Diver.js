@@ -1,19 +1,36 @@
-import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, DOWN, INTERACT } from "./main";
 
 export default class Diver
 {
-    constructor(pos, diver)
+    constructor(pos, diver, oxygenMeter)
     {   
+        consoleLog("CONSTRUCTING DIVER");
+
+        if(oxygenMeter)
+        {
+            this.oxygenMeter = oxygenMeter;
+            this.oxygenMax = 100;
+            this.oxygenDepletion = 1;
+            this.oxygen = this.oxygenMax;
+
+            this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);
+        }
+        
         this.spriteList = diver.spriteList;
+
+        this.interactPromptSpriteIndex = 10;
 
         this.pos = pos;
         
         this.width = 0;
         this.height = 0;
 
-        this.moveSpeed = { x: 1*PIXEL_SCALE, y: 0.2*PIXEL_SCALE };
+        this.canInteract = false;
+        this.interactable = null;
 
-        this.jumpSpeed = 2 * PIXEL_SCALE;
+        this.moveSpeed = { x: 10*PIXEL_SCALE, y: 10*PIXEL_SCALE };
+
+        this.jumpSpeed = 25 * PIXEL_SCALE;
         this.canJump = false;        
 
         var phys = {
@@ -37,6 +54,14 @@ export default class Diver
         em.AddInput(this);
 
         this.SetVelocity(0, -1);
+    }
+
+    Collect(collectable)
+    {
+        if(collectable)
+        {
+            collectable.CollectedBy(this);
+        }
     }
 
     SetVelocity(x, y)
@@ -64,32 +89,106 @@ export default class Diver
     {
         var velocity = this.GetVelocity();
 
-        if(inputs.key === RIGHT)
+        if(inputs.right)
         {
-            this.SetVelocity(this.moveSpeed.x, velocity.y);
+            consoleLog("MOVE RIGHT");
+            //this.SetVelocity(this.moveSpeed.x, velocity.y);
+            this.phys.applyForce([this.moveSpeed.x, 0])
         }
-        else if(inputs.key === LEFT)
+        else if(inputs.left)
         {
-            this.SetVelocity(-this.moveSpeed.x, velocity.y);
+            //this.SetVelocity(-this.moveSpeed.x, velocity.y);
+            this.phys.applyForce([-this.moveSpeed.x, 0]);
         }
 
-        if(inputs.key === UP && this.CanJump())
+        if(inputs.up)
         {
-            this.SetVelocity(this.moveSpeed.x, this.jumpSpeed);
-            this.canJump = false;
+            //this.SetVelocity(this.moveSpeed.x, this.jumpSpeed);
+
+            if(this.CanJump())
+            {
+                consoleLog("Jump!");
+                this.phys.applyImpulse([0, this.jumpSpeed]);
+                this.canJump = false;
+            }
+            else
+            {
+                this.phys.applyForce([0, this.moveSpeed.y]);
+            }
+            
+        }
+        else if(inputs.down)
+        {
+            //this.SetVelocity(velocity.x, -this.moveSpeed.y);
+
+            this.phys.applyForce([0, -this.moveSpeed.y]);
+        }
+
+        if(inputs.interact && this.canInteract)
+        {
+            this.interactable.Interact();
         }
     }
 
+    SetInteractable(setInteractable)
+    {
+        if(setInteractable)
+        {
+            this.interactable = setInteractable;
+            this.canInteract = true;
+        }
+        else 
+        {
+            this.interactable = null;
+            this.canInteract = false;
+        }
+        
+    }
+    
+    AddOxygen(amount)
+    {
+        this.oxygen += amount;
+
+        if(this.oxygen >= this.oxygenMax)
+        {
+            this.oxygen = this.oxygenMax;            
+        }
+        
+        if(this.oxygen <= 0)
+        {
+            this.oxygen = 0;
+        }
+
+        if(this.oxygenMeter)
+        {
+            this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);
+        }
+    }
+
+
     Update(deltaTime)
     {
+        consoleLog("GET DIVER POS");
+        consoleLog(this.phys.position);
+
         this.pos = em.GetPosition(this);
+
+        consoleLog(this.pos);
+        var depletion = this.oxygenDepletion * deltaTime;
+
+        this.AddOxygen(-depletion);
     }
 
     Draw()
     {
         for(var i = 0; i < this.spriteList.length; i ++)
         {
-            sprite(this.spriteList[i].index, this.pos.x + this.spriteList[i].offset.x* PIXEL_SCALE , this.pos.y + this.spriteList[i].offset.y * PIXEL_SCALE, false, false, false);
+            sprite(this.spriteList[i].index, this.pos.x + this.spriteList[i].offset.x* PIXEL_SCALE , this.pos.y + this.spriteList[i].offset.y * PIXEL_SCALE);
+        }
+
+        if(this.canInteract)
+        {
+            sprite(this.interactPromptSpriteIndex, this.pos.x, this.pos.y - PIXEL_SCALE);
         }
 
         /*

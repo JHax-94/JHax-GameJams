@@ -1,5 +1,5 @@
 import p2 from "p2";
-import { consoleLog, UP, DOWN, LEFT, RIGHT, PIXEL_SCALE } from "./main";
+import { consoleLog, UP, DOWN, LEFT, RIGHT, INTERACT, PIXEL_SCALE } from "./main";
 
 export default class EntityManager
 {
@@ -27,19 +27,18 @@ export default class EntityManager
 
     DrawColliders(phys)
     {
-        //consoleLog(phys);
+        consoleLog(phys);
 
         for(var i = 0; i < phys.shapes.length; i ++)
         {
             var shape = phys.shapes[i];
 
-            var box = { x: phys.position[0] - 0.5*shape.width, y: -(phys.position[1]- 0.5*shape.height), width: shape.width, height: shape.height };
+            var box = { x: (phys.position[0]-(0.5*shape.width)), y: -(phys.position[1] + (0.5*shape.height)), width: shape.width, height: shape.height };
             
-            /*
+            
             consoleLog("Draw box");
             consoleLog(box);
-            */  
-
+            
             pen(42);
             rect(box.x, box.y, box.width, box.height);
         }
@@ -55,6 +54,11 @@ export default class EntityManager
                 break;
             }
         }
+    }
+
+    RemovePhys(physObj)
+    {
+        this.phys.removeBody(physObj.phys);
     }
 
     AddInput(obj)
@@ -76,11 +80,13 @@ export default class EntityManager
 
     AddPhys(obj, phys)
     {
+        consoleLog("ADDING PHYSICS");
+
         if(phys.tileTransform)
         {
             phys.position = [ 
-                (phys.tileTransform.x + 0.5*phys.tileTransform.w) * PIXEL_SCALE,
-                - (phys.tileTransform.y - 0.5*phys.tileTransform.h) * PIXEL_SCALE 
+                (phys.tileTransform.x + (0.5 * phys.tileTransform.w)) * PIXEL_SCALE,
+                - (phys.tileTransform.y + (0.5*phys.tileTransform.h) ) * PIXEL_SCALE 
             ];            
             phys.colliderRect = { width: phys.tileTransform.w * PIXEL_SCALE, height: phys.tileTransform.h * PIXEL_SCALE };
 
@@ -90,14 +96,17 @@ export default class EntityManager
         else if(phys.transform)
         {
             phys.position = [   
-                (phys.tileTransform.x + 0.5*phys.tileTransform.w),
-                - (phys.tileTransform.y + 0.5*phys.tileTransform.h) 
+                (phys.transform.x),
+                - (phys.transform.y) 
             ];
-            phys.colliderRect = { width: phys.tileTransform.w, height: phys.tileTransform.h };
+            phys.colliderRect = { width: phys.transform.w, height: phys.transform.h };
 
             obj.width = phys.colliderRect.width;
             obj.height = phys.colliderRect.height;
         }
+
+        consoleLog("ADD BODY");
+        consoleLog(phys);
 
         obj.phys = new p2.Body({
             mass: phys.mass,
@@ -125,10 +134,16 @@ export default class EntityManager
             collider.sensor = phys.isSensor;
         }
 
+        consoleLog("adding shape:");
+        consoleLog(collider);
+
         obj.phys.addShape(collider);
 
+        obj.phys.position = phys.position;
         consoleLog("Physics added!");
         consoleLog(obj);
+
+        
 
         this.phys.addBody(obj.phys);        
     }
@@ -186,8 +201,14 @@ export default class EntityManager
 
         return { 
             x: (physObj.phys.position[0] - 0.5 * physObj.width), 
-            y: -(physObj.phys.position[1] - 0.5 * physObj.height) 
+            y: -(physObj.phys.position[1] + 0.5 * physObj.height) 
         };
+    }
+
+    SetVelocity(physObj, velocity)
+    {
+        physObj.phys.velocity[0] = velocity.x;
+        physObj.phys.velocity[1] = velocity.y;
     }
 
     SetupPhys()
@@ -201,11 +222,31 @@ export default class EntityManager
 
                 diver.obj.canJump = true;
             }
+            else if(manager.CompareTags(evt, "DIVER", "CONTAINER"))
+            {
+                var diver = manager.BodyWithTag(evt, "DIVER");
+                var interactable = manager.BodyWithTag(evt, "CONTAINER");
+
+                diver.obj.SetInteractable(interactable.obj);
+            }
+            else if(manager.CompareTags(evt, "DIVER", "COLLECTABLE"))
+            {
+                var diver = manager.BodyWithTag(evt, "DIVER");
+                var collectable = manager.BodyWithTag(evt, "COLLECTABLE");
+
+                diver.obj.Collect(collectable.obj);
+            }
         });
 
         this.phys.on("endContact", function(evt)
         {
             // End collisions go here
+
+            if(manager.CompareTags(evt, "DIVER", "CONTAINER"))
+            {
+                var diver = manager.BodyWithTag(evt, "DIVER");
+                diver.obj.SetInteractable(null);
+            }
         });
 
         this.phys.on("postStep", function(evt)
@@ -226,17 +267,19 @@ export default class EntityManager
         {
             var dir = -1;
 
+            /*
             var input = { key: null };
 
             if(btnp.up || btnp.up_alt) input.key = UP;
             else if(btnp.right || btnp.right_alt) input.key = RIGHT;
             else if(btnp.down || btnp.down_alt) input.key = DOWN;
             else if(btnp.left || btnp.left_alt) input.key = LEFT;
-
             
+            if(btnp.interact) input.key = INTERACT;
+            */
             for(var i = 0; i < this.inputListeners.length; i ++)
             {
-                this.inputListeners[i].Input(input)
+                this.inputListeners[i].Input(btn);
             }
             
         }
@@ -254,6 +297,8 @@ export default class EntityManager
     {
         if(!this.pause)
         {
+            this.deltaTime = deltaTime;
+
             if(this.phys) 
             {
                 // Should trigger an update at end step;

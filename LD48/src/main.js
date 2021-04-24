@@ -7,6 +7,11 @@ import BubbleCluster from './BubbleCluster.js';
 import OxygenMeter from './OxygenMeter.js';
 import Chart from './Chart.js';
 
+var SEABED_COLLISION_TILES = [131, 132, 133, 134, 135, 148, 149, 150, 151 ];
+
+var CHEST_TILES = [ 3 ]
+var CLAM_TILES = [ 57 ]
+
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
 
@@ -62,15 +67,15 @@ function LoadChart()
 function LoadDive(diveCoordinates)
 {
     em = new EntityManager();
-    
+    em.drawColliders = true;
     tilesheet("tilesheet_dive");
 
     var seabed = new SeaBed("map");
     
-    var chest = new TreasureChest({ x: 9, y: 13}, 3, { type: "OXYGEN" });
-    var clam = new Clam({ x: 13, y: 13}, 57);
+    /*var chest = new TreasureChest({ x: 9, y: 13}, 3, { type: "OXYGEN" });
+    var clam = new Clam({ x: 13, y: 13}, 57);*/
     
-    var bubbles = new BubbleCluster({x: 6, y: 15});
+    //var bubbles = new BubbleCluster({x: 6, y: 15});
     
     var diver = new Diver(
         { x: 0, y: 0 }, 
@@ -81,8 +86,6 @@ function LoadDive(diveCoordinates)
             ]        
         },
         new OxygenMeter({x: 480, y: 60, w: 30, h: 400}));
-
-    //em.drawColliders = true;
 }
 
 function Setup()
@@ -115,7 +118,10 @@ export {
     em,
     PIXEL_SCALE,
     UP, DOWN, LEFT, RIGHT, INTERACT,
-    BUBBLE_SPRITES,
+    BUBBLE_SPRITES, 
+    SEABED_COLLISION_TILES,
+    CLAM_TILES,
+    CHEST_TILES,
     LoadDive,
     LoadChart,
     consoleLog

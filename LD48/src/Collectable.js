@@ -1,15 +1,19 @@
-import { consoleLog, em } from "./main";
+import { consoleLog, em, PIXEL_SCALE } from "./main";
 
 export default class Collectable 
 {
     constructor(spawnPosition, physParams)
     {
+        consoleLog("CONSTRUCT COLLECTABLE AT POSITION");
+        consoleLog(spawnPosition);
         var phys = {
-            tileTransform: { x: spawnPosition.x, y: spawnPosition.y, w: 1, h: 1},
+            transform: { x: spawnPosition.x, y: spawnPosition.y, w: PIXEL_SCALE, h: PIXEL_SCALE},
             isSensor: true,
             tag: "COLLECTABLE",
             mass: 0
         };
+
+        this.spriteIndex = 11;
 
         if(physParams)
         {
@@ -39,5 +43,11 @@ export default class Collectable
             em.RemovePhys(this);
             em.RemoveRender(this);
         }
+    }
+
+    Draw()
+    {
+        var position = em.GetPosition(this);
+        sprite(this.spriteIndex, position.x, position.y);
     }
 }

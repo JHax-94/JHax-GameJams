@@ -40,7 +40,7 @@ function Setup()
     
     var seabed = new SeaBed("map");
     
-    var chest = new TreasureChest({ x: 9, y: 13}, 3);
+    var chest = new TreasureChest({ x: 9, y: 13}, 3, { type: "OXYGEN" });
     var clam = new Clam({ x: 13, y: 13}, 57);
     
     var bubbles = new BubbleCluster({x: 6, y: 15});

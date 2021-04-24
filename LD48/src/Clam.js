@@ -1,4 +1,5 @@
 import Container from "./Container";
+import Pearl from "./Pearl";
 
 export default class Clam extends Container
 {
@@ -6,9 +7,17 @@ export default class Clam extends Container
     {
         super(position, spriteIndex);
     }    
-
+    
     Interact()
     {
-        this.spriteIndex = 56;
+        if(this.state === this._CLOSED)
+        {
+            this.spriteIndex = 56;
+            this.stat === this._OPENED;
+
+            var spawnPos = this.GetSpawnPosition();
+
+            new Pearl(spawnPos);
+        }        
     }
 }

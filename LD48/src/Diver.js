@@ -18,7 +18,7 @@ export default class Diver
         
         this.spriteList = diver.spriteList;
 
-        this.interactPromptSpriteIndex = 10;
+        this.interactPromptSpriteIndex = 25;
 
         this.pos = pos;
         
@@ -60,6 +60,9 @@ export default class Diver
     {
         if(collectable)
         {
+            consoleLog("Collecting: ");
+            consoleLog(collectable);
+
             collectable.CollectedBy(this);
         }
     }
@@ -83,6 +86,14 @@ export default class Diver
     CanJump()
     {
         return this.canJump;
+    }
+
+    AddMaxOxygen(increaseAmount)
+    {
+        this.oxygenMax += increaseAmount;
+        this.oxygen = this.oxygenMax;
+        
+        this.UpdateOxygenMeter();
     }
 
     Input(inputs)
@@ -127,6 +138,7 @@ export default class Diver
         if(inputs.interact && this.canInteract)
         {
             this.interactable.Interact();
+            this.SetInteractable(null);
         }
     }
 
@@ -145,6 +157,14 @@ export default class Diver
         
     }
     
+    UpdateOxygenMeter()
+    {
+        if(this.oxygenMeter)
+        {
+            this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);
+        }
+    }
+
     AddOxygen(amount)
     {
         this.oxygen += amount;
@@ -159,21 +179,19 @@ export default class Diver
             this.oxygen = 0;
         }
 
-        if(this.oxygenMeter)
-        {
-            this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);
-        }
+        this.UpdateOxygenMeter();
     }
 
 
     Update(deltaTime)
     {
+        /*
         consoleLog("GET DIVER POS");
         consoleLog(this.phys.position);
-
+        */
         this.pos = em.GetPosition(this);
 
-        consoleLog(this.pos);
+        //consoleLog(this.pos);
         var depletion = this.oxygenDepletion * deltaTime;
 
         this.AddOxygen(-depletion);

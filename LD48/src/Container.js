@@ -1,10 +1,15 @@
-import { em } from "./main";
+import { consoleLog, em } from "./main";
 
 export default class Container
 {
     constructor(position, sprite)
     {
         this.spriteIndex = sprite;
+
+        consoleLog("Construct tile container at ");
+        consoleLog(position);
+
+        consoleLog()
 
         var phys = {
             tileTransform: { 
@@ -15,7 +20,8 @@ export default class Container
             },
             isSensor: true,
             isKinematic: true,
-            tag: "CONTAINER"
+            tag: "CONTAINER",
+            mass: 1
         }
 
         em.AddPhys(this, phys);
@@ -24,8 +30,11 @@ export default class Container
 
     Draw()
     {
-        //consoleLog("DRAW CONTAINER");
+        consoleLog("GET CONTAINER POS");
         var position = em.GetPosition(this);
+
+        consoleLog(this.phys.position);
+        consoleLog(position);
         /*
         consoleLog(this);
         consoleLog(position);

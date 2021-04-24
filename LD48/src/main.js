@@ -37,7 +37,14 @@ function consoleLog(obj)
 function Setup()
 {
     em = new EntityManager();
-
+    
+    var seabed = new SeaBed("map");
+    
+    var chest = new TreasureChest({ x: 9, y: 13}, 3);
+    var clam = new Clam({ x: 13, y: 13}, 57);
+    
+    var bubbles = new BubbleCluster({x: 6, y: 15});
+    
     var diver = new Diver(
         { x: 0, y: 0 }, 
         {
@@ -48,17 +55,8 @@ function Setup()
         },
         new OxygenMeter({x: 480, y: 60, w: 30, h: 400}));
 
-    var seabed = new SeaBed("map");
-    
-    var chest = new TreasureChest({ x: 9, y: 13}, 3);
-    var clam = new Clam({ x: 13, y: 13}, 57);
-    
-    var bubbles = new BubbleCluster({x: 6, y: 15});
-
     em.drawColliders = true;
     
-
-
     LOAD_COMPLETE = true;
 
     consoleLog("setup complete!");

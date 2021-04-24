@@ -1,4 +1,4 @@
-import { em } from "./main";
+import { consoleLog, em } from "./main";
 
 export default class Collectable 
 {
@@ -7,7 +7,8 @@ export default class Collectable
         var phys = {
             tileTransform: { x: spawnPosition.x, y: spawnPosition.y, w: 1, h: 1},
             isSensor: true,
-            tag: "COLLECTABLE"
+            tag: "COLLECTABLE",
+            mass: 0
         };
 
         if(physParams)
@@ -22,6 +23,9 @@ export default class Collectable
 
         em.AddPhys(this, phys);
         em.AddRender(this);
+
+        consoleLog("Constructed collectable!");
+        consoleLog(this);
     }
 
     InternalCollect(diver) { }

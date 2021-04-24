@@ -1,9 +1,11 @@
-import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, INTERACT } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, DOWN, INTERACT } from "./main";
 
 export default class Diver
 {
     constructor(pos, diver, oxygenMeter)
     {   
+        consoleLog("CONSTRUCTING DIVER");
+
         if(oxygenMeter)
         {
             this.oxygenMeter = oxygenMeter;
@@ -26,9 +28,9 @@ export default class Diver
         this.canInteract = false;
         this.interactable = null;
 
-        this.moveSpeed = { x: 1*PIXEL_SCALE, y: 0.2*PIXEL_SCALE };
+        this.moveSpeed = { x: 10*PIXEL_SCALE, y: 10*PIXEL_SCALE };
 
-        this.jumpSpeed = 2 * PIXEL_SCALE;
+        this.jumpSpeed = 25 * PIXEL_SCALE;
         this.canJump = false;        
 
         var phys = {
@@ -87,22 +89,42 @@ export default class Diver
     {
         var velocity = this.GetVelocity();
 
-        if(inputs.key === RIGHT)
+        if(inputs.right)
         {
-            this.SetVelocity(this.moveSpeed.x, velocity.y);
+            consoleLog("MOVE RIGHT");
+            //this.SetVelocity(this.moveSpeed.x, velocity.y);
+            this.phys.applyForce([this.moveSpeed.x, 0])
         }
-        else if(inputs.key === LEFT)
+        else if(inputs.left)
         {
-            this.SetVelocity(-this.moveSpeed.x, velocity.y);
-        }
-
-        if(inputs.key === UP && this.CanJump())
-        {
-            this.SetVelocity(this.moveSpeed.x, this.jumpSpeed);
-            this.canJump = false;
+            //this.SetVelocity(-this.moveSpeed.x, velocity.y);
+            this.phys.applyForce([-this.moveSpeed.x, 0]);
         }
 
-        if(inputs.key === INTERACT && this.canInteract)
+        if(inputs.up)
+        {
+            //this.SetVelocity(this.moveSpeed.x, this.jumpSpeed);
+
+            if(this.CanJump())
+            {
+                consoleLog("Jump!");
+                this.phys.applyImpulse([0, this.jumpSpeed]);
+                this.canJump = false;
+            }
+            else
+            {
+                this.phys.applyForce([0, this.moveSpeed.y]);
+            }
+            
+        }
+        else if(inputs.down)
+        {
+            //this.SetVelocity(velocity.x, -this.moveSpeed.y);
+
+            this.phys.applyForce([0, -this.moveSpeed.y]);
+        }
+
+        if(inputs.interact && this.canInteract)
         {
             this.interactable.Interact();
         }
@@ -146,7 +168,12 @@ export default class Diver
 
     Update(deltaTime)
     {
+        consoleLog("GET DIVER POS");
+        consoleLog(this.phys.position);
+
         this.pos = em.GetPosition(this);
+
+        consoleLog(this.pos);
         var depletion = this.oxygenDepletion * deltaTime;
 
         this.AddOxygen(-depletion);

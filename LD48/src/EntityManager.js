@@ -27,19 +27,18 @@ export default class EntityManager
 
     DrawColliders(phys)
     {
-        //consoleLog(phys);
+        consoleLog(phys);
 
         for(var i = 0; i < phys.shapes.length; i ++)
         {
             var shape = phys.shapes[i];
 
-            var box = { x: phys.position[0] - 0.5*shape.width, y: -(phys.position[1]- 0.5*shape.height), width: shape.width, height: shape.height };
+            var box = { x: (phys.position[0]-(0.5*shape.width)), y: -(phys.position[1] + (0.5*shape.height)), width: shape.width, height: shape.height };
             
-            /*
+            
             consoleLog("Draw box");
             consoleLog(box);
-            */  
-
+            
             pen(42);
             rect(box.x, box.y, box.width, box.height);
         }
@@ -81,11 +80,13 @@ export default class EntityManager
 
     AddPhys(obj, phys)
     {
+        consoleLog("ADDING PHYSICS");
+
         if(phys.tileTransform)
         {
             phys.position = [ 
-                (phys.tileTransform.x + 0.5*phys.tileTransform.w) * PIXEL_SCALE,
-                - (phys.tileTransform.y - 0.5*phys.tileTransform.h) * PIXEL_SCALE 
+                (phys.tileTransform.x + (0.5 * phys.tileTransform.w)) * PIXEL_SCALE,
+                - (phys.tileTransform.y + (0.5*phys.tileTransform.h) ) * PIXEL_SCALE 
             ];            
             phys.colliderRect = { width: phys.tileTransform.w * PIXEL_SCALE, height: phys.tileTransform.h * PIXEL_SCALE };
 
@@ -95,14 +96,17 @@ export default class EntityManager
         else if(phys.transform)
         {
             phys.position = [   
-                (phys.tileTransform.x + 0.5*phys.tileTransform.w),
-                - (phys.tileTransform.y + 0.5*phys.tileTransform.h) 
+                (phys.transform.x),
+                - (phys.transform.y) 
             ];
-            phys.colliderRect = { width: phys.tileTransform.w, height: phys.tileTransform.h };
+            phys.colliderRect = { width: phys.transform.w, height: phys.transform.h };
 
             obj.width = phys.colliderRect.width;
             obj.height = phys.colliderRect.height;
         }
+
+        consoleLog("ADD BODY");
+        consoleLog(phys);
 
         obj.phys = new p2.Body({
             mass: phys.mass,
@@ -130,10 +134,16 @@ export default class EntityManager
             collider.sensor = phys.isSensor;
         }
 
+        consoleLog("adding shape:");
+        consoleLog(collider);
+
         obj.phys.addShape(collider);
 
+        obj.phys.position = phys.position;
         consoleLog("Physics added!");
         consoleLog(obj);
+
+        
 
         this.phys.addBody(obj.phys);        
     }
@@ -191,7 +201,7 @@ export default class EntityManager
 
         return { 
             x: (physObj.phys.position[0] - 0.5 * physObj.width), 
-            y: -(physObj.phys.position[1] - 0.5 * physObj.height) 
+            y: -(physObj.phys.position[1] + 0.5 * physObj.height) 
         };
     }
 
@@ -257,6 +267,7 @@ export default class EntityManager
         {
             var dir = -1;
 
+            /*
             var input = { key: null };
 
             if(btnp.up || btnp.up_alt) input.key = UP;
@@ -265,10 +276,10 @@ export default class EntityManager
             else if(btnp.left || btnp.left_alt) input.key = LEFT;
             
             if(btnp.interact) input.key = INTERACT;
-            
+            */
             for(var i = 0; i < this.inputListeners.length; i ++)
             {
-                this.inputListeners[i].Input(input)
+                this.inputListeners[i].Input(btn);
             }
             
         }

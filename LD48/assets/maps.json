@@ -5,7 +5,7 @@
 			"w": 16,
 			"h": 16,
 			"name": "map",
-			"sheet": "",
+			"sheet": "tilesheet",
 			"data": "!!.q"
 		}
 	]

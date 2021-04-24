@@ -1,0 +1,86 @@
+{
+	"_type": "Bleeper program",
+	"v": 1,
+	"s": [
+		{
+			"n": "moveWub",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "(YU(UU(RU(RU(XU([U(^U"
+		},
+		{
+			"n": "bubblePop",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "'lU'lU'lU'hU'hU'hU"
+		},
+		{
+			"n": "gotThing!",
+			"i": [
+				32,
+				0,
+				127,
+				1
+			],
+			"s": "&@U&@U&DU&DU&GU&GU&LU&LU&PU&PU&LU&LU&PU&PU&TU&TU&YU&YU&YU&YU&YU&YU"
+		},
+		{
+			"n": "gotPearl!!",
+			"i": [
+				53,
+				0,
+				127,
+				1
+			],
+			"s": "&BU&BU&BU&BU&B#&B#&BU&BU&FU&FU&IU&IU&NU&NU&NU&NU&N#&N#&NU&NU&SU&SU&VU&VU&[U&[U&[U&[U&[U&[U&[U&[U"
+		},
+		{
+			"n": "openThing",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": ")AU)?U)>U)>U)>U)=U)<U)<U)<U):U)8U)7U)8U);U)?U)CU)FU)HU)LU)MU"
+		},
+		{
+			"n": "moveBoat",
+			"i": [
+				53,
+				0,
+				127,
+				0
+			],
+			"s": "*m0*j6*h9*g<*g>*f@*f@*f?*f>*h<*l:*n7*n2*n~*n+"
+		},
+		{
+			"n": "goDive",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "*XU*cU*iU*sU*xU*{U*zU*zU*yU*wT*vT*vS*uR*uP*tN*sL*sH*sC*r>*r8*q1*q**q%*q$"
+		},
+		{
+			"n": "",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": ""
+		}
+	]
+}

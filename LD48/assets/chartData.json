@@ -1,0 +1,18 @@
+{
+	"chart": [
+		{
+			"location": { "x": 0, "y": 0 },
+			"depth": 100,
+			"components": [
+				{
+					"type": "CHEST",
+					"contents": "OXYGEN",
+				},
+				{
+					"type": "PEARL",
+					"wisdom": "Time flies like an arrow, fruit flies like a banana"
+				}
+			]
+		}
+	]
+}

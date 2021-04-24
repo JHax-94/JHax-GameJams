@@ -1,5 +1,5 @@
 import p2 from "p2";
-import { consoleLog, UP, DOWN, LEFT, RIGHT, PIXEL_SCALE } from "./main";
+import { consoleLog, UP, DOWN, LEFT, RIGHT, INTERACT, PIXEL_SCALE } from "./main";
 
 export default class EntityManager
 {
@@ -55,6 +55,11 @@ export default class EntityManager
                 break;
             }
         }
+    }
+
+    RemovePhys(physObj)
+    {
+        this.phys.removeBody(physObj.phys);
     }
 
     AddInput(obj)
@@ -190,6 +195,12 @@ export default class EntityManager
         };
     }
 
+    SetVelocity(physObj, velocity)
+    {
+        physObj.phys.velocity[0] = velocity.x;
+        physObj.phys.velocity[1] = velocity.y;
+    }
+
     SetupPhys()
     {
         var manager = this;
@@ -201,11 +212,31 @@ export default class EntityManager
 
                 diver.obj.canJump = true;
             }
+            else if(manager.CompareTags(evt, "DIVER", "CONTAINER"))
+            {
+                var diver = manager.BodyWithTag(evt, "DIVER");
+                var interactable = manager.BodyWithTag(evt, "CONTAINER");
+
+                diver.obj.SetInteractable(interactable.obj);
+            }
+            else if(manager.CompareTags(evt, "DIVER", "COLLECTABLE"))
+            {
+                var diver = manager.BodyWithTag(evt, "DIVER");
+                var collectable = manager.BodyWithTag(evt, "COLLECTABLE");
+
+                diver.obj.Collect(collectable.obj);
+            }
         });
 
         this.phys.on("endContact", function(evt)
         {
             // End collisions go here
+
+            if(manager.CompareTags(evt, "DIVER", "CONTAINER"))
+            {
+                var diver = manager.BodyWithTag(evt, "DIVER");
+                diver.obj.SetInteractable(null);
+            }
         });
 
         this.phys.on("postStep", function(evt)
@@ -232,7 +263,8 @@ export default class EntityManager
             else if(btnp.right || btnp.right_alt) input.key = RIGHT;
             else if(btnp.down || btnp.down_alt) input.key = DOWN;
             else if(btnp.left || btnp.left_alt) input.key = LEFT;
-
+            
+            if(btnp.interact) input.key = INTERACT;
             
             for(var i = 0; i < this.inputListeners.length; i ++)
             {
@@ -254,6 +286,8 @@ export default class EntityManager
     {
         if(!this.pause)
         {
+            this.deltaTime = deltaTime;
+
             if(this.phys) 
             {
                 // Should trigger an update at end step;

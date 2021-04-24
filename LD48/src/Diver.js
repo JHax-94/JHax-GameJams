@@ -1,4 +1,4 @@
-import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP } from "./main";
 
 export default class Diver
 {
@@ -7,15 +7,27 @@ export default class Diver
         this.spriteList = diver.spriteList;
 
         this.pos = pos;
+        
+        this.width = 0;
+        this.height = 0;
 
         this.moveSpeed = { x: 5, y: 1 };
 
-        
+        this.jumpSpeed = 8;
+        this.canJump = false;        
+
         var phys = {
+
+            tileTransform: { 
+                x: 0, 
+                y: 0, 
+                w: 1, 
+                h: 2
+            },
             isSensor: false,
             isKinematic: false,
             mass: 10,
-            tag: "DIVER"
+            tag: "DIVER",
         }
 
         em.AddPhys(this, phys);
@@ -40,7 +52,12 @@ export default class Diver
 
     GetScreenPos()
     {
-        return { x: this.phys.position[0], y: -this.phys.position[1] };
+        return { x: this.phys.position[0] - 0.5 * this.width, y: -(this.phys.position[1]-0.5*this.height) };
+    }
+
+    CanJump()
+    {
+        return this.canJump;
     }
 
     Input(inputs)
@@ -55,11 +72,17 @@ export default class Diver
         {
             this.SetVelocity(-this.moveSpeed.x, velocity.y);
         }
+
+        if(inputs.key === UP && this.CanJump())
+        {
+            this.SetVelocity(this.moveSpeed.x, this.jumpSpeed);
+            this.canJump = false;
+        }
     }
 
     Update(deltaTime)
     {
-        this.pos = this.GetScreenPos();
+        this.pos = em.GetPosition(this);
     }
 
     Draw()
@@ -68,6 +91,12 @@ export default class Diver
         {
             sprite(this.spriteList[i].index, this.pos.x + this.spriteList[i].offset.x* PIXEL_SCALE , this.pos.y + this.spriteList[i].offset.y * PIXEL_SCALE, false, false, false);
         }
+
+        /*
+        if(em.drawColliders)
+        {
+            em.DrawColliders(this.phys);
+        }*/
     }
 
 }

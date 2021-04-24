@@ -1,5 +1,6 @@
 import Diver from './Diver.js';
 import EntityManager from './EntityManager.js'
+import SeaBed from './SeaBed.js';
 
 var p2 = require('p2');
 
@@ -38,6 +39,12 @@ function Setup()
                 { index: 225, offset: { x: 0, y: 1}}
             ]        
         })
+
+    var seabed = new SeaBed("map");
+    
+    em.drawColliders = true;
+    
+
 
     LOAD_COMPLETE = true;
 

@@ -6,6 +6,7 @@ import Clam from './Clam.js';
 import BubbleCluster from './BubbleCluster.js';
 import OxygenMeter from './OxygenMeter.js';
 import Chart from './Chart.js';
+import DiveShip from './DiveShip.js';
 
 var SEABED_COLLISION_TILES = [131, 132, 133, 134, 135, 148, 149, 150, 151 ];
 
@@ -62,7 +63,7 @@ function LoadChart()
 {
     em = new EntityManager();
 
-    tilesheet("tilesheet");
+    tilesheet("tilesheet_chart");
     new Chart("chart", { x:0, y: 0 }, {x: 0, y: 0});
 }
 
@@ -79,8 +80,29 @@ function LoadDive(diveCoordinates)
     
     //var bubbles = new BubbleCluster({x: 6, y: 15});
     
+    var ship = new DiveShip(
+        {
+            x: 12,
+            y: 0,
+        },
+        [
+            { index: 194, offset: { x: 0, y: 0 }},
+            { index: 195, offset: { x: 1, y: 0 }},
+            { index: 196, offset: { x: 2, y: 0 }},
+            { index: 195, offset: { x: 3, y: 0 }},
+            { index: 195, offset: { x: 4, y: 0 }},
+            { index: 194, flipX: true, offset: { x: 5, y: 0 }},
+            { index: 197, offset: { x: 2, y: 1 }}
+        ],
+        {
+            x: 14,
+            y: 0,
+            w: 1,
+            h: 2
+        });
+
     var diver = new Diver(
-        { x: 0, y: 0 }, 
+        { x: 14, y: 1 }, 
         {
             spriteList: [
                 { index: 16, offset: { x: 0, y: 0}},

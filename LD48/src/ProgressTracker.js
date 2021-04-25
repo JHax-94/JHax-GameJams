@@ -1,3 +1,4 @@
+import { FrictionEquationPool } from "p2";
 import Chart from "./Chart";
 import { CLAM_TILES, consoleLog } from "./main";
 
@@ -11,6 +12,8 @@ export default class ProgressTracker
         this.chartDiscoveryData = [];
 
         this.retrievedPearls = [];
+        this.maps = [];
+        this.keys = [];
 
         this.diverUpgrades = [];
     }
@@ -30,6 +33,26 @@ export default class ProgressTracker
         return this.startTanks + this.oxygenUpgradesFound;
     }
 
+    GetMapCount()
+    {
+        return this.maps.length;
+    }
+
+    GetKeyCount(keyType)
+    {
+        var count = 0;
+
+        for(var i = 0; i < this.keys.length; i ++)
+        {
+            if(this.keys[i].keyType === keyType)
+            {
+                count ++;
+            }
+        }
+
+        return count;
+    }
+
     GetChartDiscovery(chartCoords)
     {
         var entry = null;
@@ -44,6 +67,83 @@ export default class ProgressTracker
         }
 
         return entry;
+    }
+
+    
+    SetSavedMaps(mapList)
+    {
+        for(var i = 0; i < mapList.length; i ++)
+        {
+            var mapFound = false;
+            var newMap = mapList[i];
+
+            for(var j = 0; j < this.maps.length; j ++)
+            {
+                var storedMap = this.maps[j];
+
+                if(newMap.targetTile.x === storedMap.targetTile.x && newMap.targetTile.y === storedMap.targetTile.y)
+                {
+                    mapFound = true;
+                    break;
+                }
+            }
+
+            if(!mapFound)
+            {
+                this.maps.push(newMap);
+
+                var chartDiscovery = this.GetChartDiscovery(newMap.targetTile);
+                var addToChartList = false;
+
+                if(chartDiscovery === null)
+                {
+                    var chartRecord = {};
+                    addToChartList = true;
+                    chartRecord.coords = { x: newMap.targetTile.x, y: newMap.targetTile.y };
+
+                    chartRecord.foundClamsCount = 0;
+                    chartRecord.foundChestsCount = 0;
+                    chartRecord.clams = [];
+                    chartRecord.chests = [];
+
+                    this.chartDiscoveryData.push(chartRecord);
+                }
+            }
+        }
+    }
+
+    SetSavedKeys(keyList)
+    {
+        for(var i = 0; i < keyList.length; i ++)
+        {
+            this.keys.push(keyList[i]);
+        }
+    }
+
+    SetSavedPearls(pearlList)
+    {
+        for(var i = 0; i < pearlList.length; i ++)
+        {
+            var pearlFound = false;
+
+            var newPearl = pearlList[i];
+
+            for(var j = 0; j < this.retrievedPearls.length; j ++)
+            {
+                var storedPearl = this.retrievedPearls[j];
+
+                if(newPearl.pearlId === storedPearl.pearlId)
+                {
+                    pearlFound = true;
+                    break;
+                }
+            }
+
+            if(!pearlFound)
+            {
+                this.retrievedPearls.push(newPearl);
+            }
+        }
     }
 
     SaveSeaBedProgress(seaBed)
@@ -67,7 +167,9 @@ export default class ProgressTracker
         // SAVE CLAM STATES
         chartRecord.clams = [];
         consoleLog("SAVE CLAMS");
-        consoleLog(seaBed.clams);        
+        consoleLog(seaBed.clams);      
+        var foundClamsCount = 0;
+        
         for(var i = 0; i < seaBed.clams.length; i ++)
         {
             var clam = seaBed.clams[i];
@@ -76,12 +178,19 @@ export default class ProgressTracker
                 coords: clam.initialTilePos,
                 state: clam.state
             });
+
+            if(clam.state === 1)
+            {
+                foundClamsCount ++;
+            }
         }
+        chartRecord.foundClamsCount = foundClamsCount;
 
         chartRecord.chests = [];
         consoleLog("SAVE CHESTS");
         consoleLog(seaBed.chests);
 
+        var foundChestsCount = 0;
         for(var i = 0; i < seaBed.chests.length; i ++)
         {
             var chest = seaBed.chests[i];
@@ -90,7 +199,16 @@ export default class ProgressTracker
                 coords: chest.initialTilePos,
                 state: chest.state
             });
+
+            if(chest.state === 1)
+            {
+                foundChestsCount ++;
+            }
         }
+
+        chartRecord.foundChestsCount = foundChestsCount;
+
+        chartRecord.contentsKnown = chartRecord.contentsKnown ? chartRecord.contentsKnown : (chartRecord.foundChestsCount > 0 || chartRecord.foundClamsCount > 0 || seaBed.minDepthReached);
 
         if(pushRecord)
         {

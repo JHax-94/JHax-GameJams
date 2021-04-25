@@ -17,6 +17,10 @@ export default class Diver
             this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);*/
         }
         
+        this.keys = [];
+        this.pearls = [];
+        this.maps = [];
+
         this.spriteList = diver.spriteList;
 
         this.interactPromptSpriteIndex = 25;

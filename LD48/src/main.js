@@ -77,12 +77,8 @@ function LoadChart()
     new Chart("chart", { x:0, y: 0 }, {x: 0, y: 0});
 }
 
-function LoadDive(diveCoordinates)
+function GetDiveData(tile)
 {
-    consoleLog("LOAD DIVE");
-    consoleLog(diveCoordinates);
-    em = new EntityManager();
-
     var chart = assets.chartData.chart;
 
     var chartEntry = null;
@@ -91,12 +87,23 @@ function LoadDive(diveCoordinates)
     {
         var chartLocation = chart[i].location;
 
-        if(chartLocation.x === diveCoordinates.x && chartLocation.y === diveCoordinates.y)
+        if(chartLocation.x === tile.x && chartLocation.y === tile.y)
         {
             chartEntry = chart[i];
             break;
         }
     }
+
+    return chartEntry;
+}
+
+function LoadDive(diveCoordinates)
+{
+    consoleLog("LOAD DIVE");
+    consoleLog(diveCoordinates);
+    em = new EntityManager();
+
+    var chartEntry = GetDiveData(diveCoordinates);
 
     em.drawColliders = true;
     tilesheet("tilesheet_dive");
@@ -186,6 +193,7 @@ export {
     DATA_STORE,
     OXYGEN_TANK_SPRITES,
     OXYGEN_CONF,
+    GetDiveData,
     LoadDive,
     LoadChart,
     consoleLog

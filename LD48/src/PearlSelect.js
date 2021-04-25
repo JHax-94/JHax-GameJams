@@ -1,9 +1,10 @@
+import { ContactEquation } from "p2";
 import ChartSheet from "./ChartSheet";
-import { em, PIXEL_SCALE } from "./main";
+import { consoleLog, em, PIXEL_SCALE } from "./main";
 
 export default class PearlSelect
 {
-    constructor(tileBounds, pearlData)
+    constructor(tileBounds, pearlData, collectedPearls)
     {
         this.excludeTiles = [
             { x:0, y: 3},
@@ -15,6 +16,15 @@ export default class PearlSelect
         this.tileBounds = tileBounds;
         this.pearlData = pearlData;
 
+        this.collectedPearls = collectedPearls;
+
+        this.pearlCollectedIndex = 37;
+        
+        consoleLog("PEARL DATA:");
+        consoleLog(pearlData);
+
+        consoleLog("COLLECTED PEARLS");
+        consoleLog(this.collectedPearls);
         this.highlightPos = null;
 
         em.AddRender(this);
@@ -32,7 +42,7 @@ export default class PearlSelect
         return { x: (x + this.tileBounds.x)*PIXEL_SCALE, y: (y + this.tileBounds.y)*PIXEL_SCALE };
     }
 
-    IsExludedTile(tile)
+    IsExcludedTile(tile)
     {
         var isExcluded = false;
 
@@ -70,7 +80,7 @@ export default class PearlSelect
             };    
         }
 
-        if(this.IsExludedTile(newHoverTile) || onOff === false)
+        if(this.IsExcludedTile(newHoverTile) || onOff === false)
         {
             this.hoverTile = null;
         }
@@ -78,81 +88,197 @@ export default class PearlSelect
         {
             this.hoverTile = newHoverTile;
             this.highlightPos = this.GetPearlTileScreenPosition(this.hoverTile.x, this.hoverTile.y);
+            /*
+            var hasPearl = false;
+
+            consoleLog("NEW HOVER TILE: ");
+            consoleLog(newHoverTile);
+            
+            var index = this.GetPearlIndex(newHoverTile);
+            consoleLog("INDEX: " + index);
+
+            consoleLog("CHECK LIST:");
+            consoleLog(this.collectedPearls);
+            for(var i = 0; i < this.collectedPearls.length; i ++)
+            {
+                if(this.collectedPearls[i].pearlId === index)
+                {
+                    hasPearl = true;
+                    break;
+                }
+            }
+
+            if(hasPearl)
+            {
+                consoleLog("HAS PEARL!");
+                this.hoverTile = newHoverTile;
+                this.highlightPos = this.GetPearlTileScreenPosition(this.hoverTile.x, this.hoverTile.y);
+            }
+            else 
+            {
+                this.hoverTile = null;
+            }*/
         }
     }
 
     GetPearlIndex(tile)
     {  
+        consoleLog("GET TILE INDEX TILE: ");
+        consoleLog(tile);
         var pearlIndex = -1;
 
-        for(var x = 0; x < this.tileBounds.w; x ++)
+        var tileFound = false;
+
+        for(var y = 0; y < this.tileBounds.h; y ++)
         {
-            for(var y = 0; y < this.tileBounds.h; y ++)
+            for(var x = 0; x < this.tileBounds.w; x ++)
             {
-                if(!this.IsExludedTile(x, y))
+                consoleLog("CHECK GRID: " + x + ", " + y);
+                if(!this.IsExcludedTile({x: x, y: y}))
                 {
+                    consoleLog("NOT EXCLUDED, INCREMENT PEARL INDEX");
                     pearlIndex ++;
+                    consoleLog(pearlIndex);
                 }
+
 
                 if(x == tile.x && y == tile.y)
                 {
+                    tileFound = true;
                     break;
                 }
             }
+
+            if(tileFound)
+            {
+                break;
+            }
         }
 
+        consoleLog("RETURN: " + pearlIndex);
+
         return pearlIndex;
+    }
+
+    GetPearlTile(index)
+    {
+        var tile = {};
+
+        var x = index % this.tileBounds.w;
+        var y = Math.floor(index / this.tileBounds.w);
+
+        //consoleLog(index + " FIRST GUESS: (" + x + ", " + y + ")");
+        
+        while(this.IsExcludedTile({x: x, y: y }))
+        {
+            index ++;
+            x = index % this.tileBounds.w;
+            y = Math.floor(index / this.tileBounds.w);
+
+            if(index > this.tileBounds.w * this.tileBounds.h)
+            {
+                break;
+            }
+        }
+        
+        tile.x = x;
+        tile.y = y;
+
+        /*
+        consoleLog("RETURN TILE:");
+        consoleLog(tile);
+        */
+        return tile;
     }
 
     Click(button)
     {
         var pearlIndex = this.GetPearlIndex(this.hoverTile);
 
-        
-
         if(pearlIndex >= 0)
         {
-            var pearl = this.pearlData[0];
+            var hasPearl = false;
+            consoleLog("Is PEARL: " + pearlIndex + " among collection?");
+            consoleLog(this.collectedPearls);
 
-            var components = [];
-
-            for(var i = 0; i < pearl.pearlText.length; i ++)
+            for(var i = 0; i < this.collectedPearls.length; i ++)
             {
-                components.push(
+                if(this.collectedPearls[i].pearlId === pearlIndex)
+                {
+                    hasPearl = true;
+                    break;
+                }
+            }   
+
+            if(hasPearl)
+            {
+                consoleLog("HAS PEARL!");
+                var pearl = null;
+                for(var i = 0; i < this.pearlData.length; i ++)
+                {
+                    if(this.pearlData[i].pearlId === pearlIndex)
                     {
-                        type: "Label",
-                        id: "PEARL_" + i,
-                        text: pearl.pearlText[i],
-                        pos: {x: 0.5, y: 0.5 + i },
-                        font: assets.charsets.large_font
-                    });
+                        pearl = this.pearlData[i];
+                        break;
+                    }
+                }
+
+                var components = [];
+
+                for(var i = 0; i < pearl.pearlText.length; i ++)
+                {
+                    components.push(
+                        {
+                            type: "Label",
+                            id: "PEARL_" + i,
+                            text: pearl.pearlText[i],
+                            pos: {x: 0.5, y: 0.5 + i },
+                            font: assets.charsets.large_font
+                        });
+                }
+
+                var pearlSheet = new ChartSheet(
+                    {
+                        x: 5,
+                        y: 3,
+                        w: 12,
+                        h: 3
+                    },
+                    {
+                        foreground: 34,
+                        shadow: 0,
+                        text: 53,
+                        hover: 32
+                    },
+                    components,
+                    true);
+
+                pearlSheet.logging = true;
             }
-
-            var pearlSheet = new ChartSheet(
-                {
-                    x: 5,
-                    y: 3,
-                    w: 12,
-                    h: 3
-                },
-                {
-                    foreground: 34,
-                    shadow: 0,
-                    text: 53,
-                    hover: 32
-                },
-                components,
-                true);
-
-            pearlSheet.logging = true;
         }
     }
 
     Draw()
     {
+        for(var i = 0; i < this.collectedPearls.length; i ++)
+        {
+            var pearl = this.collectedPearls[i];
+            /*
+            consoleLog("DRAW TILE");
+            consoleLog(pearl);
+            */
+            var pearlTile = this.GetPearlTile(pearl.pearlId);
+
+            //consoleLog(pearlTile);
+
+            sprite(this.pearlCollectedIndex, (this.tileBounds.x + pearlTile.x) * PIXEL_SCALE, (this.tileBounds.y + pearlTile.y) * PIXEL_SCALE);
+        }
+
         if(this.hoverTile)
         {
             sprite(this.pearlSelectIndex, this.highlightPos.x, this.highlightPos.y);
         }
+
+        
     }
 }

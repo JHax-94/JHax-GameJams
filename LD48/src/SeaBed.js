@@ -7,6 +7,8 @@ export default class SeaBed
 {
     constructor(chartEntry)
     {
+        //this.halfScreen = PIXEL_SCALE * 16;
+
         consoleLog("Load chart entry...");
         consoleLog(chartEntry);
 
@@ -15,6 +17,11 @@ export default class SeaBed
         this.map = getMap(this.chartEntry.seaBedMap);
         tilesheet(assets.tilesheet_dive);
 
+        var depth = this.chartEntry.depth;
+
+        this.maxCameraDepth = 0;
+        this.minCameraDepth = -(depth-16);
+
         this.stateData = DATA_STORE.GetChartDiscovery(chartEntry.location);
 
         if(!this.stateData)
@@ -22,7 +29,9 @@ export default class SeaBed
             this.stateData = {};
         }
 
-        this.mapPosition = { x: 0, y: 0 };
+        // If depth is 30, we want y to be zero
+
+        this.mapPosition = { x: 0, y: depth - 30 };
 
         //this.seaBedPos = { x: 0 , y: 30 };
         
@@ -193,6 +202,6 @@ export default class SeaBed
 
     Draw()
     {
-        draw(this.map, this.mapPosition.x * PIXEL_SCALE, this.mapPosition.y * PIXEL_SCALE);
+        draw(this.map, this.mapPosition.x * PIXEL_SCALE, this.mapPosition.y * PIXEL_SCALE + em.cameraDepth);
     }
 }

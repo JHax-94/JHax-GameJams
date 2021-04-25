@@ -9,6 +9,8 @@ export default class EntityManager
         this.frameCount = 0;
         this.bgColour = 15;
 
+        this.halfScreen = PIXEL_SCALE * 16;
+
         this.updates = [];
         this.renders = [];
         this.inputListeners = [];
@@ -22,6 +24,8 @@ export default class EntityManager
         this.clickables = [];
         this.hovers = [];
 
+        this.cameraDepth = 0;
+
         this.pause = false;
 
         this.phys = (!noPhys) ? new p2.World({gravity: [0, -4]}) : null;
@@ -32,6 +36,22 @@ export default class EntityManager
     AddClickable(clickable)
     {
         this.clickables.push(clickable);
+    }
+
+    MoveCamera(amount)
+    {
+        this.cameraDepth += amount;
+        
+        if(this.cameraDepth > this.seaBed.maxCameraDepth)
+        {
+            // consoleLog("Snap camera to max");
+            this.cameraDepth = this.seaBed.maxCameraDepth;
+        } 
+        else if(this.cameraDepth < this.seaBed.minCameraDepth)
+        {
+            // consoleLog("Snap camera to min");
+            this.cameraDepth = this.seaBed.minCameraDepth;
+        } 
     }
 
     AddUpdate(obj)
@@ -53,7 +73,7 @@ export default class EntityManager
             consoleLog(box);
             */
             pen(42);
-            rect(box.x, box.y, box.width, box.height);
+            rect(box.x, box.y + this.cameraDepth, box.width, box.height);
         }
     }
 
@@ -216,7 +236,7 @@ export default class EntityManager
 
         return { 
             x: (physObj.phys.position[0] - 0.5 * physObj.width), 
-            y: -(physObj.phys.position[1] + 0.5 * physObj.height) 
+            y: -(physObj.phys.position[1] + 0.5 * physObj.height) + this.cameraDepth
         };
     }
 

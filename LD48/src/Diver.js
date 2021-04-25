@@ -181,6 +181,22 @@ export default class Diver
         consoleLog(this.phys.position);
         */
         this.pos = em.GetPosition(this);
+        
+        var velocity = this.GetVelocity();
+        /*
+        consoleLog("Move camera?");
+        consoleLog(velocity);
+        consoleLog(this.pos);
+        consoleLog(em.halfScreen);*/
+
+        if(velocity.y < 0 && this.pos.y > em.halfScreen)
+        {
+            em.MoveCamera(-1);
+        }
+        else if(velocity.y > 0 && this.pos.y < em.halfScreen)
+        {
+            em.MoveCamera(1);
+        }
 
         //consoleLog(this.pos);
         var depletion = this.oxygenMeter.depletionRate * deltaTime;

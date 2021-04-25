@@ -114,13 +114,13 @@ function LoadDive(diveCoordinates)
             y: 0,
         },
         [
-            { index: 194, offset: { x: 0, y: 0 }},
+            { index: 194, offset: { x: -2, y: 0 }},
+            { index: 195, offset: { x: -1, y: 0 }},
+            { index: 196, offset: { x: 0, y: 0 }},
             { index: 195, offset: { x: 1, y: 0 }},
-            { index: 196, offset: { x: 2, y: 0 }},
-            { index: 195, offset: { x: 3, y: 0 }},
-            { index: 195, offset: { x: 4, y: 0 }},
-            { index: 194, flipX: true, offset: { x: 5, y: 0 }},
-            { index: 197, offset: { x: 2, y: 1 }}
+            { index: 195, offset: { x: 2, y: 0 }},
+            { index: 194, flipX: true, offset: { x: 3, y: 0 }},
+            { index: 197, offset: { x: 0, y: 1 }}
         ],
         {
             x: 14,

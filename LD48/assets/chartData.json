@@ -2,7 +2,7 @@
 	"chart": [
 		{
 			"location": { "x": 0, "y": 0 },
-			"depth": 100,
+			"depth": 30,
 			"seaBedMap": "startMap",
 			"components": [
 				{

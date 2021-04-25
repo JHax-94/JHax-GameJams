@@ -36,10 +36,14 @@ export default class DiveShip
 
     Draw()
     {
+        var pos = em.GetPosition(this);
+
         //consoleLog(this.spriteList);
         for(var i = 0; i < this.spriteList.length; i ++)
         {
-            sprite(this.spriteList[i].index, (this.tilePos.x + this.spriteList[i].offset.x)* PIXEL_SCALE , (this.tilePos.y + this.spriteList[i].offset.y) * PIXEL_SCALE, this.spriteList[i].flipX);
+            //sprite(this.spriteList[i].index, (this.tilePos.x + this.spriteList[i].offset.x)* PIXEL_SCALE , (this.tilePos.y + this.spriteList[i].offset.y) * PIXEL_SCALE, this.spriteList[i].flipX);
+
+            sprite(this.spriteList[i].index, pos.x + (this.spriteList[i].offset.x * PIXEL_SCALE), pos.y + (this.spriteList[i].offset.y * PIXEL_SCALE), this.spriteList[i].flipX);
         }
     }
 }

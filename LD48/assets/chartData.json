@@ -3,15 +3,18 @@
 		{
 			"location": { "x": 0, "y": 0 },
 			"depth": 100,
+			"seaBedMap": "map",
 			"components": [
 				{
-					"type": "CHEST",
-					"contents": "OXYGEN"
+					"type":"CHEST",
+					"contents":"OXYGEN",
+					"mapLoc": {"x":11,"y":29}
 				},
 				{
-					"type": "PEARL",
-					"wisdom": "Time flies like an arrow, fruit flies like a banana"
-				}
+					"type":"CLAM",
+					"pearlId":0,
+					"mapLoc":{"x":22,"y":29}
+				}				
 			]
 		},
 		{

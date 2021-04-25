@@ -36,8 +36,8 @@ export default class Diver
         var phys = {
 
             tileTransform: { 
-                x: 0, 
-                y: 0, 
+                x: this.pos.x, 
+                y: this.pos.y, 
                 w: 1, 
                 h: 2
             },

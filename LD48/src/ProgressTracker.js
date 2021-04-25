@@ -15,6 +15,8 @@ export default class ProgressTracker
         this.maps = [];
         this.keys = [];
 
+        this.jetCount = 0;
+
         this.diverUpgrades = [];
     }
 
@@ -56,6 +58,19 @@ export default class ProgressTracker
     GetKeys()
     {
         return this.keys;
+    }
+
+    SaveJet(diver)
+    {
+        if(this.jetCount === 0 && diver.hasJet)
+        {
+            this.jetCount = 1;
+        }
+    }
+
+    GetJetCount()
+    {
+        return this.jetCount;
     }
 
     GetChartDiscovery(chartCoords)
@@ -134,7 +149,7 @@ export default class ProgressTracker
                 if(this.keys[j].keyType === usedKeyList[i].keyType)
                 {
                     this.keys.splice(j, 1);
-                    break
+                    break;
                 }
             }
         }

@@ -1,5 +1,5 @@
 import InventoryItem from "./InventoryItem";
-import { em } from "./main";
+import { em, JET_SPRITE } from "./main";
 
 export default class InventoryDisplay
 {
@@ -11,7 +11,7 @@ export default class InventoryDisplay
         this.rowSpacing = 1;
 
         this.oxygenDisplay = new InventoryItem(this.GetTileRect(0), 142, dataStore.GetOxygenUpgrades());
-        this.boosterDisplay = new InventoryItem(this.GetTileRect(1), 158, 0);
+        this.boosterDisplay = new InventoryItem(this.GetTileRect(1), JET_SPRITE, dataStore.GetJetCount());
         this.o2CanisterDisplay = new InventoryItem(this.GetTileRect(2), 126, 0);
         this.treasureMapDisplay = new InventoryItem(this.GetTileRect(3), 110, dataStore.GetMapCount());
         this.redKeyDisplay = new InventoryItem(this.GetTileRect(4), 190, dataStore.GetKeyCount("RED"));

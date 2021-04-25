@@ -1,4 +1,5 @@
 import Container from "./Container";
+import Jet from "./Jet";
 import KeyCollectable from "./KeyCollectable";
 import { consoleLog } from "./main";
 import OxygenUpgrade from './OxygenUpgrade.js'
@@ -55,6 +56,10 @@ export default class TreasureChest extends Container
             else if(this.contents.type === "MAP")
             {
                 var map = new TreasureMap(spawnPos, this.contents);
+            }
+            else if(this.contents.type === "JET")
+            {
+                var jet = new Jet(spawnPos);
             }
         }
     }

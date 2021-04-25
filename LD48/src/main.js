@@ -13,6 +13,8 @@ var SEABED_COLLISION_TILES = [131, 132, 133, 134, 135, 148, 149, 150, 151 ];
 
 var OXYGEN_TANK_SPRITES = { top: 125, mid: 141, bottom: 157 };
 
+var JET_SPRITE =  158 ;
+
 var OXYGEN_CONF = {
     oxygenPerTank: 18,
     depletionRate: 1
@@ -204,7 +206,7 @@ export {
     OXYGEN_TANK_SPRITES,
     OXYGEN_CONF,
     LOCKED_DOOR_TILES,
-    RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE,
+    RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE, JET_SPRITE,
     GetDiveData,
     LoadDive,
     LoadChart,

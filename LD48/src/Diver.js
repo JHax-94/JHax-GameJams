@@ -18,7 +18,11 @@ export default class Diver
             this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);*/
         }
         
+        this.jetMultiplier = 1;
+
         var storedKeys = DATA_STORE.GetKeys();
+
+        this.hasJet = DATA_STORE.GetJetCount() > 0;
 
         var baseOffset = { x: 0.5, y: 0.5 };
         this.redKeyLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y }, RED_KEY_SPRITE, 0);
@@ -158,6 +162,11 @@ export default class Diver
         }
     }
 
+    AddJet()
+    {
+        this.hasJet = true;
+    }
+
     UseKey(keyType)
     {
         var keyArray = [];
@@ -199,17 +208,26 @@ export default class Diver
     Input(inputs)
     {
         //var velocity = this.GetVelocity();
+        
+        if(inputs.jet && this.hasJet)
+        {
+            this.jetMultiplier = 10;
+        }
+        else
+        {
+            this.jetMultiplier = 1;
+        }
 
         if(inputs.right)
         {
             //consoleLog("MOVE RIGHT");
             //this.SetVelocity(this.moveSpeed.x, velocity.y);
-            this.phys.applyForce([this.moveSpeed.x, 0])
+            this.phys.applyForce([this.moveSpeed.x * this.jetMultiplier, 0])
         }
         else if(inputs.left)
         {
             //this.SetVelocity(-this.moveSpeed.x, velocity.y);
-            this.phys.applyForce([-this.moveSpeed.x, 0]);
+            this.phys.applyForce([-this.moveSpeed.x * this.jetMultiplier, 0]);
         }
 
         if(inputs.up)
@@ -224,7 +242,7 @@ export default class Diver
             }
             else
             {
-                this.phys.applyForce([0, this.moveSpeed.y]);
+                this.phys.applyForce([0, this.moveSpeed.y * this.jetMultiplier]);
             }
             
         }
@@ -232,7 +250,7 @@ export default class Diver
         {
             //this.SetVelocity(velocity.x, -this.moveSpeed.y);
 
-            this.phys.applyForce([0, -this.moveSpeed.y]);
+            this.phys.applyForce([0, -this.moveSpeed.y * this.jetMultiplier]);
         }
 
         if(inputs.interact && this.canInteract)
@@ -301,7 +319,7 @@ export default class Diver
         }
 
         //consoleLog(this.pos);
-        var depletion = this.oxygenMeter.depletionRate * deltaTime;
+        var depletion = this.oxygenMeter.depletionRate * this.jetMultiplier * deltaTime;
 
         this.AddOxygen(-depletion);
     }

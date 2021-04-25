@@ -356,6 +356,7 @@ export default class EntityManager
                 DATA_STORE.SetSavedMaps(this.diver.maps);
                 DATA_STORE.SetSavedKeys(this.diver.keys);
                 DATA_STORE.SetUsedKeys(this.diver.usedKeys);
+                DATA_STORE.SaveJet(this.diver);
                 DATA_STORE.SetSavedPearls(this.diver.pearls);
             }   
 

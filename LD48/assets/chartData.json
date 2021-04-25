@@ -6,7 +6,7 @@
 			"components": [
 				{
 					"type": "CHEST",
-					"contents": "OXYGEN",
+					"contents": "OXYGEN"
 				},
 				{
 					"type": "PEARL",

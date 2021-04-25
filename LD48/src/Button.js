@@ -19,6 +19,8 @@ export default class Button
         this.listener = listener;
 
         this.text = new Label(this.GetLabelPos(), text, colours.text);
+
+        this.text.font = assets.charsets.large_font;
     }
 
     Hover(isHover)

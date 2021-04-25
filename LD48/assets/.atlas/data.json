@@ -1,0 +1,17 @@
+{
+	"_type": "spritesheets",
+	"spritesheets": {
+		"charsets": {
+			"_type": "spritesheet",
+			"_meta": {
+				"image": "0",
+				"defaultWidth": 128,
+				"defaultHeight": 48
+			},
+			"large_font": {
+				"x": 0,
+				"y": 0
+			}
+		}
+	}
+}

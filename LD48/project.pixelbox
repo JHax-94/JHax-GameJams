@@ -77,7 +77,7 @@
 	},
 	"buildOptions": {
 		"scriptLanguage": "ES6",
-		"hasAtlas": false,
+		"hasAtlas": true,
 		"mangle": [],
 		"globals": {}
 	}

@@ -12,11 +12,20 @@ export default class Label
 
         //this.z = 200;
 
+        this.font = null;
+
         em.AddRender(this);
     }
 
     Draw()
     {
+        if(this.font)
+        {
+            consoleLog(this.font);
+        }
+
+        $screen.setCharset(this.font);
+
         if(this.logging)
         {
             consoleLog("RENDER LABEL");

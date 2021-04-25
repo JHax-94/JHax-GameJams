@@ -22,17 +22,16 @@ export default class DiveShip
 
         em.AddRender(this);
         em.AddPhys(this, physParams);
-
     }
 
     Interact()
     {
-        em.EndLevel();
+        em.EndLevel(true);
     }
-    
+
     Draw()
     {
-        consoleLog(this.spriteList);
+        //consoleLog(this.spriteList);
         for(var i = 0; i < this.spriteList.length; i ++)
         {
             sprite(this.spriteList[i].index, (this.tilePos.x + this.spriteList[i].offset.x)* PIXEL_SCALE , (this.tilePos.y + this.spriteList[i].offset.y) * PIXEL_SCALE, this.spriteList[i].flipX);

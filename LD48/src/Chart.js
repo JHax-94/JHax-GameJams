@@ -1,6 +1,7 @@
 import Button from "./Button";
 import ChartSheet from "./ChartSheet";
-import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA } from "./main";
+import InventoryDisplay from "./InventoryDisplay";
+import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA, DATA_STORE } from "./main";
 import Pearl from "./Pearl";
 import PearlSelect from "./PearlSelect";
 import PlayerShip from './PlayerShip.js';
@@ -29,6 +30,8 @@ export default class Chart
 
         this.topLeft = { x: 2, y: 2 };
         
+        this.dataStore = DATA_STORE;
+
         this.dataSheet = new ChartSheet(
             { x: mapOffset.x + 1, y: mapOffset.y + this.chartBounds.h + 1, w: 5, h: 4.5 },
             { foreground: 34, text: 51 },
@@ -83,6 +86,8 @@ export default class Chart
                 h: pearlBounds.h
             },
             PEARL_DATA)
+
+        this.inventory = new InventoryDisplay({ x: 16, y: 2 }, this.dataStore);
 
         this.lastMousePos = { x: 0, y: 0 };
         this.hover = false;

@@ -9,11 +9,12 @@ export default class Diver
         if(oxygenMeter)
         {
             this.oxygenMeter = oxygenMeter;
+            /*
             this.oxygenMax = 100;
             this.oxygenDepletion = 1;
             this.oxygen = this.oxygenMax;
 
-            this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);
+            this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);*/
         }
         
         this.spriteList = diver.spriteList;
@@ -90,10 +91,7 @@ export default class Diver
 
     AddMaxOxygen(increaseAmount)
     {
-        this.oxygenMax += increaseAmount;
-        this.oxygen = this.oxygenMax;
-        
-        this.UpdateOxygenMeter();
+        this.oxygenMeter.UpgradeOxygen();
     }
 
     Input(inputs)
@@ -156,31 +154,18 @@ export default class Diver
         }
         
     }
-    
+    /*
     UpdateOxygenMeter()
     {
         if(this.oxygenMeter)
         {
             this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);
         }
-    }
+    }*/
 
     AddOxygen(amount)
     {
-        this.oxygen += amount;
-
-        if(this.oxygen >= this.oxygenMax)
-        {
-            this.oxygen = this.oxygenMax;            
-        }
-        
-        if(this.oxygen <= 0)
-        {
-            this.oxygen = 0;
-            em.EndLevel();
-        }
-
-        this.UpdateOxygenMeter();
+        this.oxygenMeter.AddOxygen(amount);
     }
 
 
@@ -193,7 +178,7 @@ export default class Diver
         this.pos = em.GetPosition(this);
 
         //consoleLog(this.pos);
-        var depletion = this.oxygenDepletion * deltaTime;
+        var depletion = this.oxygenMeter.depletionRate * deltaTime;
 
         this.AddOxygen(-depletion);
     }

@@ -1,5 +1,5 @@
 import p2 from "p2";
-import { consoleLog, UP, DOWN, LEFT, RIGHT, INTERACT, PIXEL_SCALE, em, LoadChart } from "./main";
+import { consoleLog, UP, DOWN, LEFT, RIGHT, INTERACT, PIXEL_SCALE, em, LoadChart, DATA_STORE } from "./main";
 
 export default class EntityManager
 {
@@ -12,6 +12,10 @@ export default class EntityManager
         this.updates = [];
         this.renders = [];
         this.inputListeners = [];
+
+        this.seaBed = null;
+
+        this.diver = null;
 
         this.trackMouse = false;
 
@@ -310,8 +314,16 @@ export default class EntityManager
         }
     }
 
-    EndLevel()
+    EndLevel(saveProgress)
     {
+        if(saveProgress)
+        {
+            if(this.diver)
+            {
+                DATA_STORE.SetSavedTanks(this.diver.oxygenMeter.tankSize);
+            }   
+        }
+
         LoadChart();
     }
 

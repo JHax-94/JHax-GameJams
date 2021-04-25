@@ -7,8 +7,16 @@ import BubbleCluster from './BubbleCluster.js';
 import OxygenMeter from './OxygenMeter.js';
 import Chart from './Chart.js';
 import DiveShip from './DiveShip.js';
+import ProgressTracker from './ProgressTracker.js';
 
 var SEABED_COLLISION_TILES = [131, 132, 133, 134, 135, 148, 149, 150, 151 ];
+
+var OXYGEN_TANK_SPRITES = { top: 125, mid: 141, bottom: 157 };
+
+var OXYGEN_CONF = {
+    oxygenPerTank: 18,
+    depletionRate: 1
+}
 
 var CHEST_TILES = [ 3 ]
 var CLAM_TILES = [ 57 ]
@@ -17,6 +25,8 @@ var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
 
 var PEARL_DATA;
+
+var DATA_STORE = null;
 
 var UP = 1;
 var DOWN = 2;
@@ -73,7 +83,7 @@ function LoadDive(diveCoordinates)
     em.drawColliders = true;
     tilesheet("tilesheet_dive");
 
-    var seabed = new SeaBed("map");
+    em.seaBed = new SeaBed("map");
     
     /*var chest = new TreasureChest({ x: 9, y: 13}, 3, { type: "OXYGEN" });
     var clam = new Clam({ x: 13, y: 13}, 57);*/
@@ -101,7 +111,7 @@ function LoadDive(diveCoordinates)
             h: 2
         });
 
-    var diver = new Diver(
+    em.diver = new Diver(
         { x: 14, y: 1 }, 
         {
             spriteList: [
@@ -109,12 +119,18 @@ function LoadDive(diveCoordinates)
                 { index: 48, offset: { x: 0, y: 1}}
             ]        
         },
-        new OxygenMeter({x: 480, y: 60, w: 30, h: 400}));
+        new OxygenMeter({x: 30, y: 1, w: 1, h: 1}, DATA_STORE.GetOxygenTanks()));
+}
+
+function InitialiseDataStore()
+{
+    DATA_STORE = new ProgressTracker();    
 }
 
 function Setup()
 {
     PEARL_DATA = assets.pearlData.pearls;
+    InitialiseDataStore();
 
     LoadChart();
 
@@ -149,6 +165,9 @@ export {
     CLAM_TILES,
     CHEST_TILES,
     PEARL_DATA,
+    DATA_STORE,
+    OXYGEN_TANK_SPRITES,
+    OXYGEN_CONF,
     LoadDive,
     LoadChart,
     consoleLog

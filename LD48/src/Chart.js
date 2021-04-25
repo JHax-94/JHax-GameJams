@@ -1,7 +1,7 @@
 import Button from "./Button";
 import ChartSheet from "./ChartSheet";
 import InventoryDisplay from "./InventoryDisplay";
-import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA, DATA_STORE, GetDiveData } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA, DATA_STORE, GetDiveData, ResetGame } from "./main";
 import Pearl from "./Pearl";
 import PearlSelect from "./PearlSelect";
 import PlayerShip from './PlayerShip.js';
@@ -69,6 +69,12 @@ export default class Chart
             "DIVE",
             this);
 
+        new Button({ x: 24, y: 1, w: 6, h: 1 },
+            "Reset Save",
+            { shadow: 0, foreground: 34, text: 51, hover: 32 },
+            "RESET",
+            this);
+
         this.playerShip = new PlayerShip(this, shipPosition);
 
         var pearlBounds = {
@@ -130,6 +136,10 @@ export default class Chart
             if(button.type === "DIVE")
             {
                 LoadDive(this.playerShip.chartPos);
+            }
+            else if(button.type === "RESET")
+            {
+                ResetGame();
             }
         }
     }

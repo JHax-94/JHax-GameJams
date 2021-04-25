@@ -4,22 +4,38 @@ import { CLAM_TILES, consoleLog } from "./main";
 
 export default class ProgressTracker
 {
-    constructor()
+    constructor(saveData)
     {
-        this.startTanks = 3;
-        this.oxygenUpgradesFound = 0;
+        if(saveData)
+        {
+            this.startTanks = saveData.startTanks;
+            this.oxygenUpgradesFound = saveData.oxygenUpgradesFound;
+            this.chartDiscoveryData = saveData.chartDiscoveryData;
+            this.retrievedPearls = saveData.retrievedPearls;
+            this.maps = saveData.maps;
+            this.keys = saveData.keys;
+            this.oxygenTopUp = saveData.oxygenTopUp;
+            this.jetCount = saveData.jetCount;
+            this.diverUpgrades = saveData.diverUpgrades;
+        }
+        else
+        {
+            this.startTanks = 3;
+            this.oxygenUpgradesFound = 0;
 
-        this.chartDiscoveryData = [];
+            this.chartDiscoveryData = [];
 
-        this.retrievedPearls = [];
-        this.maps = [];
-        this.keys = [ { keyType: "RED" }, { keyType: "GREEN" }, { keyType: "PURPLE" }];
+            this.retrievedPearls = [];
+            this.maps = [];
+            this.keys = [ { keyType: "RED" }, { keyType: "GREEN" }, { keyType: "PURPLE" }];
 
-        this.oxygenTopUp = 0;
+            this.oxygenTopUp = 0;
 
-        this.jetCount = 0;
+            this.jetCount = 0;
 
-        this.diverUpgrades = [];
+            this.diverUpgrades = [];
+        }
+        
     }
 
     SetSavedTanks(amount)
@@ -265,5 +281,10 @@ export default class ProgressTracker
         consoleLog("SAVED STATE");
         consoleLog(chartRecord);
         consoleLog(this.chartDiscoveryData);
+    }
+
+    Persist()
+    {
+        localStorage.setItem('LD48_PEARLS_OF_WISDOM', JSON.stringify(this));
     }
 }

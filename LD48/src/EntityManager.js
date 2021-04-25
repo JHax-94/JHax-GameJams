@@ -368,6 +368,7 @@ export default class EntityManager
 
             consoleLog("======== PROGRESS SAVED =========");
             consoleLog(DATA_STORE);
+            DATA_STORE.Persist();
         }
 
         LoadChart();

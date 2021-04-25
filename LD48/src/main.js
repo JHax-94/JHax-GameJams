@@ -9,6 +9,8 @@ import Chart from './Chart.js';
 import DiveShip from './DiveShip.js';
 import ProgressTracker from './ProgressTracker.js';
 
+var STORAGE_KEY = 'LD48_PEARLS_OF_WISDOM';
+
 var SEABED_COLLISION_TILES = [131, 132, 133, 134, 135, 148, 149, 150, 151 ];
 
 var OXYGEN_TANK_SPRITES = { top: 125, mid: 141, bottom: 157 };
@@ -112,6 +114,12 @@ function GetDiveData(tile)
     return chartEntry;
 }
 
+function ResetGame()
+{
+    localStorage.removeItem(STORAGE_KEY);
+    Setup();
+}
+
 function LoadDive(diveCoordinates)
 {
     consoleLog("LOAD DIVE");
@@ -164,14 +172,23 @@ function LoadDive(diveCoordinates)
 
 function InitialiseDataStore()
 {
-    DATA_STORE = new ProgressTracker();    
+    var saveData = localStorage.getItem(STORAGE_KEY);
+
+    if(typeof(saveData)=='undefined')
+    {
+        DATA_STORE = new ProgressTracker();   
+    }
+    else
+    {
+        DATA_STORE = new ProgressTracker(JSON.parse(saveData));
+    }
 }
 
 function Setup()
 {
     PEARL_DATA = assets.pearlData.pearls;
     InitialiseDataStore();
-
+    
     LoadChart();
 
     LOAD_COMPLETE = true;
@@ -210,6 +227,8 @@ export {
     OXYGEN_CONF,
     LOCKED_DOOR_TILES,
     RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE, JET_SPRITE, OXYGEN_TOP_UP, TOP_UP_SPRITE,
+    STORAGE_KEY,
+    ResetGame,
     GetDiveData,
     LoadDive,
     LoadChart,

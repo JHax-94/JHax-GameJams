@@ -6,14 +6,29 @@ export default class Clam extends Container
     constructor(position, spriteIndex)
     {
         super(position, spriteIndex);
+
+        this.closedSprite = 57;
+        this.openedSprite = 56;
     }    
     
+    SetState(state)
+    {
+        this.state = state;
+        if(state === this._CLOSED)
+        {
+            this.spriteIndex = this.closedSprite;
+        }
+        else if(state === this._OPENED)
+        {
+            this.spriteIndex = this.openedSprite;
+        }
+    }
+
     Interact()
     {
         if(this.state === this._CLOSED)
         {
-            this.spriteIndex = 56;
-            this.stat === this._OPENED;
+            this.SetState(this._OPENED);
 
             var spawnPos = this.GetSpawnPosition();
 

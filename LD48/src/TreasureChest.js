@@ -9,6 +9,22 @@ export default class TreasureChest extends Container
         super(position, spriteIndex);
 
         this.contents = contents;
+        this.openedSprite = 2;
+        this.closedSprite = 3;
+    }
+
+    SetState(state)
+    {
+        this.state = state;
+
+        if(state === this._OPENED)
+        {
+            this.spriteIndex = this.openedSprite;
+        }
+        else if(state === this._CLOSED)
+        {
+            this.spriteIndex = this.closedSprite;
+        }
     }
 
     Interact()
@@ -17,7 +33,8 @@ export default class TreasureChest extends Container
 
         if(this.state === this._CLOSED)
         {
-            this.spriteIndex = 2;
+            this.SetState(this._OPENED);
+
             if(this.contents.type === "OXYGEN")
             {
                 consoleLog("SPAWN OXYGEN UPGRADE");

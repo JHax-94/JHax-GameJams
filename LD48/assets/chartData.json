@@ -3,7 +3,7 @@
 		{
 			"location": { "x": 0, "y": 0 },
 			"depth": 100,
-			"seaBedMap": "map",
+			"seaBedMap": "startMap",
 			"components": [
 				{
 					"type":"CHEST",

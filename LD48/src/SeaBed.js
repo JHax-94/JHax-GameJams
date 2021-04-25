@@ -1,15 +1,26 @@
 import BedTile from "./BedTile";
 import TreasureChest from './TreasureChest';
 import Clam from './Clam';
-import { CHEST_TILES, CLAM_TILES, consoleLog, em, PIXEL_SCALE, SEABED_COLLISION_TILES } from "./main";
+import { CHEST_TILES, CLAM_TILES, consoleLog, DATA_STORE, em, PIXEL_SCALE, SEABED_COLLISION_TILES } from "./main";
 
 export default class SeaBed
 {
-    constructor(mapName)
+    constructor(chartEntry)
     {
-        this.mapName = mapName;
-        this.map = getMap(mapName);
+        consoleLog("Load chart entry...");
+        consoleLog(chartEntry);
+
+        this.chartEntry = chartEntry;
+        this.mapName = chartEntry.seaBedMap;
+        this.map = getMap(this.chartEntry.seaBedMap);
         tilesheet(assets.tilesheet_dive);
+
+        this.stateData = DATA_STORE.GetChartDiscovery(chartEntry.location);
+
+        if(!this.stateData)
+        {
+            this.stateData = {};
+        }
 
         this.mapPosition = { x: 0, y: 0 };
 
@@ -74,6 +85,25 @@ export default class SeaBed
         consoleLog(JSON.stringify(clamLog));
     }
 
+    GetSavedComponent(mapLoc, saveList)
+    {
+        var savedComp = null;
+
+        if(saveList)
+        {
+            for(var i = 0; i < saveList.length; i ++)
+            {
+                if(saveList[i].coords.x === mapLoc.x && saveList[i].coords.y === mapLoc.y)
+                {
+                    savedComp = saveList[i];
+                    break;
+                }
+            }
+        }        
+
+        return savedComp;
+    }
+
     LoadMapData()
     {
         for(var i = 0; i < SEABED_COLLISION_TILES.length; i ++)
@@ -132,14 +162,32 @@ export default class SeaBed
         {
             var tile = this.chestMapData[i];
 
-            this.chests.push(new TreasureChest({x: this.mapPosition.x + tile.x, y: this.mapPosition.y + tile.y }, tile.index, { type: "OXYGEN" }));
+            var newChest = new TreasureChest({x: this.mapPosition.x + tile.x, y: this.mapPosition.y + tile.y }, tile.index, { type: "OXYGEN" });
+
+            var savedChest = this.GetSavedComponent(tile, this.stateData.chests);
+
+            if(savedChest)
+            {
+                newChest.SetState(savedChest.state);
+            }
+            
+            this.chests.push(newChest);
         }
 
         for(var i = 0; i < this.clamMapData.length; i++)
         {
             var tile = this.clamMapData[i];
 
-            this.clams.push(new Clam({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y }, tile.index));
+            var newClam = new Clam({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y }, tile.index);
+
+            var savedClam = this.GetSavedComponent(tile, this.stateData.clams);
+
+            if(savedClam)
+            {
+                newClam.SetState(savedClam.state);
+            }
+            
+            this.clams.push(newClam);
         }
     }
 

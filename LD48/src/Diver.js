@@ -144,8 +144,13 @@ export default class Diver
     {
         if(setInteractable)
         {
-            this.interactable = setInteractable;
-            this.canInteract = true;
+            consoleLog("Set ineractable");
+            consoleLog(setInteractable);
+            if(setInteractable.CanInteract())
+            {
+                this.interactable = setInteractable;
+                this.canInteract = true;
+            }
         }
         else 
         {

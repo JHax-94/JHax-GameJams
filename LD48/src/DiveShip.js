@@ -29,6 +29,11 @@ export default class DiveShip
         em.EndLevel(true);
     }
 
+    CanInteract()
+    {
+        return true;
+    }
+
     Draw()
     {
         //consoleLog(this.spriteList);

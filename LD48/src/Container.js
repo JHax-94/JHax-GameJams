@@ -9,6 +9,8 @@ export default class Container
 
         this.spriteIndex = sprite;
 
+        this.initialTilePos = position;
+
         consoleLog("Construct tile container at ");
         consoleLog(position);
 

@@ -79,11 +79,29 @@ function LoadChart()
 
 function LoadDive(diveCoordinates)
 {
+    consoleLog("LOAD DIVE");
+    consoleLog(diveCoordinates);
     em = new EntityManager();
+
+    var chart = assets.chartData.chart;
+
+    var chartEntry = null;
+
+    for(var i = 0; i < chart.length; i++)
+    {
+        var chartLocation = chart[i].location;
+
+        if(chartLocation.x === diveCoordinates.x && chartLocation.y === diveCoordinates.y)
+        {
+            chartEntry = chart[i];
+            break;
+        }
+    }
+
     em.drawColliders = true;
     tilesheet("tilesheet_dive");
 
-    em.seaBed = new SeaBed("map");
+    em.seaBed = new SeaBed(chartEntry);
     
     /*var chest = new TreasureChest({ x: 9, y: 13}, 3, { type: "OXYGEN" });
     var clam = new Clam({ x: 13, y: 13}, 57);*/

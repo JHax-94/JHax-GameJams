@@ -105,7 +105,7 @@ export default class Chart
         {
             if(button.type === "DIVE")
             {
-                LoadDive(this.hoverTile);
+                LoadDive(this.playerShip.chartPos);
             }
         }
     }

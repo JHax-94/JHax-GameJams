@@ -322,6 +322,11 @@ export default class EntityManager
             {
                 DATA_STORE.SetSavedTanks(this.diver.oxygenMeter.tankSize);
             }   
+
+            if(this.seaBed)
+            {
+                DATA_STORE.SaveSeaBedProgress(this.seaBed);
+            }
         }
 
         LoadChart();

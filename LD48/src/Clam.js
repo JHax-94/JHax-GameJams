@@ -3,12 +3,14 @@ import Pearl from "./Pearl";
 
 export default class Clam extends Container
 {
-    constructor(position, spriteIndex)
+    constructor(position, spriteIndex, pearlData)
     {
         super(position, spriteIndex);
 
         this.closedSprite = 57;
         this.openedSprite = 56;
+
+        this.pearlData = pearlData;
     }    
     
     SetState(state)
@@ -32,7 +34,7 @@ export default class Clam extends Container
 
             var spawnPos = this.GetSpawnPosition();
 
-            new Pearl(spawnPos);
+            new Pearl(spawnPos, this.pearlData);
         }        
     }
 }

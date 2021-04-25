@@ -51,6 +51,10 @@ export default class EntityManager
         {
             // consoleLog("Snap camera to min");
             this.cameraDepth = this.seaBed.minCameraDepth;
+            if(this.seaBed.minDepthReached === false)
+            {
+                this.seaBed.minDepthReached = true;
+            }
         } 
     }
 
@@ -341,12 +345,18 @@ export default class EntityManager
             if(this.diver)
             {
                 DATA_STORE.SetSavedTanks(this.diver.oxygenMeter.tankSize);
+                DATA_STORE.SetSavedMaps(this.diver.maps);
+                DATA_STORE.SetSavedKeys(this.diver.keys);
+                DATA_STORE.SetSavedPearls(this.diver.pearls);
             }   
 
             if(this.seaBed)
             {
                 DATA_STORE.SaveSeaBedProgress(this.seaBed);
             }
+
+            consoleLog("======== PROGRESS SAVED =========");
+            consoleLog(DATA_STORE);
         }
 
         LoadChart();

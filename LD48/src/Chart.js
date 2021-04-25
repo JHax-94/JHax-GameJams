@@ -85,7 +85,8 @@ export default class Chart
                 w: pearlBounds.w,
                 h: pearlBounds.h
             },
-            PEARL_DATA)
+            PEARL_DATA,
+            this.dataStore.retrievedPearls);
 
         this.inventory = new InventoryDisplay({ x: 16, y: 2 }, this.dataStore);
 

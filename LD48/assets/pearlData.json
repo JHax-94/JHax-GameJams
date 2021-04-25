@@ -6,6 +6,21 @@
 				"What is the sound, of",
 				"one hand clapping?"
 			]
-		}
+		},
+		{
+			"pearlId": 1,
+			"pearlText": [
+				"Oof making",
+				"games is hard?"
+			]
+		},
+		
+		{
+			"pearlId": 9,
+			"pearlText": [
+				"Will this tile",
+				"render properly?"
+			]
+		},
 	]		
 }

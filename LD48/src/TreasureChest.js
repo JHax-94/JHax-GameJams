@@ -1,6 +1,8 @@
 import Container from "./Container";
+import KeyCollectable from "./KeyCollectable";
 import { consoleLog } from "./main";
 import OxygenUpgrade from './OxygenUpgrade.js'
+import TreasureMap from "./TreasureMap";
 
 export default class TreasureChest extends Container
 {
@@ -35,11 +37,23 @@ export default class TreasureChest extends Container
         {
             this.SetState(this._OPENED);
 
+            consoleLog("OPEN CHEST");
+            consoleLog(this.contents);
+
             if(this.contents.type === "OXYGEN")
             {
                 consoleLog("SPAWN OXYGEN UPGRADE");
                 consoleLog(spawnPos);
                 var upgrade = new OxygenUpgrade(spawnPos);
+            }
+            else if(this.contents.type === "KEY")
+            {
+                consoleLog("SPAWN KEY");
+                var key = new KeyCollectable(spawnPos, this.contents);
+            }
+            else if(this.contents.type === "MAP")
+            {
+                var map = new TreasureMap(spawnPos, this.contents);
             }
         }
     }

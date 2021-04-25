@@ -19,6 +19,8 @@ export default class SeaBed
 
         var depth = this.chartEntry.depth;
 
+        this.minDepthReached = false;
+
         this.maxCameraDepth = 0;
         this.minCameraDepth = -(depth-30) * PIXEL_SCALE;
 
@@ -92,6 +94,20 @@ export default class SeaBed
         consoleLog(JSON.stringify(chestLog));
         consoleLog("==== CLAMS ====");
         consoleLog(JSON.stringify(clamLog));
+    }
+
+    GetTileComponent(type, mapLoc, componentList)
+    {
+        var component = null;
+        for(var i = 0; i < componentList.length; i ++)
+        {
+            if(componentList[i].type === type && componentList[i].mapLoc.x === mapLoc.x && componentList[i].mapLoc.y === mapLoc.y)
+            {
+                component = componentList[i];
+                break;
+            }
+        }
+        return component;
     }
 
     GetSavedComponent(mapLoc, saveList)
@@ -171,7 +187,12 @@ export default class SeaBed
         {
             var tile = this.chestMapData[i];
 
-            var newChest = new TreasureChest({x: this.mapPosition.x + tile.x, y: this.mapPosition.y + tile.y }, tile.index, { type: "OXYGEN" });
+            consoleLog("LOAD CHEST");
+            consoleLog(tile);
+
+            var chestComponent = this.GetTileComponent("CHEST", tile, this.chartEntry.components);
+
+            var newChest = new TreasureChest({x: this.mapPosition.x + tile.x, y: this.mapPosition.y + tile.y }, tile.index, chestComponent.contents);
 
             var savedChest = this.GetSavedComponent(tile, this.stateData.chests);
 
@@ -186,8 +207,12 @@ export default class SeaBed
         for(var i = 0; i < this.clamMapData.length; i++)
         {
             var tile = this.clamMapData[i];
+            consoleLog("LOAD CLAM");
+            consoleLog(tile);
 
-            var newClam = new Clam({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y }, tile.index);
+            var clamComponent = this.GetTileComponent("CLAM", tile, this.chartEntry.components);
+
+            var newClam = new Clam({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y }, tile.index, clamComponent);
 
             var savedClam = this.GetSavedComponent(tile, this.stateData.clams);
 

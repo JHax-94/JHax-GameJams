@@ -3,30 +3,113 @@
 		{
 			"pearlId": 0,
 			"pearlText": [
-				"What is the sound, of",
-				"one hand clapping?"
+				"Seek wisdom,",
+				"and wisdom may find you."
 			]
 		},
 		{
 			"pearlId": 1,
 			"pearlText": [
-				"Oof making",
-				"games is hard?"
+				"Hope is like",
+				"the key to your home.",
+				"Do not lose it."
 			]
 		},
 		{
 			"pearlId": 2,
 			"pearlText": [
-				"Give Josh more",
-				"Coffee"
+				"Those with loud voices",
+				"do not need to stand so close."
+			]	
+		},
+		{
+			"pearlId": 3,
+			"pearlText": [
+				"The foolish look but one way,",
+				"the wise look both ways."
+			]	
+		},
+		{
+			"pearlId": 4,
+			"pearlText": [
+				"One cannot catch a fish",
+				"with only one worm."
+			]	
+		},
+		{
+			"pearlId": 5,
+			"pearlText": [
+				"To think is to create,",
+				"to speak is to destroy."
+			]	
+		},
+		{
+			"pearlId": 6,
+			"pearlText": [
+				"Living well is like",
+				"climbing a mountain.",
+				"Difficult."
+			]	
+		},
+		{
+			"pearlId": 7,
+			"pearlText": [
+				"Even the tallest tree",
+				"may one day become",
+				"a humble stool."
+			]	
+		},
+		{
+			"pearlId": 8,
+			"pearlText": [
+				"Though water is wet,",
+				"it is still water."
 			]	
 		},
 		{
 			"pearlId": 9,
 			"pearlText": [
-				"Will this tile",
-				"render properly?"
+				"Do not seek wisdom.",
+				"Instead, let wisdom find you."
 			]
 		},
+		{
+			"pearlId": 10,
+			"pearlText": [
+				"The wise one is like a parrot.",
+				"They speak only what they have heard."
+			]
+		},
+		{
+			"pearlId": 11,
+			"pearlText": [
+				"When misfortune calls,",
+				"do not answer."
+			]
+		},
+		{
+			"pearlId": 12,
+			"pearlText": [
+				"Forgiveness cannot be given.",
+				"It must be taken by force."
+			]
+		},
+		{
+			"pearlId": 13,
+			"pearlText": [
+				"One cannot halt",
+				"the march of death.",
+				"Though if one can,",
+				"please let me know."
+			]
+		},
+		{
+			"pearlId": 14,
+			"pearlText": [
+				"Life is a cup of thought",
+				"and a gallon of emotion."
+			]
+		}
 	]		
 }
+

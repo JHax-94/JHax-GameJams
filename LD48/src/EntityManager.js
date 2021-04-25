@@ -365,13 +365,49 @@ export default class EntityManager
         this.hovers.push(hover);
     }
 
+    RemoveHover(hover)
+    {
+        for(var i = 0; i < this.hovers.length; i ++)
+        {
+            if(this.hovers[i] === hover)
+            {
+                this.hovers.splice(i, 1);
+                break;
+            }
+        }
+    }
+
+    RemoveClickable(clickable)
+    {
+        for(var i = 0; i < this.clickables.length; i ++)
+        {
+            if(this.clickables[i] === clickable)
+            {
+                this.clickables.splice(i, 1);
+                break;
+            }
+        }
+    }
+
     MouseMove(x, y)
     {
+        var consumed = false;
+
         if(this.trackMouse)
         {
-            for(var i = 0; i < this.hovers.length; i ++)
+            for(var i = this.hovers.length-1; i >= 0; i --)
             {
-                this.hovers[i].Hover(this.Overlap(this.hovers[i], x, y), { x: x, y: y});
+                if(!consumed)
+                {
+                    var overlap = this.Overlap(this.hovers[i], x, y);
+                    this.hovers[i].Hover(overlap, { x: x, y: y});
+
+                    consumed = overlap;
+                }
+                else
+                {
+                    this.hovers[i].Hover(false);
+                }
             }
         }
     }

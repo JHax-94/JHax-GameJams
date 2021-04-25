@@ -1,6 +1,8 @@
 import Button from "./Button";
 import ChartSheet from "./ChartSheet";
-import { consoleLog, em, PIXEL_SCALE, LoadDive } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA } from "./main";
+import Pearl from "./Pearl";
+import PearlSelect from "./PearlSelect";
 import PlayerShip from './PlayerShip.js';
 
 export default class Chart
@@ -57,12 +59,28 @@ export default class Chart
 
         new Button({ 
             x: mapOffset.x + 7, y: mapOffset.y + this.chartBounds.h + 2, w: 4, h: 3}, 
-            "Dive!", 
+            "DIVE!", 
             { shadow: 0, foreground: 34, text: 51, hover: 32 },
             "DIVE",
             this);
 
         this.playerShip = new PlayerShip(this, shipPosition);
+
+        var pearlBounds = {
+            x: 11,
+            y: 6,
+            w: 3,
+            h: 4
+        };
+
+        this.pearlGrid = new PearlSelect(
+            {
+                x: this.mapOffset.x + pearlBounds.x,
+                y: this.mapOffset.y + pearlBounds.y,
+                w: pearlBounds.w,
+                h: pearlBounds.h
+            },
+            PEARL_DATA)
 
         this.lastMousePos = { x: 0, y: 0 };
         this.hover = false;
@@ -94,25 +112,27 @@ export default class Chart
     {
         //consoleLog("HOVER");
         this.hover = onOff;
-
-        if(this.hoverTile)
+        if(onOff)
         {
-            this.lastMousePos = mousePos;
+            if(this.hoverTile)
+            {
+                this.lastMousePos = mousePos;
 
-            var internalOffset = { x: this.lastMousePos.x - this.topLeft.x * PIXEL_SCALE, y: this.lastMousePos.y - this.topLeft.y * PIXEL_SCALE };
-            /*consoleLog("INTERNAL OFFSET");
-            consoleLog(internalOffset);*/
+                var internalOffset = { x: this.lastMousePos.x - this.topLeft.x * PIXEL_SCALE, y: this.lastMousePos.y - this.topLeft.y * PIXEL_SCALE };
+                /*consoleLog("INTERNAL OFFSET");
+                consoleLog(internalOffset);*/
 
-            this.hoverTile = { 
-                x: Math.floor(internalOffset.x / PIXEL_SCALE),
-                y: Math.floor(internalOffset.y / PIXEL_SCALE)
-            };
+                this.hoverTile = { 
+                    x: Math.floor(internalOffset.x / PIXEL_SCALE),
+                    y: Math.floor(internalOffset.y / PIXEL_SCALE)
+                };
 
-            /*consoleLog("HOVER TILE");
-            consoleLog(this.hoverTile);*/
+                /*consoleLog("HOVER TILE");
+                consoleLog(this.hoverTile);*/
 
-            this.hoverTilePos = this.GetMapTileScreenPosition(this.hoverTile.x, this.hoverTile.y);
-        }   
+                this.hoverTilePos = this.GetMapTileScreenPosition(this.hoverTile.x, this.hoverTile.y);
+            }   
+        }
     }
 
     CoordinateString(x, y)

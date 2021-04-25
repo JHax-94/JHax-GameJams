@@ -2,7 +2,7 @@ import { consoleLog, em, PIXEL_SCALE } from './main.js';
 
 export default class Label
 {
-    constructor(pos, text, colour)
+    constructor(pos, text, colour, font)
     {
         this.pos = pos;
         this.text = text;
@@ -14,16 +14,21 @@ export default class Label
 
         this.font = null;
 
+        if(font)
+        {
+            this.font = font;
+        }
+
         em.AddRender(this);
+    }
+
+    Delete()
+    {
+        em.RemoveRender(this);
     }
 
     Draw()
     {
-        if(this.font)
-        {
-            consoleLog(this.font);
-        }
-
         $screen.setCharset(this.font);
 
         if(this.logging)

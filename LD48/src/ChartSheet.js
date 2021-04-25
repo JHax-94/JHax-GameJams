@@ -1,10 +1,12 @@
+import Button from "./Button";
 import Label from "./Label";
 import { consoleLog, em, PIXEL_SCALE } from "./main";
 
 export default class ChartSheet
 {
-    constructor(sheetBounds, sheetColours, components)
+    constructor(sheetBounds, sheetColours, components, closeButton)
     {
+
         /*
         consoleLog("CONSTRUCTING CHART SHEET");
         consoleLog(sheetBounds);
@@ -14,9 +16,28 @@ export default class ChartSheet
         this.sheetBounds = sheetBounds;
         this.sheetColours = sheetColours;
 
+        this.closeButton = null;
         this.labels = [];
 
         em.AddRender(this);
+
+        if(closeButton)
+        {
+            this.closeButton = new Button({
+                x: this.sheetBounds.x + this.sheetBounds.w - 1,
+                y: this.sheetBounds.y,
+                w: 1,
+                h: 1
+            },
+            {
+                spriteIndex: 11
+            },
+            this.sheetColours,
+            "CLOSE",
+            this);
+
+            this.closeButton.hideShadow = true;
+        }
 
         for(var i = 0; i < components.length; i ++)
         {
@@ -31,7 +52,8 @@ export default class ChartSheet
                 var newLabel = new Label(
                     {tileX: this.sheetBounds.x+components[i].pos.x, tileY: this.sheetBounds.y + components[i].pos.y },
                     components[i].text,
-                    this.sheetColours.text);
+                    this.sheetColours.text,
+                    components[i].font);
 
                 newLabel.id = components[i].id;
                 /*
@@ -45,6 +67,24 @@ export default class ChartSheet
         /*
         consoleLog("SHEET LABELS");
         consoleLog(this.labels);*/
+    }
+
+    ButtonClicked(byButton)
+    {
+        if(this.closeButton && this.closeButton === byButton)
+        {
+            this.Delete();
+            this.closeButton.Delete();
+            for(var i = 0; i < this.labels.length; i ++)
+            {
+                this.labels[i].Delete();
+            }
+        }
+    }
+
+    Delete()
+    {
+        em.RemoveRender(this);
     }
 
     SetLabelText(id, text)
@@ -65,7 +105,25 @@ export default class ChartSheet
         consoleLog("RENDER CHART SHEET!");
         consoleLog(this.sheetBounds);
         */  
+        if(this.logging)
+        {
+            //consoleLog(this.sheetColours);
+        }
+
+        if(this.sheetColours.shadow || this.sheetColours.shadow === 0)
+        {
+            var shadowOffset = { x: 0.5, y: 0.5 };
+
+            paper(this.sheetColours.shadow);
+            rectf((this.sheetBounds.x + shadowOffset.x) * PIXEL_SCALE, 
+                (this.sheetBounds.y + shadowOffset.y) * PIXEL_SCALE, 
+                this.sheetBounds.w * PIXEL_SCALE, 
+                this.sheetBounds.h * PIXEL_SCALE);
+        }
+
         paper(this.sheetColours.foreground);
         rectf(this.sheetBounds.x * PIXEL_SCALE, this.sheetBounds.y * PIXEL_SCALE, this.sheetBounds.w * PIXEL_SCALE, this.sheetBounds.h * PIXEL_SCALE);
+
+        
     }
 }

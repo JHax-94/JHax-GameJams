@@ -15,6 +15,8 @@ var CLAM_TILES = [ 57 ]
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
 
+var PEARL_DATA;
+
 var UP = 1;
 var DOWN = 2;
 var LEFT = 3;
@@ -90,6 +92,8 @@ function LoadDive(diveCoordinates)
 
 function Setup()
 {
+    PEARL_DATA = assets.pearlData.pearls;
+
     LoadChart();
 
     LOAD_COMPLETE = true;
@@ -122,6 +126,7 @@ export {
     SEABED_COLLISION_TILES,
     CLAM_TILES,
     CHEST_TILES,
+    PEARL_DATA,
     LoadDive,
     LoadChart,
     consoleLog

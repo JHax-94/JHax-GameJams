@@ -67,7 +67,9 @@ export default class ProgressTracker
         // SAVE CLAM STATES
         chartRecord.clams = [];
         consoleLog("SAVE CLAMS");
-        consoleLog(seaBed.clams);        
+        consoleLog(seaBed.clams);      
+        var foundClamsCount = 0;
+        
         for(var i = 0; i < seaBed.clams.length; i ++)
         {
             var clam = seaBed.clams[i];
@@ -76,12 +78,19 @@ export default class ProgressTracker
                 coords: clam.initialTilePos,
                 state: clam.state
             });
+
+            if(clam.state === 1)
+            {
+                foundClamsCount ++;
+            }
         }
+        chartRecord.foundClamsCount = foundClamsCount;
 
         chartRecord.chests = [];
         consoleLog("SAVE CHESTS");
         consoleLog(seaBed.chests);
 
+        var foundChestsCount = 0;
         for(var i = 0; i < seaBed.chests.length; i ++)
         {
             var chest = seaBed.chests[i];
@@ -90,7 +99,16 @@ export default class ProgressTracker
                 coords: chest.initialTilePos,
                 state: chest.state
             });
+
+            if(chest.state === 1)
+            {
+                foundChestsCount ++;
+            }
         }
+
+        chartRecord.foundChestsCount = foundChestsCount;
+
+        chartRecord.contentsKnown = chartRecord.contentsKnown ? chartRecord.contentsKnown : (chartRecord.foundChestsCount > 0 || chartRecord.foundClamsCount > 0);
 
         if(pushRecord)
         {

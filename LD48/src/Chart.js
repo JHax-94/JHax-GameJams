@@ -1,7 +1,7 @@
 import Button from "./Button";
 import ChartSheet from "./ChartSheet";
 import InventoryDisplay from "./InventoryDisplay";
-import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA, DATA_STORE } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA, DATA_STORE, GetDiveData } from "./main";
 import Pearl from "./Pearl";
 import PearlSelect from "./PearlSelect";
 import PlayerShip from './PlayerShip.js';
@@ -39,25 +39,25 @@ export default class Chart
                 {
                     type: "Label",
                     id: "COORDS",
-                    text: "Co-ordinates: A0",
+                    text: this.CoordinateString(0, 0), ///"Co-ordinates: A0",
                     pos: {x: 0.5, y: 0.5 }
                 },
                 {
                     type: "Label",
                     id: "DEPTH",
-                    text: "Depth: 100m",
+                    text: this.DepthString(100),
                     pos: {x: 0.5, y: 1.5 }
                 },
                 {
                     type: "Label",
                     id: "TREASURE",
-                    text: "Treasure: ? / ?",
+                    text: this.TreasureString(0, 0, true),
                     pos: {x: 0.5, y: 2.5 }
                 },
                 {
                     type: "Label",
-                    id: "Pearls",
-                    text: "Pearls: ? / ?",
+                    id: "PEARLS",
+                    text: this.PearlString(0, 0, true),
                     pos: {x: 0.5, y: 3.5 }
                 }
             ]);
@@ -97,6 +97,29 @@ export default class Chart
 
         this.hoverTile = {x: 0, y:0};
         this.hoverTilePos = this.GetMapTileScreenPosition(0, 0);
+
+        this.UpdateSelectedTile();
+    }
+
+    DepthString(depth)
+    {
+        return "Depth: " + depth + "m";
+    }
+
+    TreasureString(found, total, unknown)
+    {
+        var one = unknown ? "?" : found;
+        var two = unknown ? "?" : total;    
+    
+        return "Treasure: " + one + " / " + two;
+    }
+
+    PearlString(found, total, unknown)
+    {
+        var one = unknown ? "?" : found;
+        var two = unknown ? "?" : total;    
+    
+        return "Pearls: " + one + " / " + two;
     }
 
     ButtonClicked(button)
@@ -108,6 +131,37 @@ export default class Chart
                 LoadDive(this.playerShip.chartPos);
             }
         }
+    }
+
+    UpdateSelectedTile()
+    {
+        this.playerShip.SetChartPos(this.hoverTile.x, this.hoverTile.y);
+        this.dataSheet.SetLabelText("COORDS", this.CoordinateString(this.hoverTile.x, this.hoverTile.y));
+
+        var chartEntry = GetDiveData(this.hoverTile);
+        var chartRecord = this.dataStore.GetChartDiscovery(this.hoverTile);
+
+        if(chartEntry)
+        {
+            this.dataSheet.SetLabelText("DEPTH", this.DepthString(chartEntry.depth));
+        }
+
+        if(chartRecord)
+        {
+            consoleLog("Set display for chart record");
+            consoleLog(chartRecord);
+
+            var unknown = !chartRecord.contentsKnown;
+
+            this.dataSheet.SetLabelText("TREASURE", this.TreasureString(chartRecord.foundChestsCount, chartRecord.chests.length, unknown));
+            this.dataSheet.SetLabelText("PEARLS", this.PearlString(chartRecord.foundClamsCount, chartRecord.clams.length, unknown));
+        }
+        else
+        {
+            this.dataSheet.SetLabelText("TREASURE", this.TreasureString(0, 0, true));
+            this.dataSheet.SetLabelText("PEARLS", this.PearlString(0, 0, true));
+        }
+
     }
 
     Bounds()
@@ -151,9 +205,7 @@ export default class Chart
     {
         if(this.hover)
         {
-            this.playerShip.SetChartPos(this.hoverTile.x, this.hoverTile.y);
-            
-            this.dataSheet.SetLabelText("COORDS", this.CoordinateString(this.hoverTile.x, this.hoverTile.y));
+            this.UpdateSelectedTile();
         }
     }
 

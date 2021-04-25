@@ -20,7 +20,7 @@ export default class SeaBed
         var depth = this.chartEntry.depth;
 
         this.maxCameraDepth = 0;
-        this.minCameraDepth = -(depth-16);
+        this.minCameraDepth = -(depth-30) * PIXEL_SCALE;
 
         this.stateData = DATA_STORE.GetChartDiscovery(chartEntry.location);
 

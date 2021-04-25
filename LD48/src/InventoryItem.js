@@ -10,9 +10,20 @@ export default class InventoryItem
         this.spriteIndex = spriteIndex;
         this.amount = amount;
 
-        this.amountLabel = new Label({ tileX: (this.tileRect.x + 1), tileY: (this.tileRect.y + 0.2) }, ("x" + amount), 0, assets.charsets.large_font);
+        this.amountLabel = new Label({ tileX: (this.tileRect.x + 1), tileY: (this.tileRect.y + 0.2) }, this.GetAmountString(), 0, assets.charsets.large_font);
 
         em.AddRender(this);
+    }
+
+    GetAmountString()
+    {
+        return ("x" + this.amount);
+    }
+
+    SetAmount(amount)
+    {
+        this.amount = amount;
+        this.amountLabel.text = this.GetAmountString();
     }
 
     Draw()

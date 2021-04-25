@@ -1,4 +1,5 @@
-import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, DOWN, INTERACT, LoadChart } from "./main";
+import InventoryItem from "./InventoryItem";
+import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, DOWN, INTERACT, LoadChart, DATA_STORE, RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE } from "./main";
 
 export default class Diver
 {
@@ -16,6 +17,39 @@ export default class Diver
 
             this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);*/
         }
+        
+        var storedKeys = DATA_STORE.GetKeys();
+
+        var baseOffset = { x: 0.5, y: 0.5 };
+        this.redKeyLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y }, RED_KEY_SPRITE, 0);
+        this.purpleKeyLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y + 1 }, PURPLE_KEY_SPRITE, 0);
+        this.greenKeyLabel = new InventoryItem({ x: baseOffset.x, y: baseOffset.y + 2}, GREEN_KEY_SPRITE, 0);
+
+        
+        this.redKeys = [];
+        this.purpleKeys = [];
+        this.greenKeys = [];
+        for(var i = 0; i < storedKeys.length; i ++)
+        {
+            if(storedKeys[i].keyType === "RED")
+            {
+                this.redKeys.push(storedKeys[i]);
+            }
+            if(storedKeys[i].keyType === "PURPLE")
+            {
+                this.purpleKeys.push(storedKeys[i]);
+            }
+            if(storedKeys[i].keyType === "GREEN")
+            {
+                this.greenKeys.push(storedKeys[i]);
+            }
+        }
+
+        this.SetLabelValue(this.redKeyLabel, this.redKeys.length);
+        this.SetLabelValue(this.purpleKeyLabel, this.purpleKeys.length);
+        this.SetLabelValue(this.greenKeyLabel, this.greenKeys.length);
+
+        this.usedKeys = [];
         
         this.keys = [];
         this.pearls = [];
@@ -61,6 +95,11 @@ export default class Diver
         this.SetVelocity(0, -1);
     }
 
+    SetLabelValue(label, amount)
+    {
+        label.SetAmount(amount);
+    }
+
     Collect(collectable)
     {
         if(collectable)
@@ -96,6 +135,65 @@ export default class Diver
     AddMaxOxygen(increaseAmount)
     {
         this.oxygenMeter.UpgradeOxygen();
+    }
+
+    AddKey(keyInfo)
+    {
+        this.keys.push(keyInfo);
+
+        if(keyInfo.keyType === "RED")
+        {
+            this.redKeys.push(keyInfo);
+            this.SetLabelValue(this.redKeyLabel, this.redKeys.length);
+        }
+        else if(keyInfo.keyType === "PURPLE")
+        {
+            this.purpleKeys.push(keyInfo);
+            this.SetLabelValue(this.purpleKeyLabel, this.purpleKeys.length);
+        }
+        else if(keyInfo.keyType === "GREEN")
+        {
+            this.greenKeys.push(keyInfo);
+            this.SetLabelValue(this.greenKeyLabel, this.greenKeys.length);
+        }
+    }
+
+    UseKey(keyType)
+    {
+        var keyArray = [];
+        var labelUpdate = null;
+        if(keyType === "RED")
+        {
+            keyArray = this.redKeys;
+            labelUpdate = this.redKeyLabel;
+        }
+        else if(keyType === "PURPLE")
+        {
+            keyArray = this.purpleKeys;
+            labelUpdate = this.purpleKeyLabel;
+        }
+        else if(keyType === "GREEN")
+        {
+            keyArray = this.greenKeys;
+            labelUpdate = this.greenKeyLabel;
+        }
+
+        var usedKey = null;
+        if(keyArray.length > 0)
+        {
+            usedKey = keyArray[0];
+            keyArray.pop();
+        }
+    
+        if(usedKey)
+        {
+            this.usedKeys.push(usedKey);
+        }
+        
+        if(labelUpdate)
+        {
+            this.SetLabelValue(labelUpdate, keyArray.length);
+        }
     }
 
     Input(inputs)
@@ -139,7 +237,7 @@ export default class Diver
 
         if(inputs.interact && this.canInteract)
         {
-            this.interactable.Interact();
+            this.interactable.Interact(this);
             this.SetInteractable(null);
         }
     }

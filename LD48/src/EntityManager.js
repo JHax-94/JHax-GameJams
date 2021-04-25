@@ -283,6 +283,14 @@ export default class EntityManager
 
                 diver.obj.SetInteractable(ship.obj);
             }
+            else if(manager.CompareTags(evt, "DIVER", "DOORZONE"))
+            {
+                var diver = manager.BodyWithTag(evt, "DIVER");
+                var door = manager.BodyWithTag(evt, "DOORZONE");
+
+                diver.obj.SetInteractable(door.obj);
+
+            }
         });
 
         this.phys.on("endContact", function(evt)
@@ -347,6 +355,7 @@ export default class EntityManager
                 DATA_STORE.SetSavedTanks(this.diver.oxygenMeter.tankSize);
                 DATA_STORE.SetSavedMaps(this.diver.maps);
                 DATA_STORE.SetSavedKeys(this.diver.keys);
+                DATA_STORE.SetUsedKeys(this.diver.usedKeys);
                 DATA_STORE.SetSavedPearls(this.diver.pearls);
             }   
 

@@ -18,6 +18,16 @@ var OXYGEN_CONF = {
     depletionRate: 1
 }
 
+var LOCKED_DOOR_TILES = [
+    { index: 187, type: "RED" },
+    { index: 203, type: "PURPLE" },
+    { index: 219, type: "GREEN" }
+];
+
+var RED_KEY_SPRITE = 190;
+var PURPLE_KEY_SPRITE = 206;
+var GREEN_KEY_SPRITE = 222;
+
 var CHEST_TILES = [ 3 ]
 var CLAM_TILES = [ 57 ]
 
@@ -193,6 +203,8 @@ export {
     DATA_STORE,
     OXYGEN_TANK_SPRITES,
     OXYGEN_CONF,
+    LOCKED_DOOR_TILES,
+    RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE,
     GetDiveData,
     LoadDive,
     LoadChart,

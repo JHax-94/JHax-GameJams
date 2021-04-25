@@ -49,6 +49,7 @@ export default class TreasureChest extends Container
             else if(this.contents.type === "KEY")
             {
                 consoleLog("SPAWN KEY");
+                
                 var key = new KeyCollectable(spawnPos, this.contents);
             }
             else if(this.contents.type === "MAP")

@@ -36,6 +36,6 @@ export default class KeyCollectable extends Collectable
 
     InternalCollect(diver)
     {
-        diver.keys.push(this.keyInfo);
+        diver.AddKey(this.keyInfo);
     }
 }

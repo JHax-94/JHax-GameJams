@@ -2,7 +2,7 @@
 	"chart": [
 		{
 			"location": { "x": 0, "y": 0 },
-			"depth": 32,
+			"depth": 30,
 			"seaBedMap": "startMap",
 			"components": [
 				{
@@ -15,7 +15,7 @@
 				{
 					"type":"CHEST",
 					"contents": { "type": "MAP", "targetTile": { "x": 1, "y": 1 } },
-					"mapLoc": {"x":11,"y":29},
+					"mapLoc": {"x":11,"y":29}
 				},
 				{"type":"CHEST","contents": { "type": "OXYGEN" }, "mapLoc":{"x":14,"y":29}},
 				{"type":"CLAM","pearlId":1,"mapLoc":{"x":19,"y":29}},
@@ -24,14 +24,23 @@
 					"pearlId":0,
 					"mapLoc":{"x":22,"y":29}
 				},
-				{"type":"CLAM","pearlId":9,"mapLoc":{"x":26,"y":29}},
+				{"type":"CLAM","pearlId":9,"mapLoc":{"x":26,"y":29}}
 			]
 		},
 		{
 			"location": { "x": 0, "y": 1 },
-			"depth": 100,
+			"depth": 32,
+			"seaBedMap": "map",
 			"components": [
 				{
+					"type":"CHEST",
+					"contents":{ "type": "KEY", "keyType": "RED" },
+					"mapLoc":{"x":11,"y":29}
+				},
+				{
+					"type":"CLAM",
+					"pearlId":2,
+					"mapLoc":{"x":22,"y":29}
 				}
 			]
 		},

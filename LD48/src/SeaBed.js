@@ -1,7 +1,8 @@
 import BedTile from "./BedTile";
 import TreasureChest from './TreasureChest';
 import Clam from './Clam';
-import { CHEST_TILES, CLAM_TILES, consoleLog, DATA_STORE, em, PIXEL_SCALE, SEABED_COLLISION_TILES } from "./main";
+import { CHEST_TILES, CLAM_TILES, consoleLog, DATA_STORE, em, PIXEL_SCALE, SEABED_COLLISION_TILES, LOCKED_DOOR_TILES } from "./main";
+import LockedDoor from "./LockedDoor";
 
 export default class SeaBed
 {
@@ -41,9 +42,12 @@ export default class SeaBed
         this.clamMapData = [];
         this.bedMapData = [];
 
+        this.lockedDoorData = [];
+
         this.chests = [];
         this.clams = [];
         this.bedTiles = [];
+        this.lockedDoors = [];
 
         em.AddRender(this);
 
@@ -58,6 +62,7 @@ export default class SeaBed
     {
         var chestLog = [];
         var clamLog = [];
+        var doorLog = [];
 
         for(var i = 0; i < this.chestMapData.length; i ++)
         {
@@ -160,6 +165,17 @@ export default class SeaBed
                 this.clamMapData.push(mappedTiles[j]);
             }
         }
+
+        for(var i = 0; i < LOCKED_DOOR_TILES.length; i ++)
+        {
+            var mappedTiles = this.map.find(LOCKED_DOOR_TILES[i].index);
+
+            for(var j = 0; j < mappedTiles.length; j ++)
+            {
+                mappedTiles[j].doorType = LOCKED_DOOR_TILES[i].type;
+                this.lockedDoorData.push(mappedTiles[j]);
+            }
+        }
     }
 
     ProcessMapData()
@@ -223,6 +239,16 @@ export default class SeaBed
             
             this.clams.push(newClam);
         }
+
+        for(var i = 0; i < this.lockedDoorData.length; i ++)
+        {
+            var tile = this.lockedDoorData[i];
+
+            this.GetTileComponent("LOCKED_DOOR", tile, this.chartEntry.components);
+
+            var newDoor = new LockedDoor({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y}, {}, tile.doorType);
+        }
+
     }
 
     Draw()

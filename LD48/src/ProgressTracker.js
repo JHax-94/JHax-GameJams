@@ -53,6 +53,11 @@ export default class ProgressTracker
         return count;
     }
 
+    GetKeys()
+    {
+        return this.keys;
+    }
+
     GetChartDiscovery(chartCoords)
     {
         var entry = null;
@@ -117,6 +122,21 @@ export default class ProgressTracker
         for(var i = 0; i < keyList.length; i ++)
         {
             this.keys.push(keyList[i]);
+        }
+    }
+
+    SetUsedKeys(usedKeyList)
+    {
+        for(var i = 0; i < usedKeyList.length; i ++)
+        {
+            for(var j = 0; j < this.keys.length; j ++)
+            {
+                if(this.keys[j].keyType === usedKeyList[i].keyType)
+                {
+                    this.keys.splice(j, 1);
+                    break
+                }
+            }
         }
     }
 

@@ -15,6 +15,8 @@ export default class ProgressTracker
         this.maps = [];
         this.keys = [];
 
+        this.oxygenTopUp = 0;
+
         this.jetCount = 0;
 
         this.diverUpgrades = [];
@@ -33,6 +35,16 @@ export default class ProgressTracker
     GetOxygenTanks()
     {
         return this.startTanks + this.oxygenUpgradesFound;
+    }
+
+    SaveOxygenTopUps(diver)
+    {
+        this.oxygenTopUp = diver.oxygenTopUps;
+    }
+
+    GetOxygenTopUps()
+    {
+        return this.oxygenTopUp;
     }
 
     GetMapCount()

@@ -1,5 +1,6 @@
+import InventoryDisplay from "./InventoryDisplay";
 import InventoryItem from "./InventoryItem";
-import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, DOWN, INTERACT, LoadChart, DATA_STORE, RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, DOWN, INTERACT, LoadChart, DATA_STORE, RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE, OXYGEN_TOP_UP, TOP_UP_SPRITE } from "./main";
 
 export default class Diver
 {
@@ -18,18 +19,21 @@ export default class Diver
             this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);*/
         }
         
+        this.waitForTopUpLift = false;
+
         this.jetMultiplier = 1;
 
         var storedKeys = DATA_STORE.GetKeys();
-
         this.hasJet = DATA_STORE.GetJetCount() > 0;
+        this.oxygenTopUps = DATA_STORE.GetOxygenTopUps();
 
         var baseOffset = { x: 0.5, y: 0.5 };
-        this.redKeyLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y }, RED_KEY_SPRITE, 0);
-        this.purpleKeyLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y + 1 }, PURPLE_KEY_SPRITE, 0);
-        this.greenKeyLabel = new InventoryItem({ x: baseOffset.x, y: baseOffset.y + 2}, GREEN_KEY_SPRITE, 0);
 
-        
+        this.topUpsLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y }, TOP_UP_SPRITE, this.oxygenTopUps);
+        this.redKeyLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y + 1 }, RED_KEY_SPRITE, 0);
+        this.purpleKeyLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y + 2 }, PURPLE_KEY_SPRITE, 0);
+        this.greenKeyLabel = new InventoryItem({ x: baseOffset.x, y: baseOffset.y + 3}, GREEN_KEY_SPRITE, 0);
+
         this.redKeys = [];
         this.purpleKeys = [];
         this.greenKeys = [];
@@ -113,6 +117,12 @@ export default class Diver
 
             collectable.CollectedBy(this);
         }
+    }
+
+    AddOxygenTopUp()
+    {
+        this.oxygenTopUps ++;
+        this.SetLabelValue(this.topUpsLabel, this.oxygenTopUps);
     }
 
     SetVelocity(x, y)
@@ -216,6 +226,18 @@ export default class Diver
         else
         {
             this.jetMultiplier = 1;
+        }
+
+        if(this.waitForTopUpLift === false && inputs.topUp && this.oxygenTopUps > 0)
+        {
+            this.oxygenTopUps --;
+            this.oxygenMeter.AddOxygen(OXYGEN_TOP_UP);
+            this.SetLabelValue(this.topUpsLabel, this.oxygenTopUps);
+            this.waitForTopUpLift = true;
+        }
+        else if(this.waitForTopUpLift === true && !inputs.topUp)
+        {
+            this.waitForTopUpLift = false;
         }
 
         if(inputs.right)

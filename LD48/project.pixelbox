@@ -45,7 +45,8 @@
 		"left": 37,
 		"right": 39,
 		"interact": 32,
-		"jet": 87
+		"jet": 87,
+		"topUp": 82
 	},
 	"touchEvent": {
 		"multiTouch": false,

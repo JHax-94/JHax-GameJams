@@ -1,5 +1,5 @@
 import p2 from "p2";
-import { consoleLog, UP, DOWN, LEFT, RIGHT, INTERACT, PIXEL_SCALE } from "./main";
+import { consoleLog, UP, DOWN, LEFT, RIGHT, INTERACT, PIXEL_SCALE, em, LoadChart } from "./main";
 
 export default class EntityManager
 {
@@ -248,6 +248,13 @@ export default class EntityManager
 
                 diver.obj.Collect(collectable.obj);
             }
+            else if(manager.CompareTags(evt, "DIVER", "SHIP"))
+            {
+                var diver = manager.BodyWithTag(evt, "DIVER");
+                var ship = manager.BodyWithTag(evt, "SHIP");
+
+                diver.obj.SetInteractable(ship.obj);
+            }
         });
 
         this.phys.on("endContact", function(evt)
@@ -257,6 +264,12 @@ export default class EntityManager
             if(manager.CompareTags(evt, "DIVER", "CONTAINER"))
             {
                 var diver = manager.BodyWithTag(evt, "DIVER");
+                diver.obj.SetInteractable(null);
+            }
+            else if(manager.CompareTags(evt, "DIVER", "SHIP"))
+            {
+                var diver = manager.BodyWithTag(evt, "DIVER");
+
                 diver.obj.SetInteractable(null);
             }
         });
@@ -295,6 +308,11 @@ export default class EntityManager
             }
             
         }
+    }
+
+    EndLevel()
+    {
+        LoadChart();
     }
 
     UpdateLoop(deltaTime)

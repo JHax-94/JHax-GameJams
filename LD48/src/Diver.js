@@ -177,7 +177,7 @@ export default class Diver
         if(this.oxygen <= 0)
         {
             this.oxygen = 0;
-            LoadChart();
+            em.EndLevel();
         }
 
         this.UpdateOxygenMeter();

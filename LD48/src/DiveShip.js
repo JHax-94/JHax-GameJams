@@ -22,8 +22,14 @@ export default class DiveShip
 
         em.AddRender(this);
         em.AddPhys(this, physParams);
+
     }
 
+    Interact()
+    {
+        em.EndLevel();
+    }
+    
     Draw()
     {
         consoleLog(this.spriteList);

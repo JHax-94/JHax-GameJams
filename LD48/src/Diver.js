@@ -18,6 +18,53 @@ export default class Diver
 
             this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);*/
         }
+
+        this.animClock = 0;
+
+        this.animations = [
+            { 
+                name:"left", 
+                frameTime: 0.5,
+                frames: [
+                    [
+                        { id: 0, sprite: 17, flipH: true },
+                        { id: 1, sprite: 33, flipH: true }                    
+                    ],
+                    [
+                        { id: 0, sprite: 17, flipH: true },
+                        { id: 1, sprite: 49, flipH: true }
+                    ]
+                ]
+            },
+            { 
+                name:"right", 
+                frameTime: 0.5,
+                frames: [
+                    [
+                        { id: 0, sprite: 17, flipH: false },
+                        { id: 1, sprite: 33, flipH: false }                    
+                    ],
+                    [
+                        { id: 0, sprite: 17, flipH: false },
+                        { id: 1, sprite: 49, flipH: false }
+                    ]
+                ]
+            },
+            {
+                name:"centre",
+                frameTime: 0.5,
+                frames: [
+                    [
+                        { id: 0, sprite: 16, flipH: false },
+                        { id: 1, sprite: 32, flipH: false }                    
+                    ],
+                    [
+                        { id: 0, sprite: 16, flipH: false },
+                        { id: 1, sprite: 48, flipH: false }
+                    ]
+                ]
+            }
+        ];
         
         this.waitForTopUpLift = false;
 
@@ -56,6 +103,8 @@ export default class Diver
                 this.greenKeys.push(storedKeys[i]);
             }
         }
+
+        this.animationFrame = 0;
 
         this.SetLabelValue(this.redKeyLabel, this.redKeys.length);
         this.SetLabelValue(this.purpleKeyLabel, this.purpleKeys.length);
@@ -104,7 +153,25 @@ export default class Diver
         em.AddRender(this);
         em.AddInput(this);
 
-        this.SetVelocity(0, -1);
+        //this.SetVelocity(0, -1);
+        this.SetAnimation("centre");
+    }
+
+    SetAnimation(name)
+    {
+        if(!this.currentAnimation || this.currentAnimation.name !== name)
+        {
+            this.animationFrame = 0;
+            this.animClock = 0;
+            for(var i = 0; i < this.animations.length; i ++)
+            {
+                if(this.animations[i].name === name)
+                {
+                    this.currentAnimation = this.animations[i];
+                    break;
+                }
+            }
+        }
     }
 
     SetLabelValue(label, amount)
@@ -246,13 +313,18 @@ export default class Diver
     {
         //var velocity = this.GetVelocity();
         
+        var frameTime = 0;
+        var isMoving = false;
+
         if(inputs.jet && this.hasJet)
         {
             this.jetMultiplier = 10;
+            frameTime = 4;
         }
         else
         {
             this.jetMultiplier = 1;
+            frameTime = 1;
         }
 
         if(this.waitForTopUpLift === false && inputs.topUp && this.oxygenTopUps > 0)
@@ -271,12 +343,16 @@ export default class Diver
         {
             //consoleLog("MOVE RIGHT");
             //this.SetVelocity(this.moveSpeed.x, velocity.y);
-            this.phys.applyForce([this.moveSpeed.x * this.jetMultiplier, 0])
+            this.phys.applyForce([this.moveSpeed.x * this.jetMultiplier, 0]);
+            isMoving = true;
+            this.SetAnimation("right");
         }
         else if(inputs.left)
         {
             //this.SetVelocity(-this.moveSpeed.x, velocity.y);
             this.phys.applyForce([-this.moveSpeed.x * this.jetMultiplier, 0]);
+            isMoving = true;
+            this.SetAnimation("left");
         }
 
         if(inputs.up)
@@ -291,6 +367,11 @@ export default class Diver
             }
             else
             {
+                if(!isMoving)
+                {
+                    this.SetAnimation("centre");
+                }
+                isMoving = true;
                 this.phys.applyForce([0, this.moveSpeed.y * this.jetMultiplier]);
             }
             
@@ -298,8 +379,13 @@ export default class Diver
         else if(inputs.down)
         {
             //this.SetVelocity(velocity.x, -this.moveSpeed.y);
+            if(!isMoving)
+            {
+                this.SetAnimation("centre");
+            }
 
             this.phys.applyForce([0, -this.moveSpeed.y * this.jetMultiplier]);
+            isMoving = true;
         }
 
         if(inputs.interact && this.canInteract)
@@ -307,6 +393,8 @@ export default class Diver
             this.interactable.Interact(this);
             this.SetInteractable(null);
         }
+
+        this.frameMultiplier = isMoving ? frameTime : 0;
     }
 
     SetInteractable(setInteractable)
@@ -351,20 +439,47 @@ export default class Diver
         */
         this.pos = em.GetPosition(this);
         
+        
+
         var velocity = this.GetVelocity();
         /*
         consoleLog("Move camera?");
         consoleLog(velocity);
         consoleLog(this.pos);
         consoleLog(em.halfScreen);*/
+        /*
+        if(velocity.x < -animSwitchThreshold)
+        {
+            this.SetAnimation("left");
+        }
+        else if(velocity.x > animSwitchThreshold)
+        {
+            this.SetAnimation("right")
+        }
+        else 
+        {
+            this.SetAnimation("centre");
+        }*/
+
+        this.animClock += deltaTime * this.frameMultiplier;
+
+        if(this.animClock > this.currentAnimation.frameTime)
+        {
+            this.animClock = 0;
+            this.animationFrame = (this.animationFrame + 1) % this.currentAnimation.frames.length;
+        }
+
+        var cameraDiff = Math.abs(this.pos.y - em.halfScreen);
+
+        var cameraMultiplier = Math.ceil(cameraDiff / 5);
 
         if(velocity.y < 0 && this.pos.y > em.halfScreen)
         {
-            em.MoveCamera(-1);
+            em.MoveCamera(-1 * cameraMultiplier);
         }
         else if(velocity.y > 0 && this.pos.y < em.halfScreen)
         {
-            em.MoveCamera(1);
+            em.MoveCamera(1 * cameraMultiplier);
         }
 
         if(this.bloopTimer > 0)
@@ -386,7 +501,12 @@ export default class Diver
     {
         for(var i = 0; i < this.spriteList.length; i ++)
         {
-            sprite(this.spriteList[i].index, this.pos.x + this.spriteList[i].offset.x* PIXEL_SCALE , this.pos.y + this.spriteList[i].offset.y * PIXEL_SCALE);
+            /*
+            consoleLog(this.currentAnimation);
+            consoleLog(this.animationFrame);*/
+            var frame = this.currentAnimation.frames[this.animationFrame][i];
+            //consoleLog(frame);
+            sprite(frame.sprite, this.pos.x + this.spriteList[i].offset.x* PIXEL_SCALE , this.pos.y + this.spriteList[i].offset.y * PIXEL_SCALE, frame.flipH);
         }
 
         if(this.canInteract && this.bloopTimer <= 0)

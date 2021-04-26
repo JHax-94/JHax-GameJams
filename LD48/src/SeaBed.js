@@ -15,7 +15,7 @@ export default class SeaBed
 
         this.chartEntry = chartEntry;
         this.mapName = chartEntry.seaBedMap;
-        this.map = getMap(this.chartEntry.seaBedMap);
+        this.map = getMap(this.chartEntry.seaBedMap).copy();
         tilesheet(assets.tilesheet_dive);
 
         var depth = this.chartEntry.depth;
@@ -258,7 +258,7 @@ export default class SeaBed
 
             var savedDoor = this.GetSavedComponent(tile, this.stateData.doors);
 
-            var newDoor = new LockedDoor({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y, mapX: tile.x, mapY: tile.y }, {}, tile.doorType);
+            var newDoor = new LockedDoor({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y, mapX: tile.x, mapY: tile.y }, this.map, tile.doorType);
 
             if(savedDoor)
             {

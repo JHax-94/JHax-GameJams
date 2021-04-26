@@ -15,6 +15,17 @@ var SEABED_COLLISION_TILES = [131, 132, 133, 134, 135, 148, 149, 150, 151 ];
 
 var OXYGEN_TANK_SPRITES = { top: 125, mid: 141, bottom: 157 };
 
+var DOOR_REPLACE_MAP = [
+
+    { detect: 131, replace: 115 },
+    { detect: 133, replace: 115 },
+    { detect: 136, replace: 115 },
+    { detect: 137, replace: 115 },
+    { detect: 132, replace: 130, replaceFlipped: 114 },
+    { detect: 134, replace: 130, replaceFlipped: 114 },
+    { detect: 152, replace: 130, replaceFlipped: 114 } 
+];
+
 var OPENED = 1;
 var CLOSED = 0;
 
@@ -231,7 +242,7 @@ export {
     LOCKED_DOOR_TILES,
     RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE, JET_SPRITE, OXYGEN_TOP_UP, TOP_UP_SPRITE,
     STORAGE_KEY,
-    OPENED, CLOSED,
+    OPENED, CLOSED, DOOR_REPLACE_MAP,
     ResetGame,
     GetDiveData,
     LoadDive,

@@ -15,7 +15,7 @@ export default class Chart
 
         tilesheet(assets.tilesheet);
 
-        this.map = getMap(chartName);
+        this.map = getMap(chartName).copy();
 
         em.AddRender(this);
         em.AddUpdate(this);

@@ -37,7 +37,7 @@ export default class ProgressTracker
 
             this.oxygenTopUp = 0;
 
-            this.jetCount = 1;
+            this.jetCount = 0;
 
             this.diverUpgrades = [];
         }

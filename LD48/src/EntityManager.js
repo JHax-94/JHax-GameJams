@@ -411,9 +411,17 @@ export default class EntityManager
 
     Render()
     {
-        paper(this.bgColour);
+        if(this.bgColour)
+        {
+            paper(this.bgColour);
+        }
+        else
+        {
+            paper(0);
+        }
         cls();
 
+        if(this.background) this.background.Draw();
         if(this.map) this.map.draw(0, 0);
 
         for(var i = 0; i < this.renders.length; i ++)

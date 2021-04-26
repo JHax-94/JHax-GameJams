@@ -17,7 +17,7 @@ export default class ProgressTracker
             this.oxygenTopUp = saveData.oxygenTopUp;
             this.jetCount = saveData.jetCount;
             this.diverUpgrades = saveData.diverUpgrades;
-            this.soundOn = saveData.soundOn;
+            this.volumes = saveData.volumes;
         }
         else
         {
@@ -33,13 +33,18 @@ export default class ProgressTracker
 
             this.oxygenTopUp = 0;
 
-            this.jetCount = 1;
-            this.soundOn = true;
+            this.jetCount = 0;
 
             this.diverUpgrades = [];
         }
 
         this.hints = assets.hintData.hints;
+    }
+
+    SaveVolumes(volumes)
+    {
+        this.volumes = volumes;
+        this.Persist();
     }
 
     SetSavedTanks(amount)

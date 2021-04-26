@@ -18,6 +18,7 @@ export default class Chart
 
         this.map = getMap(chartName).copy();
 
+        em.bgColour = 15;
         em.AddRender(this);
         em.AddUpdate(this);
 
@@ -70,12 +71,13 @@ export default class Chart
             "DIVE",
             this);
 
+            /*
         new Button(
             { x: 24, y: 2, w: 6.5, h: 1 },
             "Toggle Sound",
             { shadow: 0, foreground: 34, text: 51, hover: 32 },
             "SOUND",
-            this);
+            this);*/
 
         new Button({ x: 24, y: 3.5, w: 6.5, h: 1 },
             "Reset Save",

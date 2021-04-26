@@ -4,6 +4,7 @@ import Clam from './Clam';
 import { CHEST_TILES, CLAM_TILES, consoleLog, DATA_STORE, em, PIXEL_SCALE, SEABED_COLLISION_TILES, LOCKED_DOOR_TILES, SEAWEED_TILES } from "./main";
 import LockedDoor from "./LockedDoor";
 import Seaweed from "./SeaWeed";
+import SeaBackground from "./SeaBackground";
 
 export default class SeaBed
 {
@@ -13,6 +14,9 @@ export default class SeaBed
 
         consoleLog("Load chart entry...");
         consoleLog(chartEntry);
+
+        em.bgColour = 8;
+        em.background = new SeaBackground();
 
         this.chartEntry = chartEntry;
         this.mapName = chartEntry.seaBedMap;

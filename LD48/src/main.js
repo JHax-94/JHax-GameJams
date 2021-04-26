@@ -10,12 +10,30 @@ import DiveShip from './DiveShip.js';
 import ProgressTracker from './ProgressTracker.js';
 import SoundManager from './SoundManager.js';
 
-
-
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
+var Texture = require('pixelbox/Texture');
 
 var bleeper = require('pixelbox/bleeper');
+
+var BACKGROUND = {
+    blocks: [
+        { type: "BLOCK", size: 16, colour: 15 },
+        { type: "TEXTURE", sprite: 245 },
+        { type: "BLOCK", size: 16, colour: 14 },
+        { type: "TEXTURE", sprite: 244 },
+        { type: "BLOCK", size: 16, colour: 13 },
+        { type: "TEXTURE", sprite: 243 },
+        { type: "BLOCK", size: 16, colour: 12 },
+        { type: "TEXTURE", sprite: 242 },
+        { type: "BLOCK", size: 16, colour: 11 },
+        { type: "TEXTURE", sprite: 246 },
+        { type: "BLOCK", size: 16, colour: 10 },
+        { type: "TEXTURE", sprite: 241 },
+        { type: "BLOCK", size: 16, colour: 9 },
+        { type: "TEXTURE", sprite: 240 },
+    ]
+};
 
 var SEAWEED_TILES = [ 119, 120 ];
 
@@ -126,7 +144,7 @@ function LoadChart()
     tilesheet("tilesheet_chart");
     new Chart("chart", { x:0, y: 0 }, {x: 0, y: 0});
 
-    em.AddRender(SOUND);
+    //em.AddRender(SOUND);
 }
 
 function GetDiveData(tile)
@@ -169,8 +187,10 @@ function GetDiveData(tile)
 
 function ResetGame()
 {
+    var soundSettings = DATA_STORE.volumes;
+
     localStorage.removeItem(STORAGE_KEY);
-    Setup(DATA_STORE.soundOn);
+    Setup(soundSettings);
 }
 
 function LoadDive(diveCoordinates)
@@ -256,31 +276,38 @@ function InitialiseDataStore()
 
 function Setup(maintainSound)
 {
+    consoleLog("====SETUP====");
     InitialiseDataStore();
-    SFX = assets.soundMap;
-    
-    SOUND = new SoundManager({x: 24, y: 0.75}, { speakerIndex: 30, speakerOnIndex: 10, speakerOffIndex: 11 });
 
-    var setSoundOn = DATA_STORE.soundOn;
-
+    consoleLog(maintainSound);
     if(typeof(maintainSound) !== 'undefined' && maintainSound !== null)
     {
-        setSoundOn = false;
+        DATA_STORE.SaveVolumes(maintainSound);
     }
 
-    SOUND.SetOn(setSoundOn);
+    LoadChart();
+    SFX = assets.soundMap;
+
+    SOUND = new SoundManager({x: 24, y: 0.75}, { speakerIndex: 30, speakerOnIndex: 10, speakerOffIndex: 11, sfxIndex: 46 });
+
+    /*
+    var setSoundOn = DATA_STORE.soundOn;
+
+    
+    */
+    //SOUND.SetOn(setSoundOn);
     PEARL_DATA = assets.pearlData.pearls;
     
-    LoadChart();
-
     LOAD_COMPLETE = true;
 
     consoleLog(assets);
+    em.AddRender(SOUND);
 
     consoleLog("setup complete!");
     consoleLog(em);
 
     SOUND.PlayTitle();
+
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -298,6 +325,7 @@ exports.update = function () {
 
 export {
     p2, 
+    Texture,
     em,
     PIXEL_SCALE,
     UP, DOWN, LEFT, RIGHT, INTERACT,
@@ -316,6 +344,7 @@ export {
     STORAGE_KEY,
     OPENED, CLOSED, DOOR_REPLACE_MAP,
     PEARL_MAP_ICON, CHEST_MAP_ICON, EMPTY_MAP_ICON,
+    BACKGROUND,
     SOUND,
     SFX,
     bleeper,

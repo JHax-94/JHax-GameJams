@@ -1,6 +1,7 @@
 import Button from "./Button";
 import Label from "./Label";
 import { consoleLog, em, PIXEL_SCALE } from "./main";
+import SpriteRender from "./SpriteRender";
 
 export default class ChartSheet
 {
@@ -18,6 +19,7 @@ export default class ChartSheet
 
         this.closeButton = null;
         this.labels = [];
+        this.sprites = [];
 
         em.AddRender(this);
 
@@ -63,6 +65,14 @@ export default class ChartSheet
                 consoleLog(newLabel);
                 */
                 this.labels.push(newLabel);
+            }
+            else if( components[i].type === "Sprite")
+            {
+                var sprite = new SpriteRender(
+                    { x: this.sheetBounds.x + components[i].pos.x, y: this.sheetBounds.y + components[i].pos.y },
+                    components[i].sprite);
+
+                this.sprites.push(sprite);
             }
         }
 

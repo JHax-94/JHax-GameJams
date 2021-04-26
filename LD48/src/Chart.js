@@ -2,7 +2,7 @@ import Button from "./Button";
 import ChartSheet from "./ChartSheet";
 import GridOverlay from "./GridOverlay";
 import InventoryDisplay from "./InventoryDisplay";
-import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA, DATA_STORE, GetDiveData, ResetGame, EMPTY_MAP_ICON, SFX, SOUND, COMPLETED_ICON, STUFF_TO_FIND_ICON } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA, DATA_STORE, GetDiveData, ResetGame, EMPTY_MAP_ICON, SFX, SOUND, COMPLETED_ICON, STUFF_TO_FIND_ICON, LARGE_FONT, JET_SPRITE, TOP_UP_SPRITE, INTERACT } from "./main";
 import Pearl from "./Pearl";
 import PearlSelect from "./PearlSelect";
 import PlayerShip from './PlayerShip.js';
@@ -172,6 +172,81 @@ export default class Chart
             this.hoverTile = this.dataStore.playerShip;
             this.hoverTilePos = this.GetMapTileScreenPosition(this.hoverTile.x, this.hoverTile.y);
         }
+
+        this.infoChart = new ChartSheet(
+            { x: mapOffset.x + 17.75, y: 5.5, w: 13.5, h: 12 },
+            { foreground: 34, text: 51, shadow: 0 },
+            [
+                {
+                    type:"Label",
+                    text: "Click the map to choose",
+                    pos: { x: 0.25, y: 0.5 },
+                    font: LARGE_FONT
+                },
+                {
+                    type:"Label",
+                    text: "to choose a dive location!",
+                    pos: { x: 0.25, y: 1.5 },
+                    font: LARGE_FONT
+                },
+                { 
+                    type: "Label",
+                    text: "Arrow Keys:",
+                    pos: { x: 0.25, y: 3 },
+                    font: LARGE_FONT
+                },
+                { 
+                    type: "Label",
+                    text: "Control Diver",
+                    pos: { x: 0.25, y: 4 },
+                    font: LARGE_FONT
+                },
+                {
+                    type: "Label",
+                    text: "W key: Use Booster",
+                    pos: {x: 0.25, y: 5.5 },
+                    font: LARGE_FONT
+                },
+                {
+                    type: "Label",
+                    text: "R Key: Use 02 Top Up",
+                    pos: {x: 0.25, y: 6.5 },
+                    font: LARGE_FONT
+                },
+                {
+                    type:"Label",
+                    text: "Space: Interact " ,
+                    pos: {x: 0.25, y: 7.5},
+                    font: LARGE_FONT
+                },
+                {
+                    type: "Label",
+                    text: "Get pearls and treasure",
+                    pos: { x: 0.25, y: 9.5},
+                    font: LARGE_FONT
+                },
+                {
+                    type: "Label",
+                    text: "then return to your ship!",
+                    pos: { x: 0.25, y: 10.5 },
+                    font: LARGE_FONT
+                },
+                {
+                    type: "Sprite",
+                    pos: { x:11.5, y: 5.25 },
+                    sprite: 158                    
+                },
+                {
+                    type: "Sprite",
+                    pos: { x: 11.5, y: 6.25 },
+                    sprite: 126
+                },
+                {
+                    type: "Sprite",
+                    pos: { x: 11.5, y: 7.25 },
+                    sprite: 25
+                }
+            ]);
 
         if(dead)
         {

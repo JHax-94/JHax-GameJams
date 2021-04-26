@@ -21,6 +21,8 @@ var FISH_SPRITES = [ 29, 30, 45, 46, 61, 62, 77, 93 ];
 var SCREEN_WIDTH = 32;
 var SCREEN_HEIGHT = 24;
 
+var LARGE_FONT;
+
 var BACKGROUND = {
     blocks: [
         { type: "BLOCK", size: 12, colour: 15 },
@@ -285,6 +287,8 @@ function Setup(maintainSound)
     consoleLog("====SETUP====");
     InitialiseDataStore();
 
+    LARGE_FONT = assets.charsets.large_font;
+
     PEARL_DATA = assets.pearlData.pearls;
 
     consoleLog(maintainSound);
@@ -348,6 +352,7 @@ export {
     SCREEN_WIDTH, SCREEN_HEIGHT,
     SOUND,
     SFX,
+    LARGE_FONT,
     bleeper,
     GetPearl,
     ResetGame,

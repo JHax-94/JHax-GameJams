@@ -1,0 +1,25 @@
+{
+	"hints": [
+		{ "targetTile": { "x": 0, "y": 0 }	},
+		{ "targetTile": { "x": 5, "y": 3 }	},
+		{ "targetTile": { "x": 5, "y": 0 }	},
+		{ "targetTile": { "x": 2, "y": 2 }	},
+		{ "targetTile": { "x": 2, "y": 5 }	},
+		{ "targetTile": { "x": 7, "y": 3 }	},
+		{ "targetTile": { "x": 4, "y": 6 }	},
+		{ "targetTile": { "x": 0, "y": 6 }	},
+		{ "targetTile": { "x": 7, "y": 6 }	},
+		{ "targetTile": { "x": 0, "y": 4 }	},
+		{ "targetTile": { "x": 7, "y": 1 }	},
+		{ "targetTile": { "x": 3, "y": 0 }	},
+		{ "targetTile": { "x": 4, "y": 1 }	},
+		{ "targetTile": { "x": 5, "y": 4 }	},
+		{ "targetTile": { "x": 1, "y": 3 }	},
+		{ "targetTile": { "x": 3, "y": 4 }	},
+		{ "targetTile": { "x": 1, "y": 0 }	},
+		{ "targetTile": { "x": 2, "y": 7 }	},
+		{ "targetTile": { "x": 4, "y": 4 }	},
+		{ "targetTile": { "x": 0, "y": 2 }	} 
+	
+	]
+		

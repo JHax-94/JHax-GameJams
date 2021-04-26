@@ -1,11 +1,12 @@
 import BedTile from "./BedTile";
 import TreasureChest from './TreasureChest';
 import Clam from './Clam';
-import { CHEST_TILES, CLAM_TILES, consoleLog, DATA_STORE, em, PIXEL_SCALE, SEABED_COLLISION_TILES, LOCKED_DOOR_TILES, SEAWEED_TILES } from "./main";
+import { CHEST_TILES, CLAM_TILES, consoleLog, DATA_STORE, em, PIXEL_SCALE, SEABED_COLLISION_TILES, LOCKED_DOOR_TILES, SEAWEED_TILES, SCREEN_WIDTH } from "./main";
 import LockedDoor from "./LockedDoor";
 import Seaweed from "./SeaWeed";
 import SeaBackground from "./SeaBackground";
 import Fish from "./Fish";
+import LevelBound from "./LevelBound";
 
 export default class SeaBed
 {
@@ -72,6 +73,11 @@ export default class SeaBed
 
         this.LogMapData();
         this.ProcessMapData();
+
+        this.bounds = [];
+        this.bounds.push(new LevelBound({ x: 0, y: -1.25, w: SCREEN_WIDTH, h: 1}));
+        this.bounds.push(new LevelBound({ x: -1.25, y: 0, w: 1, h: chartEntry.depth }));
+        this.bounds.push(new LevelBound({ x: SCREEN_WIDTH + 0.25, y: 0, w: 1, h: chartEntry.depth }));
 
     }
 

@@ -53,7 +53,7 @@ export default class LockedDoorZone
             {
                 sfx(this.sfx);
             }
-            diver.UseKey(this.door.doorType);
+            //diver.UseKey(this.door.doorType);
             this.Delete();
         }
         else

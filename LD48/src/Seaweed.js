@@ -1,10 +1,12 @@
 import BubbleCluster from "./BubbleCluster";
-import { em, JET_SPRITE } from "./main";
+import { consoleLog, em, JET_SPRITE } from "./main";
 
 export default class Seaweed 
 {
     constructor(position, spriteIndex, map)
     {
+        consoleLog("SEAWEED POSITION");
+        consoleLog(position);
         this.initialTilePos = position;
         this.spriteIndex = spriteIndex; 
         var physicsParams = {
@@ -29,7 +31,7 @@ export default class Seaweed
         this._spawnTime = this.SpawnTime();
         this.spawnTimer = random(3);
 
-        map.remove(this.initialTilePos.x, this.initialTilePos.y);
+        map.remove(this.initialTilePos.mapX, this.initialTilePos.mapY);
 
         this.flip = random(2) == 1;
 

@@ -18,21 +18,24 @@ var bleeper = require('pixelbox/bleeper');
 
 var FISH_SPRITES = [ 29, 30, 45, 46, 61, 62, 77, 93 ];
 
+var SCREEN_WIDTH = 32;
+var SCREEN_HEIGHT = 24;
+
 var BACKGROUND = {
     blocks: [
-        { type: "BLOCK", size: 16, colour: 15 },
+        { type: "BLOCK", size: 12, colour: 15 },
         { type: "TEXTURE", sprite: 245 },
-        { type: "BLOCK", size: 16, colour: 14 },
+        { type: "BLOCK", size: 12, colour: 14 },
         { type: "TEXTURE", sprite: 244 },
-        { type: "BLOCK", size: 16, colour: 13 },
+        { type: "BLOCK", size: 12, colour: 13 },
         { type: "TEXTURE", sprite: 243 },
-        { type: "BLOCK", size: 16, colour: 12 },
+        { type: "BLOCK", size: 12, colour: 12 },
         { type: "TEXTURE", sprite: 242 },
-        { type: "BLOCK", size: 16, colour: 11 },
+        { type: "BLOCK", size: 12, colour: 11 },
         { type: "TEXTURE", sprite: 246 },
-        { type: "BLOCK", size: 16, colour: 10 },
+        { type: "BLOCK", size: 12, colour: 10 },
         { type: "TEXTURE", sprite: 241 },
-        { type: "BLOCK", size: 16, colour: 9 },
+        { type: "BLOCK", size: 12, colour: 9 },
         { type: "TEXTURE", sprite: 240 },
     ]
 };
@@ -78,8 +81,6 @@ var LOCKED_DOOR_TILES = [
     { index: 203, type: "PURPLE" },
     { index: 219, type: "GREEN" }
 ];
-
-
 
 var OXYGEN_TOP_UP = 10;
 
@@ -344,6 +345,7 @@ export {
     OPENED, CLOSED, DOOR_REPLACE_MAP,
     PEARL_MAP_ICON, CHEST_MAP_ICON, EMPTY_MAP_ICON,
     BACKGROUND,
+    SCREEN_WIDTH, SCREEN_HEIGHT,
     SOUND,
     SFX,
     bleeper,

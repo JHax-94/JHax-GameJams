@@ -9,7 +9,7 @@ import PlayerShip from './PlayerShip.js';
 
 export default class Chart
 {
-    constructor(chartName, shipPosition, mapOffset)
+    constructor(chartName, shipPosition, mapOffset, dead)
     {
         this._LETTERS = [ "A", "B", "C", "D", "E", "F", "G", "H"];
         this._NUMBERS = [ "1", "2", "3", "4", "5", "6", "7", "8"];
@@ -67,7 +67,6 @@ export default class Chart
                     font: assets.charsets.large_font
                 }
             ]);
-
 
         new Button({ 
             x: mapOffset.x + 11, y: mapOffset.y + this.chartBounds.h + 1, w: 3, h: 1}, 
@@ -172,6 +171,28 @@ export default class Chart
             consoleLog(this.dataStore.playerShip);
             this.hoverTile = this.dataStore.playerShip;
             this.hoverTilePos = this.GetMapTileScreenPosition(this.hoverTile.x, this.hoverTile.y);
+        }
+
+        if(dead)
+        {
+            this.deadSheet = new ChartSheet(
+                { x: mapOffset.x + 11, y: mapOffset.y + this.chartBounds.h + 3, w: 14, h: 3 },
+                { foreground: 34, text: 51, shadow: 0, hover: 32 },
+                [ 
+                    {
+                        type: "Label",
+                        text: "Uh oh - you drowned!",
+                        pos: {x: 0.5, y: 0.5 },
+                        font: assets.charsets.large_font
+                    },
+                    {
+                        type: "Label",
+                        text: "Never mind... Try again!",
+                        pos: {x: 0.5, y: 1.5 },
+                        font: assets.charsets.large_font
+                    }
+                ],
+                true);
         }
 
         this.UpdateSelectedTile(true);

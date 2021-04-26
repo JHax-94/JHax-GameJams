@@ -5,12 +5,9 @@ export default class Fish
     constructor(depth)
     {
         consoleLog("CONSTRUCTING FISH");
-        for(var i = 0; i < 10; i ++)
-        {
-            consoleLog("Rand:" + random(2));
-        }
-
         this.moveRight = random(2) == 0;
+
+        this.depth = depth;
 
         this.fishes = [];
 
@@ -48,7 +45,9 @@ export default class Fish
 
     GenerateFish(depth)
     {
-        var spawnFish = 1 + random(Math.ceil(depth / 32));
+        
+        var spawnFish = 1 + random(Math.ceil(this.depth / 16));
+        consoleLog("GENERATE " + spawnFish + "FISH");
         this.fishes = [];
 
         this.fishSpeed = 8 + random(8);
@@ -58,7 +57,7 @@ export default class Fish
             this.fishes.push(
                 {
                     sprite: FISH_SPRITES[random(FISH_SPRITES.length)],
-                    offset: { x: -PIXEL_SCALE + random(PIXEL_SCALE+1), y: - PIXEL_SCALE + random(PIXEL_SCALE+1) }
+                    offset: { x: -PIXEL_SCALE + random(2*PIXEL_SCALE+1), y: - PIXEL_SCALE + random(2*PIXEL_SCALE+1) }
                 }
             )
         }

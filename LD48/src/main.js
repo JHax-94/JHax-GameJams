@@ -73,7 +73,7 @@ var TOP_UP_SPRITE = 126;
 
 var OXYGEN_CONF = {
     oxygenPerTank: 18,
-    depletionRate: 1
+    depletionRate: 1.5
 }
 
 var LOCKED_DOOR_TILES = [
@@ -140,12 +140,12 @@ function consoleLog(obj)
     }
 }
 
-function LoadChart()
+function LoadChart(dead)
 {
     em = new EntityManager();
 
     tilesheet("tilesheet_chart");
-    new Chart("chart", { x:0, y: 0 }, {x: 0, y: 0});
+    new Chart("chart", { x:0, y: 0 }, {x: 0, y: 0}, dead);
 
     if(SOUND)
     {

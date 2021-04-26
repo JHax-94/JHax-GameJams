@@ -391,7 +391,7 @@ export default class EntityManager
             DATA_STORE.Persist();
         }
 
-        LoadChart();
+        LoadChart(!saveProgress);
     }
 
     UpdateLoop(deltaTime)

@@ -9,13 +9,19 @@ export default class Pearl extends Collectable
         var physParams = { isKinematic: true };
         super(spawnPosition, physParams);
         
-        this.sfx = SFX.pearlGet;
+        this.sfx = SFX.pearlGetA;
 
         this.spriteIndex = 68;
 
         this.pearlInfo = pearlInfo;
     }
  
+    PlaySoundEffect()
+    {
+        super.PlaySoundEffect();
+        sfx(SFX.pearlGetB);
+    }
+
     DisplayPearl()
     {
         var pearl = GetPearl(this.pearlInfo.pearlId);

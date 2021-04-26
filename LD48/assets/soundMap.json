@@ -2,8 +2,11 @@
     "move": "moveWub",
 	"treasureGet": "gotThing",
 	"bubbleGet": "bubblePop",
-	"pearlGet": "gotPearl",
+	"pearlGetA": "newPearlA",
+	"pearlGetB": "newPearlB",
 	"open": "openThing",
 	"moveBoat": "moveBoat",
-	"dive": "goDive"
+	"dive": "goDive",
+	"useJet": "useJet",
+	"useConsume": "useConsum"
 }

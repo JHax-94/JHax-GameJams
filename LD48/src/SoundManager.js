@@ -101,7 +101,8 @@ export default class SoundManager
         audioManager.channels['sfx'].volume = (val * this.trueSfxMax / this.sfxMax);
         if(playSound)
         {
-            sfx(SFX.pearlGet);
+            sfx(SFX.pearlGetA);
+            sfx(SFX.pearlGetB);
         }
         
     }

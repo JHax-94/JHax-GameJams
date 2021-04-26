@@ -44,6 +44,11 @@ export default class Collectable
         this.diver = null;
     }
 
+    PlaySoundEffect()
+    {
+        sfx(this.sfx);
+    }
+
     InternalCollect(diver) { consoleLog("COLLECTABLE SUPER INTERNAL"); }
 
     Collect(diver)
@@ -53,7 +58,7 @@ export default class Collectable
 
         if(this.sfx)
         {
-            sfx(this.sfx);
+            this.PlaySoundEffect();
         }
 
         if(this.removeOnCollect)

@@ -308,6 +308,12 @@ export default class EntityManager
 
                 diver.obj.SetInteractable(null);
             }
+            else if(manager.CompareTags(evt, "DIVER", "DOORZONE"))
+            {
+                var diver = manager.BodyWithTag(evt, "DIVER");
+                
+                diver.obj.SetInteractable(null);
+            }
         });
 
         this.phys.on("postStep", function(evt)

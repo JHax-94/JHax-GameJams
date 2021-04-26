@@ -27,7 +27,8 @@ export default class ProgressTracker
 
             this.retrievedPearls = [];
             this.maps = [];
-            this.keys = [ { keyType: "RED" }, { keyType: "GREEN" }, { keyType: "PURPLE" }];
+            //this.keys = [ { keyType: "RED" }, { keyType: "GREEN" }, { keyType: "PURPLE" }];
+            this.keys = [];
 
             this.oxygenTopUp = 0;
 

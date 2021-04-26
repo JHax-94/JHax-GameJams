@@ -34,8 +34,11 @@ export default class LockedDoorZone
 
     Interact(diver)
     {
-        diver.UseKey(this.door.doorType);
-        this.Delete();
+        if(diver.HasKey(this.door.doorType))
+        {
+            diver.UseKey(this.door.doorType);
+            this.Delete();
+        }
     }
 
     Draw()

@@ -172,6 +172,23 @@ export default class Diver
         }
     }
 
+    HasKey(keyType)
+    {
+        var hasKey = false;
+        if(keyType === "RED")
+        {
+            hasKey = this.redKeys.length > 0;
+        }
+        else if(keyType === "PURPLE")
+        {
+            hasKey = this.purpleKeys.length > 0;
+        }
+        else if(keyType === "GREEN")
+        {
+            hasKey = this.greenKeys.length > 0;
+        }
+    }
+
     AddJet()
     {
         this.hasJet = true;

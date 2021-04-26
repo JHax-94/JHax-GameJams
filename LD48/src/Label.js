@@ -22,6 +22,11 @@ export default class Label
         em.AddRender(this);
     }
 
+    AddToEntityManager()
+    {
+        em.AddRender(this);
+    }
+
     Delete()
     {
         em.RemoveRender(this);

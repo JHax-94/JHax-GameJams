@@ -275,7 +275,7 @@ export default class EntityManager
                 var collectable = manager.BodyWithTag(evt, "COLLECTABLE");
 
                 diver.obj.Collect(collectable.obj);
-            }
+            }            
             else if(manager.CompareTags(evt, "DIVER", "SHIP"))
             {
                 var diver = manager.BodyWithTag(evt, "DIVER");
@@ -289,7 +289,10 @@ export default class EntityManager
                 var door = manager.BodyWithTag(evt, "DOORZONE");
 
                 diver.obj.SetInteractable(door.obj);
-
+            }
+            else if(manager.CompareTags(evt, "COLLECTABLE", "SEABED"))
+            {
+                consoleLog("BUBBLE HIT PROBABLY?");
             }
         });
 
@@ -300,19 +303,23 @@ export default class EntityManager
             if(manager.CompareTags(evt, "DIVER", "CONTAINER"))
             {
                 var diver = manager.BodyWithTag(evt, "DIVER");
-                diver.obj.SetInteractable(null);
+                var container = manager.BodyWithTag(evt, "CONTAINER");
+
+                diver.obj.RemoveInteractable(container.obj);
             }
             else if(manager.CompareTags(evt, "DIVER", "SHIP"))
             {
                 var diver = manager.BodyWithTag(evt, "DIVER");
+                var ship = manager.BodyWithTag(evt, "SHIP");
 
-                diver.obj.SetInteractable(null);
+                diver.obj.RemoveInteractable(ship.obj);
             }
             else if(manager.CompareTags(evt, "DIVER", "DOORZONE"))
             {
                 var diver = manager.BodyWithTag(evt, "DIVER");
-                
-                diver.obj.SetInteractable(null);
+                var door = manager.BodyWithTag(evt, "DOORZONE");
+
+                diver.obj.RemoveInteractable(door.obj);
             }
             else if(manager.CompareTags(evt, "DIVER", "COLLECTABLE"))
             {

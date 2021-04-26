@@ -19,6 +19,11 @@ export default class ProgressBar
         this.filledBar.w = portion * this.unfilledBar.w;
     }
 
+    AddToEntityManager()
+    {
+        em.AddRender(this);
+    }
+
     Draw()
     {
         paper(this.barColours.unfilled);

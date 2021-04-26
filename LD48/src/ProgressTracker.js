@@ -18,18 +18,20 @@ export default class ProgressTracker
             this.jetCount = saveData.jetCount;
             this.diverUpgrades = saveData.diverUpgrades;
             this.volumes = saveData.volumes;
+            this.playerShip = saveData.playerShip;
         }
         else
         {
             this.startTanks = 3;
             this.oxygenUpgradesFound = 0;
 
+            this.playerShip = { x: 0, y: 0 };
             this.chartDiscoveryData = [];
 
             this.retrievedPearls = [];
             this.maps = [];
-            //this.keys = [ { keyType: "RED" }, { keyType: "GREEN" }, { keyType: "PURPLE" }];
-            this.keys = [];
+            this.keys = [ { keyType: "RED" }, { keyType: "GREEN" }, { keyType: "PURPLE" }];
+            //this.keys = [];
 
             this.oxygenTopUp = 0;
 
@@ -39,6 +41,11 @@ export default class ProgressTracker
         }
 
         this.hints = assets.hintData.hints;
+    }
+
+    SavePlayerShip(chartPos)
+    {
+        this.playerShip = chartPos;
     }
 
     SaveVolumes(volumes)

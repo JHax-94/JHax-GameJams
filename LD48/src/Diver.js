@@ -245,6 +245,10 @@ export default class Diver
 
     HasKey(keyType)
     {
+        consoleLog("CHECKING KEY: " + keyType);
+        consoleLog(this.redKeys);
+        consoleLog(this.purpleKeys);
+        consoleLog(this.greenKeys);
         var hasKey = false;
         if(keyType === "RED")
         {
@@ -258,6 +262,8 @@ export default class Diver
         {
             hasKey = this.greenKeys.length > 0;
         }
+        
+        return hasKey;
     }
 
     AddJet()
@@ -397,6 +403,18 @@ export default class Diver
         this.frameMultiplier = isMoving ? frameTime : 0;
     }
 
+    RemoveInteractable(removeInteract)
+    {
+        if(this.interactable)
+        {
+            if(this.interactable === removeInteract)
+            {
+                this.interactable = null;
+                this.canInteract = false;
+            }
+        }
+    }
+
     SetInteractable(setInteractable)
     {
         if(setInteractable)
@@ -506,11 +524,7 @@ export default class Diver
     {
         for(var i = 0; i < this.spriteList.length; i ++)
         {
-            /*
-            consoleLog(this.currentAnimation);
-            consoleLog(this.animationFrame);*/
             var frame = this.currentAnimation.frames[this.animationFrame][i];
-            //consoleLog(frame);
             sprite(frame.sprite, this.pos.x + this.spriteList[i].offset.x* PIXEL_SCALE , this.pos.y + this.spriteList[i].offset.y * PIXEL_SCALE, frame.flipH);
         }
 

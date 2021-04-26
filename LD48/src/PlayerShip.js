@@ -1,4 +1,4 @@
-import { em, SFX } from "./main";
+import { DATA_STORE, em, SFX } from "./main";
 
 export default class PlayerShip
 {
@@ -11,14 +11,20 @@ export default class PlayerShip
         em.AddRender(this);
     }
 
-    SetChartPos(x, y)
+    SetChartPos(x, y, silent)
     {
         if(this.chartPos.x !== x || this.chartPos.y !== y)
         {
             this.chartPos.x = x;
             this.chartPos.y = y;
 
-            sfx(SFX.moveBoat);
+            DATA_STORE.SavePlayerShip(this.chartPos);
+            DATA_STORE.Persist();
+
+            if(!silent)
+            {
+                sfx(SFX.moveBoat);
+            }
         }
         
     }

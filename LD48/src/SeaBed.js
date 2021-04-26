@@ -240,7 +240,7 @@ export default class SeaBed
 
             var chestComponent = this.GetTileComponent("CHEST", tile, this.chartEntry.components);
 
-            var newChest = new TreasureChest({x: this.mapPosition.x + tile.x, y: this.mapPosition.y + tile.y, mapX: tile.x, mapY: tile.y }, tile.index, chestComponent.contents);
+            var newChest = new TreasureChest({x: this.mapPosition.x + tile.x, y: this.mapPosition.y + tile.y, mapX: tile.x, mapY: tile.y }, tile.sprite, chestComponent.contents);
 
             var savedChest = this.GetSavedComponent(tile, this.stateData.chests);
 
@@ -263,7 +263,7 @@ export default class SeaBed
 
             var clamComponent = this.GetTileComponent("CLAM", tile, this.chartEntry.components);
 
-            var newClam = new Clam({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y, mapX: tile.x, mapY: tile.y }, tile.index, clamComponent);
+            var newClam = new Clam({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y, mapX: tile.x, mapY: tile.y }, tile.sprite, clamComponent);
 
             var savedClam = this.GetSavedComponent(tile, this.stateData.clams);
             consoleLog(this.stateData.clams);

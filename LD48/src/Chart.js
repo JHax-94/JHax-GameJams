@@ -115,8 +115,6 @@ export default class Chart
             }
         }
 
-
-
         this.playerShip = new PlayerShip(this, shipPosition);
 
         var pearlBounds = {
@@ -147,7 +145,15 @@ export default class Chart
         this.hoverTile = {x: 0, y:0};
         this.hoverTilePos = this.GetMapTileScreenPosition(0, 0);
 
-        this.UpdateSelectedTile();
+        if(this.dataStore.playerShip)
+        {
+            consoleLog("SET SHIP POSITION:");
+            consoleLog(this.dataStore.playerShip);
+            this.hoverTile = this.dataStore.playerShip;
+            this.hoverTilePos = this.GetMapTileScreenPosition(this.hoverTile.x, this.hoverTile.y);
+        }
+
+        this.UpdateSelectedTile(true);
     }
 
     DepthString(depth)
@@ -192,12 +198,12 @@ export default class Chart
         }
     }
 
-    UpdateSelectedTile()
+    UpdateSelectedTile(noSfx)
     {
         consoleLog("CHANGING SELECTED TILE:");
         consoleLog(this.hoverTile);
 
-        this.playerShip.SetChartPos(this.hoverTile.x, this.hoverTile.y);
+        this.playerShip.SetChartPos(this.hoverTile.x, this.hoverTile.y, noSfx);
         this.dataSheet.SetLabelText("COORDS", this.CoordinateString(this.hoverTile.x, this.hoverTile.y));
 
         var chartEntry = GetDiveData(this.hoverTile);

@@ -146,7 +146,10 @@ function LoadChart()
     tilesheet("tilesheet_chart");
     new Chart("chart", { x:0, y: 0 }, {x: 0, y: 0});
 
-    //em.AddRender(SOUND);
+    if(SOUND)
+    {
+        SOUND.AddToEntityManager();
+    }
 }
 
 function GetDiveData(tile)
@@ -286,16 +289,14 @@ function Setup(maintainSound)
     {
         DATA_STORE.SaveVolumes(maintainSound);
     }
+    SFX = assets.soundMap;
 
     LoadChart();
-    SFX = assets.soundMap;
 
     SOUND = new SoundManager({x: 24, y: 0.75}, { speakerIndex: 30, speakerOnIndex: 10, speakerOffIndex: 11, sfxIndex: 46 });
 
     /*
     var setSoundOn = DATA_STORE.soundOn;
-
-    
     */
     //SOUND.SetOn(setSoundOn);
     PEARL_DATA = assets.pearlData.pearls;

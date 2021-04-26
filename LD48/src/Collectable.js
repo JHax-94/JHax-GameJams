@@ -6,8 +6,8 @@ export default class Collectable
     {
 
         this.sfx = SFX.treasureGet;
-        consoleLog("CONSTRUCT COLLECTABLE AT POSITION");
-        consoleLog(spawnPosition);
+        //consoleLog("CONSTRUCT COLLECTABLE AT POSITION");
+        //consoleLog(spawnPosition);
         var phys = {
             //transform: { x: spawnPosition.x, y: spawnPosition.y, w: PIXEL_SCALE, h: PIXEL_SCALE},
             tileTransform: { x: spawnPosition.x, y: spawnPosition.y, w: 1, h: 1 },
@@ -38,8 +38,8 @@ export default class Collectable
         em.AddRender(this);
         em.AddUpdate(this);
 
-        consoleLog("Constructed collectable!");
-        consoleLog(this);
+        //consoleLog("Constructed collectable!");
+        //consoleLog(this);
 
         this.diver = null;
     }

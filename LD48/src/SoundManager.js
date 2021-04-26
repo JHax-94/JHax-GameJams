@@ -54,10 +54,22 @@ export default class SoundManager
         this.sfxUpButton = new Button({ x: this.pos.x + 5, y: this.pos.y + 1.25, w:1, h:1 }, ">", { shadow: 0, foreground: 34, text: 51, hover: 32 }, "SFXUP", this);
         this.sfxBar = new ProgressBar({x: this.pos.x + 1.25, y: this.pos.y + 1.25, w: 3.5, h: 1}, { unfilled: 2, filled: 29} );
         this.sfxBar.SetFill(this.sfxVolume, this.sfxMax);
-        this.sfxUpButton = new Button({ x: this.pos.x- 1.25, y: this.pos.y + 1.25, w:1, h:1 }, "<", { shadow: 0, foreground: 34, text: 51, hover: 32 }, "SFXDOWN", this);
+        this.sfxDownButton = new Button({ x: this.pos.x- 1.25, y: this.pos.y + 1.25, w:1, h:1 }, "<", { shadow: 0, foreground: 34, text: 51, hover: 32 }, "SFXDOWN", this);
 
         this.SetMusicVolume(this.musicVolume);
         this.SetSfxVolume(this.sfxVolume);
+    }
+
+    AddToEntityManager()
+    {
+        em.AddRender(this);
+        this.musicUpButton.AddToEntityManager();
+        this.musicBar.AddToEntityManager();
+        this.musicDownButton.AddToEntityManager();
+
+        this.sfxUpButton.AddToEntityManager();
+        this.sfxBar.AddToEntityManager();
+        this.sfxDownButton.AddToEntityManager();
     }
 
     ChangeVolume(progressBar, original, changeBy, max)

@@ -12,13 +12,13 @@ export default class Button
         
         this.hover = false;
 
-        em.AddRender(this);
-        em.AddHover(this);
-        em.AddClickable(this);
-
         this.hideShadow = false;
 
         this.listener = listener;
+
+        em.AddRender(this);
+        em.AddHover(this);
+        em.AddClickable(this);
 
         if(text.spriteIndex)
         {
@@ -31,6 +31,17 @@ export default class Button
             this.text = new Label(this.GetLabelPos(), text, colours.text);
             this.text.font = assets.charsets.large_font;
         }
+
+        
+    }
+
+    AddToEntityManager()
+    {
+        em.AddRender(this);
+        em.AddHover(this);
+        em.AddClickable(this);
+
+        this.text.AddToEntityManager();
     }
 
     Delete()

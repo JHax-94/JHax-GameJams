@@ -88,7 +88,6 @@ export default class Fish
     Draw()
     {  
         var pos = em.GetPosition(this);
-        consoleLog(pos);
         for(var i = 0; i < this.fishes.length; i ++)
         {
             sprite(this.fishes[i].sprite, pos.x + this.fishes[i].offset.x, pos.y + this.fishes[i].offset.y, !this.moveRight);

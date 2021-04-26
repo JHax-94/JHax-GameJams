@@ -37,7 +37,9 @@ export default class Container
     {
         var screenPos = em.GetPosition(this);
 
-        var spawnPos = { x: screenPos.x, y: screenPos.y - PIXEL_SCALE };
+        //var spawnPos = { x: screenPos.x, y: screenPos.y - PIXEL_SCALE };
+
+        var spawnPos = {x: this.initialTilePos.x, y: this.initialTilePos.y - 1};
 
         consoleLog("CONTAINER POS");
         consoleLog(screenPos);

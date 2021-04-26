@@ -34,6 +34,10 @@ export default class Diver
         this.purpleKeyLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y + 2 }, PURPLE_KEY_SPRITE, 0);
         this.greenKeyLabel = new InventoryItem({ x: baseOffset.x, y: baseOffset.y + 3}, GREEN_KEY_SPRITE, 0);
 
+        this._bloopTime = 0.4;
+        this.bloopTimer = 0;
+        this.bloopSprite = 0;
+
         this.redKeys = [];
         this.purpleKeys = [];
         this.greenKeys = [];
@@ -192,6 +196,12 @@ export default class Diver
     AddJet()
     {
         this.hasJet = true;
+    }
+
+    Bloop(spriteIndex)
+    {
+        this.bloopSprite = spriteIndex;
+        this.bloopTimer = this._bloopTime;
     }
 
     UseKey(keyType)
@@ -357,6 +367,15 @@ export default class Diver
             em.MoveCamera(1);
         }
 
+        if(this.bloopTimer > 0)
+        {
+            this.bloopTimer -= deltaTime;
+            if(this.bloopTimer <= 0 )
+            {
+                this.bloopTimer = 0;
+            }
+        }
+
         //consoleLog(this.pos);
         var depletion = this.oxygenMeter.depletionRate * this.jetMultiplier * deltaTime;
 
@@ -370,16 +389,14 @@ export default class Diver
             sprite(this.spriteList[i].index, this.pos.x + this.spriteList[i].offset.x* PIXEL_SCALE , this.pos.y + this.spriteList[i].offset.y * PIXEL_SCALE);
         }
 
-        if(this.canInteract)
+        if(this.canInteract && this.bloopTimer <= 0)
         {
             sprite(this.interactPromptSpriteIndex, this.pos.x, this.pos.y - PIXEL_SCALE);
         }
-
-        /*
-        if(em.drawColliders)
+        else if(this.bloopTimer > 0)
         {
-            em.DrawColliders(this.phys);
-        }*/
+            sprite(this.bloopSprite, this.pos.x, (this.pos.y - PIXEL_SCALE) + (this.bloopTimer / this._bloopTime) * PIXEL_SCALE);
+        }
     }
 
 }

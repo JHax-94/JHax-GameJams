@@ -1,4 +1,4 @@
-import { em } from "./main";
+import { em, RED_LOCK_SPRITE, PURPLE_LOCK_SPRITE, GREEN_LOCK_SPRITE } from "./main";
 
 export default class LockedDoorZone
 {
@@ -7,6 +7,19 @@ export default class LockedDoorZone
         this.door = door;
 
         var doorOffset = { x: -2, y: -1 };
+
+        this.lockSprite = RED_LOCK_SPRITE;
+
+        if(this.door.doorType === "PURPLE")
+        {
+            this.lockSprite = PURPLE_LOCK_SPRITE;
+        }
+        else if(this.door.doorType === "GREEN")
+        {
+            this.lockSprite = GREEN_LOCK_SPRITE;
+        }
+
+
 
         var phys = {
             tileTransform: { x: spawnPos.x+doorOffset.x, y: spawnPos.y+doorOffset.y, w: 4, h: 3 },
@@ -38,6 +51,10 @@ export default class LockedDoorZone
         {
             diver.UseKey(this.door.doorType);
             this.Delete();
+        }
+        else
+        {
+            diver.Bloop(this.lockSprite);
         }
     }
 

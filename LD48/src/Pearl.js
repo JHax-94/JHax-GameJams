@@ -1,4 +1,5 @@
 import Collectable from "./Collectable";
+import { consoleLog } from "./main";
 
 export default class Pearl extends Collectable
 {
@@ -14,6 +15,8 @@ export default class Pearl extends Collectable
  
     InternalCollect(diver)
     {
+        consoleLog("INTERNAL COLLECT BY: ");
+        consoleLog(diver); 
         diver.pearls.push(this.pearlInfo);
     }
 }

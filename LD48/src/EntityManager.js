@@ -81,7 +81,7 @@ export default class EntityManager
         }
     }
 
-    RemoveUpdate(obj)
+    RemoveUpdate(updatable)
     {
         for(var i = 0; i < this.updates.length; i ++)
         {
@@ -313,6 +313,13 @@ export default class EntityManager
                 var diver = manager.BodyWithTag(evt, "DIVER");
                 
                 diver.obj.SetInteractable(null);
+            }
+            else if(manager.CompareTags(evt, "DIVER", "COLLECTABLE"))
+            {
+                //var diver = manager.BodyWithTag(evt, "DIVER");
+                var collectable = manager.BodyWithTag(evt, "COLLECTABLE");
+
+                collectable.obj.RemoveDiver();
             }
         });
 

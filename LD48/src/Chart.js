@@ -257,6 +257,11 @@ export default class Chart
                     type: "Sprite",
                     pos: { x: 11.5, y: 7.25 },
                     sprite: 25
+                },
+                {
+                    type: "Sprite",
+                    pos: { x: 10.75, y: 11.5 },
+                    sprite: 110
                 }
             ]);
 

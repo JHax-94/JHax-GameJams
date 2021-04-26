@@ -300,12 +300,17 @@ function Setup(maintainSound)
 
     LoadChart();
 
-    SOUND = new SoundManager({x: 24, y: 0.75}, { speakerIndex: 30, speakerOnIndex: 10, speakerOffIndex: 11, sfxIndex: 46 });
+    if(!SOUND)
+    {
+        SOUND = new SoundManager({x: 24, y: 0.75}, { speakerIndex: 30, speakerOnIndex: 10, speakerOffIndex: 11, sfxIndex: 46 });
+    }
+    
 
+    em.AddRender(SOUND);
     LOAD_COMPLETE = true;
 
     consoleLog(assets);
-    em.AddRender(SOUND);
+    
 
     consoleLog("setup complete!");
     consoleLog(em);

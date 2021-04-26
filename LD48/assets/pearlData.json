@@ -18,21 +18,25 @@
 		{
 			"pearlId": 2,
 			"pearlText": [
-				"Those with loud voices",
-				"do not need to stand so close."
+				"Those with loud",
+				"voices do not need",
+				"to stand so close."
 			]	
 		},
 		{
 			"pearlId": 3,
 			"pearlText": [
-				"The foolish look but one way,",
-				"the wise look both ways."
+				"The foolish",
+				"look but one way,",
+				"the wise",
+				"look both ways."
 			]	
 		},
 		{
 			"pearlId": 4,
 			"pearlText": [
-				"One cannot catch a fish",
+				"One cannot",
+				"catch a fish",
 				"with only one worm."
 			]	
 		},
@@ -70,14 +74,17 @@
 			"pearlId": 9,
 			"pearlText": [
 				"Do not seek wisdom.",
-				"Instead, let wisdom find you."
+				"Instead, let wisdom",
+				"find you."
 			]
 		},
 		{
 			"pearlId": 10,
 			"pearlText": [
-				"The wise one is like a parrot.",
-				"They speak only what they have heard."
+				"The wise one is",
+				"like a parrot.",
+				"They speak only",
+				"what they have heard."
 			]
 		},
 		{
@@ -90,8 +97,10 @@
 		{
 			"pearlId": 12,
 			"pearlText": [
-				"Forgiveness cannot be given.",
-				"It must be taken by force."
+				"Forgiveness",
+				"cannot be given.",
+				"It must be",
+				"taken by force."
 			]
 		},
 		{

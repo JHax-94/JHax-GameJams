@@ -206,7 +206,7 @@ function LoadDive(diveCoordinates)
 
     var chartEntry = GetDiveData(diveCoordinates);
 
-    em.drawColliders = true;
+    //em.drawColliders = true;
     tilesheet("tilesheet_dive");
 
     em.seaBed = new SeaBed(chartEntry);

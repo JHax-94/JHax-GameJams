@@ -28,8 +28,9 @@ export default class ProgressTracker
             this.playerShip = { x: 0, y: 0 };
             this.chartDiscoveryData = [];
 
-            this.retrievedPearls = [ { pearlId: 0 }, { pearlId: 1 }, { pearlId: 2 }, { pearlId: 3 }, { pearlId: 4 }, { pearlId: 5 }, { pearlId: 6 },
-                { pearlId: 7 }, { pearlId: 8 }, { pearlId: 9 }, { pearlId: 10 }];
+            //this.retrievedPearls = [ { pearlId: 0 }, { pearlId: 1 }, { pearlId: 2 }, { pearlId: 3 }, { pearlId: 4 }, { pearlId: 5 }, { pearlId: 6 }, { pearlId: 7 }, { pearlId: 8 }, { pearlId: 9 }, { pearlId: 10 }];
+
+            this.retrievedPearls = [];
             this.maps = [];
             //this.keys = [ { keyType: "RED" }, { keyType: "GREEN" }, { keyType: "PURPLE" }];
             this.keys = [];

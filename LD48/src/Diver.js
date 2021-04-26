@@ -19,6 +19,8 @@ export default class Diver
             this.oxygenMeter.SetFilled(this.oxygen, this.oxygenMax);*/
         }
 
+        this.playJet = false;
+
         this.animClock = 0;
 
         this.animations = [
@@ -324,8 +326,14 @@ export default class Diver
 
         if(inputs.jet && this.hasJet)
         {
+            if(this.jetMultiplier < 10)
+            {
+                this.playJet = true;
+            }
+
             this.jetMultiplier = 10;
             frameTime = 4;
+            
         }
         else
         {
@@ -339,6 +347,8 @@ export default class Diver
             this.oxygenMeter.AddOxygen(OXYGEN_TOP_UP);
             this.SetLabelValue(this.topUpsLabel, this.oxygenTopUps);
             this.waitForTopUpLift = true;
+
+            sfx(SFX.useConsume);
         }
         else if(this.waitForTopUpLift === true && !inputs.topUp)
         {
@@ -457,7 +467,11 @@ export default class Diver
         */
         this.pos = em.GetPosition(this);
         
-        
+        if(this.playJet)
+        {
+            sfx(SFX.useJet);
+            this.playJet = false;
+        }
 
         var velocity = this.GetVelocity();
         /*

@@ -51,25 +51,25 @@ export default class TreasureChest extends Container
             {
                 consoleLog("SPAWN OXYGEN UPGRADE");
                 consoleLog(spawnPos);
-                var upgrade = new OxygenUpgrade(spawnPos);
+                var upgrade = new OxygenUpgrade(spawnPos, this);
             }
             else if(this.contents.type === "KEY")
             {
                 consoleLog("SPAWN KEY");
                 
-                var key = new KeyCollectable(spawnPos, this.contents);
+                var key = new KeyCollectable(spawnPos, this.contents, this);
             }
             else if(this.contents.type === "MAP")
             {
-                var map = new TreasureMap(spawnPos, this.contents);
+                var map = new TreasureMap(spawnPos, this.contents, this);
             }
             else if(this.contents.type === "JET")
             {
-                var jet = new Jet(spawnPos);
+                var jet = new Jet(spawnPos, this);
             }
             else if(this.contents.type === "TOPUP")
             {
-                var topup = new TopUp(spawnPos);
+                var topup = new TopUp(spawnPos, this);
             }
         }
     }

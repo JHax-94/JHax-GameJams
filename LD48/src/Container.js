@@ -31,6 +31,8 @@ export default class Container
 
         this.state = this._CLOSED;
 
+        this.contentsCollected = false;
+
         em.AddPhys(this, phys);
         em.AddRender(this);
     }

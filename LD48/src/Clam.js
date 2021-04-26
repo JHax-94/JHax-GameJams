@@ -38,7 +38,7 @@ export default class Clam extends Container
             }
             var spawnPos = this.GetSpawnPosition();
 
-            new Pearl(spawnPos, this.pearlData);
+            new Pearl(spawnPos, this.pearlData, this);
         }        
     }
 }

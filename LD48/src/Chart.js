@@ -2,7 +2,7 @@ import Button from "./Button";
 import ChartSheet from "./ChartSheet";
 import GridOverlay from "./GridOverlay";
 import InventoryDisplay from "./InventoryDisplay";
-import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA, DATA_STORE, GetDiveData, ResetGame, PEARL_MAP_ICON, CHEST_MAP_ICON, EMPTY_MAP_ICON, SFX, SOUND } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA, DATA_STORE, GetDiveData, ResetGame, EMPTY_MAP_ICON, SFX, SOUND, COMPLETED_ICON, STUFF_TO_FIND_ICON } from "./main";
 import Pearl from "./Pearl";
 import PearlSelect from "./PearlSelect";
 import PlayerShip from './PlayerShip.js';
@@ -35,37 +35,42 @@ export default class Chart
         this.dataStore = DATA_STORE;
 
         this.dataSheet = new ChartSheet(
-            { x: mapOffset.x + 1, y: mapOffset.y + this.chartBounds.h + 1, w: 5, h: 4.5 },
+            { x: mapOffset.x + 1, y: mapOffset.y + this.chartBounds.h + 1, w: 9, h: 4.5 },
             { foreground: 34, text: 51 },
             [ 
                 {
                     type: "Label",
                     id: "COORDS",
                     text: this.CoordinateString(0, 0), ///"Co-ordinates: A0",
-                    pos: {x: 0.5, y: 0.5 }
+                    pos: {x: 0.5, y: 0.5 },
+                    font: assets.charsets.large_font
                 },
                 {
                     type: "Label",
                     id: "DEPTH",
                     text: this.DepthString(100),
-                    pos: {x: 0.5, y: 1.5 }
+                    pos: {x: 0.5, y: 1.5 },
+                    font: assets.charsets.large_font
                 },
                 {
                     type: "Label",
                     id: "TREASURE",
                     text: this.TreasureString(0, 0, true),
-                    pos: {x: 0.5, y: 2.5 }
+                    pos: {x: 0.5, y: 2.5 },
+                    font: assets.charsets.large_font
                 },
                 {
                     type: "Label",
                     id: "PEARLS",
                     text: this.PearlString(0, 0, true),
-                    pos: {x: 0.5, y: 3.5 }
+                    pos: {x: 0.5, y: 3.5 },
+                    font: assets.charsets.large_font
                 }
             ]);
 
+
         new Button({ 
-            x: mapOffset.x + 7, y: mapOffset.y + this.chartBounds.h + 2, w: 4, h: 3}, 
+            x: mapOffset.x + 11, y: mapOffset.y + this.chartBounds.h + 1, w: 3, h: 1}, 
             "DIVE!", 
             { shadow: 0, foreground: 34, text: 51, hover: 32 },
             "DIVE",
@@ -93,19 +98,35 @@ export default class Chart
         {
             var gridData = this.dataStore.chartDiscoveryData[i];
 
+            consoleLog(gridData);
             if(gridData.contentsKnown)
             {
                 var diveData = GetDiveData(gridData.coords);
 
                 if(diveData)
                 {
-                    if(diveData.clamCount > 0)
+                    consoleLog("==== DIVE DATA ====");
+                    consoleLog(diveData);
+                    consoleLog("==== GRID DATA ====");
+                    consoleLog(gridData);
+                    var foundAllClams = gridData.foundClamsCount === diveData.clamCount && diveData.clamCount > 0;
+                    var foundAllChests = gridData.foundChestsCount === diveData.chestCount && diveData.chestCount > 0;
+
+                    var noContents = diveData.clamCount === 0 && diveData.chestCount === 0;
+
+                    consoleLog("FOUND ALL CLAMS: " + foundAllClams);
+                    consoleLog("FOUND ALL CHESTS: " + foundAllChests);
+                    consoleLog("NO CONTENTS: " + noContents)
+
+                    if(noContents || !foundAllChests || !foundAllClams)
                     {
-                        new GridOverlay(this.GetMapTileScreenPosition(gridData.coords.x, gridData.coords.y), PEARL_MAP_ICON);
+                        consoleLog(" no contents or still need to find stuff")
+                        new GridOverlay(this.GetMapTileScreenPosition(gridData.coords.x, gridData.coords.y), STUFF_TO_FIND_ICON);
                     }
-                    else if(diveData.chestCount > 0)
+                    else if(foundAllClams && foundAllChests)
                     {
-                        new GridOverlay(this.GetMapTileScreenPosition(gridData.coords.x, gridData.coords.y), CHEST_MAP_ICON);                    
+                        consoleLog("Found everything!");
+                        new GridOverlay(this.GetMapTileScreenPosition(gridData.coords.x, gridData.coords.y), COMPLETED_ICON);                    
                     }
                     else
                     {

@@ -4,18 +4,24 @@ import { consoleLog, em, GetPearl, SFX } from "./main";
 
 export default class Pearl extends Collectable
 {
-    constructor(spawnPosition, pearlInfo)
+    constructor(spawnPosition, pearlInfo, container)
     {
         var physParams = { isKinematic: true };
-        super(spawnPosition, physParams);
+        super(spawnPosition, physParams, container);
         
-        this.sfx = SFX.pearlGet;
+        this.sfx = SFX.pearlGetA;
 
         this.spriteIndex = 68;
 
         this.pearlInfo = pearlInfo;
     }
  
+    PlaySoundEffect()
+    {
+        super.PlaySoundEffect();
+        sfx(SFX.pearlGetB);
+    }
+
     DisplayPearl()
     {
         var pearl = GetPearl(this.pearlInfo.pearlId);

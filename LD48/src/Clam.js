@@ -32,6 +32,10 @@ export default class Clam extends Container
         {
             this.SetState(this._OPENED);
 
+            if(this.sfx)
+            {
+                sfx(this.sfx);
+            }
             var spawnPos = this.GetSpawnPosition();
 
             new Pearl(spawnPos, this.pearlData);

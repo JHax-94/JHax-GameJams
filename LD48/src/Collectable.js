@@ -1,9 +1,11 @@
-import { consoleLog, em, PIXEL_SCALE } from "./main";
+import { consoleLog, em, PIXEL_SCALE, SFX } from "./main";
 
 export default class Collectable 
 {
     constructor(spawnPosition, physParams)
     {
+
+        this.sfx = SFX.treasureGet;
         consoleLog("CONSTRUCT COLLECTABLE AT POSITION");
         consoleLog(spawnPosition);
         var phys = {
@@ -45,7 +47,12 @@ export default class Collectable
     Collect(diver)
     {
         this.InternalCollect(diver);
-        if(this.bloops) this.diver.Bloop(this.spriteIndex);
+        if(this.bloops) diver.Bloop(this.spriteIndex);
+
+        if(this.sfx)
+        {
+            sfx(this.sfx);
+        }
 
         if(this.removeOnCollect)
         {

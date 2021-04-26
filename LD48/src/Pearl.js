@@ -1,6 +1,6 @@
 import ChartSheet from "./ChartSheet";
 import Collectable from "./Collectable";
-import { consoleLog, em, GetPearl } from "./main";
+import { consoleLog, em, GetPearl, SFX } from "./main";
 
 export default class Pearl extends Collectable
 {
@@ -9,6 +9,8 @@ export default class Pearl extends Collectable
         var physParams = { isKinematic: true };
         super(spawnPosition, physParams);
         
+        this.sfx = SFX.pearlGet;
+
         this.spriteIndex = 68;
 
         this.pearlInfo = pearlInfo;

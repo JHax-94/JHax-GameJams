@@ -8,7 +8,16 @@ import OxygenMeter from './OxygenMeter.js';
 import Chart from './Chart.js';
 import DiveShip from './DiveShip.js';
 import ProgressTracker from './ProgressTracker.js';
+import SoundManager from './SoundManager.js';
 
+
+var pointerEvents = require('pixelbox/pointerEvents');
+var p2 = require('p2');
+
+var bleeper = require('pixelbox/bleeper');
+
+var SFX;
+var SOUND = null;
 var STORAGE_KEY = 'LD48_PEARLS_OF_WISDOM';
 
 var SEABED_COLLISION_TILES = [131, 132, 133, 134, 135, 148, 149, 150, 151 ];
@@ -62,8 +71,7 @@ var GREEN_KEY_SPRITE = 222;
 var CHEST_TILES = [ 3 ]
 var CLAM_TILES = [ 57 ]
 
-var pointerEvents = require('pixelbox/pointerEvents');
-var p2 = require('p2');
+
 
 var PEARL_DATA;
 
@@ -116,6 +124,8 @@ function LoadChart()
 
     tilesheet("tilesheet_chart");
     new Chart("chart", { x:0, y: 0 }, {x: 0, y: 0});
+
+    em.AddRender(SOUND);
 }
 
 function GetDiveData(tile)
@@ -245,6 +255,10 @@ function InitialiseDataStore()
 
 function Setup()
 {
+    SFX = assets.soundMap;
+    
+    SOUND = new SoundManager({x: 24, y: 0.75}, { speakerIndex: 30, speakerOnIndex: 10, speakerOffIndex: 11 });
+
     PEARL_DATA = assets.pearlData.pearls;
     InitialiseDataStore();
     
@@ -254,8 +268,10 @@ function Setup()
 
     consoleLog(assets);
 
+
     consoleLog("setup complete!");
     consoleLog(em);
+    SOUND.PlaySong("seaNoise");
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -290,6 +306,9 @@ export {
     STORAGE_KEY,
     OPENED, CLOSED, DOOR_REPLACE_MAP,
     PEARL_MAP_ICON, CHEST_MAP_ICON, EMPTY_MAP_ICON,
+    SOUND,
+    SFX,
+    bleeper,
     GetPearl,
     ResetGame,
     GetDiveData,

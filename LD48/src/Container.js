@@ -1,4 +1,4 @@
-import { CLOSED, consoleLog, em, OPENED, PIXEL_SCALE } from "./main";
+import { CLOSED, consoleLog, em, OPENED, PIXEL_SCALE, SFX } from "./main";
 
 export default class Container
 {
@@ -8,6 +8,8 @@ export default class Container
         this._OPENED = OPENED;
 
         this.spriteIndex = sprite;
+
+        this.sfx = SFX.open;
 
         this.initialTilePos = position;
 

@@ -1,4 +1,4 @@
-import { em, RED_LOCK_SPRITE, PURPLE_LOCK_SPRITE, GREEN_LOCK_SPRITE } from "./main";
+import { em, RED_LOCK_SPRITE, PURPLE_LOCK_SPRITE, GREEN_LOCK_SPRITE, SFX } from "./main";
 
 export default class LockedDoorZone
 {
@@ -19,7 +19,7 @@ export default class LockedDoorZone
             this.lockSprite = GREEN_LOCK_SPRITE;
         }
 
-
+        this.sfx = SFX.open;
 
         var phys = {
             tileTransform: { x: spawnPos.x+doorOffset.x, y: spawnPos.y+doorOffset.y, w: 4, h: 3 },
@@ -49,6 +49,10 @@ export default class LockedDoorZone
     {
         if(diver.HasKey(this.door.doorType))
         {
+            if(this.sfx)
+            {
+                sfx(this.sfx);
+            }
             diver.UseKey(this.door.doorType);
             this.Delete();
         }

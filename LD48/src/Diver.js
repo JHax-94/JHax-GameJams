@@ -1,6 +1,6 @@
 import InventoryDisplay from "./InventoryDisplay";
 import InventoryItem from "./InventoryItem";
-import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, DOWN, INTERACT, LoadChart, DATA_STORE, RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE, OXYGEN_TOP_UP, TOP_UP_SPRITE } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, DOWN, INTERACT, LoadChart, DATA_STORE, RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE, OXYGEN_TOP_UP, TOP_UP_SPRITE,SFX } from "./main";
 
 export default class Diver
 {
@@ -467,6 +467,11 @@ export default class Diver
         {
             this.animClock = 0;
             this.animationFrame = (this.animationFrame + 1) % this.currentAnimation.frames.length;
+
+            if(this.animationFrame % 2 === 1)
+            {
+                sfx(SFX.move);
+            }
         }
 
         var cameraDiff = Math.abs(this.pos.y - em.halfScreen);

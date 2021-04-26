@@ -42,6 +42,11 @@ export default class TreasureChest extends Container
             consoleLog("OPEN CHEST");
             consoleLog(this.contents);
 
+            if(this.sfx)
+            {
+                sfx(this.sfx);
+            }
+
             if(this.contents.type === "OXYGEN")
             {
                 consoleLog("SPAWN OXYGEN UPGRADE");

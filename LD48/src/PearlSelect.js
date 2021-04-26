@@ -242,7 +242,7 @@ export default class PearlSelect
                         x: 5,
                         y: 3,
                         w: 12,
-                        h: 3
+                        h: 1+components.length
                     },
                     {
                         foreground: 34,

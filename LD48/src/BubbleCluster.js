@@ -1,11 +1,13 @@
 import Collectable from "./Collectable";
-import { em, BUBBLE_SPRITES, PIXEL_SCALE } from "./main";
+import { em, BUBBLE_SPRITES, PIXEL_SCALE, SFX } from "./main";
 
 export default class BubbleCluster extends Collectable
 {
     constructor(spawnPosition)
     {
         super(spawnPosition)
+
+        this.sfx = SFX.bubbleGet;
 
         this.bubbleSprites = [];
 

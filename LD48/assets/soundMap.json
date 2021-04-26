@@ -1,0 +1,9 @@
+{
+    "move": "moveWub",
+	"treasureGet": "gotThing",
+	"bubbleGet": "bubblePop",
+	"pearlGet": "gotPearl",
+	"open": "openThing",
+	"moveBoat": "moveBoat",
+	"dive": "goDive"
+}

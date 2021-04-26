@@ -1,4 +1,4 @@
-import { em } from "./main";
+import { em, SFX } from "./main";
 
 export default class PlayerShip
 {
@@ -13,8 +13,14 @@ export default class PlayerShip
 
     SetChartPos(x, y)
     {
-        this.chartPos.x = x;
-        this.chartPos.y = y;
+        if(this.chartPos.x !== x || this.chartPos.y !== y)
+        {
+            this.chartPos.x = x;
+            this.chartPos.y = y;
+
+            sfx(SFX.moveBoat);
+        }
+        
     }
 
     Draw()

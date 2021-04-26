@@ -1,7 +1,8 @@
 import Button from "./Button";
 import ChartSheet from "./ChartSheet";
+import GridOverlay from "./GridOverlay";
 import InventoryDisplay from "./InventoryDisplay";
-import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA, DATA_STORE, GetDiveData, ResetGame } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LoadDive, PEARL_DATA, DATA_STORE, GetDiveData, ResetGame, PEARL_MAP_ICON, CHEST_MAP_ICON, EMPTY_MAP_ICON } from "./main";
 import Pearl from "./Pearl";
 import PearlSelect from "./PearlSelect";
 import PlayerShip from './PlayerShip.js';
@@ -74,6 +75,38 @@ export default class Chart
             { shadow: 0, foreground: 34, text: 51, hover: 32 },
             "RESET",
             this);
+
+
+        consoleLog("CHART DATA");
+        consoleLog(this.dataStore.chartDiscoveryData);
+
+        for(var i = 0; i < this.dataStore.chartDiscoveryData.length; i ++)
+        {
+            var gridData = this.dataStore.chartDiscoveryData[i];
+
+            if(gridData.contentsKnown)
+            {
+                var diveData = GetDiveData(gridData.coords);
+
+                if(diveData)
+                {
+                    if(diveData.clamCount > 0)
+                    {
+                        new GridOverlay(this.GetMapTileScreenPosition(gridData.coords.x, gridData.coords.y), PEARL_MAP_ICON);
+                    }
+                    else if(diveData.chestCount > 0)
+                    {
+                        new GridOverlay(this.GetMapTileScreenPosition(gridData.coords.x, gridData.coords.y), CHEST_MAP_ICON);                    
+                    }
+                    else
+                    {
+                        new GridOverlay(this.GetMapTileScreenPosition(gridData.coords.x, gridData.coords.y), EMPTY_MAP_ICON);
+                    }
+                }
+            }
+        }
+
+
 
         this.playerShip = new PlayerShip(this, shipPosition);
 
@@ -172,24 +205,8 @@ export default class Chart
 
             var unknown = !chartRecord.contentsKnown;
 
-            var chestCount = 0;
-            var clamCount = 0;
-            
-            for(var i = 0; i < chartEntry.components.length; i ++)
-            {
-                if(chartEntry.components[i].type === "CHEST")
-                {
-                    chestCount ++;
-                }
-                else if(chartEntry.components[i].type === "CLAM")
-                {
-                    clamCount ++;
-                }
-            }
-
-
-            this.dataSheet.SetLabelText("TREASURE", this.TreasureString(chartRecord.foundChestsCount, chestCount, unknown));
-            this.dataSheet.SetLabelText("PEARLS", this.PearlString(chartRecord.foundClamsCount, clamCount, unknown));
+            this.dataSheet.SetLabelText("TREASURE", this.TreasureString(chartRecord.foundChestsCount, chartEntry.chestCount, unknown));
+            this.dataSheet.SetLabelText("PEARLS", this.PearlString(chartRecord.foundClamsCount, chartEntry.clamCount, unknown));
         }
         else
         {

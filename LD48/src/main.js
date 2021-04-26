@@ -15,6 +15,10 @@ var SEABED_COLLISION_TILES = [131, 132, 133, 134, 135, 148, 149, 150, 151 ];
 
 var OXYGEN_TANK_SPRITES = { top: 125, mid: 141, bottom: 157 };
 
+var PEARL_MAP_ICON = 12;
+var CHEST_MAP_ICON = 13;
+var EMPTY_MAP_ICON = 14;
+
 var DOOR_REPLACE_MAP = [
 
     { detect: 131, replace: 115 },
@@ -128,6 +132,24 @@ function GetDiveData(tile)
         {
             chartEntry = chart[i];
             break;
+        }
+    }
+
+    if(chartEntry)
+    {
+        chartEntry.chestCount = 0;
+        chartEntry.clamCount = 0;
+            
+        for(var i = 0; i < chartEntry.components.length; i ++)
+        {
+            if(chartEntry.components[i].type === "CHEST")
+            {
+                chartEntry.chestCount ++;
+            }
+            else if(chartEntry.components[i].type === "CLAM")
+            {
+                chartEntry.clamCount ++;
+            }
         }
     }
 
@@ -250,6 +272,7 @@ export {
     RED_LOCK_SPRITE, PURPLE_LOCK_SPRITE, GREEN_LOCK_SPRITE,
     STORAGE_KEY,
     OPENED, CLOSED, DOOR_REPLACE_MAP,
+    PEARL_MAP_ICON, CHEST_MAP_ICON, EMPTY_MAP_ICON,
     ResetGame,
     GetDiveData,
     LoadDive,

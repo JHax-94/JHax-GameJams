@@ -166,6 +166,7 @@ export default class ProgressTracker
 
                     chartRecord.foundClamsCount = 0;
                     chartRecord.foundChestsCount = 0;
+                    
                     chartRecord.clams = [];
                     chartRecord.chests = [];
                     chartRecord.contentsKnown = true;

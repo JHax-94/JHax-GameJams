@@ -8,7 +8,7 @@ export default class Collectable
         consoleLog(spawnPosition);
         var phys = {
             //transform: { x: spawnPosition.x, y: spawnPosition.y, w: PIXEL_SCALE, h: PIXEL_SCALE},
-            tileTransform: { x: spawnPosition.x+0.25, y: spawnPosition.y+0.25, w: 0.5, h: 0.5 },
+            tileTransform: { x: spawnPosition.x, y: spawnPosition.y, w: 1, h: 1 },
             isSensor: true,
             tag: "COLLECTABLE",
             mass: 0
@@ -18,7 +18,7 @@ export default class Collectable
 
         this.spriteIndex = 11;
 
-        this.collectDelay = 0.5;
+        this.collectDelay = 0.35;
 
         if(physParams)
         {
@@ -105,6 +105,6 @@ export default class Collectable
     Draw()
     {
         var position = em.GetPosition(this);
-        sprite(this.spriteIndex, position.x-0.25*PIXEL_SCALE, position.y-0.25*PIXEL_SCALE);
+        sprite(this.spriteIndex, position.x, position.y);
     }
 }

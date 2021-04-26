@@ -212,6 +212,23 @@ function LoadDive(diveCoordinates)
         new OxygenMeter({x: 30, y: 1, w: 1, h: 1}, DATA_STORE.GetOxygenTanks()));
 }
 
+function GetPearl(pearlId)
+{
+    var pearlList = assets.pearlData.pearls;
+
+    var pearl = null;
+
+    for(var i = 0; i < pearlList.length; i ++)
+    {
+        if(pearlList[i].pearlId === pearlId)
+        {
+            pearl = pearlList[i];
+        }
+    }
+
+    return pearl;
+}
+
 function InitialiseDataStore()
 {
     var saveData = localStorage.getItem(STORAGE_KEY);
@@ -273,6 +290,7 @@ export {
     STORAGE_KEY,
     OPENED, CLOSED, DOOR_REPLACE_MAP,
     PEARL_MAP_ICON, CHEST_MAP_ICON, EMPTY_MAP_ICON,
+    GetPearl,
     ResetGame,
     GetDiveData,
     LoadDive,

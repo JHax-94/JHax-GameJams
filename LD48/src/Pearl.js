@@ -1,5 +1,6 @@
+import ChartSheet from "./ChartSheet";
 import Collectable from "./Collectable";
-import { consoleLog } from "./main";
+import { consoleLog, em, GetPearl } from "./main";
 
 export default class Pearl extends Collectable
 {
@@ -13,10 +14,54 @@ export default class Pearl extends Collectable
         this.pearlInfo = pearlInfo;
     }
  
+    DisplayPearl()
+    {
+        var pearl = GetPearl(this.pearlInfo.pearlId);
+        var components = [];
+
+        em.pause = true;
+
+        for(var i = 0; i < pearl.pearlText.length; i ++)
+        {
+            components.push(
+                {
+                    type: "Label",
+                    id: "PEARL_" + i,
+                    text: pearl.pearlText[i],
+                    pos: {x: 0.5, y: 0.5 + i },
+                    font: assets.charsets.large_font
+                });
+        }
+
+        var pearlSheet = new ChartSheet(
+            {
+                x: 9,
+                y: 13,
+                w: 12,
+                h: 1+components.length
+            },
+            {
+                foreground: 34,
+                shadow: 0,
+                text: 53,
+                hover: 32
+            },
+            components,
+            true,
+            this);
+    }
+
+    SheetClosed()
+    {
+        em.pause = false;
+    }
+
     InternalCollect(diver)
     {
         consoleLog("INTERNAL COLLECT BY: ");
         consoleLog(diver); 
         diver.pearls.push(this.pearlInfo);
+
+        this.DisplayPearl();
     }
 }

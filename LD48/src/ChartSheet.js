@@ -4,7 +4,7 @@ import { consoleLog, em, PIXEL_SCALE } from "./main";
 
 export default class ChartSheet
 {
-    constructor(sheetBounds, sheetColours, components, closeButton)
+    constructor(sheetBounds, sheetColours, components, closeButton, closedListener)
     {
 
         /*
@@ -20,6 +20,8 @@ export default class ChartSheet
         this.labels = [];
 
         em.AddRender(this);
+
+        this.closedListener = closedListener;
 
         if(closeButton)
         {
@@ -78,6 +80,11 @@ export default class ChartSheet
             for(var i = 0; i < this.labels.length; i ++)
             {
                 this.labels[i].Delete();
+            }
+
+            if(this.closedListener)
+            {
+                this.closedListener.SheetClosed();
             }
         }
     }

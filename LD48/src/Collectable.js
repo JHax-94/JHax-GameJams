@@ -2,7 +2,7 @@ import { consoleLog, em, PIXEL_SCALE, SFX } from "./main";
 
 export default class Collectable 
 {
-    constructor(spawnPosition, physParams)
+    constructor(spawnPosition, physParams, container)
     {
 
         this.sfx = SFX.treasureGet;
@@ -15,6 +15,8 @@ export default class Collectable
             tag: "COLLECTABLE",
             mass: 0
         };
+
+        this.container = container;
 
         this.bloops = true;
 
@@ -59,6 +61,11 @@ export default class Collectable
         if(this.sfx)
         {
             this.PlaySoundEffect();
+        }
+
+        if(this.container)
+        {
+            this.container.contentsCollected = true;
         }
 
         if(this.removeOnCollect)

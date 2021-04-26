@@ -4,10 +4,10 @@ import { consoleLog } from "./main";
 
 export default class KeyCollectable extends Collectable
 {
-    constructor(spawnPosition, keyInfo)
+    constructor(spawnPosition, keyInfo, container)
     {
         var physParams = { isKinematic: true };
-        super(spawnPosition, physParams);
+        super(spawnPosition, physParams, container);
 
         this.type = keyInfo.keyType;
         this.keyInfo = keyInfo;

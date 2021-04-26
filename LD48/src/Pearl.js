@@ -4,10 +4,10 @@ import { consoleLog, em, GetPearl, SFX } from "./main";
 
 export default class Pearl extends Collectable
 {
-    constructor(spawnPosition, pearlInfo)
+    constructor(spawnPosition, pearlInfo, container)
     {
         var physParams = { isKinematic: true };
-        super(spawnPosition, physParams);
+        super(spawnPosition, physParams, container);
         
         this.sfx = SFX.pearlGetA;
 

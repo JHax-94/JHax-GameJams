@@ -3,13 +3,13 @@ import { em } from './main.js';
 
 export default class OxygenUpgrade extends Collectable
 {
-    constructor(spawnPosition)
+    constructor(spawnPosition, container)
     {
         var physParams = {
             isKinematic: true
         };
 
-        super(spawnPosition, physParams);
+        super(spawnPosition, physParams, container);
 
         this.spriteIndex = 142;
     }

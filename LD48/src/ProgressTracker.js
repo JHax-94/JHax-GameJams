@@ -1,6 +1,6 @@
 import { ContactMaterial, FrictionEquationPool } from "p2";
 import Chart from "./Chart";
-import { CLAM_TILES, consoleLog, STORAGE_KEY } from "./main";
+import { CLAM_TILES, CLOSED, consoleLog, OPENED, STORAGE_KEY } from "./main";
 
 export default class ProgressTracker
 {
@@ -268,12 +268,14 @@ export default class ProgressTracker
         {
             var clam = seaBed.clams[i];
             
+            var collected = clam.contentsCollected;
+
             chartRecord.clams.push({
                 coords: { x: clam.initialTilePos.mapX, y: clam.initialTilePos.mapY },
-                state: clam.state
+                state: collected ? OPENED : CLOSED
             });
 
-            if(clam.state === 1)
+            if(collected)
             {
                 foundClamsCount ++;
             }
@@ -289,12 +291,14 @@ export default class ProgressTracker
         {
             var chest = seaBed.chests[i];
 
+            var collected = chest.contentsCollected;
+
             chartRecord.chests.push({
                 coords: { x: chest.initialTilePos.mapX, y: chest.initialTilePos.mapY },
-                state: chest.state
+                state: collected ? OPENED : CLOSED,
             });
 
-            if(chest.state === 1)
+            if(collected)
             {
                 foundChestsCount ++;
             }

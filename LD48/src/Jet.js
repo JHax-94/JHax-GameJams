@@ -3,12 +3,12 @@ import { em, JET_SPRITE } from "./main";
 
 export default class Jet extends Collectable
 {
-    constructor(spawnPosition)
+    constructor(spawnPosition, container)
     {
         var phys = {
             isKinematic: true,
         };
-        super(spawnPosition, phys);
+        super(spawnPosition, phys, container);
 
         this.spriteIndex = JET_SPRITE;
     }

@@ -49,12 +49,12 @@ export default class SoundManager
         this.musicUpButton = new Button({ x: this.pos.x + 5, y: this.pos.y, w:1, h:1 }, ">", { shadow: 0, foreground: 34, text: 51, hover: 32 }, "MUSICUP", this);
         this.musicBar = new ProgressBar({x: this.pos.x + 1.25, y: this.pos.y, w: 3.5, h: 1}, { unfilled: 2, filled: 29} );
         this.musicBar.SetFill(this.musicVolume, this.musicMax);
-        this.musicDownButton = new Button({ x: this.pos.x - 1.25, y: this.pos.y, w:1, h:1 }, "<", { shadow: 0, foreground: 34, text: 51, hover: 32 }, "MUSICDOWN", this);
+        this.musicDownButton = new Button({ x: this.pos.x - 1.5, y: this.pos.y, w:1, h:1 }, "<", { shadow: 0, foreground: 34, text: 51, hover: 32 }, "MUSICDOWN", this);
 
         this.sfxUpButton = new Button({ x: this.pos.x + 5, y: this.pos.y + 1.25, w:1, h:1 }, ">", { shadow: 0, foreground: 34, text: 51, hover: 32 }, "SFXUP", this);
         this.sfxBar = new ProgressBar({x: this.pos.x + 1.25, y: this.pos.y + 1.25, w: 3.5, h: 1}, { unfilled: 2, filled: 29} );
         this.sfxBar.SetFill(this.sfxVolume, this.sfxMax);
-        this.sfxDownButton = new Button({ x: this.pos.x- 1.25, y: this.pos.y + 1.25, w:1, h:1 }, "<", { shadow: 0, foreground: 34, text: 51, hover: 32 }, "SFXDOWN", this);
+        this.sfxDownButton = new Button({ x: this.pos.x- 1.5, y: this.pos.y + 1.25, w:1, h:1 }, "<", { shadow: 0, foreground: 34, text: 51, hover: 32 }, "SFXDOWN", this);
 
         this.SetMusicVolume(this.musicVolume);
         this.SetSfxVolume(this.sfxVolume);

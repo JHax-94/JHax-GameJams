@@ -274,7 +274,8 @@ export default class ProgressTracker
 
             chartRecord.clams.push({
                 coords: { x: clam.initialTilePos.mapX, y: clam.initialTilePos.mapY },
-                state: collected ? OPENED : CLOSED
+                state: collected ? OPENED : CLOSED,
+                collected: collected
             });
 
             if(collected)
@@ -298,6 +299,7 @@ export default class ProgressTracker
             chartRecord.chests.push({
                 coords: { x: chest.initialTilePos.mapX, y: chest.initialTilePos.mapY },
                 state: collected ? OPENED : CLOSED,
+                collected: collected
             });
 
             if(collected)

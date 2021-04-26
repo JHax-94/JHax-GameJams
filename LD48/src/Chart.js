@@ -36,7 +36,7 @@ export default class Chart
 
         this.dataSheet = new ChartSheet(
             { x: mapOffset.x + 1, y: mapOffset.y + this.chartBounds.h + 1, w: 9, h: 4.5 },
-            { foreground: 34, text: 51 },
+            { foreground: 34, text: 51, shadow: 0 },
             [ 
                 {
                     type: "Label",
@@ -174,7 +174,7 @@ export default class Chart
         }
 
         this.infoChart = new ChartSheet(
-            { x: mapOffset.x + 17.75, y: 5.5, w: 13.5, h: 12 },
+            { x: mapOffset.x + 17.75, y: 5.5, w: 13.5, h: 13.5 },
             { foreground: 34, text: 51, shadow: 0 },
             [
                 {
@@ -229,6 +229,18 @@ export default class Chart
                     type: "Label",
                     text: "then return to your ship!",
                     pos: { x: 0.25, y: 10.5 },
+                    font: LARGE_FONT
+                },
+                {
+                    type: "Label",
+                    text: "Find maps to reveal",
+                    pos: {x: 0.25, y: 11.5},
+                    font: LARGE_FONT
+                },
+                {
+                    type: "Label",
+                    text: "treasure locations!",
+                    pos: {x: 0.25, y: 12.5},
                     font: LARGE_FONT
                 },
                 {

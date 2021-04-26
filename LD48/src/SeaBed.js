@@ -256,6 +256,7 @@ export default class SeaBed
             if(savedChest)
             {
                 newChest.SetState(savedChest.state);
+                newChest.contentsCollected = true;
             }
             
             this.chests.push(newChest);
@@ -278,6 +279,7 @@ export default class SeaBed
             if(savedClam)
             {
                 newClam.SetState(savedClam.state);
+                newClam.contentsCollected = true;
             }
             
             this.clams.push(newClam);

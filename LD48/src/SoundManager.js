@@ -8,10 +8,10 @@ export default class SoundManager
     constructor(position, spriteInfo)
     {
         this.trueMusicMax = 0.5;
-        this.musicMax = 5;
+        this.musicMax = 20;
 
         this.trueSfxMax = 0.5;
-        this.sfxMax = 5;
+        this.sfxMax = 20;
 
         this.spriteInfo = spriteInfo;
         this.pos = position;

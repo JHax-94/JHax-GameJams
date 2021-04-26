@@ -5,6 +5,7 @@ import { CHEST_TILES, CLAM_TILES, consoleLog, DATA_STORE, em, PIXEL_SCALE, SEABE
 import LockedDoor from "./LockedDoor";
 import Seaweed from "./SeaWeed";
 import SeaBackground from "./SeaBackground";
+import Fish from "./Fish";
 
 export default class SeaBed
 {
@@ -18,6 +19,16 @@ export default class SeaBed
         em.bgColour = 8;
         em.background = new SeaBackground();
 
+        var fishSpawnRow = 6 + random(5);
+        new Fish(fishSpawnRow);
+
+        while(fishSpawnRow < chartEntry.depth)
+        {
+            fishSpawnRow += 6 + random(6);
+
+            new Fish(fishSpawnRow);
+        }
+        
         this.chartEntry = chartEntry;
         this.mapName = chartEntry.seaBedMap;
         this.map = getMap(this.chartEntry.seaBedMap).copy();

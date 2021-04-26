@@ -144,8 +144,8 @@ export default class EntityManager
 
         /*
         consoleLog("ADD BODY");
-        consoleLog(phys);
-        */
+        consoleLog(phys);*/
+        
         obj.phys = new p2.Body({
             mass: phys.mass,
             position: phys.position,

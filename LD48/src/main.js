@@ -16,6 +16,8 @@ var Texture = require('pixelbox/Texture');
 
 var bleeper = require('pixelbox/bleeper');
 
+var FISH_SPRITES = [ 29, 30, 45, 46, 61, 62, 77, 93 ];
+
 var BACKGROUND = {
     blocks: [
         { type: "BLOCK", size: 16, colour: 15 },
@@ -336,6 +338,7 @@ export {
     PEARL_DATA,
     DATA_STORE,
     OXYGEN_TANK_SPRITES,
+    FISH_SPRITES,
     OXYGEN_CONF,
     LOCKED_DOOR_TILES,
     SEAWEED_TILES,

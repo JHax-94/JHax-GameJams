@@ -284,6 +284,8 @@ function Setup(maintainSound)
     consoleLog("====SETUP====");
     InitialiseDataStore();
 
+    PEARL_DATA = assets.pearlData.pearls;
+
     consoleLog(maintainSound);
     if(typeof(maintainSound) !== 'undefined' && maintainSound !== null)
     {
@@ -295,12 +297,6 @@ function Setup(maintainSound)
 
     SOUND = new SoundManager({x: 24, y: 0.75}, { speakerIndex: 30, speakerOnIndex: 10, speakerOffIndex: 11, sfxIndex: 46 });
 
-    /*
-    var setSoundOn = DATA_STORE.soundOn;
-    */
-    //SOUND.SetOn(setSoundOn);
-    PEARL_DATA = assets.pearlData.pearls;
-    
     LOAD_COMPLETE = true;
 
     consoleLog(assets);
@@ -310,7 +306,6 @@ function Setup(maintainSound)
     consoleLog(em);
 
     SOUND.PlayTitle();
-
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

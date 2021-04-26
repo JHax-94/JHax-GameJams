@@ -73,6 +73,46 @@
 			"s": "*XU*cU*iU*sU*xU*{U*zU*zU*yU*wT*vT*vS*uR*uP*tN*sL*sH*sC*r>*r8*q1*q**q%*q$"
 		},
 		{
+			"n": "useConsum",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "2$@2$D2$F2$G2$G2$G2$G2$F* F*|F*|F*{F"
+		},
+		{
+			"n": "useJet",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "*27*D;*W=*i>*v?*{?*.?*!@*!A*!B* D*{E*yG*xI*vJ*tK*sM"
+		},
+		{
+			"n": "newPearlA",
+			"i": [
+				53,
+				0,
+				127,
+				1
+			],
+			"s": "':*':,':0':5'::':?':F':O':S':X':]':`':b':b':b':b':b':b':a':`':_':]':X':U':Q':L':G':C':=':8':3':,"
+		},
+		{
+			"n": "newPearlB",
+			"i": [
+				53,
+				0,
+				127,
+				1
+			],
+			"s": "'A&'A('A-'A2'A8'A@'AI'AN'AV'A]'A_'Aa'Aa'Aa'Ab'Aa'A`'A`'A`'A`'A^'A['AY'AV'AQ'AL'AH'AD'A='A6'A-'A("
+		},
+		{
 			"n": "",
 			"i": [
 				20,

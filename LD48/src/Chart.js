@@ -146,11 +146,19 @@ export default class Chart
 
     UpdateSelectedTile()
     {
+        consoleLog("CHANGING SELECTED TILE:");
+        consoleLog(this.hoverTile);
         this.playerShip.SetChartPos(this.hoverTile.x, this.hoverTile.y);
         this.dataSheet.SetLabelText("COORDS", this.CoordinateString(this.hoverTile.x, this.hoverTile.y));
 
         var chartEntry = GetDiveData(this.hoverTile);
         var chartRecord = this.dataStore.GetChartDiscovery(this.hoverTile);
+
+        consoleLog("CHART ENTRY");
+        consoleLog(chartEntry);
+
+        consoleLog("CHART RECORD");
+        consoleLog(chartRecord);
 
         if(chartEntry)
         {
@@ -164,8 +172,24 @@ export default class Chart
 
             var unknown = !chartRecord.contentsKnown;
 
-            this.dataSheet.SetLabelText("TREASURE", this.TreasureString(chartRecord.foundChestsCount, chartRecord.chests.length, unknown));
-            this.dataSheet.SetLabelText("PEARLS", this.PearlString(chartRecord.foundClamsCount, chartRecord.clams.length, unknown));
+            var chestCount = 0;
+            var clamCount = 0;
+            
+            for(var i = 0; i < chartEntry.components.length; i ++)
+            {
+                if(chartEntry.components[i].type === "CHEST")
+                {
+                    chestCount ++;
+                }
+                else if(chartEntry.components[i].type === "CLAM")
+                {
+                    clamCount ++;
+                }
+            }
+
+
+            this.dataSheet.SetLabelText("TREASURE", this.TreasureString(chartRecord.foundChestsCount, chestCount, unknown));
+            this.dataSheet.SetLabelText("PEARLS", this.PearlString(chartRecord.foundClamsCount, clamCount, unknown));
         }
         else
         {

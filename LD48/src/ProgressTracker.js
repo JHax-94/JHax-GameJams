@@ -1,6 +1,6 @@
-import { FrictionEquationPool } from "p2";
+import { ContactMaterial, FrictionEquationPool } from "p2";
 import Chart from "./Chart";
-import { CLAM_TILES, consoleLog } from "./main";
+import { CLAM_TILES, consoleLog, STORAGE_KEY } from "./main";
 
 export default class ProgressTracker
 {
@@ -35,7 +35,8 @@ export default class ProgressTracker
 
             this.diverUpgrades = [];
         }
-        
+
+        this.hints = assets.hintData.hints;
     }
 
     SetSavedTanks(amount)
@@ -120,25 +121,38 @@ export default class ProgressTracker
     
     SetSavedMaps(mapList)
     {
+        consoleLog("SAVED MAPS....");
+        consoleLog(mapList);
+
         for(var i = 0; i < mapList.length; i ++)
         {
             var mapFound = false;
             var newMap = mapList[i];
 
-            for(var j = 0; j < this.maps.length; j ++)
-            {
-                var storedMap = this.maps[j];
+            var getHint = this.maps.length;
 
-                if(newMap.targetTile.x === storedMap.targetTile.x && newMap.targetTile.y === storedMap.targetTile.y)
+            this.maps.push(mapList[i]);
+
+            if(getHint < this.hints.length)
+            {
+                var hint = this.hints[getHint];
+                
+                newMap.targetTile = hint.targetTile;
+
+                consoleLog("REVEAL TILE: ");
+                consoleLog(newMap.targetTile);
+
+                /*
+                for(var j = 0; j < this.maps.length; j ++)
                 {
-                    mapFound = true;
-                    break;
-                }
-            }
+                    var storedMap = this.maps[j];
 
-            if(!mapFound)
-            {
-                this.maps.push(newMap);
+                    if(newMap.targetTile.x === storedMap.targetTile.x && newMap.targetTile.y === storedMap.targetTile.y)
+                    {
+                        mapFound = true;
+                        break;
+                    }
+                }*/
 
                 var chartDiscovery = this.GetChartDiscovery(newMap.targetTile);
                 var addToChartList = false;
@@ -153,6 +167,7 @@ export default class ProgressTracker
                     chartRecord.foundChestsCount = 0;
                     chartRecord.clams = [];
                     chartRecord.chests = [];
+                    chartRecord.contentsKnown = true;
 
                     this.chartDiscoveryData.push(chartRecord);
                 }
@@ -238,7 +253,7 @@ export default class ProgressTracker
             var clam = seaBed.clams[i];
             
             chartRecord.clams.push({
-                coords: clam.initialTilePos,
+                coords: { x: clam.initialTilePos.mapX, y: clam.initialTilePos.mapY },
                 state: clam.state
             });
 
@@ -259,7 +274,7 @@ export default class ProgressTracker
             var chest = seaBed.chests[i];
 
             chartRecord.chests.push({
-                coords: chest.initialTilePos,
+                coords: { x: chest.initialTilePos.mapX, y: chest.initialTilePos.mapY },
                 state: chest.state
             });
 
@@ -285,6 +300,6 @@ export default class ProgressTracker
 
     Persist()
     {
-        localStorage.setItem('LD48_PEARLS_OF_WISDOM', JSON.stringify(this));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(this));
     }
 }

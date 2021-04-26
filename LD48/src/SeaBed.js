@@ -117,6 +117,11 @@ export default class SeaBed
 
     GetSavedComponent(mapLoc, saveList)
     {
+        consoleLog("GET COMPONENT AT ");
+        consoleLog(mapLoc);
+
+        consoleLog("FROM LIST");
+        consoleLog(saveList);
         var savedComp = null;
 
         if(saveList)
@@ -203,14 +208,17 @@ export default class SeaBed
         {
             var tile = this.chestMapData[i];
 
-            consoleLog("LOAD CHEST");
+            consoleLog("----- LOAD CHEST -----");
             consoleLog(tile);
 
             var chestComponent = this.GetTileComponent("CHEST", tile, this.chartEntry.components);
 
-            var newChest = new TreasureChest({x: this.mapPosition.x + tile.x, y: this.mapPosition.y + tile.y }, tile.index, chestComponent.contents);
+            var newChest = new TreasureChest({x: this.mapPosition.x + tile.x, y: this.mapPosition.y + tile.y, mapX: tile.x, mapY: tile.y }, tile.index, chestComponent.contents);
 
             var savedChest = this.GetSavedComponent(tile, this.stateData.chests);
+
+            consoleLog(this.stateData.chests);
+            consoleLog(savedChest);
 
             if(savedChest)
             {
@@ -223,14 +231,16 @@ export default class SeaBed
         for(var i = 0; i < this.clamMapData.length; i++)
         {
             var tile = this.clamMapData[i];
-            consoleLog("LOAD CLAM");
+            consoleLog("------ LOAD CLAM ------");
             consoleLog(tile);
 
             var clamComponent = this.GetTileComponent("CLAM", tile, this.chartEntry.components);
 
-            var newClam = new Clam({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y }, tile.index, clamComponent);
+            var newClam = new Clam({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y, mapX: tile.x, mapY: tile.y }, tile.index, clamComponent);
 
             var savedClam = this.GetSavedComponent(tile, this.stateData.clams);
+            consoleLog(this.stateData.clams);
+            consoleLog(savedClam);
 
             if(savedClam)
             {
@@ -246,7 +256,7 @@ export default class SeaBed
 
             this.GetTileComponent("LOCKED_DOOR", tile, this.chartEntry.components);
 
-            var newDoor = new LockedDoor({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y}, {}, tile.doorType);
+            var newDoor = new LockedDoor({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y, mapX: tile.x, mapY: tile.y }, {}, tile.doorType);
         }
 
     }

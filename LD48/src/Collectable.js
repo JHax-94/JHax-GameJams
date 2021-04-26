@@ -20,6 +20,8 @@ export default class Collectable
 
         this.spriteIndex = 11;
 
+        this.bloopSprite = null;
+
         this.collectDelay = 0.35;
 
         if(physParams)
@@ -47,7 +49,7 @@ export default class Collectable
     Collect(diver)
     {
         this.InternalCollect(diver);
-        if(this.bloops) diver.Bloop(this.spriteIndex);
+        if(this.bloops) diver.Bloop(this.bloopSprite ? this.bloopSprite : this.spriteIndex);
 
         if(this.sfx)
         {

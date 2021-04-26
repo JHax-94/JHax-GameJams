@@ -7,11 +7,17 @@ export default class BubbleCluster extends Collectable
     {
         super(spawnPosition)
 
+        this.collectDelay = 0;
+
+        this.riseSpeed = 12;
+
         this.sfx = SFX.bubbleGet;
 
         this.bubbleSprites = [];
 
-        this.oxygenRestore = 10;
+        this.oxygenRestore = 6;
+
+        this.bloopSprite = 124;
 
         this.bubbleSprites.push({
             offset: { x: 0, y: 0 },
@@ -28,7 +34,7 @@ export default class BubbleCluster extends Collectable
 
         this.bubbleSprites.sort((a, b) => { random(100) });
 
-        em.SetVelocity(this, { x: 0, y: 4 });
+        em.SetVelocity(this, { x: 0, y: this.riseSpeed });
     }
 
     InternalCollect(diver)
@@ -38,7 +44,8 @@ export default class BubbleCluster extends Collectable
 
     Update(deltaTime)
     {
-        em.SetVelocity(this, { x: 0, y: 4 });
+        //super.Update(deltaTime);
+        em.SetVelocity(this, { x: 0, y: this.riseSpeed });
     }
 
     Draw()

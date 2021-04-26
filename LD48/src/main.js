@@ -11,10 +11,13 @@ import ProgressTracker from './ProgressTracker.js';
 import SoundManager from './SoundManager.js';
 
 
+
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
 
 var bleeper = require('pixelbox/bleeper');
+
+var SEAWEED_TILES = [ 119, 120 ];
 
 var SFX;
 var SOUND = null;
@@ -70,8 +73,6 @@ var GREEN_KEY_SPRITE = 222;
 
 var CHEST_TILES = [ 3 ]
 var CLAM_TILES = [ 57 ]
-
-
 
 var PEARL_DATA;
 
@@ -169,7 +170,7 @@ function GetDiveData(tile)
 function ResetGame()
 {
     localStorage.removeItem(STORAGE_KEY);
-    Setup();
+    Setup(DATA_STORE.soundOn);
 }
 
 function LoadDive(diveCoordinates)
@@ -253,14 +254,22 @@ function InitialiseDataStore()
     }
 }
 
-function Setup()
+function Setup(maintainSound)
 {
+    InitialiseDataStore();
     SFX = assets.soundMap;
     
     SOUND = new SoundManager({x: 24, y: 0.75}, { speakerIndex: 30, speakerOnIndex: 10, speakerOffIndex: 11 });
 
+    var setSoundOn = DATA_STORE.soundOn;
+
+    if(typeof(maintainSound) !== 'undefined' && maintainSound !== null)
+    {
+        setSoundOn = false;
+    }
+
+    SOUND.SetOn(setSoundOn);
     PEARL_DATA = assets.pearlData.pearls;
-    InitialiseDataStore();
     
     LoadChart();
 
@@ -268,10 +277,10 @@ function Setup()
 
     consoleLog(assets);
 
-
     consoleLog("setup complete!");
     consoleLog(em);
-    SOUND.PlaySong("seaNoise");
+
+    SOUND.PlayTitle();
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -301,6 +310,7 @@ export {
     OXYGEN_TANK_SPRITES,
     OXYGEN_CONF,
     LOCKED_DOOR_TILES,
+    SEAWEED_TILES,
     RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE, JET_SPRITE, OXYGEN_TOP_UP, TOP_UP_SPRITE,
     RED_LOCK_SPRITE, PURPLE_LOCK_SPRITE, GREEN_LOCK_SPRITE,
     STORAGE_KEY,

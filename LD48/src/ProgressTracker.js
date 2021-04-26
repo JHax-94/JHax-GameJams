@@ -17,6 +17,7 @@ export default class ProgressTracker
             this.oxygenTopUp = saveData.oxygenTopUp;
             this.jetCount = saveData.jetCount;
             this.diverUpgrades = saveData.diverUpgrades;
+            this.soundOn = saveData.soundOn;
         }
         else
         {
@@ -33,6 +34,7 @@ export default class ProgressTracker
             this.oxygenTopUp = 0;
 
             this.jetCount = 1;
+            this.soundOn = true;
 
             this.diverUpgrades = [];
         }

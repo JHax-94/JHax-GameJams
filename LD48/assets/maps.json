@@ -145,7 +145,7 @@
 			"w": 32,
 			"h": 32,
 			"name": "emptyA",
-			"sheet": "tilesheet_dive",
+			"sheet": "tilesheet",
 			"data": "!!!.!!!p$9|-$;$:$9|,$:|,$=$9|~$:|,$9|~$:|~$9$<$9$:$;$:$9|,$I|J$Y|H'B$Y|K"
 		},
 		{

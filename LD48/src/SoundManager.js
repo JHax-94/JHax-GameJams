@@ -1,4 +1,5 @@
-import { consoleLog, em, PIXEL_SCALE } from "./main";
+import { Circle } from "p2";
+import { consoleLog, DATA_STORE, em, PIXEL_SCALE } from "./main";
 
 export default class SoundManager
 {
@@ -7,7 +8,7 @@ export default class SoundManager
         this.spriteInfo = spriteInfo;
         this.pos = position;
 
-        this.soundOn = true;
+        this.soundOn = false;
         audioManager.channels['sfx'].volume = 1;
 
         this.songElapsed = 0;
@@ -27,12 +28,22 @@ export default class SoundManager
 
     PlaySong(songName)
     {
-        if((this.currentSong != songName && this.songElapsed >= 10) || this.isSongPlaying === false)
+        consoleLog("CURRENT:");
+        consoleLog(this.currentSong)
+        consoleLog("IS SONG PLAYING?");
+        consoleLog(this.isSongPlaying);
+
+        if(this.soundOn)
         {
-            this.songElapsed = 0;
-            if(this.soundOn) patatracker.playSong(songName);
-            this.currentSong = songName;
-            this.isSongPlaying = true;
+            if((this.currentSong != songName && this.songElapsed >= 10) || this.isSongPlaying === false)
+            {
+                consoleLog("START SONG!");
+
+                this.songElapsed = 0;
+                if(this.soundOn) patatracker.playSong(songName);
+                this.currentSong = songName;
+                this.isSongPlaying = true;
+            }
         }
     }
 
@@ -45,17 +56,28 @@ export default class SoundManager
 
     SetOn(powerOn)
     {
-        consoleLog("SWITCH SOUND: " + powerOn);
-        this.soundOn = powerOn;
-        consoleLog(audioManager);
-        audioManager.muted = !powerOn;
-        
-        if(!powerOn)
+        if(powerOn != this.soundOn)
         {
-            patatracker.stop();
-            this.isSongPlaying = false;
-        } 
-        else this.PlaySong(this.titleSong);
+            consoleLog("SWITCH SOUND: " + powerOn);
+            this.soundOn = powerOn;
+            consoleLog(audioManager);
+            audioManager.muted = !powerOn;
+            
+            if(!powerOn)
+            {
+                patatracker.stop();
+                this.isSongPlaying = false;
+            } 
+            else 
+            {
+                consoleLog("PLAY:"  + this.titleSong);
+                this.PlaySong(this.titleSong);
+            }
+
+            DATA_STORE.soundOn = powerOn;
+            DATA_STORE.Persist();
+        }
+        
     }
 
     Toggle()

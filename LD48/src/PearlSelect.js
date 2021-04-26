@@ -239,9 +239,9 @@ export default class PearlSelect
 
                 var pearlSheet = new ChartSheet(
                     {
-                        x: 5,
+                        x: 4,
                         y: 3,
-                        w: 12,
+                        w: 14,
                         h: 1+components.length
                     },
                     {

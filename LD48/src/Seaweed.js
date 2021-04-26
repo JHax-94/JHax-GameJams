@@ -1,5 +1,5 @@
 import BubbleCluster from "./BubbleCluster";
-import { consoleLog, em, JET_SPRITE } from "./main";
+import { consoleLog, em, JET_SPRITE, SEAWEED_TILES } from "./main";
 
 export default class Seaweed 
 {
@@ -29,7 +29,7 @@ export default class Seaweed
         this.wiggleTimer = this._wiggleTime;
 
         this._spawnTime = this.SpawnTime();
-        this.spawnTimer = random(3);
+        this.spawnTimer = random(9);
 
         map.remove(this.initialTilePos.mapX, this.initialTilePos.mapY);
 
@@ -40,7 +40,7 @@ export default class Seaweed
 
     SpawnTime()
     {
-        return 12 + random(8);
+        return 16 + random(8);
     }
 
     SpawnPos()
@@ -78,7 +78,7 @@ export default class Seaweed
     {
         var position = em.GetPosition(this);
         
-        sprite(this.spriteIndex, position.x, position.y, this.flip);
+        sprite(SEAWEED_TILES[this.flip ? 1 : 0], position.x, position.y);
     }
 
 }

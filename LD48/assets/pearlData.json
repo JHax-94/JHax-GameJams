@@ -3,9 +3,10 @@
 		{
 			"pearlId": 0,
 			"pearlText": [
-				"Seek wisdom,",
-				"and wisdom may find you."
-			]
+				"One cannot",
+				"catch a fish",
+				"with only one worm."
+			]	
 		},
 		{
 			"pearlId": 1,
@@ -35,40 +36,44 @@
 		{
 			"pearlId": 4,
 			"pearlText": [
-				"One cannot",
-				"catch a fish",
-				"with only one worm."
-			]	
+				"When it is raining,",
+				"an umbrella",
+				"is a good friend."
+			]
 		},
 		{
 			"pearlId": 5,
 			"pearlText": [
-				"To think is to create,",
-				"to speak is to destroy."
-			]	
+				"When misfortune calls,",
+				"you need not answer."
+			]
 		},
 		{
 			"pearlId": 6,
 			"pearlText": [
-				"Living well is like",
-				"climbing a mountain.",
-				"Difficult."
+				"Living well is like ",
+				"climbing a difficult",
+				"mountain.",
+				"But the view is",
+				"worth it."
+				
 			]	
 		},
 		{
 			"pearlId": 7,
 			"pearlText": [
-				"Even the tallest tree",
-				"may one day become",
-				"a humble stool."
-			]	
+				"Life is a cup of thought",
+				"and a gallon of emotion."
+			]
 		},
 		{
 			"pearlId": 8,
 			"pearlText": [
-				"Though water is wet,",
-				"it is still water."
-			]	
+				"Those who claim wisdom",
+				"are like the parrot.",
+				"They speak only",
+				"what they have heard."
+			]
 		},
 		{
 			"pearlId": 9,
@@ -79,20 +84,11 @@
 			]
 		},
 		{
-			"pearlId": 10,
+			"pearlId":10,
 			"pearlText": [
-				"The wise one is",
-				"like a parrot.",
-				"They speak only",
-				"what they have heard."
-			]
-		},
-		{
-			"pearlId": 11,
-			"pearlText": [
-				"When misfortune calls,",
-				"do not answer."
-			]
+				"Though water is wet,",
+				"it is still water."
+			]	
 		},
 		{
 			"pearlId": 12,
@@ -113,12 +109,20 @@
 			]
 		},
 		{
-			"pearlId": 14,
+			"pearlId": 20,
 			"pearlText": [
-				"Life is a cup of thought",
-				"and a gallon of emotion."
-			]
-		}
+				"To think is to create,",
+				"to speak is to destroy."
+			]	
+		},
+		{
+			"pearlId": 21,
+			"pearlText": [
+				"Even the tallest tree",
+				"may one day become",
+				"a humble stool."
+			]	
+		},
 	]		
 }
 

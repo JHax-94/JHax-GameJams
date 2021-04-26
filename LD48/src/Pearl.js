@@ -43,9 +43,9 @@ export default class Pearl extends Collectable
 
         var pearlSheet = new ChartSheet(
             {
-                x: 9,
-                y: 13,
-                w: 12,
+                x: 8,
+                y: 10,
+                w: 14,
                 h: 1+components.length
             },
             {

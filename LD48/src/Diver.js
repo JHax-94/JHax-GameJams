@@ -371,12 +371,14 @@ export default class Diver
 
         if(inputs.jet && this.hasJet)
         {
-            if(this.jetMultiplier < 10)
+            var maxMultiplier = 10;
+
+            if(this.jetMultiplier < maxMultiplier)
             {
                 this.playJet = true;
             }
 
-            this.jetMultiplier = 10;
+            this.jetMultiplier = maxMultiplier;
             frameTime = 4;
             
         }
@@ -573,8 +575,10 @@ export default class Diver
             }
         }
 
+
+        var jetDepletion = this.jetMultiplier === 1 ? this.jetMultiplier : this.jetMultiplier + 2;
         //consoleLog(this.pos);
-        var depletion = this.oxygenMeter.depletionRate * this.jetMultiplier * deltaTime;
+        var depletion = this.oxygenMeter.depletionRate * jetDepletion * deltaTime;
 
         this.AddOxygen(-depletion);
     }

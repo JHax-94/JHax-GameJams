@@ -72,8 +72,8 @@ var JET_SPRITE =  158 ;
 var TOP_UP_SPRITE = 126;
 
 var OXYGEN_CONF = {
-    oxygenPerTank: 18,
-    depletionRate: 1.5
+    oxygenPerTank: 21,
+    depletionRate: 2
 }
 
 var LOCKED_DOOR_TILES = [

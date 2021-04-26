@@ -109,8 +109,8 @@ export default class Chart
                     consoleLog(diveData);
                     consoleLog("==== GRID DATA ====");
                     consoleLog(gridData);
-                    var foundAllClams = gridData.foundClamsCount === diveData.clamCount && diveData.clamCount > 0;
-                    var foundAllChests = gridData.foundChestsCount === diveData.chestCount && diveData.chestCount > 0;
+                    var foundAllClams = gridData.foundClamsCount === diveData.clamCount;
+                    var foundAllChests = gridData.foundChestsCount === diveData.chestCount;
 
                     var noContents = diveData.clamCount === 0 && diveData.chestCount === 0;
 
@@ -120,7 +120,7 @@ export default class Chart
 
                     if(noContents || !foundAllChests || !foundAllClams)
                     {
-                        consoleLog(" no contents or still need to find stuff")
+                        consoleLog(" no contents or still need to find stuff: icon = " + STUFF_TO_FIND_ICON)
                         new GridOverlay(this.GetMapTileScreenPosition(gridData.coords.x, gridData.coords.y), STUFF_TO_FIND_ICON);
                     }
                     else if(foundAllClams && foundAllChests)

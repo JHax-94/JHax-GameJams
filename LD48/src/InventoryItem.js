@@ -3,14 +3,22 @@ import { em, PIXEL_SCALE } from "./main";
 
 export default class InventoryItem
 {
-    constructor(tileRect, spriteIndex, amount)
+    constructor(tileRect, spriteIndex, amount, showText)
     {
         this.tileRect = tileRect;
 
         this.spriteIndex = spriteIndex;
         this.amount = amount;
 
-        this.amountLabel = new Label({ tileX: (this.tileRect.x + 1), tileY: (this.tileRect.y + 0.2) }, this.GetAmountString(), 0, assets.charsets.large_font);
+        if(showText)
+        {
+            this.amountLabel = new Label({ tileX: (this.tileRect.x + 1), tileY: (this.tileRect.y + 0.2) }, this.GetAmountString(), 0, assets.charsets.large_font);
+        }
+        else 
+        {
+            this.amountLabel = null;
+        }
+        
 
         em.AddRender(this);
     }
@@ -20,10 +28,22 @@ export default class InventoryItem
         return ("x" + this.amount);
     }
 
+    Delete()
+    {
+        if(this.amountLabel)
+        {
+            this.amountLabel.Delete();
+        }
+        em.RemoveRender(this);
+    }
+
     SetAmount(amount)
     {
-        this.amount = amount;
-        this.amountLabel.text = this.GetAmountString();
+        if(this.amountLabel)
+        {
+            this.amount = amount;
+            this.amountLabel.text = this.GetAmountString();
+        }
     }
 
     Draw()

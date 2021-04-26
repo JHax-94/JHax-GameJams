@@ -1,6 +1,6 @@
 import InventoryDisplay from "./InventoryDisplay";
 import InventoryItem from "./InventoryItem";
-import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, DOWN, INTERACT, LoadChart, DATA_STORE, RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE, OXYGEN_TOP_UP, TOP_UP_SPRITE,SFX } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LEFT, RIGHT, UP, DOWN, INTERACT, LoadChart, DATA_STORE, RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE, OXYGEN_TOP_UP, TOP_UP_SPRITE,SFX, JET_SPRITE } from "./main";
 
 export default class Diver
 {
@@ -76,12 +76,7 @@ export default class Diver
         this.hasJet = DATA_STORE.GetJetCount() > 0;
         this.oxygenTopUps = DATA_STORE.GetOxygenTopUps();
 
-        var baseOffset = { x: 0.5, y: 0.5 };
-
-        this.topUpsLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y }, TOP_UP_SPRITE, this.oxygenTopUps);
-        this.redKeyLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y + 1 }, RED_KEY_SPRITE, 0);
-        this.purpleKeyLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y + 2 }, PURPLE_KEY_SPRITE, 0);
-        this.greenKeyLabel = new InventoryItem({ x: baseOffset.x, y: baseOffset.y + 3}, GREEN_KEY_SPRITE, 0);
+        
 
         this._bloopTime = 0.4;
         this.bloopTimer = 0;
@@ -107,11 +102,11 @@ export default class Diver
         }
 
         this.animationFrame = 0;
-
+        /*
         this.SetLabelValue(this.redKeyLabel, this.redKeys.length);
         this.SetLabelValue(this.purpleKeyLabel, this.purpleKeys.length);
         this.SetLabelValue(this.greenKeyLabel, this.greenKeys.length);
-
+        */
         this.usedKeys = [];
         
         this.keys = [];
@@ -157,6 +152,53 @@ export default class Diver
 
         //this.SetVelocity(0, -1);
         this.SetAnimation("centre");
+
+        this.UpdateInventory();
+    }
+
+    ClearInventory()
+    {
+        if(this.jetLabel) this.jetLabel.Delete();
+        if(this.topUpsLabel) this.topUpsLabel.Delete();
+        if(this.redKeyLabel) this.redKeyLabel.Delete();
+        if(this.purpleKeyLabel) this.purpleKeyLabel.Delete();
+        if(this.greenKeyLabel) this.greenKeyLabel.Delete();
+    }
+
+    UpdateInventory()
+    {
+        this.ClearInventory();
+        var baseOffset = { x: 0.5, y: 0.5 };
+
+        
+        var offsetCounter = 0;
+
+        this.topUpsLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y + offsetCounter }, TOP_UP_SPRITE, this.oxygenTopUps, true);
+        offsetCounter ++;
+
+        if(this.hasJet)
+        {
+            this.jetLabel = new InventoryItem({ x: baseOffset.x, y: baseOffset.y + offsetCounter }, JET_SPRITE, 1, false);
+            offsetCounter ++;
+        }
+
+        if(this.redKeys.length > 0)
+        {
+            this.redKeyLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y + offsetCounter }, RED_KEY_SPRITE, this.redKeys.length, false);
+            offsetCounter ++;
+        }
+
+        if(this.purpleKeys.length > 0)
+        {
+            this.purpleKeyLabel = new InventoryItem({x: baseOffset.x, y: baseOffset.y + offsetCounter }, PURPLE_KEY_SPRITE, this.purpleKeys.length, false);
+            offsetCounter ++;
+        }
+
+        if(this.greenKeys.length > 0)
+        {
+            this.greenKeyLabel = new InventoryItem({ x: baseOffset.x, y: baseOffset.y + offsetCounter }, GREEN_KEY_SPRITE, this.greenKeys.length, false);
+            offsetCounter ++;
+        }
     }
 
     SetAnimation(name)
@@ -231,18 +273,20 @@ export default class Diver
         if(keyInfo.keyType === "RED")
         {
             this.redKeys.push(keyInfo);
-            this.SetLabelValue(this.redKeyLabel, this.redKeys.length);
+            //this.SetLabelValue(this.redKeyLabel, this.redKeys.length);
         }
         else if(keyInfo.keyType === "PURPLE")
         {
             this.purpleKeys.push(keyInfo);
-            this.SetLabelValue(this.purpleKeyLabel, this.purpleKeys.length);
+            //this.SetLabelValue(this.purpleKeyLabel, this.purpleKeys.length);
         }
         else if(keyInfo.keyType === "GREEN")
         {
             this.greenKeys.push(keyInfo);
-            this.SetLabelValue(this.greenKeyLabel, this.greenKeys.length);
+            //this.SetLabelValue(this.greenKeyLabel, this.greenKeys.length);
         }
+
+        this.UpdateInventory();
     }
 
     HasKey(keyType)
@@ -271,6 +315,7 @@ export default class Diver
     AddJet()
     {
         this.hasJet = true;
+        this.UpdateInventory();
     }
 
     Bloop(spriteIndex)

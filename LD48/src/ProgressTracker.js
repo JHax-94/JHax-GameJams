@@ -288,6 +288,19 @@ export default class ProgressTracker
 
         chartRecord.contentsKnown = chartRecord.contentsKnown ? chartRecord.contentsKnown : (chartRecord.foundChestsCount > 0 || chartRecord.foundClamsCount > 0 || seaBed.minDepthReached);
 
+        chartRecord.doors = [];
+
+        for(var i = 0; i < seaBed.doors.length; i++)
+        {
+            var door = seaBed.doors[i];
+
+            chartRecord.doors.push({
+                coords: { x: door.initialTilePos.mapX, y: door.initialTilePos.mapY },
+                state: door.state
+            })
+            chartRecord.doors.push()
+        }
+
         if(pushRecord)
         {
             this.chartDiscoveryData.push(chartRecord);

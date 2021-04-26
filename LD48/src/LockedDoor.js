@@ -1,4 +1,4 @@
-import { em, PIXEL_SCALE } from './main.js';
+import { CLOSED, em, OPENED, PIXEL_SCALE } from './main.js';
 import LockedDoorZone from './LockedDoorZone.js';
 
 export default class LockedDoor
@@ -19,14 +19,27 @@ export default class LockedDoor
             mass: 0
         };
 
+        this.initialTilePos = spawnPos;
+
+        this.state = CLOSED;
+
         this.doorZone = new LockedDoorZone(spawnPos, this);
 
         em.AddPhys(this, phys);
         em.AddRender(this);
     }
 
+    SetState(state)
+    {
+        if(this.state === CLOSED && state === OPENED)
+        {
+            this.doorZone.Delete();
+        }
+    }
+
     Delete()
     {
+        this.state = OPENED;
         em.RemoveRender(this);
         em.RemovePhys(this);
     }

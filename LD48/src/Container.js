@@ -1,11 +1,11 @@
-import { consoleLog, em, PIXEL_SCALE } from "./main";
+import { CLOSED, consoleLog, em, OPENED, PIXEL_SCALE } from "./main";
 
 export default class Container
 {
     constructor(position, sprite)
     {
-        this._CLOSED = 0;
-        this._OPENED = 1;
+        this._CLOSED = CLOSED;
+        this._OPENED = OPENED;
 
         this.spriteIndex = sprite;
 

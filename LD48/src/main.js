@@ -15,6 +15,9 @@ var SEABED_COLLISION_TILES = [131, 132, 133, 134, 135, 148, 149, 150, 151 ];
 
 var OXYGEN_TANK_SPRITES = { top: 125, mid: 141, bottom: 157 };
 
+var OPENED = 1;
+var CLOSED = 0;
+
 var JET_SPRITE =  158 ;
 var TOP_UP_SPRITE = 126;
 
@@ -228,6 +231,7 @@ export {
     LOCKED_DOOR_TILES,
     RED_KEY_SPRITE, PURPLE_KEY_SPRITE, GREEN_KEY_SPRITE, JET_SPRITE, OXYGEN_TOP_UP, TOP_UP_SPRITE,
     STORAGE_KEY,
+    OPENED, CLOSED,
     ResetGame,
     GetDiveData,
     LoadDive,

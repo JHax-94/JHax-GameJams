@@ -47,7 +47,7 @@ export default class SeaBed
         this.chests = [];
         this.clams = [];
         this.bedTiles = [];
-        this.lockedDoors = [];
+        this.doors = [];
 
         em.AddRender(this);
 
@@ -256,7 +256,16 @@ export default class SeaBed
 
             this.GetTileComponent("LOCKED_DOOR", tile, this.chartEntry.components);
 
+            var savedDoor = this.GetSavedComponent(tile, this.stateData.doors);
+
             var newDoor = new LockedDoor({ x: tile.x + this.mapPosition.x, y: tile.y + this.mapPosition.y, mapX: tile.x, mapY: tile.y }, {}, tile.doorType);
+
+            if(savedDoor)
+            {
+                newDoor.SetState(savedDoor.state);
+            }
+
+            this.doors.push(newDoor);
         }
 
     }

@@ -7,7 +7,7 @@
 		"resizable": false,
 		"keepAspectRatio": false,
 		"width": 512,
-		"height": 512,
+		"height": 384,
 		"pixelSize": {
 			"width": 2,
 			"height": 2

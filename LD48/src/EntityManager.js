@@ -9,7 +9,7 @@ export default class EntityManager
         this.frameCount = 0;
         this.bgColour = 15;
 
-        this.halfScreen = PIXEL_SCALE * 16;
+        this.halfScreen = PIXEL_SCALE * 11;
 
         this.updates = [];
         this.renders = [];

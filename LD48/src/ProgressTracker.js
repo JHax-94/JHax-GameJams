@@ -271,6 +271,8 @@ export default class ProgressTracker
             var clam = seaBed.clams[i];
             
             var collected = clam.contentsCollected;
+            consoleLog("SAVING CLAM");
+            consoleLog(clam);
 
             chartRecord.clams.push({
                 coords: { x: clam.initialTilePos.mapX, y: clam.initialTilePos.mapY },
@@ -292,8 +294,11 @@ export default class ProgressTracker
         var foundChestsCount = 0;
         for(var i = 0; i < seaBed.chests.length; i ++)
         {
+            
             var chest = seaBed.chests[i];
 
+            consoleLog("SAVING CHEST");
+            consoleLog(chest);
             var collected = chest.contentsCollected;
 
             chartRecord.chests.push({

@@ -117,12 +117,12 @@ export default class Chart
                     consoleLog("FOUND ALL CHESTS: " + foundAllChests);
                     consoleLog("NO CONTENTS: " + noContents)
 
-                    if(noContents || !foundAllChests || !foundAllClams)
+                    if(!foundAllChests || !foundAllClams)
                     {
-                        consoleLog(" no contents or still need to find stuff: icon = " + STUFF_TO_FIND_ICON)
+                        consoleLog("still need to find stuff: icon = " + STUFF_TO_FIND_ICON)
                         new GridOverlay(this.GetMapTileScreenPosition(gridData.coords.x, gridData.coords.y), STUFF_TO_FIND_ICON);
                     }
-                    else if(foundAllClams && foundAllChests)
+                    else if((foundAllClams && foundAllChests) || noContents)
                     {
                         consoleLog("Found everything!");
                         new GridOverlay(this.GetMapTileScreenPosition(gridData.coords.x, gridData.coords.y), COMPLETED_ICON);                    
@@ -260,7 +260,7 @@ export default class Chart
                 },
                 {
                     type: "Sprite",
-                    pos: { x: 10.75, y: 11.5 },
+                    pos: { x: 10.75, y: 11.825 },
                     sprite: 110
                 }
             ]);

@@ -342,6 +342,13 @@ export default class ProgressTracker
 
     Persist()
     {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(this));
+        try
+        {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(this));
+        }
+        catch(err)
+        {
+
+        }
     }
 }

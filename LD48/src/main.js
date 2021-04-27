@@ -197,7 +197,15 @@ function ResetGame()
 {
     var soundSettings = DATA_STORE.volumes;
 
-    localStorage.removeItem(STORAGE_KEY);
+    try
+    {
+        localStorage.removeItem(STORAGE_KEY);
+    }
+    catch(err)
+    {
+
+    }
+    
     Setup(soundSettings);
 }
 
@@ -270,15 +278,24 @@ function GetPearl(pearlId)
 
 function InitialiseDataStore()
 {
-    var saveData = localStorage.getItem(STORAGE_KEY);
-
-    if(typeof(saveData)=='undefined')
+    var saveData = null;
+    
+    try
     {
-        DATA_STORE = new ProgressTracker();   
+        saveData = localStorage.getItem(STORAGE_KEY);
+    }
+    catch(err)
+    {
+
+    }
+    
+    if(saveData)
+    {
+        DATA_STORE = new ProgressTracker(JSON.parse(saveData));
     }
     else
     {
-        DATA_STORE = new ProgressTracker(JSON.parse(saveData));
+        DATA_STORE = new ProgressTracker();   
     }
 }
 

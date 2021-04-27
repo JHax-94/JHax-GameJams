@@ -244,6 +244,26 @@ export default class Chart
                     font: LARGE_FONT
                 },
                 {
+                    type: "Label",
+                    text: "Game by:",
+                    pos: {x: 3, y: 14.5 }
+                },
+                {
+                    type: "Label",
+                    text: "Josh Haxell and Sammy El-Bahrawy",
+                    pos: { x: 3, y: 15.5}
+                },
+                {
+                    type: "Label",
+                    text: "Made using:",
+                    pos: { x: 3, y: 16.5 }
+                },
+                {
+                    type: "Label",
+                    text: "CStoquer's PixelBox and Schteppe's P2.js",
+                    pos: { x: 3, y: 17.5}
+                },                
+                {
                     type: "Sprite",
                     pos: { x:11.5, y: 5.25 },
                     sprite: 158                    

@@ -21,10 +21,12 @@ export default class Character
             power4: false
         }
 
+        let playerRef = this;
+
         this.powers = [
             { powerName: "MissileSpeedDown", duration: 5, isPlayerStatus: true },
             { powerName: "Ghost", duration: 5, isPlayerStatus: true, conditions: { overlapsClear: true } },
-            { powerName: "MissilePushback" },
+            { powerName: "MissilePushback", force: 100, spin: 5, trigger: function() { playerRef.MissilePushback(this.force, this.spin) } },
             { powerName: "PlayerSpeedUp", duration: 5, isPlayerStatus: true },
             { powerName: "Decoy" }
         ]
@@ -74,6 +76,15 @@ export default class Character
         consoleLog("Constructed player..");
 
         EM.physContainer.playerWatch = this;
+    }
+
+    MissilePushback(pushbackForce, spin)
+    {
+        consoleLog(`Pushing back missile with force: ${pushbackForce}`);
+
+        let missile = EM.GetEntity("Missile");
+
+        missile.Pushback(pushbackForce, spin);
     }
 
     OnRegistered()
@@ -401,6 +412,11 @@ export default class Character
             if(power.isPlayerStatus)
             {
                 this.AddStatus(power.powerName, power.duration, power.conditions);
+            }
+
+            if(power.trigger)
+            {
+                power.trigger();
             }
 
             this.ExpendPowerUp(power.powerName);

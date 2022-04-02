@@ -24,6 +24,13 @@ export default class Missile
 
         this.frameCount = 0;
 
+        this.spinCountdown = 0;
+
+        this.pushbackForce = 0;
+        this.pushbackSpin = 0;
+
+        this.spinRecovery = 2.4;
+
         this.waitForStatusWearOff = false;
 
         EM.RegisterEntity(this, {
@@ -88,6 +95,8 @@ export default class Missile
 
             let posDiff = { x: playerPos.x - missilePos.x, y: playerPos.y - missilePos.y };
 
+            
+
             let diffVec = [ posDiff.x, posDiff.y ]; 
 
             let outVec = [0, 0];
@@ -102,13 +111,15 @@ export default class Missile
 
             let clockAngleDiff = Math.atan2(determinant, dotProd);
 
+            let desiredAngularVelocity = 0;
+
             if(clockAngleDiff < 0)
             {
-                this.phys.angularVelocity = -this.turnSpeed * this.difficultyModifier * statusModifier;        
+                desiredAngularVelocity = -this.turnSpeed * this.difficultyModifier * statusModifier;        
             }
             else if(clockAngleDiff > 0)
             {
-                this.phys.angularVelocity = this.turnSpeed * this.difficultyModifier * statusModifier;
+                desiredAngularVelocity = this.turnSpeed * this.difficultyModifier * statusModifier;
             }
 
             let orientDot = vec2.dot(upVec, outVec);
@@ -138,7 +149,57 @@ export default class Missile
                     this.sprite.flipR = anim.flipR;
                 }
             }   
+
+            if(this.pushbackForce > 0)
+            {
+                let magnitude = Math.sqrt(vec2.squaredLength(diffVec));
+
+                let impulseMultipler = (this.pushbackForce / magnitude) * -1;
+                
+                let impulseVector = [ diffVec[0] * impulseMultipler,  diffVec[1] * impulseMultipler]
+
+                consoleLog(impulseVector);
+
+                this.phys.applyImpulse(impulseVector);
+
+                this.pushbackForce = 0;
+            }   
+
+            if(this.pushbackSpin > 0)
+            {
+                let setSpin = this.spinDir * this.pushbackSpin;
+
+                consoleLog(`Setting spin: ${setSpin}`);
+
+                this.phys.angularVelocity = setSpin;
+
+                this.pushbackSpin -= deltaTime * this.spinRecovery;
+
+                if(Math.abs(setSpin - desiredAngularVelocity) < 0.1)
+                {
+                    this.pushbackSpin = 0;
+                }
+            }
+            else 
+            {
+                this.phys.angularVelocity = desiredAngularVelocity;
+            }
         }
+    }
+
+    Pushback(pushbackForce, pushbackSpin)
+    {
+        let randomSpin = random(2);
+
+        if(randomSpin === 0)
+        {
+            randomSpin = -1;
+        }
+
+        this.spinDir = randomSpin;
+
+        this.pushbackForce = pushbackForce;
+        this.pushbackSpin = pushbackSpin;
     }
 
     Draw()

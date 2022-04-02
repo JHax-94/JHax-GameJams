@@ -58,10 +58,6 @@ export default class PhysicsContainer
 
     CompareTags(evt, tag1, tag2)
     {
-        /*
-        consoleLog("COMPARE TAGS: " + tag1 + ", " + tag2);
-        consoleLog(evt);
-        */
         return (evt.bodyA.tag === tag1 && evt.bodyB.tag === tag2) || (evt.bodyA.tag === tag2 && evt.bodyB.tag === tag1);
     }
 
@@ -100,16 +96,11 @@ export default class PhysicsContainer
 
     PreSolveEvents(container, manager, evt)
     {
-        if(this.playerWatch && this.playerWatch.HasStatus("GHOST"))
+        if(this.playerWatch && this.playerWatch.HasStatus("Ghost"))
         {
             for(let i = 0; i < evt.contactEquations.length; i ++)
             {
                 let eq = evt.contactEquations[i];
-
-                consoleLog("EVENT");
-                consoleLog(evt);
-                consoleLog("EQUATION");
-                consoleLog(eq);
 
                 if(manager.CompareTags(eq, "PLAYER", "WALL"))
                 {
@@ -126,7 +117,7 @@ export default class PhysicsContainer
 
     EndContactEvents(container, manager, evt)
     {
-        if(this.playerWatch && this.playerWatch.HasStatus("GHOST"))
+        if(this.playerWatch && this.playerWatch.HasStatus("Ghost"))
         {
             if(manager.CompareTags(evt, "PLAYER", "WALL"))
             {
@@ -134,8 +125,6 @@ export default class PhysicsContainer
                 let wall = manager.BodyWithTag(evt, "WALL");
 
                 player.obj.RemoveOverlap(wall.obj);
-
-                //if(clear) player.obj.RemoveStatus("GHOST");
             }
         }
     }

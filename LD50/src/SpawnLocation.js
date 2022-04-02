@@ -33,7 +33,7 @@ export default class SpawnLocation
         consoleLog("SPAWN OBJECT!");
         consoleLog(objectToSpawn);
 
-        if(objectToSpawn.name === "GhostPickup")
+        if(objectToSpawn.name === "Ghost")
         {
             this.lastSpawnedObject = new GhostModePickup(this.pos, objectToSpawn, this);
         }

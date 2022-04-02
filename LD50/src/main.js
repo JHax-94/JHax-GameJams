@@ -3,6 +3,7 @@ import EntityManager from './EntityManager.js'
 import Maze from './Maze.js'
 import Missile from './Missile.js';
 import Menu from './Menu.js';
+import PowerUpsBar from './PowerUpsBar.js';
 
 let pointerEvents = require('pixelbox/pointerEvents');
 
@@ -16,8 +17,8 @@ let LOAD_COMPLETE = false;
 let LOGGING_ON = true;
 
 let PIXEL_SCALE = 8;
-let SCREEN_WIDTH = 16;
-let SCREEN_HEIGHT = 16;
+let SCREEN_WIDTH = 32;
+let SCREEN_HEIGHT = 32;
 
 function consoleLog(logData) {
     if(LOGGING_ON) console.log(logData); 
@@ -87,7 +88,27 @@ function SETUP(levelName)
 
         EM.AddEntity("Maze", new Maze(levelData));
 
-        EM.AddEntity("Missile", new Missile({ x: 3, y: 10 }));
+        let objectMap = assets.objectConfig.objectMap;
+        let missileConf = null;
+
+        for(let i = 0; i < objectMap.length; i ++)
+        {
+            if(objectMap[i].name === "Missile")
+            {
+                missileConf = objectMap[i];
+                break;
+            }
+        }
+
+        EM.AddEntity("Missile", new Missile({ x: 3, y: 10 }, missileConf));
+
+        let uiMap = getMap("ui_layer");
+
+        consoleLog("---- UI MAP ---- ");
+        consoleLog(uiMap);
+
+        EM.AddEntity("PowerUps", new PowerUpsBar(uiMap));
+
         EM.AddEntity("Clock", new Clock());
     }
     else if(levelData.mapType === "MENU")

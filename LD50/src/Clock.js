@@ -4,7 +4,7 @@ export default class Clock
 {
     constructor()
     {
-        this.penColour = 0;
+        this.penColour = 1;
 
         this.paused = false;
 
@@ -62,7 +62,7 @@ export default class Clock
     Draw()
     {
         pen(this.penColour);
-        print(this.GetTimeString());
+        print(this.GetTimeString(),  );
     }
 
 

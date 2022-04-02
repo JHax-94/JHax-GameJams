@@ -9,13 +9,21 @@ export default class Missile
 
         this.turnSpeed = 0.1;
 
-        this.spriteIndex = 4;
+        consoleLog("----- MISSILE -----");
+        consoleLog("ObjConfig");
+        consoleLog(objConfig);
+
+        this.missileConf = objConfig;
+        this.anims = objConfig.missileAnims;
+
+        this.sprite = { index: 4, flipH: false, flipV: false, flipR: false };
 
         this.difficultyModifier = 1;
 
         this.alive = true;
 
         this.frameCount = 0;
+
 
         EM.RegisterEntity(this, {
             physSettings: {
@@ -62,6 +70,8 @@ export default class Missile
 
             let outVec = [0, 0];
 
+            let upVec = [0, 1];
+            
             this.phys.vectorToWorldFrame(outVec, [0, 1]);
 
             let dotProd = vec2.dot(diffVec, outVec);
@@ -78,6 +88,43 @@ export default class Missile
             {
                 this.phys.angularVelocity = this.turnSpeed * this.difficultyModifier;
             }
+
+            let orientDot = vec2.dot(upVec, outVec);
+            let orientDet = outVec[0] * upVec[1] - outVec[1] * upVec[0];
+            let orientAngleDiff = Math.atan2(orientDet, orientDot);
+            if(orientAngleDiff < 0)
+            {
+                orientAngleDiff += 2*Math.PI;
+            }
+            
+            for(let i = 0; i < this.anims.length; i ++)
+            {
+                let anim = this.anims[i];
+
+                let animMatches = false;
+
+                if(orientAngleDiff >= anim.angleFrom * Math.PI && orientAngleDiff < anim.angleTo * Math.PI)
+                {
+                    animMatches = true;
+                }
+                
+                if(animMatches)
+                {
+                    this.sprite.index = anim.spriteIndex;
+                    this.sprite.flipH = anim.flipH;
+                    this.sprite.flipV = anim.flipV;
+                    this.sprite.flipR = anim.flipR;
+                }
+            }   
+            /*
+            if(this.frameCount % 30 === 0)
+            {
+                consoleLog(`Orient angle: ${orientAngleDiff}`);
+                consoleLog(this.anims);
+            }
+            
+            this.frameCount ++;
+            */
         }
     }
 
@@ -85,7 +132,7 @@ export default class Missile
     {
         let screenPos = this.GetScreenPos();
 
-        sprite(this.spriteIndex, screenPos.x, screenPos.y);
+        sprite(this.sprite.index, screenPos.x, screenPos.y, this.sprite.flipH, this.sprite.flipV, this.sprite.flipR);
 
         if(this.alive)
         {

@@ -54,19 +54,14 @@ export default class Maze
                     }
                     else if(obj.name === "SpawnLocation")
                     {
-                        consoleLog("Does spawner exist?")
-
                         let spawner = EM.GetEntity("PickupSpawner");
 
                         if(!spawner)
                         {
-                            consoleLog("Create new spawner");
                             spawner = new PickupSpawner();
-
                             EM.AddEntity("PickupSpawner", spawner);
                         }
 
-                        consoleLog("Add new spawn location");
                         spawner.AddLocation(new SpawnLocation({ x: tile.x, y: tile.y }));
                     }
 

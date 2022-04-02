@@ -5,7 +5,26 @@
             "name": "Player",
             "searchMap": true,
             "replaceTile": true,
-            "moveSpeed": 6
+            "moveSpeed": 6,
+            "anims": {
+                "frameTime": 0.35,
+                "down": [
+                    { "index": 14, "flipH": false, "flipV": false, "flipR": false },
+                    { "index": 15, "flipH": false, "flipV": false, "flipR": false }
+                ],
+                "up": [
+                    { "index": 30, "flipH": false, "flipV": false, "flipR": false },
+                    { "index": 31, "flipH": false, "flipV": false, "flipR": false }
+                ],
+                "left": [
+                    { "index": 46, "flipH": false, "flipV": false, "flipR": false },
+                    { "index": 47, "flipH": false, "flipV": false, "flipR": false }
+                ],
+                "right": [
+                    { "index": 46, "flipH": true, "flipV": false, "flipR": false },
+                    { "index": 47, "flipH": true, "flipV": false, "flipR": false }
+                ]
+            }
         },
         {
             "index": 0,
@@ -21,9 +40,121 @@
         },
         {
             "index": 12,
-            "name": "GhostPickup",
+            "name": "Ghost",
             "searchMap": false,
-            "isPickup": true
+            "isPickup": true,
+            "key": "X"
+        },
+        {
+            "index": 11,
+            "name": "MissileSpeedDown",
+            "searchMap": false,
+            "isPickup": false,
+            "key": "Z"
+        },
+        {
+            "index": 13,
+            "name": "Decoy",
+            "searchMap": false,
+            "isPickup": false,
+            "key": "SP"
+        },
+        {
+            "index": 43,
+            "name": "PlayerSpeedUp",
+            "searchMap": false,
+            "isPickup": false,
+            "key": "V"
+        },
+        {
+            "index": 44,
+            "name": "MissilePushback",
+            "searchMap": false,
+            "isPickup": false,
+            "key": "C"
+        },
+        {
+            "index": 59,
+            "name": "MissileSpeedUp",
+            "searchMap": false,
+            "isPickup": false
+        },
+        {
+            "index": 60,
+            "name": "ExtraMissile",
+            "searchMap": false,
+            "isPickup": false
+        },
+        {
+            "index": 75,
+            "name": "SlowPlayer",
+            "searchMap": false,
+            "isPickup": false
+        },
+        {
+            "index": 76,
+            "name": "SpawnBoulder",
+            "searchMap": false,
+            "isPickup": false
+        },
+        {
+           "index": 91,
+           "name": "ControlFlip",
+           "searchMap": false,
+           "isPickup": false
+        },
+        {
+            "index": 6,
+            "name": "Missile",
+            "searchMap": false,
+            "missileAnims": 
+                [
+                    {
+                        "angleFrom": 0,
+                        "angleTo": 0.125,    
+                        "spriteIndex": 6, "flipH": false, "flipV": false, "flipR": false
+                    },
+                    {
+                        "angleFrom": 0.125,
+                        "angleTo": 0.375,
+                        "spriteIndex": 7, "flipH": false, "flipV": false, "flipR": false 
+                    },
+                    {
+                        "angleFrom": 0.375,
+                        "angleTo": 0.625,
+                        "spriteIndex": 6, "flipH": false, "flipV": false, "flipR": true
+                    },
+                    {
+                        "angleFrom": 0.625,
+                        "angleTo": 0.875,
+                        "spriteIndex": 7, "flipH": false, "flipV": true, "flipR": false
+                    },
+                    {
+                        "angleFrom": 0.875,
+                        "angleTo": 1.125,
+                        "spriteIndex": 6, "flipH": false, "flipV": true, "flipR": false
+                    },
+                    {
+                        "angleFrom": 1.125,
+                        "angleTo": 1.375,
+                        "spriteIndex": 7, "flipH": true, "flipV": true, "flipR": false
+                    },
+                    {
+                        "angleFrom": 1.375,
+                        "angleTo": 1.625,
+                        "spriteIndex": 6, "flipH": true, "flipV": false, "flipR": true
+                    },
+                    {
+                        "angleFrom": 1.625,
+                        "angleTo": 1.875,
+                        "spriteIndex": 7, "flipH": true, "flipV": false, "flipR": false
+                    },
+                    {
+                        "angleFrom": 1.875,
+                        "angleTo": 2,
+                        "spriteIndex": 6, "flipH": false, "flipV": false, "flipR": false
+                    }
+                ]
         }
     ]    
 }

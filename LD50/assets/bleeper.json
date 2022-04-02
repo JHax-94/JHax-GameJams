@@ -31,6 +31,16 @@
 				0
 			],
 			"s": "&TU&TU&aU&aU&mU&mU&mU&mU"
+		},
+		{
+			"n": "powerup",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": ")RU)UU)ZU)[U)WU)RU)OU)PU)TU)YU)dU)iU"
 		}
 	]
 }

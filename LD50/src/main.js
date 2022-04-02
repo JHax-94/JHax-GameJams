@@ -11,7 +11,7 @@ let LOAD_COMPLETE = false;
 let LOGGING_ON = true;
 
 
-let PIXEL_SCALE = 16;
+let PIXEL_SCALE = 8;
 let SCREEN_WIDTH = 16;
 let SCREEN_HEIGHT = 16;
 

@@ -9,15 +9,15 @@ export default class PhysicsContainer
 
         this.materials = 
         {
-            postieMaterial: new p2.Material(),
-            houseMaterial: new p2.Material()
+            playerMaterial: new p2.Material(),
+            wallMaterial: new p2.Material()
         };
 
-        manager.phys.addContactMaterial(new p2.ContactMaterial(this.materials.postieMaterial, this.materials.houseMaterial, {
+        manager.phys.addContactMaterial(new p2.ContactMaterial(this.materials.playerMaterial, this.materials.wallMaterial, {
             restitution: 1.0,
             stiffness: Number.MAX_VALUE
         }));
-
+        
         let container = this;
 
         manager.phys.on("beginContact", function (evt)

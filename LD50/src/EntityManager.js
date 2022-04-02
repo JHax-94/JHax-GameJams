@@ -297,7 +297,13 @@ export default class EntityManager
         obj.phys.obj = obj;
 
         obj.Position = function() {
-            return { x: obj.phys.position[0], y: obj.phys.position[1] }
+            return { x: obj.phys.position[0], y: obj.phys.position[1] };
+        };
+        
+        obj.GetScreenPos = function() {
+            consoleLog(`Pos: (${this.phys.position[0]}, ${this.phys.position[1]})`);
+
+            return { x: this.phys.position[0] - 0.5 * this.width, y: -(this.phys.position[1]+0.5*this.height) };
         };
 
         if(phys.tag)

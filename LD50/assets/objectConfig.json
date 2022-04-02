@@ -1,0 +1,11 @@
+{
+    "objectMap": [
+        {
+            "index": 174,
+            "name": "Player",
+            "searchMap": true,
+            "replaceTile": true,
+            "moveSpeed": 6
+        }
+    ]    
+}

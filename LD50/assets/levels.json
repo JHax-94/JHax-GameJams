@@ -9,6 +9,18 @@
                 { 
                     "levelName": "josh_test",
                     "display": "Test Level"
+                },
+                {
+                    "levelName": "easy_maze",
+                    "display": "Easy"
+                },
+                {
+                    "levelName": "med_maze",
+                    "display": "Medium"
+                },
+                {
+                    "levelName": "hard_maze",
+                    "display": "Hard"
                 }
             ],
             "mapType": "MENU"
@@ -17,6 +29,24 @@
             "levelName": "josh_test",
             "map": "josh_test_map",
             "backgroundColour": 1,
+            "mapType": "MAZE"
+        },
+        {
+            "levelName": "easy_maze",
+            "map": "easyMap",
+            "backgroundColour": 2,
+            "mapType": "MAZE"
+        },
+        {
+            "levelName": "med_maze",
+            "map": "medMap",
+            "backgroundColour": 2,
+            "mapType": "MAZE"
+        },
+        {
+            "levelName": "hard_maze",
+            "map": "hardMap",
+            "backgroundColour": 2,
             "mapType": "MAZE"
         }
     ]

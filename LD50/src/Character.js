@@ -4,7 +4,9 @@ import { consoleLog, EM, PIXEL_SCALE, SETUP } from "./main";
 export default class Character
 {
     constructor(position, objConfig)
-    {
+    {   
+        this.direction = "down";
+
         this.spriteIndex = 14;
 
         consoleLog("Player object config");
@@ -16,7 +18,15 @@ export default class Character
 
         this.statuses = []; 
 
+        this.animFrame = 0;
+
+        this.animTime = 0;
+
         this.walkSpeed = objConfig.moveSpeed;
+
+        this.anims = objConfig.anims;
+
+        this.moving = false;
 
         this.physSettings = {
             tileTransform: {
@@ -98,9 +108,34 @@ export default class Character
         }
     }
 
-    AddStatus(statusName, statusTime, conditions)
+    AddStatus(statusName, statusTime, conditions, isAdditive)
     {
-        this.statuses.push({ name: statusName, time: statusTime, conditions: conditions });
+        let existingStatus = null;
+
+        for(let i = 0; i < this.statuses.length; i ++)
+        {
+            if(this.statuses[i].name === statusName)
+            {
+                existingStatus = this.statuses[i];
+                break;
+            }
+        }
+
+        if(existingStatus)
+        {
+            if(isAdditive)
+            {
+                existingStatus.time += statusTime;
+            }
+            else
+            {
+                existingStatus.time = statusTime;
+            }
+        }
+        else
+        {
+            this.statuses.push({ name: statusName, time: statusTime, conditions: conditions });
+        }
     }
 
     ActivateGhostMode(time)
@@ -138,6 +173,18 @@ export default class Character
                 }
             }
         }
+
+        if(this.moving)
+        {
+            this.animTime += deltaTime;
+
+            if(this.animTime >= this.anims.frameTime)
+            {
+                this.animTime -= this.anims.frameTime;
+
+                this.animFrame = (this.animFrame + 1) % this.anims[this.direction].length;
+            }
+        }
     }
     
 
@@ -145,13 +192,30 @@ export default class Character
     {
         if(this.alive)
         {
+            let moving = false;
+
             if(input.up)
             {
                 this.phys.velocity = [ this.phys.velocity[0] , this.walkSpeed ];
+                if(this.direction !== "up")
+                {
+                    this.direction = "up";
+                    this.animFrame = 0;
+                }
+
+                moving = true;
             }
             else if(input.down)
             {
                 this.phys.velocity = [ this.phys.velocity[0], -this.walkSpeed];
+                if(this.direction !== "down")
+                {
+                    this.direction = "down";
+                    this.animFrame = 0;
+                }
+
+                moving = true;
+
             }
             else 
             {
@@ -161,15 +225,33 @@ export default class Character
             if(input.right)
             {
                 this.phys.velocity = [ this.walkSpeed, this.phys.velocity[1] ];
+                if(this.direction !== "right")
+                {
+                    this.direction = "right";
+                    this.animFrame = 0;
+                }
+
+                moving = true;
+
             }
             else if(input.left)
             {
                 this.phys.velocity = [ -this.walkSpeed, this.phys.velocity[1] ];
+                if(this.direction !== "left")
+                {
+                    this.direction = "left";
+                    this.animFrame = 0;
+                }
+
+                moving = true;
+
             }
             else
             {
                 this.phys.velocity = [ 0, this.phys.velocity[1] ]; 
             }
+
+            this.moving = moving;
         }
         else 
         {
@@ -196,17 +278,13 @@ export default class Character
         return hasStatus;
     }
 
-    /*
-    GetScreenPos()
-    {
-        return { x: this.phys.position[0] - 0.5 * this.width, y: -(this.phys.position[1]+0.5*this.height) };
-    }*/
-
     Draw()
     {
         let screenPos = this.GetScreenPos();
 
-        sprite(this.spriteIndex, screenPos.x, screenPos.y);
+        let anim = this.anims[this.direction][this.animFrame];
+
+        sprite(anim.index, screenPos.x, screenPos.y, anim.flipH, anim.flipV, anim.flipR);
 
         if(this.statuses)
         {

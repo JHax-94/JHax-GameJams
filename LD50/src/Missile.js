@@ -92,32 +92,39 @@ export default class Missile
             let orientDot = vec2.dot(upVec, outVec);
             let orientDet = outVec[0] * upVec[1] - outVec[1] * upVec[0];
             let orientAngleDiff = Math.atan2(orientDet, orientDot);
+            if(orientAngleDiff < 0)
+            {
+                orientAngleDiff += 2*Math.PI;
+            }
             
+            for(let i = 0; i < this.anims.length; i ++)
+            {
+                let anim = this.anims[i];
+
+                let animMatches = false;
+
+                if(orientAngleDiff >= anim.angleFrom * Math.PI && orientAngleDiff < anim.angleTo * Math.PI)
+                {
+                    animMatches = true;
+                }
+                
+                if(animMatches)
+                {
+                    this.sprite.index = anim.spriteIndex;
+                    this.sprite.flipH = anim.flipH;
+                    this.sprite.flipV = anim.flipV;
+                    this.sprite.flipR = anim.flipR;
+                }
+            }   
+            /*
             if(this.frameCount % 30 === 0)
             {
-                for(let i = 0; i < this.anims.length; i ++)
-                {
-                    let anim = this.anims[i];
-
-                    let animMatches = false;
-
-                    if(orientAngleDiff >= anim.angleFrom * Math.PI && orientAngleDiff < anim.angleTo * Math.PI)
-                    {
-                        animMatches = true;
-                    }
-                    
-                    if(animMatches)
-                    {
-                        this.sprite.index = anim.spriteIndex;
-                        this.sprite.flipH = anim.flipH;
-                        this.sprite.flipV = anim.flipV;
-                        this.sprite.flipR = anim.flipR;
-                    }
-
-                }   
+                consoleLog(`Orient angle: ${orientAngleDiff}`);
+                consoleLog(this.anims);
             }
-
+            
             this.frameCount ++;
+            */
         }
     }
 

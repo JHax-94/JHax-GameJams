@@ -5,7 +5,26 @@
             "name": "Player",
             "searchMap": true,
             "replaceTile": true,
-            "moveSpeed": 6
+            "moveSpeed": 6,
+            "anims": {
+                "frameTime": 0.35,
+                "down": [
+                    { "index": 14, "flipH": false, "flipV": false, "flipR": false },
+                    { "index": 15, "flipH": false, "flipV": false, "flipR": false }
+                ],
+                "up": [
+                    { "index": 30, "flipH": false, "flipV": false, "flipR": false },
+                    { "index": 31, "flipH": false, "flipV": false, "flipR": false }
+                ],
+                "left": [
+                    { "index": 46, "flipH": false, "flipV": false, "flipR": false },
+                    { "index": 47, "flipH": false, "flipV": false, "flipR": false }
+                ],
+                "right": [
+                    { "index": 46, "flipH": true, "flipV": false, "flipR": false },
+                    { "index": 47, "flipH": true, "flipV": false, "flipR": false }
+                ]
+            }
         },
         {
             "index": 0,

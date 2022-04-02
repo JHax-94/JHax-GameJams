@@ -8,7 +8,7 @@ export default class EntityManager
 {
     constructor(noPhys)
     {
-        this.drawColliders = true;
+        this.drawColliders = false;
         this.frameCount = 0;
         this.bgColour = 15;
 
@@ -361,33 +361,10 @@ export default class EntityManager
 
     RemoveRender(renderer, log)
     {
-        /*
-        for(var i = 0; i < this.renders.length; i ++)
-        {
-            if(this.renders[i] === renderer)
-            {
-                this.renders.splice(i, 1);
-                if(log) 
-                {
-                    consoleLog("Renderer removed!");
-                    consoleLog(renderer);
-                }
-                break;            
-            }
-        }
-
-        this.SortRenders();*/
-
-        consoleLog("Remove Render");
-        consoleLog(renderer);
-
         for(let i = 0; i < this.renderLayers.length; i ++)
         {
             if(this.renderLayers[i].name === renderer.renderLayer)
             {
-                consoleLog("Removing from render layer...");
-                consoleLog(this.renderLayers);
-
                 this.renderLayers[i].RemoveRender(renderer);
             }
         }
@@ -409,10 +386,6 @@ export default class EntityManager
 
     CompareTags(evt, tag1, tag2)
     {
-        /*
-        consoleLog("COMPARE TAGS: " + tag1 + ", " + tag2);
-        consoleLog(evt);
-        */
         return (evt.bodyA.tag === tag1 && evt.bodyB.tag === tag2) || (evt.bodyA.tag === tag2 && evt.bodyB.tag === tag1);
     }
 

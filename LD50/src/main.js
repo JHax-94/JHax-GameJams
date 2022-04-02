@@ -1,5 +1,6 @@
 import EntityManager from './EntityManager.js'
 import Maze from './Maze.js'
+import Missile from './Missile.js';
 
 let p2 = require('p2');
 
@@ -9,7 +10,6 @@ let FPS = 1/30;
 let LOAD_COMPLETE = false;
 
 let LOGGING_ON = true;
-
 
 let PIXEL_SCALE = 8;
 let SCREEN_WIDTH = 16;
@@ -57,6 +57,8 @@ function SETUP()
     */  
 
     EM.AddEntity("Maze", new Maze(levelData));
+
+    EM.AddEntity("Missile", new Missile({ x: 3, y: 10 }));
 
     LOAD_COMPLETE = true;
 

@@ -288,10 +288,17 @@ export default class EntityManager
             obj.height = phys.colliderRect.height;
         }
 
+        let fixedRotation = true;
+
+        if(phys.freeRotate)
+        {
+            fixedRotation = false;
+        }
+
         obj.phys = new p2.Body({
             mass: phys.mass,
             position: phys.position,
-            fixedRotation: true
+            fixedRotation: fixedRotation
         })
         
         obj.phys.obj = obj;
@@ -301,8 +308,6 @@ export default class EntityManager
         };
         
         obj.GetScreenPos = function() {
-            consoleLog(`Pos: (${this.phys.position[0]}, ${this.phys.position[1]})`);
-
             return { x: this.phys.position[0] - 0.5 * this.width, y: -(this.phys.position[1]+0.5*this.height) };
         };
 

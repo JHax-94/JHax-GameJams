@@ -10,7 +10,8 @@ export default class PhysicsContainer
         this.materials = 
         {
             playerMaterial: new p2.Material(),
-            wallMaterial: new p2.Material()
+            wallMaterial: new p2.Material(),
+            missileMaterial: new p2.Material()
         };
 
         manager.phys.addContactMaterial(new p2.ContactMaterial(this.materials.playerMaterial, this.materials.wallMaterial, {

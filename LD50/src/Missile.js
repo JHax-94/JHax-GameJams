@@ -1,5 +1,4 @@
 import { vec2 } from "p2";
-import { RECTANGLE } from "p2/src/shapes/Shape";
 import { consoleLog, EM, PIXEL_SCALE } from "./main";
 
 export default class Missile 

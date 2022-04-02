@@ -1,7 +1,7 @@
 {
     "objectMap": [
         {
-            "index": 174,
+            "index": 14,
             "name": "Player",
             "searchMap": true,
             "replaceTile": true,
@@ -14,13 +14,13 @@
             "replaceTile": false
         },
         {
-            "index": 233,
+            "index": 17,
             "name": "SpawnLocation",
             "searchMap": true,
             "replaceTile": true
         },
         {
-            "index": 181,
+            "index": 12,
             "name": "GhostPickup",
             "searchMap": false,
             "isPickup": true

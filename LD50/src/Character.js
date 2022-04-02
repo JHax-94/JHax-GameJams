@@ -5,7 +5,7 @@ export default class Character
 {
     constructor(position, objConfig)
     {
-        this.spriteIndex = 174;
+        this.spriteIndex = 14;
 
         consoleLog("Player object config");
         consoleLog(objConfig);

@@ -87,7 +87,19 @@ function SETUP(levelName)
 
         EM.AddEntity("Maze", new Maze(levelData));
 
-        EM.AddEntity("Missile", new Missile({ x: 3, y: 10 }));
+        let objectMap = assets.objectConfig.objectMap;
+        let missileConf = null;
+
+        for(let i = 0; i < objectMap.length; i ++)
+        {
+            if(objectMap[i].name === "Missile")
+            {
+                missileConf = objectMap[i];
+                break;
+            }
+        }
+
+        EM.AddEntity("Missile", new Missile({ x: 3, y: 10 }, missileConf));
         EM.AddEntity("Clock", new Clock());
     }
     else if(levelData.mapType === "MENU")

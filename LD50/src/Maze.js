@@ -1,5 +1,7 @@
 import Character from "./Character";
 import { consoleLog, EM } from "./main";
+import PickupSpawner from "./PickupSpawner";
+import SpawnLocation from "./SpawnLocation";
 import Wall from "./Wall";
 
 export default class Maze
@@ -44,6 +46,23 @@ export default class Maze
                     else if(obj.name === "Wall")
                     {
                         EM.AddEntity("Wall", new Wall({ x: tile.x, y: tile.y}, obj));
+                    }
+                    else if(obj.name === "SpawnLocation")
+                    {
+                        consoleLog("Does spawner exist?")
+
+                        let spawner = EM.GetEntity("PickupSpawner");
+
+                        if(!spawner)
+                        {
+                            consoleLog("Create new spawner");
+                            spawner = new PickupSpawner();
+
+                            EM.AddEntity("PickupSpawner", spawner);
+                        }
+
+                        consoleLog("Add new spawn location");
+                        spawner.AddLocation(new SpawnLocation({ x: tile.x, y: tile.y }));
                     }
 
                     if(obj.replaceTile)

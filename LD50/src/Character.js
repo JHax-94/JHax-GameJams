@@ -1,4 +1,5 @@
-import { consoleLog, EM, SETUP } from "./main";
+import BriefPlayable from "tina/src/BriefPlayable";
+import { consoleLog, EM, PIXEL_SCALE, SETUP } from "./main";
 
 export default class Character
 {
@@ -11,14 +12,18 @@ export default class Character
 
         this.alive = true;
 
+        this.overlaps = [];
+
+        this.statuses = []; 
+
         this.walkSpeed = objConfig.moveSpeed;
 
         this.physSettings = {
             tileTransform: {
                 x: position.x,
                 y: position.y,
-                w: 1,
-                h: 1
+                w: 0.8,
+                h: 0.8
             },
             mass: 10,
             isSensor: false,
@@ -32,6 +37,70 @@ export default class Character
 
         EM.RegisterEntity(this, { physSettings: this.physSettings });
         consoleLog("Constructed player..");
+
+        EM.physContainer.playerWatch = this;
+    }
+
+    AddOverlap(overlapObj)
+    {   
+        let hasOverlap = false;
+
+        for(let i = 0; i < this.overlaps.length; i ++)
+        {
+            if(this.overlaps[i] === overlapObj)
+            {
+                hasOverlap = true;
+                break;
+            }
+        }
+
+        if(!hasOverlap)
+        {
+            this.overlaps.push(overlapObj);
+        }
+    }
+
+    RemoveOverlap(overlapObj)
+    {
+        let overlapsClear = false;
+
+        for(let i = 0; i < this.overlaps.length; i ++)
+        {
+            if(this.overlaps[i] === overlapObj)
+            {
+                this.overlaps.splice(i, 1);
+                break;
+            }
+        }
+
+        if(this.overlaps.length === 0)
+        {
+            overlapsClear = true;
+        }
+
+        return overlapsClear;
+    }
+
+    RemoveStatus(statusName)
+    {
+        for(let i = 0; i < this.statuses.length; i ++)
+        {
+            if(this.statuses[i].name === statusName)
+            {
+                this.statuses.splice(i, 1);
+                break;
+            }
+        }
+    }
+
+    AddStatus(statusName, statusTime)
+    {
+        this.statuses.push({ name: statusName, time: statusTime });
+    }
+
+    ActivateGhostMode(time)
+    {
+        this.AddStatus("GHOST", time);
     }
 
     Kill()
@@ -40,6 +109,18 @@ export default class Character
         this.alive = false;
         this.phys.velocity = [0, 0];
     }
+
+    Update(deltaTime)
+    {
+        if(this.statuses.length > 0)
+        {
+            for(let i = 0; i < this.statuses.length; i ++)
+            {
+                this.statuses[i].time -= deltaTime;
+            }
+        }
+    }
+    
 
     Input(input)
     {
@@ -80,6 +161,22 @@ export default class Character
         }
     }
 
+    HasStatus(name)
+    {
+        let hasStatus = false;
+
+        for(let i = 0; i < this.statuses.length; i ++)
+        {
+            if(this.statuses[i].name === name)
+            {
+                hasStatus = true;
+                break;
+            }
+        }
+
+        return hasStatus;
+    }
+
     /*
     GetScreenPos()
     {
@@ -91,6 +188,15 @@ export default class Character
         let screenPos = this.GetScreenPos();
 
         sprite(this.spriteIndex, screenPos.x, screenPos.y);
+
+        if(this.statuses)
+        {
+            for(let i = 0; i < this.statuses.length; i ++)
+            {
+                pen(10);
+                print(`${this.statuses[i].name}: ${this.statuses[i].time}`, 0, (1+i) * PIXEL_SCALE );
+            }
+        }
     }
     
 }

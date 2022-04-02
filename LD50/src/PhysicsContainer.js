@@ -89,15 +89,54 @@ export default class PhysicsContainer
 
             clock.Pause();
         }
+        else if(manager.CompareTags(evt, "PLAYER", "PICKUP"))
+        {
+            let player = manager.BodyWithTag(evt, "PLAYER");
+            let pickup = manager.BodyWithTag(evt, "PICKUP")
+
+            pickup.obj.Collected(player.obj);
+        }
     }
 
     PreSolveEvents(container, manager, evt)
     {
-        
+        if(this.playerWatch && this.playerWatch.HasStatus("GHOST"))
+        {
+            for(let i = 0; i < evt.contactEquations.length; i ++)
+            {
+                let eq = evt.contactEquations[i];
+
+                consoleLog("EVENT");
+                consoleLog(evt);
+                consoleLog("EQUATION");
+                consoleLog(eq);
+
+                if(manager.CompareTags(eq, "PLAYER", "WALL"))
+                {
+                    eq.enabled = false;
+
+                    let player = manager.BodyWithTag(eq, "PLAYER");
+                    let wall = manager.BodyWithTag(eq, "WALL");
+
+                    player.obj.AddOverlap(wall.obj);
+                }
+            }
+        }
     }
 
     EndContactEvents(container, manager, evt)
     {
-        
+        if(this.playerWatch && this.playerWatch.HasStatus("GHOST"))
+        {
+            if(manager.CompareTags(evt, "PLAYER", "WALL"))
+            {
+                let player = manager.BodyWithTag(evt, "PLAYER");
+                let wall = manager.BodyWithTag(evt, "WALL");
+
+                let clear = player.obj.RemoveOverlap(wall.obj);
+
+                if(clear) player.obj.RemoveStatus("GHOST");
+            }
+        }
     }
 }

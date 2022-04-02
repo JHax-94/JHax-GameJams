@@ -24,6 +24,7 @@ export default class Missile
 
         this.frameCount = 0;
 
+        this.waitForStatusWearOff = false;
 
         EM.RegisterEntity(this, {
             physSettings: {
@@ -56,10 +57,31 @@ export default class Missile
     Update(deltaTime)
     {
         if(this.alive)
-        {
+        {   
+            let statusModifier = 1;
+
+            if(this.playerRef.HasStatus("MissileSpeedDown"))
+            {
+                statusModifier *= 0.5;
+
+                if(!this.waitForStatusWearOff)
+                {
+                    consoleLog(`SLOWDOWN! ${statusModifier}`);
+
+                    this.waitForStatusWearOff = true;
+                    this.phys.velocity = [ this.phys.velocity[0] * statusModifier, this.phys.velocity[1] * statusModifier ];
+                }
+            }
+            else if(this.waitForStatusWearOff)
+            {
+                this.waitForStatusWearOff = false;
+            }
+
+            consoleLog(`Status mod: ${statusModifier}`);
+
             this.difficultyModifier += deltaTime * 0.1;
 
-            this.phys.applyForceLocal([0, 1 * this.difficultyModifier]);
+            this.phys.applyForceLocal([0, 1 * this.difficultyModifier * statusModifier]);
 
             let playerPos = this.playerRef.Position();
             let missilePos = this.Position();
@@ -82,11 +104,11 @@ export default class Missile
 
             if(clockAngleDiff < 0)
             {
-                this.phys.angularVelocity = -this.turnSpeed * this.difficultyModifier;        
+                this.phys.angularVelocity = -this.turnSpeed * this.difficultyModifier * statusModifier;        
             }
             else if(clockAngleDiff > 0)
             {
-                this.phys.angularVelocity = this.turnSpeed * this.difficultyModifier;
+                this.phys.angularVelocity = this.turnSpeed * this.difficultyModifier * statusModifier;
             }
 
             let orientDot = vec2.dot(upVec, outVec);
@@ -116,15 +138,6 @@ export default class Missile
                     this.sprite.flipR = anim.flipR;
                 }
             }   
-            /*
-            if(this.frameCount % 30 === 0)
-            {
-                consoleLog(`Orient angle: ${orientAngleDiff}`);
-                consoleLog(this.anims);
-            }
-            
-            this.frameCount ++;
-            */
         }
     }
 

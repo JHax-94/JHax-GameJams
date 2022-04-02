@@ -49,7 +49,7 @@
             "index": 11,
             "name": "MissileSpeedDown",
             "searchMap": false,
-            "isPickup": false,
+            "isPickup": true,
             "key": "Z"
         },
         {

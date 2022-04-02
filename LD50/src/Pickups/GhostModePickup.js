@@ -1,4 +1,3 @@
-import Player from "tina/src/Player";
 import Pickup from "../Pickup";
 
 export default class GhostModePickup extends Pickup

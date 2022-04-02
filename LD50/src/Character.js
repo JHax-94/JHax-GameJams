@@ -22,7 +22,7 @@ export default class Character
         }
 
         this.powers = [
-            { powerName: "MissileSpeedDown", duration: 5, isMissileStatus: true },
+            { powerName: "MissileSpeedDown", duration: 5, isPlayerStatus: true },
             { powerName: "Ghost", duration: 5, isPlayerStatus: true, conditions: { overlapsClear: true } },
             { powerName: "MissilePushback" },
             { powerName: "PlayerSpeedUp", duration: 5, isPlayerStatus: true },
@@ -185,6 +185,23 @@ export default class Character
         }
     }
 
+    ExpendPowerUp(name)
+    {
+        if(this.powerUps[name] > 0)
+        {
+            this.powerUps[name] --;
+
+            if(this.powerUpsBar)
+            {
+                this.powerUpsBar.UpdatePowerUp(name, this.powerUps[name]);
+            }
+        }
+        else
+        {
+            consoleLog("UH OH!");
+        }
+    }
+
     Kill()
     {
         this.spriteIndex = 185;
@@ -202,15 +219,30 @@ export default class Character
 
                 if(this.statuses[i].time <= 0)
                 {
+                    let remove = false;
+
                     if(this.statuses[i].conditions)
                     {
                         if(this.statuses[i].conditions.overlapsClear)
                         {
                             if(this.overlaps.length === 0)
                             {
-                                this.RemoveStatus(this.statuses[i].name);
+                                remove = true;
                             }
                         }
+                        else 
+                        {
+                            remove = true;
+                        }
+                    }
+                    else
+                    {
+                        remove = true;
+                    }
+
+                    if(remove)
+                    {
+                        this.RemoveStatus(this.statuses[i].name);
                     }
                 }
             }
@@ -360,12 +392,19 @@ export default class Character
 
         let power = this.powers[powerNum];
 
+        let powerUpCount = this.powerUps[power.powerName];
+
         consoleLog(power);
 
-        if(power.isPlayerStatus)
+        if(powerUpCount > 0)
         {
-            this.AddStatus(power.powerName, power.duration, power.conditions);
-        }
+            if(power.isPlayerStatus)
+            {
+                this.AddStatus(power.powerName, power.duration, power.conditions);
+            }
+
+            this.ExpendPowerUp(power.powerName);
+        }        
     }
 
     HasStatus(name)

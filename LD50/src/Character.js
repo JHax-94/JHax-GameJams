@@ -9,6 +9,8 @@ export default class Character
         consoleLog("Player object config");
         consoleLog(objConfig);
 
+        this.alive = true;
+
         this.walkSpeed = objConfig.moveSpeed;
 
         this.physSettings = {
@@ -32,33 +34,42 @@ export default class Character
         consoleLog("Constructed player..");
     }
 
+    Kill()
+    {
+        this.spriteIndex = 185;
+        this.alive = false;
+        this.phys.velocity = [0, 0];
+    }
 
     Input(input)
     {
-        if(input.up)
+        if(this.alive)
         {
-            this.phys.velocity = [ this.phys.velocity[0] , this.walkSpeed ];
-        }
-        else if(input.down)
-        {
-            this.phys.velocity = [ this.phys.velocity[0], -this.walkSpeed];
-        }
-        else 
-        {
-            this.phys.velocity = [ this.phys.velocity[0], 0 ];
-        }
+            if(input.up)
+            {
+                this.phys.velocity = [ this.phys.velocity[0] , this.walkSpeed ];
+            }
+            else if(input.down)
+            {
+                this.phys.velocity = [ this.phys.velocity[0], -this.walkSpeed];
+            }
+            else 
+            {
+                this.phys.velocity = [ this.phys.velocity[0], 0 ];
+            }
 
-        if(input.right)
-        {
-            this.phys.velocity = [ this.walkSpeed, this.phys.velocity[1] ];
-        }
-        else if(input.left)
-        {
-            this.phys.velocity = [ -this.walkSpeed, this.phys.velocity[1] ];
-        }
-        else
-        {
-            this.phys.velocity = [ 0, this.phys.velocity[1] ]; 
+            if(input.right)
+            {
+                this.phys.velocity = [ this.walkSpeed, this.phys.velocity[1] ];
+            }
+            else if(input.left)
+            {
+                this.phys.velocity = [ -this.walkSpeed, this.phys.velocity[1] ];
+            }
+            else
+            {
+                this.phys.velocity = [ 0, this.phys.velocity[1] ]; 
+            }
         }
     }
 

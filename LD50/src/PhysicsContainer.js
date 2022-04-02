@@ -1,5 +1,6 @@
 import p2 from "p2";
-import { consoleLog, PIXEL_SCALE } from "./main";
+import Clock from "./Clock";
+import { consoleLog, EM, PIXEL_SCALE } from "./main";
 
 export default class PhysicsContainer
 {
@@ -76,6 +77,18 @@ export default class PhysicsContainer
 
     BeginContactEvents(container, manager, evt)
     {
+        if(manager.CompareTags(evt, "PLAYER", "MISSILE"))
+        {
+            let player = manager.BodyWithTag(evt, "PLAYER");
+            let missile = manager.BodyWithTag(evt, "MISSILE");
+
+            player.obj.Kill();
+            missile.obj.Explode();
+
+            let clock = EM.GetEntity("Clock");
+
+            clock.Pause();
+        }
     }
 
     PreSolveEvents(container, manager, evt)

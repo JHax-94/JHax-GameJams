@@ -11,6 +11,8 @@ export default class Missile
 
         this.spriteIndex = 177;
 
+        this.alive = true;
+
         this.frameCount = 0;
 
         EM.RegisterEntity(this, {
@@ -33,76 +35,61 @@ export default class Missile
         this.playerRef = EM.GetEntity("Player");
     }
 
+    Explode()
+    {
+        this.spriteIndex = 230;
+        this.alive = false;
+        this.phys.velocity = [0, 0];
+    }
+
     Update(deltaTime)
     {
-        this.phys.applyForceLocal([0, 4]);
-
-        let playerPos = this.playerRef.Position();
-        let missilePos = this.Position();
-
-        let posDiff = { x: playerPos.x - missilePos.x, y: playerPos.y - missilePos.y };
-
-        let diffVec = [ posDiff.x, posDiff.y ]; 
-
-        let outVec = [0, 0];
-
-        this.phys.vectorToWorldFrame(outVec, [0, 1]);
-
-        let dotProd = vec2.dot(diffVec, outVec);
-
-        let determinant = outVec[0] * diffVec[1] - outVec[1] * diffVec[0];
-
-        let clockAngleDiff = Math.atan2(determinant, dotProd);
-
-//        this.phys.angularVelocity = 0.1;
-
-        
-        /*
-        if(this.frameCount % 30 === 0)
+        if(this.alive)
         {
-            consoleLog("Position difference:");
-            consoleLog(posDiff);
-            consoleLog("Angle:");
-            consoleLog(this.phys.angle);
-            consoleLog("'Up'");
-            consoleLog(outVec);
-            
-            consoleLog("Dot Prod");
-            consoleLog(dotProd);
+            this.phys.applyForceLocal([0, 4]);
 
-            consoleLog("Magnitude prod");
-            consoleLog(magnitudeProd);
+            let playerPos = this.playerRef.Position();
+            let missilePos = this.Position();
 
-            consoleLog("AngleDiff");
-            consoleLog(angleDiff);
+            let posDiff = { x: playerPos.x - missilePos.x, y: playerPos.y - missilePos.y };
 
-            consoleLog("Clock angle diff");
-            consoleLog(clockAngleDiff);
+            let diffVec = [ posDiff.x, posDiff.y ]; 
+
+            let outVec = [0, 0];
+
+            this.phys.vectorToWorldFrame(outVec, [0, 1]);
+
+            let dotProd = vec2.dot(diffVec, outVec);
+
+            let determinant = outVec[0] * diffVec[1] - outVec[1] * diffVec[0];
+
+            let clockAngleDiff = Math.atan2(determinant, dotProd);
+
+            if(clockAngleDiff < 0)
+            {
+                this.phys.angularVelocity = -this.turnSpeed;        
+            }
+            else if(clockAngleDiff > 0)
+            {
+                this.phys.angularVelocity = this.turnSpeed;
+            }
         }
-        */
-        if(clockAngleDiff < 0)
-        {
-            this.phys.angularVelocity = -this.turnSpeed;        
-        }
-        else if(clockAngleDiff > 0)
-        {
-            this.phys.angularVelocity = this.turnSpeed;
-        }
-
-        this.frameCount ++;
     }
 
     Draw()
     {
         let screenPos = this.GetScreenPos();
 
-        let outVec = [0, 0];
-
-        this.phys.vectorToWorldFrame(outVec, [0, 1]);
-
         sprite(this.spriteIndex, screenPos.x, screenPos.y);
 
-        paper(9);
-        rectf(screenPos.x + 0.5 * PIXEL_SCALE + PIXEL_SCALE * outVec[0] * 2 , screenPos.y + +0.5 * PIXEL_SCALE - PIXEL_SCALE * outVec[1] * 2, 1, 1);
+        if(this.alive)
+        {
+            let outVec = [0, 0];
+
+            this.phys.vectorToWorldFrame(outVec, [0, 1]);
+        
+            paper(9);
+            rectf(screenPos.x + 0.5 * PIXEL_SCALE + PIXEL_SCALE * outVec[0] * 2 , screenPos.y + +0.5 * PIXEL_SCALE - PIXEL_SCALE * outVec[1] * 2, 1, 1);
+        }
     }    
 }

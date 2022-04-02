@@ -107,8 +107,9 @@ export default class EntityManager
 
         if(settings)
         {
+            /*
             consoleLog("Intialising object physics...");
-            consoleLog(settings.physSettings);
+            consoleLog(settings.physSettings);*/
             if(settings.physSettings)
             {
                 this.AddPhys(entity, settings.physSettings);
@@ -119,6 +120,14 @@ export default class EntityManager
     SetFocusedInput(entity)
     {
         this.focusedInput = entity;
+    }
+
+    ClearDown()
+    {
+        for(let i = 0; i < this.entities.length; i ++)
+        {
+            this.RemoveEntity(this.entities[i]);
+        }
     }
 
     RemoveEntity(entity)
@@ -164,10 +173,10 @@ export default class EntityManager
         entity.ENTITY_NAME = name;
 
         this.entities[name] = entity;
-
+        /*
         consoleLog("ENTITIES:");
         consoleLog(this.entities);
-
+        */
         if(entity.OnRegistered)
         {
             entity.OnRegistered();
@@ -202,8 +211,6 @@ export default class EntityManager
     {
         this.updates.push(obj);
     }
-
-    
 
     RemoveUpdate(updatable)
     {
@@ -288,16 +295,27 @@ export default class EntityManager
             obj.height = phys.colliderRect.height;
         }
 
+        let fixedRotation = true;
+
+        if(phys.freeRotate)
+        {
+            fixedRotation = false;
+        }
+
         obj.phys = new p2.Body({
             mass: phys.mass,
             position: phys.position,
-            fixedRotation: true
+            fixedRotation: fixedRotation
         })
         
         obj.phys.obj = obj;
 
         obj.Position = function() {
-            return { x: obj.phys.position[0], y: obj.phys.position[1] }
+            return { x: obj.phys.position[0], y: obj.phys.position[1] };
+        };
+        
+        obj.GetScreenPos = function() {
+            return { x: Math.floor(this.phys.position[0] - 0.5 * this.width), y: Math.floor(-(this.phys.position[1]+0.5*this.height)) };
         };
 
         if(phys.tag)

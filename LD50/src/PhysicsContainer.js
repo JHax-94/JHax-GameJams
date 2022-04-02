@@ -133,9 +133,9 @@ export default class PhysicsContainer
                 let player = manager.BodyWithTag(evt, "PLAYER");
                 let wall = manager.BodyWithTag(evt, "WALL");
 
-                let clear = player.obj.RemoveOverlap(wall.obj);
+                player.obj.RemoveOverlap(wall.obj);
 
-                if(clear) player.obj.RemoveStatus("GHOST");
+                //if(clear) player.obj.RemoveStatus("GHOST");
             }
         }
     }

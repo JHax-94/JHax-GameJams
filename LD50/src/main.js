@@ -76,6 +76,11 @@ function SETUP(levelName)
     EM.AddEntity("Clock", new Clock(levelData.startTime, levelData.schedule));
     */  
 
+    if(EM)
+    {
+        EM.ClearDown();
+    }
+
     if(levelData.mapType === "MAZE")
     {
         EM = new EntityManager();

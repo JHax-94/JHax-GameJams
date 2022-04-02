@@ -10,7 +10,12 @@ export default class Maze
     {
         this.bg = levelData.backgroundColour;
 
-        this.mazeMap = getMap(levelData.map);
+        let levelMap = getMap(levelData.map);
+
+        consoleLog("--- LEVEL MAP ---");
+        consoleLog(levelMap);
+
+        this.mazeMap = levelMap.copy(0, 0, levelMap.width, levelMap.height);
 
         EM.RegisterEntity(this);
 

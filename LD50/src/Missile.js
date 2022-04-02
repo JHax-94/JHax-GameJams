@@ -11,6 +11,8 @@ export default class Missile
 
         this.spriteIndex = 177;
 
+        this.difficultyModifier = 1;
+
         this.alive = true;
 
         this.frameCount = 0;
@@ -32,6 +34,7 @@ export default class Missile
             }
         });
 
+        consoleLog("Fetching player for missile...");
         this.playerRef = EM.GetEntity("Player");
     }
 
@@ -46,7 +49,9 @@ export default class Missile
     {
         if(this.alive)
         {
-            this.phys.applyForceLocal([0, 4]);
+            this.difficultyModifier += deltaTime * 0.1;
+
+            this.phys.applyForceLocal([0, 1 * this.difficultyModifier]);
 
             let playerPos = this.playerRef.Position();
             let missilePos = this.Position();
@@ -67,11 +72,11 @@ export default class Missile
 
             if(clockAngleDiff < 0)
             {
-                this.phys.angularVelocity = -this.turnSpeed;        
+                this.phys.angularVelocity = -this.turnSpeed * this.difficultyModifier;        
             }
             else if(clockAngleDiff > 0)
             {
-                this.phys.angularVelocity = this.turnSpeed;
+                this.phys.angularVelocity = this.turnSpeed * this.difficultyModifier;
             }
         }
     }

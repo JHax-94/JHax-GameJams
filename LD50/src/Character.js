@@ -41,6 +41,11 @@ export default class Character
         EM.physContainer.playerWatch = this;
     }
 
+    OnRegistered()
+    {
+        consoleLog("CHARACTER REGISTERED!");
+    }
+
     AddOverlap(overlapObj)
     {   
         let hasOverlap = false;
@@ -81,11 +86,11 @@ export default class Character
         return overlapsClear;
     }
 
-    RemoveStatus(statusName)
+    RemoveStatus(statusName, force)
     {
         for(let i = 0; i < this.statuses.length; i ++)
         {
-            if(this.statuses[i].name === statusName)
+            if(this.statuses[i].name === statusName && (this.statuses[i].time < 0 || force))
             {
                 this.statuses.splice(i, 1);
                 break;
@@ -93,14 +98,14 @@ export default class Character
         }
     }
 
-    AddStatus(statusName, statusTime)
+    AddStatus(statusName, statusTime, conditions)
     {
-        this.statuses.push({ name: statusName, time: statusTime });
+        this.statuses.push({ name: statusName, time: statusTime, conditions: conditions });
     }
 
     ActivateGhostMode(time)
     {
-        this.AddStatus("GHOST", time);
+        this.AddStatus("GHOST", time, { overlapsClear: true });
     }
 
     Kill()
@@ -117,6 +122,20 @@ export default class Character
             for(let i = 0; i < this.statuses.length; i ++)
             {
                 this.statuses[i].time -= deltaTime;
+
+                if(this.statuses[i].time <= 0)
+                {
+                    if(this.statuses[i].conditions)
+                    {
+                        if(this.statuses[i].conditions.overlapsClear)
+                        {
+                            if(this.overlaps.length === 0)
+                            {
+                                this.RemoveStatus(this.statuses[i].name);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

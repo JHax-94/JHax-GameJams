@@ -107,8 +107,9 @@ export default class EntityManager
 
         if(settings)
         {
+            /*
             consoleLog("Intialising object physics...");
-            consoleLog(settings.physSettings);
+            consoleLog(settings.physSettings);*/
             if(settings.physSettings)
             {
                 this.AddPhys(entity, settings.physSettings);
@@ -119,6 +120,14 @@ export default class EntityManager
     SetFocusedInput(entity)
     {
         this.focusedInput = entity;
+    }
+
+    ClearDown()
+    {
+        for(let i = 0; i < this.entities.length; i ++)
+        {
+            this.RemoveEntity(this.entities[i]);
+        }
     }
 
     RemoveEntity(entity)
@@ -164,10 +173,10 @@ export default class EntityManager
         entity.ENTITY_NAME = name;
 
         this.entities[name] = entity;
-
+        /*
         consoleLog("ENTITIES:");
         consoleLog(this.entities);
-
+        */
         if(entity.OnRegistered)
         {
             entity.OnRegistered();
@@ -202,8 +211,6 @@ export default class EntityManager
     {
         this.updates.push(obj);
     }
-
-    
 
     RemoveUpdate(updatable)
     {

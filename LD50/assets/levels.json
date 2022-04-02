@@ -1,9 +1,23 @@
 {
     "data": [
         {
+            "levelName": "main_menu",
+            "backgroundColour": 1,
+            "buttonStart": { "x": 2, "y": 2 },
+            "buttonDims": { "w": 6, "h": 2 },
+            "levelButtons": [
+                { 
+                    "levelName": "josh_test",
+                    "display": "Test Level"
+                }
+            ],
+            "mapType": "MENU"
+        },
+        {
             "levelName": "josh_test",
             "map": "josh_test_map",
-            "backgroundColour": 1
+            "backgroundColour": 1,
+            "mapType": "MAZE"
         }
     ]
 }

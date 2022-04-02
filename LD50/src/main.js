@@ -2,6 +2,9 @@ import Clock from './Clock.js';
 import EntityManager from './EntityManager.js'
 import Maze from './Maze.js'
 import Missile from './Missile.js';
+import Menu from './Menu.js';
+
+let pointerEvents = require('pixelbox/pointerEvents');
 
 let p2 = require('p2');
 
@@ -16,11 +19,24 @@ let PIXEL_SCALE = 8;
 let SCREEN_WIDTH = 16;
 let SCREEN_HEIGHT = 16;
 
-
-
 function consoleLog(logData) {
     if(LOGGING_ON) console.log(logData); 
 }
+
+function mapMousePos(x, y)
+{
+    return { x: x, y: y };
+}
+
+pointerEvents.onPress(function(x, y, pointerId, evt) {
+    var mapped = mapMousePos(x, y);
+    EM.MouseClick(mapped.x, mapped.y, evt.button);
+});
+
+pointerEvents.onMove(function(x, y, pointerId, evt) {
+    var mapped = mapMousePos(x, y);
+    EM.MouseMove(mapped.x, mapped.y);
+});
 
 function GetLevelDataByName(levelName)
 {
@@ -37,17 +53,20 @@ function GetLevelDataByName(levelName)
     return levelData;
 }
 
-function SETUP()
+function SETUP(levelName)
 {
     consoleLog("==== STARTING SETUP ====");
 
     consoleLog("-- Building Entity Manager --");
 
-    EM = new EntityManager();
-
     consoleLog("-- Entity Manager build --");
     
-    let levelData = GetLevelDataByName("josh_test");
+    if(!levelName)
+    {
+        levelName = "main_menu";
+    }
+    
+    let levelData = GetLevelDataByName(levelName);
 
     consoleLog("Found level:");
     consoleLog(levelData);
@@ -57,10 +76,21 @@ function SETUP()
     EM.AddEntity("Clock", new Clock(levelData.startTime, levelData.schedule));
     */  
 
-    EM.AddEntity("Maze", new Maze(levelData));
+    if(levelData.mapType === "MAZE")
+    {
+        EM = new EntityManager();
 
-    EM.AddEntity("Missile", new Missile({ x: 3, y: 10 }));
-    EM.AddEntity("Clock", new Clock());
+        EM.AddEntity("Maze", new Maze(levelData));
+
+        EM.AddEntity("Missile", new Missile({ x: 3, y: 10 }));
+        EM.AddEntity("Clock", new Clock());
+    }
+    else if(levelData.mapType === "MENU")
+    {
+        EM = new EntityManager(true);
+
+        EM.AddEntity("Menu", new Menu(levelData));
+    }
 
     LOAD_COMPLETE = true;
 
@@ -86,5 +116,6 @@ export {
     p2,
     EM,
     PIXEL_SCALE, SCREEN_WIDTH, SCREEN_HEIGHT,
+    SETUP,
     consoleLog
 }

@@ -308,7 +308,7 @@ export default class EntityManager
         };
         
         obj.GetScreenPos = function() {
-            return { x: this.phys.position[0] - 0.5 * this.width, y: -(this.phys.position[1]+0.5*this.height) };
+            return { x: Math.floor(this.phys.position[0] - 0.5 * this.width), y: Math.floor(-(this.phys.position[1]+0.5*this.height)) };
         };
 
         if(phys.tag)

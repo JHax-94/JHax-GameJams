@@ -1,4 +1,4 @@
-import { consoleLog, EM } from "./main";
+import { consoleLog, EM, SETUP } from "./main";
 
 export default class Character
 {
@@ -69,6 +69,13 @@ export default class Character
             else
             {
                 this.phys.velocity = [ 0, this.phys.velocity[1] ]; 
+            }
+        }
+        else 
+        {
+            if(input.esc)
+            {
+                SETUP();
             }
         }
     }

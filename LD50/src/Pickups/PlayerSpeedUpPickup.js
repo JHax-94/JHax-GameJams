@@ -1,7 +1,6 @@
-import { consoleLog } from "../main";
 import Pickup from "../Pickup";
 
-export default class MissileSlowDownPickup extends Pickup
+export default class PlayerSpeedUpPickup extends Pickup
 {
     constructor(position, pickupData, spawner)
     {
@@ -10,6 +9,6 @@ export default class MissileSlowDownPickup extends Pickup
 
     ActivatePickup(player)
     {
-        player.AddPowerUp("MissileSpeedDown");
+        player.AddPowerUp("PlayerSpeedUp");
     }
-}   
+}

@@ -63,7 +63,7 @@
             "index": 43,
             "name": "PlayerSpeedUp",
             "searchMap": false,
-            "isPickup": false,
+            "isPickup": true,
             "key": "V"
         },
         {

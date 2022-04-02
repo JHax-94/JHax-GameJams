@@ -279,9 +279,16 @@ export default class Character
         {
             let moving = false;
 
+            let speedBoost = 1;
+
+            if(this.HasStatus("PlayerSpeedUp"))
+            {
+                speedBoost = 2;
+            }
+
             if(input.up)
             {
-                this.phys.velocity = [ this.phys.velocity[0] , this.walkSpeed ];
+                this.phys.velocity = [ this.phys.velocity[0] , this.walkSpeed * speedBoost ];
                 if(this.direction !== "up")
                 {
                     this.direction = "up";
@@ -292,7 +299,7 @@ export default class Character
             }
             else if(input.down)
             {
-                this.phys.velocity = [ this.phys.velocity[0], -this.walkSpeed];
+                this.phys.velocity = [ this.phys.velocity[0], -this.walkSpeed * speedBoost];
                 if(this.direction !== "down")
                 {
                     this.direction = "down";
@@ -309,7 +316,7 @@ export default class Character
 
             if(input.right)
             {
-                this.phys.velocity = [ this.walkSpeed, this.phys.velocity[1] ];
+                this.phys.velocity = [ this.walkSpeed * speedBoost, this.phys.velocity[1]];
                 if(this.direction !== "right")
                 {
                     this.direction = "right";
@@ -321,7 +328,7 @@ export default class Character
             }
             else if(input.left)
             {
-                this.phys.velocity = [ -this.walkSpeed, this.phys.velocity[1] ];
+                this.phys.velocity = [ -this.walkSpeed * speedBoost , this.phys.velocity[1] ];
                 if(this.direction !== "left")
                 {
                     this.direction = "left";

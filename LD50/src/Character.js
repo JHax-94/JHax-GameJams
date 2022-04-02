@@ -1,4 +1,5 @@
 import BriefPlayable from "tina/src/BriefPlayable";
+import Decoy from "./Decoy";
 import { consoleLog, EM, PIXEL_SCALE, SETUP } from "./main";
 
 export default class Character
@@ -28,7 +29,7 @@ export default class Character
             { powerName: "Ghost", duration: 5, isPlayerStatus: true, conditions: { overlapsClear: true } },
             { powerName: "MissilePushback", force: 100, spin: 5, trigger: function() { playerRef.MissilePushback(this.force, this.spin) } },
             { powerName: "PlayerSpeedUp", duration: 5, isPlayerStatus: true },
-            { powerName: "Decoy" }
+            { powerName: "Decoy", trigger: function() { playerRef.CreateDecoy() } }
         ]
 
         this.alive = true;
@@ -86,6 +87,17 @@ export default class Character
 
         missile.Pushback(pushbackForce, spin);
     }
+
+    CreateDecoy()
+    {
+        let decoy = new Decoy(this.GetScreenPos(), this);
+        consoleLog("Created decoy...");
+        consoleLog(decoy);
+        let missile = EM.GetEntity("Missile");
+
+        missile.SetTarget(decoy);
+    }
+
 
     OnRegistered()
     {

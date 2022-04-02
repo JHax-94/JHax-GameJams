@@ -187,6 +187,16 @@ export default class Missile
         }
     }
 
+    SetTarget(obj)
+    {
+        this.playerRef = obj;
+    }
+
+    TargetPlayer()
+    {
+        this.playerRef = EM.GetEntity("Player");
+    }
+
     Pushback(pushbackForce, pushbackSpin)
     {
         let randomSpin = random(2);

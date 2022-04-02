@@ -92,15 +92,24 @@ export default class PhysicsContainer
 
             pickup.obj.Collected(player.obj);
         }
+        else if(manager.CompareTags(evt, "MISSILE", "DECOY"))
+        {
+            let decoy = manager.BodyWithTag(evt, "DECOY");
+            let missile = manager.BodyWithTag(evt, "MISSILE");
+            decoy.obj.Destroy();
+            missile.obj.TargetPlayer();
+        }
     }
 
     PreSolveEvents(container, manager, evt)
     {
-        if(this.playerWatch && this.playerWatch.HasStatus("Ghost"))
+        for(let i = 0; i < evt.contactEquations.length; i ++)
         {
-            for(let i = 0; i < evt.contactEquations.length; i ++)
+
+            let eq = evt.contactEquations[i];
+            if(this.playerWatch && this.playerWatch.HasStatus("Ghost"))
             {
-                let eq = evt.contactEquations[i];
+                
 
                 if(manager.CompareTags(eq, "PLAYER", "WALL"))
                 {
@@ -112,8 +121,16 @@ export default class PhysicsContainer
                     player.obj.AddOverlap(wall.obj);
                 }
             }
+
+            
+
+            if(manager.CompareTags(eq, "PLAYER", "DECOY"))
+            {
+                eq.enabled = false;
+            }
         }
     }
+
 
     EndContactEvents(container, manager, evt)
     {

@@ -56,7 +56,7 @@
             "index": 13,
             "name": "Decoy",
             "searchMap": false,
-            "isPickup": false,
+            "isPickup": true,
             "key": "SP"
         },
         {

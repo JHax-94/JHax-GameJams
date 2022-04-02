@@ -1,5 +1,6 @@
 import { consoleLog } from "./main";
 import Pickup from "./Pickup";
+import DecoyPickup from "./Pickups/DecoyPickup";
 import GhostModePickup from "./Pickups/GhostModePickup";
 import MissilePushBackPickup from "./Pickups/MissilePushBackPickup";
 import MissileSlowDownPickup from "./Pickups/MissileSlowDownPickup";
@@ -51,6 +52,10 @@ export default class SpawnLocation
         else if(objectToSpawn.name === "PlayerSpeedUp") 
         {
             this.lastSpawnedObject = new PlayerSpeedUpPickup(this.pos, objectToSpawn, this);
+        }
+        else if(objectToSpawn.name === "Decoy")
+        {
+            this.lastSpawnedObject = new DecoyPickup(this.pos, objectToSpawn, this);
         }
     }
 }

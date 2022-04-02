@@ -42,14 +42,14 @@
             "index": 12,
             "name": "Ghost",
             "searchMap": false,
-            "isPickup": false,
+            "isPickup": true,
             "key": "X"
         },
         {
             "index": 11,
             "name": "MissileSpeedDown",
             "searchMap": false,
-            "isPickup": false,
+            "isPickup": true,
             "key": "Z"
         },
         {

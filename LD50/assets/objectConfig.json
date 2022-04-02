@@ -6,6 +6,12 @@
             "searchMap": true,
             "replaceTile": true,
             "moveSpeed": 6
+        },
+        {
+            "index": 0,
+            "name": "Wall",
+            "searchMap": true,
+            "replaceTile": false
         }
     ]    
 }

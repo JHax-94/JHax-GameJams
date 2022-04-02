@@ -1,5 +1,6 @@
 import Character from "./Character";
 import { consoleLog, EM } from "./main";
+import Wall from "./Wall";
 
 export default class Maze
 {
@@ -39,6 +40,10 @@ export default class Maze
                         consoleLog(tile);
 
                         EM.AddEntity("Player", new Character({ x: tile.x, y: tile.y }, obj));
+                    }
+                    else if(obj.name === "Wall")
+                    {
+                        EM.AddEntity("Wall", new Wall({ x: tile.x, y: tile.y}, obj));
                     }
 
                     if(obj.replaceTile)

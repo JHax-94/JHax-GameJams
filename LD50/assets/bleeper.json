@@ -3,14 +3,34 @@
 	"v": 1,
 	"s": [
 		{
-			"n": "",
+			"n": "explode",
 			"i": [
 				37,
-				90,
+				0,
 				127,
 				0
 			],
-			"s": ""
+			"s": "*&U*-U*3U*8U*=U*BU*LU*UU*_U*dU*hU*oU*qU*uU*vU*vU*vU*sU*hU*KU*CU*~U*#U"
+		},
+		{
+			"n": "rockBreak",
+			"i": [
+				20,
+				0,
+				31,
+				0
+			],
+			"s": "*&U*&U*&U*'U*(U*)U*)U*)U*)U**U**U**U**U**U*)U*&U*#U*#U*#U*#U"
+		},
+		{
+			"n": "collect",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "&TU&TU&aU&aU&mU&mU&mU&mU"
 		}
 	]
 }

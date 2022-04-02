@@ -9,7 +9,7 @@ export default class Missile
 
         this.turnSpeed = 0.1;
 
-        this.spriteIndex = 177;
+        this.spriteIndex = 4;
 
         this.difficultyModifier = 1;
 

@@ -1,0 +1,29 @@
+{
+    "objectMap": [
+        {
+            "index": 174,
+            "name": "Player",
+            "searchMap": true,
+            "replaceTile": true,
+            "moveSpeed": 6
+        },
+        {
+            "index": 0,
+            "name": "Wall",
+            "searchMap": true,
+            "replaceTile": false
+        },
+        {
+            "index": 233,
+            "name": "SpawnLocation",
+            "searchMap": true,
+            "replaceTile": true
+        },
+        {
+            "index": 181,
+            "name": "GhostPickup",
+            "searchMap": false,
+            "isPickup": true
+        }
+    ]    
+}

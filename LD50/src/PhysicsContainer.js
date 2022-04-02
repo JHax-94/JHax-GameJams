@@ -1,5 +1,6 @@
 import p2 from "p2";
-import { consoleLog, PIXEL_SCALE } from "./main";
+import Clock from "./Clock";
+import { consoleLog, EM, PIXEL_SCALE } from "./main";
 
 export default class PhysicsContainer
 {
@@ -9,15 +10,16 @@ export default class PhysicsContainer
 
         this.materials = 
         {
-            postieMaterial: new p2.Material(),
-            houseMaterial: new p2.Material()
+            playerMaterial: new p2.Material(),
+            wallMaterial: new p2.Material(),
+            missileMaterial: new p2.Material()
         };
 
-        manager.phys.addContactMaterial(new p2.ContactMaterial(this.materials.postieMaterial, this.materials.houseMaterial, {
+        manager.phys.addContactMaterial(new p2.ContactMaterial(this.materials.playerMaterial, this.materials.wallMaterial, {
             restitution: 1.0,
             stiffness: Number.MAX_VALUE
         }));
-
+        
         let container = this;
 
         manager.phys.on("beginContact", function (evt)
@@ -75,15 +77,66 @@ export default class PhysicsContainer
 
     BeginContactEvents(container, manager, evt)
     {
+        if(manager.CompareTags(evt, "PLAYER", "MISSILE"))
+        {
+            let player = manager.BodyWithTag(evt, "PLAYER");
+            let missile = manager.BodyWithTag(evt, "MISSILE");
+
+            player.obj.Kill();
+            missile.obj.Explode();
+
+            let clock = EM.GetEntity("Clock");
+
+            clock.Pause();
+        }
+        else if(manager.CompareTags(evt, "PLAYER", "PICKUP"))
+        {
+            let player = manager.BodyWithTag(evt, "PLAYER");
+            let pickup = manager.BodyWithTag(evt, "PICKUP")
+
+            pickup.obj.Collected(player.obj);
+        }
     }
 
     PreSolveEvents(container, manager, evt)
     {
-        
+        if(this.playerWatch && this.playerWatch.HasStatus("GHOST"))
+        {
+            for(let i = 0; i < evt.contactEquations.length; i ++)
+            {
+                let eq = evt.contactEquations[i];
+
+                consoleLog("EVENT");
+                consoleLog(evt);
+                consoleLog("EQUATION");
+                consoleLog(eq);
+
+                if(manager.CompareTags(eq, "PLAYER", "WALL"))
+                {
+                    eq.enabled = false;
+
+                    let player = manager.BodyWithTag(eq, "PLAYER");
+                    let wall = manager.BodyWithTag(eq, "WALL");
+
+                    player.obj.AddOverlap(wall.obj);
+                }
+            }
+        }
     }
 
     EndContactEvents(container, manager, evt)
     {
-        
+        if(this.playerWatch && this.playerWatch.HasStatus("GHOST"))
+        {
+            if(manager.CompareTags(evt, "PLAYER", "WALL"))
+            {
+                let player = manager.BodyWithTag(evt, "PLAYER");
+                let wall = manager.BodyWithTag(evt, "WALL");
+
+                player.obj.RemoveOverlap(wall.obj);
+
+                //if(clear) player.obj.RemoveStatus("GHOST");
+            }
+        }
     }
 }

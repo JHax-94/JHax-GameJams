@@ -12,6 +12,6 @@ export default class GhostModePickup extends Pickup
 
     ActivatePickup(player)
     {
-        player.ActivateGhostMode(this.pickupTime);
+        player.AddPowerUp("Ghost");
     }
 }   

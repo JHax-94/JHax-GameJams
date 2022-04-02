@@ -12,6 +12,23 @@ export default class Character
         consoleLog("Player object config");
         consoleLog(objConfig);
 
+        this.powerKeyWaits =
+        {
+            power0: false,
+            power1: false,
+            power2: false,
+            power3: false,
+            power4: false
+        }
+
+        this.powers = [
+            { powerName: "MissileSpeedDown", duration: 5, isMissileStatus: true },
+            { powerName: "Ghost", duration: 5, isPlayerStatus: true, conditions: { overlapsClear: true } },
+            { powerName: "MissilePushback" },
+            { powerName: "PlayerSpeedUp", duration: 5, isPlayerStatus: true },
+            { powerName: "Decoy" }
+        ]
+
         this.alive = true;
 
         this.overlaps = [];
@@ -21,6 +38,14 @@ export default class Character
         this.animFrame = 0;
 
         this.animTime = 0;
+
+        this.powerUps = {
+            Ghost: 0,
+            MissileSpeedDown: 0,
+            Decoy: 0,
+            PlayerSpeedUp: 0,
+            MissilePushback: 0
+        }
 
         this.walkSpeed = objConfig.moveSpeed;
 
@@ -143,6 +168,23 @@ export default class Character
         this.AddStatus("GHOST", time, { overlapsClear: true });
     }
 
+    AddPowerUp(name)
+    {
+        if(this.powerUps[name] || this.powerUps[name] === 0)
+        {
+            this.powerUps[name] ++;
+
+            if(this.powerUpsBar)
+            {
+                this.powerUpsBar.UpdatePowerUp(name, this.powerUps[name]);
+            }
+        }
+        else
+        {
+            consoleLog("UH OH!");
+        }
+    }
+
     Kill()
     {
         this.spriteIndex = 185;
@@ -251,6 +293,56 @@ export default class Character
                 this.phys.velocity = [ 0, this.phys.velocity[1] ]; 
             }
 
+            if(input.power0 && this.powerKeyWaits.power0 === false)
+            {
+                this.powerKeyWaits.power0 = true;
+                this.ActivatePower(0);
+            }
+            else if(input.power0 === false && this.powerKeyWaits.power0)
+            {
+                this.powerKeyWaits.power0 = false;
+            }
+
+            if(input.power1 && this.powerKeyWaits.power1 === false)
+            {
+                this.powerKeyWaits.power1 = true;
+                this.ActivatePower(1);
+            }
+            else if(input.power1 === false && this.powerKeyWaits.power1)
+            {
+                this.powerKeyWaits.power1 = false;
+            }
+
+            if(input.power2 && this.powerKeyWaits.power2 === false)
+            {
+                this.powerKeyWaits.power2 = true;
+                this.ActivatePower(2);
+            }
+            else if(input.power2 === false && this.powerKeyWaits.power2)
+            {
+                this.powerKeyWaits.power2 = false;
+            }
+
+            if(input.power3 && this.powerKeyWaits.power3 === false)
+            {
+                this.powerKeyWaits.power3 = true;
+                this.ActivatePower(3);
+            }
+            else if(input.power3 === false && this.powerKeyWaits.power3)
+            {
+                this.powerKeyWaits.power3 = false;
+            }
+
+            if(input.power4 && this.powerKeyWaits.power4 === false)
+            {
+                this.powerKeyWaits.power4 = true;
+                this.ActivatePower(4);
+            }
+            else if(input.power4 === false && this.powerKeyWaits.power4)
+            {
+                this.powerKeyWaits.power4 = false;
+            }
+
             this.moving = moving;
         }
         else 
@@ -259,6 +351,20 @@ export default class Character
             {
                 SETUP();
             }
+        }
+    }
+
+    ActivatePower(powerNum)
+    {
+        consoleLog(`Activate Power: ${powerNum}`);
+
+        let power = this.powers[powerNum];
+
+        consoleLog(power);
+
+        if(power.isPlayerStatus)
+        {
+            this.AddStatus(power.powerName, power.duration, power.conditions);
         }
     }
 
@@ -285,15 +391,6 @@ export default class Character
         let anim = this.anims[this.direction][this.animFrame];
 
         sprite(anim.index, screenPos.x, screenPos.y, anim.flipH, anim.flipV, anim.flipR);
-
-        if(this.statuses)
-        {
-            for(let i = 0; i < this.statuses.length; i ++)
-            {
-                pen(10);
-                print(`${this.statuses[i].name}: ${this.statuses[i].time}`, 0, (1+i) * PIXEL_SCALE );
-            }
-        }
     }
     
 }

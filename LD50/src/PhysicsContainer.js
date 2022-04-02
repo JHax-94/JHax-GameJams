@@ -96,7 +96,7 @@ export default class PhysicsContainer
 
     PreSolveEvents(container, manager, evt)
     {
-        if(this.playerWatch && this.playerWatch.HasStatus("GHOST"))
+        if(this.playerWatch && this.playerWatch.HasStatus("Ghost"))
         {
             for(let i = 0; i < evt.contactEquations.length; i ++)
             {
@@ -117,7 +117,7 @@ export default class PhysicsContainer
 
     EndContactEvents(container, manager, evt)
     {
-        if(this.playerWatch && this.playerWatch.HasStatus("GHOST"))
+        if(this.playerWatch && this.playerWatch.HasStatus("Ghost"))
         {
             if(manager.CompareTags(evt, "PLAYER", "WALL"))
             {

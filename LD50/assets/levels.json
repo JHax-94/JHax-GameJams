@@ -37,20 +37,29 @@
         {
             "levelName": "easy_maze",
             "map": "easyMap",
-            "backgroundColour": 2,
-            "mapType": "MAZE"
+            "backgroundColour": 1,
+            "mapType": "MAZE",
+            "rockZones": [
+                { "x": 1, "y": 8, "w": 29, "h": 23 }
+            ]
         },
         {
             "levelName": "med_maze",
             "map": "medMap",
-            "backgroundColour": 2,
-            "mapType": "MAZE"
+            "backgroundColour": 1,
+            "mapType": "MAZE",
+            "rockZones": [
+                { "x": 1, "y": 8, "w": 29, "h": 23 }
+            ]
         },
         {
             "levelName": "hard_maze",
             "map": "hardMap",
-            "backgroundColour": 2,
-            "mapType": "MAZE"
+            "backgroundColour": 1,
+            "mapType": "MAZE",
+            "rockZones": [
+                { "x": 1, "y": 8, "w": 29, "h": 23 }
+            ]
         }
     ]
 }

@@ -199,6 +199,8 @@ export default class Character
 
     AddPowerUp(name)
     {
+        consoleLog(`Adding power up: ${name}`);
+        
         if(this.powerUps[name] || this.powerUps[name] === 0)
         {
             this.powerUps[name] ++;

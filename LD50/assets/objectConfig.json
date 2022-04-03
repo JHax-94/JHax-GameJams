@@ -33,6 +33,12 @@
             "replaceTile": false
         },
         {
+            "index": 16,
+            "name": "Wall",
+            "searchMap": true,
+            "replaceTile": false
+        },
+        {
             "index": 17,
             "name": "SpawnLocation",
             "searchMap": true,
@@ -42,54 +48,54 @@
             "index": 12,
             "name": "Ghost",
             "searchMap": false,
-            "isPickup": false,
+            "isPickup": true,
             "key": "X"
         },
         {
             "index": 11,
             "name": "MissileSpeedDown",
             "searchMap": false,
-            "isPickup": false,
+            "isPickup": true,
             "key": "Z"
         },
         {
             "index": 13,
             "name": "Decoy",
             "searchMap": false,
-            "isPickup": false,
+            "isPickup": true,
             "key": "SP"
         },
         {
             "index": 43,
             "name": "PlayerSpeedUp",
             "searchMap": false,
-            "isPickup": false,
+            "isPickup": true,
             "key": "V"
         },
         {
             "index": 44,
             "name": "MissilePushback",
             "searchMap": false,
-            "isPickup": false,
+            "isPickup": true,
             "key": "C"
         },
         {
             "index": 59,
             "name": "MissileSpeedUp",
             "searchMap": false,
-            "isPickup": false
+            "isPickup": true
         },
         {
             "index": 60,
             "name": "ExtraMissile",
             "searchMap": false,
-            "isPickup": false
+            "isPickup": true
         },
         {
             "index": 75,
             "name": "SlowPlayer",
             "searchMap": false,
-            "isPickup": false
+            "isPickup": true
         },
         {
             "index": 76,
@@ -101,7 +107,7 @@
            "index": 91,
            "name": "ControlFlip",
            "searchMap": false,
-           "isPickup": false
+           "isPickup": true
         },
         {
             "index": 6,

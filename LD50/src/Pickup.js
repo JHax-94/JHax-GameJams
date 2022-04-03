@@ -6,7 +6,7 @@ export default class Pickup
     {
         this.spriteIndex = spriteIndex;
 
-        this.powerUpName;
+        this.powerUpName = powerUpName;
 
         this.spawner = spawner;
 

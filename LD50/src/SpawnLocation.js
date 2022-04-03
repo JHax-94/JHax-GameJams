@@ -7,6 +7,7 @@ import MissilePushBackPickup from "./Pickups/MissilePushBackPickup";
 import MissileSlowDownPickup from "./Pickups/MissileSlowDownPickup";
 import MissileSpeedUpPickup from "./Pickups/MissileSpeedUpPickup";
 import PlayerSpeedUpPickup from "./Pickups/PlayerSpeedUpPickup";
+import SlowPlayerPickup from "./Pickups/SlowPlayerPickup";
 
 export default class SpawnLocation
 {
@@ -50,6 +51,10 @@ export default class SpawnLocation
         else if(objectToSpawn.name === "ExtraMissile")
         {
             this.lastSpawnedObject = new ExtraMissilePickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+        }
+        else if(objectToSpawn.name === "SlowPlayer")
+        {
+            this.lastSpawnedObject = new SlowPlayerPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
         }
         /*else if(objectToSpawn.name === "MissileSpeedDown")
         {

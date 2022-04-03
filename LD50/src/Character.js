@@ -22,6 +22,8 @@ export default class Character
             power4: false
         }
 
+        this.speedBoost = 1;
+
         let playerRef = this;
 
         this.powers = [
@@ -98,7 +100,7 @@ export default class Character
         consoleLog(decoy);
         
         let missiles = EM.GetEntitiesStartingWith("Missile_");
-        
+
         missiles[random(missiles.length)].SetTarget(decoy);
     }
 
@@ -277,7 +279,7 @@ export default class Character
 
         if(this.moving)
         {
-            this.animTime += deltaTime;
+            this.animTime += deltaTime * this.speedBoost;
 
             if(this.animTime >= this.anims.frameTime)
             {
@@ -295,16 +297,22 @@ export default class Character
         {
             let moving = false;
 
-            let speedBoost = 1;
+            this.speedBoost = 1;
 
             if(this.HasStatus("PlayerSpeedUp"))
             {
-                speedBoost = 2;
+                this.speedBoost *= 2;
             }
+
+            if(this.HasStatus("SlowPlayer"))
+            {
+                this.speedBoost *= 0.25;
+            }
+
 
             if(input.up)
             {
-                this.phys.velocity = [ this.phys.velocity[0] , this.walkSpeed * speedBoost ];
+                this.phys.velocity = [ this.phys.velocity[0] , this.walkSpeed * this.speedBoost ];
                 if(this.direction !== "up")
                 {
                     this.direction = "up";
@@ -315,7 +323,7 @@ export default class Character
             }
             else if(input.down)
             {
-                this.phys.velocity = [ this.phys.velocity[0], -this.walkSpeed * speedBoost];
+                this.phys.velocity = [ this.phys.velocity[0], -this.walkSpeed * this.speedBoost];
                 if(this.direction !== "down")
                 {
                     this.direction = "down";
@@ -332,7 +340,7 @@ export default class Character
 
             if(input.right)
             {
-                this.phys.velocity = [ this.walkSpeed * speedBoost, this.phys.velocity[1]];
+                this.phys.velocity = [ this.walkSpeed * this.speedBoost, this.phys.velocity[1]];
                 if(this.direction !== "right")
                 {
                     this.direction = "right";
@@ -344,7 +352,7 @@ export default class Character
             }
             else if(input.left)
             {
-                this.phys.velocity = [ -this.walkSpeed * speedBoost , this.phys.velocity[1] ];
+                this.phys.velocity = [ -this.walkSpeed * this.speedBoost , this.phys.velocity[1] ];
                 if(this.direction !== "left")
                 {
                     this.direction = "left";

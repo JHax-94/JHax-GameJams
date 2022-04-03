@@ -5,7 +5,7 @@
             "name": "Player",
             "searchMap": true,
             "replaceTile": true,
-            "moveSpeed": 8,
+            "moveSpeed": 15,
             "anims": {
                 "frameTime": 0.35,
                 "down": [

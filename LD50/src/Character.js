@@ -29,9 +29,9 @@ export default class Character
         this.powers = [
             { powerName: "MissileSpeedDown", duration: 5, isPlayerStatus: true },
             { powerName: "Ghost", duration: 5, isPlayerStatus: true, conditions: { overlapsClear: true } },
-            { powerName: "MissilePushback", force: 100, spin: 5, trigger: function() { playerRef.MissilePushback(this.force, this.spin) } },
+            { powerName: "MissilePushback", force: 100, spin: 5, trigger: function() { playerRef.MissilePushback(this.force, this.spin); return true; } },
             { powerName: "PlayerSpeedUp", duration: 5, isPlayerStatus: true },
-            { powerName: "Decoy", trigger: function() { playerRef.CreateDecoy() } }
+            { powerName: "Decoy", trigger: function() { return playerRef.CreateDecoy(); } }
         ]
 
         this.alive = true;
@@ -142,13 +142,23 @@ export default class Character
 
     CreateDecoy()
     {
-        let decoy = new Decoy(this.GetScreenPos(), this);
-        consoleLog("Created decoy...");
-        consoleLog(decoy);
-        
-        let missiles = EM.GetEntitiesStartingWith("Missile_");
+        let created = false;
 
-        missiles[random(missiles.length)].SetTarget(decoy);
+        if(!this.decoy)
+        {
+            this.decoy = new Decoy(this.GetScreenPos(), this);
+        
+            let missiles = EM.GetEntitiesStartingWith("Missile_");
+
+            for(let i = 0; i < missiles.length; i ++)
+            {
+                missiles[i].SetTarget(this.decoy);
+            }
+
+            created = true;
+        }
+
+        return created;
     }
 
 
@@ -611,17 +621,20 @@ export default class Character
 
         if(powerUpCount > 0)
         {
+            let activated = false;
+
             if(power.isPlayerStatus)
             {
                 this.AddStatus(power.powerName, power.duration, power.conditions);
+                activated = true;
             }
 
             if(power.trigger)
             {
-                power.trigger();
+                activated = power.trigger();
             }
 
-            this.ExpendPowerUp(power.powerName);
+            if(activated) this.ExpendPowerUp(power.powerName);
         }        
     }
 

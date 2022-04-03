@@ -27,6 +27,7 @@ export default class Decoy
 
     Destroy()
     {
+        this.createdBy.decoy = null;
         EM.RemoveEntity(this);
     }
 

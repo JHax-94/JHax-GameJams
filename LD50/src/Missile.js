@@ -41,6 +41,8 @@ export default class Missile
         this.waitForSlowDownStatusWearOff = false;
         this.waitForSpeedUpStatusWearOff = false;
 
+        this.boostSpeed = 1;
+
         EM.RegisterEntity(this, {
             physSettings: {
                 tileTransform: {
@@ -89,7 +91,7 @@ export default class Missile
         td.outVec = [0, 0];
 
         td.upVec = [0, 1];
-        
+
         this.phys.vectorToWorldFrame(td.outVec, td.upVec);
 
         td.dotProd = vec2.dot(td.diffVec, td.outVec);
@@ -140,6 +142,8 @@ export default class Missile
         {   
             let statusModifier = 1;
 
+            let td = this.CalculateTargetingData();
+
             if(this.playerRef.HasStatus("MissileSpeedDown"))
             {
                 statusModifier *= 0.5;
@@ -167,14 +171,23 @@ export default class Missile
             {
                 statusModifier *= 4;
 
+                let mag = vec2.length(td.diffVec)
+
                 if(!this.waitForSpeedUpStatusWearOff)
                 {
-                    this.phys.velocity = [ this.phys.velocity[0] * statusModifier, this.phys.velocity[1] * statusModifier];
+                    let oldMag = vec2.length(this.phys.velocity);
+
+                    this.boostSpeed = (oldMag * statusModifier); 
 
                     this.waitForSpeedUpStatusWearOff = true;
                     this.pushbackForce = 0;
                     this.pushbackSpin = 0;
                 }
+                
+                //consoleLog(`Boost Speed: ${this.boostSpeed}`);
+
+                this.phys.velocity = [ td.diffVec[0] * (this.boostSpeed / mag), td.diffVec[1] * (this.boostSpeed / mag) ];
+                
             }
             else if(this.waitForSpeedUpStatusWearOff = true)
             {
@@ -185,7 +198,7 @@ export default class Missile
 
             this.phys.applyForceLocal([0, 1 * this.difficultyModifier * statusModifier]);
 
-            let td = this.CalculateTargetingData();
+            
 
             let desiredAngularVelocity = 0;
 
@@ -202,7 +215,7 @@ export default class Missile
                 {
                     if(this.difficultyModifier > 80)
                     {
-                        distanceModifier *= 40;
+                        distanceModifier *= 30;
                     }
 
                     distanceModifier *= 20;
@@ -211,7 +224,7 @@ export default class Missile
                 {
                     if(this.difficultyModifier > 80)
                     {
-                        distanceModifier *= 40;
+                        distanceModifier *= 30;
                     }
 
                     distanceModifier *= 20;

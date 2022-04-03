@@ -41,6 +41,116 @@
 				0
 			],
 			"s": ")RU)UU)ZU)[U)WU)RU)OU)PU)TU)YU)dU)iU"
+		},
+		{
+			"n": "tensionUp!",
+			"i": [
+				53,
+				0,
+				127,
+				1
+			],
+			"s": "'@U'DU'GU'LU'PU'TU'YU'YU'B#'AU'DU'HU'MU'QU'UU'ZU'ZU'Z#'BU'EU'IU'NU'SU'VU'[U'[U'[U'[U"
+		},
+		{
+			"n": "rocketSlow",
+			"i": [
+				33,
+				45,
+				127,
+				0
+			],
+			"s": "*yW*yW*yW*yW*yW*yW*yV*yU*wT*tS*sR*qQ*oO*nN*lK*iH*gF*eD*cB*`A*^>*[8*Z8*X8*X8*X8*X8*X8*X8*X8*X8*X8"
+		},
+		{
+			"n": "rocketFast",
+			"i": [
+				32,
+				0,
+				127,
+				0
+			],
+			"s": "*:;*;8*;8*<:*;<*:?*;B*>E*CG*FJ*JM*RP*ZR*eU*nU*rU*sU*sU*sU*sU*sU*rU*rU*rU*rU*rU*rU*rU*rU*sU*tU"
+		},
+		{
+			"n": "newRocket",
+			"i": [
+				53,
+				0,
+				127,
+				0
+			],
+			"s": "*D%*F&*G'*H(*H(*I(*I(*J(*J)*K**L+*M,*N-*N0*N2*O3*O5*O5*P7*Q8*Q:*R<*R>*SA*TC*TC*TE*UF*UG*UH*UJ*UL"
+		},
+		{
+			"n": "playerSlow",
+			"i": [
+				42,
+				19,
+				96,
+				0
+			],
+			"s": "(nU(fU(bU(]U(ZU(WU(VU(TU(SU(RU(QU(NU(MU(MU(KU(KU(JU(JU(JU(JU(JU(JU(JU(JU(JU(JU(JU(JU(JU(JU(JU(JU"
+		},
+		{
+			"n": "playerFast",
+			"i": [
+				38,
+				0,
+				127,
+				0
+			],
+			"s": "(LU(NU(OU(PU(RU(VU(YU(]U(^U(`U(bU(cU(eU(hU(jU(jU(jU(jU(jU(jU(kU(kU(kU(kU(kU(kU(lU(lU(lU(lU(lU(lU"
+		},
+		{
+			"n": "throughWall",
+			"i": [
+				29,
+				0,
+				127,
+				0
+			],
+			"s": "'iU'iU'iU'PU'PU'PU'iU'iU'iW'PU'PN'PK'iD'iA'i>'P;'P9'P8'P#'O#'P3'P0'P~'P#'P#'P)'P('P'"
+		},
+		{
+			"n": "decoyDeploy",
+			"i": [
+				27,
+				0,
+				127,
+				0
+			],
+			"s": "&^U&^U&LU&LU&mU&mU&m#&m#&mU&mU&m#&m#&mU&mU&m#&m#&mU&mU&m#&m#&mH&mE&mD&mB&mA&m?&m>&m<&m;"
+		},
+		{
+			"n": "rocketSpin",
+			"i": [
+				36,
+				32,
+				113,
+				0
+			],
+			"s": "*kU*ZU*CT*6T*3T*DS*SS*cR*mP*ZO*IM*=L*1L*-K*7J*MI*bI*mI*ZI*NI*?H*6H*/F**D*6C*UB*bA*k?*a=*Q<*B;*2;"
+		},
+		{
+			"n": "controlFlip",
+			"i": [
+				36,
+				14,
+				113,
+				0
+			],
+			"s": "(nU(dU(^U(TU(RU(RU(VU(]U(cU(bU([U(NU(GU(GU(KU(PU(TU(TU(RU(OU(HU(@U(<U(9U(;U(?U(DU(DU(@U(<U(3U(,U"
+		},
+		{
+			"n": "rockFall",
+			"i": [
+				41,
+				0,
+				127,
+				0
+			],
+			"s": "*v#*v#*v#*v0*v0*v0*RR*WP*[N*^M*_K*^J*[I*UH*MG*EE"
 		}
 	]
 }

@@ -1,8 +1,9 @@
+import BriefPlayable from "tina/src/BriefPlayable";
 import { consoleLog, EM, getObjectConfig } from "./main";
 
 export default class PickupSpawner
 {
-    constructor()
+    constructor(levelName)
     {
         let objConf = getObjectConfig("PickupSpawner");
 
@@ -13,9 +14,28 @@ export default class PickupSpawner
 
         this.pickupsList = [];
 
+        let levelSpawnWeightings = null;
         
-        
-        this.spawnWeightings = objConf.spawnWeightings[0].weightings;
+        for(let i = 0; i < objConf.spawnWeightings.length; i ++)
+        {
+            let weightingSet = objConf.spawnWeightings[i];
+
+            consoleLog(`Check weighting set for level: ${levelName}`);
+            consoleLog(weightingSet);
+
+            for(let j = 0; j < weightingSet.levels.length; j ++)
+            {
+                if(weightingSet.levels[j] === levelName)
+                {
+                    consoleLog("FOUND!");
+
+                    levelSpawnWeightings = weightingSet;
+                    break;
+                }
+            }
+        }
+
+        this.spawnWeightings = levelSpawnWeightings.weightings; // objConf.spawnWeightings[0].weightings;
 
         this.spawnLocations = [];
 

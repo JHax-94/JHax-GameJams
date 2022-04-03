@@ -105,19 +105,6 @@ function SETUP(levelName)
 
         EM.AddEntity("Maze", new Maze(levelData));
 
-        let objectMap = assets.objectConfig.objectMap;
-        /*
-        let missileConf = null;
-        
-        for(let i = 0; i < objectMap.length; i ++)
-        {
-            if(objectMap[i].name === "Missile")
-            {
-                missileConf = objectMap[i];
-                break;
-            }
-        }*/
-
         let missileConf = getObjectConfig("Missile");
 
         let missileList = EM.GetEntitiesStartingWith("Missile_");

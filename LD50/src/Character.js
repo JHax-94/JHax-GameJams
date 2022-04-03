@@ -1,6 +1,6 @@
 import BriefPlayable from "tina/src/BriefPlayable";
 import Decoy from "./Decoy";
-import { consoleLog, EM, getObjectConfig, PIXEL_SCALE, SETUP } from "./main";
+import { consoleLog, EM, getObjectConfig, SFX, PIXEL_SCALE, SETUP } from "./main";
 
 export default class Character
 {
@@ -27,11 +27,11 @@ export default class Character
         let playerRef = this;
 
         this.powers = [
-            { powerName: "MissileSpeedDown", duration: 5, isPlayerStatus: true },
-            { powerName: "Ghost", duration: 5, isPlayerStatus: true, conditions: { overlapsClear: true } },
-            { powerName: "MissilePushback", force: 100, spin: 5, trigger: function() { playerRef.MissilePushback(this.force, this.spin); return true; } },
-            { powerName: "PlayerSpeedUp", duration: 5, isPlayerStatus: true },
-            { powerName: "Decoy", trigger: function() { return playerRef.CreateDecoy(); } }
+            { powerName: "MissileSpeedDown", duration: 5, isPlayerStatus: true, sound: "useMissileSlow" },
+            { powerName: "Ghost", duration: 5, isPlayerStatus: true, conditions: { overlapsClear: true }, sound: "useGhost" },
+            { powerName: "MissilePushback", force: 100, spin: 5, trigger: function() { playerRef.MissilePushback(this.force, this.spin); return true; }, sound: "useMissilePush" },
+            { powerName: "PlayerSpeedUp", duration: 5, isPlayerStatus: true, sound: "usePlayerSpeed" },
+            { powerName: "Decoy", trigger: function() { return playerRef.CreateDecoy(); }, sound: "useDecoy" }
         ]
 
         this.alive = true;
@@ -121,6 +121,20 @@ export default class Character
                 break;
             }
         }
+    }
+
+    DecoyDestroyed()
+    {
+        this.decoy = null;
+
+        let missiles = EM.GetEntitiesStartingWith("Missile");
+
+        for(let i = 0; i < missiles.length; i ++)
+        {
+            missiles[i].TargetPlayer();
+        }
+        
+        sfx(SFX.explode);
     }
 
     IsOnSlowFloor()
@@ -303,6 +317,8 @@ export default class Character
         this.spriteIndex = 185;
         this.alive = false;
         this.phys.velocity = [0, 0];
+
+        sfx(SFX.explode);
 
         EM.GameOver();
     }
@@ -641,7 +657,11 @@ export default class Character
                 activated = power.trigger();
             }
 
-            if(activated) this.ExpendPowerUp(power.powerName);
+            if(activated)
+            {
+                sfx(SFX[power.sound]);
+                this.ExpendPowerUp(power.powerName);
+            } 
         }        
     }
 

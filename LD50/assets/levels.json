@@ -3,6 +3,7 @@
         {
             "levelName": "main_menu",
             "backgroundColour": 1,
+            "titleMap": "title_screen",
             "buttonStart": { "x": 2, "y": 2 },
             "buttonDims": { "w": 6, "h": 2 },
             "levelButtons": [

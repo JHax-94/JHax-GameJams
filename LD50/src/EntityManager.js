@@ -17,6 +17,8 @@ export default class EntityManager
         this.frameCount = 0;
         this.bgColour = 15;
 
+        this.gameTimeElapsed = 0;
+
         this.defaultLayer = "WORLD";
 
         this.focusedInputGroup = null;
@@ -518,6 +520,8 @@ export default class EntityManager
         if(!this.pause)
         {
             this.deltaTime = deltaTime;
+
+            this.gameTimeElapsed += this.deltaTime;
 
             if(this.phys) 
             {

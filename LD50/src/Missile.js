@@ -198,8 +198,6 @@ export default class Missile
 
             this.phys.applyForceLocal([0, 1 * this.difficultyModifier * statusModifier]);
 
-            
-
             let desiredAngularVelocity = 0;
 
             let desiredAngularSpeed = this.turnSpeed * this.difficultyModifier * statusModifier

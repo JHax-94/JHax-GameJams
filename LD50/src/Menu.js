@@ -1,12 +1,16 @@
 import Button from "./Button";
-import { consoleLog, SETUP } from "./main";
+import { consoleLog, EM, SETUP } from "./main";
 
 export default class Menu
 {
     constructor(levelData)
     {
         this.menuData = levelData;
+        this.titleMap = getMap(this.menuData.titleMap);
+
         this.BuildLevelButtons(levelData.levelButtons);
+
+        EM.RegisterEntity(this);
     }
 
     BuildLevelButtons(levelButtons)
@@ -40,5 +44,8 @@ export default class Menu
 
     }
 
-    
+    Draw()
+    {
+        this.titleMap.draw(0, 0);
+    }    
 }

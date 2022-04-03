@@ -4,11 +4,14 @@ import Maze from './Maze.js'
 import Missile from './Missile.js';
 import Menu from './Menu.js';
 import PowerUpsBar from './PowerUpsBar.js';
-import PauseMenu from './PauseMenu.js';
+import SoundManager from './SoundManager.js';
 
 let pointerEvents = require('pixelbox/pointerEvents');
 
 let p2 = require('p2');
+
+let SFX = null;
+let SOUND = null;
 
 let EM;
 let FPS = 1/30;
@@ -74,6 +77,11 @@ function getObjectConfig(objectName)
 
 function SETUP(levelName)
 {
+    if(!SFX)
+    {
+        SFX = assets.soundMap;
+    }
+
     consoleLog("==== STARTING SETUP ====");
 
     consoleLog("-- Building Entity Manager --");
@@ -128,6 +136,26 @@ function SETUP(levelName)
         EM.AddEntity("Menu", new Menu(levelData));
     }
 
+    if(!SOUND)
+    {
+        SOUND = new SoundManager({x: 24, y: 5}, { speakerIndex: 0, speakerOnIndex: 16, speakerOffIndex: 0, sfxIndex: 16 });
+    }
+
+    if(levelData.mapType === "MENU")
+    {
+        SOUND.PlayTitle();
+    }
+    else
+    {
+        SOUND.PlayLevelMusic();
+    }
+
+    if(!EM.GetEntity("SoundManager"))
+    {
+        EM.RegisterEntity(SOUND);
+        EM.AddEntity("SoundManager", SOUND);
+    }
+
     LOAD_COMPLETE = true;
 
     consoleLog("==== SETUP COMPLETE ====");
@@ -154,5 +182,6 @@ export {
     PIXEL_SCALE, SCREEN_WIDTH, SCREEN_HEIGHT,
     getObjectConfig,
     SETUP,
+    SOUND, SFX,
     consoleLog
 }

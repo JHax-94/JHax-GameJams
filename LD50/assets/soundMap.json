@@ -1,0 +1,16 @@
+{
+    "alarm": "explode",
+	"explode": "explode",
+	"collect": "collect",
+	"useMissileSlow": "powerup",
+	"useGhost": "powerup",
+	"useDecoy": "powerup",
+	"usePlayerSpeed": "powerup",
+	"useMissilePush": "powerup",
+	"useMissileSpeed": "powerup",
+	"useExtraMissile": "powerup",
+	"usePlayerSlow": "powerup",
+	"useControlFlip": "powerup",
+	"useRockSpawn": "powerup",
+	"rockBreak": "rockBreak"
+}

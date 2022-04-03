@@ -154,7 +154,6 @@ export default class Character
 
     OnRegistered()
     {
-        
     }
 
     AddOverlap(overlapObj)

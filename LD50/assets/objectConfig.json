@@ -5,7 +5,7 @@
             "name": "Player",
             "searchMap": true,
             "replaceTile": true,
-            "moveSpeed": 8,
+            "moveSpeed": 15,
             "anims": {
                 "frameTime": 0.35,
                 "down": [
@@ -278,6 +278,26 @@
             },
             "activeStatusSpacing": { "h": 1.875, "v": 1.25 },
             "activeStatusColumnLength": 3
+        },
+        {
+            "name": "PauseMenu",
+            "root": { "x": 12, "y": 5 },
+            "components": [
+                { "type": "Rect", "x": 0, "y": 0, "w": 8, "h": 5, "colour": 0 },
+                { "type": "Text", "text": "Game Paused", "x": 0, "y": 0, "colour": 1 },
+                { "type": "Button", "text": "Continue", "x": 0, "y": 1, "w": 6, "h": 1.25, "offset": {"x": 5, "y": 1 }, "trigger": "Unpause" },
+                { "type": "Button", "text": "Back to Menu", "x": 0, "y": 3, "w": 6, "h": 1.25, "offset": {"x": 1, "y": 1 }, "trigger": "BackToMenu" }
+            ]
+        },
+        {
+            "name": "GameOverMenu",
+            "root": { "x": 12, "y": 5 },
+            "components": [
+                { "type": "Rect", "x": 0, "y": 0, "w": 8, "h": 5, "colour": 0 },
+                { "type": "Text", "text": "Game Over", "x": 0, "y": 0, "colour": 1 },
+                { "type": "Button", "text": "Restart", "x": 0, "y": 1, "w": 6, "h": 1.25, "offset": {"x": 5, "y": 1 }, "trigger": "Restart" },
+                { "type": "Button", "text": "Back to Menu", "x": 0, "y": 3, "w": 6, "h": 1.25, "offset": {"x": 1, "y": 1 }, "trigger": "BackToMenu" }
+            ]
         }
     ]    
 }

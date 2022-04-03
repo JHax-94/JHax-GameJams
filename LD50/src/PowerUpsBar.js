@@ -133,11 +133,9 @@ export default class PowerUpsBar
         }
         else
         {
-            let indicatorTime = Math.floor(Math.abs(status.time * 10));
+            let indicatorTime = Math.floor(Math.abs(status.time * 1.2));
 
-            consoleLogs(`indicator time: ${indicatorTime}`);
-
-            show = indicatorTime % 10 == 0;
+            show = indicatorTime % 2 == 0;
         }
 
         return show;

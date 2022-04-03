@@ -5,22 +5,20 @@ export default class Missile
 {
     constructor(position, objConfig)
     {
-        this.startSpeed = 1;
-
-        this.turnSpeed = 0.1;
-
-        consoleLog("----- MISSILE -----");
-        consoleLog("ObjConfig");
-        consoleLog(objConfig);
-
         this.missileConf = objConfig;
         this.anims = objConfig.missileAnims;
 
         this.sprite = { index: 4, flipH: false, flipV: false, flipR: false };
 
-        this.difficultyModifier = 1;
+        let config = this.GetMissileConfig(objConfig);
 
-        this.difficultyRate = 0.5;
+        consoleLog("Initialise missile with config:");
+        consoleLog(config);
+
+        this.startSpeed = config.startSpeed;
+        this.turnSpeed = config.baseTurnSpeed;
+        this.difficultyModifier = config.baseDifficultyMultiplier;
+        this.difficultyRate = config.difficultyRate;
 
         this.alive = true;
 
@@ -59,6 +57,13 @@ export default class Missile
 
         consoleLog("Fetching player for missile...");
         this.playerRef = EM.GetEntity("Player");
+
+        this.phys.velocity = [ 0, this.startSpeed ];
+    }
+
+    GetMissileConfig(rootConfig)
+    {
+        return rootConfig.config;
     }
 
     Explode()
@@ -81,7 +86,7 @@ export default class Missile
                 if(!this.waitForSlowDownStatusWearOff)
                 {
                     this.waitForSlowDownStatusWearOff = true;
-                    this.phys.velocity = [ this.phys.velocity[0] * statusModifier, this.phys.velocity[1] * statusModifier ];
+                    this.phys.velocity = [ 0, 0 ];
                 }
             }
             else if(this.waitForSlowDownStatusWearOff)
@@ -141,22 +146,41 @@ export default class Missile
                 let mag = vec2.length(diffVec);
                 this.lastDist = mag;
 
-                //this.lastNormal = normal;
-
                 let distanceModifier = 1;
 
                 if(mag < 30)
                 {
-                    distanceModifier *= 100;
+                    
+
+                    if(this.difficultyModifier > 80)
+                    {
+                        distanceModifier *= 40;
+                    }
+
+                    distanceModifier *= 20;
                 }
-                
+                else if(mag > 60)
+                {
+                    if(this.difficultyModifier > 80)
+                    {
+                        distanceModifier *= 40;
+                    }
+
+                    distanceModifier *= 20;
+                }
+
                 let normal = [ diffVec[0] / mag, diffVec[1] / mag ];
 
                 this.lastNormal = normal;
 
-                consoleLog(normal);
+                let directModifier = 1;
 
-                let directForce = [ normal[0] * this.difficultyModifier * distanceModifier, normal[1] * this.difficultyModifier * distanceModifier ];
+                if(this.difficultyModifier > 60)
+                {
+                    directForce = this.difficultyModifier / 60;
+                }                
+
+                let directForce = [ normal[0] * directModifier * distanceModifier, normal[1] * directModifier* distanceModifier ];
 
                 this.phys.applyForce(directForce);
             }

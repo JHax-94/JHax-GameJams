@@ -31,7 +31,7 @@
             "spawnInterval": 15,
             "spawnWeightings": [
                 {
-                    "levels": [ "josh_test", "easy_maze", "med_maze", "hard_maze" ],
+                    "levels": [ "josh_test", "easy_maze", "med_maze", "hard_maze", "arena_maze", "portrait_maze", "library_maze", "noise_maze" ],
                     "weightings": [
                         {
                             "powerName": "Ghost",
@@ -195,6 +195,12 @@
             "index": 6,
             "name": "Missile",
             "searchMap": false,
+            "config": {
+                "startSpeed": 5,
+                "baseTurnSpeed": 0.05,
+                "baseDifficultyMultiplier": 1,
+                "difficultyRate": 0.4
+            },  
             "missileAnims": 
                 [
                     {

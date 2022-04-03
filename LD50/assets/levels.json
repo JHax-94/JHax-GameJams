@@ -21,6 +21,22 @@
                 {
                     "levelName": "hard_maze",
                     "display": "Hard"
+                },
+                {
+                    "levelName": "arena_maze",
+                    "display": "The Arena"
+                },
+                {
+                    "levelName": "portrait_maze",
+                    "display": "Portrait"
+                },
+                {
+                    "levelName": "library_maze",
+                    "display": "Library"
+                },
+                {
+                    "levelName": "noise_maze",
+                    "display": "Noise"
                 }
             ],
             "mapType": "MENU"
@@ -56,6 +72,40 @@
             "levelName": "hard_maze",
             "map": "hardMap",
             "backgroundColour": 1,
+            "mapType": "MAZE",
+            "rockZones": [
+                { "x": 1, "y": 8, "w": 29, "h": 23 }
+            ]
+        },
+        {
+            "levelName": "arena_maze",
+            "map": "arenaMap",
+            "backgroundColour": 1,
+            "mapType": "MAZE",
+            "rockZones": [
+                { "x": 4, "y": 12, "w": 23, "h": 15 }
+            ]
+        },
+        {
+            "levelName": "portrait_maze",
+            "map": "theLvIsYou",
+            "backgroundColour": 1,
+            "mapType": "MAZE",
+            "rockZones": [
+                { "x": 5, "y": 8, "w": 21, "h": 23 }
+            ]
+        },
+        {
+            "levelName": "library_maze",
+            "map": "theLibrary",
+            "mapType": "MAZE",
+            "rockZones": [
+                { "x": 1, "y": 8, "w": 29, "h": 23 }
+            ]
+        },
+        {
+            "levelName": "noise_maze",
+            "map": "noise",
             "mapType": "MAZE",
             "rockZones": [
                 { "x": 1, "y": 8, "w": 29, "h": 23 }

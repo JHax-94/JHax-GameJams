@@ -21,7 +21,7 @@ export default class Menu
             let lvlBtn = levelButtons[i];
 
             let btnObj = new Button(
-                { x: this.menuData.buttonStart.x, y: this.menuData.buttonStart.y + (this.menuData.buttonDims.h + 5) * i }, 
+                { x: this.menuData.buttonStart.x, y: this.menuData.buttonStart.y + (this.menuData.buttonDims.h + 1) * i }, 
                 { w: this.menuData.buttonDims.w, h: this.menuData.buttonDims.h },
                 lvlBtn);
 

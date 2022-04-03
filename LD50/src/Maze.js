@@ -107,10 +107,10 @@ export default class Maze
         for(let i = 0; i < objectMap.length; i ++)
         {
             let obj = objectMap[i];
-
+            /*
             consoleLog("Find objects in map...");
             consoleLog(obj);
-
+            */
             if(obj.searchMap)
             {
                 let objTiles = this.mazeMap.find(obj.index);
@@ -121,9 +121,10 @@ export default class Maze
 
                     if(obj.name === 'Player')
                     {
+                        /*
                         consoleLog("Player found on Tile:");
                         consoleLog(tile);
-
+                        */
                         EM.AddEntity("Player", new Character({ x: tile.x, y: tile.y }, obj));
                     }
                     else if(obj.name === "Wall")

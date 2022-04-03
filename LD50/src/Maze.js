@@ -136,7 +136,7 @@ export default class Maze
 
                         if(!spawner)
                         {
-                            spawner = new PickupSpawner();
+                            spawner = new PickupSpawner(this.mazeData.levelName);
                             EM.AddEntity("PickupSpawner", spawner);
                         }
 

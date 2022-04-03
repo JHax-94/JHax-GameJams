@@ -54,6 +54,23 @@ function GetLevelDataByName(levelName)
     return levelData;
 }
 
+function getObjectConfig(objectName)
+{
+    let objectMap = assets.objectConfig.objectMap;
+    let objectConf = null;
+
+    for(let i = 0; i < objectMap.length; i ++)
+    {
+        if(objectMap[i].name === objectName)
+        {
+            objectConf = objectMap[i];
+            break;
+        }
+    }
+
+    return objectConf;
+}
+
 function SETUP(levelName)
 {
     consoleLog("==== STARTING SETUP ====");
@@ -88,17 +105,7 @@ function SETUP(levelName)
 
         EM.AddEntity("Maze", new Maze(levelData));
 
-        let objectMap = assets.objectConfig.objectMap;
-        let missileConf = null;
-
-        for(let i = 0; i < objectMap.length; i ++)
-        {
-            if(objectMap[i].name === "Missile")
-            {
-                missileConf = objectMap[i];
-                break;
-            }
-        }
+        let missileConf = getObjectConfig("Missile");
 
         let missileList = EM.GetEntitiesStartingWith("Missile_");
 
@@ -144,6 +151,7 @@ export {
     p2,
     EM,
     PIXEL_SCALE, SCREEN_WIDTH, SCREEN_HEIGHT,
+    getObjectConfig,
     SETUP,
     consoleLog
 }

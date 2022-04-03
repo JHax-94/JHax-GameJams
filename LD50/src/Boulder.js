@@ -16,14 +16,23 @@ export default class Boulder
                         w: 1,
                         h: 1
                     },
-                    mass: 10,
+                    mass: 250,
                     isSensor: false,
-                    isKinematic: true,
+                    isKinematic: false,
                     tag: "BOULDER",
-                    material: "wallMaterial"
+                    material: "wallMaterial",
+                    linearDrag: 0.8,
+                    angularDrag: 0.8
                 }
             });
 
+    }
+
+    Destroy()
+    {
+        this.spawnRef.rock = null;
+
+        EM.RemoveEntity(this);
     }
 
     Draw()

@@ -20,6 +20,8 @@ export default class Missile
 
         this.difficultyModifier = 1;
 
+        this.difficultyRate = 0.5;
+
         this.alive = true;
 
         this.frameCount = 0;
@@ -28,6 +30,10 @@ export default class Missile
 
         this.pushbackForce = 0;
         this.pushbackSpin = 0;
+
+        this.lastClockAngle = 0;
+        this.lastNormal = [0, 0];
+        this.lastDist = 0;
 
         this.spinRecovery = 2.4;
 
@@ -101,9 +107,7 @@ export default class Missile
                 this.waitForSpeedUpStatusWearOff = false;
             }
 
-            consoleLog(`Status mod: ${statusModifier}`);
-
-            this.difficultyModifier += deltaTime * 0.1;
+            this.difficultyModifier += deltaTime * this.difficultyRate;
 
             this.phys.applyForceLocal([0, 1 * this.difficultyModifier * statusModifier]);
 
@@ -126,15 +130,48 @@ export default class Missile
 
             let clockAngleDiff = Math.atan2(determinant, dotProd);
 
+            this.lastClockAngle = clockAngleDiff;
+
             let desiredAngularVelocity = 0;
 
-            if(clockAngleDiff < 0)
+            let desiredAngularSpeed = this.turnSpeed * this.difficultyModifier * statusModifier
+
+            if(this.difficultyModifier > 40)
             {
-                desiredAngularVelocity = -this.turnSpeed * this.difficultyModifier * statusModifier;        
+                let mag = vec2.length(diffVec);
+                this.lastDist = mag;
+
+                //this.lastNormal = normal;
+
+                let distanceModifier = 1;
+
+                if(mag < 30)
+                {
+                    distanceModifier *= 100;
+                }
+                
+                let normal = [ diffVec[0] / mag, diffVec[1] / mag ];
+
+                this.lastNormal = normal;
+
+                consoleLog(normal);
+
+                let directForce = [ normal[0] * this.difficultyModifier * distanceModifier, normal[1] * this.difficultyModifier * distanceModifier ];
+
+                this.phys.applyForce(directForce);
             }
-            else if(clockAngleDiff > 0)
+            
+            if(clockAngleDiff < -0.05)
             {
-                desiredAngularVelocity = this.turnSpeed * this.difficultyModifier * statusModifier;
+                desiredAngularVelocity = -desiredAngularSpeed;    
+            }
+            else if(clockAngleDiff > 0.05)
+            {
+                desiredAngularVelocity = desiredAngularSpeed;
+            }
+            else
+            {
+                desiredAngularVelocity = 0;
             }
 
             let orientDot = vec2.dot(upVec, outVec);
@@ -173,8 +210,6 @@ export default class Missile
                 
                 let impulseVector = [ diffVec[0] * impulseMultipler,  diffVec[1] * impulseMultipler]
 
-                consoleLog(impulseVector);
-
                 this.phys.applyImpulse(impulseVector);
 
                 this.pushbackForce = 0;
@@ -183,8 +218,6 @@ export default class Missile
             if(this.pushbackSpin > 0)
             {
                 let setSpin = this.spinDir * this.pushbackSpin;
-
-                consoleLog(`Setting spin: ${setSpin}`);
 
                 this.phys.angularVelocity = setSpin;
 
@@ -229,6 +262,12 @@ export default class Missile
 
     Draw()
     {
+
+        pen(0);
+        print(`Difficulty: ${this.difficultyModifier.toFixed(2)}`, 14*PIXEL_SCALE, 5*PIXEL_SCALE);
+        print(`Clock Angle Diff: ${this.lastClockAngle.toFixed(2)}`, 0*PIXEL_SCALE, 5* PIXEL_SCALE);
+        print(`Normal Vec: (${this.lastNormal[0].toFixed(2)}, ${this.lastNormal[1].toFixed(2)})`, 0*PIXEL_SCALE, 6*PIXEL_SCALE);
+        print(`Distance: ${this.lastDist.toFixed(2)}`, 0*PIXEL_SCALE, 7*PIXEL_SCALE);
         let screenPos = this.GetScreenPos();
 
         sprite(this.sprite.index, screenPos.x, screenPos.y, this.sprite.flipH, this.sprite.flipV, this.sprite.flipR);

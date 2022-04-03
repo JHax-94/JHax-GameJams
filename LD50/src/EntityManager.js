@@ -1,5 +1,6 @@
 import p2 from "p2";
 import { start } from "tina";
+import { linear } from "tina/src/easing";
 import InputGroup from "./InputGroup";
 import { consoleLog, UP, DOWN, LEFT, RIGHT /*INTERACT*/, PIXEL_SCALE/*, em, LoadChart, DATA_STORE*/ } from "./main";
 import PhysicsContainer from "./PhysicsContainer";
@@ -318,10 +319,26 @@ export default class EntityManager
             fixedRotation = false;
         }
 
+        let linearDrag = 0.1;
+
+        if(phys.linearDrag || phys.linearDrag === 0)
+        {
+            linearDrag = phys.linearDrag;
+        }
+
+        let angularDrag = 0.1;
+
+        if(phys.angularDrag || phys.angularDrag === 0)
+        {
+            angularDrag = phys.angularDrag;
+        }
+
         obj.phys = new p2.Body({
             mass: phys.mass,
             position: phys.position,
-            fixedRotation: fixedRotation
+            fixedRotation: fixedRotation,
+            damping: linearDrag,
+            angularDamping: angularDrag
         })
         
         obj.phys.obj = obj;

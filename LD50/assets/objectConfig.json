@@ -28,7 +28,85 @@
         },
         {
             "name": "PickupSpawner",
-            "spawnInterval": 15 
+            "spawnInterval": 3,
+            "spawnWeightings": [
+                {
+                    "levels": [ "josh_test", "easy_maze", "med_maze", "hard_maze" ],
+                    "weightings": [
+                        {
+                            "powerName": "Ghost",
+                            "weightings":
+                            [
+                                { "time": 0, "weighting": 10 }
+                            ]
+                        },
+                        {
+                            "powerName": "MissileSpeedDown",
+                            "weightings":
+                            [
+                                { "time": 0, "weighting": 10 }
+                            ]
+                        },
+                        {
+                            "powerName": "Decoy",
+                            "weightings":
+                            [
+                                { "time": 0, "weighting": 10 }
+                            ]
+                        },
+                        {
+                            "powerName": "PlayerSpeedUp",
+                            "weightings":
+                            [
+                                { "time": 0, "weighting": 10 }
+                            ]
+                        },
+                        {
+                            "powerName": "MissilePushback",
+                            "weightings":
+                            [
+                                { "time": 0, "weighting": 10 }
+                            ]
+                        },
+                        {
+                            "powerName": "MissileSpeedUp",
+                            "weightings":
+                            [
+                                { "time": 0, "weighting": 10 }
+                            ]
+                        },
+                        {
+                            "powerName": "ExtraMissile",
+                            "weightings":
+                            [
+                                { "time": 0, "weighting": 10 },
+                                { "time": 50, "weighting": 30 }
+                            ]
+                        },
+                        {
+                            "powerName": "SlowPlayer",
+                            "weightings":
+                            [
+                                { "time": 0, "weighting": 10 }
+                            ]
+                        },
+                        {
+                            "powerName": "SpawnBoulder",
+                            "weightings":
+                            [
+                                { "time": 0, "weighting": 10 }
+                            ]
+                        },
+                        {
+                            "powerName": "ControlFlip",
+                            "weightings":
+                            [
+                                { "time": 0, "weighting": 10 }
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
             "index": 0,

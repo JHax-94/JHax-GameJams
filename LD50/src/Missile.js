@@ -101,7 +101,7 @@ export default class Missile
                 this.waitForSpeedUpStatusWearOff = false;
             }
 
-            consoleLog(`Status mod: ${statusModifier}`);
+            //consoleLog(`Status mod: ${statusModifier}`);
 
             this.difficultyModifier += deltaTime * 0.1;
 
@@ -173,7 +173,7 @@ export default class Missile
                 
                 let impulseVector = [ diffVec[0] * impulseMultipler,  diffVec[1] * impulseMultipler]
 
-                consoleLog(impulseVector);
+                //consoleLog(impulseVector);
 
                 this.phys.applyImpulse(impulseVector);
 
@@ -184,7 +184,7 @@ export default class Missile
             {
                 let setSpin = this.spinDir * this.pushbackSpin;
 
-                consoleLog(`Setting spin: ${setSpin}`);
+                //consoleLog(`Setting spin: ${setSpin}`);
 
                 this.phys.angularVelocity = setSpin;
 

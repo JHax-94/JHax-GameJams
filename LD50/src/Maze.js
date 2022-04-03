@@ -10,6 +10,8 @@ export default class Maze
 {
     constructor(levelData)
     {
+        this.renderLayer = "WORLD";
+
         this.bg = levelData.backgroundColour;
 
         this.mazeData = levelData;

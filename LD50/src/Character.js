@@ -1,6 +1,6 @@
 import BriefPlayable from "tina/src/BriefPlayable";
 import Decoy from "./Decoy";
-import { consoleLog, EM, PIXEL_SCALE, SETUP } from "./main";
+import { consoleLog, EM, getObjectConfig, PIXEL_SCALE, SETUP } from "./main";
 
 export default class Character
 {
@@ -154,7 +154,7 @@ export default class Character
 
     OnRegistered()
     {
-        consoleLog("CHARACTER REGISTERED!");
+        
     }
 
     AddOverlap(overlapObj)
@@ -235,13 +235,22 @@ export default class Character
         }
         else
         {
-            this.statuses.push({ name: statusName, time: statusTime, conditions: conditions });
+            let configStatusName = statusName;
+
+            if(statusName.indexOf('_') > 0)
+            {
+                configStatusName = statusName.substr(0, statusName.indexOf('_'));
+            }
+
+            let config = getObjectConfig(configStatusName);            
+            this.statuses.push({ name: statusName, spriteIndex: config.index, time: statusTime, maxTime: statusTime, conditions: conditions  });
         }
     }
 
     ActivateGhostMode(time)
     {
         this.AddStatus("GHOST", time, { overlapsClear: true });
+        this.AddStatus()
     }
 
     AddPowerUp(name)

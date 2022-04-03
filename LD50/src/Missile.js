@@ -5,6 +5,8 @@ export default class Missile
 {
     constructor(position, objConfig)
     {
+        this.renderLayer = "MISSILE";
+
         this.missileConf = objConfig;
         this.anims = objConfig.missileAnims;
 

@@ -37,11 +37,11 @@ export default class EntityManager
         this.phys = (!noPhys) ? new p2.World({gravity: [0, 0] }) : null;
 
         this.AddRenderLayer("WORLD", 0);
-        this.AddRenderLayer("WORLD_UI", 1);
-        this.AddRenderLayer("OVERLAY_UI", 2);
+        this.AddRenderLayer("MISSILE", 1);
+        this.AddRenderLayer("WORLD_UI", 2);
+        this.AddRenderLayer("OVERLAY_UI", 3);
 
         this.AddInputGroup("DEFAULT");
-        this.AddInputGroup("PARCEL_BOX");
 
         this.FocusInputGroup("DEFAULT");
 
@@ -509,6 +509,7 @@ export default class EntityManager
             //consoleLog("Draw background...");
             this.background.Draw();
         } 
+
         if(this.map)
         {
             //consoleLog("Draw Map");
@@ -534,6 +535,7 @@ export default class EntityManager
         consoleLog("RENDER LAYERS");
         consoleLog(this.renderLayers);
         */
+
         for(let i = 0; i < this.renderLayers.length; i ++)
         {
             this.renderLayers[i].Render();

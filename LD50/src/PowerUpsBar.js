@@ -1,12 +1,21 @@
-import { consoleLog, EM, PIXEL_SCALE, SCREEN_WIDTH } from "./main";
+import { consoleLog, EM, getObjectConfig, PIXEL_SCALE, SCREEN_WIDTH } from "./main";
 
 export default class PowerUpsBar
 {
     constructor(uiMap)
     {
+        this.renderLayer = "OVERLAY_UI";
+
         this.map = uiMap;
 
         this.powerUpUi = {};
+
+        let overlayConf = getObjectConfig("OverlayUi");
+
+        this.activeStatusStart = overlayConf.activeStatusStart;
+
+        this.activeStatusSpacing = overlayConf.activeStatusSpacing;
+        this.activeStatusColumnLength = overlayConf.activeStatusColumnLength;
 
         this.GetPowerUpPositions();
 
@@ -66,12 +75,71 @@ export default class PowerUpsBar
 
         if(this.player.statuses)
         {
+            let column = 0;
+            let row = 0;
+
             for(let i = 0; i < this.player.statuses.length; i ++)
             {
+                let status = this.player.statuses[i];
+
                 pen(10);
-                print(`${this.player.statuses[i].name}: ${this.player.statuses[i].time}`, 0, (5+i) * PIXEL_SCALE );
+
+
+
+                let base = { 
+                    x: (this.activeStatusStart.x + (column * this.activeStatusSpacing.h))  * PIXEL_SCALE, 
+                    y: (this.activeStatusStart.y + (row * this.activeStatusSpacing.v)) * PIXEL_SCALE 
+                };
+                
+                row ++;
+
+                if((row) % this.activeStatusColumnLength === 0)
+                {
+                    row = 0; 
+                    column ++;
+                }
+                
+
+                if(this.ShowStatusIcon(status))
+                {
+                    sprite(status.spriteIndex, base.x, base.y);
+                }
+
+                let rectHeight = status.time / status.maxTime;
+
+                if(rectHeight < 0)
+                {
+                    rectHeight = 0;
+                }
+
+                let rectWidth = 0.25;
+
+                if(rectHeight > 0)
+                {
+                    paper(9);
+                    rectf(base.x + (1.25) * PIXEL_SCALE, base.y + Math.floor((1-rectHeight) * PIXEL_SCALE), rectWidth*PIXEL_SCALE, Math.ceil(rectHeight * PIXEL_SCALE));
+                }
             }
         }
     }
 
+    ShowStatusIcon(status)
+    {
+        let show = false;
+
+        if(status.time > 0)
+        {
+            show = true;
+        }
+        else
+        {
+            let indicatorTime = Math.floor(Math.abs(status.time * 10));
+
+            consoleLogs(`indicator time: ${indicatorTime}`);
+
+            show = indicatorTime % 10 == 0;
+        }
+
+        return show;
+    }
 }

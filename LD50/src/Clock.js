@@ -1,12 +1,20 @@
-import { EM } from "./main";
+import { EM, getObjectConfig, PIXEL_SCALE } from "./main";
+import PickupSpawner from "./PickupSpawner";
 
 export default class Clock
 {
     constructor()
     {
+        this.renderLayer = "OVERLAY_UI";
+
         this.penColour = 1;
 
         this.paused = false;
+
+        let clockConfig = getObjectConfig("Clock");
+
+        this.rect = clockConfig.rect;
+        this.offset = clockConfig.offset;
 
         this.time = 
         {
@@ -56,13 +64,31 @@ export default class Clock
             secondString = `${this.time.s}`;
         }
 
-        return `${this.time.m}:${secondString}.${Math.floor(this.time.ms)}`;
+        let minuteString = "";
+
+        if(this.time.m < 10)
+        {
+            minuteString = `00${this.time.m}`;
+        }
+        else if(this.time.m < 100)
+        {
+            minuteString = `0${this.time.m}`;
+        }
+        else
+        {
+            minuteString = `${this.time.m}`;
+        }
+
+        return `${minuteString}:${secondString}.${Math.floor(this.time.ms)}`;
     }
 
     Draw()
     {
+        paper(0);
+        rectf(this.rect.x * PIXEL_SCALE, this.rect.y * PIXEL_SCALE, this.rect.w * PIXEL_SCALE, this.rect.h * PIXEL_SCALE);
+
         pen(this.penColour);
-        print(this.GetTimeString(),  );
+        print(this.GetTimeString(), (this.rect.x + this.offset.x) * PIXEL_SCALE, (this.rect.y + this.offset.y) * PIXEL_SCALE);
     }
 
 

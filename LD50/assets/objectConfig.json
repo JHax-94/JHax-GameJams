@@ -28,7 +28,7 @@
         },
         {
             "name": "PickupSpawner",
-            "spawnInterval": 15,
+            "spawnInterval": 5,
             "spawnWeightings": [
                 {
                     "levels": [ "josh_test", "easy_maze", "med_maze", "hard_maze", "arena_maze", "portrait_maze", "library_maze", "noise_maze" ],
@@ -256,6 +256,28 @@
                         "spriteIndex": 6, "flipH": false, "flipV": false, "flipR": false
                     }
                 ]
+        },
+        {
+            "name": "Clock",
+            "rect": {
+                "x": 12,
+                "y": 3.25,
+                "w": 6,
+                "h": 1.5 
+            },
+            "offset": {
+                "x": 0.5,
+                "y": 0.45
+            }
+        },
+        {
+            "name": "OverlayUi",
+            "activeStatusStart": {
+                "x": 19,
+                "y": 0.75
+            },
+            "activeStatusSpacing": { "h": 1.875, "v": 1.25 },
+            "activeStatusColumnLength": 3
         }
     ]    
 }

@@ -15,6 +15,6 @@ export default class ExtraMissilePickup extends Pickup
 
         let missileConf = getObjectConfig("Missile");
 
-        EM.AddEntity(`Missile_${missileList.length}`, new Missile({ x: 3, y: 10 }, missileConf));
+        EM.AddEntity(`Missile_${missileList.length}`, new Missile({ x: 31, y: 32 }, missileConf));
     }
 }

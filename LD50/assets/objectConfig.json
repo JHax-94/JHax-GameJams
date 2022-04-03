@@ -199,7 +199,8 @@
                 "startSpeed": 5,
                 "baseTurnSpeed": 0.05,
                 "baseDifficultyMultiplier": 1,
-                "difficultyRate": 0.4
+                "difficultyRate": 0.4,
+                "targetingWait": 15.0
             },  
             "missileAnims": 
                 [

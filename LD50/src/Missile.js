@@ -19,6 +19,7 @@ export default class Missile
         this.turnSpeed = config.baseTurnSpeed;
         this.difficultyModifier = config.baseDifficultyMultiplier;
         this.difficultyRate = config.difficultyRate;
+        this.targetingWait = config.targetingWait;
 
         this.alive = true;
 
@@ -73,9 +74,67 @@ export default class Missile
         this.phys.velocity = [0, 0];
     }
 
-    Update(deltaTime)
+    CalculateTargetingData()
     {
-        if(this.alive)
+        let td = {};
+        td.playerPos = this.playerRef.Position();
+        td.missilePos = this.Position();
+
+        td.posDiff = { x: td.playerPos.x - td.missilePos.x, y: td.playerPos.y - td.missilePos.y };
+
+        td.diffVec = [ td.posDiff.x, td.posDiff.y ]; 
+
+        td.outVec = [0, 0];
+
+        td.upVec = [0, 1];
+        
+        this.phys.vectorToWorldFrame(td.outVec, td.upVec);
+
+        td.dotProd = vec2.dot(td.diffVec, td.outVec);
+
+        td.determinant = td.outVec[0] * td.diffVec[1] - td.outVec[1] * td.diffVec[0];
+
+        td.clockAngleDiff = Math.atan2(td.determinant, td.dotProd);
+
+        this.lastClockAngle = td.clockAngleDiff;
+
+        return td;
+    }
+
+    SetAnimState(td)
+    {
+        let orientDot = vec2.dot(td.upVec, td.outVec);
+        let orientDet = td.outVec[0] * td.upVec[1] - td.outVec[1] * td.upVec[0];
+        let orientAngleDiff = Math.atan2(orientDet, orientDot);
+        if(orientAngleDiff < 0)
+        {
+            orientAngleDiff += 2*Math.PI;
+        }
+        
+        for(let i = 0; i < this.anims.length; i ++)
+        {
+            let anim = this.anims[i];
+
+            let animMatches = false;
+
+            if(orientAngleDiff >= anim.angleFrom * Math.PI && orientAngleDiff < anim.angleTo * Math.PI)
+            {
+                animMatches = true;
+            }
+            
+            if(animMatches)
+            {
+                this.sprite.index = anim.spriteIndex;
+                this.sprite.flipH = anim.flipH;
+                this.sprite.flipV = anim.flipV;
+                this.sprite.flipR = anim.flipR;
+            }
+        }   
+    }
+
+    Update(deltaTime)    
+    {
+        if(this.alive && this.targetingWait <= 0)
         {   
             let statusModifier = 1;
 
@@ -88,6 +147,14 @@ export default class Missile
                     this.waitForSlowDownStatusWearOff = true;
                     this.phys.velocity = [ 0, 0 ];
                 }
+
+                let speed = vec2.length(this.phys.velocity);
+
+                if(speed > this.difficultyModifier * 0.1 )
+                {
+                    this.phys.velocity = [ this.phys.velocity[0] * (this.difficultyModifier * 0.1 / speed), this.phys.velocity[1] * (this.difficultyModifier * 0.1 / speed)  ];
+                }
+
             }
             else if(this.waitForSlowDownStatusWearOff)
             {
@@ -116,26 +183,7 @@ export default class Missile
 
             this.phys.applyForceLocal([0, 1 * this.difficultyModifier * statusModifier]);
 
-            let playerPos = this.playerRef.Position();
-            let missilePos = this.Position();
-
-            let posDiff = { x: playerPos.x - missilePos.x, y: playerPos.y - missilePos.y };
-
-            let diffVec = [ posDiff.x, posDiff.y ]; 
-
-            let outVec = [0, 0];
-
-            let upVec = [0, 1];
-            
-            this.phys.vectorToWorldFrame(outVec, [0, 1]);
-
-            let dotProd = vec2.dot(diffVec, outVec);
-
-            let determinant = outVec[0] * diffVec[1] - outVec[1] * diffVec[0];
-
-            let clockAngleDiff = Math.atan2(determinant, dotProd);
-
-            this.lastClockAngle = clockAngleDiff;
+            let td = this.CalculateTargetingData();
 
             let desiredAngularVelocity = 0;
 
@@ -143,15 +191,13 @@ export default class Missile
 
             if(this.difficultyModifier > 40)
             {
-                let mag = vec2.length(diffVec);
+                let mag = vec2.length(td.diffVec);
                 this.lastDist = mag;
 
                 let distanceModifier = 1;
 
                 if(mag < 30)
                 {
-                    
-
                     if(this.difficultyModifier > 80)
                     {
                         distanceModifier *= 40;
@@ -169,7 +215,7 @@ export default class Missile
                     distanceModifier *= 20;
                 }
 
-                let normal = [ diffVec[0] / mag, diffVec[1] / mag ];
+                let normal = [ td.diffVec[0] / mag, td.diffVec[1] / mag ];
 
                 this.lastNormal = normal;
 
@@ -185,11 +231,11 @@ export default class Missile
                 this.phys.applyForce(directForce);
             }
             
-            if(clockAngleDiff < -0.05)
+            if(td.clockAngleDiff < -0.05)
             {
                 desiredAngularVelocity = -desiredAngularSpeed;    
             }
-            else if(clockAngleDiff > 0.05)
+            else if(td.clockAngleDiff > 0.05)
             {
                 desiredAngularVelocity = desiredAngularSpeed;
             }
@@ -198,41 +244,13 @@ export default class Missile
                 desiredAngularVelocity = 0;
             }
 
-            let orientDot = vec2.dot(upVec, outVec);
-            let orientDet = outVec[0] * upVec[1] - outVec[1] * upVec[0];
-            let orientAngleDiff = Math.atan2(orientDet, orientDot);
-            if(orientAngleDiff < 0)
-            {
-                orientAngleDiff += 2*Math.PI;
-            }
-            
-            for(let i = 0; i < this.anims.length; i ++)
-            {
-                let anim = this.anims[i];
-
-                let animMatches = false;
-
-                if(orientAngleDiff >= anim.angleFrom * Math.PI && orientAngleDiff < anim.angleTo * Math.PI)
-                {
-                    animMatches = true;
-                }
-                
-                if(animMatches)
-                {
-                    this.sprite.index = anim.spriteIndex;
-                    this.sprite.flipH = anim.flipH;
-                    this.sprite.flipV = anim.flipV;
-                    this.sprite.flipR = anim.flipR;
-                }
-            }   
-
             if(this.pushbackForce > 0)
             {
-                let magnitude = Math.sqrt(vec2.squaredLength(diffVec));
+                let magnitude = Math.sqrt(vec2.squaredLength(td.diffVec));
 
                 let impulseMultipler = (this.pushbackForce / magnitude) * -1;
                 
-                let impulseVector = [ diffVec[0] * impulseMultipler,  diffVec[1] * impulseMultipler]
+                let impulseVector = [ td.diffVec[0] * impulseMultipler,  td.diffVec[1] * impulseMultipler]
 
                 this.phys.applyImpulse(impulseVector);
 
@@ -255,6 +273,27 @@ export default class Missile
             else 
             {
                 this.phys.angularVelocity = desiredAngularVelocity;
+            }
+
+            this.SetAnimState(td);
+        }
+        else if(this.targetingWait > 0)
+        {
+            consoleLog(`Remaining targeting wait: ${this.targetingWait}`);
+
+            let td = this.CalculateTargetingData();
+
+            consoleLog("Target data");
+            consoleLog(td);
+            this.phys.applyForceLocal([0, 1 * this.difficultyModifier]);
+
+            this.targetingWait -= deltaTime;
+
+            this.SetAnimState(td);
+
+            if(this.targetingWait < 0)
+            {
+                consoleLog("START TARGETING!");
             }
         }
     }
@@ -286,12 +325,12 @@ export default class Missile
 
     Draw()
     {
-
+        /*
         pen(0);
         print(`Difficulty: ${this.difficultyModifier.toFixed(2)}`, 14*PIXEL_SCALE, 5*PIXEL_SCALE);
         print(`Clock Angle Diff: ${this.lastClockAngle.toFixed(2)}`, 0*PIXEL_SCALE, 5* PIXEL_SCALE);
         print(`Normal Vec: (${this.lastNormal[0].toFixed(2)}, ${this.lastNormal[1].toFixed(2)})`, 0*PIXEL_SCALE, 6*PIXEL_SCALE);
-        print(`Distance: ${this.lastDist.toFixed(2)}`, 0*PIXEL_SCALE, 7*PIXEL_SCALE);
+        print(`Distance: ${this.lastDist.toFixed(2)}`, 0*PIXEL_SCALE, 7*PIXEL_SCALE);*/
         let screenPos = this.GetScreenPos();
 
         sprite(this.sprite.index, screenPos.x, screenPos.y, this.sprite.flipH, this.sprite.flipV, this.sprite.flipR);

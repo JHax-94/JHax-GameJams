@@ -100,7 +100,9 @@ function SETUP(levelName)
             }
         }
 
-        EM.AddEntity("Missile", new Missile({ x: 3, y: 10 }, missileConf));
+        let missileList = EM.GetEntitiesStartingWith("Missile_");
+
+        EM.AddEntity(`Missile_${missileList.length}`, new Missile({ x: 3, y: 10 }, missileConf));
 
         let uiMap = getMap("ui_layer");
 

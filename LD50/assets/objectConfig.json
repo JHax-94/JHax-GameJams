@@ -42,48 +42,48 @@
             "index": 12,
             "name": "Ghost",
             "searchMap": false,
-            "isPickup": true,
+            "isPickup": false,
             "key": "X"
         },
         {
             "index": 11,
             "name": "MissileSpeedDown",
             "searchMap": false,
-            "isPickup": true,
+            "isPickup": false,
             "key": "Z"
         },
         {
             "index": 13,
             "name": "Decoy",
             "searchMap": false,
-            "isPickup": true,
+            "isPickup": false,
             "key": "SP"
         },
         {
             "index": 43,
             "name": "PlayerSpeedUp",
             "searchMap": false,
-            "isPickup": true,
+            "isPickup": false,
             "key": "V"
         },
         {
             "index": 44,
             "name": "MissilePushback",
             "searchMap": false,
-            "isPickup": true,
+            "isPickup": false,
             "key": "C"
         },
         {
             "index": 59,
             "name": "MissileSpeedUp",
             "searchMap": false,
-            "isPickup": true
+            "isPickup": false
         },
         {
             "index": 60,
             "name": "ExtraMissile",
             "searchMap": false,
-            "isPickup": false
+            "isPickup": true
         },
         {
             "index": 75,

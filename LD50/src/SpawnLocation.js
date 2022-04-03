@@ -1,6 +1,7 @@
 import { consoleLog } from "./main";
 import Pickup from "./Pickup";
 import DecoyPickup from "./Pickups/DecoyPickup";
+import ExtraMissilePickup from "./Pickups/ExtraMissilePickup";
 import GhostModePickup from "./Pickups/GhostModePickup";
 import MissilePushBackPickup from "./Pickups/MissilePushBackPickup";
 import MissileSlowDownPickup from "./Pickups/MissileSlowDownPickup";
@@ -46,6 +47,10 @@ export default class SpawnLocation
         {
             this.lastSpawnedObject = new MissileSpeedUpPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
         }
+        else if(objectToSpawn.name === "ExtraMissile")
+        {
+            this.lastSpawnedObject = new ExtraMissilePickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+        }
         /*else if(objectToSpawn.name === "MissileSpeedDown")
         {
             this.lastSpawnedObject = new MissileSlowDownPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
@@ -65,7 +70,7 @@ export default class SpawnLocation
         else
         {
             consoleLog("USE GENERIC PICKUP CLASS");
-            this.lastSpawnedObject = new Pickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+            this.lastSpawnedObject = new Pickup(this.pos, objectToSpawn.spriteIndex, this, objectToSpawn.name);
         }
     }
 }

@@ -1,4 +1,5 @@
 import p2 from "p2";
+import { start } from "tina";
 import InputGroup from "./InputGroup";
 import { consoleLog, UP, DOWN, LEFT, RIGHT /*INTERACT*/, PIXEL_SCALE/*, em, LoadChart, DATA_STORE*/ } from "./main";
 import PhysicsContainer from "./PhysicsContainer";
@@ -181,6 +182,21 @@ export default class EntityManager
         {
             entity.OnRegistered();
         }
+    }
+
+    GetEntitiesStartingWith(startingWith)
+    {
+        let entityList = [];
+
+        for(let key in this.entities)
+        {
+            if(key.substring(0, startingWith.length) === startingWith)
+            {
+                entityList.push(this.entities[key]);
+            }
+        }
+
+        return entityList;
     }
 
     GetEntity(name)

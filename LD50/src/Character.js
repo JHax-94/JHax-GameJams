@@ -83,9 +83,12 @@ export default class Character
     {
         consoleLog(`Pushing back missile with force: ${pushbackForce}`);
 
-        let missile = EM.GetEntity("Missile");
+        let missiles = EM.GetEntitiesStartingWith("Missile");
 
-        missile.Pushback(pushbackForce, spin);
+        for(let i = 0; i < missiles.length; i ++)
+        {
+            missiles[i].Pushback(pushbackForce, spin);
+        }
     }
 
     CreateDecoy()
@@ -93,9 +96,10 @@ export default class Character
         let decoy = new Decoy(this.GetScreenPos(), this);
         consoleLog("Created decoy...");
         consoleLog(decoy);
-        let missile = EM.GetEntity("Missile");
-
-        missile.SetTarget(decoy);
+        
+        let missiles = EM.GetEntitiesStartingWith("Missile_");
+        
+        missiles[random(missiles.length)].SetTarget(decoy);
     }
 
 

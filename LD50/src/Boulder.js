@@ -18,7 +18,7 @@ export default class Boulder
                     },
                     mass: 10,
                     isSensor: false,
-                    isKinematic: false,
+                    isKinematic: true,
                     tag: "BOULDER",
                     material: "wallMaterial"
                 }

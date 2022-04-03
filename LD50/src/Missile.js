@@ -279,12 +279,12 @@ export default class Missile
         }
         else if(this.targetingWait > 0)
         {
-            consoleLog(`Remaining targeting wait: ${this.targetingWait}`);
+            //consoleLog(`Remaining targeting wait: ${this.targetingWait}`);
 
             let td = this.CalculateTargetingData();
-
+            /*
             consoleLog("Target data");
-            consoleLog(td);
+            consoleLog(td);*/
             this.phys.applyForceLocal([0, 1 * this.difficultyModifier]);
 
             this.targetingWait -= deltaTime;
@@ -293,7 +293,7 @@ export default class Missile
 
             if(this.targetingWait < 0)
             {
-                consoleLog("START TARGETING!");
+                //consoleLog("START TARGETING!");
             }
         }
     }

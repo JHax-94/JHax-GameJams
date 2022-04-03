@@ -105,6 +105,13 @@ export default class PhysicsContainer
 
             boulder.obj.Destroy();
         }
+        else if(manager.CompareTags(evt, "PLAYER", "SLOWFLOOR"))
+        {
+            let player = manager.BodyWithTag(evt, "PLAYER");
+            let floor = manager.BodyWithTag(evt, "SLOWFLOOR");
+
+            player.obj.AddSlowFloor(floor.obj);
+        }
     }
 
     PreSolveEvents(container, manager, evt)
@@ -128,8 +135,6 @@ export default class PhysicsContainer
                 }
             }
 
-            
-
             if(manager.CompareTags(eq, "PLAYER", "DECOY"))
             {
                 eq.enabled = false;
@@ -149,6 +154,14 @@ export default class PhysicsContainer
 
                 player.obj.RemoveOverlap(wall.obj);
             }
+        }
+
+        if(manager.CompareTags(evt, "PLAYER", "SLOWFLOOR"))
+        {
+            let player = manager.BodyWithTag(evt, "PLAYER");
+            let floor = manager.BodyWithTag(evt, "SLOWFLOOR");
+            
+            player.obj.RemoveSlowFloor(floor.obj);
         }
     }
 }

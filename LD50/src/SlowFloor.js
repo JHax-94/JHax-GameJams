@@ -1,6 +1,6 @@
 import { EM } from "./main";
 
-export default class Wall
+export default class SlowFloor 
 {
     constructor(position, settings)
     {
@@ -16,17 +16,10 @@ export default class Wall
                         h: 1
                     },
                     mass: 10,
-                    isSensor: false,
+                    isSensor: true,
                     isKinematic: true,
-                    tag: settings.name.toUpperCase(),
-                    material: "wallMaterial"
+                    tag: "SLOWFLOOR"
                 }
             });
     }    
-
-    /*
-    Draw()
-    {
-
-    }*/
 }

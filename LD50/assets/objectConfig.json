@@ -110,13 +110,19 @@
         },
         {
             "index": 0,
-            "name": "Wall",
+            "name": "HardWall",
             "searchMap": true,
             "replaceTile": false
         },
         {
             "index": 16,
             "name": "Wall",
+            "searchMap": true,
+            "replaceTile": false
+        },
+        {
+            "index": 1,
+            "name": "SlowFloor",
             "searchMap": true,
             "replaceTile": false
         },

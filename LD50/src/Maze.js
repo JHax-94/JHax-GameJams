@@ -2,6 +2,7 @@ import Boulder from "./Boulder";
 import Character from "./Character";
 import { consoleLog, EM, PIXEL_SCALE } from "./main";
 import PickupSpawner from "./PickupSpawner";
+import SlowFloor from "./SlowFloor";
 import SpawnLocation from "./SpawnLocation";
 import Wall from "./Wall";
 
@@ -131,6 +132,10 @@ export default class Maze
                     {
                         EM.AddEntity("Wall", new Wall({ x: tile.x, y: tile.y}, obj));
                     }
+                    else if(obj.name === "HardWall")
+                    {
+                        EM.AddEntity("Wall", new Wall({x: tile.x, y:tile.y }, obj));
+                    }
                     else if(obj.name === "SpawnLocation")
                     {
                         let spawner = EM.GetEntity("PickupSpawner");
@@ -142,6 +147,10 @@ export default class Maze
                         }
 
                         spawner.AddLocation(new SpawnLocation({ x: tile.x, y: tile.y }));
+                    }
+                    else if(obj.name === "SlowFloor")
+                    {
+                        new SlowFloor({ x: tile.x, y: tile.y });
                     }
 
                     if(obj.replaceTile)

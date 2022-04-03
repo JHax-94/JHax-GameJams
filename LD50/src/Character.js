@@ -38,6 +38,8 @@ export default class Character
 
         this.overlaps = [];
 
+        this.slowFloors = [];
+
         this.statuses = []; 
 
         this.animFrame = 0;
@@ -79,6 +81,51 @@ export default class Character
         consoleLog("Constructed player..");
 
         EM.physContainer.playerWatch = this;
+    }
+
+    AddSlowFloor(floor)
+    {
+        let containsFloor = false;
+
+        for(let i = 0; i < this.slowFloors.length; i ++)
+        {
+            if(this.slowFloors[i] === floor)
+            {
+                containsFloor = true;
+                break;
+            }
+        }
+
+        if(!containsFloor)
+        {
+            this.slowFloors.push(floor);
+
+            consoleLog("SLOW FLOOR ADDED");
+            consoleLog(this.slowFloors);
+        }
+    }
+
+    RemoveSlowFloor(floor)
+    {
+        consoleLog("REMOVE SLOW FLOOR...");
+        consoleLog(floor);
+
+        for(let i = 0; i < this.slowFloors.length; i ++)
+        {
+            if(this.slowFloors[i] === floor)
+            {
+                this.slowFloors.splice(i, 1);
+
+                consoleLog("SLOW FLOOR REMOVED");
+                consoleLog(this.slowFloors)
+                break;
+            }
+        }
+    }
+
+    IsOnSlowFloor()
+    {
+        return this.slowFloors.length > 0;
     }
 
     MissilePushback(pushbackForce, spin)
@@ -404,6 +451,11 @@ export default class Character
             if(this.HasStatus("SlowPlayer"))
             {
                 this.speedBoost *= 0.25;
+            }
+
+            if(this.IsOnSlowFloor() && this.HasStatus("Ghost") === false)
+            {
+                this.speedBoost *= 0.5;
             }
 
             let controlMirror = false;

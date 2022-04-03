@@ -99,6 +99,12 @@ export default class PhysicsContainer
             decoy.obj.Destroy();
             missile.obj.TargetPlayer();
         }
+        else if(manager.CompareTags(evt, "MISSILE", "BOULDER"))
+        {
+            let boulder = manager.BodyWithTag(evt, "BOULDER");
+
+            boulder.obj.Destroy();
+        }
     }
 
     PreSolveEvents(container, manager, evt)

@@ -1,13 +1,9 @@
 import { consoleLog } from "./main";
 import Pickup from "./Pickup";
 import ControlFlipPickup from "./Pickups/ControlFlipPickup";
-import DecoyPickup from "./Pickups/DecoyPickup";
 import ExtraMissilePickup from "./Pickups/ExtraMissilePickup";
 import GhostModePickup from "./Pickups/GhostModePickup";
-import MissilePushBackPickup from "./Pickups/MissilePushBackPickup";
-import MissileSlowDownPickup from "./Pickups/MissileSlowDownPickup";
 import MissileSpeedUpPickup from "./Pickups/MissileSpeedUpPickup";
-import PlayerSpeedUpPickup from "./Pickups/PlayerSpeedUpPickup";
 import SlowPlayerPickup from "./Pickups/SlowPlayerPickup";
 import SpawnBoulderPickup from "./Pickups/SpawnBoulderPickup";
 

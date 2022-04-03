@@ -4,6 +4,7 @@ import DecoyPickup from "./Pickups/DecoyPickup";
 import GhostModePickup from "./Pickups/GhostModePickup";
 import MissilePushBackPickup from "./Pickups/MissilePushBackPickup";
 import MissileSlowDownPickup from "./Pickups/MissileSlowDownPickup";
+import MissileSpeedUpPickup from "./Pickups/MissileSpeedUpPickup";
 import PlayerSpeedUpPickup from "./Pickups/PlayerSpeedUpPickup";
 
 export default class SpawnLocation
@@ -37,25 +38,34 @@ export default class SpawnLocation
         consoleLog("SPAWN OBJECT!");
         consoleLog(objectToSpawn);
 
-        if(objectToSpawn.name === "Ghost")
+        if(objectToSpawn.name === "N/A")
         {
-            this.lastSpawnedObject = new GhostModePickup(this.pos, objectToSpawn, this);
+            this.lastSpawnedObject = new GhostModePickup(this.pos, objectToSpawn, this, objectToSpawn.name);
         }
-        else if(objectToSpawn.name === "MissileSpeedDown")
+        else if(objectToSpawn.name === "MissileSpeedUp")
         {
-            this.lastSpawnedObject = new MissileSlowDownPickup(this.pos, objectToSpawn, this);
+            this.lastSpawnedObject = new MissileSpeedUpPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+        }
+        /*else if(objectToSpawn.name === "MissileSpeedDown")
+        {
+            this.lastSpawnedObject = new MissileSlowDownPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
         }
         else if(objectToSpawn.name === "MissilePushback")
         {
-            this.lastSpawnedObject = new MissilePushBackPickup(this.pos, objectToSpawn, this);
+            this.lastSpawnedObject = new MissilePushBackPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
         }
         else if(objectToSpawn.name === "PlayerSpeedUp") 
         {
-            this.lastSpawnedObject = new PlayerSpeedUpPickup(this.pos, objectToSpawn, this);
+            this.lastSpawnedObject = new PlayerSpeedUpPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
         }
         else if(objectToSpawn.name === "Decoy")
         {
-            this.lastSpawnedObject = new DecoyPickup(this.pos, objectToSpawn, this);
+            this.lastSpawnedObject = new DecoyPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+        }*/
+        else
+        {
+            consoleLog("USE GENERIC PICKUP CLASS");
+            this.lastSpawnedObject = new Pickup(this.pos, objectToSpawn, this, objectToSpawn.name);
         }
     }
 }

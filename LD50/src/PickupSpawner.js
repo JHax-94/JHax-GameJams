@@ -5,7 +5,7 @@ export default class PickupSpawner
     constructor()
     {
         this.spawnTimer = 0;
-        this.spawnThreshold = 10;
+        this.spawnThreshold = 3;
 
         this.pickupsList = [];
 

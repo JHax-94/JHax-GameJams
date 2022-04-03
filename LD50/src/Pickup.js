@@ -2,9 +2,11 @@ import { consoleLog, EM } from "./main";
 
 export default class Pickup
 {
-    constructor(position, spriteIndex, spawner)
+    constructor(position, spriteIndex, spawner, powerUpName)
     {
         this.spriteIndex = spriteIndex;
+
+        this.powerUpName;
 
         this.spawner = spawner;
 
@@ -36,6 +38,11 @@ export default class Pickup
         this.spawner.PickupCollected();
 
         EM.RemoveEntity(this);
+    }
+
+    ActivatePickup(player)
+    {
+        player.AddPowerUp(this.powerUpName);
     }
 
     Draw()

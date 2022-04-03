@@ -31,7 +31,8 @@ export default class Missile
 
         this.spinRecovery = 2.4;
 
-        this.waitForStatusWearOff = false;
+        this.waitForSlowDownStatusWearOff = false;
+        this.waitForSpeedUpStatusWearOff = false;
 
         EM.RegisterEntity(this, {
             physSettings: {
@@ -71,17 +72,33 @@ export default class Missile
             {
                 statusModifier *= 0.5;
 
-                if(!this.waitForStatusWearOff)
+                if(!this.waitForSlowDownStatusWearOff)
                 {
-                    consoleLog(`SLOWDOWN! ${statusModifier}`);
-
-                    this.waitForStatusWearOff = true;
+                    this.waitForSlowDownStatusWearOff = true;
                     this.phys.velocity = [ this.phys.velocity[0] * statusModifier, this.phys.velocity[1] * statusModifier ];
                 }
             }
-            else if(this.waitForStatusWearOff)
+            else if(this.waitForSlowDownStatusWearOff)
             {
-                this.waitForStatusWearOff = false;
+                this.waitForSlowDownStatusWearOff = false;
+            }
+
+            if(this.playerRef.HasStatus("MissileSpeedUp"))
+            {
+                statusModifier *= 4;
+
+                if(!this.waitForSpeedUpStatusWearOff)
+                {
+                    this.phys.velocity = [ this.phys.velocity[0] * statusModifier, this.phys.velocity[1] * statusModifier];
+
+                    this.waitForSpeedUpStatusWearOff = true;
+                    this.pushbackForce = 0;
+                    this.pushbackSpin = 0;
+                }
+            }
+            else if(this.waitForSpeedUpStatusWearOff = true)
+            {
+                this.waitForSpeedUpStatusWearOff = false;
             }
 
             consoleLog(`Status mod: ${statusModifier}`);
@@ -94,8 +111,6 @@ export default class Missile
             let missilePos = this.Position();
 
             let posDiff = { x: playerPos.x - missilePos.x, y: playerPos.y - missilePos.y };
-
-            
 
             let diffVec = [ posDiff.x, posDiff.y ]; 
 

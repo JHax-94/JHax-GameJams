@@ -1,4 +1,4 @@
-import { consoleLog, EM } from "./main";
+import { consoleLog, EM, SFX } from "./main";
 
 export default class Pickup
 {
@@ -9,6 +9,8 @@ export default class Pickup
         this.powerUpName = powerUpName;
 
         this.spawner = spawner;
+
+        this.collectSfx = SFX.collect;
 
         EM.RegisterEntity(
             this, 
@@ -37,7 +39,16 @@ export default class Pickup
         this.ActivatePickup(player);
         this.spawner.PickupCollected();
 
+        this.CollectedSfx();
+
         EM.RemoveEntity(this);
+    }
+
+    CollectedSfx()
+    {
+        consoleLog("COLLECT SFX");
+        consoleLog(this.collectSfx);
+        sfx(this.collectSfx);
     }
 
     ActivatePickup(player)
@@ -51,5 +62,4 @@ export default class Pickup
         
         sprite(this.spriteIndex, screenPos.x, screenPos.y);
     }
-    
 }

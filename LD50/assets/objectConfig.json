@@ -298,6 +298,18 @@
                 { "type": "Button", "text": "Restart", "x": 0, "y": 1, "w": 6, "h": 1.25, "offset": {"x": 5, "y": 1 }, "trigger": "Restart" },
                 { "type": "Button", "text": "Back to Menu", "x": 0, "y": 3, "w": 6, "h": 1.25, "offset": {"x": 1, "y": 1 }, "trigger": "BackToMenu" }
             ]
+        },
+        {
+            "name": "SoundManager",
+            "titleSong": "menu",
+            "fadeoutTime": 3,
+            "alarmDelay": 1.5,
+            "trackDelay": 2.5,
+            "levelMusic": [
+                { "order": 0, "name": "tensionLow...", "duration": 90 },
+                { "order": 1, "name": "tensionMid~", "duration": 75 },
+                { "order": 2, "name": "tensionHigh!", "duration": 10 }
+            ]
         }
     ]    
 }

@@ -1,4 +1,4 @@
-import { EM, getObjectConfig } from "../main";
+import { EM, getObjectConfig, SFX } from "../main";
 import Missile from "../Missile";
 import Pickup from "../Pickup";
 
@@ -7,6 +7,8 @@ export default class ExtraMissilePickup extends Pickup
     constructor(position, pickupData, spawner)
     {
         super(position, pickupData.spriteIndex, spawner);
+
+        this.collectSfx = SFX.useExtraMissile;
     }
 
     ActivatePickup(player)

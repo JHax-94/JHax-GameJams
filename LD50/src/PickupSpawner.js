@@ -1,11 +1,13 @@
-import { consoleLog, EM } from "./main";
+import { consoleLog, EM, getObjectConfig } from "./main";
 
 export default class PickupSpawner
 {
     constructor()
     {
+        let objConf = getObjectConfig("PickupSpawner");
+
         this.spawnTimer = 0;
-        this.spawnThreshold = 3;
+        this.spawnThreshold = objConf.spawnInterval;
 
         this.pickupsList = [];
 

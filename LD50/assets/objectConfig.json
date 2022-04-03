@@ -28,7 +28,7 @@
         },
         {
             "name": "PickupSpawner",
-            "spawnInterval": 3,
+            "spawnInterval": 15,
             "spawnWeightings": [
                 {
                     "levels": [ "josh_test", "easy_maze", "med_maze", "hard_maze" ],

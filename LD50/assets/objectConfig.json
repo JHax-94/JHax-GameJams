@@ -89,7 +89,7 @@
             "index": 75,
             "name": "SlowPlayer",
             "searchMap": false,
-            "isPickup": true
+            "isPickup": false
         },
         {
             "index": 76,
@@ -101,7 +101,7 @@
            "index": 91,
            "name": "ControlFlip",
            "searchMap": false,
-           "isPickup": false
+           "isPickup": true
         },
         {
             "index": 6,

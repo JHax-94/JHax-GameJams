@@ -290,6 +290,101 @@ export default class Character
         }
     }
     
+    CheckUp(input, controlMirror, controlRotate)
+    {
+        let up = false;
+
+        if(input.up && !controlMirror && !controlRotate)
+        {
+            up = true;
+        }
+        else if(input.down && controlMirror && !controlRotate)
+        {
+            up = true;
+        }
+        else if(input.right && !controlMirror && controlRotate)
+        {
+            up = true;
+        }
+        else if(input.left && controlMirror && controlRotate)
+        {
+            up = true;
+        }
+
+        return up;
+    }
+
+    CheckDown(input, controlMirror, controlRotate)
+    {
+        let down = false;
+
+        if(input.down && !controlMirror && !controlRotate)
+        {
+            down = true;
+        }
+        else if(input.up && controlMirror && !controlRotate)
+        {
+            down = true;
+        }
+        else if(input.left && !controlMirror && controlRotate)
+        {
+            down = true;
+        }
+        else if(input.right && controlMirror && controlRotate)
+        {
+            down = true;
+        }
+
+        return down;
+    }
+
+    CheckLeft(input, controlMirror, controlRotate)
+    {
+        let left = false;
+
+        if(input.left && !controlMirror && !controlRotate)
+        {
+            left = true;
+        }
+        else if(input.right && controlMirror && !controlRotate)
+        {
+            left = true;
+        }
+        else if(input.down && !controlMirror && controlRotate)
+        {
+            left = true;
+        }
+        else if(input.up && controlMirror && controlRotate)
+        {
+            left = true;
+        }
+
+        return left;
+    }
+
+    CheckRight(input, controlMirror, controlRotate)
+    {
+        let right = false;
+
+        if(input.right && !controlMirror && !controlRotate)
+        {
+            right = true;
+        }
+        else if(input.left && controlMirror && !controlRotate)
+        {
+            right = true;
+        }
+        else if(input.up && !controlMirror && controlRotate)
+        {
+            right = true;
+        }
+        else if(input.down && controlMirror && controlRotate)
+        {
+            right = true;
+        }
+
+        return right;
+    }
 
     Input(input)
     {
@@ -309,10 +404,24 @@ export default class Character
                 this.speedBoost *= 0.25;
             }
 
+            let controlMirror = false;
+            let controlRotate = false;
 
-            if(input.up)
+            if(this.HasStatus("ControlFlip_0"))
+            {
+                controlMirror = true;
+            }
+
+            if (this.HasStatus("ControlFlip_1"))
+            {
+                controlRotate = true;
+            }
+
+
+            if(this.CheckUp(input, controlMirror, controlRotate))
             {
                 this.phys.velocity = [ this.phys.velocity[0] , this.walkSpeed * this.speedBoost ];
+
                 if(this.direction !== "up")
                 {
                     this.direction = "up";
@@ -321,7 +430,7 @@ export default class Character
 
                 moving = true;
             }
-            else if(input.down)
+            else if(this.CheckDown(input, controlMirror, controlRotate))
             {
                 this.phys.velocity = [ this.phys.velocity[0], -this.walkSpeed * this.speedBoost];
                 if(this.direction !== "down")
@@ -338,7 +447,7 @@ export default class Character
                 this.phys.velocity = [ this.phys.velocity[0], 0 ];
             }
 
-            if(input.right)
+            if(this.CheckRight(input, controlMirror, controlRotate))
             {
                 this.phys.velocity = [ this.walkSpeed * this.speedBoost, this.phys.velocity[1]];
                 if(this.direction !== "right")
@@ -350,7 +459,7 @@ export default class Character
                 moving = true;
 
             }
-            else if(input.left)
+            else if(this.CheckLeft(input, controlMirror, controlRotate))
             {
                 this.phys.velocity = [ -this.walkSpeed * this.speedBoost , this.phys.velocity[1] ];
                 if(this.direction !== "left")

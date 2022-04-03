@@ -1,5 +1,6 @@
 import { consoleLog } from "./main";
 import Pickup from "./Pickup";
+import ControlFlipPickup from "./Pickups/ControlFlipPickup";
 import DecoyPickup from "./Pickups/DecoyPickup";
 import ExtraMissilePickup from "./Pickups/ExtraMissilePickup";
 import GhostModePickup from "./Pickups/GhostModePickup";
@@ -55,6 +56,10 @@ export default class SpawnLocation
         else if(objectToSpawn.name === "SlowPlayer")
         {
             this.lastSpawnedObject = new SlowPlayerPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+        }
+        else if(objectToSpawn.name === "ControlFlip")
+        {
+            this.lastSpawnedObject = new ControlFlipPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
         }
         /*else if(objectToSpawn.name === "MissileSpeedDown")
         {

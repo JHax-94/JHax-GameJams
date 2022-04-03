@@ -1,5 +1,6 @@
+import Boulder from "./Boulder";
 import Character from "./Character";
-import { consoleLog, EM } from "./main";
+import { consoleLog, EM, PIXEL_SCALE } from "./main";
 import PickupSpawner from "./PickupSpawner";
 import SpawnLocation from "./SpawnLocation";
 import Wall from "./Wall";
@@ -10,6 +11,7 @@ export default class Maze
     {
         this.bg = levelData.backgroundColour;
 
+        this.mazeData = levelData;
         let levelMap = getMap(levelData.map);
 
         consoleLog("--- LEVEL MAP ---");
@@ -17,9 +19,85 @@ export default class Maze
 
         this.mazeMap = levelMap.copy(0, 0, levelMap.width, levelMap.height);
 
+        this.rockSpawnLocations = [];
+
         EM.RegisterEntity(this);
 
+        this.BuildRockSpawns();
+
         this.ProcessMapObjects();
+    }
+
+    BuildRockSpawns()
+    {
+        for(let i = 0; i < this.mazeData.rockZones.length; i ++)
+        {
+            let rockZone = this.mazeData.rockZones[i];
+
+            for(let x = rockZone.x; x < rockZone.x + rockZone.w; x ++)
+            {
+                for(let y = rockZone.y; y < rockZone.y + rockZone.h; y ++)
+                {
+                    let tileData = this.mazeMap.get(x, y);
+
+                    if(!tileData)
+                    {
+                        this.rockSpawnLocations.push({
+                            rock: null,
+                            x: x,
+                            y: y
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    SpawnBoulder(playerPos)
+    {
+        let emptySpawns = this.rockSpawnLocations.filter((rsl) => {
+            let canSpawn = false;
+
+            if(!rsl.rock)
+            {
+                canSpawn = true;
+            }
+
+            if(canSpawn)
+            {
+                if(Math.abs(rsl.x * PIXEL_SCALE - playerPos.x) < 2 && Math.abs(rsl.y * PIXEL_SCALE - playerPos.y) < 2)
+                {
+                    canSpawn = false;
+                }
+            }
+
+            return canSpawn;
+        });
+
+        if(emptySpawns.length === 0 )
+        {
+            emptySpawns = this.rockSpawnLocations.filter((rsl) => {
+                let canSpawn = false;
+
+                if(!rsl.rock)
+                {
+                    canSpawn = true;
+                }
+
+                return canSpawn;
+            });
+        }
+        
+
+        if(emptySpawns.length > 0)
+        {
+            let spawn = emptySpawns[random(emptySpawns.length)];
+
+            consoleLog("Creating Boulder at spawn point: ");
+            consoleLog(spawn);
+
+            spawn.rock = new Boulder({ x: spawn.x, y: spawn.y}, spawn);
+        }
     }
 
     ProcessMapObjects()

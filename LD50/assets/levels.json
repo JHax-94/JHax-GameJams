@@ -29,7 +29,10 @@
             "levelName": "josh_test",
             "map": "josh_test_map",
             "backgroundColour": 1,
-            "mapType": "MAZE"
+            "mapType": "MAZE",
+            "rockZones": [
+                { "x": 12, "y": 7, "w": 14, "h": 8 }
+            ]
         },
         {
             "levelName": "easy_maze",

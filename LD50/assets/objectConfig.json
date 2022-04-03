@@ -95,13 +95,13 @@
             "index": 76,
             "name": "SpawnBoulder",
             "searchMap": false,
-            "isPickup": false
+            "isPickup": true
         },
         {
            "index": 91,
            "name": "ControlFlip",
            "searchMap": false,
-           "isPickup": true
+           "isPickup": false
         },
         {
             "index": 6,

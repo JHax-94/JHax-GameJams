@@ -9,6 +9,7 @@ import MissileSlowDownPickup from "./Pickups/MissileSlowDownPickup";
 import MissileSpeedUpPickup from "./Pickups/MissileSpeedUpPickup";
 import PlayerSpeedUpPickup from "./Pickups/PlayerSpeedUpPickup";
 import SlowPlayerPickup from "./Pickups/SlowPlayerPickup";
+import SpawnBoulderPickup from "./Pickups/SpawnBoulderPickup";
 
 export default class SpawnLocation
 {
@@ -60,6 +61,10 @@ export default class SpawnLocation
         else if(objectToSpawn.name === "ControlFlip")
         {
             this.lastSpawnedObject = new ControlFlipPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+        }
+        else if(objectToSpawn.name === "SpawnBoulder")
+        {
+            this.lastSpawnedObject = new SpawnBoulderPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
         }
         /*else if(objectToSpawn.name === "MissileSpeedDown")
         {

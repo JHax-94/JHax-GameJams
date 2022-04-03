@@ -1,4 +1,4 @@
-import { consoleLog } from "./main";
+import { consoleLog, EM, PIXEL_SCALE } from "./main";
 import Pickup from "./Pickup";
 import ControlFlipPickup from "./Pickups/ControlFlipPickup";
 import ExtraMissilePickup from "./Pickups/ExtraMissilePickup";
@@ -35,53 +35,52 @@ export default class SpawnLocation
 
     SpawnObject(objectToSpawn)
     {
-        consoleLog("SPAWN OBJECT!");
-        consoleLog(objectToSpawn);
+        let player = EM.GetEntity("Player");
 
-        if(objectToSpawn.name === "N/A")
+        let playerPos = player.GetScreenPos();
+        
+        let playerTooClose = false;
+
+        let xDiff = Math.abs(playerPos.x - this.pos.x * PIXEL_SCALE);
+        let yDiff = Math.abs(playerPos.y - this.pos.y * PIXEL_SCALE); 
+    
+        consoleLog(`Spawner Dist: (${xDiff}, ${yDiff})`);
+
+        if(xDiff <= 8  && yDiff <= 8)
         {
-            this.lastSpawnedObject = new GhostModePickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+            playerTooClose = true;
         }
-        else if(objectToSpawn.name === "MissileSpeedUp")
+
+        if(!playerTooClose)
         {
-            this.lastSpawnedObject = new MissileSpeedUpPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
-        }
-        else if(objectToSpawn.name === "ExtraMissile")
-        {
-            this.lastSpawnedObject = new ExtraMissilePickup(this.pos, objectToSpawn, this, objectToSpawn.name);
-        }
-        else if(objectToSpawn.name === "SlowPlayer")
-        {
-            this.lastSpawnedObject = new SlowPlayerPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
-        }
-        else if(objectToSpawn.name === "ControlFlip")
-        {
-            this.lastSpawnedObject = new ControlFlipPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
-        }
-        else if(objectToSpawn.name === "SpawnBoulder")
-        {
-            this.lastSpawnedObject = new SpawnBoulderPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
-        }
-        /*else if(objectToSpawn.name === "MissileSpeedDown")
-        {
-            this.lastSpawnedObject = new MissileSlowDownPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
-        }
-        else if(objectToSpawn.name === "MissilePushback")
-        {
-            this.lastSpawnedObject = new MissilePushBackPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
-        }
-        else if(objectToSpawn.name === "PlayerSpeedUp") 
-        {
-            this.lastSpawnedObject = new PlayerSpeedUpPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
-        }
-        else if(objectToSpawn.name === "Decoy")
-        {
-            this.lastSpawnedObject = new DecoyPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
-        }*/
-        else
-        {
-            consoleLog("USE GENERIC PICKUP CLASS");
-            this.lastSpawnedObject = new Pickup(this.pos, objectToSpawn.spriteIndex, this, objectToSpawn.name);
+            if(objectToSpawn.name === "N/A")
+            {
+                this.lastSpawnedObject = new GhostModePickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+            }
+            else if(objectToSpawn.name === "MissileSpeedUp")
+            {
+                this.lastSpawnedObject = new MissileSpeedUpPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+            }
+            else if(objectToSpawn.name === "ExtraMissile")
+            {
+                this.lastSpawnedObject = new ExtraMissilePickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+            }
+            else if(objectToSpawn.name === "SlowPlayer")
+            {
+                this.lastSpawnedObject = new SlowPlayerPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+            }
+            else if(objectToSpawn.name === "ControlFlip")
+            {
+                this.lastSpawnedObject = new ControlFlipPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+            }
+            else if(objectToSpawn.name === "SpawnBoulder")
+            {
+                this.lastSpawnedObject = new SpawnBoulderPickup(this.pos, objectToSpawn, this, objectToSpawn.name);
+            }
+            else
+            {
+                this.lastSpawnedObject = new Pickup(this.pos, objectToSpawn.spriteIndex, this, objectToSpawn.name);
+            }
         }
     }
 }

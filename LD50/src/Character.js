@@ -303,6 +303,8 @@ export default class Character
         this.spriteIndex = 185;
         this.alive = false;
         this.phys.velocity = [0, 0];
+
+        EM.GameOver();
     }
 
     Update(deltaTime)
@@ -599,6 +601,11 @@ export default class Character
             }
 
             this.moving = moving;
+
+            if(input.esc)
+            {
+                EM.Pause();
+            }
         }
         else 
         {

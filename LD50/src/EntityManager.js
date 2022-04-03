@@ -2,7 +2,10 @@ import p2 from "p2";
 import { start } from "tina";
 import { linear } from "tina/src/easing";
 import InputGroup from "./InputGroup";
-import { consoleLog, UP, DOWN, LEFT, RIGHT /*INTERACT*/, PIXEL_SCALE/*, em, LoadChart, DATA_STORE*/ } from "./main";
+import { consoleLog, UP, DOWN, LEFT, RIGHT /*INTERACT*/, PIXEL_SCALE,/*, em, LoadChart, DATA_STORE*/ 
+EM} from "./main";
+import PauseMenu from "./PauseMenu";
+import GameOverMenu from "./GameOverMenu";
 import PhysicsContainer from "./PhysicsContainer";
 import RenderLayer from "./RenderLayer";
 
@@ -40,6 +43,7 @@ export default class EntityManager
         this.AddRenderLayer("MISSILE", 1);
         this.AddRenderLayer("WORLD_UI", 2);
         this.AddRenderLayer("OVERLAY_UI", 3);
+        this.AddRenderLayer("MENU_UI", 4, true);
 
         this.AddInputGroup("DEFAULT");
 
@@ -450,6 +454,37 @@ export default class EntityManager
     SortRenders()
     {
         // Not sure what this will look like yet...
+    }
+
+    Pause()
+    {
+        if(!this.pause)
+        {
+            this.pause = true;
+            this.pauseMenu = new PauseMenu();
+        }
+        else
+        {
+            this.pause = false;
+            this.pauseMenu.Close();
+        }
+    }
+    
+    GameOver()
+    {
+        if(!this.pause)
+        {
+            let maze = EM.GetEntity("Maze");
+
+            consoleLog("MAZE");
+            consoleLog(maze);
+            consoleLog(maze.mazeData);
+
+            this.pause = true;
+            this.pauseMenu = new GameOverMenu(maze.mazeData.levelName);
+        }
+
+        
     }
 
     Input()

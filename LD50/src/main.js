@@ -4,6 +4,7 @@ import Maze from './Maze.js'
 import Missile from './Missile.js';
 import Menu from './Menu.js';
 import PowerUpsBar from './PowerUpsBar.js';
+import PauseMenu from './PauseMenu.js';
 
 let pointerEvents = require('pixelbox/pointerEvents');
 

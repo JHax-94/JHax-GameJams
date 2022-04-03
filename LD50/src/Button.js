@@ -5,11 +5,25 @@ export default class Button
 {
     constructor(position, dims, data)
     {
+        if(data.renderLayer)
+        {
+            this.renderLayer = data.renderLayer;
+        }
+
         consoleLog("Adding button...");
+        consoleLog(position);
+        consoleLog(dims);
         consoleLog(data);
 
         this.buttonData = data;
 
+        this.offset = { x: 5, y: 5 };
+
+        if(this.buttonData.offset)
+        {
+            this.offset = this.buttonData.offset;
+        }
+        
         this.pos = position;
         this.dims = dims;
 
@@ -48,7 +62,7 @@ export default class Button
         rectf(this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
 
         pen(0)
-        print(this.buttonData.display, this.pos.x * PIXEL_SCALE + 5, this.pos.y * PIXEL_SCALE + 5);
+        print(this.buttonData.display, this.pos.x * PIXEL_SCALE + this.offset.x, this.pos.y * PIXEL_SCALE + this.offset.y);
 
         if(this.hoverOn)
         {

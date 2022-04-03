@@ -15,6 +15,24 @@ export default class RenderLayer
     {
         this.renders.push(render);
 
+        if(this.ySort)
+        {
+            this.renders.sort((a, b) => 
+            {
+                if(!a.y)
+                {
+                    a.y = 0;
+                }
+
+                if(!b.y)
+                {
+                    b.y = 0;
+                }
+
+                return a.y - b.y;
+            });
+        }
+
         consoleLog("Render added to layer");
         consoleLog(this);
     }

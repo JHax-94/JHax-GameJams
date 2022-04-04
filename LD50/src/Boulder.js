@@ -1,3 +1,4 @@
+import Explosion from "./Explosion";
 import { EM, SFX } from "./main";
 
 export default class Boulder
@@ -35,6 +36,8 @@ export default class Boulder
         EM.RemoveEntity(this);
 
         sfx(SFX.rockBreak);
+
+        let explosion = new Explosion(this.GetScreenPos());
     }
 
     Draw()

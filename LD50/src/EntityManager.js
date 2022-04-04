@@ -3,7 +3,8 @@ import { start } from "tina";
 import { linear } from "tina/src/easing";
 import InputGroup from "./InputGroup";
 import { consoleLog, UP, DOWN, LEFT, RIGHT /*INTERACT*/, PIXEL_SCALE,/*, em, LoadChart, DATA_STORE*/ 
-EM} from "./main";
+EM,
+getObjectConfig} from "./main";
 import PauseMenu from "./PauseMenu";
 import GameOverMenu from "./GameOverMenu";
 import PhysicsContainer from "./PhysicsContainer";
@@ -26,6 +27,8 @@ export default class EntityManager
 
         this.updates = [];
         this.renders = [];
+
+        this.gameOverDelay = 0;
 
         this.renderLayers = [];
 
@@ -481,7 +484,7 @@ export default class EntityManager
         }
     }
     
-    GameOver()
+    ShowGameOver()
     {
         if(!this.pause)
         {
@@ -494,6 +497,13 @@ export default class EntityManager
             this.pause = true;
             this.pauseMenu = new GameOverMenu(maze.mazeData.levelName);
         }
+    }
+
+    GameOver()
+    {
+        let explosionConfig = getObjectConfig("Explosion");
+
+        this.gameOverDelay = (explosionConfig.frameTime * explosionConfig.frames.length) + 0.5;
     }
 
     Input()
@@ -520,16 +530,25 @@ export default class EntityManager
     }
     
     UpdateLoop(deltaTime)
-    {        
+    {            
+        if(this.gameOverDelay > 0)
+        {
+            this.gameOverDelay -= deltaTime;
+            if(this.gameOverDelay < 0)
+            {
+                this.ShowGameOver();
+                this.gameOverDelay = 0;
+            }
+        }
+
         for(var i = 0; i < this.updates.length; i ++)
         {
             this.updates[i].Update(deltaTime);
-        }
+        }        
     }
 
     Update(deltaTime)
     {
-
         if(this.phys)
         {
             if(!this.pause)

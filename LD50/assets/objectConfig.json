@@ -62,8 +62,9 @@
                             "powerName": "Ghost",
                             "weightings":
                             [
-                                { "time": 15, "weighting": 1 },
-                                { "time": 60, "weighting": 2 }
+                                { "time": 0, "weighting": 0 },
+                                { "time": 30, "weighting": 1 },
+                                { "time": 90, "weighting": 2 }
                             ]
                         },
                         {
@@ -451,6 +452,18 @@
                 { "off": { "x": 4, "y": 1 }, "frames": [ 212 ] },
                 { "off": { "x": 5, "y": 1 }, "frames": [ 213 ] },
                 { "off": { "x": 6, "y": 1 }, "frames": [ 214 ] }
+            ]
+        },
+        {
+            "name": "Explosion",
+            "frameTime": 0.2,
+            "frames": [
+                { "index": 25 },
+                { "index": 41 },
+                { "index": 57 },
+                { "index": 73 },
+                { "index": 89 },
+                { "index": 105 }
             ]
         }
     ]    

@@ -1,4 +1,5 @@
 import { vec2 } from "p2";
+import Explosion from "./Explosion";
 import { consoleLog, EM, PIXEL_SCALE, SCREEN_HEIGHT, SCREEN_WIDTH } from "./main";
 
 export default class Missile 
@@ -111,6 +112,8 @@ export default class Missile
         this.spriteIndex = 230;
         this.alive = false;
         this.phys.velocity = [0, 0];
+
+        let explosion = new Explosion(this.GetScreenPos());
     }
 
     CalculateTargetingData()
@@ -469,25 +472,28 @@ export default class Missile
         print(`Clock Angle Diff: ${this.lastClockAngle.toFixed(2)}`, 0*PIXEL_SCALE, 5* PIXEL_SCALE);
         print(`Normal Vec: (${this.lastNormal[0].toFixed(2)}, ${this.lastNormal[1].toFixed(2)})`, 0*PIXEL_SCALE, 6*PIXEL_SCALE);
         print(`Distance: ${this.lastDist.toFixed(2)}`, 0*PIXEL_SCALE, 7*PIXEL_SCALE);*/
-        let screenPos = this.GetScreenPos();
-
-        sprite(this.sprite.index, screenPos.x, screenPos.y, this.sprite.flipH, this.sprite.flipV, this.sprite.flipR);
-
-        if(this.OutOfBounds(screenPos))
-        {
-            consoleLog("OUT OF BOUNDS");
-            let boundedPos = this.GetBoundedPos(screenPos);
-            sprite(207, boundedPos.x, boundedPos.y, boundedPos.flipH, boundedPos.flipV, boundedPos.flipR);
-        }
-
         if(this.alive)
         {
-            let outVec = [0, 0];
+            let screenPos = this.GetScreenPos();
 
-            this.phys.vectorToWorldFrame(outVec, [0, 1]);
-        
-            paper(9);
-            rectf(screenPos.x + 0.5 * PIXEL_SCALE + PIXEL_SCALE * outVec[0] * 2 , screenPos.y + +0.5 * PIXEL_SCALE - PIXEL_SCALE * outVec[1] * 2, 1, 1);
+            sprite(this.sprite.index, screenPos.x, screenPos.y, this.sprite.flipH, this.sprite.flipV, this.sprite.flipR);
+
+            if(this.OutOfBounds(screenPos))
+            {
+                consoleLog("OUT OF BOUNDS");
+                let boundedPos = this.GetBoundedPos(screenPos);
+                sprite(207, boundedPos.x, boundedPos.y, boundedPos.flipH, boundedPos.flipV, boundedPos.flipR);
+            }
+
+            if(this.alive)
+            {
+                let outVec = [0, 0];
+
+                this.phys.vectorToWorldFrame(outVec, [0, 1]);
+            
+                paper(9);
+                rectf(screenPos.x + 0.5 * PIXEL_SCALE + PIXEL_SCALE * outVec[0] * 2 , screenPos.y + +0.5 * PIXEL_SCALE - PIXEL_SCALE * outVec[1] * 2, 1, 1);
+            }
         }
     }    
 }

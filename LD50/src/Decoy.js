@@ -1,3 +1,4 @@
+import Explosion from "./Explosion";
 import { EM, PIXEL_SCALE } from "./main";
 
 export default class Decoy
@@ -29,6 +30,8 @@ export default class Decoy
     {
         this.createdBy.DecoyDestroyed();
         EM.RemoveEntity(this);
+
+        let explosion = new Explosion(this.GetScreenPos());
     }
 
     HasStatus(statusName)

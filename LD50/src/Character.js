@@ -47,6 +47,8 @@ export default class Character
 
         this.animTime = 0;
 
+        this.staticTimer = 0;
+
         this.powerUps = {
             Ghost: 0,
             MissileSpeedDown: 0,
@@ -371,6 +373,8 @@ export default class Character
 
         if(this.moving)
         {
+            this.staticTimer = 0;
+
             this.animTime += deltaTime * this.speedBoost;
 
             if(this.animTime >= this.anims.frameTime)
@@ -379,6 +383,10 @@ export default class Character
 
                 this.animFrame = (this.animFrame + 1) % this.anims[this.direction].length;
             }
+        }
+        else
+        {
+            this.staticTimer += deltaTime;
         }
     }
     

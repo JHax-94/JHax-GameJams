@@ -22,7 +22,7 @@ let LOAD_COMPLETE = false;
 
 let LOGGING_ON = true;
 
-var CHARACTER = 0;
+var CHARACTER = -1;
 let CHARACTER_MAX = 2;
 
 let PIXEL_SCALE = 8;
@@ -123,12 +123,17 @@ function SETUP(levelName)
 {
     let charPref = getPlayerPref("CHARACTER");
 
+    consoleLog("CHAR PREF");
+    consoleLog(charPref);
+
     if(charPref !== null)
     {
+        consoleLog("LOAD CHAR");
         CHARACTER = parseInt(charPref);
     }
-    else
+    else if(CHARACTER < 0)
     {
+        consoleLog("RANDOM CHAR");
         CHARACTER = random(2);
     }
 

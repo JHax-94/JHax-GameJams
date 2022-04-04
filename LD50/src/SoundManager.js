@@ -1,6 +1,7 @@
 import { colorRGB } from "tina/src/interpolation";
 import Button from "./Button";
 import { consoleLog, DATA_STORE, EM, getObjectConfig, getPlayerPref, PIXEL_SCALE, setPlayerPref, SFX } from "./main";
+import Missile from "./Missile";
 import ProgressBar from "./ProgressBar";
 
 export default class SoundManager
@@ -449,10 +450,14 @@ export default class SoundManager
                         
                         let missiles = EM.GetEntitiesStartingWith("Missile_");
 
+                        let missileConf = getObjectConfig("Missile");
+
                         for(let i = 0; i < missiles.length; i ++)
                         {
                             missiles[i].TensionBoost();
                         }
+
+                        EM.AddEntity(`Missile_${missiles.length}`, new Missile({ x: 31, y: 32 }, missileConf));
 
                         this.PlayNextLevelMusic();
                     }

@@ -218,6 +218,8 @@ export default class Missile
 
             let speed = vec2.length(this.phys.velocity);
 
+            let dampingOverride = null;
+
             if(this.playerRef.HasStatus("MissileSpeedDown"))
             {
                 statusModifier *= 0.5;
@@ -239,10 +241,13 @@ export default class Missile
                 this.waitForSlowDownStatusWearOff = false;
             }
 
-            if(this.playerRef.HasStatus("MissileSpeedUp") || this.tensionBooster)
+            if(this.playerRef.HasStatus("MissileSpeedUp") || this.tensionBooster || (this.tensionLevel > 0 && this.CheckLazyPlayer()))
             {
-                statusModifier *= (this.tensionBooster ? 1.5 : 2);
-
+                if(this.playerRef.HasStatus("MissileSpeedUp") || this.tensionBooster)
+                {
+                    statusModifier *= (this.tensionBooster ? 1.5 : 2);
+                }
+                
                 let mag = vec2.length(td.diffVec)
 
                 if(!this.waitForSpeedUpStatusWearOff)
@@ -284,9 +289,13 @@ export default class Missile
 
             let desiredAngularSpeed = this.turnSpeed * (this.difficultyModifier * 0.25) * (statusModifier * statusModifier) ;
 
+            let dist = vec2.length(td.diffVec);
+
             if(this.difficultyModifier > 40)
             {
-                let mag = vec2.length(td.diffVec);
+                let mag = dist;
+
+                consoleLog(`distance: ${mag}`);
                 this.lastDist = mag;
 
                 let distanceModifier = 1;
@@ -295,15 +304,21 @@ export default class Missile
                 {
                     distanceModifier *= 40;
                 } 
-                else if(mag < 30)
+                else if(mag < 40)
                 {
                     if(this.difficultyModifier > 160)
                     {
                         distanceModifier *= 30;
+
+                        if(this.playerRef.isDecoy)
+                        {
+                            distanceModifier *= 2;
+                        }
                     }
                     else
                     {
-                        distanceModifier *= 20;
+                        
+                        distanceModifier *= 30;
                     }
                 }
                 else if(mag > 60)
@@ -328,8 +343,13 @@ export default class Missile
                 {
                     directModifier = (this.difficultyModifier * (this.tensionLevel +1) - 30) / 60;
                 }                
-
+                
                 let directForce = [ normal[0] * directModifier * distanceModifier, normal[1] * directModifier* distanceModifier ];
+
+                consoleLog("APPLYING DIRECT FORCE!");
+                consoleLog(directForce);
+
+                dampingOverride = 0.4;
 
                 this.phys.applyForce(directForce);
             }
@@ -378,7 +398,16 @@ export default class Missile
                 this.phys.angularVelocity = desiredAngularVelocity;
             }
 
-            this.phys.damping = this.GetDamping(speed);
+            //consoleLog(`s: ${speed.toFixed(3)}, d: ${dist.toFixed(3)}`);
+
+            if(dampingOverride)
+            {
+                this.phys.damping = dampingOverride;                
+            }
+            else
+            {
+                this.phys.damping = this.GetDamping(speed);
+            }
 
             this.SetAnimState(td);
         }
@@ -401,6 +430,23 @@ export default class Missile
                 //consoleLog("START TARGETING!");
             }
         }
+    }
+
+    CheckLazyPlayer()
+    {
+        let isPlayerLazy = false;
+
+        if(this.playerRef.isDecoy)
+        {
+            isPlayerLazy = this.playerRef.staticTimer > 30;
+        }
+        else 
+        {
+            isPlayerLazy = this.playerRef.staticTimer > 3;
+        }
+
+
+        return isPlayerLazy;
     }
 
     SetTarget(obj)

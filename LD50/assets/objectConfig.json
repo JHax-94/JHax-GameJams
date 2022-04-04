@@ -96,14 +96,16 @@
                             [
                                 { "time": 0, "weighting": 0 },
                                 { "time": 30, "weighting": 1 },
-                                { "time": 90, "weighting": 2 }
+                                { "time": 90, "weighting": 2 },
+                                { "time": 120, "weighting": 1 }
                             ]
                         },
                         {
                             "powerName": "MissileSpeedDown",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 1 }
+                                { "time": 0, "weighting": 1 },
+                                { "time": 120, "weighting": 1 }
                             ]
                         },
                         {
@@ -111,14 +113,16 @@
                             "weightings":
                             [
                                 { "time": 0, "weighting": 0 },
-                                { "time": 90, "weighting": 1 }
+                                { "time": 90, "weighting": 1 },
+                                { "time": 120, "weighting": 1 }
                             ]
                         },
                         {
                             "powerName": "PlayerSpeedUp",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 1 }
+                                { "time": 0, "weighting": 1 },
+                                { "time": 120, "weighting": 1 }
                             ]
                         },
                         {
@@ -126,7 +130,8 @@
                             "weightings":
                             [
                                 { "time": 0, "weighting": 0 },
-                                { "time": 30, "weighting": 1 }
+                                { "time": 30, "weighting": 1 },
+                                { "time": 120, "weighting": 1 }
                             ]
                         },
                         {
@@ -134,7 +139,8 @@
                             "weightings":
                             [
                                 { "time": 0, "weighting": 0 },
-                                { "time": 36, "weighting": 1 }
+                                { "time": 45, "weighting": 1 },
+                                { "time": 120, "weighting": 1 }
                             ]
                         },
                         {
@@ -142,7 +148,8 @@
                             "weightings":
                             [
                                 { "time": 0, "weighting": 0 },
-                                { "time": 30, "weighting": 1 }
+                                { "time": 30, "weighting": 1 },
+                                { "time": 120, "weighting": 1 }
                             ]
                         },
                         {
@@ -150,7 +157,8 @@
                             "weightings":
                             [
                                 { "time": 0, "weighting": 0 },
-                                { "time": 45, "weighting": 1 }
+                                { "time": 45, "weighting": 1 },
+                                { "time": 120, "weighting": 1 }
                             ]
                         },
                         {
@@ -159,7 +167,8 @@
                             [
                                 { "time": 0, "weighting": 0 },
                                 { "time": 15, "weighting": 1 },
-                                { "time": 30, "weighting": 2 }
+                                { "time": 30, "weighting": 2 },
+                                { "time": 120, "weighting": 1 }
                             ]
                         },
                         {
@@ -168,8 +177,8 @@
                             [
                                 { "time": 0, "weighting": 0 },
                                 { "time": 30, "weighting": 1 },
-                                { "time": 45, "weighting": 2 }
-
+                                { "time": 45, "weighting": 2 },
+                                { "time": 120, "weighting": 1 }
                             ]
                         }
                     ]
@@ -359,15 +368,15 @@
         },
         {
             "name": "GameOverMenu",
-            "root": { "x": 12, "y": 5 },
+            "root": { "x": 6, "y": 5 },
             "components": [
-                { "type": "Rect", "x": 0, "y": 0, "w": 20, "h": 8, "colour": 4 },
-                { "type": "Text", "text": "Game Over", "x": 0, "y": 0, "colour": 1 },
-                { "type": "Text", "text": "You delayed the inevitable for", "x": 0, "y": 1, "colour": 1 },
-                { "type": "Text", "text": "##TIME##", "x": 0, "y": 2, "colour": 1 },
-                { "type": "Text", "text": "##PB##", "x": 0, "y": 3, "colour": 1 },
-                { "type": "Button", "text": "Restart", "x": 0, "y": 5, "w": 6, "h": 1.25, "offset": {"x": 5, "y": 1 }, "trigger": "Restart" },
-                { "type": "Button", "text": "Back to Menu", "x": 0, "y": 6.5, "w": 6, "h": 1.25, "offset": {"x": 1, "y": 1 }, "trigger": "BackToMenu" }
+                { "type": "Rect", "x": 0, "y": 0, "w": 20, "h": 9, "colour": 4 },
+                { "type": "Text", "text": "Game Over", "x": 7.5, "y": 0.5, "colour": 1 },
+                { "type": "Text", "text": "You delayed the inevitable for", "x": 2, "y": 1.5, "colour": 1 },
+                { "type": "Text", "text": "##TIME##", "x": 4, "y": 2.75, "colour": 1 },
+                { "type": "Text", "text": "##PB##", "x": 6, "y": 3.75, "colour": 1 },
+                { "type": "Button", "text": "Restart", "x": 7, "y": 5.5, "w": 7, "h": 1.25, "offset": {"x": 7, "y": 1.5 }, "trigger": "Restart" },
+                { "type": "Button", "text": "Back to Menu", "x": 7, "y": 7.25, "w": 7, "h": 1.25, "offset": {"x": 2, "y": 1.5 }, "trigger": "BackToMenu" }
             ]
         },
         {

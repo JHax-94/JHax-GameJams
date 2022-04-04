@@ -9,6 +9,10 @@ export default class Decoy
 
         this.createdBy = createdBy;
 
+        this.isDecoy = true;
+
+        this.staticTimer = 0;
+
         EM.RegisterEntity(this, {
             physSettings:
             {
@@ -24,6 +28,11 @@ export default class Decoy
                 tag: "DECOY"
             }
         });
+    }
+
+    Update(deltaTime)
+    {
+        this.staticTimer += deltaTime;
     }
 
     Destroy()

@@ -1,4 +1,4 @@
-import { EM } from "./main";
+import { EM, SFX } from "./main";
 
 export default class Boulder
 {

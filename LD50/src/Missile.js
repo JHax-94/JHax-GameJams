@@ -23,6 +23,13 @@ export default class Missile
         this.difficultyRate = config.difficultyRate;
         this.targetingWait = config.targetingWait;
 
+        let originalMissile = EM.GetEntity("Missile_0");
+
+        if(originalMissile)
+        {
+            this.difficultyRate = originalMissile.difficultyRate;
+        }
+
         this.alive = true;
 
         this.frameCount = 0;
@@ -36,10 +43,14 @@ export default class Missile
         this.lastNormal = [0, 0];
         this.lastDist = 0;
 
+        this.tensionBooster = false;
+
         this.spinRecovery = 2.4;
 
         this.waitForSlowDownStatusWearOff = false;
         this.waitForSpeedUpStatusWearOff = false;
+
+        this.directPullTimer = 0;
 
         this.boostSpeed = 1;
 
@@ -136,6 +147,14 @@ export default class Missile
         }   
     }
 
+    TensionBoost()
+    {
+        this.difficultyRate *= 1.5;
+        this.difficultyModifier += 30;
+        this.tensionBooster = true;
+    }
+
+
     Update(deltaTime)    
     {
         if(this.alive && this.targetingWait <= 0)
@@ -167,9 +186,9 @@ export default class Missile
                 this.waitForSlowDownStatusWearOff = false;
             }
 
-            if(this.playerRef.HasStatus("MissileSpeedUp"))
+            if(this.playerRef.HasStatus("MissileSpeedUp") || this.tensionBooster)
             {
-                statusModifier *= 4;
+                statusModifier *= (this.tensionBooster ? 1.5 : 2);
 
                 let mag = vec2.length(td.diffVec)
 
@@ -182,12 +201,22 @@ export default class Missile
                     this.waitForSpeedUpStatusWearOff = true;
                     this.pushbackForce = 0;
                     this.pushbackSpin = 0;
+
+                    this.directPullTimer = 0.2;
+                }
+
+                if(this.directPullTimer >= 0)
+                {
+                    this.phys.velocity = [ td.diffVec[0] * (this.boostSpeed / mag), td.diffVec[1] * (this.boostSpeed / mag) ];
+                    this.directPullTimer -= deltaTime;
+                }
+                
+                if(this.tensionBooster)
+                {
+                    this.tensionBooster = false;
                 }
                 
                 //consoleLog(`Boost Speed: ${this.boostSpeed}`);
-
-                this.phys.velocity = [ td.diffVec[0] * (this.boostSpeed / mag), td.diffVec[1] * (this.boostSpeed / mag) ];
-                
             }
             else if(this.waitForSpeedUpStatusWearOff = true)
             {

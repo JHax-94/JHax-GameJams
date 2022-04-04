@@ -53,7 +53,7 @@
         },
         {
             "name": "PickupSpawner",
-            "spawnInterval": 10,
+            "spawnInterval": 6,
             "spawnWeightings": [
                 {
                     "levels": [ "josh_test", "easy_maze", "med_maze", "hard_maze", "arena_maze", "portrait_maze", "library_maze", "noise_maze" ],
@@ -335,7 +335,7 @@
             "sfxIconIndex": 206,
             "fadeoutTime": 3,
             "alarmDelay": 1.5,
-            "trackDelay": 2.5,
+            "trackDelay": 3.5,
             "levelMusic": [
                 { "order": 0, "name": "tensionLow...", "duration": 90 },
                 { "order": 1, "name": "tensionMid~", "duration": 75 },

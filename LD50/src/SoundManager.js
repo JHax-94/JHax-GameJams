@@ -446,6 +446,13 @@ export default class SoundManager
                         consoleLog("NEXT TRACK!");
 
                         this.trackDelayTime = 0;
+                        
+                        let missiles = EM.GetEntitiesStartingWith("Missile_");
+
+                        for(let i = 0; i < missiles.length; i ++)
+                        {
+                            missiles[i].TensionBoost();
+                        }
 
                         this.PlayNextLevelMusic();
                     }

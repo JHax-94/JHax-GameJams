@@ -1,4 +1,5 @@
 import { RECTANGLE } from "p2/src/shapes/Shape";
+import { iterateEquation } from "p2/src/solver/GSSolver";
 import { consoleLog, EM, PIXEL_SCALE } from "./main";
 
 export default class Button
@@ -9,11 +10,6 @@ export default class Button
         {
             this.renderLayer = data.renderLayer;
         }
-
-        consoleLog("Adding button...");
-        consoleLog(position);
-        consoleLog(dims);
-        consoleLog(data);
 
         this.buttonData = data;
 
@@ -73,16 +69,31 @@ export default class Button
 
     Draw()
     {
-        paper(14);
-        rectf(this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
 
-        pen(0)
-        print(this.buttonData.display, this.pos.x * PIXEL_SCALE + this.offset.x, this.pos.y * PIXEL_SCALE + this.offset.y);
-
-        if(this.hoverOn || this.focused)
+        if(this.buttonData.display)
         {
-            pen(13);
-            rect(this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
+            paper(14);
+            rectf(this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
+
+            pen(0)
+            print(this.buttonData.display, this.pos.x * PIXEL_SCALE + this.offset.x, this.pos.y * PIXEL_SCALE + this.offset.y);
+
+            if(this.hoverOn || this.focused)
+            {
+                pen(13);
+                rect(this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
+            }
+        }
+        else
+        {
+            if(this.hoverOn || this.focused)
+            {
+                sprite(this.buttonData.hoverIndex, this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE);
+            }
+            else
+            {
+                sprite(this.buttonData.index, this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE);
+            }
         }
     }
 }

@@ -4,7 +4,7 @@
             "levelName": "main_menu",
             "backgroundColour": 1,
             "titleMap": "title_screen",
-            "buttonStart": { "x": 1.5, "y": 4.5 },
+            "buttonStart": { "x": 1.5, "y": 5.5 },
             "buttonDims": { "w": 5.5, "h": 2 },
             "levelButtons": [
                 {

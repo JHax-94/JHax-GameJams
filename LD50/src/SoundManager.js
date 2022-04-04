@@ -92,10 +92,10 @@ export default class SoundManager
         this.sfxBar = new ProgressBar({ x: this.pos.x + 3, y: this.pos.y + 1.25, w: 3.5, h: 0.5 }, {filled: 1, unfilled: 6});
         this.sfxBar.SetFill(this.sfxVolume, this.sfxMax);
 
-        this.sfxDownButton = new Button({ x: this.pos.x + 1.5, y: this.pos.y + 1.25 }, { w: 1, h: 1 }, {display: "<", offset: { x: 1, y: 1 }});
+        this.sfxDownButton = new Button({ x: this.pos.x + 1.5, y: this.pos.y + 1.25 }, { w: 1, h: 1 }, {display: "<", offset: { x: 2, y: 2 }});
         this.sfxDownButton.ClickCallback = function () { soundManRef.SfxVolumeDown(); };
 
-        this.sfxUpButton = new Button({ x: this.pos.x + 7.5, y: this.pos.y + 1.25 }, { w: 1, h: 1 }, {display: ">", offset: { x: 1, y: 1 }});
+        this.sfxUpButton = new Button({ x: this.pos.x + 7.5, y: this.pos.y + 1.25 }, { w: 1, h: 1 }, {display: ">", offset: { x: 2, y: 2 }});
         this.sfxUpButton.ClickCallback = function () { soundManRef.SfxVolumeUp(); };
 
         EM.RegisterEntity(this);

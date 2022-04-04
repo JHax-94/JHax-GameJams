@@ -1,6 +1,7 @@
 import Button from "./Button";
 import CharacterSelect from "./CharacterSelect";
-import { consoleLog, EM, SETUP } from "./main";
+import { consoleLog, EM, getObjectConfig, SETUP } from "./main";
+import MenuMissile from "./MenuMissile";
 
 export default class Menu
 {
@@ -46,6 +47,8 @@ export default class Menu
 
         consoleLog(menuObjects);
 
+        let menuRef = this;
+
         for(let i = 0; i < menuObjects.length; i ++)
         {
             let menuObj = menuObjects[i];
@@ -87,11 +90,27 @@ export default class Menu
                     }
                 }*/
 
+                if(menuObj.name === "MissileTopLeft")
+                {
+                    new MenuMissile({ x: tiles[j].x, y: tiles[j].y });
+                }
+
+                if(menuObj.name === "LeftButton")
+                {
+                    let button = new Button({ x: tiles[j].x, y: tiles[j].y +0.5 }, { w: 1, h: 1 }, { index: menuObj.index, hoverIndex: menuObj.hoverIndex });
+
+                    button.ClickCallback = function() { menuRef.characterSelect.ChangeCharacter(-1); }
+                }
+
+                if(menuObj.name === "RightButton")
+                {
+                    let button = new Button({ x: tiles[j].x, y: tiles[j].y +0.5 }, { w: 1, h: 1 }, { index: menuObj.index, hoverIndex: menuObj.hoverIndex });
+                    
+                    button.ClickCallback = function() { menuRef.characterSelect.ChangeCharacter(1); }
+                }
+
                 if(menuObj.replaceTile)
                 {
-                    
-                    
-
                     this.titleMap.remove(tiles[j].x, tiles[j].y);
                 }   
             }
@@ -104,6 +123,26 @@ export default class Menu
         consoleLog(levelButtons);
 
         let menu = this;
+
+        let upConf = getObjectConfig("UpButton");        
+
+        let downConf = getObjectConfig("DownButton");
+
+        let arrowX = this.menuData.buttonStart.x + 0.5 * this.menuData.buttonDims.w - 0.5;
+
+        let menuUp = new Button(
+            { x: arrowX, y: this.menuData.buttonStart.y - 1.25 }, 
+            { w: 1, h: 1 },
+            { index: upConf.index, hoverIndex: upConf.hoverIndex });
+        
+        menuUp.ClickCallback = function() { menu.ChangeButton(-1); };
+
+        let menuDown = new Button(
+            { x: arrowX, y: this.menuData.buttonStart.y + (this.menuData.buttonDims.h + 1) * levelButtons.length - 0.75  }, 
+            { w: 1, h: 1 },
+            { index: downConf.index, hoverIndex: downConf.hoverIndex });
+
+        menuDown.ClickCallback = function() { menu.ChangeButton(1); };
 
         for(let i = 0; i < levelButtons.length; i ++)
         {

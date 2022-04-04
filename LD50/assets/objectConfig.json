@@ -342,6 +342,34 @@
             ]
         },
         {
+            "name": "LeftButton",
+            "index": 175,
+            "hoverIndex": 191,
+            "searchMenu": true,
+            "replaceTile": true
+        },
+        {
+            "name": "RightButton",
+            "index": 174,
+            "hoverIndex": 190,
+            "searchMenu": true,
+            "replaceTile": true
+        },
+        {
+            "name": "UpButton",
+            "index": 172,
+            "hoverIndex": 188,
+            "searchMenu": true,
+            "replaceTile": true
+        },
+        {
+            "name": "DownButton",
+            "index": 173,
+            "hoverIndex": 189,
+            "searchMenu": true,
+            "replaceTile": true
+        },
+        {
             "name": "CharHead",
             "index": 218,
             "searchMenu": true,
@@ -355,7 +383,13 @@
         },
         {
             "name": "MissilePart",
-            "indexList": [ 194, 195, 196, 197, 198, 210, 211, 212, 213, 214 ],
+            "indexList": [ 193, 194, 195, 196, 197, 198, 208, 209, 210, 211, 212, 213, 214 ],
+            "searchMenu": true,
+            "replaceTile": true
+        },
+        {
+            "name": "MissileTopLeft",
+            "index": 192,
             "searchMenu": true,
             "replaceTile": true
         },
@@ -384,6 +418,28 @@
                         { "index": 237, "flipH": false, "flipV": false, "flipR": false }
                     ]
                 }
+            ]
+        },
+        {
+            "name": "MenuMissile",
+            "boosterFrameTime": 0.5,
+            "wave": { "frequency": 1.2, "amplitude": 8 },
+            "maxFrame": 2,
+            "anims": [
+                { "off": { "x": 0, "y": 0 }, "frames": [ 192, 224 ] },
+                { "off": { "x": 1, "y": 0 }, "frames": [ 193, 225 ] },
+                { "off": { "x": 2, "y": 0 }, "frames": [ 194 ] },
+                { "off": { "x": 3, "y": 0 }, "frames": [ 195 ] },
+                { "off": { "x": 4, "y": 0 }, "frames": [ 196 ] },
+                { "off": { "x": 5, "y": 0 }, "frames": [ 197 ] },
+                { "off": { "x": 6, "y": 0 }, "frames": [ 198 ] },
+                { "off": { "x": 0, "y": 1 }, "frames": [ 208, 240 ] },
+                { "off": { "x": 1, "y": 1 }, "frames": [ 209, 241 ] },
+                { "off": { "x": 2, "y": 1 }, "frames": [ 210 ] },
+                { "off": { "x": 3, "y": 1 }, "frames": [ 211 ] },
+                { "off": { "x": 4, "y": 1 }, "frames": [ 212 ] },
+                { "off": { "x": 5, "y": 1 }, "frames": [ 213 ] },
+                { "off": { "x": 6, "y": 1 }, "frames": [ 214 ] }
             ]
         }
     ]    

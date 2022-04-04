@@ -118,12 +118,9 @@ export default class PhysicsContainer
     {
         for(let i = 0; i < evt.contactEquations.length; i ++)
         {
-
             let eq = evt.contactEquations[i];
             if(this.playerWatch && this.playerWatch.HasStatus("Ghost"))
             {
-                
-
                 if(manager.CompareTags(eq, "PLAYER", "WALL"))
                 {
                     eq.enabled = false;
@@ -132,6 +129,15 @@ export default class PhysicsContainer
                     let wall = manager.BodyWithTag(eq, "WALL");
 
                     player.obj.AddOverlap(wall.obj);
+                }
+                else if(manager.CompareTags(eq, "PLAYER", "BOULDER"))
+                {
+                    eq.enabled = false;
+
+                    let player = manager.BodyWithTag(eq, "PLAYER");
+                    let boulder = manager.BodyWithTag(eq, "BOULDER");
+
+                    player.obj.AddOverlap(boulder.obj);
                 }
             }
 
@@ -153,6 +159,14 @@ export default class PhysicsContainer
                 let wall = manager.BodyWithTag(evt, "WALL");
 
                 player.obj.RemoveOverlap(wall.obj);
+            }
+
+            if(manager.CompareTags(evt, "PLAYER", "BOULDER"))
+            {
+                let player = manager.BodyWithTag(evt, "PLAYER");
+                let boulder = manager.BodyWithTag(evt, "BOULDER");
+
+                player.obj.RemoveOverlap(boulder.obj);
             }
         }
 

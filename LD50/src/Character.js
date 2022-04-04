@@ -1,3 +1,4 @@
+import { vec2 } from "p2";
 import BriefPlayable from "tina/src/BriefPlayable";
 import Decoy from "./Decoy";
 import { consoleLog, EM, getObjectConfig, SFX, PIXEL_SCALE, SETUP, CHARACTER } from "./main";
@@ -572,6 +573,15 @@ export default class Character
                 this.phys.velocity = [ 0, this.phys.velocity[1] ]; 
             }
 
+            let playerSpeed = vec2.length(this.phys.velocity);
+
+            if(playerSpeed > 0)
+            {
+                let norm = (this.walkSpeed / playerSpeed);
+
+                this.phys.velocity = [ this.phys.velocity[0] * norm, this.phys.velocity[1] * norm ];
+            }
+
             if(input.power0 && this.powerKeyWaits.power0 === false)
             {
                 this.powerKeyWaits.power0 = true;
@@ -691,7 +701,14 @@ export default class Character
     {
         let screenPos = this.GetScreenPos();
 
-        let anim = this.anims[this.direction][this.animFrame];
+        let direction = this.direction;
+
+        if(this.HasStatus("Ghost"))
+        {
+            direction += "_ghost";
+        }
+
+        let anim = this.anims[direction][this.animFrame];
 
         sprite(anim.index, screenPos.x, screenPos.y, anim.flipH, anim.flipV, anim.flipR);
     }

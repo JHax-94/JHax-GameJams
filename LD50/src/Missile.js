@@ -480,7 +480,6 @@ export default class Missile
 
             if(this.OutOfBounds(screenPos))
             {
-                consoleLog("OUT OF BOUNDS");
                 let boundedPos = this.GetBoundedPos(screenPos);
                 sprite(207, boundedPos.x, boundedPos.y, boundedPos.flipH, boundedPos.flipV, boundedPos.flipR);
             }

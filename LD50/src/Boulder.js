@@ -17,13 +17,13 @@ export default class Boulder
                         w: 1,
                         h: 1
                     },
-                    mass: 250,
+                    mass: 350,
                     isSensor: false,
                     isKinematic: false,
                     tag: "BOULDER",
                     material: "wallMaterial",
-                    linearDrag: 0.8,
-                    angularDrag: 0.8
+                    linearDrag: 0.9,
+                    angularDrag: 0.9
                 }
             });
 

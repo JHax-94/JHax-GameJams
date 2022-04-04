@@ -25,6 +25,22 @@
                         { "index": 46, "flipH": true, "flipV": false, "flipR": false },
                         { "index": 47, "flipH": true, "flipV": false, "flipR": false }
                     ],
+                    "down_ghost": [
+                        { "index": 112, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 113, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "up_ghost": [
+                        { "index": 96, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 97, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "left_ghost": [
+                        { "index": 128, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 129, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "right_ghost": [
+                        { "index": 128, "flipH": true, "flipV": false, "flipR": false },
+                        { "index": 129, "flipH": true, "flipV": false, "flipR": false }
+                    ],
                     "dead": [ { "index": 63, "flipH": false, "flipV": false, "flipR": false } ],
                     "decoy": [ { "index": 62, "flipH": false, "flipV": false, "flipR": false } ]
                 },
@@ -45,6 +61,22 @@
                     "right": [
                         { "index": 142, "flipH": true, "flipV": false, "flipR": false },
                         { "index": 143, "flipH": true, "flipV": false, "flipR": false }
+                    ],
+                    "down_ghost": [
+                        { "index": 98, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 99, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "up_ghost": [
+                        { "index": 114, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 115, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "left_ghost": [
+                        { "index": 130, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 131, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "right_ghost": [
+                        { "index": 130, "flipH": true, "flipV": false, "flipR": false },
+                        { "index": 131, "flipH": true, "flipV": false, "flipR": false }
                     ],
                     "dead": [ { "index": 159, "flipH": false, "flipV": false, "flipR": false } ],
                     "decoy": [ { "index": 158, "flipH": false, "flipV": false, "flipR": false } ]

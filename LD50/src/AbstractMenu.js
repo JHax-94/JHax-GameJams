@@ -62,9 +62,6 @@ export default class AbstractMenu
                 newButton.y = 10;
 
                 this.buttons.push(newButton);
-
-                consoleLog("NEW BUTTON: ");
-                consoleLog(newButton);
             }
             else
             {
@@ -100,8 +97,6 @@ export default class AbstractMenu
     {
         for(let i = 0; i < this.buttons.length; i ++)
         {
-            consoleLog(`Set button [${i}] focus to ${(i === focusOn)}`);
-
             this.buttons[i].SetFocus(i === focusOn);
         }
     }
@@ -118,11 +113,6 @@ export default class AbstractMenu
 
     Input(input)
     {
-        
-        consoleLog(input);
-        consoleLog(this.inputWaits);
-        
-
         if(input.up && this.inputWaits.up === false)
         {
             if(this.focusedButton < 0)
@@ -159,8 +149,6 @@ export default class AbstractMenu
 
     Draw()
     {
-        consoleLog("DRAW MENU");
-
         for(let i = 0; i < this.components.length; i ++)
         {
             let component = this.components[i];

@@ -1,6 +1,6 @@
 import BriefPlayable from "tina/src/BriefPlayable";
 import Decoy from "./Decoy";
-import { consoleLog, EM, getObjectConfig, SFX, PIXEL_SCALE, SETUP } from "./main";
+import { consoleLog, EM, getObjectConfig, SFX, PIXEL_SCALE, SETUP, CHARACTER } from "./main";
 
 export default class Character
 {
@@ -56,7 +56,7 @@ export default class Character
 
         this.walkSpeed = objConfig.moveSpeed;
 
-        this.anims = objConfig.anims;
+        this.anims = objConfig.anims[CHARACTER];
 
         this.moving = false;
 
@@ -160,7 +160,10 @@ export default class Character
 
         if(!this.decoy)
         {
-            this.decoy = new Decoy(this.GetScreenPos(), this);
+            consoleLog("CREATE DECOY");
+            consoleLog(this.anims);
+
+            this.decoy = new Decoy(this.GetScreenPos(), this, this.anims["decoy"][0].index);
         
             let missiles = EM.GetEntitiesStartingWith("Missile_");
 
@@ -317,6 +320,9 @@ export default class Character
         this.spriteIndex = 185;
         this.alive = false;
         this.phys.velocity = [0, 0];
+
+        this.animFrame = 0;
+        this.direction = "dead";
 
         sfx(SFX.explode);
 

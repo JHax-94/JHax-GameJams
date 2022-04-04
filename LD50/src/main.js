@@ -20,6 +20,9 @@ let LOAD_COMPLETE = false;
 
 let LOGGING_ON = true;
 
+var CHARACTER = 0;
+let CHARACTER_MAX = 2;
+
 let PIXEL_SCALE = 8;
 let SCREEN_WIDTH = 32;
 let SCREEN_HEIGHT = 32;
@@ -106,6 +109,18 @@ function getObjectConfig(objectName)
 
 function SETUP(levelName)
 {
+
+    let charPref = getPlayerPref("CHARACTER");
+
+    if(charPref !== null)
+    {
+        CHARACTER = parseInt(charPref);
+    }
+    else
+    {
+        CHARACTER = random(2);
+    }
+
     if(!SFX)
     {
         SFX = assets.soundMap;
@@ -190,6 +205,12 @@ function SETUP(levelName)
     consoleLog("==== SETUP COMPLETE ====");
 }
 
+function changeCharacter(changeTo)
+{
+    CHARACTER = changeTo;
+    setPlayerPref("CHARACTER", CHARACTER);
+}
+
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // Update is called once per frame
 exports.update = function () {
@@ -214,5 +235,7 @@ export {
     SOUND, SFX,
     consoleLog,
     setPlayerPref,
-    getPlayerPref
+    getPlayerPref,
+    CHARACTER, CHARACTER_MAX,
+    changeCharacter
 }

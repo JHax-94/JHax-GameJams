@@ -522,17 +522,25 @@ export default class EntityManager
 
     Update(deltaTime)
     {
-        if(!this.pause)
+
+        if(this.phys)
         {
-            this.deltaTime = deltaTime;
-
-            this.gameTimeElapsed += this.deltaTime;
-
-            if(this.phys) 
+            if(!this.pause)
             {
-                // Should trigger an update at end step;
-                this.phys.step(deltaTime, deltaTime, 20);
+                this.deltaTime = deltaTime;
+
+                this.gameTimeElapsed += this.deltaTime;
+
+                if(this.phys) 
+                {
+                    // Should trigger an update at end step;
+                    this.phys.step(deltaTime, deltaTime, 20);
+                }
             }
+        }
+        else
+        {
+            this.UpdateLoop(deltaTime)
         }
     }
 

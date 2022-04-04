@@ -1,4 +1,5 @@
 import Button from "./Button";
+import CharacterSelect from "./CharacterSelect";
 import { consoleLog, EM, SETUP } from "./main";
 
 export default class Menu
@@ -6,9 +7,16 @@ export default class Menu
     constructor(levelData)
     {
         this.menuData = levelData;
-        this.titleMap = getMap(this.menuData.titleMap);
+        let map = getMap(this.menuData.titleMap);
+        /*
+        consoleLog("TITLE MAP");
+        consoleLog(map);
+        */
+        this.titleMap = map.copy(0, 0, map.width, map.height);
 
         this.buttons = [];
+
+        this.characterSelect = null;
 
         this.BuildLevelButtons(levelData.levelButtons);
 
@@ -25,6 +33,69 @@ export default class Menu
         EM.RegisterEntity(this);
 
         this.SetFocus(this.focusedButton);
+
+        this.ProcessMenuMap();
+    }
+
+
+    ProcessMenuMap()
+    {
+        consoleLog("Process menu map...");
+
+        let menuObjects = assets.objectConfig.objectMap.filter(val => val.searchMenu);
+
+        consoleLog(menuObjects);
+
+        for(let i = 0; i < menuObjects.length; i ++)
+        {
+            let menuObj = menuObjects[i];
+
+            let tiles = [];
+
+            if(menuObj.index || menuObj.index === 0)
+            {
+                tiles = this.titleMap.find(menuObj.index);
+            }
+            else if(menuObj.indexList)
+            {
+                
+                for(let j = 0; j < menuObj.indexList.length; j ++)
+                {
+                    let _tiles = this.titleMap.find(menuObj.indexList[j]);
+
+                    for(let k = 0; k < _tiles.length; k ++)
+                    {
+                        tiles.push(_tiles[k]);
+                    }
+                }
+            }
+
+            for(let j = 0; j < tiles.length; j ++)
+            {
+                if(menuObj.name === "CharHead")
+                {
+                    if(!this.characterSelect)
+                    {
+                        this.characterSelect = new CharacterSelect({ x: tiles[j].x, y: tiles[j].y });
+                    }
+                }
+                /*else if(menuObj.name === "CharBody")
+                {
+                    if(!this.characterSelect)
+                    {
+                        this.characterSelect = new CharacterSelect();
+                    }
+                }*/
+
+                if(menuObj.replaceTile)
+                {
+                    
+                    
+
+                    this.titleMap.remove(tiles[j].x, tiles[j].y);
+                }   
+            }
+        }
     }
 
     BuildLevelButtons(levelButtons)
@@ -124,6 +195,26 @@ export default class Menu
         else if(input.down === false && this.inputWaits.down)
         {
             this.inputWaits.down = false;
+        }
+
+        if(input.right && this.inputWaits.right === false)
+        {
+            this.characterSelect.ChangeCharacter(1);
+            this.inputWaits.right = true;
+        }
+        else if(this.inputWaits.right && input.right === false)
+        {
+            this.inputWaits.right = false;
+        }
+
+        if(input.left && this.inputWaits.left === false)
+        {
+            this.characterSelect.ChangeCharacter(-1);
+            this.inputWaits.left = true;
+        }
+        else if(this.inputWaits.left && input.left === false)
+        {
+            this.inputWaits.left = false;
         }
 
             /*

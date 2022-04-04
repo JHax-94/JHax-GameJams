@@ -6,25 +6,50 @@
             "searchMap": true,
             "replaceTile": true,
             "moveSpeed": 15,
-            "anims": {
-                "frameTime": 0.35,
-                "down": [
-                    { "index": 14, "flipH": false, "flipV": false, "flipR": false },
-                    { "index": 15, "flipH": false, "flipV": false, "flipR": false }
-                ],
-                "up": [
-                    { "index": 30, "flipH": false, "flipV": false, "flipR": false },
-                    { "index": 31, "flipH": false, "flipV": false, "flipR": false }
-                ],
-                "left": [
-                    { "index": 46, "flipH": false, "flipV": false, "flipR": false },
-                    { "index": 47, "flipH": false, "flipV": false, "flipR": false }
-                ],
-                "right": [
-                    { "index": 46, "flipH": true, "flipV": false, "flipR": false },
-                    { "index": 47, "flipH": true, "flipV": false, "flipR": false }
-                ]
-            }
+            "anims": [
+                {
+                    "frameTime": 0.35,
+                    "down": [
+                        { "index": 14, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 15, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "up": [
+                        { "index": 30, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 31, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "left": [
+                        { "index": 46, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 47, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "right": [
+                        { "index": 46, "flipH": true, "flipV": false, "flipR": false },
+                        { "index": 47, "flipH": true, "flipV": false, "flipR": false }
+                    ],
+                    "dead": [ { "index": 63, "flipH": false, "flipV": false, "flipR": false } ],
+                    "decoy": [ { "index": 62, "flipH": false, "flipV": false, "flipR": false } ]
+                },
+                {
+                    "frameTime": 0.35,
+                    "down": [
+                        { "index": 110, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 111, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "up": [
+                        { "index": 126, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 127, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "left": [
+                        { "index": 142, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 143, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "right": [
+                        { "index": 142, "flipH": true, "flipV": false, "flipR": false },
+                        { "index": 143, "flipH": true, "flipV": false, "flipR": false }
+                    ],
+                    "dead": [ { "index": 159, "flipH": false, "flipV": false, "flipR": false } ],
+                    "decoy": [ { "index": 158, "flipH": false, "flipV": false, "flipR": false } ]
+                }
+            ]
         },
         {
             "name": "PickupSpawner",
@@ -51,7 +76,7 @@
                             "powerName": "Decoy",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 10 }
+                                { "time": 0, "weighting": 1000 }
                             ]
                         },
                         {
@@ -314,6 +339,51 @@
                 { "order": 0, "name": "tensionLow...", "duration": 90 },
                 { "order": 1, "name": "tensionMid~", "duration": 75 },
                 { "order": 2, "name": "tensionHigh!", "duration": 10 }
+            ]
+        },
+        {
+            "name": "CharHead",
+            "index": 218,
+            "searchMenu": true,
+            "replaceTile": true
+        },
+        {
+            "name": "CharBody",
+            "index": 234,
+            "searchMenu": true,
+            "replaceTile": true
+        },
+        {
+            "name": "MissilePart",
+            "indexList": [ 194, 195, 196, 197, 198, 210, 211, 212, 213, 214 ],
+            "searchMenu": true,
+            "replaceTile": true
+        },
+        {
+            "name": "CharacterSelect",
+            "anims": [
+                {
+                    "frameTime": 0.35,
+                    "head": [
+                        { "index": 218, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 219, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "body": [
+                        { "index": 234, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 235, "flipH": false, "flipV": false, "flipR": false }
+                    ]
+                },
+                {
+                    "frameTime": 0.35,
+                    "head": [
+                        { "index": 220, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 221, "flipH": false, "flipV": false, "flipR": false }
+                    ],
+                    "body": [
+                        { "index": 236, "flipH": false, "flipV": false, "flipR": false },
+                        { "index": 237, "flipH": false, "flipV": false, "flipR": false }
+                    ]
+                }
             ]
         }
     ]    

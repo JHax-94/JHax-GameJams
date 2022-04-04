@@ -2,9 +2,9 @@ import { EM, PIXEL_SCALE } from "./main";
 
 export default class Decoy
 {
-    constructor(position, createdBy)
+    constructor(position, createdBy, spriteIndex)
     {
-        this.spriteIndex = 62;
+        this.spriteIndex = spriteIndex;
 
         this.createdBy = createdBy;
 

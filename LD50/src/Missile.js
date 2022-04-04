@@ -304,16 +304,11 @@ export default class Missile
                 {
                     distanceModifier *= 40;
                 } 
-                else if(mag < 40)
+                else if(mag < 35)
                 {
                     if(this.difficultyModifier > 160)
                     {
                         distanceModifier *= 30;
-
-                        if(this.playerRef.isDecoy)
-                        {
-                            distanceModifier *= 2;
-                        }
                     }
                     else
                     {
@@ -346,11 +341,19 @@ export default class Missile
                 
                 let directForce = [ normal[0] * directModifier * distanceModifier, normal[1] * directModifier* distanceModifier ];
 
+                /*
                 consoleLog("APPLYING DIRECT FORCE!");
                 consoleLog(directForce);
-
-                dampingOverride = 0.4;
-
+                */
+                if(this.tensionLevel > 0)
+                {
+                    dampingOverride = 0.1;
+                }
+                else if(this.tensionLevel > 1)
+                {
+                    dampingOverride = 0.1;
+                }
+                
                 this.phys.applyForce(directForce);
             }
             
@@ -400,6 +403,24 @@ export default class Missile
 
             //consoleLog(`s: ${speed.toFixed(3)}, d: ${dist.toFixed(3)}`);
 
+            if(speed > 45)
+            {
+                consoleLog("DAMPING");
+                dampingOverride = 0.2
+            }            
+
+            if(speed > 60)
+            {
+                consoleLog("HIGH DAMPING");
+                dampingOverride = 0.3
+            }            
+
+            if(speed > 80)
+            {
+                consoleLog("VERY HIGH DAMPING");
+                dampingOverride = 0.3
+            }            
+
             if(dampingOverride)
             {
                 this.phys.damping = dampingOverride;                
@@ -438,13 +459,17 @@ export default class Missile
 
         if(this.playerRef.isDecoy)
         {
-            isPlayerLazy = this.playerRef.staticTimer > 30;
+            isPlayerLazy = this.playerRef.staticTimer > 45;
         }
         else 
         {
             isPlayerLazy = this.playerRef.staticTimer > 3;
         }
 
+        if(isPlayerLazy)
+        {
+            consoleLog("LAZY PLAYER!!!");
+        }
 
         return isPlayerLazy;
     }

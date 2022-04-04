@@ -15,6 +15,8 @@ export default class GameOverMenu extends AbstractMenu
         this.buttonMethods.Restart = function() { menuRef.Restart(); };
 
         this.BuildComponents();
+
+        this.SetFocus(this.focusedButton);
     }
 
     Restart(levelName)

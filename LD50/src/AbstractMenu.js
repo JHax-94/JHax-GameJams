@@ -1,6 +1,5 @@
 import Button from "./Button";
 import { consoleLog, EM, getObjectConfig, PIXEL_SCALE } from "./main";
-import PickupSpawner from "./PickupSpawner";
 
 export default class AbstractMenu 
 {
@@ -16,15 +15,24 @@ export default class AbstractMenu
 
         this.components = [];
 
+        this.inputWaits = {
+            up: false,
+            down: false
+        }
+
         this.buttons = [];
 
         this.buttonMethods = {};
+
+        this.focusedButton = 0;
 
         EM.RegisterEntity(this);
     }
 
     BuildComponents()
     {
+        let menuRef = this;
+
         for(let i = 0; i < this.config.components.length; i ++)
         {
             let comp = this.config.components[i];
@@ -45,6 +53,10 @@ export default class AbstractMenu
                     {
                         newButton.ClickCallback = this.buttonMethods[comp.trigger];
                     }
+                }
+
+                newButton.HoverCallback = function() {
+                    menuRef.ButtonHovered(newButton);
                 }
 
                 newButton.y = 10;
@@ -70,6 +82,79 @@ export default class AbstractMenu
         }
 
         EM.RemoveEntity(this);
+    }
+
+    ButtonHovered(button)
+    {
+        consoleLog("BUTTON HOVERED");
+
+        if(button.hoverOn && this.focusedButton >= 0)
+        {
+            this.focusedButton = -1;
+            this.SetFocus(this.focusedButton);
+        }
+        
+    }
+
+    SetFocus(focusOn)
+    {
+        for(let i = 0; i < this.buttons.length; i ++)
+        {
+            consoleLog(`Set button [${i}] focus to ${(i === focusOn)}`);
+
+            this.buttons[i].SetFocus(i === focusOn);
+        }
+    }
+
+    ChangeButton(amount)
+    {
+        this.focusedButton = (this.focusedButton + amount + this.buttons.length) % this.buttons.length;
+
+        //consoleLog(`change button to ${this.focusedButton}`);
+
+        this.SetFocus(this.focusedButton);
+    }
+
+
+    Input(input)
+    {
+        
+        consoleLog(input);
+        consoleLog(this.inputWaits);
+        
+
+        if(input.up && this.inputWaits.up === false)
+        {
+            if(this.focusedButton < 0)
+            {
+                this.focusedButton = 1;
+            }
+
+            this.ChangeButton(-1);
+            this.inputWaits.up = true;
+        }
+        else if(input.up === false && this.inputWaits.up)
+        {
+            this.inputWaits.up = false;
+        }
+
+        if(input.down && this.inputWaits.down === false)
+        {
+            this.ChangeButton(1);
+            this.inputWaits.down = true;
+        }
+        else if(input.down === false && this.inputWaits.down)
+        {
+            this.inputWaits.down = false;
+        }
+
+        if(input.submit)
+        {
+            if(this.focusedButton >= 0)
+            {
+                this.buttons[this.focusedButton].Click();
+            }
+        }
     }
 
     Draw()

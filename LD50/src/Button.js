@@ -17,6 +17,8 @@ export default class Button
 
         this.buttonData = data;
 
+        this.focused = false;
+
         this.offset = { x: 5, y: 5 };
 
         if(this.buttonData.offset)
@@ -40,7 +42,15 @@ export default class Button
 
     Hover(setHover)
     {
-        this.hoverOn = setHover;
+        if(this.hoverOn != setHover)
+        {
+            this.hoverOn = setHover;
+
+            if(this.HoverCallback)
+            {
+                this.HoverCallback(this);
+            }
+        }
     }
 
     Click(button, pos)
@@ -56,6 +66,11 @@ export default class Button
         }
     }
 
+    SetFocus(focusOn)
+    {
+        this.focused = focusOn;
+    }
+
     Draw()
     {
         paper(14);
@@ -64,7 +79,7 @@ export default class Button
         pen(0)
         print(this.buttonData.display, this.pos.x * PIXEL_SCALE + this.offset.x, this.pos.y * PIXEL_SCALE + this.offset.y);
 
-        if(this.hoverOn)
+        if(this.hoverOn || this.focused)
         {
             pen(13);
             rect(this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);

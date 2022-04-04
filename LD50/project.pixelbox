@@ -49,7 +49,8 @@
 		"power1": 88,
 		"power2": 67,
 		"power3": 86,
-		"power4": 32
+		"power4": 32,
+		"submit": 13
 	},
 	"touchEvent": {
 		"multiTouch": false,

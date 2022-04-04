@@ -493,17 +493,22 @@ export default class EntityManager
     {
         if(!this.pause)
         {
+            /*
             var input = { key: null };
 
             if(btnp.up || btnp.up_alt) input.key = UP;
             else if(btnp.right || btnp.right_alt) input.key = RIGHT;
             else if(btnp.down || btnp.down_alt) input.key = DOWN;
             else if(btnp.left || btnp.left_alt) input.key = LEFT;
-
+            */
             if(this.focusedInputGroup)
             {
                 this.focusedInputGroup.Input(btn);
             }
+        }
+        else if(this.pauseMenu)
+        {
+            this.pauseMenu.Input(btn);
         }
     }
     

@@ -12,6 +12,8 @@ export default class PauseMenu extends AbstractMenu
         this.buttonMethods.Unpause = this.Unpause;
 
         this.BuildComponents();
+
+        this.SetFocus(this.focusedButton);
     }
 
     Unpause()

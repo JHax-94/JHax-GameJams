@@ -577,7 +577,7 @@ export default class Character
 
             if(playerSpeed > 0)
             {
-                let norm = (this.walkSpeed / playerSpeed);
+                let norm = this.speedBoost * (this.walkSpeed / playerSpeed);
 
                 this.phys.velocity = [ this.phys.velocity[0] * norm, this.phys.velocity[1] * norm ];
             }
@@ -703,7 +703,7 @@ export default class Character
 
         let direction = this.direction;
 
-        if(this.HasStatus("Ghost"))
+        if(this.HasStatus("Ghost") && this.alive)
         {
             direction += "_ghost";
         }

@@ -63,6 +63,7 @@ export default class PowerUpsBar
         rectf(0, 0, SCREEN_WIDTH * PIXEL_SCALE, 5 * PIXEL_SCALE);
         this.map.draw(0, 0);
 
+        pen(1);
         for(let key in this.powerUpUi)
         {
             let item = this.powerUpUi[key];
@@ -83,8 +84,6 @@ export default class PowerUpsBar
                 let status = this.player.statuses[i];
 
                 pen(10);
-
-
 
                 let base = { 
                     x: (this.activeStatusStart.x + (column * this.activeStatusSpacing.h))  * PIXEL_SCALE, 

@@ -1,6 +1,8 @@
 import { vec2 } from "p2";
+import { sortAxisList } from "p2/src/collision/SAPBroadphase";
 import Explosion from "./Explosion";
 import { consoleLog, EM, PIXEL_SCALE, SCREEN_HEIGHT, SCREEN_WIDTH } from "./main";
+import ParticleEmitter from "./ParticleEmitter";
 
 export default class Missile 
 {
@@ -16,6 +18,8 @@ export default class Missile
         let config = this.GetMissileConfig(objConfig);
 
         this.tensionLevel = 0;
+
+        this.screenYLimit = 5;
 
         consoleLog("Initialise missile with config:");
         consoleLog(config);
@@ -81,6 +85,22 @@ export default class Missile
         this.phys.velocity = [ 0, this.startSpeed ];
 
         this.phys.damping = 0.1;
+
+        this.particles = new ParticleEmitter(
+            this.GetScreenPos(),
+            {
+                emitTime: 0.2,
+                offsetRange: {
+                    xMin: 0,
+                    xMax: 5,
+                    yMin: 0,
+                    yMax: 0
+                },
+                granularity: 1000,
+                colourRange: [ 9, 10, 11 ],
+                lifeRange: { min: 1, max: 2 }
+            });
+        this.particles.TrackObject(this);
     }
 
     GetDamping(speed)
@@ -182,6 +202,11 @@ export default class Missile
         this.tensionBooster = true;
     }
 
+
+    GetEmissionDirection()
+    {
+        return { vx: -this.phys.velocity[0], vy: this.phys.velocity[1] };
+    }
 
     Update(deltaTime)    
     {
@@ -407,7 +432,7 @@ export default class Missile
     {
         let outOfBounds = false;
 
-        if(screenPos.x < 0 || screenPos.y < 5 || screenPos.x >= SCREEN_WIDTH * PIXEL_SCALE || screenPos.y >= SCREEN_HEIGHT * PIXEL_SCALE)
+        if(screenPos.x < 0 || screenPos.y < this.screenYLimit * PIXEL_SCALE || screenPos.x >= SCREEN_WIDTH * PIXEL_SCALE || screenPos.y >= SCREEN_HEIGHT * PIXEL_SCALE)
         {
             outOfBounds = true;
         }
@@ -429,15 +454,14 @@ export default class Missile
         }
         else if(screenPos.x >= SCREEN_WIDTH * PIXEL_SCALE)
         {
-
             dir = "right";
             boundedPos.x = (SCREEN_WIDTH-1) * PIXEL_SCALE;
         }
 
-        if(screenPos.y < 5)
+        if(screenPos.y < this.screenYLimit * PIXEL_SCALE)
         {
             dir = "up";
-            boundedPos.y = 5;
+            boundedPos.y = this.screenYLimit * PIXEL_SCALE;
         }
         else if(screenPos.y >= SCREEN_HEIGHT * PIXEL_SCALE)
         {
@@ -463,6 +487,75 @@ export default class Missile
 
         return boundedPos;
     }
+
+    GetEmissionPos()
+    {
+        let outVec = [0, 0];
+
+        let screenPos = this.GetScreenPos();
+
+        this.phys.vectorToWorldFrame(outVec, [0, 1]);
+        
+        return { x: screenPos.x + 0.5 * PIXEL_SCALE + PIXEL_SCALE * outVec[0] * 2 , y: screenPos.y + +0.5 * PIXEL_SCALE + PIXEL_SCALE * outVec[1] };
+    }
+
+    GetEmissionPositions()
+    {
+        let upVec = [0, 0];
+
+        let screenPos = this.GetScreenPos();
+
+        this.phys.vectorToWorldFrame(upVec, [0, 0.25]);
+        
+        let rightVec = [0, 0];
+        this.phys.vectorToWorldFrame(rightVec, [1, 0]);
+
+        let centre = { x: screenPos.x + (0.375 - upVec[0]) * PIXEL_SCALE, y: screenPos.y + (0.5 + upVec[1]) * PIXEL_SCALE };
+
+        let spacing = 1;
+        let addEitherSide = 1;
+
+        let list = [];
+
+        list.push(centre);
+
+        
+        for(let i = 0; i < addEitherSide; i ++)
+        {   
+            let step = i +1;
+
+            let left = { x: centre.x - step * spacing * rightVec[0], y: centre.y + step * spacing * rightVec[1] };
+            let right = { x: centre.x + step * spacing * rightVec[0], y: centre.y - step * spacing * rightVec[1] };
+
+            list.push(left);
+            list.push(right);
+        }
+
+        return list;
+    }
+
+    EmissionTime(baseTime)
+    {
+        return (baseTime * 10 / vec2.length(this.phys.velocity));
+    }
+
+    ParticleLifeTime(baseLife)
+    {
+        /*
+        let rootSpeed = vec2.length(this.phys.velocity) / 2;
+
+        let newLife = baseLife;
+
+        if(rootSpeed > 10)
+        {
+            consoleLog("LIMIT PARTICLE LIFE");
+
+            newLife = baseLife;
+        }
+        */
+        return baseLife;
+    }
+
 
     Draw()
     {
@@ -492,6 +585,18 @@ export default class Missile
             
                 paper(9);
                 rectf(screenPos.x + 0.5 * PIXEL_SCALE + PIXEL_SCALE * outVec[0] * 2 , screenPos.y + +0.5 * PIXEL_SCALE - PIXEL_SCALE * outVec[1] * 2, 1, 1);
+
+                let emissionPos = this.GetEmissionPositions();
+
+                /*
+                consoleLog("DRAW EMITTER");
+                
+                for(let i = 0; i < emissionPos.length; i ++)
+                {
+                    paper(3);
+                    rectf(emissionPos[i].x, emissionPos[i].y, 2, 2);
+                }*/
+                
             }
         }
     }    

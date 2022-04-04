@@ -245,7 +245,7 @@ export default class Menu
 
     ButtonHovered(button)
     {
-        consoleLog("BUTTON HOVERED");
+        //consoleLog("BUTTON HOVERED");
 
         if(button.hoverOn && this.focusedButton >= 0)
         {

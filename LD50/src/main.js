@@ -43,6 +43,35 @@ pointerEvents.onMove(function(x, y, pointerId, evt) {
     EM.MouseMove(mapped.x, mapped.y);
 });
 
+function setPlayerPref(key, value)
+{
+    try
+    {
+        localStorage.setItem(key, value);
+    }
+    catch(err)
+    {
+
+    }
+}
+
+function getPlayerPref(key)
+{
+    let val = null;
+
+    try
+    {
+        let readVal = localStorage.getItem(key);
+        val = readVal;
+    }
+    catch(err)
+    {
+
+    }
+
+    return val;
+}
+
 function GetLevelDataByName(levelName)
 {
     let levelData = null;
@@ -138,7 +167,7 @@ function SETUP(levelName)
 
     if(!SOUND)
     {
-        SOUND = new SoundManager({x: 24, y: 5}, { speakerIndex: 0, speakerOnIndex: 16, speakerOffIndex: 0, sfxIndex: 16 });
+        SOUND = new SoundManager({x: 22, y: 1}, { speakerIndex: 0, speakerOnIndex: 16, speakerOffIndex: 0, sfxIndex: 16 });
     }
 
     if(levelData.mapType === "MENU")
@@ -183,5 +212,7 @@ export {
     getObjectConfig,
     SETUP,
     SOUND, SFX,
-    consoleLog
+    consoleLog,
+    setPlayerPref,
+    getPlayerPref
 }

@@ -302,6 +302,9 @@
         {
             "name": "SoundManager",
             "titleSong": "menu",
+            "defaultVolume": { "music": 15, "sfx": 9 },
+            "musicIconIndex": 205,
+            "sfxIconIndex": 206,
             "fadeoutTime": 3,
             "alarmDelay": 1.5,
             "trackDelay": 2.5,

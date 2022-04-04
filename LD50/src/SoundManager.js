@@ -1,11 +1,11 @@
 import { colorRGB } from "tina/src/interpolation";
 import Button from "./Button";
-import { consoleLog, DATA_STORE, EM, getObjectConfig, PIXEL_SCALE, SFX } from "./main";
+import { consoleLog, DATA_STORE, EM, getObjectConfig, getPlayerPref, PIXEL_SCALE, setPlayerPref, SFX } from "./main";
 import ProgressBar from "./ProgressBar";
 
 export default class SoundManager
 {
-    constructor(position, spriteInfo)
+    constructor(position)
     {
         this.trueMusicMax = 0.5;
         this.musicMax = 20;
@@ -13,7 +13,6 @@ export default class SoundManager
         this.trueSfxMax = 0.5;
         this.sfxMax = 20;
 
-        this.spriteInfo = spriteInfo;
         this.pos = position;
 
         this.tensionLevel = 0;
@@ -44,6 +43,9 @@ export default class SoundManager
         this.songElapsed = 0;
         this.currentSong = "";
 
+        this.musicIconIndex = this.config.musicIconIndex;
+        this.sfxIconIndex = this.config.sfxIconIndex;
+
         this.titleSong = this.config.titleSong;
         this.levelMusic = this.config.levelMusic;
 
@@ -56,30 +58,44 @@ export default class SoundManager
 
         this.isSongPlaying = false;
 
-        this.musicVolume = 15;
-        this.sfxVolume = 9;
+        this.musicVolume = this.config.defaultVolume.music;
+        this.sfxVolume = this.config.defaultVolume.sfx;
         
+        let storedMusicVol = getPlayerPref("MUSIC_VOLUME");
+
+        if(storedMusicVol !== null)
+        {
+            this.musicVolume = parseFloat(storedMusicVol);
+        }
+
+        let storedSfxVol = getPlayerPref("SFX_VOLUME");
+
+        if(storedSfxVol !== null)
+        {
+            this.sfxVolume = parseFloat(storedSfxVol);
+        }
+
         this.SetMusicVolume(this.musicVolume);
         this.SetSfxVolume(this.sfxVolume);
 
         let soundManRef = this;
 
-        this.musicBar = new ProgressBar({ x: (this.pos.x + 3), y: this.pos.y+0.25, w: 2, h: 0.5 }, { filled: 1, unfilled: 6 });
+        this.musicBar = new ProgressBar({ x: (this.pos.x + 3), y: this.pos.y+0.25, w: 3.5, h: 0.5 }, { filled: 1, unfilled: 6 });
         this.musicBar.SetFill(this.musicVolume, this.musicMax);
         
-        this.musicUpButton = new Button({ x: this.pos.x + 6, y: this.pos.y }, { w: 1, h: 1 }, {display: ">", offset: { x: 1, y: 1 }});
+        this.musicUpButton = new Button({ x: this.pos.x + 7.5, y: this.pos.y }, { w: 1, h: 1 }, {display: ">", offset: { x: 1, y: 1 }});
         this.musicUpButton.ClickCallback = function() { soundManRef.MusicVolumeUp(); };
 
         this.musicDownButton = new Button({ x: this.pos.x + 1.5, y: this.pos.y }, { w: 1, h: 1 }, {display: "<", offset: { x: 1, y: 1 }});
         this.musicDownButton.ClickCallback = function() { soundManRef.MusicVolumeDown(); }
 
-        this.sfxBar = new ProgressBar({ x: this.pos.x + 3, y: this.pos.y + 1.25, w: 2, h: 0.5 }, {filled: 1, unfilled: 6});
+        this.sfxBar = new ProgressBar({ x: this.pos.x + 3, y: this.pos.y + 1.25, w: 3.5, h: 0.5 }, {filled: 1, unfilled: 6});
         this.sfxBar.SetFill(this.sfxVolume, this.sfxMax);
 
         this.sfxDownButton = new Button({ x: this.pos.x + 1.5, y: this.pos.y + 1.25 }, { w: 1, h: 1 }, {display: "<", offset: { x: 1, y: 1 }});
         this.sfxDownButton.ClickCallback = function () { soundManRef.SfxVolumeDown(); };
 
-        this.sfxUpButton = new Button({ x: this.pos.x + 6, y: this.pos.y + 1.25 }, { w: 1, h: 1 }, {display: ">", offset: { x: 1, y: 1 }});
+        this.sfxUpButton = new Button({ x: this.pos.x + 7.5, y: this.pos.y + 1.25 }, { w: 1, h: 1 }, {display: ">", offset: { x: 1, y: 1 }});
         this.sfxUpButton.ClickCallback = function () { soundManRef.SfxVolumeUp(); };
 
         EM.RegisterEntity(this);
@@ -137,6 +153,8 @@ export default class SoundManager
         this.musicVolume = this.ChangeVolume(this.musicBar, this.musicVolume, 1, this.musicMax);
 
         this.SetMusicVolume(this.musicVolume);
+
+        setPlayerPref("MUSIC_VOLUME", this.musicVolume);
     }
 
     MusicVolumeDown()
@@ -144,6 +162,8 @@ export default class SoundManager
         this.musicVolume = this.ChangeVolume(this.musicBar, this.musicVolume, -1, this.musicMax);
 
         this.SetMusicVolume(this.musicVolume);
+
+        setPlayerPref("MUSIC_VOLUME", this.musicVolume);
     }
 
     SfxVolumeUp()
@@ -153,6 +173,8 @@ export default class SoundManager
         this.sfxVolume = this.ChangeVolume(this.sfxBar, this.sfxVolume, 1, this.sfxMax);
 
         this.SetSfxVolume(this.sfxVolume, true);
+
+        setPlayerPref("SFX_VOLUME", this.sfxVolume);
     }
 
     SfxVolumeDown()
@@ -160,6 +182,8 @@ export default class SoundManager
         this.sfxVolume = this.ChangeVolume(this.sfxBar, this.sfxVolume, -1, this.sfxMax);
 
         this.SetSfxVolume(this.sfxVolume, true);
+
+        setPlayerPref("SFX_VOLUME", this.sfxVolume);
     }
 
     SetMusicVolume(val)
@@ -428,9 +452,9 @@ export default class SoundManager
     {        
         if(!this.rampModeOn)
         {
-            sprite(this.spriteInfo.speakerIndex, this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE);
+            sprite(this.musicIconIndex, this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE);
 
-            sprite(this.spriteInfo.sfxIndex, this.pos.x * PIXEL_SCALE, (this.pos.y + 1) * PIXEL_SCALE);
+            sprite(this.sfxIconIndex, this.pos.x * PIXEL_SCALE, (this.pos.y + 1) * PIXEL_SCALE);
         }
     }
 }

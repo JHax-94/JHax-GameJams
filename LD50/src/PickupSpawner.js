@@ -145,7 +145,7 @@ export default class PickupSpawner
 
         if(spawnablePoints.length > 0)
         {
-            let randomWeight = 1 + random(weightedList.totalWeight + 1);
+            let randomWeight = random(weightedList.totalWeight + 1);
 
             let index = random(spawnablePoints.length);
 
@@ -168,7 +168,7 @@ export default class PickupSpawner
             }
 
 
-            if(pickupIndex > 0)
+            if(pickupIndex >= 0)
             {
                 let spawnObject = weightedList.pickupWeights[pickupIndex].pickup;
 

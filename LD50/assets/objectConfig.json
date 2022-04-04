@@ -62,71 +62,81 @@
                             "powerName": "Ghost",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 10 }
+                                { "time": 15, "weighting": 1 },
+                                { "time": 60, "weighting": 2 }
                             ]
                         },
                         {
                             "powerName": "MissileSpeedDown",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 10 }
+                                { "time": 0, "weighting": 1 }
                             ]
                         },
                         {
                             "powerName": "Decoy",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 10 }
+                                { "time": 0, "weighting": 0 },
+                                { "time": 90, "weighting": 1 }
                             ]
                         },
                         {
                             "powerName": "PlayerSpeedUp",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 10 }
+                                { "time": 0, "weighting": 1 }
                             ]
                         },
                         {
                             "powerName": "MissilePushback",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 10 }
+                                { "time": 0, "weighting": 0 },
+                                { "time": 30, "weighting": 1 }
                             ]
                         },
                         {
                             "powerName": "MissileSpeedUp",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 10 }
+                                { "time": 0, "weighting": 0 },
+                                { "time": 36, "weighting": 1 }
                             ]
                         },
                         {
                             "powerName": "ExtraMissile",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 10 },
-                                { "time": 50, "weighting": 30 }
+                                { "time": 0, "weighting": 0 },
+                                { "time": 30, "weighting": 1 }
                             ]
                         },
                         {
                             "powerName": "SlowPlayer",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 10 }
+                                { "time": 0, "weighting": 0 },
+                                { "time": 45, "weighting": 1 }
                             ]
                         },
                         {
                             "powerName": "SpawnBoulder",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 10 }
+                                { "time": 0, "weighting": 0 },
+                                { "time": 15, "weighting": 1 },
+                                { "time": 30, "weighting": 2 }
                             ]
                         },
                         {
                             "powerName": "ControlFlip",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 10 }
+                                { "time": 0, "weighting": 0 },
+                                { "time": 30, "weighting": 1 },
+                                { "time": 45, "weighting": 2 }
+
                             ]
                         }
                     ]
@@ -337,9 +347,9 @@
             "alarmDelay": 1.5,
             "trackDelay": 3.5,
             "levelMusic": [
-                { "order": 0, "name": "tensionLow...", "duration": 90 },
-                { "order": 1, "name": "tensionMid~", "duration": 75 },
-                { "order": 2, "name": "tensionHigh!", "duration": 10 }
+                { "order": 0, "name": "tensionLow...", "duration": 120 },
+                { "order": 1, "name": "tensionMid~", "duration": 100 },
+                { "order": 2, "name": "tensionHigh!", "duration": 60 }
             ]
         },
         {
@@ -445,3 +455,4 @@
         }
     ]    
 }
+

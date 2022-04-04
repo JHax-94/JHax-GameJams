@@ -1,5 +1,5 @@
 import { vec2 } from "p2";
-import { consoleLog, EM, PIXEL_SCALE } from "./main";
+import { consoleLog, EM, PIXEL_SCALE, SCREEN_HEIGHT, SCREEN_WIDTH } from "./main";
 
 export default class Missile 
 {
@@ -13,6 +13,8 @@ export default class Missile
         this.sprite = { index: 4, flipH: false, flipV: false, flipR: false };
 
         let config = this.GetMissileConfig(objConfig);
+
+        this.tensionLevel = 0;
 
         consoleLog("Initialise missile with config:");
         consoleLog(config);
@@ -28,6 +30,7 @@ export default class Missile
         if(originalMissile)
         {
             this.difficultyRate = originalMissile.difficultyRate;
+            this.tensionLevel = originalMissile.tensionLevel;
         }
 
         this.alive = true;
@@ -75,6 +78,27 @@ export default class Missile
         this.playerRef = EM.GetEntity("Player");
 
         this.phys.velocity = [ 0, this.startSpeed ];
+
+        this.phys.damping = 0.1;
+    }
+
+    GetDamping(speed)
+    {
+        let newDamping = 0.1;
+
+        if(speed > 30 && this.tensionLevel > 1)
+        {
+            newDamping = 0.1 + ((speed - 30) / 10);
+
+            if(newDamping > 0.5)
+            {
+                newDamping = 0.5;
+            }
+
+            consoleLog(`Damping: ${newDamping}`);
+        }
+
+        return newDamping;
     }
 
     GetMissileConfig(rootConfig)
@@ -151,6 +175,7 @@ export default class Missile
     {
         this.difficultyRate *= 1.5;
         this.difficultyModifier += 30;
+        this.tensionLevel ++;
         this.tensionBooster = true;
     }
 
@@ -163,6 +188,8 @@ export default class Missile
 
             let td = this.CalculateTargetingData();
 
+            let speed = vec2.length(this.phys.velocity);
+
             if(this.playerRef.HasStatus("MissileSpeedDown"))
             {
                 statusModifier *= 0.5;
@@ -172,8 +199,6 @@ export default class Missile
                     this.waitForSlowDownStatusWearOff = true;
                     this.phys.velocity = [ 0, 0 ];
                 }
-
-                let speed = vec2.length(this.phys.velocity);
 
                 if(speed > this.difficultyModifier * 0.1 )
                 {
@@ -202,7 +227,7 @@ export default class Missile
                     this.pushbackForce = 0;
                     this.pushbackSpin = 0;
 
-                    this.directPullTimer = 0.2;
+                    this.directPullTimer = 0.15;
                 }
 
                 if(this.directPullTimer >= 0)
@@ -229,7 +254,7 @@ export default class Missile
 
             let desiredAngularVelocity = 0;
 
-            let desiredAngularSpeed = this.turnSpeed * this.difficultyModifier * statusModifier
+            let desiredAngularSpeed = this.turnSpeed * (this.difficultyModifier * 0.25) * (statusModifier * statusModifier) ;
 
             if(this.difficultyModifier > 40)
             {
@@ -238,14 +263,20 @@ export default class Missile
 
                 let distanceModifier = 1;
 
-                if(mag < 30)
+                if(this.tensionLevel > 0 && mag < 15)
                 {
-                    if(this.difficultyModifier > 80)
+                    distanceModifier *= 40;
+                } 
+                else if(mag < 30)
+                {
+                    if(this.difficultyModifier > 160)
                     {
                         distanceModifier *= 30;
                     }
-
-                    distanceModifier *= 20;
+                    else
+                    {
+                        distanceModifier *= 20;
+                    }
                 }
                 else if(mag > 60)
                 {
@@ -253,8 +284,10 @@ export default class Missile
                     {
                         distanceModifier *= 30;
                     }
-
-                    distanceModifier *= 20;
+                    else
+                    {
+                        distanceModifier *= 20;
+                    }
                 }
 
                 let normal = [ td.diffVec[0] / mag, td.diffVec[1] / mag ];
@@ -263,9 +296,9 @@ export default class Missile
 
                 let directModifier = 1;
 
-                if(this.difficultyModifier > 60)
+                if(this.difficultyModifier > 90)
                 {
-                    directForce = this.difficultyModifier / 60;
+                    directModifier = (this.difficultyModifier * (this.tensionLevel +1) - 30) / 60;
                 }                
 
                 let directForce = [ normal[0] * directModifier * distanceModifier, normal[1] * directModifier* distanceModifier ];
@@ -317,6 +350,8 @@ export default class Missile
                 this.phys.angularVelocity = desiredAngularVelocity;
             }
 
+            this.phys.damping = this.GetDamping(speed);
+
             this.SetAnimState(td);
         }
         else if(this.targetingWait > 0)
@@ -365,6 +400,67 @@ export default class Missile
         this.pushbackSpin = pushbackSpin;
     }
 
+    OutOfBounds(screenPos)
+    {
+        let outOfBounds = false;
+
+        if(screenPos.x < 0 || screenPos.y < 5 || screenPos.x >= SCREEN_WIDTH * PIXEL_SCALE || screenPos.y >= SCREEN_HEIGHT * PIXEL_SCALE)
+        {
+            outOfBounds = true;
+        }
+
+        return outOfBounds;
+    }
+
+
+    GetBoundedPos(screenPos)
+    {
+        let boundedPos = { x: screenPos.x, y: screenPos.y, flipH: false, flipV: false, flipR: false };
+
+        let dir = "";
+
+        if(screenPos.x < 0)
+        {
+            dir = "left";
+            boundedPos.x = 0;
+        }
+        else if(screenPos.x >= SCREEN_WIDTH * PIXEL_SCALE)
+        {
+
+            dir = "right";
+            boundedPos.x = (SCREEN_WIDTH-1) * PIXEL_SCALE;
+        }
+
+        if(screenPos.y < 5)
+        {
+            dir = "up";
+            boundedPos.y = 5;
+        }
+        else if(screenPos.y >= SCREEN_HEIGHT * PIXEL_SCALE)
+        {
+            dir = "down";
+            boundedPos.y = (SCREEN_HEIGHT-1) * PIXEL_SCALE;
+        }
+
+        if(dir === "down")
+        {
+            boundedPos.flipR = true;
+        }
+
+        if(dir === "up")
+        {
+            boundedPos.flipR = true;
+            boundedPos.flipV = true;
+        }
+
+        if(dir === "left")
+        {
+            boundedPos.flipH = true;
+        }
+
+        return boundedPos;
+    }
+
     Draw()
     {
         /*
@@ -376,6 +472,13 @@ export default class Missile
         let screenPos = this.GetScreenPos();
 
         sprite(this.sprite.index, screenPos.x, screenPos.y, this.sprite.flipH, this.sprite.flipV, this.sprite.flipR);
+
+        if(this.OutOfBounds(screenPos))
+        {
+            consoleLog("OUT OF BOUNDS");
+            let boundedPos = this.GetBoundedPos(screenPos);
+            sprite(207, boundedPos.x, boundedPos.y, boundedPos.flipH, boundedPos.flipV, boundedPos.flipR);
+        }
 
         if(this.alive)
         {

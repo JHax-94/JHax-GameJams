@@ -19,6 +19,6 @@ export default class MissileSpeedUpPickup extends Pickup
 
     ActivatePickup(player)
     {
-        player.AddStatus("MissileSpeedUp", 4);
+        player.AddStatus("MissileSpeedUp", 3);
     }
 }

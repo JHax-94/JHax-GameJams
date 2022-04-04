@@ -1,3 +1,4 @@
+import { circIn } from "tina/src/easing";
 import Button from "./Button";
 import CharacterSelect from "./CharacterSelect";
 import { consoleLog, EM, getObjectConfig, getPlayerPref, PIXEL_SCALE, SETUP } from "./main";
@@ -7,6 +8,9 @@ export default class Menu
 {
     constructor(levelData)
     {
+        this.renderLayer = "MENU_UI";
+        this.y = 0;
+
         this.menuData = levelData;
         let map = getMap(this.menuData.titleMap);
         /*
@@ -16,11 +20,19 @@ export default class Menu
         this.titleMap = map.copy(0, 0, map.width, map.height);
 
         this.buttons = [];
+
+        this.root = levelData.componentsRoot;
+        this.pages = levelData.pages;
+
         this.pbs = [];
 
         this.characterSelect = null;
 
+        this.pageButtons = [];
+
         this.BuildLevelButtons(levelData.levelButtons);
+
+        
 
         this.inputWaits = {
             left: false,
@@ -30,15 +42,67 @@ export default class Menu
             enter: true
         };
 
+        this.currentPage = 0;
+
         this.focusedButton = 0;
 
         EM.RegisterEntity(this);
+
+        this.LoadPage();
 
         this.SetFocus(this.focusedButton);
 
         this.ProcessMenuMap();
     }
 
+    LoadPage()
+    {
+        this.BuildPageComponents(this.pages[this.currentPage]);
+    }
+
+    BuildPageComponents(page)
+    {
+        let menuRef = this;
+        
+        for(let i = 0; i < this.pageButtons.length; i ++)
+        {
+            EM.RemoveEntity(this.pageButtons[i]);
+        }
+
+        for(let i = 0; i < page.components.length; i ++)
+        {
+            let comp = page.components[i];
+
+            if(comp.type === "Button")
+            {
+                consoleLog("CREATING BUTTON!");
+
+                let newButton = new Button(
+                    { x: (this.root.x + comp.x), y: (this.root.y + comp.y) },
+                    { w: comp.w, h: comp.h }, 
+                    { display: comp.text, renderLayer: "MENU_UI", offset: comp.offset });
+                
+                
+                if(comp.trigger === "NextPage")
+                {
+                    newButton.ClickCallback = function() { menuRef.NextPage(); }
+                }
+                
+                newButton.y = 10;
+
+                this.pageButtons.push(newButton);
+            }
+        }
+        
+    }
+
+
+    NextPage()
+    {
+        this.currentPage = (this.currentPage + 1) % this.pages.length;
+
+        this.LoadPage();
+    }
 
     ProcessMenuMap()
     {
@@ -252,7 +316,6 @@ export default class Menu
             this.focusedButton = -1;
             this.SetFocus(this.focusedButton);
         }
-        
     }
 
     SetFocus(focusOn)
@@ -363,6 +426,45 @@ export default class Menu
 
             pen(1);
             print(pb.time, (pb.x + pb.offX) * PIXEL_SCALE, (pb.y + pb.offY) * PIXEL_SCALE);
+        }
+
+        for(let i = 0; i < this.pages[this.currentPage].components.length; i ++)
+        {
+            let component = this.pages[this.currentPage].components[i];
+
+            if(component.type === "Rect")
+            {
+                paper(component.colour);
+                rectf((this.root.x + component.x) * PIXEL_SCALE, (this.root.y + component.y) * PIXEL_SCALE, component.w * PIXEL_SCALE, component.h * PIXEL_SCALE);
+            }
+
+            if(component.type === "Text")
+            {
+                let text = component.text;
+                
+                if(component.overwriteText)
+                {
+                    text = component.overwriteText;
+                }
+                
+                
+                pen(component.colour);
+
+                if(component.ignoreRoot)
+                {
+                    print(text, (component.x) * PIXEL_SCALE, (component.y) * PIXEL_SCALE);
+                }
+                else
+                {
+                    print(text, (this.root.x + component.x) * PIXEL_SCALE, (this.root.y + component.y) * PIXEL_SCALE);
+                }
+                
+            }
+
+            if(component.type === "Sprite")
+            {
+                sprite(component.index, (this.root.x + component.x) * PIXEL_SCALE, (this.root.y + component.y) * PIXEL_SCALE);
+            }
         }
     }    
 }

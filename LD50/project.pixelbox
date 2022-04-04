@@ -9,8 +9,8 @@
 		"width": 256,
 		"height": 256,
 		"pixelSize": {
-			"width": 4,
-			"height": 4
+			"width": 3,
+			"height": 3
 		}
 	},
 	"tileSize": {
@@ -78,7 +78,7 @@
 		"patatracker": true,
 		"bleeper": true,
 		"TINA": false,
-		"polyfill": false
+		"polyfill": true
 	},
 	"buildOptions": {
 		"scriptLanguage": "ES6",

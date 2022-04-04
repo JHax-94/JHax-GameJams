@@ -6,6 +6,105 @@
             "titleMap": "title_screen",
             "buttonStart": { "x": 1.5, "y": 6.5 },
             "buttonDims": { "w": 5.5, "h": 2 },
+            "componentsRoot": { "x": 14.5, "y": 7.25 },
+            "pages": [
+                {
+                    "components": [
+                        { "type": "Rect", "x": -0.5, "y": -0.5, "w": 17, "h": 22, "colour": 4 },
+                        { "type": "Text", "text": "Inevita Defence Corp Staff Memo:", "x": 0, "y": 0, "colour": 1},
+                        { "type": "Text", "text": "================================", "x": 0, "y": 1, "colour": 1},
+                        { "type": "Text", "text": "The latest missile prototypes", "x": 0, "y": 2, "colour": 1 },
+                        { "type": "Text", "text": "have gone haywire!", "x": 0, "y": 3, "colour": 1 },
+                        { "type": "Text", "text": "Outrun them as long as you can!", "x": 0, "y": 5, "colour": 1 },
+                        { "type": "Text", "text": "Remember - workplace injury", "x": 0, "y": 7, "colour": 1 },
+                        { "type": "Text", "text": "lawsuits are frowned upon :)", "x": 0, "y": 8, "colour": 1 },
+                        { "type": "Text", "text": "Your safety is our number 1", "x": 0, "y": 10, "colour": 1 },
+                        { "type": "Text", "text": "concern.", "x": 0, "y": 11, "colour": 1 },
+                        { "type": "Text", "text": "Controls", "x": 0, "y": 13, "colour": 1  },
+                        { "type": "Text", "text": "========", "x": 0, "y": 14, "colour": 1 },
+                        { "type": "Text", "text": "Move:", "x": 0, "y": 15, "colour": 1  },
+                        { "type": "Text", "text": "Arrow Keys", "x": 0, "y": 16, "colour": 1  },
+                        { "type": "Text", "text": "Powerups:","x": 0, "y": 18, "colour": 1  },
+                        { "type": "Text", "text": "Z / X / C / V / Space", "x": 0, "y": 19, "colour": 1  },
+
+                        { "type": "Text", "text": "Collect powerups", "x": 8, "y": 13, "colour": 1 },
+                        { "type": "Text", "text": "in green orbs", "x": 8, "y": 14, "colour": 1 },
+
+                        { "type": "Text", "text": "Avoid red orbs!", "x": 8, "y": 16, "colour": 1 },
+
+                        { "type": "Button", "text": "Powerup Info >", "x": 9, "y": 20, "w": 7, "h": 1.25, "offset": {"x": 2, "y": 1.5 }, "trigger": "NextPage" },
+                        
+                        { "type": "Text", "text": "Game by","x": 0.25, "y": 29, "colour": 0, "ignoreRoot": true },
+                        { "type": "Text", "text": "Josh Haxell","x": 0.25, "y": 30, "colour": 0, "ignoreRoot": true },
+                        { "type": "Text", "text": "Sammy El-Bahrawy","x": 0.25, "y": 31, "colour": 0, "ignoreRoot": true },
+
+                        { "type": "Text", "text": "Additional Art","x": 10, "y": 30, "colour": 0, "ignoreRoot": true },
+                        { "type": "Text", "text": "Josie Gilbert","x": 10, "y": 31, "colour": 0, "ignoreRoot": true },
+
+                        { "type": "Text", "text": "Made with","x": 20, "y": 29, "colour": 0, "ignoreRoot": true },
+                        { "type": "Text", "text": "cstoquer's pixelbox","x": 20, "y": 30, "colour": 0, "ignoreRoot": true },
+                        { "type": "Text", "text": "schteppe's p2.js","x": 20, "y": 31, "colour": 0, "ignoreRoot": true }
+                    ]
+                },
+                {
+                    "components": [
+                        { "type": "Rect", "x": -0.5, "y": -0.5, "w": 17, "h": 22, "colour": 4 },
+                        { "type": "Text", "text": "IDC Powerup Factory Manifest:", "x": 0, "y": 0, "colour": 1},
+                        { "type": "Text", "text": "=============================", "x": 0, "y": 1, "colour": 1},
+
+
+                        { "type": "Sprite", "index": 11, "x": 0, "y": 2 },
+                        { "type": "Text", "text": "slow down missiles", "x": 1.5, "y": 2.125, "colour": 1 },
+                        { "type": "Text", "text": "[Z]", "x": 15, "y": 2.125, "colour": 1 },
+
+                        { "type": "Sprite", "index": 12, "x": 0, "y": 3.5 },
+                        { "type": "Text", "text": "walk through (most) walls", "x": 1.5, "y": 3.625, "colour": 1 },
+                        { "type": "Text", "text": "[X]", "x": 15, "y": 3.625, "colour": 1 },
+
+                        { "type": "Sprite", "index": 44, "x": 0, "y": 5 },
+                        { "type": "Text", "text": "Missile repellent", "x": 1.5, "y": 5.125, "colour": 1 },
+                        { "type": "Text", "text": "[C]", "x": 15, "y": 5.125, "colour": 1 },
+
+                        { "type": "Sprite", "index": 43, "x": 0, "y": 6.5 },
+                        { "type": "Text", "text": "gotta go fast!", "x": 1.5, "y": 6.625, "colour": 1 },
+                        { "type": "Text", "text": "[V]", "x": 15, "y": 6.625, "colour": 1 },
+
+                        { "type": "Sprite", "index": 13, "x": 0, "y": 8 },
+                        { "type": "Text", "text": "drop decoy", "x": 1.5, "y": 8.125, "colour": 1 },
+                        { "type": "Text", "text": "[Space]", "x": 13, "y": 8.125, "colour": 1 },
+                        
+
+                        { "type": "Text", "text": "! CAUTION !", "x": 0, "y": 10, "colour": 1 },
+
+                        { "type": "Sprite", "index": 59, "x": 0, "y": 11.5 },
+                        { "type": "Text", "text": "Speed up missiles", "x": 1.5, "y": 11.625, "colour": 1 },
+
+                        { "type": "Sprite", "index": 60, "x": 0, "y": 13 },
+                        { "type": "Text", "text": "Launch extra missile", "x": 1.5, "y": 13.125, "colour": 1 },
+
+                        { "type": "Sprite", "index": 75, "x": 0, "y": 14.5 },
+                        { "type": "Text", "text": "Wet floors! (walk slowly)", "x": 1.5, "y": 14.625, "colour": 1 },
+
+                        { "type": "Sprite", "index": 76, "x": 0, "y": 16 },
+                        { "type": "Text", "text": "Boulder dispenser", "x": 1.5, "y": 16.125, "colour": 1 },
+
+                        { "type": "Sprite", "index": 91, "x": 0, "y": 17.5 },
+                        { "type": "Text", "text": "disorientation (control flip)", "x": 1.5, "y": 17.625, "colour": 1 },
+
+                        { "type": "Button", "text": "Game Info >", "x": 9, "y": 20, "w": 7, "h": 1.25, "offset": {"x": 3.5, "y": 1.5 }, "trigger": "NextPage" },
+                        
+                        { "type": "Text", "text": "Game by","x": 0.25, "y": 29, "colour": 0, "ignoreRoot": true },
+                        { "type": "Text", "text": "Josh Haxell","x": 0.25, "y": 30, "colour": 0, "ignoreRoot": true },
+                        { "type": "Text", "text": "Sammy El-Bahrawy","x": 0.25, "y": 31, "colour": 0, "ignoreRoot": true },
+
+                        { "type": "Text", "text": "Additional Art","x": 10, "y": 30, "colour": 0, "ignoreRoot": true },
+                        { "type": "Text", "text": "Josie Gilbert","x": 10, "y": 31, "colour": 0, "ignoreRoot": true },
+
+                        { "type": "Text", "text": "Made with","x": 20, "y": 29, "colour": 0, "ignoreRoot": true },
+                        { "type": "Text", "text": "cstoquer's pixelbox","x": 20, "y": 30, "colour": 0, "ignoreRoot": true },
+                        { "type": "Text", "text": "schteppe's p2.js","x": 20, "y": 31, "colour": 0, "ignoreRoot": true }
+                    ]
+            }],
             "levelButtons": [
                 {
                     "levelName": "easy_maze",

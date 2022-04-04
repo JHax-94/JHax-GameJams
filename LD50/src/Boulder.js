@@ -33,6 +33,8 @@ export default class Boulder
         this.spawnRef.rock = null;
 
         EM.RemoveEntity(this);
+
+        sfx(SFX.rockBreak);
     }
 
     Draw()

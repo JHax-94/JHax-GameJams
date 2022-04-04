@@ -1,6 +1,6 @@
 import Button from "./Button";
 import CharacterSelect from "./CharacterSelect";
-import { consoleLog, EM, getObjectConfig, SETUP } from "./main";
+import { consoleLog, EM, getObjectConfig, getPlayerPref, PIXEL_SCALE, SETUP } from "./main";
 import MenuMissile from "./MenuMissile";
 
 export default class Menu
@@ -16,6 +16,7 @@ export default class Menu
         this.titleMap = map.copy(0, 0, map.width, map.height);
 
         this.buttons = [];
+        this.pbs = [];
 
         this.characterSelect = null;
 
@@ -121,6 +122,8 @@ export default class Menu
     {
         consoleLog("Building level buttons...");
         consoleLog(levelButtons);
+        
+        let clockConfig = getObjectConfig("Clock");
 
         let menu = this;
 
@@ -163,7 +166,81 @@ export default class Menu
             }
 
             this.buttons.push(btnObj);
+
+            let levelName = lvlBtn.levelName; 
+
+            let pb = getPlayerPref(`PB_${levelName}`);
+
+            let levelScore = 0;
+
+            if(pb !== null) 
+            {
+                levelScore = parseFloat(pb);
+            }
+
+
+            if(levelScore > 0)
+            {
+                this.pbs.push({ 
+                    x: btnObj.pos.x + btnObj.dims.w + 0.5, y: btnObj.pos.y + 0.25, 
+                    w: clockConfig.rect.w, h: clockConfig.rect.h, 
+                    offX: clockConfig.offset.x, offY: clockConfig.offset.y,
+                    time: this.TimeToClockString(levelScore) });
+            }
+            
+
         }
+    }
+
+    GetTimeString(time)
+    {
+        let secondString = "";
+
+        if(time.s < 10)
+        {
+            secondString = `0${time.s}`;
+        }
+        else 
+        {
+            secondString = `${time.s}`;
+        }
+
+        let minuteString = "";
+
+        if(time.m < 10)
+        {
+            minuteString = `00${time.m}`;
+        }
+        else if(this.time.m < 100)
+        {
+            minuteString = `0${time.m}`;
+        }
+        else
+        {
+            minuteString = `${time.m}`;
+        }
+
+        return `${minuteString}:${secondString}.${Math.floor(time.ms)}`;
+    }
+
+    TimeToClockString(elapsedTime)
+    {
+        let time = {
+            m: 0,
+            s: 0,
+            ms: 0
+        }
+
+        let ms = (elapsedTime - Math.floor(elapsedTime));
+
+        elapsedTime -= ms;
+
+        time.ms = ms*1000;
+
+        time.s = elapsedTime % 60;
+        time.m = (elapsedTime - time.s) / 60;
+
+        return this.GetTimeString(time);
     }
 
     ButtonHovered(button)
@@ -276,5 +353,16 @@ export default class Menu
     Draw()
     {
         this.titleMap.draw(0, 0);
+
+        for(let i = 0 ; i< this.pbs.length; i++)
+        {
+            let pb = this.pbs[i];
+
+            paper(0);
+            rectf(pb.x * PIXEL_SCALE, pb.y * PIXEL_SCALE, pb.w * PIXEL_SCALE, pb.h * PIXEL_SCALE);
+
+            pen(1);
+            print(pb.time, (pb.x + pb.offX) * PIXEL_SCALE, (pb.y + pb.offY) * PIXEL_SCALE);
+        }
     }    
 }

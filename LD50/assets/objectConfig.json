@@ -53,7 +53,7 @@
         },
         {
             "name": "PickupSpawner",
-            "spawnInterval": 5,
+            "spawnInterval": 10,
             "spawnWeightings": [
                 {
                     "levels": [ "josh_test", "easy_maze", "med_maze", "hard_maze", "arena_maze", "portrait_maze", "library_maze", "noise_maze" ],
@@ -76,7 +76,7 @@
                             "powerName": "Decoy",
                             "weightings":
                             [
-                                { "time": 0, "weighting": 1000 }
+                                { "time": 0, "weighting": 10 }
                             ]
                         },
                         {
@@ -424,7 +424,7 @@
         {
             "name": "MenuMissile",
             "boosterFrameTime": 0.5,
-            "wave": { "frequency": 1.2, "amplitude": 8 },
+            "wave": { "frequency": 0.8, "amplitude": 6 },
             "maxFrame": 2,
             "anims": [
                 { "off": { "x": 0, "y": 0 }, "frames": [ 192, 224 ] },

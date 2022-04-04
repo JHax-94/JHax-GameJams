@@ -18,8 +18,6 @@ export default class CharacterSelect
 
     Update(deltaTime)
     {
-        consoleLog("UPDATE CHAR SELECT...");
-
         this.frameTime += deltaTime;
 
         if(this.frameTime >= this.anims[CHARACTER].frameTime)
@@ -34,8 +32,6 @@ export default class CharacterSelect
     {
         let newChar = (CHARACTER + dir + CHARACTER_MAX) % CHARACTER_MAX;
 
-        consoleLog(`Character: ${CHARACTER}`);
-        consoleLog(`New Char: ${newChar}`);
         changeCharacter(newChar);
     }
 
@@ -49,7 +45,6 @@ export default class CharacterSelect
 
         let head = this.anims[CHARACTER]["head"][this.currentFrame];
         let body = this.anims[CHARACTER]["body"][this.currentFrame];
-
 
         sprite(head.index, this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE, head.flipH, head.flipV, head.flipR );
         sprite(body.index, this.pos.x * PIXEL_SCALE, (this.pos.y + 1) * PIXEL_SCALE, body.flipH, body.flipV, body.flipR );

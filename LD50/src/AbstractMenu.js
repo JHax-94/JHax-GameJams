@@ -37,9 +37,10 @@ export default class AbstractMenu
         {
             let comp = this.config.components[i];
 
+            /*
             consoleLog("==== CREATE COMPONENT ON MENU ====");
             consoleLog(comp);
-
+            */
             if(comp.type === "Button")
             {
                 let newButton = new Button(
@@ -67,7 +68,6 @@ export default class AbstractMenu
             {
                 this.components.push(comp);
             }
-            
         }
     }
 
@@ -161,8 +161,15 @@ export default class AbstractMenu
 
             if(component.type === "Text")
             {
+                let text = component.text;
+                
+                if(component.overwriteText)
+                {
+                    text = component.overwriteText;
+                }
+
                 pen(component.colour);
-                print(component.text, (this.root.x + component.x) * PIXEL_SCALE, (this.root.y + component.y) * PIXEL_SCALE);
+                print(text, (this.root.x + component.x) * PIXEL_SCALE, (this.root.y + component.y) * PIXEL_SCALE);
             }
         }
     }

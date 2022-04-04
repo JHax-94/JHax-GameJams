@@ -249,10 +249,12 @@ export default class SoundManager
 
     PlaySong(songName)
     {
+        /*
         consoleLog("CURRENT:");
         consoleLog(this.currentSong)
         consoleLog("IS SONG PLAYING?");
         consoleLog(this.isSongPlaying);
+        */
 
         if(this.soundOn)
         {
@@ -285,10 +287,16 @@ export default class SoundManager
     PlayLevelMusic()
     {
         this.tensionLevel = 0;
-        
         this.SetMusicVolume(this.musicVolume);
-
+        this.ResetTimers();
         this.PlaySongForTensionLevel(0);
+    }
+
+    ResetTimers()
+    {
+        this.songElapsed = 0;
+        this.alarmDelayTime = 0;
+        this.trackDelayTime = 0;
     }
 
     PlayNextLevelMusic()
@@ -310,23 +318,23 @@ export default class SoundManager
         let tensionSong = this.GetTrackForTensionLevel(tensionLevel);
 
         let tensionTrackData = null;
-
+        /*
         consoleLog("--- PLAY LEVEL MUSIC ---");
 
         consoleLog(this.albumData);
 
         consoleLog(`find track data for:`);
         consoleLog(tensionSong);
-
+        */
         for(let i = 0; i < this.albumData.s.length; i ++)
         {            
             let track = this.albumData.s[i];
-
+            /*
             consoleLog("TRACK DATA");
             consoleLog(track);
 
             consoleLog(`Compare: ${track.n} with ${tensionSong.name}`);
-
+            */
             if(track.n === tensionSong.name)
             {
                 tensionTrackData = track;
@@ -342,8 +350,6 @@ export default class SoundManager
 
         this.trackTime = tensionSong.duration; //((this.bars * this.beatsPerBar) / this.tempo) * 60;
 
-        
-
         this.PlaySong(tensionTrackData.n);
     }
 
@@ -358,9 +364,9 @@ export default class SoundManager
     {
         if(powerOn != this.soundOn)
         {
-            consoleLog("SWITCH SOUND: " + powerOn);
+            //consoleLog("SWITCH SOUND: " + powerOn);
             this.soundOn = powerOn;
-            consoleLog(audioManager);
+            //consoleLog(audioManager);
             audioManager.muted = !powerOn;
             
             if(!powerOn)
@@ -370,7 +376,7 @@ export default class SoundManager
             } 
             else 
             {
-                consoleLog("PLAY:"  + this.titleSong);
+                //consoleLog("PLAY:"  + this.titleSong);
                 this.PlaySong(this.titleSong);
             }
 

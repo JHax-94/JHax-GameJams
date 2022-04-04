@@ -44,7 +44,7 @@ export default class SpawnLocation
         let xDiff = Math.abs(playerPos.x - this.pos.x * PIXEL_SCALE);
         let yDiff = Math.abs(playerPos.y - this.pos.y * PIXEL_SCALE); 
     
-        consoleLog(`Spawner Dist: (${xDiff}, ${yDiff})`);
+        //consoleLog(`Spawner Dist: (${xDiff}, ${yDiff})`);
 
         if(xDiff <= 8  && yDiff <= 8)
         {

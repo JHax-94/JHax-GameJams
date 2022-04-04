@@ -1,5 +1,5 @@
 import AbstractMenu from "./AbstractMenu";
-import { consoleLog, EM, SETUP } from "./main";
+import { consoleLog, EM, getPlayerPref, setPlayerPref, SETUP } from "./main";
 
 export default class GameOverMenu extends AbstractMenu
 {
@@ -8,6 +8,15 @@ export default class GameOverMenu extends AbstractMenu
         super("GameOverMenu");
 
         this.levelName = onLevel;
+
+        let bestTime = 0;
+
+        let pb = getPlayerPref(`PB_${this.levelName}`);
+
+        if(pb !== null)
+        {
+            bestTime = parseFloat(pb);
+        }
 
         let menuRef = this;
 
@@ -18,16 +27,41 @@ export default class GameOverMenu extends AbstractMenu
 
         let clock = EM.GetEntity("Clock");
 
+        consoleLog("CLOCK FOR GAME OVER");
+        consoleLog(clock);
+
+        let totalTime = clock.TotalSeconds();
+
+        let newPb = false;
+
+        if(totalTime > bestTime)
+        {
+            setPlayerPref(`PB_${this.levelName}`, totalTime);
+            newPb = true;
+        }
+
         for(let i = 0; i < this.components.length; i ++)
         {
             let comp = this.components[i];
 
-            consoleLog("Check component for time sub");
-            consoleLog(comp);
-
             if(comp.type === "Text" && comp.text === "##TIME##")
             {
-                comp.text = `${clock.time.m} minutes and ${clock.time.s} seconds!`;
+                consoleLog("End game clock");
+                consoleLog(clock);
+
+                comp.overwriteText = `${clock.time.m} minutes and ${clock.time.s} seconds!`;
+            }
+
+            if(comp.type === "Text" && comp.text == "##PB##")
+            {
+                if(newPb)
+                {
+                    comp.overwriteText = "New Personal Best!";
+                }
+                else
+                {
+                    comp.overwriteText = " ";
+                }
             }
         }
 

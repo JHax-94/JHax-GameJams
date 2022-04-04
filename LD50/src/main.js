@@ -10,6 +10,8 @@ let pointerEvents = require('pixelbox/pointerEvents');
 
 let p2 = require('p2');
 
+let CLOCK_COUNT = 0;
+
 let SFX = null;
 let SOUND = null;
 
@@ -26,6 +28,16 @@ let CHARACTER_MAX = 2;
 let PIXEL_SCALE = 8;
 let SCREEN_WIDTH = 32;
 let SCREEN_HEIGHT = 32;
+
+function getClockCount()
+{
+    return CLOCK_COUNT;
+}
+
+function clockAdded()
+{
+    CLOCK_COUNT += 1;
+}
 
 function consoleLog(logData) {
     if(LOGGING_ON) console.log(logData); 
@@ -109,7 +121,6 @@ function getObjectConfig(objectName)
 
 function SETUP(levelName)
 {
-
     let charPref = getPlayerPref("CHARACTER");
 
     if(charPref !== null)
@@ -142,19 +153,24 @@ function SETUP(levelName)
     consoleLog("Found level:");
     consoleLog(levelData);
 
-    /*
-    EM.AddEntity("LevelMap", new LevelMap(levelData, true));
-    EM.AddEntity("Clock", new Clock(levelData.startTime, levelData.schedule));
-    */  
-
     if(EM)
     {
+        consoleLog("===== CLEAR DOWN ENTITY MANAGER =====");
+
         EM.ClearDown();
+
+        consoleLog(EM);
+
+        EM = null;
     }
+
+    let newEm = null;
 
     if(levelData.mapType === "MAZE")
     {
-        EM = new EntityManager();
+        newEm = new EntityManager();
+
+        EM = newEm;
 
         EM.AddEntity("Maze", new Maze(levelData));
 
@@ -166,16 +182,14 @@ function SETUP(levelName)
 
         let uiMap = getMap("ui_layer");
 
-        consoleLog("---- UI MAP ---- ");
-        consoleLog(uiMap);
-
         EM.AddEntity("PowerUps", new PowerUpsBar(uiMap));
 
         EM.AddEntity("Clock", new Clock());
     }
     else if(levelData.mapType === "MENU")
     {
-        EM = new EntityManager(true);
+        newEm = new EntityManager(true);
+        EM = newEm;
 
         EM.AddEntity("Menu", new Menu(levelData));
     }
@@ -199,10 +213,12 @@ function SETUP(levelName)
         EM.RegisterEntity(SOUND);
         EM.AddEntity("SoundManager", SOUND);
     }
-
+    
     LOAD_COMPLETE = true;
 
     consoleLog("==== SETUP COMPLETE ====");
+
+    consoleLog(EM);
 }
 
 function changeCharacter(changeTo)
@@ -237,5 +253,6 @@ export {
     setPlayerPref,
     getPlayerPref,
     CHARACTER, CHARACTER_MAX,
-    changeCharacter
+    changeCharacter,
+    getClockCount, clockAdded
 }

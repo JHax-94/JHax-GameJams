@@ -1,10 +1,11 @@
-import { EM, getObjectConfig, PIXEL_SCALE } from "./main";
-import PickupSpawner from "./PickupSpawner";
+import { clockAdded, EM, getClockCount, getObjectConfig, PIXEL_SCALE } from "./main";
 
 export default class Clock
 {
     constructor()
     {
+        this.clockNumber = getClockCount();
+
         this.renderLayer = "OVERLAY_UI";
 
         this.penColour = 1;
@@ -24,6 +25,8 @@ export default class Clock
         };
 
         EM.RegisterEntity(this);
+
+        clockAdded();
     }
 
     Update(deltaTime)
@@ -82,6 +85,11 @@ export default class Clock
         return `${minuteString}:${secondString}.${Math.floor(this.time.ms)}`;
     }
 
+    TotalSeconds()
+    {
+        return (this.time.m * 60) + this.time.s + (this.time.ms * 0.001);
+    } 
+
     Draw()
     {
         paper(0);
@@ -90,6 +98,4 @@ export default class Clock
         pen(this.penColour);
         print(this.GetTimeString(), (this.rect.x + this.offset.x) * PIXEL_SCALE, (this.rect.y + this.offset.y) * PIXEL_SCALE);
     }
-
-
 }

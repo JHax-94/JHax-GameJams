@@ -32,9 +32,9 @@ export default class RenderLayer
                 return a.y - b.y;
             });
         }
-
+        /*
         consoleLog("Render added to layer");
-        consoleLog(this);
+        consoleLog(this);*/
     }
 
     RemoveRender(renderer, log)

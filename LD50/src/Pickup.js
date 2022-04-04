@@ -30,8 +30,9 @@ export default class Pickup
                 }
             });
 
+        /*
         consoleLog("SPAWNED PICKUP");
-        consoleLog(this);
+        consoleLog(this);*/
     }
 
     Collected(player)

@@ -136,6 +136,15 @@ export default class EntityManager
         {
             this.RemoveEntity(this.entities[i]);
         }
+
+        for(let i = 0; i < this.updates.length; i ++ )
+        {
+            this.RemoveEntity(this.updates[i]);
+        }
+
+
+        consoleLog("EM CLEAR DOWN");
+        consoleLog(this);
     }
 
     RemoveEntity(entity)
@@ -485,8 +494,6 @@ export default class EntityManager
             this.pause = true;
             this.pauseMenu = new GameOverMenu(maze.mazeData.levelName);
         }
-
-        
     }
 
     Input()

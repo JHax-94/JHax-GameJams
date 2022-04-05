@@ -110,15 +110,15 @@
             "levelButtons": [
                 {
                     "levelName": "easy_maze",
-                    "display": "Easy"
+                    "display": "Beginner"
                 },
                 {
                     "levelName": "med_maze",
-                    "display": "Medium"
+                    "display": "Maze"
                 },
                 {
                     "levelName": "hard_maze",
-                    "display": "Hard"
+                    "display": "Hard Maze"
                 },
                 {
                     "levelName": "arena_maze",

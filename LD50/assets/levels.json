@@ -24,8 +24,9 @@
                         { "type": "Text", "text": "========", "x": 0, "y": 14, "colour": 1 },
                         { "type": "Text", "text": "Move:", "x": 0, "y": 15, "colour": 1  },
                         { "type": "Text", "text": "Arrow Keys", "x": 0, "y": 16, "colour": 1  },
-                        { "type": "Text", "text": "Powerups:","x": 0, "y": 18, "colour": 1  },
-                        { "type": "Text", "text": "Z / X / C / V / Space", "x": 0, "y": 19, "colour": 1  },
+                        { "type": "Text", "text": "Powerups:","x": 0, "y": 17, "colour": 1  },
+                        { "type": "Text", "text": "Z / X / C / V / Space", "x": 0, "y": 18, "colour": 1  },
+                        { "type": "Text", "text": "Pause: Esc", "x": 0, "y": 18, "colour": 1  },
 
                         { "type": "Text", "text": "Collect powerups", "x": 8, "y": 13, "colour": 1 },
                         { "type": "Text", "text": "in green orbs", "x": 8, "y": 14, "colour": 1 },

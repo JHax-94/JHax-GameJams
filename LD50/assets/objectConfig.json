@@ -358,12 +358,12 @@
         },
         {
             "name": "PauseMenu",
-            "root": { "x": 12, "y": 5 },
+            "root": { "x": 11.5, "y": 5 },
             "components": [
-                { "type": "Rect", "x": 0, "y": 0, "w": 8, "h": 5, "colour": 0 },
-                { "type": "Text", "text": "Game Paused", "x": 0, "y": 0, "colour": 1 },
-                { "type": "Button", "text": "Continue", "x": 0, "y": 1, "w": 6, "h": 1.25, "offset": {"x": 5, "y": 1 }, "trigger": "Unpause" },
-                { "type": "Button", "text": "Back to Menu", "x": 0, "y": 3, "w": 6, "h": 1.25, "offset": {"x": 1, "y": 1 }, "trigger": "BackToMenu" }
+                { "type": "Rect", "x": 0, "y": 0, "w": 8, "h": 5, "colour": 4 },
+                { "type": "Text", "text": "Game Paused", "x": 1.125, "y": 0.25, "colour": 1 },
+                { "type": "Button", "text": "Continue", "x": 1, "y": 1.25, "w": 6, "h": 1.25, "offset": {"x": 5, "y": 1 }, "trigger": "Unpause" },
+                { "type": "Button", "text": "Back to Menu", "x": 1, "y": 3.25, "w": 6, "h": 1.25, "offset": {"x": 1, "y": 1 }, "trigger": "BackToMenu" }
             ]
         },
         {

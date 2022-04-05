@@ -196,8 +196,8 @@ export default class Missile
 
     TensionBoost()
     {
-        this.difficultyRate *= 1.5;
-        this.difficultyModifier += 30;
+        this.difficultyRate *= 1.2;
+        this.difficultyModifier += 10;
         this.tensionLevel ++;
         this.tensionBooster = true;
     }
@@ -245,7 +245,7 @@ export default class Missile
             {
                 if(this.playerRef.HasStatus("MissileSpeedUp") || this.tensionBooster)
                 {
-                    statusModifier *= (this.tensionBooster ? 1.5 : 2);
+                    statusModifier *= (this.tensionBooster ? 1.2 : 1.5);
                 }
                 
                 let mag = vec2.length(td.diffVec)
@@ -295,7 +295,6 @@ export default class Missile
             {
                 let mag = dist;
 
-                consoleLog(`distance: ${mag}`);
                 this.lastDist = mag;
 
                 let distanceModifier = 1;

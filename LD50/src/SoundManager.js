@@ -423,7 +423,7 @@ export default class SoundManager
 
                 if(this.alarmDelayTime > 0)
                 {
-                    consoleLog(`alarm delay time: ${this.alarmDelayTime}`);    
+                    //consoleLog(`alarm delay time: ${this.alarmDelayTime}`);    
                     this.alarmDelayTime -= deltaTime;
 
                     if(this.alarmDelayTime <= 0)
@@ -438,13 +438,13 @@ export default class SoundManager
 
                 if(this.trackDelayTime > 0)
                 {
-                    consoleLog(`track delay time: ${this.trackDelayTime}`);
+                    //consoleLog(`track delay time: ${this.trackDelayTime}`);
 
                     this.trackDelayTime -= deltaTime;
 
                     if(this.trackDelayTime <= 0)
                     {
-                        consoleLog("NEXT TRACK!");
+                        //consoleLog("NEXT TRACK!");
 
                         this.trackDelayTime = 0;
                         

@@ -243,6 +243,8 @@ export default class SoundManager
     PlayTitle()
     {
         this.rampModeOn = false;
+
+        this.SetMusicVolume(this.musicVolume);
         this.PlaySong(this.titleSong);
 
         this.Reregister();

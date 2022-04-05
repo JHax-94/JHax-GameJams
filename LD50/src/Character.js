@@ -102,25 +102,26 @@ export default class Character
         if(!containsFloor)
         {
             this.slowFloors.push(floor);
-
+            /*
             consoleLog("SLOW FLOOR ADDED");
-            consoleLog(this.slowFloors);
+            consoleLog(this.slowFloors);*/
         }
     }
 
     RemoveSlowFloor(floor)
     {
+        /*
         consoleLog("REMOVE SLOW FLOOR...");
-        consoleLog(floor);
+        consoleLog(floor);*/
 
         for(let i = 0; i < this.slowFloors.length; i ++)
         {
             if(this.slowFloors[i] === floor)
             {
                 this.slowFloors.splice(i, 1);
-
+                /*
                 consoleLog("SLOW FLOOR REMOVED");
-                consoleLog(this.slowFloors)
+                consoleLog(this.slowFloors)*/
                 break;
             }
         }
@@ -161,6 +162,8 @@ export default class Character
     {
         let created = false;
 
+        consoleLog("ATTEMPT DECOY");
+
         if(!this.decoy)
         {
             consoleLog("CREATE DECOY");
@@ -176,6 +179,11 @@ export default class Character
             }
 
             created = true;
+        }
+        else
+        {
+            consoleLog("DECOY ALREADY DEPLOYED!");
+            sfx(SFX.decoyFail);
         }
 
         return created;
@@ -320,16 +328,19 @@ export default class Character
 
     Kill()
     {
-        this.spriteIndex = 185;
-        this.alive = false;
-        this.phys.velocity = [0, 0];
+        if(this.alive)
+        {
+            this.spriteIndex = 185;
+            this.alive = false;
+            this.phys.velocity = [0, 0];
 
-        this.animFrame = 0;
-        this.direction = "dead";
+            this.animFrame = 0;
+            this.direction = "dead";
 
-        sfx(SFX.explode);
+            sfx(SFX.explode);
 
-        EM.GameOver();
+            EM.GameOver();
+        }
     }
 
     Update(deltaTime)
@@ -686,6 +697,10 @@ export default class Character
                 sfx(SFX[power.sound]);
                 this.ExpendPowerUp(power.powerName);
             } 
+        }
+        else
+        {
+            sfx(SFX.decoyFail);
         }        
     }
 

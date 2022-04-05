@@ -462,7 +462,7 @@ export default class Missile
         }
         else 
         {
-            isPlayerLazy = this.playerRef.staticTimer > 3;
+            isPlayerLazy = this.playerRef.staticTimer > 10;
         }
 
         if(isPlayerLazy)

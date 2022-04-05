@@ -12,5 +12,6 @@
 	"usePlayerSlow": "playerSlow",
 	"useControlFlip": "controlFlip",
 	"useRockSpawn": "rockFall",
-	"rockBreak": "rockBreak"
+	"rockBreak": "rockBreak",
+	"decoyFail": "decoyFail"
 }

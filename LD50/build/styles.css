@@ -1,13 +1,12 @@
 body {
 	text-align: center;
 	font-family: verdana;
-	background-color: #000;
 	margin: 0;
 	overflow: hidden;
+	background: #069;
 }
 
 canvas {
-	position: absolute;
 	top: 0;
 	left: 0;
 	image-rendering: optimizeSpeed;

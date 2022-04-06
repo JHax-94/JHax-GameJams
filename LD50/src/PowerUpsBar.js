@@ -1,4 +1,4 @@
-import { consoleLog, EM, getObjectConfig, PIXEL_SCALE, SCREEN_WIDTH } from "./main";
+import { consoleLog, EM, getKeyboardMode, getObjectConfig, PIXEL_SCALE, SCREEN_WIDTH } from "./main";
 
 export default class PowerUpsBar
 {
@@ -40,7 +40,8 @@ export default class PowerUpsBar
                 this.powerUpUi[objectMap[i].name] = { 
                     pos: { x: (mapTile.x + 1) * PIXEL_SCALE + 2, y: (mapTile.y) * PIXEL_SCALE + 2 },
                     string: "x 0",
-                    keyPrompt: objectMap[i].key
+                    keyPrompt: objectMap[i].key,
+                    altPrompts: objectMap[i].altPrompts
                 };
                 
             }
@@ -70,7 +71,14 @@ export default class PowerUpsBar
             print(item.string, item.pos.x, item.pos.y);
             if(item.keyPrompt)
             {
-                print(item.keyPrompt, item.pos.x - 2.2*PIXEL_SCALE, item.pos.y);
+                let showPrompt = item.keyPrompt;
+
+                if(item.altPrompts)
+                {
+                    showPrompt = item.altPrompts[getKeyboardMode()];
+                }
+
+                print(showPrompt, item.pos.x - 2.2*PIXEL_SCALE, item.pos.y);
             }
         }
 

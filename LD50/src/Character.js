@@ -1,7 +1,7 @@
 import { vec2 } from "p2";
 import BriefPlayable from "tina/src/BriefPlayable";
 import Decoy from "./Decoy";
-import { consoleLog, EM, getObjectConfig, SFX, PIXEL_SCALE, SETUP, CHARACTER } from "./main";
+import { consoleLog, EM, getObjectConfig, SFX, PIXEL_SCALE, SETUP, CHARACTER, getKeyboardMode, setKeyboardMode } from "./main";
 
 export default class Character
 {
@@ -17,6 +17,8 @@ export default class Character
         this.powerKeyWaits =
         {
             power0: false,
+            power0Alt1: false,
+            power0Alt2: false,
             power1: false,
             power2: false,
             power3: false,
@@ -497,6 +499,14 @@ export default class Character
         return right;
     }
 
+    ChangePrompts(changeTo)
+    {
+        if(changeTo != getKeyboardMode())
+        {
+            setKeyboardMode(changeTo);
+        }
+    }
+
     Input(input)
     {
         if(this.alive)
@@ -605,10 +615,36 @@ export default class Character
             {
                 this.powerKeyWaits.power0 = true;
                 this.ActivatePower(0);
+                this.ChangePrompts(0);
             }
             else if(input.power0 === false && this.powerKeyWaits.power0)
             {
                 this.powerKeyWaits.power0 = false;
+                
+            }
+
+            if(input.power0_alt1 && this.powerKeyWaits.power0Alt1 === false)
+            {
+                this.powerKeyWaits.power0Alt1 = true;
+                this.ActivatePower(0);
+                this.ChangePrompts(1);
+            }
+            else if(input.power0_alt1 === false && this.powerKeyWaits.power0Alt1)
+            {
+                this.powerKeyWaits.power0Alt1 = false;
+                
+            }
+
+            if(input.power0_alt2 && this.powerKeyWaits.power0Alt2 === false)
+            {
+                this.powerKeyWaits.power0Alt2 = true;
+                this.ActivatePower(0);
+                this.ChangePrompts(2);
+            }
+            else if(input.power0_alt2 === false && this.powerKeyWaits.power0Alt2)
+            {
+                this.powerKeyWaits.power0Alt2 = false;
+                
             }
 
             if(input.power1 && this.powerKeyWaits.power1 === false)

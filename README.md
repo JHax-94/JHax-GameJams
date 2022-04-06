@@ -34,7 +34,7 @@ Thanks to schteppe for p2.js, used under MIT Licence
 
 Game by Josh Haxell & Sammy El-Bahrawy 2021
 
-# LD50 Entry
+# InevitaBallistics LD50 Entry
 
 Thanks to cstoquer for PixelBox, used under MIT Licence
 Thanks to schteppe for p2.js, used under MIT Licence

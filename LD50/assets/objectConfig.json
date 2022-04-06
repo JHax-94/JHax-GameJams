@@ -221,7 +221,8 @@
             "name": "MissileSpeedDown",
             "searchMap": false,
             "isPickup": true,
-            "key": "Z"
+            "key": "Z",
+            "altPrompts": ["Z", "Y", "W"]
         },
         {
             "index": 13,
@@ -377,6 +378,16 @@
                 { "type": "Text", "text": "##PB##", "x": 6, "y": 3.75, "colour": 1 },
                 { "type": "Button", "text": "Restart", "x": 7, "y": 5.5, "w": 7, "h": 1.25, "offset": {"x": 7, "y": 1.5 }, "trigger": "Restart" },
                 { "type": "Button", "text": "Back to Menu", "x": 7, "y": 7.25, "w": 7, "h": 1.25, "offset": {"x": 2, "y": 1.5 }, "trigger": "BackToMenu" }
+            ]
+        },
+        {
+            "name": "KeyMappingMenu",
+            "root": { "x": 0.5, "y": 0.5 },
+            "components": [
+                { "type": "Rect", "x": 0, "y": 0, "w": 6, "h": 4, "colour": 4 },
+                { "type": "Text", "text": "Keyboard:", "x": 0.5, "y": 0.5, "colour": 1 },
+                { "type": "Text", "text": "##KEY_MODE##", "x": 0.5, "y": 1.5, "colour": 1 },
+                { "type": "Button", "text": "Change", "x": 0.5, "y": 2.5, "w": 5, "h": 1, "offset": {"x": 1, "y": 1 }, "trigger": "CycleKeyboard" }
             ]
         },
         {

@@ -5,6 +5,7 @@ import Missile from './Missile.js';
 import Menu from './Menu.js';
 import PowerUpsBar from './PowerUpsBar.js';
 import SoundManager from './SoundManager.js';
+import KeyboardMode from './KeyboardMode.js';
 
 let pointerEvents = require('pixelbox/pointerEvents');
 
@@ -28,6 +29,14 @@ let CHARACTER_MAX = 2;
 let PIXEL_SCALE = 8;
 let SCREEN_WIDTH = 32;
 let SCREEN_HEIGHT = 32;
+
+let keyboardModes = [
+    "qwerty",
+    "qwertz",
+    "azerty"
+];
+
+let KEYBOARD_MODE = -1;
 
 function getClockCount()
 {
@@ -85,6 +94,31 @@ function getPlayerPref(key)
     }
 
     return val;
+}
+
+function getKeyboardMode()
+{
+    if(KEYBOARD_MODE < 0)
+    {
+        let keyboardPref = getPlayerPref("KEYBOARD_MODE");
+
+        if(keyboardPref)
+        {
+            KEYBOARD_MODE = parseInt(keyboardPref);
+        }
+        else
+        {
+            KEYBOARD_MODE = 0;
+        }
+    }
+
+    return KEYBOARD_MODE;
+}
+
+function setKeyboardMode(newMode)
+{
+    KEYBOARD_MODE = newMode;
+    setPlayerPref("KEYBOARD_MODE", KEYBOARD_MODE);
 }
 
 function GetLevelDataByName(levelName)
@@ -197,6 +231,7 @@ function SETUP(levelName)
         EM = newEm;
 
         EM.AddEntity("Menu", new Menu(levelData));
+        EM.AddEntity("KeyboardLayout", new KeyboardMode());
     }
 
     if(!SOUND)
@@ -259,5 +294,6 @@ export {
     getPlayerPref,
     CHARACTER, CHARACTER_MAX,
     changeCharacter,
-    getClockCount, clockAdded
+    getClockCount, clockAdded,
+    getKeyboardMode, setKeyboardMode, keyboardModes
 }

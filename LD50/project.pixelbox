@@ -45,12 +45,14 @@
 		"left": 37,
 		"right": 39,
 		"esc": 27,
-		"power0": 90,
 		"power1": 88,
 		"power2": 67,
 		"power3": 86,
 		"power4": 32,
-		"submit": 13
+		"submit": 13,
+		"power0_alt2": 87,
+		"power0": 90,
+		"power0_alt1": 89
 	},
 	"touchEvent": {
 		"multiTouch": false,

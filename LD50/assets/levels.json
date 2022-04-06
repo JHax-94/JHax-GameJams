@@ -26,7 +26,7 @@
                         { "type": "Text", "text": "Move:", "x": 0, "y": 15, "colour": 1  },
                         { "type": "Text", "text": "Arrow Keys", "x": 0, "y": 16, "colour": 1  },
                         { "type": "Text", "text": "Powerups:","x": 0, "y": 17, "colour": 1  },
-                        { "type": "Text", "text": "Z / X / C / V / Space", "x": 0, "y": 18, "colour": 1  },
+                        { "type": "Text", "text": "(Z/Y/W) / X / C / V / Space", "x": 0, "y": 18, "colour": 1  },
                         { "type": "Text", "text": "Pause: Esc", "x": 0, "y": 19, "colour": 1  },
 
                         { "type": "Text", "text": "Collect powerups", "x": 8, "y": 13, "colour": 1 },
@@ -57,7 +57,7 @@
 
                         { "type": "Sprite", "index": 11, "x": 0, "y": 2 },
                         { "type": "Text", "text": "slow down missiles", "x": 1.5, "y": 2.125, "colour": 1 },
-                        { "type": "Text", "text": "[Z]", "x": 15, "y": 2.125, "colour": 1 },
+                        { "type": "Text", "text": "[Z/Y/W]", "x": 13, "y": 2.125, "colour": 1 },
 
                         { "type": "Sprite", "index": 12, "x": 0, "y": 3.5 },
                         { "type": "Text", "text": "walk through (most) walls", "x": 1.5, "y": 3.625, "colour": 1 },

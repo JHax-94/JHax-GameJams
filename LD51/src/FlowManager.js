@@ -28,6 +28,8 @@ export default class FlowManager
 
         this.players = [];
 
+        this.playerWaits = [];
+
         /*        
         consoleLog("Player List:");
         consoleLog(this.players);
@@ -99,26 +101,69 @@ export default class FlowManager
         }
     }
 
+    StartActionPhase()
+    {
+        this.turnPhase = TURN_PHASES.ACTION;
+
+        this.playerWaits = [];
+
+        for(let i = 0; i < this.players.length; i ++)
+        {
+            this.players[i].ExecuteActionQueue();
+            this.playerWaits.push(true);
+        }
+    }
+
     ExecutePlayerActions()
     {
-        let player = this.GetActivePlayer();
+        if(this.turnPhase === TURN_PHASES.PLAYER_1_INPUT)
+        {
+            this.turnPhase = TURN_PHASES.PLAYER_2_INPUT;
+        }
+        else if(this.turnPhase === TURN_PHASES.PLAYER_2_INPUT)
+        {
+            this.StartActionPhase();
+        }
+    }
 
-        player.ExecuteActionQueue();
-        
-        this.turnPhase = TURN_PHASES.ACTION;
+    PlayerActionsCompleted(player)
+    {
+        for(let i = 0; i < this.players.length; i ++)
+        {
+            if(this.players[i] === player)
+            {
+                this.playerWaits[i] = false;
+                break;
+            }
+        }
+
+        let allComplete = true;
+
+        for(let i = 0; i <this.playerWaits.length; i ++)
+        {
+            if(this.playerWaits[i])
+            {
+                allComplete = false;
+                break;
+            }
+        }
+
+        if(allComplete)
+        {
+            this.turnPhase = TURN_PHASES.PLAYER_1_INPUT;
+        }
     }
 
     PopActionQueue()
     {
+        let player = this.GetActivePlayer();
+
         player.PopActionQueue();
     }
 
     QueueAction(action)
     {
         let player = this.GetActivePlayer();
-        consoleLog(`Active player:`);
-        consoleLog(player);
-
         player.AddToActionQueue(action);
     }
 

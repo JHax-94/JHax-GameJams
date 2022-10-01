@@ -21,6 +21,16 @@ export default class Player
         EM.RegisterEntity(this);
     }   
 
+    FlowManager()
+    {
+        if(!this.flowManager)
+        {
+            this.flowManager = EM.GetEntity("FLOW");
+        }
+
+        return this.flowManager;
+    }
+
     AddToActionQueue(action)
     {
         this.actionQueue.push(action);
@@ -54,6 +64,10 @@ export default class Player
         if(this.actionQueue.length > 0)
         {
             this.ExecuteActionQueue();
+        }
+        else
+        {
+            this.FlowManager().PlayerActionsCompleted(this);
         }
     }
 

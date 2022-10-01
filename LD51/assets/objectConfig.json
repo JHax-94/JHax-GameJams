@@ -29,7 +29,14 @@
                 "up": { "i": 190, "h": false, "v": false, "r": false },
                 "down": { "i": 174, "h": false, "v": false, "r": false }
             }
+        },
+        {
+            "index": 3,
+            "name": "FloorTile"
+        },
+        {
+            "index": 4,
+            "name": "DamagedFloorTile"
         }
-
     ]
 }

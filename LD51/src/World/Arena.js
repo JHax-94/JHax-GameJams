@@ -94,6 +94,31 @@ export default class Arena
         }
     }
 
+    DeteriorateArena(deteriorator)
+    {
+        let worldMaps = [];
+
+        consoleLog("Build world maps list...");
+        consoleLog(this.arenaMaps);
+
+        for(let i = 0; i < this.arenaMaps.length; i ++)
+        {
+            consoleLog(`Check map type: ${this.arenaMaps[i].type}`);
+
+            if(this.arenaMaps[i].type === "world")
+            {
+                consoleLog("Add map to list...");
+                worldMaps.push(this.arenaMaps[i].map);
+            }
+        }
+
+        for(let i = 0; i < worldMaps.length; i++)
+        {
+            deteriorator.RemoveDeterioratedTiles(worldMaps[i]);
+            deteriorator.SetTilesToDeteriorate(worldMaps[i]);
+        }
+    }
+
     Draw()
     {
         for(let i = 0; i < this.arenaMaps.length; i ++)

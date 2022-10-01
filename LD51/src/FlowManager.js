@@ -3,6 +3,7 @@ import BasicAttackAction from "./Characters/BasicAttackAction";
 import MoveAction from "./Characters/MoveAction";
 import TurnAction from "./Characters/TurnAction";
 import { consoleLog, EM, TURN_PHASES, TURN_PHASE_NAME } from "./main";
+import MapDeteriorator from "./World/MapDeteriorator";
 
 
 
@@ -31,6 +32,8 @@ export default class FlowManager
 
         this.playerWaits = [];
 
+        this.arena = null;
+
         /*        
         consoleLog("Player List:");
         consoleLog(this.players);
@@ -41,6 +44,7 @@ export default class FlowManager
     {
         this.players.push(EM.GetEntity("Player1"));
         this.players.push(EM.GetEntity("Player2"));
+        this.arena = EM.GetEntity("ARENA");
     }
 
     IsPlayerInputPhase()
@@ -158,8 +162,19 @@ export default class FlowManager
 
         if(allComplete)
         {
-            this.turnPhase = TURN_PHASES.PLAYER_1_INPUT;
+            this.StartNewInputPhase();
         }
+    }
+
+    StartNewInputPhase()
+    {
+        this.turnPhase = TURN_PHASES.PLAYER_1_INPUT;
+
+        let deteriorator = new MapDeteriorator();
+
+        consoleLog("Deteriorate arena...");
+
+        this.arena.DeteriorateArena(deteriorator);
     }
 
     PopActionQueue()
@@ -201,7 +216,6 @@ export default class FlowManager
 
         return fullClick;
     }
-
 
     Update(deltaTime)
     {

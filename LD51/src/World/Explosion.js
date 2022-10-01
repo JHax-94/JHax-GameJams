@@ -2,10 +2,11 @@ import { EM, PIXEL_SCALE } from "../main";
 
 export default class Explosion
 {
-    constructor(tilePos, anim)
+    constructor(tilePos, anim, createdBy)
     {
         this.renderLayer = "WORLD";
 
+        this.createdBy = createdBy;
         this.tilePos = tilePos;
         this.anim = anim;
         this.animIndex = 0;

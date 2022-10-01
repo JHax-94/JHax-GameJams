@@ -138,6 +138,14 @@ export default class Player
         }
     }
         
+    CancelCurrentAction()
+    {
+        if(this.currentAction)
+        {
+            this.currentAction.CancelAction();
+        }
+    }
+
     CheckForFloor()
     {
         let tile = this.Arena().GetWorldTile({ x: this.tilePos.x, y: this.tilePos.y });

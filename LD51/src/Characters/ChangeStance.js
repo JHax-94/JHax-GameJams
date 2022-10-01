@@ -19,6 +19,4 @@ export default class ChangeStance extends Action
         this.targetPlayer.ChangeStance(this.changeDir);
         super.ActionComplete();
     }
-
-
 }

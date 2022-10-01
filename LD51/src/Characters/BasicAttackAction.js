@@ -1,4 +1,4 @@
-import { EM } from "../main";
+import { consoleLog, EM, REVERSE_DIRECTION } from "../main";
 import Explosion from "../World/Explosion";
 import Action from "./Action";
 
@@ -19,6 +19,8 @@ export default class BasicAttackAction extends Action
             { time: 0.15, sprite: 231 },
             { time: 0.15, sprite: 230 }
         ];
+
+        this.hitPlayers = [];
     }
 
     ExecuteAction(player)
@@ -27,7 +29,28 @@ export default class BasicAttackAction extends Action
 
         this.targetTile = this.GetTargetTile(player.direction, player.tilePos);
 
-        this.explosion = new Explosion(this.targetTile, this.explosionAnim);
+        this.explosion = new Explosion(this.targetTile, this.explosionAnim, player);
+
+        let explodes = EM.GetEntitiesStartingWith("Explode");
+
+        let maxExplode = -1;
+
+        for(let i = 0; i < explodes.length; i ++)
+        {
+            consoleLog("WORK OUT EXPLOSION NUMBER");
+            consoleLog(explodes[i]);
+
+            let explodeNum = parseInt(explodes[i].ENTITY_NAME.substring("Explode".length));
+
+            if(explodeNum > maxExplode)
+            {
+                maxExplode = explodeNum;
+            }
+        }
+
+        EM.AddEntity(`Explode${maxExplode+1}`, this.explosion);
+
+        this.CheckForHits(this.targetPlayer, this.targetTile);   
     }
 
     ProgressAction(deltaTime)

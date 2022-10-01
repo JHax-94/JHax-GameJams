@@ -12,8 +12,8 @@
 			"w": 28,
 			"h": 24,
 			"name": "map_objects",
-			"sheet": "",
-			"data": "!!.Z$D!!.:$u!!.Z"
+			"sheet": "tilesheet",
+			"data": "!!.Z$D!!|E$u!!!O"
 		}
 	]
 }

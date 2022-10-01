@@ -100,11 +100,8 @@ export default class Arena
 
         for(let i = 0; i < this.arenaMaps.length; i ++)
         {
-            consoleLog(`Check map type: ${this.arenaMaps[i].type}`);
-
             if(this.arenaMaps[i].type === type)
             {
-                consoleLog("Add map to list...");
                 maps.push(this.arenaMaps[i].map);
             }
         }

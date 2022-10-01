@@ -11,11 +11,7 @@ export default class MapDeteriorator
 
     SetTilesToDeteriorate(map)
     {
-        consoleLog("DETERIORATE TILES");
         let floorTiles = map.find(this.floorTileIndex);
-
-        consoleLog("Full list:");
-        consoleLog(floorTiles);
 
         let detList = [];
         for(let i = 0; i < floorTiles.length; i ++)

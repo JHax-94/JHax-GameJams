@@ -166,14 +166,27 @@ export default class FlowManager
 
         let deteriorator = new MapDeteriorator();
 
-        consoleLog("Deteriorate arena...");
-
         this.arena.DeteriorateArena(deteriorator);
 
         for(let i = 0; i < this.players.length; i ++)
         {
             this.players[i].CheckForFloor();
         }
+    }
+
+    GetOtherPlayers(notThisOne)
+    {
+        let others = [];
+
+        for(let i = 0; i < this.players.length; i ++)
+        {
+            if(this.players[i] !== notThisOne)
+            {
+                others.push(this.players[i]);
+            }
+        }
+
+        return others;
     }
 
     PopActionQueue()

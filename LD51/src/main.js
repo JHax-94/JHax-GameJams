@@ -28,6 +28,22 @@ let DIRECTIONS = {
     LEFT: 3
 };
 
+function REVERSE_DIRECTION(dir)
+{
+    switch(dir)
+    {
+        case DIRECTIONS.UP:
+            return DIRECTIONS.DOWN;
+        case DIRECTIONS.DOWN:
+            return DIRECTIONS.UP;
+        case DIRECTIONS.RIGHT:
+            return DIRECTIONS.LEFT;
+        case DIRECTIONS.LEFT:
+            return DIRECTIONS.RIGHT;
+    }
+}
+
+
 let PIXEL_SCALE = 8;
 let FPS = 1/60;
 
@@ -134,5 +150,5 @@ exports.update = function () {
 };
 
 export {
-    consoleLog, EM, SETUP, PIXEL_SCALE, TILE_WIDTH, TILE_HEIGHT, FPS, UTIL, DIRECTIONS, TURN_PHASES, TURN_PHASE_NAME, getObjectConfig
+    consoleLog, EM, SETUP, PIXEL_SCALE, TILE_WIDTH, TILE_HEIGHT, FPS, UTIL, DIRECTIONS, TURN_PHASES, REVERSE_DIRECTION, TURN_PHASE_NAME, getObjectConfig
 }

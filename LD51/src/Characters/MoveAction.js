@@ -1,4 +1,5 @@
-import { consoleLog, DIRECTIONS, EM, PIXEL_SCALE, UTIL } from "../main";
+import EntityManager from "../EntityManager";
+import { consoleLog, EM, PIXEL_SCALE, UTIL } from "../main";
 import Action from "./Action";
 
 export default class MoveAction extends Action
@@ -8,7 +9,7 @@ export default class MoveAction extends Action
         super("FWD");
         this.sourceTile = null;
         this.targetTile = null;
-        this.cancelled = false;
+        this.midpointCheckPassed = false;
     }
 
     ExecuteAction(player)
@@ -39,18 +40,45 @@ export default class MoveAction extends Action
         {
             let lerpV = this.GetProgress();
 
+
             let newPos = {
                 x: UTIL.Lerp(this.sourceTile.x, this.targetTile.x, lerpV) * PIXEL_SCALE,
                 y: UTIL.Lerp(this.sourceTile.y, this.targetTile.y, lerpV) * PIXEL_SCALE
             };
 
             this.targetPlayer.pos = newPos;
+
+            if(lerpV > 0.5 && !this.midpointCheckPassed)
+            {
+                consoleLog("Midpoint passed!");
+                let explosions = EM.GetEntitiesStartingWith("Explode");
+
+                consoleLog(`Check for explosion at target tile (${this.targetTile.x}, ${this.targetTile.y})`);
+
+                for(let i = 0; i < explosions.length; i ++)
+                {
+                    let ex = explosions[i];
+                    consoleLog(`Check explosion at (${ex.tilePos.x}, ${ex.tilePos.y})`);                    
+
+                    if(ex.tilePos.x === this.targetTile.x && ex.tilePos.y === this.targetTile.y)
+                    {
+                        consoleLog("PROCESS HIT!");
+                        this.ProcessHit(ex.createdBy, this.targetPlayer);
+                    }
+                }
+
+                this.midpointCheckPassed = true;
+            }
         }
     }
 
     ActionComplete()
     {        
-        this.targetPlayer.tilePos = this.targetTile;
+        if(!this.cancelled)
+        {
+            this.targetPlayer.tilePos = this.targetTile;
+            this.targetPlayer.CheckForFloor();
+        }
 
         super.ActionComplete();
     }

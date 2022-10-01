@@ -11,6 +11,17 @@ export default class ActionBar
         this.highlight = config.highlight;
         this.offm = config.offsetMultiplier;
 
+        this.healthbarStartPos = config.healthbarStartPos;
+        this.healthPipColours = [ 9, 10, 7 ];
+        
+        this.healthBarPip = {
+            spacing: 1.5,
+            width: 1,
+            height: 0.5
+        };
+
+        this.healthbarPip = config.healthbarPip
+
         this.currentActionPos = config.currentActionPos;
 
         this.currentIndicator = config.currentIndicator;
@@ -234,6 +245,35 @@ export default class ActionBar
             }
 
             print(text, drawAt.x, drawAt.y);
+        }
+
+        for(let i = 0; i < this.trackPlayer.hp; i ++)
+        {
+            paper(this.healthPipColours[this.trackPlayer.hp-1]);
+            //paper(this.healthPipColours[i]);
+            
+            let pipBaseModX = this.healthBarPip.spacing * i;
+
+            if(this.offm < 0)
+            {
+                pipBaseModX =  -(this.healthBarPip.spacing) * (i);
+                pipBaseModX -= 1;
+            }
+
+            let pipRect = {
+                x: (this.healthbarStartPos.x + pipBaseModX) * PIXEL_SCALE,
+                y: this.healthbarStartPos.y * PIXEL_SCALE,
+                w: this.healthBarPip.width * PIXEL_SCALE,
+                h: this.healthBarPip.height * PIXEL_SCALE
+            };
+
+            if(this.offm < 0) 
+            {
+                consoleLog(`PipRect: ${i} / ${this.trackPlayer.hp}`);
+                consoleLog(pipRect);
+            }
+
+            rectf(pipRect.x, pipRect.y, pipRect.w, pipRect.h);
         }
 
         if(this.IsPlayerActivePlayer())

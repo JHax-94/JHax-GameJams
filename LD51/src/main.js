@@ -145,7 +145,8 @@ function SETUP(levelName)
         animTime: actionBarConf.animTime,
         offsetMultiplier: 1,
         currentActionPos: { x: 3, y: 1 },
-        currentIndicator: { x: 1, y: 1 }        
+        currentIndicator: { x: 1, y: 1 },
+        healthbarStartPos: { x: 3, y: 0.25 }
     }, 
     EM.GetEntity("Player1")));
 
@@ -160,6 +161,7 @@ function SETUP(levelName)
         animTime: actionBarConf.animTime,
         offsetMultiplier: -1,
         currentActionPos: { x: TILE_WIDTH - 3, y: 1 },
+        healthbarStartPos: { x: TILE_WIDTH - 3, y: 0.25 },
         currentIndicator: { x: TILE_WIDTH - 2 , y: 1 }
     },
     EM.GetEntity("Player2")));

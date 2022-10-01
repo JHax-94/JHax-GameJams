@@ -6,7 +6,14 @@
 			"h": 16,
 			"name": "map",
 			"sheet": "",
-			"data": "!!.q"
+			"data": "#&.q"
+		},
+		{
+			"w": 16,
+			"h": 16,
+			"name": "map_objects",
+			"sheet": "",
+			"data": "!!}A$D!!|0$u!!}Q"
 		}
 	]
 }

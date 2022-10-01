@@ -1,0 +1,23 @@
+{
+    "objectMap": [
+        {
+            "name": "Arena",
+            "scannableMapTypes": [ "objects" ]
+        },
+        { 
+            "index": 126,
+            "name": "Player1",
+            "type": "PLAYER",
+            "searchMap": true,
+            "replaceTile": true
+        },
+        {
+            "index": 174,
+            "name": "Player2",
+            "type": "PLAYER",
+            "searchMap": true,
+            "replaceTile": true
+        }
+
+    ]
+}

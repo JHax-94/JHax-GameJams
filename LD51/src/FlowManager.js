@@ -87,6 +87,7 @@ export default class FlowManager
             });
 
             this.CheckInput(inputState.btn.execute, "execute", null, () => {
+                
                 this.ExecutePlayerActions();
             });
 
@@ -137,13 +138,18 @@ export default class FlowManager
 
     ExecutePlayerActions()
     {
-        if(this.turnPhase === TURN_PHASES.PLAYER_1_INPUT)
+        let activePlayer = this.GetActivePlayer();
+
+        if(activePlayer.actionQueue.length === activePlayer.maxActions)
         {
-            this.turnPhase = TURN_PHASES.PLAYER_2_INPUT;
-        }
-        else if(this.turnPhase === TURN_PHASES.PLAYER_2_INPUT)
-        {
-            this.StartActionPhase();
+            if(this.turnPhase === TURN_PHASES.PLAYER_1_INPUT)
+            {
+                this.turnPhase = TURN_PHASES.PLAYER_2_INPUT;
+            }
+            else if(this.turnPhase === TURN_PHASES.PLAYER_2_INPUT)
+            {
+                this.StartActionPhase();
+            }
         }
     }
 

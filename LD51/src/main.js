@@ -139,10 +139,13 @@ function SETUP(levelName)
         length: 10,
         unfilled: 208,
         filled: 209,
+        highlight: 226,
         rowHeight: 1.25,
         indicatorAnims: actionBarConf.indicatorAnims,
         animTime: actionBarConf.animTime,
-        offsetMultiplier: 1
+        offsetMultiplier: 1,
+        currentActionPos: { x: 3, y: 1 },
+        currentIndicator: { x: 1, y: 1 }        
     }, 
     EM.GetEntity("Player1")));
 
@@ -151,10 +154,13 @@ function SETUP(levelName)
         length: 10,
         unfilled: 208,
         filled: 193,
+        highlight: 192,
         rowHeight: 1.25,
         indicatorAnims: actionBarConf.indicatorAnims,
         animTime: actionBarConf.animTime,
-        offsetMultiplier: -1
+        offsetMultiplier: -1,
+        currentActionPos: { x: TILE_WIDTH - 3, y: 1 },
+        currentIndicator: { x: TILE_WIDTH - 2 , y: 1 }
     },
     EM.GetEntity("Player2")));
 

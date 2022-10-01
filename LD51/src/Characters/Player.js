@@ -69,6 +69,8 @@ export default class Player
     {
         if(this.actionQueue.length < this.maxActions)
         {
+            action.actionOrder = this.actionQueue.length;
+
             this.actionQueue.push(action);
         }
     }
@@ -114,7 +116,7 @@ export default class Player
     {
         if(this.currentAction)
         {
-            EM.hudLog.push(`Action: ${this.currentAction.GetProgress()}`);
+            //EM.hudLog.push(`Action: ${this.currentAction.GetProgress()}`);
             this.currentAction.ProgressAction(deltaTime);
         }
 

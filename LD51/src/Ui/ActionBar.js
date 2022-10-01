@@ -1,4 +1,4 @@
-import { EM, PIXEL_SCALE, TURN_PHASES } from "../main";
+import { consoleLog, EM, PIXEL_SCALE, TURN_PHASES } from "../main";
 
 export default class ActionBar
 {
@@ -8,7 +8,15 @@ export default class ActionBar
         this.length = config.length;
         this.unfilled = config.unfilled;
         this.filled = config.filled;
+        this.highlight = config.highlight;
         this.offm = config.offsetMultiplier;
+
+        this.currentActionPos = config.currentActionPos;
+
+        this.currentIndicator = config.currentIndicator;
+
+        this.pipeColour = 6;
+        this.activePipeColour = 1;
 
         this.trackPlayer = player;
 
@@ -78,7 +86,7 @@ export default class ActionBar
 
     Draw()
     {
-        paper(1);
+        paper(this.pipeColour);
         let mainPipe = { 
             x: (this.rootPos.x + 1.325 * this.offm) * PIXEL_SCALE,
             y: 2* PIXEL_SCALE, 
@@ -92,7 +100,30 @@ export default class ActionBar
         }
         rectf(mainPipe.x, mainPipe.y, mainPipe.w, mainPipe.h);
 
-        paper(1);
+
+        if(this.trackPlayer.currentAction)
+        {
+            sprite(this.highlight, this.currentIndicator.x * PIXEL_SCALE, this.currentIndicator.y * PIXEL_SCALE);
+
+            let activePipe = {
+                x: mainPipe.x,
+                y: mainPipe.y,
+                w: 1,
+                h: (this.trackPlayer.currentAction.actionOrder + 1) * this.rowHeight * PIXEL_SCALE + 3
+            };
+            consoleLog("Active pipe:");
+            consoleLog(activePipe);
+
+            paper(this.activePipeColour);
+            rectf(activePipe.x, activePipe.y, activePipe.w, activePipe.h);
+        }
+
+        let joinColour = this.pipeColour;
+        if(this.trackPlayer.currentAction)
+        {
+            joinColour = this.activePipeColour;
+        }
+        paper(joinColour);
         let pipeDisplayJoin = {
             x: (this.rootPos.x + 2 * this.offm) * PIXEL_SCALE - 2,
             y: 1.5 * PIXEL_SCALE,
@@ -117,13 +148,32 @@ export default class ActionBar
 
         for(let i = 0; i < this.length; i ++)
         {
-            let filled = i < this.trackPlayer.actionQueue.length;
+            let filled = false;
+
+            for(let j = 0; j < this.trackPlayer.actionQueue.length; j ++)
+            {
+                if(this.trackPlayer.actionQueue[j].actionOrder === i)
+                {
+                    filled = true;
+                    break;
+                }
+            }
 
             let yPos = (this.rootPos.y + (i * this.rowHeight)) * PIXEL_SCALE;
 
-            sprite(filled ? this.filled : this.unfilled, this.rootPos.x * PIXEL_SCALE, yPos);
+            let spriteIndex = this.unfilled;
 
-            paper(1);
+            if(this.trackPlayer.currentAction && this.trackPlayer.currentAction.actionOrder === i)
+            {
+                spriteIndex = this.highlight;
+            }
+            else if(filled)
+            {
+                spriteIndex=  this.filled;
+            }
+
+            sprite(spriteIndex, this.rootPos.x * PIXEL_SCALE, yPos);
+            
             let pipeJoiner = {
                 x: (this.rootPos.x + this.offm * 1) * PIXEL_SCALE,
                 y: yPos + 4,
@@ -136,6 +186,14 @@ export default class ActionBar
                 pipeJoiner.x += 0.5*PIXEL_SCALE + 2;
             }
 
+            let pipeCol = this.pipeColour;
+
+            if(this.trackPlayer.currentAction && this.trackPlayer.currentAction.actionOrder === i)
+            {
+                pipeCol = this.activePipeColour;
+            }
+
+            paper(pipeCol);
             rectf(pipeJoiner.x, pipeJoiner.y, pipeJoiner.w, pipeJoiner.h);
 
             if(this.showMoveDetails && filled)
@@ -146,7 +204,7 @@ export default class ActionBar
                 let textBacking = {
                     x: (this.rootPos.x + 1.25 * this.offm) * PIXEL_SCALE,
                     y: yPos,
-                    w:  text.length * 0.5* PIXEL_SCALE + 2,
+                    w: text.length * 0.5* PIXEL_SCALE + 2,
                     h: 1*PIXEL_SCALE
                 };
 
@@ -160,6 +218,22 @@ export default class ActionBar
             }
 
             finalY = yPos + PIXEL_SCALE
+        }
+
+        if(this.trackPlayer.currentAction)
+        {
+            let text = this.trackPlayer.currentAction.name;
+
+            let width = text.length * 0.5 * PIXEL_SCALE + 2;
+            
+            let drawAt = { x: this.currentActionPos.x * PIXEL_SCALE, y: this.currentActionPos.y * PIXEL_SCALE };
+
+            if(this.offm < 0)
+            {
+                drawAt.x = this.currentActionPos.x * PIXEL_SCALE - width;
+            }
+
+            print(text, drawAt.x, drawAt.y);
         }
 
         if(this.IsPlayerActivePlayer())

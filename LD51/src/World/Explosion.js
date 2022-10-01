@@ -29,7 +29,7 @@ export default class Explosion
 
     Draw()
     {
-        EM.hudLog.push(`Explosion: ${this.animIndex} (${this.tilePos.x}, ${this.tilePos.y})`);
+        //EM.hudLog.push(`Explosion: ${this.animIndex} (${this.tilePos.x}, ${this.tilePos.y})`);
         sprite(this.anim[this.animIndex].sprite, this.tilePos.x * PIXEL_SCALE, this.tilePos.y * PIXEL_SCALE);
     }
 }

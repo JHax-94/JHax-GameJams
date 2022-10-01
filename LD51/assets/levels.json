@@ -4,9 +4,9 @@
             "levelName": "TestLevel",
             "maps": [
                 { "type": "world", "name": "map", "draw": true },
-                { "type": "objects", "name": "map_objects", "draw": false }
+                { "type": "objects", "name": "map_objects", "draw": false },
+                { "type": "overlay", "name": "overlay", "draw": true }
             ]
-
         }
     ]
 

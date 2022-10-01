@@ -1,4 +1,5 @@
 import Action from "./Characters/Action";
+import BasicAttackAction from "./Characters/BasicAttackAction";
 import MoveAction from "./Characters/MoveAction";
 import TurnAction from "./Characters/TurnAction";
 import { consoleLog, EM, TURN_PHASES, TURN_PHASE_NAME } from "./main";
@@ -69,7 +70,14 @@ export default class FlowManager
                 this.QueueAction(new TurnAction(1));
             }
         });
-        
+
+        this.CheckInput(inputState.btn.action1, "action1", null, () => {
+            if(this.IsPlayerInputPhase())
+            {
+                this.QueueAction(new BasicAttackAction());
+            }
+        });
+
         this.CheckInput(inputState.btn.down, "down", null, () => {
             if(this.IsPlayerInputPhase())
             {

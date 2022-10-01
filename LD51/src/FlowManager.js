@@ -1,5 +1,6 @@
 import Action from "./Characters/Action";
 import BasicAttackAction from "./Characters/BasicAttackAction";
+import ChangeStance from "./Characters/ChangeStance";
 import MoveAction from "./Characters/MoveAction";
 import TurnAction from "./Characters/TurnAction";
 import { consoleLog, EM, TURN_PHASES, TURN_PHASE_NAME } from "./main";
@@ -54,47 +55,40 @@ export default class FlowManager
 
     Input(inputState)
     {
-        this.CheckInput(inputState.btn.up, "up", null, () => {
-            if(this.IsPlayerInputPhase())
-            {
+        if(this.IsPlayerInputPhase())
+        {
+            this.CheckInput(inputState.btn.up, "up", null, () => {
                 this.QueueAction(new MoveAction());
-            }
-        });
-        
-        this.CheckInput(inputState.btn.left, "left", null, () => {
-            if(this.IsPlayerInputPhase())
-            {
+            });
+            
+            this.CheckInput(inputState.btn.left, "left", null, () => {
                 this.QueueAction(new TurnAction(-1));
-            }
-        });
+            });
 
-        this.CheckInput(inputState.btn.right, "right", null, () => {
-            if(this.IsPlayerInputPhase())
-            {
-                this.QueueAction(new TurnAction(1));
-            }
-        });
+            this.CheckInput(inputState.btn.right, "right", null, () => {
+                this.QueueAction(new TurnAction(1));                
+            });
 
-        this.CheckInput(inputState.btn.action1, "action1", null, () => {
-            if(this.IsPlayerInputPhase())
-            {
+            this.CheckInput(inputState.btn.action1, "action1", null, () => {
                 this.QueueAction(new BasicAttackAction());
-            }
-        });
+            });
 
-        this.CheckInput(inputState.btn.down, "down", null, () => {
-            if(this.IsPlayerInputPhase())
-            {
+            this.CheckInput(inputState.btn.action2, "action2", null, () => {
+                this.QueueAction(new ChangeStance(+1));                
+            });
+
+            this.CheckInput(inputState.btn.action3, "action3", null, () => {
+                this.QueueAction(new ChangeStance(-1));
+            });
+
+            this.CheckInput(inputState.btn.down, "down", null, () => {
                 this.PopActionQueue();
-            }
-        });
+            });
 
-        this.CheckInput(inputState.btn.execute, "execute", null, () => {
-            if(this.IsPlayerInputPhase())
-            {
+            this.CheckInput(inputState.btn.execute, "execute", null, () => {
                 this.ExecutePlayerActions();
-            }
-        })
+            });
+        }
     }
 
     GetActivePlayer()

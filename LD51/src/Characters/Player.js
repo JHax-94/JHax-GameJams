@@ -1,4 +1,4 @@
-import { consoleLog, DIRECTIONS, EM, PIXEL_SCALE } from "../main";
+import { consoleLog, DIRECTIONS, EM, getObjectConfig, PIXEL_SCALE } from "../main";
 
 export default class Player
 {
@@ -13,10 +13,18 @@ export default class Player
         this.spriteData = spriteData;
         this.playerNumber = playerNumber;
 
+        let stanceConfig =  getObjectConfig("Stances");
+
+        this.stances = stanceConfig.stances;
+
+        this.stance = this.stances[random(this.stances.length)];
+
         this.direction = DIRECTIONS.DOWN;
 
         this.currentAction = null;
         this.actionQueue = [];
+
+        this.elapsedTime = 0;
 
         EM.RegisterEntity(this);
     }   
@@ -78,6 +86,10 @@ export default class Player
             EM.hudLog.push(`Action: ${this.currentAction.GetProgress()}`);
             this.currentAction.ProgressAction(deltaTime);
         }
+
+        this.elapsedTime += deltaTime;
+
+        this.bob = 1 + Math.sin(Math.PI * this.elapsedTime);
     }
     
     GetSpriteData()
@@ -104,18 +116,23 @@ export default class Player
         return frameSprite;
     }
 
+    ChangeStance(changeDir)
+    {
+        for(let i = 0; i < this.stances.length; i ++)
+        {
+            if((changeDir > 0 && this.stances[i].beats === this.stance.name) ||  (changeDir < 0 && this.stances[i].name === this.stance.beats))
+            {
+                this.stance = this.stances[i];
+                break;
+            }
+        }
+    }
+        
     Draw()
     {
         let drawSprite = this.GetSpriteData();
-        if(drawSprite)
-        {
-            sprite(drawSprite.i, this.pos.x, this.pos.y, drawSprite.h, drawSprite.v, drawSprite.r);
-        }
-        else 
-        {
-            consoleLog("SPRITE NOT FOUND");
-            consoleLog(this);
-        }
         
+        sprite(drawSprite.i, this.pos.x, this.pos.y, drawSprite.h, drawSprite.v, drawSprite.r);
+        sprite(this.stance.sprite, this.pos.x, this.pos.y - PIXEL_SCALE - this.bob);
     }
 }

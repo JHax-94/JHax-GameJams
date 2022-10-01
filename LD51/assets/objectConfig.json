@@ -37,6 +37,14 @@
         {
             "index": 4,
             "name": "DamagedFloorTile"
+        },
+        {
+            "name": "Stances",
+            "stances": [
+                { "name": "Rock", "sprite": 240, "beats": "Scissors" },
+                { "name": "Paper", "sprite": 241, "beats": "Rock" },
+                { "name": "Scissors", "sprite": 243, "beats": "Paper" }
+            ]
         }
     ]
 }

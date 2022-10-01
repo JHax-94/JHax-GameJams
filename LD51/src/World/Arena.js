@@ -71,9 +71,13 @@ export default class Arena
                         {
                             let numString = obj.name.substr("Player".length)
 
+                            /*
+                            consoleLog("Build player:");
+                            consoleLog(obj);
+                            */
                             let number = parseInt(numString);
                             let player = new Player(
-                                { spriteIndex: obj.index }, 
+                                obj.spriteData, 
                                 { x: tile.x, y: tile.y },
                                 number);
 

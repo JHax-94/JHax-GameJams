@@ -9,14 +9,26 @@
             "name": "Player1",
             "type": "PLAYER",
             "searchMap": true,
-            "replaceTile": true
+            "replaceTile": true,
+            "spriteData": {
+                "left": { "i": 158, "h": true, "v": false, "r": false },
+                "right": { "i": 158, "h": false, "v": false, "r": false },
+                "up": { "i": 142, "h": false, "v": false, "r": false },
+                "down": { "i": 126, "h": false, "v": false, "r": false }
+            }
         },
         {
             "index": 174,
             "name": "Player2",
             "type": "PLAYER",
             "searchMap": true,
-            "replaceTile": true
+            "replaceTile": true,
+            "spriteData": {
+                "left": { "i": 206, "h": true, "v": false, "r": false },
+                "right": { "i": 206, "h": false, "v": false, "r": false },
+                "up": { "i": 190, "h": false, "v": false, "r": false },
+                "down": { "i": 174, "h": false, "v": false, "r": false }
+            }
         }
 
     ]

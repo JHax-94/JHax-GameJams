@@ -10,7 +10,7 @@ export default class Player
 
         this.pos = { x: this.tilePos.x * PIXEL_SCALE, y: this.tilePos.y * PIXEL_SCALE };
 
-        this.spriteIndex = spriteData.spriteIndex;
+        this.spriteData = spriteData;
         this.playerNumber = playerNumber;
 
         this.direction = DIRECTIONS.DOWN;
@@ -65,9 +65,43 @@ export default class Player
             this.currentAction.ProgressAction(deltaTime);
         }
     }
+    
+    GetSpriteData()
+    {
+        let frameSprite  = null;
+
+        if(this.direction === DIRECTIONS.UP)
+        {
+            frameSprite = this.spriteData.up;
+        }
+        else if(this.direction === DIRECTIONS.RIGHT)
+        {
+            frameSprite = this.spriteData.right;
+        }
+        else if(this.direction === DIRECTIONS.LEFT)
+        {
+            frameSprite = this.spriteData.left;
+        }
+        else if(this.direction === DIRECTIONS.DOWN)
+        {
+            frameSprite = this.spriteData.down;
+        }
+
+        return frameSprite;
+    }
 
     Draw()
     {
-        sprite(this.spriteIndex, this.pos.x, this.pos.y);
+        let drawSprite = this.GetSpriteData();
+        if(drawSprite)
+        {
+            sprite(drawSprite.i, this.pos.x, this.pos.y, drawSprite.h, drawSprite.v, drawSprite.r);
+        }
+        else 
+        {
+            consoleLog("SPRITE NOT FOUND");
+            consoleLog(this);
+        }
+        
     }
 }

@@ -104,6 +104,7 @@ export default class FlowManager
         let player = this.GetActivePlayer();
 
         player.ExecuteActionQueue();
+        
         this.turnPhase = TURN_PHASES.ACTION;
     }
 

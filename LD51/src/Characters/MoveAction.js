@@ -16,7 +16,6 @@ export default class MoveAction extends Action
         this.targetPlayer = player;
         let playerDirection = player.direction;
 
-
         this.sourceTile = player.tilePos;
         let targetTile = { }
 
@@ -48,8 +47,6 @@ export default class MoveAction extends Action
     {
         super.ProgressAction(deltaTime);
 
-        
-
         if(this.targetTile && this.targetPlayer)
         {
             let lerpV = this.GetProgress();
@@ -58,8 +55,6 @@ export default class MoveAction extends Action
                 x: UTIL.Lerp(this.sourceTile.x, this.targetTile.x, lerpV) * PIXEL_SCALE,
                 y: UTIL.Lerp(this.sourceTile.y, this.targetTile.y, lerpV) * PIXEL_SCALE
             };
-
-            consoleLog(`Update Player Pos: (${newPos.x}, ${newPos.y})`);
 
             this.targetPlayer.pos = newPos;
         }

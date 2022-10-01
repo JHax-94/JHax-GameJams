@@ -481,8 +481,6 @@ export default class EntityManager
             }
         }
 
-        this.hudLog.push("TEST");
-
         if(this.focusedInputGroup)
         {
             //this.hudLog.push(`Input group: ${this.focusedInputGroup.name}`);

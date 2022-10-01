@@ -4,6 +4,13 @@
             "name": "Arena",
             "scannableMapTypes": [ "objects" ]
         },
+        {
+            "name": "Player",
+            "maxHp": 3,
+            "flickerTime": 1,
+            "flickerOffTime": 0.2,
+            "flickerOnTime": 0.2
+        },
         { 
             "index": 126,
             "name": "Player1",

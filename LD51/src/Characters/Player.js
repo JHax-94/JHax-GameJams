@@ -1,10 +1,24 @@
-import { consoleLog, DIRECTIONS, EM, getObjectConfig, PIXEL_SCALE } from "../main";
+import { consoleLog, DIRECTIONS, EM, getObjectConfig, PIXEL_SCALE, TILE_WIDTH } from "../main";
 
 export default class Player
 {
     constructor(spriteData, tilePos, playerNumber)
     {
         this.renderLayer = "WORLD";
+
+        let playerConf = getObjectConfig("Player");
+
+        this.maxHp = playerConf.maxHp;
+        this.hp = this.maxHp;
+
+        this.flickerTime = playerConf.flickerTime;
+        this.flickerOffTime = playerConf.flickerOffTime;
+        this.flickerOnTime = playerConf.flickerOnTime;
+        this.flickerTimer = 0;
+
+        this.flicker = false;
+
+        this.flickPhase = 0;
 
         this.tilePos = tilePos;
 
@@ -19,7 +33,7 @@ export default class Player
 
         this.stance = this.stances[random(this.stances.length)];
 
-        this.direction = DIRECTIONS.DOWN;
+        this.direction = this.playerNumber === 1 ? DIRECTIONS.RIGHT : DIRECTIONS.LEFT;
 
         this.currentAction = null;
         this.actionQueue = [];
@@ -61,7 +75,7 @@ export default class Player
 
     ExecuteActionQueue()
     {
-        if(this.actionQueue.length > 0)
+        if(this.actionQueue.length > 0 && this.hp > 0)
         {
             this.currentAction = this.actionQueue[0];
             this.currentAction.ExecuteAction(this);
@@ -70,6 +84,8 @@ export default class Player
 
     ActionCompleted(action)
     {
+        this.currentAction = null;
+        
         for(let i = 0; i < this.actionQueue.length; i ++)
         {
             if(this.actionQueue[i] === action)
@@ -100,8 +116,55 @@ export default class Player
         this.elapsedTime += deltaTime;
 
         this.bob = 1 + Math.sin(Math.PI * this.elapsedTime);
+
+        if(this.flickerTimer > 0)
+        {
+            this.flickerTimer -= deltaTime;
+            this.flickPhase += deltaTime;
+
+            if(this.flicker && this.flickPhase > this.flickerOffTime)
+            {
+                this.flicker = false;
+                this.flickPhase = 0;
+            }
+
+            if(!this.flicker && this.flickPhase > this.flickerOnTime)
+            {
+                this.flicker = true;
+                this.flickPhase = 0;
+            }
+
+            if(this.flickerTimer < 0)
+            {
+                this.flickerTimer = 0;
+                this.flicker = false;
+
+                if(this.hp < 0)
+                {
+                    this.PlayerKilled();
+                }
+            }
+        }
+        
     }
     
+    Damage(amount)
+    {
+        this.hp -= amount;
+
+        if(this.hp < 0)
+        {
+            this.hp = 0;
+        }
+        else if(this.hp > this.maxHp)
+        {
+            this.hp = this.maxHp;
+        }
+
+        this.flicker = true;
+        this.flickerTimer = this.flickerTime;
+    }
+
     GetSpriteData()
     {
         let frameSprite  = null;
@@ -165,7 +228,12 @@ export default class Player
     {
         let drawSprite = this.GetSpriteData();
         
-        sprite(drawSprite.i, this.pos.x, this.pos.y, drawSprite.h, drawSprite.v, drawSprite.r);
+        if(!this.flicker) 
+        {
+            sprite(drawSprite.i, this.pos.x, this.pos.y, drawSprite.h, drawSprite.v, drawSprite.r);
+        }
         sprite(this.stance.sprite, this.pos.x, this.pos.y - PIXEL_SCALE - this.bob);
+
+        print(`P${this.playerNumber} HP: ${this.hp}/${this.maxHp}`, (TILE_WIDTH - 5) * PIXEL_SCALE, (this.playerNumber-1) * PIXEL_SCALE);
     }
 }

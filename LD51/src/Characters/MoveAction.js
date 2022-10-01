@@ -25,8 +25,6 @@ export default class MoveAction extends Action
 
         if(EM.tileChecker.IsWallTile(tile))
         {   
-            consoleLog("CANCEL ACTION! TARGET TILE NOT VALID");
-
             this.targetTile = this.sourceTile;
             this.cancelled = true;
         }
@@ -40,7 +38,6 @@ export default class MoveAction extends Action
         {
             let lerpV = this.GetProgress();
 
-
             let newPos = {
                 x: UTIL.Lerp(this.sourceTile.x, this.targetTile.x, lerpV) * PIXEL_SCALE,
                 y: UTIL.Lerp(this.sourceTile.y, this.targetTile.y, lerpV) * PIXEL_SCALE
@@ -50,19 +47,14 @@ export default class MoveAction extends Action
 
             if(lerpV > 0.5 && !this.midpointCheckPassed)
             {
-                consoleLog("Midpoint passed!");
                 let explosions = EM.GetEntitiesStartingWith("Explode");
-
-                consoleLog(`Check for explosion at target tile (${this.targetTile.x}, ${this.targetTile.y})`);
 
                 for(let i = 0; i < explosions.length; i ++)
                 {
                     let ex = explosions[i];
-                    consoleLog(`Check explosion at (${ex.tilePos.x}, ${ex.tilePos.y})`);                    
-
+                    
                     if(ex.tilePos.x === this.targetTile.x && ex.tilePos.y === this.targetTile.y)
                     {
-                        consoleLog("PROCESS HIT!");
                         this.ProcessHit(ex.createdBy, this.targetPlayer);
                     }
                 }

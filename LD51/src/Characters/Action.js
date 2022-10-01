@@ -104,10 +104,6 @@ export default class Action
         }
         else if(sourcePlayer.stance.name === hitPlayer.stance.beats)
         {
-            /// ATTACK BACKFIRE
-            // Bounce instigating player back 2 tiles
-            // no effect on hit player
-
             consoleLog("Backfire bounce!");
             this.BouncePlayer(sourcePlayer, REVERSE_DIRECTION(sourcePlayer.direction), 2);
             sourcePlayer.CancelCurrentAction();
@@ -120,6 +116,7 @@ export default class Action
             // Enemy takes a hit and bounces back 2 tiles
             this.BouncePlayer(hitPlayer, sourcePlayer.direction, 2);
             hitPlayer.CancelCurrentAction();
+            hitPlayer.Damage(1);
         }
     }
 

@@ -13,14 +13,9 @@ export default class MoveAction extends Action
     ExecuteAction(player)
     {
         this.targetPlayer = player;
-        let playerDirection = player.direction;
-
         this.sourceTile = player.tilePos;
-        let targetTile = { }
-
-        this.GetTargetTile(playerDirection, this.sourceTile);
-
-        this.targetTile = targetTile;
+        
+        this.targetTile = this.GetTargetTile(player.direction, player.tilePos);
     }
 
     ProgressAction(deltaTime)

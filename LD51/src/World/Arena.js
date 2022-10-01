@@ -81,6 +81,8 @@ export default class Arena
                                 { x: tile.x, y: tile.y },
                                 number);
 
+                            consoleLog(`Adding entity with playerName: ${obj.name}`);
+
                             EM.AddEntity(obj.name, player);
                         }
 

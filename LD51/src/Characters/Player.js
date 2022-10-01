@@ -11,6 +11,8 @@ export default class Player
         this.maxHp = playerConf.maxHp;
         this.hp = this.maxHp;
 
+        this.maxActions = playerConf.maxActions;
+
         this.flickerTime = playerConf.flickerTime;
         this.flickerOffTime = playerConf.flickerOffTime;
         this.flickerOnTime = playerConf.flickerOnTime;
@@ -65,7 +67,10 @@ export default class Player
 
     AddToActionQueue(action)
     {
-        this.actionQueue.push(action);
+        if(this.actionQueue.length < this.maxActions)
+        {
+            this.actionQueue.push(action);
+        }
     }
 
     PopActionQueue()
@@ -85,7 +90,7 @@ export default class Player
     ActionCompleted(action)
     {
         this.currentAction = null;
-        
+
         for(let i = 0; i < this.actionQueue.length; i ++)
         {
             if(this.actionQueue[i] === action)
@@ -234,6 +239,6 @@ export default class Player
         }
         sprite(this.stance.sprite, this.pos.x, this.pos.y - PIXEL_SCALE - this.bob);
 
-        print(`P${this.playerNumber} HP: ${this.hp}/${this.maxHp}`, (TILE_WIDTH - 5) * PIXEL_SCALE, (this.playerNumber-1) * PIXEL_SCALE);
+        //print(`P${this.playerNumber} HP: ${this.hp}/${this.maxHp}`, (TILE_WIDTH - 5) * PIXEL_SCALE, (this.playerNumber-1) * PIXEL_SCALE);
     }
 }

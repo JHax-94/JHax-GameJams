@@ -7,6 +7,7 @@
         {
             "name": "Player",
             "maxHp": 3,
+            "maxActions": 10,
             "flickerTime": 1,
             "flickerOffTime": 0.2,
             "flickerOnTime": 0.2
@@ -57,6 +58,16 @@
             "name": "TileChecker",
             "validGroundTiles": [ 3, 4 ],
             "wallTiles": [ 92 ]
+        },
+        {
+            "name": "ActionBar",
+            "indicatorAnims": [
+                { "i": 210, "h": false, "v": false, "r": false },
+                { "i": 210, "h": false, "v": true, "r": false },
+                { "i": 210, "h": true, "v": true, "r": false },
+                { "i": 210, "h": true, "v": false, "r": false }
+            ],
+            "animTime": 0.2
         }
     ]
 }

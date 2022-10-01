@@ -22,8 +22,9 @@ export default class FlowManager
             action1: false,
             action2: false,
             action3: false,
-            execute: false
-        }
+            execute: false,
+            space: false
+        };
 
         this.turnPhase = TURN_PHASES.PLAYER_1_INPUT
 
@@ -88,6 +89,8 @@ export default class FlowManager
             this.CheckInput(inputState.btn.execute, "execute", null, () => {
                 this.ExecutePlayerActions();
             });
+
+            this.CheckInput(inputState.btn.space, "space", () => { this.ShowPlayerMoves(); }, () => { this.HidePlayerMoves(); });
         }
     }
 
@@ -105,6 +108,18 @@ export default class FlowManager
         {
             return null;
         }
+    }
+
+    ShowPlayerMoves()
+    {
+        let active = this.GetActivePlayer();
+        active.actionUi.Show();
+    }
+
+    HidePlayerMoves()
+    {
+        let active = this.GetActivePlayer();
+        active.actionUi.Hide();
     }
 
     StartActionPhase()
@@ -231,16 +246,17 @@ export default class FlowManager
 
     Update(deltaTime)
     {
+        /*
         EM.hudLog.push(`Phase: ${TURN_PHASE_NAME(this.turnPhase)}`)
 
         let activePlayer = this.GetActivePlayer();
-
+        
         if(activePlayer)
-        {
+        {            
             for(let i = 0; i < activePlayer.actionQueue.length; i ++)
             {
                 EM.hudLog.push(activePlayer.actionQueue[i].name);
             }
-        }
+        }*/
     }
 }

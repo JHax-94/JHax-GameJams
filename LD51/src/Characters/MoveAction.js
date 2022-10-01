@@ -6,7 +6,7 @@ export default class MoveAction extends Action
 {
     constructor()
     {        
-        super("FWD");
+        super("Forward");
         this.sourceTile = null;
         this.targetTile = null;
         this.midpointCheckPassed = false;

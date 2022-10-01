@@ -1,6 +1,7 @@
 import ControlsDisplay from './ControlsDisplay.js';
 import EntityManager from './EntityManager.js'
 import FlowManager from './FlowManager.js';
+import ActionBar from './Ui/ActionBar.js';
 import Utility from './Utility.js'
 import Arena from './World/Arena.js';
 
@@ -47,8 +48,8 @@ function REVERSE_DIRECTION(dir)
 let PIXEL_SCALE = 8;
 let FPS = 1/60;
 
-let TILE_WIDTH = 28;
-let TILE_HEIGHT = 24;
+let TILE_WIDTH = 33;
+let TILE_HEIGHT = 25;
 
 let LOGGING_ON = true;
 let LOAD_COMPLETE = false;
@@ -130,6 +131,32 @@ function SETUP(levelName)
     EM.AddEntity("ARENA", new Arena(levelData));
 
     EM.AddEntity("Display", new ControlsDisplay());
+
+    let actionBarConf = getObjectConfig("ActionBar");
+
+    EM.AddEntity("Player1_Actions", new ActionBar({ x: 0.25, y: 3}, 
+    {
+        length: 10,
+        unfilled: 208,
+        filled: 209,
+        rowHeight: 1.25,
+        indicatorAnims: actionBarConf.indicatorAnims,
+        animTime: actionBarConf.animTime,
+        offsetMultiplier: 1
+    }, 
+    EM.GetEntity("Player1")));
+
+    EM.AddEntity("Player2_Actions", new ActionBar({ x: TILE_WIDTH-1.25, y: 3},
+    {
+        length: 10,
+        unfilled: 208,
+        filled: 193,
+        rowHeight: 1.25,
+        indicatorAnims: actionBarConf.indicatorAnims,
+        animTime: actionBarConf.animTime,
+        offsetMultiplier: -1
+    },
+    EM.GetEntity("Player2")));
 
     flowManager.GrabObjects();
 

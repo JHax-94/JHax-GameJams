@@ -6,8 +6,8 @@
 		"fullscreen": false,
 		"resizable": false,
 		"keepAspectRatio": false,
-		"width": 224,
-		"height": 192,
+		"width": 264,
+		"height": 200,
 		"pixelSize": {
 			"width": 4,
 			"height": 4
@@ -47,7 +47,8 @@
 		"action1": 49,
 		"action2": 50,
 		"action3": 51,
-		"execute": 13
+		"execute": 13,
+		"space": 32
 	},
 	"touchEvent": {
 		"multiTouch": false,

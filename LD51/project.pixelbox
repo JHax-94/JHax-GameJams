@@ -6,8 +6,8 @@
 		"fullscreen": false,
 		"resizable": false,
 		"keepAspectRatio": false,
-		"width": 128,
-		"height": 128,
+		"width": 224,
+		"height": 192,
 		"pixelSize": {
 			"width": 4,
 			"height": 4
@@ -44,8 +44,10 @@
 		"down": 40,
 		"left": 37,
 		"right": 39,
-		"A": 32,
-		"B": 88
+		"action1": 49,
+		"action2": 50,
+		"action3": 51,
+		"execute": 13
 	},
 	"touchEvent": {
 		"multiTouch": false,
@@ -73,7 +75,7 @@
 		"patatracker": false,
 		"bleeper": false,
 		"TINA": false,
-		"polyfill": false
+		"polyfill": true
 	},
 	"buildOptions": {
 		"scriptLanguage": "ES6",

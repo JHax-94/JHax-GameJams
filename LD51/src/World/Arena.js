@@ -69,7 +69,7 @@ export default class Arena
                         
                         if(obj.type === "PLAYER")
                         {
-                            let numString = obj.name.substr("PLAYER".length)
+                            let numString = obj.name.substr("Player".length)
 
                             let number = parseInt(numString);
                             let player = new Player(

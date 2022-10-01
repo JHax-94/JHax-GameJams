@@ -455,38 +455,11 @@ export default class EntityManager
                 {
                     if(this.focusedInputGroup)
                     {
-                        this.focusedInputGroup.Input(btn, gamepads, gamepad);
-                    }
+                        let inputState = {
+                            btn: btn
+                        };
 
-                    /*
-                    if(this.inputReceivers.length > 0)
-                    {
-                        for(let i = 0; i < this.inputReceivers.length; i ++)
-                        {
-                            let padState = gamepads[this.inputReceivers[i].inputSource];
-
-                            this.inputReceivers[i].entity.Input(padState);
-                        }
-                    }*/
-                }
-                else if(this.pauseMenu)
-                {
-                    for(let i = 0; i < gamepads.length; i ++ )
-                    {
-                        this.pauseMenu.Input(gamepads[i], i);
-                    }
-                }
-            }
-            else
-            {
-                if(this.inputDetectors.length > 0)
-                {
-                    for(let i = 0; i < this.inputDetectors.length; i ++)
-                    {
-                        for(let j = 0; j < gamepads.length; j ++)
-                        {
-                            this.inputDetectors[i].InputDetect(gamepads[j], j);
-                        }
+                        this.focusedInputGroup.Input(inputState);
                     }
                 }
             }
@@ -504,6 +477,8 @@ export default class EntityManager
                 this.gameOverDelay = 0;
             }
         }
+
+        this.hudLog.push("TEST");
 
         if(this.focusedInputGroup)
         {

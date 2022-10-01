@@ -1,4 +1,5 @@
 import EntityManager from './EntityManager.js'
+import FlowManager from './FlowManager.js';
 import Utility from './Utility.js'
 import Arena from './World/Arena.js';
 
@@ -36,6 +37,32 @@ let LOGGING_ON = true;
 let LOAD_COMPLETE = false;
 let EM;
 let UTIL = new Utility();
+
+let TURN_PHASES = {
+    PLAYER_1_INPUT: 0,
+    PLAYER_2_INPUT: 1,
+    ACTION: 2
+}
+
+function TURN_PHASE_NAME(turnPhase)
+{
+    let name = "ERROR";
+
+    switch(turnPhase)
+    {
+        case TURN_PHASES.PLAYER_1_INPUT:
+            name= "PLAYER_1_INPUT";            
+            break;
+        case TURN_PHASES.PLAYER_2_INPUT:
+            name= "PLAYER_2_INPUT";
+            break;
+        case TURN_PHASES.ACTION:
+            name= "ACTION";
+            break;
+    }
+
+    return name;
+}
 
 function consoleLog(logData) {
     if(LOGGING_ON) console.log(logData); 
@@ -79,7 +106,13 @@ function SETUP(levelName)
 
     let levelData = GetLevelDataByName(levelName);
 
+    let flowManager = new FlowManager();
+
+    EM.AddEntity("FLOW", flowManager);
+
     EM.AddEntity("ARENA", new Arena(levelData));
+
+    flowManager.GrabObjects();
 
     LOAD_COMPLETE = true;
 }
@@ -98,5 +131,5 @@ exports.update = function () {
 };
 
 export {
-    consoleLog, EM, SETUP, PIXEL_SCALE, TILE_WIDTH, TILE_HEIGHT, FPS, UTIL, DIRECTIONS, getObjectConfig
+    consoleLog, EM, SETUP, PIXEL_SCALE, TILE_WIDTH, TILE_HEIGHT, FPS, UTIL, DIRECTIONS, TURN_PHASES, TURN_PHASE_NAME, getObjectConfig
 }

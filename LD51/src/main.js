@@ -1,3 +1,4 @@
+import ControlsDisplay from './ControlsDisplay.js';
 import EntityManager from './EntityManager.js'
 import FlowManager from './FlowManager.js';
 import Utility from './Utility.js'
@@ -30,8 +31,8 @@ let DIRECTIONS = {
 let PIXEL_SCALE = 8;
 let FPS = 1/60;
 
-let TILE_WIDTH = 16;
-let TILE_HEIGHT = 16;
+let TILE_WIDTH = 28;
+let TILE_HEIGHT = 24;
 
 let LOGGING_ON = true;
 let LOAD_COMPLETE = false;
@@ -111,6 +112,8 @@ function SETUP(levelName)
     EM.AddEntity("FLOW", flowManager);
 
     EM.AddEntity("ARENA", new Arena(levelData));
+
+    EM.AddEntity("Display", new ControlsDisplay());
 
     flowManager.GrabObjects();
 

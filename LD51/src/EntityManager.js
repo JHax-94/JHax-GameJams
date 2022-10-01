@@ -2,6 +2,7 @@
 import InputGroup from "./InputGroup";
 import { consoleLog, PIXEL_SCALE, EM, getObjectConfig } from "./main";
 import RenderLayer from "./RenderLayer";
+import TileChecker from "./World/TileChecker";
 
 export default class EntityManager
 {
@@ -58,6 +59,8 @@ export default class EntityManager
         this.hudLogRoot = 0;
         this.hudLogHeight = 0.75;
         this.hudLogColour = 1;
+
+        this.tileChecker = new TileChecker();
     }
 
     AddRenderLayer(name, order, ySort)

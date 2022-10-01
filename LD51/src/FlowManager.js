@@ -169,6 +169,11 @@ export default class FlowManager
         consoleLog("Deteriorate arena...");
 
         this.arena.DeteriorateArena(deteriorator);
+
+        for(let i = 0; i < this.players.length; i ++)
+        {
+            this.players[i].CheckForFloor();
+        }
     }
 
     PopActionQueue()

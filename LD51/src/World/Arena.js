@@ -94,29 +94,48 @@ export default class Arena
         }
     }
 
-    DeteriorateArena(deteriorator)
+    GetMaps(type)
     {
-        let worldMaps = [];
-
-        consoleLog("Build world maps list...");
-        consoleLog(this.arenaMaps);
+        let maps = [];
 
         for(let i = 0; i < this.arenaMaps.length; i ++)
         {
             consoleLog(`Check map type: ${this.arenaMaps[i].type}`);
 
-            if(this.arenaMaps[i].type === "world")
+            if(this.arenaMaps[i].type === type)
             {
                 consoleLog("Add map to list...");
-                worldMaps.push(this.arenaMaps[i].map);
+                maps.push(this.arenaMaps[i].map);
             }
         }
+
+        return maps;
+    }
+
+    DeteriorateArena(deteriorator)
+    {
+        let worldMaps = this.GetMaps("world");
 
         for(let i = 0; i < worldMaps.length; i++)
         {
             deteriorator.RemoveDeterioratedTiles(worldMaps[i]);
             deteriorator.SetTilesToDeteriorate(worldMaps[i]);
         }
+    }
+
+    GetWorldTile(tilePos)
+    {
+        let worldMaps = this.GetMaps("world");
+
+        let tile = null;
+
+        for(let i = 0; i < worldMaps.length; i ++)
+        {
+            tile = worldMaps[worldMaps.length - 1 - i].get(tilePos.x, tilePos.y);
+            break;
+        }
+
+        return tile;
     }
 
     Draw()

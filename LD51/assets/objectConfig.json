@@ -45,6 +45,11 @@
                 { "name": "Paper", "sprite": 241, "beats": "Rock" },
                 { "name": "Scissors", "sprite": 243, "beats": "Paper" }
             ]
+        },
+        {
+            "name": "TileChecker",
+            "validGroundTiles": [ 3, 4 ],
+            "wallTiles": [ 92 ]
         }
     ]
 }

@@ -39,6 +39,16 @@ export default class Player
         return this.flowManager;
     }
 
+    Arena()
+    {
+        if(!this.arena)
+        {
+            this.arena = EM.GetEntity("ARENA");
+        }
+
+        return this.arena;
+    }
+
     AddToActionQueue(action)
     {
         this.actionQueue.push(action);
@@ -128,6 +138,21 @@ export default class Player
         }
     }
         
+    CheckForFloor()
+    {
+        let tile = this.Arena().GetWorldTile({ x: this.tilePos.x, y: this.tilePos.y });
+
+        if(!EM.tileChecker.IsValidGroundTile(tile))
+        {
+            this.PlayerKilled();
+        }
+    }
+
+    PlayerKilled()
+    {
+        EM.RemoveEntity(this);
+    }
+
     Draw()
     {
         let drawSprite = this.GetSpriteData();

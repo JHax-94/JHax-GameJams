@@ -27,4 +27,9 @@ export default class Utility
         let result = from + (to-from) * amnt * amnt * amnt;
         return result;
     }
+
+    CalculateTextWidth(text)
+    {
+        return text.length * 0.5 + (2/PIXEL_SCALE);
+    }
 }

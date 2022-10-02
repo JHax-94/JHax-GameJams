@@ -2,10 +2,58 @@
     "data": [
         {
             "levelName": "TestLevel",
+            "type": "arena",
             "maps": [
                 { "type": "world", "name": "map", "draw": true },
                 { "type": "objects", "name": "map_objects", "draw": false },
                 { "type": "overlay", "name": "overlay", "draw": true }
+            ]
+        },
+        {
+            "levelName": "Menu",
+            "type": "menu",
+            "modeSelectRoot": {
+                "x": 1,
+                "y": 2,
+                "w": 5,
+                "h": 1.25,
+                "s": 0.25
+            },
+            "modeOptionsRoot": {
+                "x": 10,
+                "y": 6,
+                "w": 10,
+                "h": 1.25,
+                "s": 0.25
+            },
+            "confirmButton": {
+                "x": 10,
+                "y": 20,
+                "h": 2,
+                "w": 8,
+                "display": "Start Battle!"
+            },
+            "modes": [
+                { "name": "1 Player", "options": [ "AI", "Arena", "Map Damage" ] },
+                { "name": "2 Player", "options": [ "Arena", "Map Damage" ] }
+            ],
+            "modeOptions": [
+                { 
+                    "name": "AI", "type": "Carousel", "options": [
+                        { "value": "Simple", "display": "Simple" }
+                ]},
+                { 
+                    "name": "Arena", "type": "Carousel", "options": [
+                        { "value": "TestLevel", "display": "TestLevel" }
+                ]},
+                {
+                    "name": "Map Damage", "type": "Carousel", "options": [
+                        { "value": "Edge", "display": "Edge" },
+                        { "value": "None", "display": "None" },
+                        { "value": "RandomEdge", "display": "Random Edge" },
+                        { "value": "FullRandom", "display": "Full Random" }
+                    ]
+                }
             ]
         }
     ]

@@ -2,6 +2,7 @@ import ControlsDisplay from './ControlsDisplay.js';
 import EntityManager from './EntityManager.js'
 import FlowManager from './FlowManager.js';
 import ActionBar from './Ui/ActionBar.js';
+import Menu from './Ui/Menu.js';
 import Utility from './Utility.js'
 import Arena from './World/Arena.js';
 
@@ -119,55 +120,68 @@ function getObjectConfig(objectName)
     return objectConf;
 }
 
-function SETUP(levelName)
+function SETUP(levelName, levelConfig)
 {
     EM = new EntityManager();
 
     let levelData = GetLevelDataByName(levelName);
 
-    let flowManager = new FlowManager();
+    consoleLog("set up with level data:");
+    consoleLog(levelData);
 
-    EM.AddEntity("FLOW", flowManager);
-
-    EM.AddEntity("ARENA", new Arena(levelData));
-
-    EM.AddEntity("Display", new ControlsDisplay());
-
-    let actionBarConf = getObjectConfig("ActionBar");
-
-    EM.AddEntity("Player1_Actions", new ActionBar({ x: 0.25, y: 3}, 
+    if(levelData.type === "arena")
     {
-        length: 10,
-        unfilled: 208,
-        filled: 209,
-        highlight: 226,
-        rowHeight: 1.25,
-        indicatorAnims: actionBarConf.indicatorAnims,
-        animTime: actionBarConf.animTime,
-        offsetMultiplier: 1,
-        currentActionPos: { x: 3, y: 1 },
-        currentIndicator: { x: 1, y: 1 },
-        healthbarStartPos: { x: 3, y: 0.25 }
-    }, 
-    EM.GetEntity("Player1")));
+        consoleLog("Load with Config...");
+        consoleLog(levelConfig);
 
-    EM.AddEntity("Player2_Actions", new ActionBar({ x: TILE_WIDTH-1.25, y: 3},
+        let flowManager = new FlowManager();
+
+        EM.AddEntity("FLOW", flowManager);
+
+        EM.AddEntity("ARENA", new Arena(levelData));
+
+        EM.AddEntity("Display", new ControlsDisplay());
+
+        let actionBarConf = getObjectConfig("ActionBar");
+
+        EM.AddEntity("Player1_Actions", new ActionBar({ x: 0.25, y: 3}, 
+        {
+            length: 10,
+            unfilled: 208,
+            filled: 209,
+            highlight: 226,
+            rowHeight: 1.25,
+            indicatorAnims: actionBarConf.indicatorAnims,
+            animTime: actionBarConf.animTime,
+            offsetMultiplier: 1,
+            currentActionPos: { x: 3, y: 1 },
+            currentIndicator: { x: 1, y: 1 },
+            healthbarStartPos: { x: 3, y: 0.25 }
+        }, 
+        EM.GetEntity("Player1")));
+
+        EM.AddEntity("Player2_Actions", new ActionBar({ x: TILE_WIDTH-1.25, y: 3},
+        {
+            length: 10,
+            unfilled: 208,
+            filled: 193,
+            highlight: 192,
+            rowHeight: 1.25,
+            indicatorAnims: actionBarConf.indicatorAnims,
+            animTime: actionBarConf.animTime,
+            offsetMultiplier: -1,
+            currentActionPos: { x: TILE_WIDTH - 3, y: 1 },
+            healthbarStartPos: { x: TILE_WIDTH - 3, y: 0.25 },
+            currentIndicator: { x: TILE_WIDTH - 2 , y: 1 }
+        },
+        EM.GetEntity("Player2")));
+
+        flowManager.GrabObjects();
+    }
+    else if(levelData.type === "menu")
     {
-        length: 10,
-        unfilled: 208,
-        filled: 193,
-        highlight: 192,
-        rowHeight: 1.25,
-        indicatorAnims: actionBarConf.indicatorAnims,
-        animTime: actionBarConf.animTime,
-        offsetMultiplier: -1,
-        currentActionPos: { x: TILE_WIDTH - 3, y: 1 },
-        healthbarStartPos: { x: TILE_WIDTH - 3, y: 0.25 },
-        currentIndicator: { x: TILE_WIDTH - 2 , y: 1 }
-    },
-    EM.GetEntity("Player2")));
-
-    flowManager.GrabObjects();
+        let menu = new Menu(levelData);
+    }
 
     LOAD_COMPLETE = true;
 }
@@ -177,7 +191,7 @@ function SETUP(levelName)
 exports.update = function () {
 	if(!LOAD_COMPLETE)
     {
-        SETUP("TestLevel");
+        SETUP("Menu");
     }
 
     EM.Input();

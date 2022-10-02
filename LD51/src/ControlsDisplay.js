@@ -9,6 +9,7 @@ export default class ControlsDisplay
 
     Draw()
     {
+        pen(1);
         print("Up Arrow - Move Forward", 0, (TILE_HEIGHT-3*0.75) * PIXEL_SCALE);
         print("Left Arrow - Turn Anti Clockwise", 0, 1 * (TILE_HEIGHT - 2*0.75) * PIXEL_SCALE);
         print("Right Arrow - Turn clockwise", 0, (TILE_HEIGHT - 0.75) * PIXEL_SCALE);

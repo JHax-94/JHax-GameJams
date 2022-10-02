@@ -3,7 +3,7 @@ import BasicAttackAction from "./Characters/BasicAttackAction";
 import ChangeStance from "./Characters/ChangeStance";
 import MoveAction from "./Characters/MoveAction";
 import TurnAction from "./Characters/TurnAction";
-import { consoleLog, EM, getObjectConfig, TURN_PHASES, TURN_PHASE_NAME } from "./main";
+import { consoleLog, EM, getObjectConfig, SETUP, TURN_PHASES, TURN_PHASE_NAME } from "./main";
 import PopUp from "./Ui/PopUp";
 import MapDeteriorator from "./World/MapDeteriorator";
 
@@ -11,9 +11,8 @@ import MapDeteriorator from "./World/MapDeteriorator";
 
 export default class FlowManager
 {
-    constructor()
+    constructor(levelConfig)
     {
-
         this.inputGroup = "DEFAULT";
         this.inputWaits = {
             up: false,
@@ -93,9 +92,9 @@ export default class FlowManager
             });
 
             this.CheckInput(inputState.btn.execute, "execute", null, () => {
-                
                 this.ExecutePlayerActions();
             });
+
 
             this.CheckInput(inputState.btn.space, "space", () => { this.ShowPlayerMoves(); }, () => { this.HidePlayerMoves(); });
         }
@@ -105,7 +104,16 @@ export default class FlowManager
             this.CheckInput(inputState.btn.action1, "action1", null, () => {
                 this.ResetPlayers();
             });
+
+            this.CheckInput(inputState.btn.action3, "action3", null, () => {
+                this.LoadMainMenu();
+            });
         }
+    }
+
+    LoadMainMenu()
+    {
+        SETUP("Menu");
     }
 
     ResetPlayers()

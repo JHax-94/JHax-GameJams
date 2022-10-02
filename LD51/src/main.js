@@ -59,7 +59,8 @@ let UTIL = new Utility();
 let TURN_PHASES = {
     PLAYER_1_INPUT: 0,
     PLAYER_2_INPUT: 1,
-    ACTION: 2
+    ACTION: 2,
+    MENU: 3
 }
 
 function TURN_PHASE_NAME(turnPhase)

@@ -3,7 +3,8 @@ import BasicAttackAction from "./Characters/BasicAttackAction";
 import ChangeStance from "./Characters/ChangeStance";
 import MoveAction from "./Characters/MoveAction";
 import TurnAction from "./Characters/TurnAction";
-import { consoleLog, EM, TURN_PHASES, TURN_PHASE_NAME } from "./main";
+import { consoleLog, EM, getObjectConfig, TURN_PHASES, TURN_PHASE_NAME } from "./main";
+import PopUp from "./Ui/PopUp";
 import MapDeteriorator from "./World/MapDeteriorator";
 
 
@@ -35,6 +36,11 @@ export default class FlowManager
         this.playerWaits = [];
 
         this.arena = null;
+
+        this.popDelay = 0.1;
+        this.popDelayTimer = 0;
+
+        this.endRoundConfig = getObjectConfig("EndRoundPopUp");
 
         /*        
         consoleLog("Player List:");
@@ -93,6 +99,31 @@ export default class FlowManager
 
             this.CheckInput(inputState.btn.space, "space", () => { this.ShowPlayerMoves(); }, () => { this.HidePlayerMoves(); });
         }
+
+        if(this.turnPhase === TURN_PHASES.MENU)
+        {
+            this.CheckInput(inputState.btn.action1, "action1", null, () => {
+                this.ResetPlayers();
+            });
+        }
+    }
+
+    ResetPlayers()
+    {
+        if(this.endRoundScreen)
+        {
+            this.endRoundScreen.Close();
+            this.endRoundScreen = null;
+        }
+
+        this.arena.ReloadMap();
+
+        for(let i = 0; i < this.players.length; i ++)
+        {
+            this.players[i].Reset();
+        }
+
+        this.StartNewInputPhase(false);
     }
 
     GetActivePlayer()
@@ -177,17 +208,48 @@ export default class FlowManager
 
         if(allComplete)
         {
-            this.StartNewInputPhase();
+            this.StartNewInputPhase(true);
         }
     }
 
-    StartNewInputPhase()
+    PlayerKilled(player)
+    {
+        this.turnPhase = TURN_PHASES.MENU;
+    }
+
+    EndRoundPopUp()
+    {
+        let winnerNum = -1;
+
+        for(let i = 0; i < this.players.length; i ++)
+        {
+            if(this.players[i].alive)
+            {
+                winnerNum = this.players[i].playerNumber;
+            }
+        }
+
+        let winText = "WIN_TEXT";
+
+        if(winnerNum < 0)
+        {
+            winText = "Draw...";
+        }
+        else 
+        {
+            winText = `Player ${winnerNum}`;
+        }
+
+        this.endRoundScreen = new PopUp(this.endRoundConfig.components, { winnerText: `Player ${winText}` });
+    }
+
+    StartNewInputPhase(deteriorate)
     {
         this.turnPhase = TURN_PHASES.PLAYER_1_INPUT;
 
         let deteriorator = new MapDeteriorator();
 
-        this.arena.DeteriorateArena(deteriorator);
+        if(deteriorate) this.arena.DeteriorateArena(deteriorator);
 
         for(let i = 0; i < this.players.length; i ++)
         {
@@ -252,17 +314,13 @@ export default class FlowManager
 
     Update(deltaTime)
     {
-        /*
-        EM.hudLog.push(`Phase: ${TURN_PHASE_NAME(this.turnPhase)}`)
-
-        let activePlayer = this.GetActivePlayer();
-        
-        if(activePlayer)
-        {            
-            for(let i = 0; i < activePlayer.actionQueue.length; i ++)
+        if(this.turnPhase === TURN_PHASES.MENU && this.popDelayTimer < this.popDelay)
+        {
+            this.popDelayTimer += deltaTime;
+            if(this.popDelayTimer > this.popDelay)
             {
-                EM.hudLog.push(activePlayer.actionQueue[i].name);
+                this.EndRoundPopUp();
             }
-        }*/
+        }
     }
 }

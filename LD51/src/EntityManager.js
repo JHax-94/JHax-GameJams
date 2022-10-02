@@ -44,7 +44,7 @@ export default class EntityManager
         this.AddRenderLayer("WORLD", 1, true);
         this.AddRenderLayer("WORLD_UI", 2);
         this.AddRenderLayer("OVERLAY_UI", 3);
-        this.AddRenderLayer("MENU_UI", 4, true);
+        this.AddRenderLayer("MENU_UI", 4);
         this.AddRenderLayer("BANNER", 5);
 
         this.AddInputGroup("DEFAULT");

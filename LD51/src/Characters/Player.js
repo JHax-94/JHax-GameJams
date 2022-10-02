@@ -11,6 +11,8 @@ export default class Player
         this.maxHp = playerConf.maxHp;
         this.hp = this.maxHp;
 
+        this.alive = true;
+
         this.maxActions = playerConf.maxActions;
 
         this.flickerTime = playerConf.flickerTime;
@@ -22,6 +24,8 @@ export default class Player
 
         this.flickPhase = 0;
 
+
+        this.startPos = {x: tilePos.x, y: tilePos.y};
         this.tilePos = tilePos;
 
         this.pos = { x: this.tilePos.x * PIXEL_SCALE, y: this.tilePos.y * PIXEL_SCALE };
@@ -44,6 +48,20 @@ export default class Player
 
         EM.RegisterEntity(this);
     }   
+
+    Reset()
+    {
+        this.alive = true;
+        this.elapsedTime = 0;
+        this.currentAction = null;
+        this.actionQueue = [];
+        this.stance = this.stances[random(this.stances.length)];
+        this.direction = this.playerNumber === 1 ? DIRECTIONS.RIGHT : DIRECTIONS.LEFT;
+        this.hp = this.maxHp;
+
+        this.tilePos = { x: this.startPos.x, y: this.startPos.y };
+        this.pos = { x: this.tilePos.x * PIXEL_SCALE, y: this.tilePos.y * PIXEL_SCALE };
+    }
 
     FlowManager()
     {
@@ -114,45 +132,47 @@ export default class Player
 
     Update(deltaTime)
     {
-        if(this.currentAction)
+        if(this.alive)
         {
-            //EM.hudLog.push(`Action: ${this.currentAction.GetProgress()}`);
-            this.currentAction.ProgressAction(deltaTime);
-        }
-
-        this.elapsedTime += deltaTime;
-
-        this.bob = 1 + Math.sin(Math.PI * this.elapsedTime);
-
-        if(this.flickerTimer > 0)
-        {
-            this.flickerTimer -= deltaTime;
-            this.flickPhase += deltaTime;
-
-            if(this.flicker && this.flickPhase > this.flickerOffTime)
+            if(this.currentAction)
             {
-                this.flicker = false;
-                this.flickPhase = 0;
+                //EM.hudLog.push(`Action: ${this.currentAction.GetProgress()}`);
+                this.currentAction.ProgressAction(deltaTime);
             }
 
-            if(!this.flicker && this.flickPhase > this.flickerOnTime)
-            {
-                this.flicker = true;
-                this.flickPhase = 0;
-            }
+            this.elapsedTime += deltaTime;
 
-            if(this.flickerTimer < 0)
-            {
-                this.flickerTimer = 0;
-                this.flicker = false;
+            this.bob = 1 + Math.sin(Math.PI * this.elapsedTime);
 
-                if(this.hp < 0)
+            if(this.flickerTimer > 0)
+            {
+                this.flickerTimer -= deltaTime;
+                this.flickPhase += deltaTime;
+
+                if(this.flicker && this.flickPhase > this.flickerOffTime)
                 {
-                    this.PlayerKilled();
+                    this.flicker = false;
+                    this.flickPhase = 0;
+                }
+
+                if(!this.flicker && this.flickPhase > this.flickerOnTime)
+                {
+                    this.flicker = true;
+                    this.flickPhase = 0;
+                }
+
+                if(this.flickerTimer < 0)
+                {
+                    this.flickerTimer = 0;
+                    this.flicker = false;
+
+                    if(this.hp < 0)
+                    {
+                        this.PlayerKilled();
+                    }
                 }
             }
         }
-        
     }
     
     Damage(amount)
@@ -228,7 +248,10 @@ export default class Player
 
     PlayerKilled()
     {
-        EM.RemoveEntity(this);
+        consoleLog("PLAYER DEAD!");
+        consoleLog(this);
+        this.alive = false;
+        this.FlowManager().PlayerKilled(this);
     }
 
     DrawStanceIndicator()
@@ -245,13 +268,16 @@ export default class Player
 
     Draw()
     {
-        let drawSprite = this.GetSpriteData();
-        
-        if(!this.flicker) 
+        if(this.alive)
         {
-            sprite(drawSprite.i, this.pos.x, this.pos.y, drawSprite.h, drawSprite.v, drawSprite.r);
+            let drawSprite = this.GetSpriteData();
+            
+            if(!this.flicker) 
+            {
+                sprite(drawSprite.i, this.pos.x, this.pos.y, drawSprite.h, drawSprite.v, drawSprite.r);
+            }
+            
+            this.DrawStanceIndicator();
         }
-        
-        this.DrawStanceIndicator();
     }
 }

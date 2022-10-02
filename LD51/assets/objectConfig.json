@@ -102,6 +102,17 @@
                 { "i": 210, "h": true, "v": false, "r": false }
             ],
             "animTime": 0.2
+        },
+        {
+            "name": "EndRoundPopUp",
+            "components": [
+                { "type": "Rect", "colour": 0, "pos": { "x": "centre", "y": "centre" }, "w": 14, "h": 10, "isBaseDims": true },
+                { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 0.5 }, "text": "Round Over!" },
+                { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 1.5 }, "variable": "winnerText" },
+                { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 3.5 }, "text": "1 - Rematch (Same Arena)" },
+                { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 4.5 }, "text": "2 - Rematch (New Arena)" },
+                { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 5.5 }, "text": "3 - Back to Main Menu" }
+            ]
         }
     ]
 }

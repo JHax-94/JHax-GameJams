@@ -9,6 +9,7 @@ export default class Arena
 
         this.arenaMaps = [];
         this.arenaConfig = getObjectConfig("Arena");
+        this.levelData = levelData;
 
         for(let i = 0; i < levelData.maps.length; i ++)
         {
@@ -27,6 +28,27 @@ export default class Arena
         EM.RegisterEntity(this);
 
         this.ProcessMapObjects()
+    }
+
+    ReloadMap()
+    {
+        this.arenaMaps = [];
+
+        let levelData = this.levelData;
+
+        for(let i = 0; i < levelData.maps.length; i ++)
+        {
+            let levelMap= getMap(levelData.maps[i].name);
+
+            let mapLayer = {
+                name: levelData.maps[i].name,
+                type: levelData.maps[i].type,
+                map: levelMap.copy(0, 0, levelMap.width, levelMap.height),
+                draw: levelData.maps[i].draw
+            };
+
+            this.arenaMaps.push(mapLayer);
+        }
     }
 
     ProcessMapObjects()

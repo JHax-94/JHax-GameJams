@@ -6,7 +6,7 @@ import ChangeStance from "./Characters/ChangeStance";
 import MoveAction from "./Characters/MoveAction";
 import TurnAction from "./Characters/TurnAction";
 import ControlsDisplay from "./ControlsDisplay";
-import { consoleLog, EM, getObjectConfig, SETUP, TURN_PHASES, TURN_PHASE_NAME } from "./main";
+import { consoleLog, DATA, EM, getObjectConfig, SETUP, TURN_PHASES, TURN_PHASE_NAME } from "./main";
 import PopUp from "./Ui/PopUp";
 import EdgeDeteriorator from "./World/EdgeDeteriorator";
 import MapDeteriorator from "./World/MapDeteriorator";
@@ -312,6 +312,7 @@ export default class FlowManager
         consoleLog("Create end round popup!");
 
         this.endRoundScreen = new PopUp(this.endRoundConfig.components, { winnerText: winText });
+        DATA.IncrementPlayerScore(winnerNum, 1);
     }
 
     StartNewInputPhase(deteriorate)

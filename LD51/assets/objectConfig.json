@@ -164,6 +164,17 @@
                 { "weight": 1, "type": "Stance", "dir": -1 },
                 { "weight": 2, "type": "Attack" } 
             ]
+        },
+        {
+            "name": "PersistentDataDisplay",
+            "player1Display": {
+                "x": 12.125,
+                "y": 2.125
+            },
+            "player2Display": {
+                "x": 19,
+                "y": 2.125
+            }
         }
     ]
 }

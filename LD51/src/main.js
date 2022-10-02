@@ -1,6 +1,8 @@
 import ControlsDisplay from './ControlsDisplay.js';
 import EntityManager from './EntityManager.js'
 import FlowManager from './FlowManager.js';
+import PersistentData from './PersistentData.js';
+import PersistentDataDisplay from './PersistentDataDisplay.js';
 import ActionBar from './Ui/ActionBar.js';
 import Menu from './Ui/Menu.js';
 import Utility from './Utility.js'
@@ -56,6 +58,8 @@ let LOGGING_ON = true;
 let LOAD_COMPLETE = false;
 let EM;
 let UTIL = new Utility();
+
+let DATA = new PersistentData();
 
 let TURN_PHASES = {
     PLAYER_1_INPUT: 0,
@@ -176,6 +180,8 @@ function SETUP(levelName, levelConfig)
         },
         EM.GetEntity("Player2")));
 
+        new PersistentDataDisplay();
+
         flowManager.GrabObjects();
     }
     else if(levelData.type === "menu")
@@ -200,5 +206,5 @@ exports.update = function () {
 };
 
 export {
-    consoleLog, EM, SETUP, PIXEL_SCALE, TILE_WIDTH, TILE_HEIGHT, FPS, UTIL, DIRECTIONS, TURN_PHASES, REVERSE_DIRECTION, TURN_PHASE_NAME, getObjectConfig
+    consoleLog, EM, SETUP, PIXEL_SCALE, TILE_WIDTH, TILE_HEIGHT, FPS, UTIL, DIRECTIONS, TURN_PHASES, DATA, REVERSE_DIRECTION, TURN_PHASE_NAME, getObjectConfig
 }

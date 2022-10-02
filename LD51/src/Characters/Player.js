@@ -183,7 +183,7 @@ export default class Player
                     this.flickerTimer = 0;
                     this.flicker = false;
 
-                    if(this.hp < 0)
+                    if(this.hp <= 0)
                     {
                         this.PlayerKilled();
                     }
@@ -196,7 +196,7 @@ export default class Player
     {
         this.hp -= amount;
 
-        if(this.hp < 0)
+        if(this.hp <= 0)
         {
             this.hp = 0;
         }

@@ -106,8 +106,9 @@ export default class Action
         else if(sourcePlayer.stance.name === hitPlayer.stance.beats)
         {
             consoleLog("Backfire bounce!");
-            this.BouncePlayer(sourcePlayer, REVERSE_DIRECTION(sourcePlayer.direction), 2);
+            this.BouncePlayer(sourcePlayer, REVERSE_DIRECTION(sourcePlayer.direction), 3);
             sourcePlayer.CancelCurrentAction();
+            sourcePlayer.Damage(1);
         }
         else if(sourcePlayer.stance.beats === hitPlayer.stance.name)
         {
@@ -115,7 +116,7 @@ export default class Action
 
             /// ATTACK WIN
             // Enemy takes a hit and bounces back 2 tiles
-            this.BouncePlayer(hitPlayer, sourcePlayer.direction, 2);
+            this.BouncePlayer(hitPlayer, sourcePlayer.direction, 3);
             hitPlayer.CancelCurrentAction();
             hitPlayer.Damage(1);
         }

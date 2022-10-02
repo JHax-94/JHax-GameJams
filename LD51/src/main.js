@@ -134,7 +134,7 @@ function SETUP(levelName, levelConfig)
         consoleLog("Load with Config...");
         consoleLog(levelConfig);
 
-        let flowManager = new FlowManager();
+        let flowManager = new FlowManager(levelConfig);
 
         EM.AddEntity("FLOW", flowManager);
 

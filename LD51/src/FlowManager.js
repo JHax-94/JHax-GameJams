@@ -1,8 +1,10 @@
+import RandomAi from "./AI/RandomAi";
 import Action from "./Characters/Action";
 import BasicAttackAction from "./Characters/BasicAttackAction";
 import ChangeStance from "./Characters/ChangeStance";
 import MoveAction from "./Characters/MoveAction";
 import TurnAction from "./Characters/TurnAction";
+import ControlsDisplay from "./ControlsDisplay";
 import { consoleLog, EM, getObjectConfig, SETUP, TURN_PHASES, TURN_PHASE_NAME } from "./main";
 import PopUp from "./Ui/PopUp";
 import MapDeteriorator from "./World/MapDeteriorator";
@@ -41,6 +43,16 @@ export default class FlowManager
 
         this.endRoundConfig = getObjectConfig("EndRoundPopUp");
 
+        this.ai = null;
+
+        if(levelConfig.ai)
+        {
+            if(levelConfig.ai === "Simple")
+            {
+                this.ai = new RandomAi();
+            }
+        }
+
         /*        
         consoleLog("Player List:");
         consoleLog(this.players);
@@ -49,8 +61,17 @@ export default class FlowManager
 
     GrabObjects()
     {
-        this.players.push(EM.GetEntity("Player1"));
-        this.players.push(EM.GetEntity("Player2"));
+        let player1 = EM.GetEntity("Player1");
+        let player2 = EM.GetEntity("Player2");
+
+        if(this.ai)
+        {
+            player2.SetAi(this.ai);
+        }
+
+        this.players.push(player1);
+        this.players.push(player2);
+
         this.arena = EM.GetEntity("ARENA");
     }
 
@@ -122,6 +143,7 @@ export default class FlowManager
         {
             this.endRoundScreen.Close();
             this.endRoundScreen = null;
+            this.popDelayTimer = 0.0;
         }
 
         this.arena.ReloadMap();
@@ -184,6 +206,11 @@ export default class FlowManager
             if(this.turnPhase === TURN_PHASES.PLAYER_1_INPUT)
             {
                 this.turnPhase = TURN_PHASES.PLAYER_2_INPUT;
+
+                if(this.ai)
+                {
+                    this.ai.StartPlanningTurn();
+                }
             }
             else if(this.turnPhase === TURN_PHASES.PLAYER_2_INPUT)
             {
@@ -222,7 +249,7 @@ export default class FlowManager
 
     PlayerKilled(player)
     {
-        this.turnPhase = TURN_PHASES.MENU;
+        this.turnPhase = TURN_PHASES.MENU;        
     }
 
     EndRoundPopUp()
@@ -247,6 +274,8 @@ export default class FlowManager
         {
             winText = `Player ${winnerNum}`;
         }
+
+        consoleLog("Create end round popup!");
 
         this.endRoundScreen = new PopUp(this.endRoundConfig.components, { winnerText: `Player ${winText}` });
     }

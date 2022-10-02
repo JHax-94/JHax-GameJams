@@ -13,9 +13,6 @@ export default class PopUp
         this.LoadComponents(componentsList, variables);
 
         EM.RegisterEntity(this);
-
-        consoleLog("CONSTRUCTED POPUP");
-        consoleLog(this.components);
     }
 
     LoadComponents(componentsList, variables)
@@ -105,7 +102,6 @@ export default class PopUp
 
     Draw()
     {
-        consoleLog("Draw components...");
         for(let i = 0; i < this.components.length; i ++)
         {
             let c = this.components[i];
@@ -128,10 +124,6 @@ export default class PopUp
 
             if(c.type === "Text")
             {
-                consoleLog("DRAW Text");
-                consoleLog(pos);
-                consoleLog(dims);
-
                 pen(c.colour);
                 print(c.text, pos.x, pos.y);
             }

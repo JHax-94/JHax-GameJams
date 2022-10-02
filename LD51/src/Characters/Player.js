@@ -12,6 +12,7 @@ export default class Player
         this.hp = this.maxHp;
 
         this.alive = true;
+        this.ai = null;
 
         this.maxActions = playerConf.maxActions;
 
@@ -23,7 +24,6 @@ export default class Player
         this.flicker = false;
 
         this.flickPhase = 0;
-
 
         this.startPos = {x: tilePos.x, y: tilePos.y};
         this.tilePos = tilePos;
@@ -48,6 +48,12 @@ export default class Player
 
         EM.RegisterEntity(this);
     }   
+
+    SetAi(ai)
+    {
+        this.ai = ai;
+        this.ai.SetPlayer(this);
+    }
 
     Reset()
     {
@@ -134,6 +140,11 @@ export default class Player
     {
         if(this.alive)
         {
+            if(this.ai)
+            {
+                this.ai.UpdateAi(deltaTime);
+            }
+
             if(this.currentAction)
             {
                 //EM.hudLog.push(`Action: ${this.currentAction.GetProgress()}`);

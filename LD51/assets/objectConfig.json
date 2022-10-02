@@ -113,6 +113,17 @@
                 { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 4.5 }, "text": "2 - Rematch (New Arena)" },
                 { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 5.5 }, "text": "3 - Back to Main Menu" }
             ]
+        },
+        {
+            "name": "RandomAi",
+            "actions": [
+                { "weight": 6, "type": "Move" },
+                { "weight": 3, "type": "Turn", "dir": 1},
+                { "weight": 3, "type": "Turn", "dir": -1},
+                { "weight": 1, "type": "Stance", "dir": 1 },
+                { "weight": 1, "type": "Stance", "dir": -1 },
+                { "weight": 2, "type": "Attack" } 
+            ]
         }
     ]
 }

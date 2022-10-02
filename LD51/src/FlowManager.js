@@ -1,3 +1,4 @@
+import BasicAi from "./AI/BasicAi";
 import RandomAi from "./AI/RandomAi";
 import Action from "./Characters/Action";
 import BasicAttackAction from "./Characters/BasicAttackAction";
@@ -58,6 +59,10 @@ export default class FlowManager
             {
                 this.ai = new RandomAi();
             }
+            else if(levelConfig.ai === "Basic")
+            {
+                this.ai = new BasicAi();
+            }
         }
 
         this.deteriorator = null;
@@ -93,13 +98,13 @@ export default class FlowManager
         let player1 = EM.GetEntity("Player1");
         let player2 = EM.GetEntity("Player2");
 
+        this.players.push(player1);
+        this.players.push(player2);
+
         if(this.ai)
         {
             player2.SetAi(this.ai);
         }
-
-        this.players.push(player1);
-        this.players.push(player2);
 
         this.arena = EM.GetEntity("ARENA");
     }

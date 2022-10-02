@@ -2,9 +2,10 @@ import { consoleLog, DIRECTIONS, EM, PIXEL_SCALE, REVERSE_DIRECTION, UTIL } from
 
 export default class Action
 {
-    constructor(name)
+    constructor(name, type)
     {
         this.name = name;
+        this.type = type;
 
         this.actionTime = 1;
         this.actionTimer = 0;

@@ -68,7 +68,8 @@
             "modeOptions": [
                 { 
                     "name": "AI", "type": "Carousel", "options": [
-                        { "value": "Simple", "display": "Simple" }
+                        { "value": "Simple", "display": "Random" },
+                        { "value": "Basic", "display": "Basic" }
                 ]},
                 { 
                     "name": "Arena", "type": "Carousel", "options": [

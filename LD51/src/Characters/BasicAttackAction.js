@@ -6,7 +6,7 @@ export default class BasicAttackAction extends Action
 {
     constructor()
     {
-        super("Attack");
+        super("Attack", "Attack");
 
         this.targetTiles = [];
         this.explosions = [];

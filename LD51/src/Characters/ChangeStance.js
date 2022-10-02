@@ -4,7 +4,7 @@ export default class ChangeStance extends Action
 {
     constructor(changeStance)
     {
-        super(`Change Stance ${changeStance}`)
+        super(`Change Stance ${changeStance}`, "Stance");
 
         this.changeDir = changeStance;
     }

@@ -6,7 +6,7 @@ export default class MoveAction extends Action
 {
     constructor()
     {        
-        super("Forward");
+        super("Forward", "Move");
         this.sourceTile = null;
         this.targetTile = null;
         this.midpointCheckPassed = false;
@@ -23,11 +23,42 @@ export default class MoveAction extends Action
 
         let tile = arena.GetWorldTile({ x: this.targetTile.x, y: this.targetTile.y });
 
-        if(EM.tileChecker.IsWallTile(tile))
+        let flow = this.FlowManager();
+
+        let players = flow.GetOtherPlayers(player);
+
+        if(EM.tileChecker.IsWallTile(tile) || this.CheckPlayerOverlap(players, tile))
         {   
             this.targetTile = this.sourceTile;
             this.cancelled = true;
         }
+    }
+
+    CheckPlayerOverlap(players, tile)
+    {
+        let overlap = false;
+
+        if(tile)
+        {
+            for(let i = 0; i < players.length; i ++)
+            {
+                if(players[i].tilePos.x === tile.x && players[i].tilePos.y === tile.y)
+                {
+                    overlap = true;
+                    break;
+                }
+
+                let movingTo = players[i].GetMovingToTile();
+
+                if(movingTo.x === tile.x && movingTo.y === tile.y)
+                {
+                    overlap = true;
+                    break;
+                }
+            }
+        }   
+
+        return overlap;
     }
 
     ProgressAction(deltaTime)

@@ -229,16 +229,37 @@ export default class Player
 
     ChangeStance(changeDir)
     {
+        this.stance = this.GetStanceInDir(changeDir);
+    }   
+        
+    GetMovingToTile()
+    {
+        let movingToTile = this.tilePos;
+
+        if(this.currentAction && this.currentAction.type=== "move")
+        {
+            movingToTile = this.currentAction.targetTile;
+        }
+
+        return movingToTile;
+    }
+
+    GetStanceInDir(changeDir)
+    {
+        let stance = null;
+
         for(let i = 0; i < this.stances.length; i ++)
         {
             if((changeDir > 0 && this.stances[i].beats === this.stance.name) ||  (changeDir < 0 && this.stances[i].name === this.stance.beats))
             {
-                this.stance = this.stances[i];
+                stance = this.stances[i];
                 break;
             }
         }
+
+        return stance;
     }
-        
+
     CancelCurrentAction()
     {
         if(this.currentAction)

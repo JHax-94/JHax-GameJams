@@ -10,6 +10,34 @@
             ]
         },
         {
+            "levelName": "Colosseum",
+            "type": "arena",
+            "maps": [
+                { "type": "world", "name": "colosseum", "draw": true },
+                { "type": "objects", "name": "map_objects", "draw": false },
+                { "type": "overlay", "name": "overlay", "draw": true }
+            ]
+        },
+        {
+            "levelName": "Pit",
+            "type": "arena",
+            "maps": [
+                { "type": "world", "name": "pit", "draw": true },
+                { "type": "objects", "name": "map_objects", "draw": false },
+                { "type": "overlay", "name": "overlay", "draw": true }
+            ]
+        },
+        {
+            "levelName": "Bridge",
+            "type": "arena",
+            "maps": [
+                { "type": "world", "name": "bridge", "draw": true },
+                { "type": "objects", "name": "bridge_objects", "draw": false},
+                { "type": "overlay", "name": "overlay", "draw": true }
+            ]
+        },
+
+        {
             "levelName": "Menu",
             "type": "menu",
             "modeSelectRoot": {
@@ -44,14 +72,17 @@
                 ]},
                 { 
                     "name": "Arena", "type": "Carousel", "options": [
-                        { "value": "TestLevel", "display": "TestLevel" }
+                        { "value": "TestLevel", "display": "Arena" },
+                        { "value": "Colosseum", "display": "Colosseum" },
+                        { "value": "Bridge", "display": "Bridge" },
+                        { "value": "Pit", "display": "Pit" }
                 ]},
                 {
                     "name": "Map Damage", "type": "Carousel", "options": [
-                        { "value": "Edge", "display": "Edge" },
-                        { "value": "None", "display": "None" },
                         { "value": "RandomEdge", "display": "Random Edge" },
-                        { "value": "FullRandom", "display": "Full Random" }
+                        { "value": "FullRandom", "display": "Full Random" },
+                        { "value": "Edge", "display": "Edge" },
+                        { "value": "None", "display": "None" }
                     ]
                 }
             ]

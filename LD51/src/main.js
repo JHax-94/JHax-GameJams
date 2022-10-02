@@ -3,6 +3,7 @@ import EntityManager from './EntityManager.js'
 import FlowManager from './FlowManager.js';
 import PersistentData from './PersistentData.js';
 import PersistentDataDisplay from './PersistentDataDisplay.js';
+import SoundManager from './SoundManager.js';
 import ActionBar from './Ui/ActionBar.js';
 import Menu from './Ui/Menu.js';
 import Utility from './Utility.js'
@@ -24,6 +25,35 @@ pointerEvents.onMove(function(x, y, pointerId, evt) {
     var mapped = mapMousePos(x, y);
     EM.MouseMove(mapped.x, mapped.y);
 });
+
+function setPlayerPref(key, value)
+{
+    try
+    {
+        localStorage.setItem(key, value);
+    }
+    catch(err)
+    {
+
+    }
+}
+
+function getPlayerPref(key)
+{
+    let val = null;
+
+    try
+    {
+        let readVal = localStorage.getItem(key);
+        val = readVal;
+    }
+    catch(err)
+    {
+
+    }
+
+    return val;
+}
 
 let DIRECTIONS = {
     UP: 0,
@@ -60,6 +90,9 @@ let EM;
 let UTIL = new Utility();
 
 let DATA = new PersistentData();
+
+let SOUND = null;
+let SFX = null;
 
 let TURN_PHASES = {
     PLAYER_1_INPUT: 0,
@@ -189,6 +222,20 @@ function SETUP(levelName, levelConfig)
         let menu = new Menu(levelData);
     }
 
+    if(!SOUND)
+    {
+        SOUND = new SoundManager({x: 22, y: 1}, { speakerIndex: 0, speakerOnIndex: 16, speakerOffIndex: 0, sfxIndex: 16 });
+    }
+
+    if(levelData.mapType === "MENU")
+    {
+        SOUND.PlayTitle();
+    }
+    else
+    {
+        SOUND.PlayLevelMusic();
+    }
+
     LOAD_COMPLETE = true;
 }
 
@@ -206,5 +253,5 @@ exports.update = function () {
 };
 
 export {
-    consoleLog, EM, SETUP, PIXEL_SCALE, TILE_WIDTH, TILE_HEIGHT, FPS, UTIL, DIRECTIONS, TURN_PHASES, DATA, REVERSE_DIRECTION, TURN_PHASE_NAME, getObjectConfig
+    consoleLog, EM, SETUP, PIXEL_SCALE, TILE_WIDTH, TILE_HEIGHT, FPS, UTIL, DIRECTIONS, TURN_PHASES, DATA, REVERSE_DIRECTION, TURN_PHASE_NAME, getObjectConfig, getPlayerPref, setPlayerPref
 }

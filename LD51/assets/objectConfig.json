@@ -175,6 +175,20 @@
                 "x": 19,
                 "y": 2.125
             }
+        },
+        {
+            "name": "SoundManager",
+            "titleSong": "10 Second Robo Rumble",
+            "defaultVolume": { "music": 15, "sfx": 9 },
+            "musicIconIndex": 205,
+            "sfxIconIndex": 206,
+            "fadeoutTime": 3,
+            "alarmDelay": 1.5,
+            "trackDelay": 3.5,
+            "levelMusic": [
+                { "order": 0, "name": "10 Second Robo Rumble", "duration": 120 }
+            ]
+            
         }
     ]
 }

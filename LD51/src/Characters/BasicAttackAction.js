@@ -8,7 +8,8 @@ export default class BasicAttackAction extends Action
     {
         super("Attack");
 
-        this.targetTile = null;
+        this.targetTiles = [];
+        this.explosions = [];
 
         this.explosionAnim = [
             { time: 0.1, sprite: 233 },
@@ -23,23 +24,14 @@ export default class BasicAttackAction extends Action
         this.hitPlayers = [];
     }
 
-    ExecuteAction(player)
+    GetMaxExplodeNumber()
     {
-        this.targetPlayer = player;
-
-        this.targetTile = this.GetTargetTile(player.direction, player.tilePos);
-
-        this.explosion = new Explosion(this.targetTile, this.explosionAnim, player);
+        let maxExplode = -1;
 
         let explodes = EM.GetEntitiesStartingWith("Explode");
 
-        let maxExplode = -1;
-
         for(let i = 0; i < explodes.length; i ++)
         {
-            consoleLog("WORK OUT EXPLOSION NUMBER");
-            consoleLog(explodes[i]);
-
             let explodeNum = parseInt(explodes[i].ENTITY_NAME.substring("Explode".length));
 
             if(explodeNum > maxExplode)
@@ -48,22 +40,51 @@ export default class BasicAttackAction extends Action
             }
         }
 
-        EM.AddEntity(`Explode${maxExplode+1}`, this.explosion);
+        return maxExplode;
+    }
 
-        this.CheckForHits(this.targetPlayer, this.targetTile);   
+    ExecuteAction(player)
+    {
+        this.targetPlayer = player;
+
+        this.targetTiles = [];
+        let pattern = this.targetPlayer.stance.pattern;
+        let explodeNum = this.GetMaxExplodeNumber();
+
+        for(let i = 0; i < pattern.length; i ++)
+        {
+            let targetTile = this.GetOffsetTile(player.direction, player.tilePos, pattern[i]);
+            this.targetTiles.push(targetTile);
+
+            let explosion = new Explosion(targetTile, this.explosionAnim, player);
+
+            EM.AddEntity(`Explode${explodeNum + i + 1}`, explosion);
+
+            this.explosions.push(explosion);
+        }
+        
+        for(let i = 0; i < this.targetTiles.length; i ++)
+        {
+            this.CheckForHits(this.targetPlayer, this.targetTiles[i]);   
+        }
     }
 
     ProgressAction(deltaTime)
     {
         super.ProgressAction(deltaTime);
-        this.explosion.SetProgress(this.GetProgress());
+        for(let i = 0; i < this.explosions.length; i ++)
+        {
+            this.explosions[i].SetProgress(this.GetProgress());
+        }
     }
 
     ActionComplete()
     {
-        EM.RemoveEntity(this.explosion);
-        super.ActionComplete();
+        for(let i = 0; i < this.explosions.length; i ++)
+        {
+            EM.RemoveEntity(this.explosions[i]);
+        }
         
+        super.ActionComplete();
     }
-    
 }

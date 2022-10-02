@@ -231,6 +231,18 @@ export default class Player
         EM.RemoveEntity(this);
     }
 
+    DrawStanceIndicator()
+    {
+        let compSprite = this.stance.sprites;
+
+        for(let i = 0; i < compSprite.length; i ++)
+        {
+            let s = compSprite[i];
+
+            sprite(s.i, (this.pos.x + s.x * PIXEL_SCALE), (this.pos.y + s.y * PIXEL_SCALE) - PIXEL_SCALE - this.bob, s.h, s.v, s.r);
+        }
+    }
+
     Draw()
     {
         let drawSprite = this.GetSpriteData();
@@ -239,8 +251,7 @@ export default class Player
         {
             sprite(drawSprite.i, this.pos.x, this.pos.y, drawSprite.h, drawSprite.v, drawSprite.r);
         }
-        sprite(this.stance.sprite, this.pos.x, this.pos.y - PIXEL_SCALE - this.bob);
-
-        //print(`P${this.playerNumber} HP: ${this.hp}/${this.maxHp}`, (TILE_WIDTH - 5) * PIXEL_SCALE, (this.playerNumber-1) * PIXEL_SCALE);
+        
+        this.DrawStanceIndicator();
     }
 }

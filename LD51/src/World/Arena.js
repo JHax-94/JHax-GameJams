@@ -15,6 +15,7 @@ export default class Arena
             let levelMap= getMap(levelData.maps[i].name);
 
             let mapLayer = {
+                name: levelData.maps[i].name,
                 type: levelData.maps[i].type,
                 map: levelMap.copy(0, 0, levelMap.width, levelMap.height),
                 draw: levelData.maps[i].draw

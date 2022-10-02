@@ -1,4 +1,4 @@
-import { EM, PIXEL_SCALE } from "../main";
+import { consoleLog, EM, PIXEL_SCALE } from "../main";
 
 export default class Explosion
 {

@@ -122,8 +122,6 @@ export default class ActionBar
                 w: 1,
                 h: (this.trackPlayer.currentAction.actionOrder + 1) * this.rowHeight * PIXEL_SCALE + 3
             };
-            consoleLog("Active pipe:");
-            consoleLog(activePipe);
 
             paper(this.activePipeColour);
             rectf(activePipe.x, activePipe.y, activePipe.w, activePipe.h);
@@ -266,12 +264,6 @@ export default class ActionBar
                 w: this.healthBarPip.width * PIXEL_SCALE,
                 h: this.healthBarPip.height * PIXEL_SCALE
             };
-
-            if(this.offm < 0) 
-            {
-                consoleLog(`PipRect: ${i} / ${this.trackPlayer.hp}`);
-                consoleLog(pipRect);
-            }
 
             rectf(pipRect.x, pipRect.y, pipRect.w, pipRect.h);
         }

@@ -140,6 +140,37 @@ export default class Action
         }
     }
 
+    GetOffsetTile(playerDirection, playerTile, offset)
+    {
+        let targetTile = {x:0, y: 0};
+        consoleLog(`Calculate offset: [${offset.u}, ${offset.v}] from (${playerTile.x}, ${playerTile.y})`);
+
+        if(playerDirection === DIRECTIONS.UP)
+        {
+            targetTile.x = playerTile.x + offset.u;
+            targetTile.y = playerTile.y - offset.v;
+        }
+        else if(playerDirection === DIRECTIONS.DOWN)
+        {
+            targetTile.x = playerTile.x - offset.u;
+            targetTile.y = playerTile.y + offset.v;
+        }
+        else if(playerDirection === DIRECTIONS.RIGHT)
+        {
+            targetTile.x = playerTile.x + offset.v;
+            targetTile.y = playerTile.y + offset.u;
+        }
+        else if(playerDirection === DIRECTIONS.LEFT)
+        {
+            targetTile.x = playerTile.x - offset.v;
+            targetTile.y = playerTile.y - offset.u;
+        }
+
+        consoleLog(`Target Tile: (${targetTile.x}, ${targetTile.y})`);
+
+        return targetTile;
+    }
+
     GetTargetTile(playerDirection, playerTile, distance)
     {
         if(!distance)

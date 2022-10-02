@@ -49,9 +49,43 @@
         {
             "name": "Stances",
             "stances": [
-                { "name": "Rock", "sprite": 240, "beats": "Scissors" },
-                { "name": "Paper", "sprite": 241, "beats": "Rock" },
-                { "name": "Scissors", "sprite": 243, "beats": "Paper" }
+                { "name": "Rock", "beats": "Scissors", "sprites": 
+                    [   
+                        { "x": 0, "y": 0, "h": false, "v": false, "r": false, "i": 244 },
+                        { "x": -1, "y": 0, "h": true, "v": false, "r": true, "i": 229 },
+                        { "x": 1, "y": 0, "h": false, "v": false, "r": true, "i": 229 }
+                    ],
+                    "pattern": [
+                        { "u": -1, "v": 1 },
+                        { "u": 0, "v": 1 },
+                        { "u": 1, "v": 1 }
+                    ]
+                    
+                },
+                { "name": "Paper", "beats": "Rock", "sprites": 
+                    [
+                        { "x": 0, "y": 0, "h": false, "v": false, "r": false, "i": 245 },
+                        { "x": 0, "y": -1, "h": false, "v": false, "r": false, "i": 229 },
+                        { "x": 0, "y": 1, "h": false, "v": true, "r": false, "i": 229 }
+                    ],
+                    "pattern": [
+                        { "u": 0, "v": 1 },
+                        { "u": 0, "v": 2 },
+                        { "u": 0, "v": 3 }
+                    ] },
+
+                { "name": "Scissors", "beats": "Paper", "sprites": 
+                    [
+                        { "x": 0, "y": 0, "h": false, "v": false, "r": false, "i": 246 },
+                        { "x": 1, "y": 0, "h": false, "v": false, "r": false, "i": 247 },
+                        { "x": -1, "y": 0, "h": true, "v": false, "r": false, "i": 247 }
+                    ],
+                    "pattern": [
+                        { "u": -1, "v": 1 },
+                        { "u": 0, "v": 2 },
+                        { "u": 1, "v": 1 }
+                    ]
+                }
             ]
         },
         {

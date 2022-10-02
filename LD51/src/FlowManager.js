@@ -7,7 +7,11 @@ import TurnAction from "./Characters/TurnAction";
 import ControlsDisplay from "./ControlsDisplay";
 import { consoleLog, EM, getObjectConfig, SETUP, TURN_PHASES, TURN_PHASE_NAME } from "./main";
 import PopUp from "./Ui/PopUp";
+import EdgeDeteriorator from "./World/EdgeDeteriorator";
 import MapDeteriorator from "./World/MapDeteriorator";
+import NoneDeteriorator from "./World/NoneDeteriorator";
+import RandomDeteriorator from "./World/RandomDeteriorator";
+import RandomEdgeDeteriorator from "./World/RandomEdgeDeteriorator";
 
 
 
@@ -45,11 +49,36 @@ export default class FlowManager
 
         this.ai = null;
 
+        consoleLog("Level config:");
+        consoleLog(levelConfig);
+
         if(levelConfig.ai)
         {
             if(levelConfig.ai === "Simple")
             {
                 this.ai = new RandomAi();
+            }
+        }
+
+        this.deteriorator = null;
+
+        if(levelConfig.mapDeteriorate)
+        {
+            if(levelConfig.mapDeteriorate === "Edge")
+            {
+                this.deteriorator = new EdgeDeteriorator();
+            }
+            else if(levelConfig.mapDeteriorate === "None")
+            {
+                this.deteriorator = new NoneDeteriorator();
+            }
+            else if(levelConfig.mapDeteriorate === "FullRandom")
+            {
+                this.deteriorator = new RandomDeteriorator();
+            }
+            else if(levelConfig.mapDeteriorate === "RandomEdge")
+            {
+                this.deteriorator = new RandomEdgeDeteriorator();
             }
         }
 
@@ -272,21 +301,19 @@ export default class FlowManager
         }
         else 
         {
-            winText = `Player ${winnerNum}`;
+            winText = `Player ${winnerNum} wins!`;
         }
 
         consoleLog("Create end round popup!");
 
-        this.endRoundScreen = new PopUp(this.endRoundConfig.components, { winnerText: `Player ${winText}` });
+        this.endRoundScreen = new PopUp(this.endRoundConfig.components, { winnerText: winText });
     }
 
     StartNewInputPhase(deteriorate)
     {
         this.turnPhase = TURN_PHASES.PLAYER_1_INPUT;
 
-        let deteriorator = new MapDeteriorator();
-
-        if(deteriorate) this.arena.DeteriorateArena(deteriorator);
+        if(deteriorate) this.arena.DeteriorateArena(this.deteriorator);
 
         for(let i = 0; i < this.players.length; i ++)
         {

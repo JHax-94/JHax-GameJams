@@ -15,7 +15,7 @@ export default class ControlsDisplay
         print("Right Arrow - Turn clockwise", 0, (TILE_HEIGHT - 0.75) * PIXEL_SCALE);
 
         print("1 - Attack", PIXEL_SCALE * TILE_WIDTH * 0.625, (TILE_HEIGHT - 3*0.75) * PIXEL_SCALE);
-        print("2 - Stance Up", PIXEL_SCALE * TILE_WIDTH * 0.625, (TILE_HEIGHT - 2*0.75) * PIXEL_SCALE);
-        print("3 - Stance Down", PIXEL_SCALE * TILE_WIDTH * 0.625, (TILE_HEIGHT - 0.75) * PIXEL_SCALE);
+        print("2 - Stance Anti-Clockwise", PIXEL_SCALE * TILE_WIDTH * 0.625, (TILE_HEIGHT - 2*0.75) * PIXEL_SCALE);
+        print("3 - Stance Clockwise", PIXEL_SCALE * TILE_WIDTH * 0.625, (TILE_HEIGHT - 0.75) * PIXEL_SCALE);
     }
 }

@@ -19,10 +19,30 @@
             "searchMap": true,
             "replaceTile": true,
             "spriteData": {
-                "left": { "i": 158, "h": true, "v": false, "r": false },
-                "right": { "i": 158, "h": false, "v": false, "r": false },
-                "up": { "i": 142, "h": false, "v": false, "r": false },
-                "down": { "i": 126, "h": false, "v": false, "r": false }
+                "rootOffset": {
+                    "x": 0,
+                    "y": -0.75
+                },
+                "left": 
+                [
+                    { "x": 0, "y": 0, "i": 151, "h": true, "v": false, "r": false },
+                    { "x": 0, "y": 1, "i": 168, "h": false, "v": false, "r": false },
+                    { "x": -1, "y": 0, "i": 154, "h": true, "v": false, "r": false }
+                ],
+                "right": [
+                    { "x": 0, "y": 0, "i": 151, "h": false, "v": false, "r": false },
+                    { "x": 0, "y": 1, "i": 153, "h": false, "v": false, "r": false },
+                    { "x": 1, "y": 1, "i": 170, "h": false, "v": false, "r": false }
+                ],
+                "up": [
+                    { "x": 0, "y": 0, "i": 167, "h": false, "v": false, "r": false },
+                    { "x": 0, "y": 1, "i": 168, "h": false, "v": false, "r": false },
+                    { "x": 0, "y": -1, "i": 169, "h": false, "v": false, "r": false }
+                ],
+                "down": [
+                    { "x": 0, "y": 0, "i": 135, "h": false, "v": false, "r": false },
+                    { "x": 0, "y": 1, "i": 152, "h": false, "v": false, "r": false }
+                ] 
             }
         },
         {
@@ -32,10 +52,30 @@
             "searchMap": true,
             "replaceTile": true,
             "spriteData": {
-                "left": { "i": 206, "h": true, "v": false, "r": false },
-                "right": { "i": 206, "h": false, "v": false, "r": false },
-                "up": { "i": 190, "h": false, "v": false, "r": false },
-                "down": { "i": 174, "h": false, "v": false, "r": false }
+                "rootOffset": {
+                    "x": 0,
+                    "y": -0.75
+                },
+                "left": 
+                [
+                    { "x": 0, "y": 0, "i": 147, "h": true, "v": false, "r": false },
+                    { "x": 0, "y": 1, "i": 164, "h": false, "v": false, "r": false },
+                    { "x": -1, "y": 0, "i": 154, "h": true, "v": false, "r": false }
+                ],
+                "right": [
+                    { "x": 0, "y": 0, "i": 147, "h": false, "v": false, "r": false },
+                    { "x": 0, "y": 1, "i": 149, "h": false, "v": false, "r": false },
+                    { "x": 1, "y": 1, "i": 170, "h": false, "v": false, "r": false }
+                ],
+                "up": [
+                    { "x": 0, "y": 0, "i": 163, "h": false, "v": false, "r": false },
+                    { "x": 0, "y": 1, "i": 164, "h": false, "v": false, "r": false },
+                    { "x": 0, "y": -1, "i": 169, "h": false, "v": false, "r": false }
+                ],
+                "down": [
+                    { "x": 0, "y": 0, "i": 131, "h": false, "v": false, "r": false },
+                    { "x": 0, "y": 1, "i": 148, "h": false, "v": false, "r": false }
+                ] 
             }
         },
         {

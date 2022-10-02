@@ -4,8 +4,8 @@ export default class ChangeStance extends Action
 {
     constructor(changeStance)
     {
-        super(`Change Stance ${changeStance}`, "Stance");
-
+        super(`Stance ${changeStance > 0 ? "Anti Clockwise" : "Clockwise"}`, "Stance");
+        
         this.changeDir = changeStance;
     }
 

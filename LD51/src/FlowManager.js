@@ -135,7 +135,7 @@ export default class FlowManager
             });
 
             this.CheckInput(inputState.btn.action2, "action2", null, () => {
-                this.QueueAction(new ChangeStance(+1));                
+                this.QueueAction(new ChangeStance(1));                
             });
 
             this.CheckInput(inputState.btn.action3, "action3", null, () => {

@@ -12,13 +12,14 @@ export default class BasicAttackAction extends Action
         this.explosions = [];
 
         this.explosionAnim = [
-            { time: 0.1, sprite: 233 },
-            { time: 0.15, sprite: 231 },
-            { time: 0.15, sprite: 230 },
-            { time: 0.15, sprite: 231 },
-            { time: 0.15, sprite: 230 },
-            { time: 0.15, sprite: 231 },
-            { time: 0.15, sprite: 230 }
+            { time: 0.125, sprite: 214, h: false, v: false, r: false },
+            { time: 0.125, sprite: 214, h: true, v: false, r: false },
+            { time: 0.125, sprite: 215, h: false, v: false, r: false },
+            { time: 0.125, sprite: 216, h: false, v: false, r: false },
+            { time: 0.125, sprite: 215, h: false, v: false, r: false },
+            { time: 0.125, sprite: 216, h: false, v: true, r: false },
+            { time: 0.125, sprite: 215, h: false, v: false, r: false },
+            { time: 0.125, sprite: 216, h: true, v: false, r: false }
         ];
 
         this.hitPlayers = [];

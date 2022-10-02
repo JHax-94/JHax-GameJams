@@ -27,9 +27,14 @@ export default class Explosion
         }
     }
 
+    Update(deltaTime)
+    {
+        this.y = this.tilePos.y;
+    }
+
     Draw()
     {
-        //EM.hudLog.push(`Explosion: ${this.animIndex} (${this.tilePos.x}, ${this.tilePos.y})`);
-        sprite(this.anim[this.animIndex].sprite, this.tilePos.x * PIXEL_SCALE, this.tilePos.y * PIXEL_SCALE);
+        let a = this.anim[this,this.animIndex];
+        sprite(a.sprite, this.tilePos.x * PIXEL_SCALE, this.tilePos.y * PIXEL_SCALE, a.h, a.v, a.r);
     }
 }

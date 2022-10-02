@@ -28,6 +28,8 @@ export default class Player
         this.startPos = {x: tilePos.x, y: tilePos.y};
         this.tilePos = tilePos;
 
+        this.rootOffset = spriteData.rootOffset;
+
         this.pos = { x: this.tilePos.x * PIXEL_SCALE, y: this.tilePos.y * PIXEL_SCALE };
 
         this.spriteData = spriteData;
@@ -45,6 +47,8 @@ export default class Player
         this.actionQueue = [];
 
         this.elapsedTime = 0;
+
+        this.hover = 0;
 
         EM.RegisterEntity(this);
     }   
@@ -140,6 +144,8 @@ export default class Player
     {
         if(this.alive)
         {
+            this.y = this.pos.y;
+
             if(this.ai)
             {
                 this.ai.UpdateAi(deltaTime);
@@ -153,7 +159,7 @@ export default class Player
 
             this.elapsedTime += deltaTime;
 
-            this.bob = 1 + Math.sin(Math.PI * this.elapsedTime);
+            this.bob = 2 + Math.sin(Math.PI * this.elapsedTime);
 
             if(this.flickerTimer > 0)
             {
@@ -294,19 +300,35 @@ export default class Player
         {
             let s = compSprite[i];
 
-            sprite(s.i, (this.pos.x + s.x * PIXEL_SCALE), (this.pos.y + s.y * PIXEL_SCALE) - PIXEL_SCALE - this.bob, s.h, s.v, s.r);
+            sprite(s.i, (this.pos.x + (s.x + this.rootOffset.x) * PIXEL_SCALE), (this.pos.y + (s.y + this.rootOffset.y)  * PIXEL_SCALE) - PIXEL_SCALE - this.bob, s.h, s.v, s.r);
         }
+    }
+
+    DrawCompSprite()
+    {
+        let sprites =  this.GetSpriteData();
+
+        for(let i = 0; i < sprites.length; i ++)
+        {
+            let s = sprites[i];
+
+            sprite(s.i, this.pos.x + (this.rootOffset.x + s.x) * PIXEL_SCALE, this.pos.y + (this.rootOffset.y  + s.y + this.hover) * PIXEL_SCALE, s.h, s.v, s.r);
+        }
+    }
+
+    DrawShadow()
+    {
+        sprite(182, this.pos.x, (this.pos.y + this.rootOffset.y) + 0.325 *PIXEL_SCALE);
     }
 
     Draw()
     {
         if(this.alive)
         {
-            let drawSprite = this.GetSpriteData();
-            
+            this.DrawShadow();
             if(!this.flicker) 
             {
-                sprite(drawSprite.i, this.pos.x, this.pos.y, drawSprite.h, drawSprite.v, drawSprite.r);
+                this.DrawCompSprite();
             }
             
             this.DrawStanceIndicator();

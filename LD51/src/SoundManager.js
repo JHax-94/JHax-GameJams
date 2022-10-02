@@ -394,8 +394,7 @@ export default class SoundManager
     }
 
     Update(deltaTime)
-    {
-        consoleLog(patatracker);   
+    {        
     }
 
     Draw()

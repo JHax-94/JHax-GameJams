@@ -127,6 +127,8 @@ export default class SoundManager
 
             EM.RegisterEntity(this.musicUpButton);
             EM.RegisterEntity(this.musicDownButton);
+
+            EM.RegisterEntity(this);
         }
     }
 

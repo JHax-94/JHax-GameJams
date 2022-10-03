@@ -221,6 +221,11 @@ function SETUP(levelName, levelConfig)
     else if(levelData.type === "menu")
     {
         let menu = new Menu(levelData);
+
+        if(SOUND)
+        {
+            SOUND.Reregister();
+        }
     }
 
     if(!SOUND)

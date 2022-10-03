@@ -42,8 +42,8 @@ Thanks to schteppe for p2.js, used under MIT Licence
 Game by Josh Haxell & Sammy El-Bahrawy 2022
 
 
-# LD51 Entry
+# Robo-Clash 1999 LD51 Entry
 
-Thanks to cstoquery for PixelBox, used under MIT Licence
+Thanks to cstoquer for PixelBox, used under MIT Licence
 
 Game by Josh Haxell & Sammy El-Bahrawy 2022

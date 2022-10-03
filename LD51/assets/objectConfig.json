@@ -362,28 +362,31 @@
                 { "type": "text", "x": 3.5, "y": 1.325, "text": "Turn" },
                 { "type": "text", "x": 0.25, "y": 2.625, "text": "Anti-clock / Clockwise"},
 
-                { "type": "sprite", "x": 0.25, "y": 3.5, "i": 65, "h": false, "v": false, "r": false },
-                { "type": "text", "x": 2.5, "y": 3.5, "text": "Attack" },
+                { "type": "sprite", "x": 15.25, "y": 0.25, "i": 65, "h": false, "v": false, "r": false },
+                { "type": "text", "x": 17.5, "y": 0.25, "text": "Attack" },
 
-                { "type": "sprite", "x": 0.25, "y": 4.625, "i": 66, "h": false, "v": false, "r": false },
-                { "type": "text", "x": 1.5, "y": 4.625, "text": "/" },
-                { "type": "sprite", "x": 2.25, "y": 4.625, "i": 67, "h": false, "v": false, "r": false },
-                { "type": "text", "x": 3.5, "y": 4.625, "text": "Change Stance" },
-                { "type": "text", "x": 0.25, "y": 5.75, "text": "Anti-clock / Clockwise"},
+                { "type": "sprite", "x": 15.25, "y": 1.325, "i": 66, "h": false, "v": false, "r": false },
+                { "type": "text", "x": 16.5, "y": 1.325, "text": "/" },
+                { "type": "sprite", "x": 17.25, "y": 1.325, "i": 67, "h": false, "v": false, "r": false },
+                { "type": "text", "x": 18.5, "y": 1.325, "text": "Change Stance" },
+                { "type": "text", "x": 15.25, "y": 2.625, "text": "Anti-clock / Clockwise"},
 
-                { "type": "sprite", "x": 15.5, "y": 0.25, "i": 69, "h": false, "v": false, "r": false },
-                { "type": "sprite", "x": 16.5, "y": 0.25, "i": 70, "h": true, "v": false, "r": false },
-                { "type": "text", "x": 12.75, "y": 1.325, "text": "(ENTER/RETURN)" },
-                { "type": "text", "x": 18, "y": 0.25, "text": "Confirm Commands" },
+                { "type": "sprite", "x": 0.5, "y": 4.25, "i": 69, "h": false, "v": false, "r": false },
+                { "type": "sprite", "x": 1.5, "y": 4.25, "i": 70, "h": true, "v": false, "r": false },
+                { "type": "text", "x": 0.25, "y": 5.325, "text": "(ENTER/RETURN)" },
+                { "type": "text", "x": 3, "y": 4.25, "text": "Confirm Commands" },
 
-                { "type": "sprite", "x": 15.5, "y": 2.5, "i": 68, "h": false, "v": false, "r": false },
-                { "type": "sprite", "x": 16.5, "y": 2.5, "i": 68, "h": true, "v": false, "r": false },
-                { "type": "text", "x": 14.75, "y": 3.5, "text": "(space)" },
-                { "type": "text", "x": 18, "y": 2.5, "text": "Show commands" },
+                { "type": "sprite", "x": 15.25, "y": 4.25, "i": 68, "h": false, "v": false, "r": false },
+                { "type": "sprite", "x": 16.25, "y": 4.25, "i": 68, "h": true, "v": false, "r": false },
+                { "type": "text", "x": 14.75, "y": 5.325, "text": "(space)" },
+                { "type": "text", "x": 18, "y": 4.25, "text": "Show commands" },
 
-                { "type": "sprite", "x": 15.5, "y": 4.75, "i": 71, "h": false, "v": false, "r": false },
-                { "type": "sprite", "x": 16.5, "y": 4.75, "i": 72, "h": false, "v": false, "r": false },
-                { "type": "text", "x": 18, "y": 4.75, "text": "Pause" }
+                { "type": "sprite", "x": 27.5, "y": 0.25, "i": 80, "h": false, "v": true, "r": false },
+                { "type": "text", "x": 29, "y": 0.25, "text": "Undo" },
+
+                { "type": "sprite", "x": 26.5, "y": 1.325, "i": 71, "h": false, "v": false, "r": false },
+                { "type": "sprite", "x": 27.5, "y": 1.325, "i": 72, "h": false, "v": false, "r": false },
+                { "type": "text", "x": 29, "y": 1.325, "text": "Pause" }
             ]
         }
 

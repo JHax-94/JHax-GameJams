@@ -48,6 +48,10 @@ export default class FlowManager
 
         this.endRoundConfig = getObjectConfig("EndRoundPopUp");
 
+        this.pauseConfig = getObjectConfig("PauseMenu");
+
+        this.pauseMenu = null;
+
         this.ai = null;
 
         consoleLog("Level config:");
@@ -86,6 +90,8 @@ export default class FlowManager
                 this.deteriorator = new RandomEdgeDeteriorator();
             }
         }
+
+        this.pausedPhase = 0;
 
         /*        
         consoleLog("Player List:");
@@ -150,7 +156,6 @@ export default class FlowManager
                 this.ExecutePlayerActions();
             });
 
-
             this.CheckInput(inputState.btn.space, "space", () => { this.ShowPlayerMoves(); }, () => { this.HidePlayerMoves(); });
         }
 
@@ -164,6 +169,37 @@ export default class FlowManager
                 this.LoadMainMenu();
             });
         }
+
+        if(this.turnPhase !== TURN_PHASES.PAUSE)
+        {
+            this.CheckInput(inputState.btn.esc, "esc", null, () => {
+                this.ShowPauseMenu();
+            });
+        }
+    }
+
+    Resume()
+    {
+        consoleLog("RESUME!");
+        EM.pause = false;
+        this.turnPhase = this.pausedPhase;
+        this.pauseMenu.Close();
+        this.pauseMenu = null;
+    }
+
+    ShowPauseMenu()
+    {
+        EM.pause = true;
+
+        this.pausedPhase = this.turnPhase;
+        this.turnPhase = TURN_PHASES.PAUSE;
+
+        let flow = this;
+
+        this.pauseMenu = new PopUp(this.pauseConfig.components,{
+            resumeEvt: () => flow.Resume(),
+            quitEvt: () => flow.LoadMainMenu()
+        });
     }
 
     LoadMainMenu()
@@ -311,7 +347,13 @@ export default class FlowManager
 
         consoleLog("Create end round popup!");
 
-        this.endRoundScreen = new PopUp(this.endRoundConfig.components, { winnerText: winText });
+        let flow = this;
+
+        this.endRoundScreen = new PopUp(this.endRoundConfig.components, { 
+            winnerText: winText,
+            rematchEvt: () => { flow.ResetPlayers(); },
+            quitEvt: () => { flow.LoadMainMenu(); }
+         });
         DATA.IncrementPlayerScore(winnerNum, 1);
     }
 

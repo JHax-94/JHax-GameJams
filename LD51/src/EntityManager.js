@@ -486,10 +486,13 @@ export default class EntityManager
             //this.hudLog.push(`Input group: ${this.focusedInputGroup.name}`);
         }
         
-        for(var i = 0; i < this.updates.length; i ++)
+        if(!this.pause)
         {
-            this.updates[i].Update(deltaTime);
-        }        
+            for(var i = 0; i < this.updates.length; i ++)
+            {
+                this.updates[i].Update(deltaTime);
+            }   
+        }
     }
 
     Update(deltaTime)

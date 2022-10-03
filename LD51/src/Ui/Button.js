@@ -91,7 +91,6 @@ export default class Button
 
     Draw()
     {
-
         if(this.buttonData.display)
         {
             let colours = this.GetColours();

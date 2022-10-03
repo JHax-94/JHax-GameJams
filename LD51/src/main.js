@@ -98,7 +98,8 @@ let TURN_PHASES = {
     PLAYER_1_INPUT: 0,
     PLAYER_2_INPUT: 1,
     ACTION: 2,
-    MENU: 3
+    MENU: 3,
+    PAUSE: 4
 }
 
 function TURN_PHASE_NAME(turnPhase)

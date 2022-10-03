@@ -48,7 +48,8 @@
 		"action2": 50,
 		"action3": 51,
 		"execute": 13,
-		"space": 32
+		"space": 32,
+		"esc": 27
 	},
 	"touchEvent": {
 		"multiTouch": false,

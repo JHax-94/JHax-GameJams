@@ -1,4 +1,5 @@
 import { consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main";
+import Button from "./Button";
 
 export default class PopUp
 {
@@ -10,9 +11,11 @@ export default class PopUp
         this.basePos = { x: 0, y: 0 };
         this.baseDims = { w: TILE_WIDTH, h: TILE_HEIGHT };
 
-        this.LoadComponents(componentsList, variables);
+        this.buttons = [];
 
         EM.RegisterEntity(this);
+
+        this.LoadComponents(componentsList, variables);
     }
 
     LoadComponents(componentsList, variables)
@@ -77,21 +80,53 @@ export default class PopUp
                 pos.y = y;
             }
 
-
-            let tComp = {
-                type: comp.type,
-                pos: pos,
-                dims: dims,
-                colour: comp.colour,
-                text: comp.text,
+            if(comp.type !== "Button")
+            {
+                let tComp = {
+                    type: comp.type,
+                    pos: pos,
+                    dims: dims,
+                    colour: comp.colour,
+                    text: comp.text,
+                }
+    
+                this.components.push(tComp);
             }
+            else
+            {
+                consoleLog("Construct button");
+                consoleLog(pos);
+                consoleLog(dims), 
+                consoleLog(comp.buttonData);
+                
+                let btnPos  ={ x:pos.x + this.basePos.x, y: pos.y + this.basePos.y };
+                consoleLog(btnPos);
 
-            this.components.push(tComp);
+                let newButton = new Button(btnPos, dims, comp.buttonData);
+
+                if(comp.evt)
+                {
+                    let click = variables[comp.evt];
+
+                    if(click)
+                    {
+                        newButton.ClickCallback = click;
+                    }
+                }
+
+                this.buttons.push(newButton);
+            }
+            
         }
     }
 
     Close()
     {
+        for(let i = 0; i < this.buttons.length; i ++)
+        {
+            EM.RemoveEntity(this.buttons[i]);
+        }
+
         EM.RemoveEntity(this);
     }
 

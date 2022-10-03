@@ -283,12 +283,24 @@
         {
             "name": "EndRoundPopUp",
             "components": [
-                { "type": "Rect", "colour": 0, "pos": { "x": "centre", "y": "centre" }, "w": 14, "h": 10, "isBaseDims": true },
+                { "type": "Rect", "colour": 0, "pos": { "x": "centre", "y": "centre" }, "w": 14, "h": 9.5, "isBaseDims": true },
                 { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 0.5 }, "text": "Round Over!" },
                 { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 1.5 }, "variable": "winnerText" },
-                { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 3.5 }, "text": "1 - Rematch (Same Arena)" },
-                { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 4.5 }, "text": "2 - Rematch (New Arena)" },
-                { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 5.5 }, "text": "3 - Back to Main Menu" }
+                { "type": "Button", "pos": { "x": "centre", "y": 3.5 }, "dims": { "w": 10, "h": 2 }, 
+                    "buttonData": { "display": "Rematch", "offset": { "x": 5, "y": 2 }, "renderLayer": "MENU_UI" }, "evt": "rematchEvt" },
+                { "type": "Button", "pos": { "x": "centre", "y": 6 }, "dims": { "w": 10, "h": 2 }, 
+                    "buttonData": { "display": "Back to Menu", "offset": { "x": 5, "y": 2 }, "renderLayer": "MENU_UI" }, "evt": "quitEvt" }
+            ]
+        },
+        {
+            "name": "PauseMenu",
+            "components": [
+                { "type": "Rect", "colour": 0, "pos": { "x": "centre", "y": "centre" }, "w": 14, "h": 7.5, "isBaseDims": true },
+                { "type": "Text", "colour": 1, "pos": { "x": "centre", "y": 0.5 }, "text": "Paused" },
+                { "type": "Button", "pos": { "x": "centre", "y": 1.5 }, "dims": { "w": 10, "h": 2 }, 
+                    "buttonData": { "display": "Resume", "offset": { "x": 5, "y": 2 }, "renderLayer": "MENU_UI" }, "evt": "resumeEvt" },
+                { "type": "Button", "pos": { "x": "centre", "y": 4 }, "dims": { "w": 10, "h": 2 }, 
+                    "buttonData": { "display": "Exit", "offset": { "x": 5, "y": 2 }, "renderLayer": "MENU_UI" }, "evt": "quitEvt" }
             ]
         },
         {

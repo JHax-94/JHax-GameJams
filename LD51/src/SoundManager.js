@@ -84,10 +84,10 @@ export default class SoundManager
         this.musicBar = new ProgressBar({ x: (this.pos.x + 3), y: this.pos.y+0.25, w: 3.5, h: 0.5 }, { filled: 1, unfilled: 6 });
         this.musicBar.SetFill(this.musicVolume, this.musicMax);
         
-        this.musicUpButton = new Button({ x: this.pos.x + 7.5, y: this.pos.y }, { w: 1, h: 1 }, {display: ">", offset: { x: 1, y: 1 }});
+        this.musicUpButton = new Button({ x: this.pos.x + 7.5, y: this.pos.y }, { w: 1, h: 1 }, {display: ">", offset: { x: 2, y: 2 }});
         this.musicUpButton.ClickCallback = function() { soundManRef.MusicVolumeUp(); };
 
-        this.musicDownButton = new Button({ x: this.pos.x + 1.5, y: this.pos.y }, { w: 1, h: 1 }, {display: "<", offset: { x: 1, y: 1 }});
+        this.musicDownButton = new Button({ x: this.pos.x + 1.5, y: this.pos.y }, { w: 1, h: 1 }, {display: "<", offset: { x: 2, y: 2 }});
         this.musicDownButton.ClickCallback = function() { soundManRef.MusicVolumeDown(); }
 
         this.sfxBar = new ProgressBar({ x: this.pos.x + 3, y: this.pos.y + 1.25, w: 3.5, h: 0.5 }, {filled: 1, unfilled: 6});
@@ -404,6 +404,6 @@ export default class SoundManager
     {        
         sprite(this.musicIconIndex, this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE);
 
-        sprite(this.sfxIconIndex, this.pos.x * PIXEL_SCALE, (this.pos.y + 1) * PIXEL_SCALE);
+        sprite(this.sfxIconIndex, this.pos.x * PIXEL_SCALE, (this.pos.y + 1.25) * PIXEL_SCALE);
     }
 }

@@ -14,6 +14,16 @@ export default class Menu
 
         this.confirmData = levelData.confirmButton;
 
+        this.titleMaps = [];
+
+        for(let i = 0; i < levelData.maps.length; i ++ )
+        {
+            this.titleMaps.push({
+                map: getMap(levelData.maps[i].name),
+                offset: levelData.maps[i].offset
+            });
+        }
+
         this.confirmButton = null;
         
         this.selectedMode = null;
@@ -37,7 +47,7 @@ export default class Menu
         this.ChangePage();
     }
 
-    ModeButtonClick(buttonData)
+    ModeButtonClick(button, buttonData)
     {
         for(let i = 0; i < this.modeData.length; i ++)
         {
@@ -47,6 +57,12 @@ export default class Menu
             {
                 this.ClearOptions();
                 this.selectedMode = mode;
+
+                for(let i = 0; i < this.modeButtons.length; i ++)
+                {
+                    this.modeButtons[i].focused = this.modeButtons[i] === button;
+                }
+
                 this.LoadModeOptions(mode, this.modeOptionData);
                 break;
             }
@@ -205,11 +221,23 @@ export default class Menu
                 { 
                     display: modes[i].name, 
                     renderLayer: "MENU_UI",
-                    offset: { x: 2, y: 2 }
+                    offset: { x: 2, y: 2 },
+                    colours: {
+                        hover: {
+                            f: 7,
+                            b: 7,
+                            t: 0                            
+                        },
+                        normal: {
+                            f: 0,
+                            b: 7,
+                            t: 7
+                        }
+                    }
                 });
 
             let caller = this;
-            newButton.ClickCallback = (buttonData) => { caller.ModeButtonClick(buttonData); };
+            newButton.ClickCallback = (buttonData) => { caller.ModeButtonClick(newButton, buttonData); };
 
             this.modeButtons.push(newButton);
         }
@@ -287,6 +315,15 @@ export default class Menu
     Draw()
     {
         let rp = this.rulesPanel.dims;
+
+        /*
+        consoleLog("Title maps:");
+        consoleLog(this.titleMaps);
+        */
+        for(let i = 0; i < this.titleMaps.length; i ++)
+        {
+            this.titleMaps[i].map.draw(this.titleMaps[i].offset.x * PIXEL_SCALE, this.titleMaps[i].offset.y * PIXEL_SCALE);
+        }
 
         paper(this.rulesPanel.backColour);
         pen(this.rulesPanel.foreColour);

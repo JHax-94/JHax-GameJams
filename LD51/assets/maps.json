@@ -56,6 +56,34 @@
 			"name": "test_objects",
 			"sheet": "",
 			"data": "!!!.!!}~$u!!|I$D!!.a"
+		},
+		{
+			"w": 33,
+			"h": 25,
+			"name": "titleBack",
+			"sheet": "tilesheet",
+			"data": "!!|~#$#%%|%}#7%.%}%|%l#$!!|@#3#*#+#,#+#M#-#~#/#0#1%z!!|?(c#:#;#<#;+g#=#>#?#@#A+K!!|@(S|4!!!.!!.r"
+		},
+		{
+			"w": 33,
+			"h": 25,
+			"name": "titleFront",
+			"sheet": "",
+			"data": "!!}7#O#P|-!!|G#`#a|-!!!.!!.S"
+		},
+		{
+			"w": 33,
+			"h": 25,
+			"name": "titleBack2",
+			"sheet": "tilesheet",
+			"data": "!!|/#K!!#K!!|G#4|4!!|A#4|4!!!.!! 5"
+		},
+		{
+			"w": 33,
+			"h": 25,
+			"name": "titleFront2",
+			"sheet": "",
+			"data": "!!}7#O#P|-!!|G#`#a|-!!!.!!.S"
 		}
 	]
 }

@@ -40,6 +40,11 @@
         {
             "levelName": "Menu",
             "type": "menu",
+            "maps": [ 
+                { "name": "titleBack2", "offset": { "x": 0, "y": -0.25 }},
+                { "name": "titleBack", "offset": { "x": 0, "y": -0.25 }},
+                { "name": "titleFront", "offset": { "x": -0.5, "y":-0.125 }}
+            ],
             "modeSelectRoot": {
                 "x": 1,
                 "y": 4,

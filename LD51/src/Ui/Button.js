@@ -26,13 +26,13 @@ export default class Button
 
         this.colours = {
             normal: {
-                f: 14,
-                b: 14,
-                t: 0
+                f: 0,
+                b: 7,
+                t: 7
             },
             hover: {
-                f: 14,
-                b: 13,
+                f: 7,
+                b: 7,
                 t: 0
             }
         };

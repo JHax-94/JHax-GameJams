@@ -16,10 +16,16 @@ export default class PopUp
         EM.RegisterEntity(this);
 
         this.LoadComponents(componentsList, variables);
+
+        consoleLog("Pop up constructed");
+        consoleLog(this);
     }
 
     LoadComponents(componentsList, variables)
     {
+        consoleLog("Loading component list");
+        consoleLog(componentsList);
+
         for(let i = 0; i < componentsList.length; i ++)
         {
             let comp = componentsList[i];
@@ -87,6 +93,7 @@ export default class PopUp
                     pos: pos,
                     dims: dims,
                     colour: comp.colour,
+                    border: comp.border,
                     text: comp.text,
                 }
     
@@ -155,6 +162,12 @@ export default class PopUp
             {
                 paper(c.colour);
                 rectf(pos.x, pos.y, dims.w, dims.h);
+
+                if(c.border)
+                {
+                    pen(c.border);
+                    rect(pos.x, pos.y, dims.w, dims.h);
+                }
             }
 
             if(c.type === "Text")

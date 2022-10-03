@@ -270,41 +270,91 @@ export default class ActionBar
 
         if(this.IsPlayerActivePlayer())
         {
-            paper(6);
+            paper(0);
+            let undoTxt = "-undo";
             let undoPrompt = {
                 x: this.rootPos.x * PIXEL_SCALE,
                 y: finalY + 0.125 * PIXEL_SCALE,
-                w: 2+ PIXEL_SCALE * 4,
-                h: 2 + PIXEL_SCALE* 2
+                w: 2+ PIXEL_SCALE * "-undo".length * 0.5,
+                h: PIXEL_SCALE - 1,
+                pureX: this.rootPos.x * PIXEL_SCALE
+            };
+
+            let txtOffset = 0;
+            let rectOffset = 0;
+
+            if(this.offm < 0)
+            {
+                undoPrompt.x -= (undoPrompt.w);
+                undoTxt = "undo-";
+                txtOffset = PIXEL_SCALE + 3;
+                rectOffset = PIXEL_SCALE;
+
+            }
+
+            rectf(rectOffset + undoPrompt.x, undoPrompt.y + PIXEL_SCALE, undoPrompt.w, undoPrompt.h);
+
+            sprite(80, undoPrompt.pureX, undoPrompt.y, false, true, false);
+            print(undoTxt, txtOffset + undoPrompt.x, undoPrompt.y + PIXEL_SCALE + 1);
+
+
+
+            txtOffset = 0;
+            rectOffset = 0;
+            let spriteOffset = 0;
+            let previewTxt = "-show";
+            let previewPrompt = {
+                x: this.rootPos.x * PIXEL_SCALE,
+                y: finalY +  2.25 * PIXEL_SCALE,
+                w: 2 + PIXEL_SCALE * "-show".length * 0.5,
+                h: PIXEL_SCALE - 1 
             };
 
             if(this.offm < 0)
             {
-                undoPrompt.x -= (undoPrompt.w - 6);
+                previewTxt = "show-";
+                spriteOffset = - PIXEL_SCALE;
+                txtOffset = 5 - 2 * PIXEL_SCALE;
+                rectOffset = 2 - 2* PIXEL_SCALE;
             }
 
-            rectf(undoPrompt.x, undoPrompt.y, undoPrompt.w, undoPrompt.h);
-            print("Down", undoPrompt.x, undoPrompt.y);
-            print("Undo", undoPrompt.x, undoPrompt.y + PIXEL_SCALE);
+            rectf(rectOffset + previewPrompt.x, previewPrompt.y + PIXEL_SCALE, previewPrompt.w, previewPrompt.h);
+            sprite(84, spriteOffset + previewPrompt.x, previewPrompt.y, false, false, false);
+            sprite(84, spriteOffset + previewPrompt.x+PIXEL_SCALE, previewPrompt.y, true, false, false);
+            print(previewTxt, txtOffset + previewPrompt.x, previewPrompt.y + PIXEL_SCALE + 1);
 
             if(this.trackPlayer.actionQueue.length === this.trackPlayer.maxActions)
             {
+                txtOffset = 0;
+                rectOffset = 0;
+                spriteOffset = 0;
+                let confirmTxt = "-confirm";
                 let confirmPrompt = {
                     x: this.rootPos.x * PIXEL_SCALE,
-                    y: finalY + 3.25 * PIXEL_SCALE,
-                    w: 2+ PIXEL_SCALE * 4,
-                    h: 2 + PIXEL_SCALE* 2
+                    y: finalY + 4.325 * PIXEL_SCALE,
+                    w: 2+ PIXEL_SCALE * "-confirm".length * 0.5,
+                    h: PIXEL_SCALE -1,
+                    pureX: this.rootPos.x * PIXEL_SCALE
                 };
-                paper(6);
+                paper(0);
 
                 if(this.offm < 0)
                 {
                     confirmPrompt.x -= (confirmPrompt.w - 6);
+                    confirmTxt = "confirm-";
+                    spriteOffset = - PIXEL_SCALE;
+                    rectOffset = 2;
+                    txtOffset = 5; 
                 }
 
-                rectf(confirmPrompt.x, confirmPrompt.y, confirmPrompt.w, confirmPrompt.h)
-                print("Enter", confirmPrompt.x, confirmPrompt.y);
-                print("Confirm", confirmPrompt.x, confirmPrompt.y + PIXEL_SCALE);
+                let baseY = confirmPrompt.y;
+
+                rectf(rectOffset + confirmPrompt.x, baseY + PIXEL_SCALE +1, confirmPrompt.w, confirmPrompt.h);
+
+                sprite(85, spriteOffset + confirmPrompt.pureX, baseY, false, false, false);
+                sprite(86, spriteOffset + confirmPrompt.pureX+PIXEL_SCALE, baseY, true, false, false);
+
+                print(confirmTxt, txtOffset + confirmPrompt.x, baseY + PIXEL_SCALE + 1);
             }
         }
     }

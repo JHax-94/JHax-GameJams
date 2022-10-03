@@ -47,7 +47,7 @@ export default class FlowManager
         this.popDelayTimer = 0;
 
         this.endRoundConfig = getObjectConfig("EndRoundPopUp");
-
+        this.clockHelpConfig = getObjectConfig("ClockHelp");
         this.pauseConfig = getObjectConfig("PauseMenu");
 
         this.pauseMenu = null;
@@ -159,6 +159,7 @@ export default class FlowManager
             this.CheckInput(inputState.btn.space, "space", () => { this.ShowPlayerMoves(); }, () => { this.HidePlayerMoves(); });
         }
 
+        /*
         if(this.turnPhase === TURN_PHASES.MENU)
         {
             this.CheckInput(inputState.btn.action1, "action1", null, () => {
@@ -168,7 +169,7 @@ export default class FlowManager
             this.CheckInput(inputState.btn.action3, "action3", null, () => {
                 this.LoadMainMenu();
             });
-        }
+        }*/
 
         if(this.turnPhase !== TURN_PHASES.PAUSE)
         {
@@ -245,12 +246,20 @@ export default class FlowManager
     ShowPlayerMoves()
     {
         let active = this.GetActivePlayer();
+
+        consoleLog("Show clock help!");
+        consoleLog(this.clockHelpConfig);
+        this.clockHelp = new PopUp(this.clockHelpConfig.components, {});
+
         active.actionUi.Show();
     }
 
     HidePlayerMoves()
     {
         let active = this.GetActivePlayer();
+
+        this.clockHelp.Close();
+
         active.actionUi.Hide();
     }
 

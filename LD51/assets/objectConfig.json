@@ -379,7 +379,11 @@
                 { "type": "sprite", "x": 15.5, "y": 2.5, "i": 68, "h": false, "v": false, "r": false },
                 { "type": "sprite", "x": 16.5, "y": 2.5, "i": 68, "h": true, "v": false, "r": false },
                 { "type": "text", "x": 14.75, "y": 3.5, "text": "(space)" },
-                { "type": "text", "x": 18, "y": 2.5, "text": "Preview commands" }
+                { "type": "text", "x": 18, "y": 2.5, "text": "Show commands" },
+
+                { "type": "sprite", "x": 15.5, "y": 4.75, "i": 71, "h": false, "v": false, "r": false },
+                { "type": "sprite", "x": 16.5, "y": 4.75, "i": 72, "h": false, "v": false, "r": false },
+                { "type": "text", "x": 18, "y": 4.75, "text": "Pause" }
             ]
         }
 

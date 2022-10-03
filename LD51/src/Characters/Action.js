@@ -1,4 +1,4 @@
-import { consoleLog, DIRECTIONS, EM, PIXEL_SCALE, REVERSE_DIRECTION, UTIL } from "../main";
+import { consoleLog, DIRECTIONS, EM, getObjectConfig, PIXEL_SCALE, REVERSE_DIRECTION, UTIL } from "../main";
 
 export default class Action
 {
@@ -15,6 +15,8 @@ export default class Action
         this.cancelled = false;
 
         this.bounceList = [];
+
+        this.wallTile = getObjectConfig("WallTile");
     }
 
     FlowManager()
@@ -55,10 +57,56 @@ export default class Action
                     y: UTIL.Lerp(bounce.rootPos.y, bounce.destinationTile.y * PIXEL_SCALE, this.GetAdjustedProgress(bounce.startTime))
                 };
 
+                let bounceTime = this.actionTime - bounce.createdTime;
+                let bounceTimer = this.actionTimer - bounce.createdTime;
+
+                let height = 0;
+
+                let v = bounceTimer / bounceTime;
+
+                consoleLog(`Bounce V: ${v}, Max Height: ${bounce.bounceHeight}`);
+
+                if(v < 0.5)
+                {
+                    height = UTIL.Plerp(0, bounce.bounceHeight, v*2);
+                }
+                else
+                {
+                    height = UTIL.Plerp(bounce.bounceHeight, 0, (v-0.5)*2);
+                }
+
+                consoleLog(`Set height: ${height}`);
+
+                bounce.targetPlayer.hover = -height;
+
                 let bestFitTile = {
                     x: Math.round(bounce.targetPlayer.pos.x / PIXEL_SCALE),
                     y: Math.round(bounce.targetPlayer.pos.y / PIXEL_SCALE)
                 }
+
+                if(bestFitTile.x !== bounce.bestFitTile.x || bestFitTile.y !== bounce.bestFitTile)
+                {
+                    let arena = EM.GetEntity("ARENA");
+
+                    let newTile = arena.GetWorldTile(bestFitTile);
+
+                    consoleLog("World tile:");
+                    consoleLog(newTile);
+
+                    if(newTile && newTile.sprite === this.wallTile.index)
+                    {
+                        bounce.destinationTile = bounce.bestFitTile;
+                        bestFitTile = bounce.bestFitTile
+                        bounce.startTime = this.actionTimer;
+                        bounce.rootPos = {x: bounce.targetPlayer.pos.x, y: bounce.targetPlayer.pos.y };
+                    }
+                    else
+                    {
+                        bounce.bestFitTile = bestFitTile;
+                    }
+                }
+                
+                
 
                 if(bounce.targetPlayer.tilePos.x !== bestFitTile.x)
                 {
@@ -74,6 +122,8 @@ export default class Action
                 {
                     bounce.targetPlayer.tilePos = bounce.destinationTile;
                     bounce.targetPlayer.pos = { x: bounce.destinationTile.x * PIXEL_SCALE, y: bounce.destinationTile.y * PIXEL_SCALE };
+
+                    bounce.targetPlayer.hover = 0;
 
                     bounce.targetPlayer.CheckForFloor();
                 }
@@ -105,6 +155,7 @@ export default class Action
         }
         else if(sourcePlayer.stance.name === hitPlayer.stance.beats)
         {
+
             consoleLog("Backfire bounce!");
             this.BouncePlayer(sourcePlayer, REVERSE_DIRECTION(sourcePlayer.direction), 3);
             sourcePlayer.CancelCurrentAction();
@@ -112,13 +163,16 @@ export default class Action
         }
         else if(sourcePlayer.stance.beats === hitPlayer.stance.name)
         {
-            consoleLog("Success bounce!");
+            if(!hitPlayer.hitThisAction)
+            {
+                consoleLog("Success bounce!");
 
-            /// ATTACK WIN
-            // Enemy takes a hit and bounces back 2 tiles
-            this.BouncePlayer(hitPlayer, sourcePlayer.direction, 3);
-            hitPlayer.CancelCurrentAction();
-            hitPlayer.Damage(1);
+                /// ATTACK WIN
+                // Enemy takes a hit and bounces back 2 tiles
+                this.BouncePlayer(hitPlayer, sourcePlayer.direction, 3);
+                hitPlayer.CancelCurrentAction();
+                hitPlayer.Damage(1);
+            }
         }
     }
 
@@ -194,8 +248,12 @@ export default class Action
         }
         else if(playerDirection === DIRECTIONS.RIGHT)
         {
+            consoleLog(`Right calc:`);
+            consoleLog(`In: (${playerTile.x} + ${distance}, ${playerTile.y})`);
+            
             targetTile.x = playerTile.x + distance;
             targetTile.y = playerTile.y;            
+            consoleLog(`Out: ( ${targetTile.x}, ${targetTile.y})`);
         }
         else if(playerDirection === DIRECTIONS.LEFT)
         {
@@ -225,9 +283,15 @@ export default class Action
 
         let newBounce = { 
             startTime: this.actionTimer,
+            createdTime: this.actionTimer,
+            bounceHeight: bounceDistance * 0.25,
             rootPos: rootPos,
+            direction: bounceDirection,
+            distance: bounceDistance,
+            rootTile: player.tilePos,
             destinationTile: targetTile,
-            targetPlayer: player
+            targetPlayer: player,            
+            bestFitTile: player.tilePos
         };
 
         consoleLog("Add bounce to list...");
@@ -238,6 +302,7 @@ export default class Action
 
     CancelAction()
     {
+        consoleLog("cancel action!");
         this.cancelled = true;
     }
 

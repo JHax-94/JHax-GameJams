@@ -25,7 +25,7 @@ export default class TurnAction extends Action
 
         if(v < 0.5)
         {
-            this.targetPlayer.hover = UTIL.Clerp(0, this.floatHeight, v * 2);
+            if(!this.cancelled) this.targetPlayer.hover = UTIL.Clerp(0, this.floatHeight, v * 2);
         }
         else
         {
@@ -34,7 +34,7 @@ export default class TurnAction extends Action
                 this.targetPlayer.direction = this.targetDirect;
             }
 
-            this.targetPlayer.hover = UTIL.Clerp(this.floatHeight, 0, (v - 0.5) * 2);
+            if(!this.cancelled) this.targetPlayer.hover = UTIL.Clerp(this.floatHeight, 0, (v - 0.5) * 2);
         }
     }
 

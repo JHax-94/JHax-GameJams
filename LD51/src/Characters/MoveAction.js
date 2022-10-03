@@ -1,3 +1,4 @@
+import BriefPlayable from "tina/src/BriefPlayable";
 import EntityManager from "../EntityManager";
 import { consoleLog, EM, PIXEL_SCALE, UTIL } from "../main";
 import Action from "./Action";
@@ -10,6 +11,8 @@ export default class MoveAction extends Action
         this.sourceTile = null;
         this.targetTile = null;
         this.midpointCheckPassed = false;
+
+        this.targetClashCheckComplete = false;
     }
 
     ExecuteAction(player)
@@ -47,14 +50,6 @@ export default class MoveAction extends Action
                     overlap = true;
                     break;
                 }
-
-                let movingTo = players[i].GetMovingToTile();
-
-                if(movingTo.x === tile.x && movingTo.y === tile.y)
-                {
-                    overlap = true;
-                    break;
-                }
             }
         }   
 
@@ -64,6 +59,31 @@ export default class MoveAction extends Action
     ProgressAction(deltaTime)
     {
         super.ProgressAction(deltaTime);
+
+        if(!this.targetClashCheckComplete)
+        {
+            consoleLog(`=== Player ${this.targetPlayer.playerNumber} TARGET CLASH CHECK ===`);
+
+            consoleLog(`Player moving to: (${this.targetTile.x}, ${this.targetTile.y})`);
+
+            let otherPlayers = this.FlowManager().GetOtherPlayers(this.targetPlayer);
+
+            for(let i = 0; i < otherPlayers.length; i ++)
+            {
+                let pl = otherPlayers[i];
+                let destination = pl.GetMovingToTile();
+
+                consoleLog(`Compare destinations: (${destination.x}, ${destination.y}) with (${this.targetTile.x}, ${this.targetTile.y})`);
+
+                if(destination.x === this.targetTile.x && destination.y === this.targetTile.y)
+                {
+                    this.CancelAction();
+                    break;
+                }
+            }
+
+            this.targetClashCheckComplete = true;
+        }
 
         if(this.targetTile && this.targetPlayer && !this.cancelled)
         {
@@ -92,6 +112,10 @@ export default class MoveAction extends Action
 
                 this.midpointCheckPassed = true;
             }
+        }
+        else
+        {
+            //consoleLog(`CANCELLED!`);
         }
     }
 

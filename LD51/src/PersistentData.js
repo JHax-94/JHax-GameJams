@@ -31,10 +31,6 @@ export default class PersistentData
 
     IncrementPlayerScore(player, by)
     {
-        consoleLog(`Increment score:`)
-        consoleLog(player);
-        consoleLog(by);
-
         if(player === 1)
         {
             this.SetPlayer1Wins(this.player1Wins + by);

@@ -15,6 +15,7 @@ export default class Player
         this.ai = null;
 
         this.maxActions = playerConf.maxActions;
+        this.hitThisAction = false;
 
         this.flickerTime = playerConf.flickerTime;
         this.flickerOffTime = playerConf.flickerOffTime;
@@ -39,8 +40,10 @@ export default class Player
 
         this.stances = stanceConfig.stances;
 
+        //this.stance = this.stances[playerNumber === 1 ? 1 : 0 ];
         this.stance = this.stances[random(this.stances.length)];
 
+        //this.direction = this.playerNumber === 1 ? DIRECTIONS.UP : DIRECTIONS.LEFT;
         this.direction = this.playerNumber === 1 ? DIRECTIONS.RIGHT : DIRECTIONS.LEFT;
 
         this.currentAction = null;
@@ -120,6 +123,7 @@ export default class Player
     ActionCompleted(action)
     {
         this.currentAction = null;
+        this.hitThisAction = false;
 
         for(let i = 0; i < this.actionQueue.length; i ++)
         {
@@ -194,19 +198,24 @@ export default class Player
     
     Damage(amount)
     {
-        this.hp -= amount;
-
-        if(this.hp <= 0)
+        if(!this.hitThisAction)
         {
-            this.hp = 0;
-        }
-        else if(this.hp > this.maxHp)
-        {
-            this.hp = this.maxHp;
-        }
+            this.hitThisAction = true;
 
-        this.flicker = true;
-        this.flickerTimer = this.flickerTime;
+            this.hp -= amount;
+
+            if(this.hp <= 0)
+            {
+                this.hp = 0;
+            }
+            else if(this.hp > this.maxHp)
+            {
+                this.hp = this.maxHp;
+            }
+
+            this.flicker = true;
+            this.flickerTimer = this.flickerTime;
+        }
     }
 
     GetSpriteData()
@@ -242,8 +251,9 @@ export default class Player
     {
         let movingToTile = this.tilePos;
 
-        if(this.currentAction && this.currentAction.type=== "move")
+        if(this.currentAction && this.currentAction.type === "Move")
         {
+            consoleLog(`Player ${this.playerNumber} has move action...`);
             movingToTile = this.currentAction.targetTile;
         }
 
@@ -268,6 +278,9 @@ export default class Player
 
     CancelCurrentAction()
     {
+        consoleLog("Cancel player action...");
+        consoleLog(this);
+        consoleLog(this.currentAction);
         if(this.currentAction)
         {
             this.currentAction.CancelAction();

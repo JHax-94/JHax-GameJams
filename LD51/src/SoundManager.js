@@ -20,14 +20,14 @@ export default class SoundManager
 
         this.soundOn = true;
         audioManager.channels['sfx'].volume = 0.3;
-
+        /*
         consoleLog("AUDIO MANAGER");        
         consoleLog(audioManager);
         consoleLog("PATATRACKER");
         consoleLog(patatracker);
         consoleLog("ASSETS.PATATRACKER");
         consoleLog(assets.patatracker);
-
+        */
         this.albumData = assets.patatracker;
 
         this.barTimer = 0;
@@ -36,9 +36,10 @@ export default class SoundManager
 
         this.config = getObjectConfig("SoundManager");
 
+        /*
         consoleLog("=== SOUND TRACK CONFIG ===");
         consoleLog(this.config);
-
+        */
         this.songElapsed = 0;
         this.currentSong = "";
 

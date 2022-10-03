@@ -87,6 +87,10 @@
             "name": "DamagedFloorTile"
         },
         {
+            "index": 92,
+            "name": "WallTile"
+        },
+        {
             "name": "Stances",
             "stances": [
                 { "name": "Rock", "beats": "Scissors", "sprites": 

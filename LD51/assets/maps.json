@@ -49,6 +49,13 @@
 			"name": "bridge_objects",
 			"sheet": "",
 			"data": "!! k$D!!}x$u!! I"
+		},
+		{
+			"w": 33,
+			"h": 25,
+			"name": "test_objects",
+			"sheet": "",
+			"data": "!!!.!!}~$u!!|I$D!!.a"
 		}
 	]
 }

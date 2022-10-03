@@ -75,8 +75,8 @@ export default class Carousel
         pen(1);
         if(this.title)
         {
-            print(this.title, (this.dims.x - UTIL.CalculateTextWidth(this.title)) * PIXEL_SCALE, this.dims.y * PIXEL_SCALE)
+            print(this.title, (this.dims.x - UTIL.CalculateTextWidth(this.title)) * PIXEL_SCALE, this.dims.y * PIXEL_SCALE + 2)
         }
-        print(this.options[this.selectedIndex].display, (this.dims.x + 1.25) * PIXEL_SCALE, this.dims.y * PIXEL_SCALE);
+        print(this.options[this.selectedIndex].display, (this.dims.x + 1.25) * PIXEL_SCALE, this.dims.y * PIXEL_SCALE + 2);
     }
 }

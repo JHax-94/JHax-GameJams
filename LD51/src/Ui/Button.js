@@ -23,6 +23,25 @@ export default class Button
         this.pos = position;
         this.dims = dims;
 
+
+        this.colours = {
+            normal: {
+                f: 14,
+                b: 14,
+                t: 0
+            },
+            hover: {
+                f: 14,
+                b: 13,
+                t: 0
+            }
+        };
+
+        if(data.colours)
+        {
+            this.colours = data.colours;
+        }
+
         this.hoverOn = false;
 
         EM.RegisterEntity(this);
@@ -65,22 +84,30 @@ export default class Button
         this.focused = focusOn;
     }
 
+    GetColours()
+    {
+        return (this.hoverOn || this.focused) ? this.colours.hover : this.colours.normal;
+    }
+
     Draw()
     {
 
         if(this.buttonData.display)
         {
-            paper(14);
+            let colours = this.GetColours();
+
+            paper(colours.f);
             rectf(this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
 
-            pen(0)
+            
+            pen(colours.b);
+            rect(this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
+            
+
+            pen(colours.t)
             print(this.buttonData.display, this.pos.x * PIXEL_SCALE + this.offset.x, this.pos.y * PIXEL_SCALE + this.offset.y);
 
-            if(this.hoverOn || this.focused)
-            {
-                pen(13);
-                rect(this.pos.x * PIXEL_SCALE, this.pos.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
-            }
+            
         }
         else
         {

@@ -200,7 +200,7 @@ export default class SoundManager
         
         if(playSound)
         {
-            sfx(SFX.collect);
+            sfx("command");
         }
     }
     /*

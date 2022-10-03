@@ -1,4 +1,4 @@
-import { consoleLog, EM, SETUP } from "../main";
+import { consoleLog, EM, PIXEL_SCALE, SETUP } from "../main";
 import Button from "./Button";
 import Carousel from "./Carousel";
 
@@ -21,12 +21,20 @@ export default class Menu
         this.modeButtons = [];
         this.modeOptionControls = [];
 
+        this.pageButtons = [];
+
+        this.rulesPanel = levelData.rulesPanel;
+
+        this.activePage = "Main"
+
         this.modeData = levelData.modes;
         this.modeOptionData = levelData.modeOptions;
 
         this.BuildModeSelection(this.modeData);
 
         EM.RegisterEntity(this);
+
+        this.ChangePage();
     }
 
     ModeButtonClick(buttonData)
@@ -113,8 +121,6 @@ export default class Menu
             players = 2;
         }
 
-
-
         let ai = null;  
 
         if(players ===  1)
@@ -124,7 +130,7 @@ export default class Menu
             ai = aiControl.GetSelectedValue();
         }
 
-        let mapDeteriorateControl = this.GetControl("Map Damage");
+        let mapDeteriorateControl = this.GetControl("Arena Damage");
 
         let levelConfig = {
             players: players,
@@ -206,6 +212,116 @@ export default class Menu
             newButton.ClickCallback = (buttonData) => { caller.ModeButtonClick(buttonData); };
 
             this.modeButtons.push(newButton);
+        }
+    }
+
+    GetActiveRulesPanelPage()
+    {
+        let page = null;
+        for(let i = 0; i < this.rulesPanel.pages.length; i ++)
+        {   
+            if(this.rulesPanel.pages[i].name === this.activePage)
+            {
+                page = this.rulesPanel.pages[i];
+                break;
+            }
+        }   
+        
+        return page;
+    }
+
+    ChangePage()
+    {
+        let page = this.GetActiveRulesPanelPage();
+
+        for(let i = 0; i < this.pageButtons.length; i ++)
+        {
+            EM.RemoveEntity(this.pageButtons[i]);
+        }
+
+        let rp = this.rulesPanel.dims;
+
+        for(let i = 0; i < page.components.length; i ++)
+        {
+            let c = page.components[i];
+
+            if(c.type === "button")
+            {
+                let newButton = new Button({ x: rp.x + c.x, y: rp.y + c.y }, { w: c.w, h: c.h }, 
+                    { 
+                        display: c.text, 
+                        offset: { x: 2, y: 2 }, 
+                        colours: {
+                            hover: {
+                                f: 7,
+                                b: 7,
+                                t: 0                            
+                            },
+                            normal: {
+                                f: 0,
+                                b: 7,
+                                t: 7
+                            }
+                        },
+                        target: c.target,
+                        renderLayer: "MENU_UI"});
+
+                let caller = this;
+
+                newButton.ClickCallback = () => { caller.PageChange(newButton); }
+
+                this.pageButtons.push(newButton);
+            }
+        }        
+    }
+
+    PageChange(triggerButton)
+    {
+        consoleLog("Change Page:");
+        consoleLog(triggerButton);
+
+        this.activePage = triggerButton.buttonData.target;
+        this.ChangePage();
+    }
+
+    Draw()
+    {
+        let rp = this.rulesPanel.dims;
+
+        paper(this.rulesPanel.backColour);
+        pen(this.rulesPanel.foreColour);
+
+        rectf(rp.x * PIXEL_SCALE, rp.y * PIXEL_SCALE, rp.w * PIXEL_SCALE, rp.h * PIXEL_SCALE);
+
+        let page = this.GetActiveRulesPanelPage();
+
+        for(let i = 0; i < page.components.length; i ++)
+        {
+            paper(this.rulesPanel.backColour);
+            pen(this.rulesPanel.foreColour);
+
+            let c = page.components[i];
+
+            if(c.type === "text")
+            {
+                print(c.text, (rp.x + c.x) * PIXEL_SCALE, (rp.y + c.y) * PIXEL_SCALE);
+            }
+            if(c.type === "sprite")
+            {
+                sprite(c.i, (rp.x + c.x) * PIXEL_SCALE, (rp.y + c.y) * PIXEL_SCALE, c.h, c.v, c.r);
+            }
+            if(c.type === "rect")
+            {
+                paper(c.f);
+                rectf((rp.x + c.x) * PIXEL_SCALE, (rp.y + c.y) * PIXEL_SCALE, c.w * PIXEL_SCALE, c.h * PIXEL_SCALE);
+
+                if(c.b)
+                {
+                    pen(c.b);
+                    rect((rp.x + c.x) * PIXEL_SCALE, (rp.y + c.y) * PIXEL_SCALE, c.w * PIXEL_SCALE, c.h * PIXEL_SCALE);
+                }
+
+            }
         }
     }
 }

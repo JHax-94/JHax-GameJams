@@ -1,4 +1,3 @@
-import { start } from "tina";
 import { consoleLog, UTIL } from "../main";
 import Action from "./Action";
 
@@ -6,7 +5,7 @@ export default class ChangeStance extends Action
 {
     constructor(changeStance)
     {
-        super(`Stance ${changeStance > 0 ? "Anti Clockwise" : "Clockwise"}`, "Stance");
+        super(`Stance ${changeStance > 0 ? "Anti-Clockwise" : "Clockwise"}`, "Stance");
         
         this.changeDir = changeStance;
 

@@ -320,7 +320,6 @@ export default class Menu
                     pen(c.b);
                     rect((rp.x + c.x) * PIXEL_SCALE, (rp.y + c.y) * PIXEL_SCALE, c.w * PIXEL_SCALE, c.h * PIXEL_SCALE);
                 }
-
             }
         }
     }

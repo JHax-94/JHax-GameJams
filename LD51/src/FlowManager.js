@@ -246,9 +246,7 @@ export default class FlowManager
     ShowPlayerMoves()
     {
         let active = this.GetActivePlayer();
-
-        consoleLog("Show clock help!");
-        consoleLog(this.clockHelpConfig);
+        
         this.clockHelp = new PopUp(this.clockHelpConfig.components, {});
 
         active.actionUi.Show();

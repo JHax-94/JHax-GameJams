@@ -26,7 +26,7 @@ export default class PersistentData
 
     SetPlayer2Wins(amnt)
     {
-        this.player1Wins = amnt;
+        this.player2Wins = amnt;
     }
 
     IncrementPlayerScore(player, by)

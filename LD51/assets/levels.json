@@ -117,7 +117,8 @@
                             { "type": "text", "x": 0.5, "y": 18, "text": "!! DO NOT TRANSMIT DATA ABOUT ROBO-CLASH CLUB !!" },
                             { "type": "button", "x": 16, "y": 0.5, "w": 4.5, "h": 1.25, "text": "Stances", "target": "Stances" },
                             { "type": "button", "x": 21, "y": 0.5, "w": 4.5, "h": 1.25, "text": "Commands", "target": "Commands" },
-                            { "type": "button", "x": 26, "y": 0.5, "w": 4.5, "h": 1.25, "text": "Credits", "target": "Credits" }
+                            { "type": "button", "x": 26, "y": 0.5, "w": 4.5, "h": 1.25, "text": "Credits", "target": "Credits" },
+                            { "type": "button", "x": 24, "y": 19.5, "w": 6.5, "h": 1.25, "text": "Reset Wins", "target": "WIN_RESET" }
                         ]
                     },
                     {

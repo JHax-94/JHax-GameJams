@@ -1,4 +1,4 @@
-import { consoleLog, EM, PIXEL_SCALE, SETUP } from "../main";
+import { consoleLog, DATA, EM, PIXEL_SCALE, SETUP } from "../main";
 import Button from "./Button";
 import Carousel from "./Carousel";
 
@@ -305,11 +305,16 @@ export default class Menu
 
     PageChange(triggerButton)
     {
-        consoleLog("Change Page:");
-        consoleLog(triggerButton);
-
-        this.activePage = triggerButton.buttonData.target;
-        this.ChangePage();
+        if(triggerButton.buttonData.target === "WIN_RESET")
+        {
+            DATA.ResetScores();
+            sfx("command");
+        }
+        else
+        {
+            this.activePage = triggerButton.buttonData.target;
+            this.ChangePage();
+        }
     }
 
     Draw()

@@ -16,16 +16,10 @@ export default class PopUp
         EM.RegisterEntity(this);
 
         this.LoadComponents(componentsList, variables);
-
-        consoleLog("Pop up constructed");
-        consoleLog(this);
     }
 
     LoadComponents(componentsList, variables)
     {
-        consoleLog("Loading component list");
-        consoleLog(componentsList);
-
         for(let i = 0; i < componentsList.length; i ++)
         {
             let comp = componentsList[i];
@@ -101,13 +95,7 @@ export default class PopUp
             }
             else
             {
-                consoleLog("Construct button");
-                consoleLog(pos);
-                consoleLog(dims), 
-                consoleLog(comp.buttonData);
-                
                 let btnPos  ={ x:pos.x + this.basePos.x, y: pos.y + this.basePos.y };
-                consoleLog(btnPos);
 
                 let newButton = new Button(btnPos, dims, comp.buttonData);
 

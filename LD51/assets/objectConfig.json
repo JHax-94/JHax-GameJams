@@ -93,7 +93,7 @@
         {
             "name": "Stances",
             "stances": [
-                { "name": "Rock", "beats": "Scissors", "sprites": 
+                { "name": "Shield", "beats": "Arrow", "sprites": 
                     [   
                         { "x": 0, "y": 0, "h": false, "v": false, "r": false, "i": 244 },
                         { "x": -1, "y": 0, "h": true, "v": false, "r": true, "i": 229 },
@@ -103,10 +103,54 @@
                         { "u": -1, "v": 1 },
                         { "u": 0, "v": 1 },
                         { "u": 1, "v": 1 }
+                    ],
+                    "anims": [
+                        {
+                            "name": "toArrow",
+                            "phases": [
+                                {
+                                    "time": 0,
+                                    "sprites": [
+                                        { "i": 228, "x": -3, "y": 0 },
+                                        { "i": 228, "x": 0, "y": 0 },
+                                        { "i": 228, "x": 3, "y": 0 }
+                                    ]
+                                },
+                                {
+                                    "time": 1,
+                                    "sprites": [
+                                        { "i": 228, "x": -3, "y": 0 },
+                                        { "i": 228, "x": 0, "y": 0 },
+                                        { "i": 228, "x": 3, "y": 0 }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "toSpear",
+                            "phases": [
+                                {
+                                    "time": 0,
+                                    "sprites": [
+                                        { "i": 228, "x": -3, "y": 0 },
+                                        { "i": 228, "x": 0, "y": 0 },
+                                        { "i": 228, "x": 3, "y": 0 }
+                                    ]
+                                },
+                                {
+                                    "time": 1,
+                                    "sprites": [
+                                        { "i": 228, "x": -3, "y": 0 },
+                                        { "i": 228, "x": 0, "y": 0 },
+                                        { "i": 228, "x": 3, "y": 0 }
+                                    ]
+                                }
+                            ]
+                        }
                     ]
                     
                 },
-                { "name": "Paper", "beats": "Rock", "sprites": 
+                { "name": "Spear", "beats": "Shield", "sprites": 
                     [
                         { "x": 0, "y": 0, "h": false, "v": false, "r": false, "i": 245 },
                         { "x": 0, "y": -1, "h": false, "v": false, "r": false, "i": 229 },
@@ -116,9 +160,54 @@
                         { "u": 0, "v": 1 },
                         { "u": 0, "v": 2 },
                         { "u": 0, "v": 3 }
-                    ] },
+                    ],
+                    "anims": [
+                        {
+                            "name": "toShield",
+                            "phases": [
+                                {
+                                    "time": 0,
+                                    "sprites": [
+                                        { "i": 231, "x": 0, "y": 3 },
+                                        { "i": 231, "x": 0, "y": 0 },
+                                        { "i": 231, "x": 0, "y": -3 }
+                                    ]
+                                },
+                                {
+                                    "time": 1,
+                                    "sprites": [
+                                        { "i": 231, "x": 0, "y": 3 },
+                                        { "i": 231, "x": 0, "y": 0 },
+                                        { "i": 231, "x": 0, "y": -3 }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "toArrow",
+                            "phases": [
+                                {
+                                    "time": 0,
+                                    "sprites": [
+                                        { "i": 231, "x": 0, "y": 3 },
+                                        { "i": 231, "x": 0, "y": 0 },
+                                        { "i": 231, "x": 0, "y": -3 }
+                                    ]
+                                },
+                                {
+                                    "time": 1,
+                                    "sprites": [
+                                        { "i": 231, "x": 0, "y": 3 },
+                                        { "i": 231, "x": 0, "y": 0 },
+                                        { "i": 231, "x": 0, "y": -3 }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
 
-                { "name": "Scissors", "beats": "Paper", "sprites": 
+                { "name": "Arrow", "beats": "Spear", "sprites": 
                     [
                         { "x": 0, "y": 0, "h": false, "v": false, "r": false, "i": 246 },
                         { "x": 1, "y": 0, "h": false, "v": false, "r": false, "i": 247 },
@@ -128,6 +217,50 @@
                         { "u": -1, "v": 1 },
                         { "u": 0, "v": 2 },
                         { "u": 1, "v": 1 }
+                    ],
+                    "anims": [
+                        {
+                            "name": "toSpear",
+                            "phases": [
+                                {
+                                    "time": 0,
+                                    "sprites": [
+                                        { "i": 230, "x": -3, "y": 2 },
+                                        { "i": 230, "x": 0, "y": -1 },
+                                        { "i": 230, "x": 3, "y": 2 }
+                                    ]
+                                },
+                                {
+                                    "time": 1,
+                                    "sprites": [
+                                        { "i": 230, "x": -3, "y": 2 },
+                                        { "i": 230, "x": 0, "y": -1 },
+                                        { "i": 230, "x": 3, "y": 2 }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "toShield",
+                            "phases": [
+                                {
+                                    "time": 0,
+                                    "sprites": [
+                                        { "i": 230, "x": -3, "y": 2 },
+                                        { "i": 230, "x": 0, "y": -1 },
+                                        { "i": 230, "x": 3, "y": 2 }
+                                    ]
+                                },
+                                {
+                                    "time": 1,
+                                    "sprites": [
+                                        { "i": 230, "x": -3, "y": 2 },
+                                        { "i": 230, "x": 0, "y": -1 },
+                                        { "i": 230, "x": 3, "y": 2 }
+                                    ]
+                                }
+                            ]
+                        }
                     ]
                 }
             ]

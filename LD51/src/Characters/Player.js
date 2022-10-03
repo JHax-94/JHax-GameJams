@@ -41,13 +41,16 @@ export default class Player
         this.stances = stanceConfig.stances;
 
         //this.stance = this.stances[playerNumber === 1 ? 1 : 0 ];
-        this.stance = this.stances[random(this.stances.length)];
+        this.stance = this.stances[2];
+        //this.stance = this.stances[random(this.stances.length)];
 
         //this.direction = this.playerNumber === 1 ? DIRECTIONS.UP : DIRECTIONS.LEFT;
         this.direction = this.playerNumber === 1 ? DIRECTIONS.RIGHT : DIRECTIONS.LEFT;
 
         this.currentAction = null;
         this.actionQueue = [];
+
+        this.showIndicator = true;
 
         this.elapsedTime = 0;
 
@@ -312,14 +315,32 @@ export default class Player
 
     DrawStanceIndicator()
     {
-        let compSprite = this.stance.sprites;
-
-        for(let i = 0; i < compSprite.length; i ++)
+        if(this.currentAction && this.currentAction.type === "Stance")
         {
-            let s = compSprite[i];
+            let compSprite = this.currentAction.GetAnimState();
 
-            sprite(s.i, (this.pos.x + (s.x + this.rootOffset.x) * PIXEL_SCALE), (this.pos.y + (s.y + this.rootOffset.y)  * PIXEL_SCALE) - PIXEL_SCALE - this.bob, s.h, s.v, s.r);
+            consoleLog("Anim State:");
+            consoleLog(compSprite);
+
+            for(let i = 0; i < compSprite.length; i ++)
+            {
+                let s = compSprite[i];
+
+                sprite(s.i, (this.pos.x + (this.rootOffset.x) * PIXEL_SCALE + s.x), (this.pos.y + this.rootOffset.y  * PIXEL_SCALE + s.y - PIXEL_SCALE - this.bob));
+            }
         }
+        else
+        {
+            let compSprite = this.stance.sprites;
+
+            for(let i = 0; i < compSprite.length; i ++)
+            {
+                let s = compSprite[i];
+
+                sprite(s.i, (this.pos.x + (s.x + this.rootOffset.x) * PIXEL_SCALE), (this.pos.y + (s.y + this.rootOffset.y)  * PIXEL_SCALE) - PIXEL_SCALE - this.bob, s.h, s.v, s.r);
+            }
+        }
+        
     }
 
     DrawCompSprite()

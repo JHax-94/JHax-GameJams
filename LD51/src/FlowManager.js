@@ -235,7 +235,7 @@ export default class FlowManager
     {
         let activePlayer = this.GetActivePlayer();
 
-        if(true /*activePlayer.actionQueue.length === activePlayer.maxActions*/)
+        if(activePlayer.actionQueue.length === activePlayer.maxActions)
         {
             if(this.turnPhase === TURN_PHASES.PLAYER_1_INPUT)
             {

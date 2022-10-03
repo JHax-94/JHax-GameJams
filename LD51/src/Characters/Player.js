@@ -41,8 +41,8 @@ export default class Player
         this.stances = stanceConfig.stances;
 
         //this.stance = this.stances[playerNumber === 1 ? 1 : 0 ];
-        this.stance = this.stances[2];
-        //this.stance = this.stances[random(this.stances.length)];
+        //this.stance = this.stances[0];
+        this.stance = this.stances[random(this.stances.length)];
 
         //this.direction = this.playerNumber === 1 ? DIRECTIONS.UP : DIRECTIONS.LEFT;
         this.direction = this.playerNumber === 1 ? DIRECTIONS.RIGHT : DIRECTIONS.LEFT;

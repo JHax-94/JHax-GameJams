@@ -18,12 +18,6 @@ export default class ChangeStance extends Action
     {
         this.targetPlayer = player;
 
-        consoleLog("Current Stance:");
-        consoleLog(this.targetPlayer.stance);
-
-        consoleLog("Target Stance:");
-        consoleLog(this.targetPlayer.GetStanceInDir(this.changeDir));
-
         let targetStance = this.targetPlayer.GetStanceInDir(this.changeDir);
 
         let animList = this.targetPlayer.stance.anims;
@@ -41,8 +35,6 @@ export default class ChangeStance extends Action
         
         this.changeAnim = targetAnim;
 
-        consoleLog("Change anim set:");
-        consoleLog(this.changeAnim);
         sfx("stance");
     }
 
@@ -66,11 +58,11 @@ export default class ChangeStance extends Action
         {
             let a = startPhase.sprites[i];
             let b = nextPhase.sprites[i];
-
+            /*
             consoleLog("Interpolate:");
             consoleLog(a);
             consoleLog(b);
-
+            */
             sprites.push({
                 x: UTIL.Lerp(a.x, b.x, this.GetProgress()),
                 y: UTIL.Lerp(a.y, b.y, this.GetProgress()),

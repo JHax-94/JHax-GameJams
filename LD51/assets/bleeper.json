@@ -1,0 +1,96 @@
+{
+	"_type": "Bleeper program",
+	"v": 1,
+	"s": [
+		{
+			"n": "attack",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "###*zU*yU###*tU*oU*kU*hU*aU*bU'I#*YU'A#*RU*LU*L#*{U*vU*rU*lU*iU*dU*cU*bU*eU*fU*dU*aU*cU*nU*nU*eU"
+		},
+		{
+			"n": "command",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "###'HU'HU'PU'PU'I#'I#'I#'nU'tU'wU'yU'jU"
+		},
+		{
+			"n": "undo",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "######%@U%@U%@U%@U%9#%9#%9#%1U%1U%1U"
+		},
+		{
+			"n": "move",
+			"i": [
+				29,
+				0,
+				71,
+				0
+			],
+			"s": "&A7&A7&A8&B8&C8&F9&I8"
+		},
+		{
+			"n": "stance",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "###'2U'HU'Z#'Z#'OU'[#'[#'FU'Y#'Y#'Y#'IU'KU'[#'9U'[#'[#'[#'EU'IU'V#'V#'>U'CU'X#'@#'>U'DU'D#'7U'8U"
+		},
+		{
+			"n": "turn",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "*x,*x,*x-*x,&Q#&Q#*x,*x-*x-*x-*x-*x,*x,*x#*x#*x#*x+*x+*x+*x**x)*x)*x#*x#*w+*w+*w+*w**w**p**o**o)"
+		},
+		{
+			"n": "cancelout",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "*HU*AU*7U*j#*1U*(U*&U*M#*%U*%U*%U"
+		},
+		{
+			"n": "damage",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "*{U*yU*xU*yU*{#*|#*PU*OU*OU*OU*W#*W#*/U*/U*/U*s#*s#*wU*xU*xU*xU*x#*x#*YU*XU*WU*VU*V#*V#*~U*-U*-U"
+		},
+		{
+			"n": "fall",
+			"i": [
+				43,
+				0,
+				127,
+				0
+			],
+			"s": "'.U'{U'vU'pU'lU'hU'dU'`U'^U'[U'XU'VU'TU'QU'OU'MU'KU"
+		}
+	]
+}

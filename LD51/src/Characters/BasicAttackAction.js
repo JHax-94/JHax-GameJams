@@ -56,6 +56,8 @@ export default class BasicAttackAction extends Action
         let pattern = this.targetPlayer.stance.pattern;
         let explodeNum = this.GetMaxExplodeNumber();
 
+        sfx("attack");
+
         for(let i = 0; i < pattern.length; i ++)
         {
             let targetTile = this.GetOffsetTile(this.targetPlayer.direction, this.targetPlayer.tilePos, pattern[i]);
@@ -73,6 +75,7 @@ export default class BasicAttackAction extends Action
             this.CheckForHits(this.targetPlayer, this.targetTiles[i]);   
         }
         this.activated = true;
+        
     }
 
     ProgressAction(deltaTime)

@@ -152,14 +152,15 @@ export default class Action
             this.BouncePlayer(hitPlayer, sourcePlayer.direction, 1);
             sourcePlayer.CancelCurrentAction();
             hitPlayer.CancelCurrentAction();
+            sfx("cancelout")
         }
         else if(sourcePlayer.stance.name === hitPlayer.stance.beats)
         {
-
             consoleLog("Backfire bounce!");
             this.BouncePlayer(sourcePlayer, REVERSE_DIRECTION(sourcePlayer.direction), 3);
             sourcePlayer.CancelCurrentAction();
             sourcePlayer.Damage(1);
+            sfx("damage");
         }
         else if(sourcePlayer.stance.beats === hitPlayer.stance.name)
         {
@@ -172,6 +173,7 @@ export default class Action
                 this.BouncePlayer(hitPlayer, sourcePlayer.direction, 3);
                 hitPlayer.CancelCurrentAction();
                 hitPlayer.Damage(1);
+                sfx("damage");
             }
         }
     }

@@ -12,6 +12,7 @@ export default class ChangeStance extends Action
     ExecuteAction(player)
     {
         this.targetPlayer = player;
+        sfx("stance");
     }
 
     ActionComplete()

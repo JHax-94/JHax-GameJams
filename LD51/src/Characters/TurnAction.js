@@ -16,6 +16,7 @@ export default class TurnAction extends Action
     {
         this.targetPlayer = player;
         this.targetDirect = (4 + this.targetPlayer.direction + this.clockDir) % 4;
+        sfx("turn");
     }
 
     ProgressAction(deltaTime)

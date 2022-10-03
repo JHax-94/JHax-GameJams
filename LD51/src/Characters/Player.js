@@ -1,4 +1,4 @@
-import { consoleLog, DIRECTIONS, EM, getObjectConfig, PIXEL_SCALE, TILE_WIDTH } from "../main";
+import { consoleLog, DIRECTIONS, EM, getObjectConfig, PIXEL_SCALE, TILE_WIDTH, TURN_PHASES } from "../main";
 
 export default class Player
 {
@@ -101,14 +101,15 @@ export default class Player
         if(this.actionQueue.length < this.maxActions)
         {
             action.actionOrder = this.actionQueue.length;
-
             this.actionQueue.push(action);
+            sfx("command");
         }
     }
 
     PopActionQueue()
     {
         this.actionQueue.pop();
+        sfx("undo");
     }
 
     ExecuteActionQueue()
@@ -134,14 +135,17 @@ export default class Player
             }
         }
 
-        if(this.actionQueue.length > 0)
+        if(this.FlowManager().turnPhase === TURN_PHASES.ACTION)
         {
-            this.ExecuteActionQueue();
-        }
-        else
-        {
-            this.FlowManager().PlayerActionsCompleted(this);
-        }
+            if(this.actionQueue.length > 0)
+            {
+                this.ExecuteActionQueue();
+            }
+            else
+            {
+                this.FlowManager().PlayerActionsCompleted(this);
+            }
+        }   
     }
 
     Update(deltaTime)
@@ -293,6 +297,7 @@ export default class Player
 
         if(!EM.tileChecker.IsValidGroundTile(tile))
         {
+            sfx("fall");
             this.PlayerKilled();
         }
     }

@@ -13,6 +13,7 @@ export default class MoveAction extends Action
         this.midpointCheckPassed = false;
 
         this.targetClashCheckComplete = false;
+        this.fxPlayed = false;
     }
 
     ExecuteAction(player)
@@ -87,6 +88,12 @@ export default class MoveAction extends Action
 
         if(this.targetTile && this.targetPlayer && !this.cancelled)
         {
+            if(!this.fxPlayed)
+            {
+                sfx("move");
+                this.fxPlayed = true;
+            }
+
             let lerpV = this.GetProgress();
 
             let newPos = {

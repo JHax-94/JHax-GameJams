@@ -48,4 +48,16 @@ export default class BeastEvents extends PhysEventRegistry
 
         village.obj.OfferBeast(beast.obj);
     }
+
+    Begin_BeastObstacle_Check(container, manager, evt) { return manager.CompareTags(evt, "BEAST", "OBSTACLE"); }
+    Begin_BeastObstacle_Resolve(container, manager, evt) 
+    {
+        let beast = manager.BodyWithTag(evt, "BEAST");
+        let obstacle = manager.BodyWithTag(evt, "OBSTACLE");
+
+        beast.obj.ReactTo({
+            stimType: "COLLISION",
+            collisionWith: obstacle.obj
+        });
+    }
 }

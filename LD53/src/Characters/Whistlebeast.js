@@ -16,37 +16,11 @@ export default class WhistleBeast extends Beast
 
     constructor(startPos)
     {
-        super();
-
-        this.renderLayer = "CRITTERS";
-
-        this.beastType = "WHISTLE";
-
-        let physSettings = {
-            tileTransform: {
-                x: startPos.x,
-                y: startPos.y,
-                w: 0.7,
-                h: 0.5
-            },
-            mass: 50,
-            isSensor: false,
-            isKinematic: false,
-            tag: "BEAST",
-            material: "playerMaterial",
-            collisionGroup: COLLISION_GROUP.PLAYER,
-            collisionMask: COLLISION_GROUP.PLAYER,
-            linearDrag: 0.9,
-            
-        };
+        super(startPos, "WHISTLE");
 
         this.sprite = 18;
 
-        this.shadow = new Shadow(this, {x: 0, y: 5 });
-
         this.texture = this.BuildTexture();
-
-        EM.RegisterEntity(this, { physSettings: physSettings});
 
         this.default = "graze";
 
@@ -56,29 +30,17 @@ export default class WhistleBeast extends Beast
         };
 
         this.whistle = new Whistle(this);
-
-        this.behaviours =  [ new GrazeBehaviour(this) ];
     }
 
-    HasBehaviour(behaviour)
+    DefaultBehaviour()
     {
-        let hasBehaviour = false;
-
-        consoleLog("Checking behaviours...");
-        for(let i = 0; i < this.behaviours.length; i ++ )
-        {
-            if(this.behaviours[i].behaviourType === behaviour)
-            {
-                hasBehaviour = true;
-                break;
-            }
-        }
-
-        return hasBehaviour;
+        this.behaviours = [ new GrazeBehaviour(this) ]
     }
 
     ReactTo(stimulus)
     {
+        super.ReactTo(stimulus);
+
         if(stimulus.stimType === "WHISTLE")
         {
             this.behaviours = [ new FollowBehaviour(this, stimulus.GetSource()) ]; 
@@ -95,54 +57,13 @@ export default class WhistleBeast extends Beast
         }
     }
 
-    GetSpeed(type)
-    {
-        let speed = this.moveSpeed[type];
-
-        if(!speed)
-        {
-            speed = this.moveSpeed[this.default];
-        }
-
-        return speed;
-    }
-
-    DeleteBeast()
+    DeleteBeastInternal()
     {
         EM.RemoveEntity(this.whistle);
-        EM.RemoveEntity(this.shadow);
-        EM.RemoveEntity(this);
     }
 
-    Update(deltaTime)
+    UpdateInternal(deltaTime)
     {
-        for(let i = 0; i < this.behaviours.length; i ++)
-        {
-            this.behaviours[i].Act(deltaTime);
-        }
-
         this.whistle.Act(deltaTime);
-    }
-
-    BuildTexture()
-    {
-        let pTex = new Texture(PIXEL_SCALE, PIXEL_SCALE);
-        pTex.sprite(this.sprite, 0, 0);
-        return pTex;
-    }
-
-    Draw()
-    {
-        let screenPos = this.GetScreenPos();
-
-        if(this.texture)
-        {
-            this.texture._drawEnhanced(screenPos.x, screenPos.y);
-        }
-
-        for(let i = 0; i < this.behaviours.length; i ++)
-        {
-            this.behaviours[i].DrawIndicators();
-        }
     }
 }

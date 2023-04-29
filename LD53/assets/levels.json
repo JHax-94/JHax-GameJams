@@ -21,6 +21,34 @@
                 { "beastType": "WHISTLE", "pos": { "x": 5, "y": 4 } },
                 { "beastType": "WHISTLE", "pos": { "x": 4, "y": 5 } }
             ]
+        },
+        {
+            "levelName": "CuriousTutorial",
+            "terrain": [
+                { "mapName": "curious_terrain", "offset": { "x": 0, "y": 0 } }  
+            ],
+            "playerSpawn": { "x": 10, "y": 10 },
+            "villages": [
+                {
+                    "pos": { "x": 10, "y": 18 },
+                    "requests": [
+                        [
+                            {
+                                "beastType": "CURIO",
+                                "quantity": 5
+                            }
+                        ]
+                    ]
+                }
+            ],
+            "beasts": [
+                { "beastType": "CURIO", "pos": { "x": 20, "y": 1 }},
+                { "beastType": "CURIO", "pos": { "x": 20, "y": 3 }},
+                { "beastType": "CURIO", "pos": { "x": 18, "y": 2 }},
+                { "beastType": "CURIO", "pos": { "x": 19, "y": 5 }},
+                { "beastType": "CURIO", "pos": { "x": 20, "y": 4 }}
+                
+            ]
         }
     ]
 }

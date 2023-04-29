@@ -1,5 +1,7 @@
 import BeastFactory from "./Characters/BeastFactory";
 import Player from "./Characters/Player";
+import MapLayer from "./MapLayer";
+import Obstacle from "./Obstacle";
 import Village from "./Villages/Village";
 import { consoleLog } from "./main";
 
@@ -8,6 +10,9 @@ export default class LevelMap
     /*
         levelData = {
             playerSpawn: { },
+            "terrain": [
+                { "mapName": "curious_terrain", "offset": { "x": 0, "y": 0 } }  
+            ],
             villages: [
                 { 
                     pos: { },
@@ -26,10 +31,55 @@ export default class LevelMap
     constructor(levelData)
     {
         this.beastFactory = new BeastFactory();
+        this.BuildTerrain(levelData);
         this.SpawnPlayer(levelData);
         this.SpawnVillages(levelData);
         this.SpawnBeasts(levelData);
     }   
+
+    BuildTerrain(levelData)
+    {
+        if(levelData.terrain)
+        {
+            for(let i = 0; i < levelData.terrain.length; i ++)
+            {
+                let tmap = levelData.terrain[i];
+
+                let map = getMap(tmap.mapName);
+
+                if(map)
+                {
+                    this.ScanMap(map)
+                }
+                else
+                {
+                    console.warn(`Could not find map to scan: ${tmap.mapName}`);
+                }
+            }
+        }
+    }
+
+    ScanMap(map)
+    {
+        let scanableTiles = assets.objectConfig.objectMap.filter(om => !!om.scanIndex);
+
+        for(let i = 0; i < scanableTiles.length; i ++)
+        {
+            let tileType = scanableTiles[i];
+
+            let scanTiles = map.find(tileType.scanIndex);
+
+            for(let ti = 0; ti < scanTiles.length; ti ++)
+            {
+                if(["Coast", "CoastCorner"].indexOf(tileType.name) >= 0)
+                {
+                    new Obstacle(scanTiles[ti], tileType.obstacleType);
+                }
+            }
+        }
+
+        new MapLayer(map);
+    }
 
     SpawnPlayer(levelData)
     {

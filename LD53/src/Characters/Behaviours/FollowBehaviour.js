@@ -35,6 +35,13 @@ export default class FollowBehaviour extends BeastBehaviour
 
     Act(deltaTime)
     {
-        this.MoveToTarget(deltaTime);
+        if(this.target.deleted)
+        {
+            this.beast.DefaultBehaviour();
+        }
+        else
+        {
+            this.MoveToTarget(deltaTime);    
+        }
     }
 }

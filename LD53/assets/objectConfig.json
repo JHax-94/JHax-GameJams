@@ -4,6 +4,21 @@
             "name": "WhistleBeast",
             "beastType": "WHISTLE",
             "boardSprite": 18
+        },
+        {
+            "name": "CuriousBeast",
+            "beastType": "CURIO",
+            "boardSprite": 19
+        },
+        {
+            "name": "Coast",
+            "scanIndex": 26,
+            "obstacleType": "water"
+        },
+        {
+            "name": "CoastCorner",
+            "scanIndex": 27,
+            "obstacleType": "water"
         }
     ]
 }

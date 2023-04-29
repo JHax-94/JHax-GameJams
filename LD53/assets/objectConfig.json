@@ -19,6 +19,28 @@
             "name": "CoastCorner",
             "scanIndex": 27,
             "obstacleType": "water"
+        },
+        {
+            "name": "MainMenu",
+            "components": [
+                { 
+                    "type": "ButtonList", 
+                    "source": "Levels", 
+                    "filter": { "key": "levelType", "value": "Map" }, 
+                    "btnText": { "key": "displayName" },
+                    "style": "StandardButton",
+                    "btnDims": { "w": 5, "h": 1 },
+                    "spacing": {"y": 0.5 }
+                }
+            ]
+        },
+        {
+            "name": "StandardButton",
+            "rect": {
+                "colour":  4,
+                "borderColour": 0,
+                "textColour": 1
+            }
         }
     ]
 }

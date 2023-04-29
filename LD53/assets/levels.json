@@ -1,7 +1,14 @@
 {
     "data": [
         {
+            "levelName": "MainMenu",
+            "levelType": "Menu",
+            "menuConfig": "MainMenu"
+        },
+        {
             "levelName": "WhistleTutorial",
+            "displayName": "Level 1",
+            "levelType": "Map",
             "terrain": [
                 { "mapName": "whistle_terrain", "offset": { "x": 0, "y": 0 } }  
             ],
@@ -27,6 +34,8 @@
         },
         {
             "levelName": "CuriousTutorial",
+            "displayName": "Level 2",
+            "levelType": "Map",
             "terrain": [
                 { "mapName": "curious_terrain", "offset": { "x": 0, "y": 0 } }  
             ],

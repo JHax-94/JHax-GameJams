@@ -2,12 +2,12 @@ import { vec2 } from 'p2';
 import EntityManager from './EntityManager';
 import TextureExtender from './TextureExtensions';
 import VectorExtensions from './VectorExtensions';
-import Player from './Characters/Player';
 import BeastEvents from './PhysEvents/BeastEvents';
-import Village from './Villages/Village';
 import LevelMap from './LevelMap';
+import Menu from './Menus/Menu';
 
 let pixelbox = require('pixelbox');
+let pointerEvents = require('pixelbox/pointerEvents');
 let p2 = require('p2');
 
 let version = getVersionInformation();
@@ -123,6 +123,21 @@ function formatToFixed(num, dp)
     return +parseFloat(num).toFixed(dp);
 }
 
+function mapMousePos(x, y)
+{
+    return { x: x, y: y };
+}
+
+pointerEvents.onPress(function(x, y, pointerId, evt) {
+    var mapped = mapMousePos(x, y);
+    EM.MouseClick(mapped.x, mapped.y, evt.button);
+});
+
+pointerEvents.onMove(function(x, y, pointerId, evt) {
+    var mapped = mapMousePos(x, y);
+    EM.MouseMove(mapped.x, mapped.y);
+});
+
 let PIXEL_SCALE = getPixelScale();
 let TILE_WIDTH = getTileWidth();
 let TILE_HEIGHT = getTileHeight();
@@ -140,8 +155,6 @@ let LOGGING_ON = true;
 let LOAD_COMPLETE = false;
 let EM;
 
-
-
 function SETUP(levelName)
 {
     let newEm = new EntityManager();
@@ -149,40 +162,21 @@ function SETUP(levelName)
     EM = newEm;
 
     let levelData = GetLevelDataByName(levelName);
-    /*
-    consoleLog("Construct player...");
-    let player = new Player();
-
-    AddPhysicsEvents();
-
-    for(let i = 0; i < 3; i ++)
-    {
-        let start = {
-            x: 4 + i,
-            y: 4 + i
-        };
-
-        let critter = new WhistleBeast(start);
-    }
     
-    let village = new Village({ x: TILE_WIDTH - 4, y: TILE_HEIGHT - 4 });
-
-    village.AddRequest([ 
-        {
-            beastType: "WHISTLE",
-            quantity: 3
-        }   
-    ]);
-
-    EM.AddEntity("Player", player);
-    */
-    consoleLog("Level Data:");
-    consoleLog(levelData);
-
     if(levelData)
     {
-        AddPhysicsEvents();
-        new LevelMap(levelData);
+        if(levelData.levelType === "Map")
+        {
+            AddPhysicsEvents();
+            new LevelMap(levelData);
+        }
+        else if(levelData.levelType === "Menu")
+        {
+            consoleLog("Menu Level Data Found:");
+            consoleLog(levelData);
+            let config = getObjectConfig(levelData.menuConfig);
+            new Menu(config);
+        }
     }
 
     LOAD_COMPLETE = true;
@@ -193,7 +187,7 @@ function SETUP(levelName)
 exports.update = function () {
 	if(!LOAD_COMPLETE)
     {
-        SETUP("WhistleTutorial");
+        SETUP("MainMenu");
     }
 
     EM.Input();

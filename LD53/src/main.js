@@ -4,13 +4,14 @@ import TextureExtender from './TextureExtensions';
 import VectorExtensions from './VectorExtensions';
 import Player from './Characters/Player';
 import WhistleBeast from './Characters/Whistlebeast';
+import BeastEvents from './PhysEvents/BeastEvents';
 
 let pixelbox = require('pixelbox');
 let p2 = require('p2');
 
 let version = getVersionInformation();
 
-let physEvents = [];
+let physEvents = [ new BeastEvents() ];
 let COLLISION_GROUP = {
     PLAYER: Math.pow(2, 0)
 };
@@ -80,6 +81,11 @@ function AddPhysicsEvents()
     }
 }
 
+function formatToFixed(num, dp)
+{
+    return +parseFloat(num).toFixed(dp);
+}
+
 let PIXEL_SCALE = getPixelScale();
 let TILE_WIDTH = getTileWidth();
 let TILE_HEIGHT = getTileHeight();
@@ -108,11 +114,13 @@ function SETUP()
     consoleLog("Construct player...");
     let player = new Player();
 
-    for(let i = 0; i < 10; i ++)
+    AddPhysicsEvents();
+
+    for(let i = 0; i < 3; i ++)
     {
         let start = {
-            x: 4 + Math.random() * 3,
-            y: 4 + Math.random() * 3
+            x: 4 + i,
+            y: 4 + i
         };
 
         let critter = new WhistleBeast(start);
@@ -138,5 +146,5 @@ exports.update = function () {
 };
 
 export {
-    consoleLog, p2, Texture, EM, SETUP, PIXEL_SCALE, FPS, COLLISION_GROUP, TILE_WIDTH, TILE_HEIGHT, getObjectConfig
+    consoleLog, p2, Texture, EM, SETUP, PIXEL_SCALE, FPS, COLLISION_GROUP, TILE_WIDTH, TILE_HEIGHT, getObjectConfig, formatToFixed
 }

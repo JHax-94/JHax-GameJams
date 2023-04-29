@@ -4,13 +4,14 @@ import { consoleLog, PIXEL_SCALE, EM, TILE_HEIGHT } from "./main";
 import PhysicsContainer from "./PhysicsContainer";
 import RenderLayer from "./RenderLayer";
 import KeyboardInput from "./InputMethods/KeyboardInput";
+import { circIn } from "tina/src/easing";
 
 export default class EntityManager
 {
     constructor(noPhys)
     {
-        this.drawColliders = false;
-        this.hudLogOn = false;
+        this.drawColliders = true;
+        this.hudLogOn = true;
         this.frameCount = 0;
         this.bgColour = 3;
         
@@ -564,6 +565,27 @@ export default class EntityManager
                 }
 
                 addColliders = false;
+            }
+            if(phys.collider.shape === "circle")
+            {
+                consoleLog("Try construct circle:");
+                consoleLog(phys.collider);
+
+                let circle = new p2.Circle({ radius: phys.collider.radius });
+
+                consoleLog("constructed circle shape:");
+                consoleLog(circle);
+
+                colliders.push(circle);
+
+
+                if(phys.isDual) 
+                {
+                    let dual = p2.Circle({ radius: phys.collider.radius });
+                    dual.isDual = true;
+                    dual.dualPos = [...circle.position];
+                    colliders.push(dual);
+                }
             }
         }
         

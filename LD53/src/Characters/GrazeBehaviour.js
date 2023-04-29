@@ -6,7 +6,7 @@ export default class GrazeBehaviour extends BeastBehaviour
 {
     constructor(beast)
     {
-        super(beast);
+        super(beast, "GRAZE");
         
         this.amblePosition = [0, 0];
         this.ambleRadius = 0.5;
@@ -44,8 +44,7 @@ export default class GrazeBehaviour extends BeastBehaviour
 
     MoveToTarget(deltaTime)
     {
-        let moveVec = [];
-        p2.vec2.subtract(moveVec, this.amblePosition, this.beast.phys.position);
+        let moveVec = this.VectorToTarget(this.amblePosition);
 
         if(p2.vec2.sqrLen(moveVec) < Math.pow(this.ambleRadius, 2))
         {
@@ -53,12 +52,7 @@ export default class GrazeBehaviour extends BeastBehaviour
         }
         else
         {
-            let norm = []
-            p2.vec2.normalize(norm, moveVec);
-
-            let force = []
-            p2.vec2.scale(force, norm, this.beast.GetSpeed() * deltaTime);
-
+            let force = this.GetMoveForceVector(moveVec, deltaTime);
             this.beast.phys.applyForce(force);
         }
     }

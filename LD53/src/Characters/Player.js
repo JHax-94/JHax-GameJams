@@ -1,6 +1,7 @@
 import Texture from "pixelbox/Texture";
 import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_WIDTH, consoleLog, p2 } from "../main";
 import Shadow from "./Shadow";
+import Whistle from "../PlayerActions/Whistle";
 
 export default class Player
 {
@@ -28,6 +29,7 @@ export default class Player
         this.texture = this.BuildTexture();
 
         this.shadow = new Shadow(this, { x: 0, y: 7 });
+        this.whistle = new Whistle(this);
 
         this.inputLog = { 
             moveInput: [0, 0]
@@ -53,6 +55,7 @@ export default class Player
     Input(input)
     {
         this.LogMovementInput(input);
+        this.LogActionInput(input);
     }
 
     LogMovementInput(input)
@@ -74,6 +77,12 @@ export default class Player
             this.inputLog.moveInput[1] = 0;
         }
     }
+
+    LogActionInput(input)
+    {
+        this.inputLog.action1Triggered = input.action1Triggered;
+        this.inputLog.action1 = input.action1;
+    }   
 
     MoveForce()
     {
@@ -102,9 +111,20 @@ export default class Player
         
     }
 
+    ApplyActions(deltaTime)
+    {
+        if(this.inputLog.action1 && this.whistle.CanActivate())
+        {
+            this.whistle.Activate();
+        }
+    }
+
     Update(deltaTime)
     {
         this.ApplyInputs(deltaTime);
+        this.ApplyActions(deltaTime);
+
+        this.whistle.Act(deltaTime);
     }
 
     Draw()
@@ -119,6 +139,8 @@ export default class Player
         {
             consoleLog(`=== WARNING PLAYER TEXTURE MISSING ===`);
         }
+
+        //this.whistle.Draw();
     }
 }
 

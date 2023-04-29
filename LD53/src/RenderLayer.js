@@ -1,4 +1,4 @@
-import { Box, Convex, Shape } from "p2";
+import p2, { Box, Convex, Shape } from "p2";
 import { consoleLog, EM, PIXEL_SCALE, setFont } from  "./main"
 
 export default class RenderLayer
@@ -30,9 +30,6 @@ export default class RenderLayer
             return a.y - b.y;
         });
     }
-
-
-
 
     AddRender(render, pos)
     {
@@ -128,7 +125,7 @@ export default class RenderLayer
                 pen(colour);
                 rect(box.x, box.y, box.width, box.height);
             }
-            else if(true)
+            else if(shape.vertices)
             {
                 for(let j = 0; j < shape.vertices.length; j ++)
                 {
@@ -211,6 +208,18 @@ export default class RenderLayer
                     paper(23);
                     rectf(phys.position[0]-1, -phys.position[1]-1, 2, 2);
                 }
+            }
+            else if(shape.type === p2.Shape.CIRCLE)
+            {
+                pen(15);
+                let out = { lowerBound: [], upperBound: []};
+                shape.computeAABB(out, shape.position);
+
+                rect(
+                    phys.position[0] + out.lowerBound[0], 
+                    -phys.position[1] + out.lowerBound[1],
+                    out.upperBound[0] - out.lowerBound[0],
+                    out.upperBound[1] - out.lowerBound[1]);
             }
             else
             {

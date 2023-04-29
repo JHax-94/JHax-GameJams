@@ -3,6 +3,8 @@ import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_WIDTH, consoleLog } from "../mai
 import Shadow from "./Shadow";
 import GrazeBehaviour from "./GrazeBehaviour";
 import BeastBehaviour from "./BeastBehaviour";
+import FollowBehaviour from "./FollowBehaviour";
+import Whistle from "../PlayerActions/Whistle";
 
 let BEAST_BEHAVIOUR = {
     GRAZE: 0,
@@ -15,6 +17,8 @@ export default class WhistleBeast
     constructor(startPos)
     {
         this.renderLayer = "CRITTERS";
+
+        this.beastType = "WHISTLE";
 
         let physSettings = {
             tileTransform: {
@@ -30,12 +34,13 @@ export default class WhistleBeast
             material: "playerMaterial",
             collisionGroup: COLLISION_GROUP.PLAYER,
             collisionMask: COLLISION_GROUP.PLAYER,
-            linearDrag: 0.9
+            linearDrag: 0.9,
+            
         };
 
         this.sprite = 18;
 
-        this.shadow = new Shadow(this, {x: 0, y: 6 });
+        this.shadow = new Shadow(this, {x: 0, y: 5 });
 
         this.texture = this.BuildTexture();
 
@@ -43,7 +48,44 @@ export default class WhistleBeast
 
         this.moveSpeed = 1000 * this.phys.mass;
 
+        this.whistle = new Whistle(this);
+
         this.behaviours =  [ new GrazeBehaviour(this) ];
+    }
+
+    HasBehaviour(behaviour)
+    {
+        let hasBehaviour = false;
+
+        consoleLog("Checking behaviours...");
+        for(let i = 0; i < this.behaviours.length; i ++ )
+        {
+            if(this.behaviours[i].behaviourType === behaviour)
+            {
+                hasBehaviour = true;
+                break;
+            }
+        }
+
+        return hasBehaviour;
+    }
+
+    ReactTo(stimulus)
+    {
+        if(stimulus.stimType === "WHISTLE")
+        {
+            this.behaviours = [ new FollowBehaviour(this, stimulus.GetSource()) ]; 
+        }
+        else if(stimulus.stimType === "COLLISION")
+        {
+            if(stimulus.collisionWith.beastType === this.beastType)
+            {
+                if(stimulus.chosen && this.HasBehaviour("FOLLOW") === false)
+                {
+                    this.whistle.Activate();
+                }
+            }
+        }
     }
 
     GetSpeed()
@@ -57,7 +99,8 @@ export default class WhistleBeast
         {
             this.behaviours[i].Act(deltaTime);
         }
-        
+
+        this.whistle.Act(deltaTime);
     }
 
     BuildTexture()

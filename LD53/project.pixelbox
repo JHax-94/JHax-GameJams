@@ -48,7 +48,8 @@
 		"w": 87,
 		"s": 83,
 		"d": 68,
-		"a": 65
+		"a": 65,
+		"esc": 27
 	},
 	"touchEvent": {
 		"multiTouch": false,

@@ -71,7 +71,7 @@ export default class LevelMap
 
             for(let ti = 0; ti < scanTiles.length; ti ++)
             {
-                if(["Coast", "CoastCorner"].indexOf(tileType.name) >= 0)
+                if(["Coast", "CoastCorner", "CoastCornerIn"].indexOf(tileType.name) >= 0)
                 {
                     new Obstacle(scanTiles[ti], tileType.obstacleType);
                 }
@@ -93,20 +93,32 @@ export default class LevelMap
             let v = levelData.villages[i];
 
             let village = new Village(v.pos);
-            for(let r = 0; r < v.requests.length; r ++)
+
+            if(v.requests)
             {
-                village.AddRequest(v.requests[r]);
+                for(let r = 0; r < v.requests.length; r ++)
+                {
+                    village.AddRequest(v.requests[r]);
+                }
+            }
+
+            if(v.shop)
+            {
+                village.AddShop(v.shop);
             }
         }
     }
 
     SpawnBeasts(levelData)
     {
-        for(let i = 0; i < levelData.beasts.length; i ++)
+        if(levelData.beasts)
         {
-            let beast = levelData.beasts[i];
+            for(let i = 0; i < levelData.beasts.length; i ++)
+            {
+                let beast = levelData.beasts[i];
 
-            this.beastFactory.BuildABeast(beast);
+                this.beastFactory.BuildABeast(beast);
+            }
         }
     }
 }

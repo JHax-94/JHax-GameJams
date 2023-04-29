@@ -38,5 +38,7 @@ export default class KeyboardInput
 
         this.action1Triggered = this.CheckForTrigger(this.action1, src.action1);
         this.action1 = src.action1;
+
+        this.esc = src.esc;
     }
 }

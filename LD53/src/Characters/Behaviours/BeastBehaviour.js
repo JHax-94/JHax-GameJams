@@ -28,12 +28,25 @@ export default class BeastBehaviour
 
     GetMoveForceVector(vector, deltaTime, speedType)
     {
+        if(!speedType)
+        {
+            speedType = null;
+        }
+
         if(!deltaTime && deltaTime!==0) console.warn("GetMoveForceVector received null-ish delta time");
 
         let norm = [];
         p2.vec2.normalize(norm, vector);
 
         let moveForce = []
+
+        let speedFactor = this.beast.GetSpeed(speedType);
+
+        if(!speedFactor && deltaTime!==0) 
+        {
+            console.warn(`Null-ish value received for speed type: ${speedType}`);            
+        }
+
         p2.vec2.scale(moveForce, norm, this.beast.GetSpeed(speedType) * deltaTime);
 
         return moveForce;

@@ -59,7 +59,28 @@
                 { "beastType": "CURIO", "pos": { "x": 18, "y": 2 }},
                 { "beastType": "CURIO", "pos": { "x": 19, "y": 5 }},
                 { "beastType": "CURIO", "pos": { "x": 20, "y": 4 }}
-                
+            ]
+        },
+        {
+            "levelName": "ShopTutorial",
+            "displayName": "Level 3",
+            "levelType": "Map",
+            "terrain": [
+                { "mapName": "shop_terrain", "offset": {"x": 0, "y": 0 } }
+            ],
+            "playerSpawn": { "x": 7, "y": 7 },
+            "villages": [
+                {
+                    "pos": { "x": 13, "y": 6 },
+                    "shop": {
+                        "inventory": [
+                            { "price": 10, "object": "BaitMeat" }
+                        ]
+                    }
+                },
+                {
+                    "pos": {"x": 32, "y": 12 }
+                }
             ]
         }
     ]

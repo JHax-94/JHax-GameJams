@@ -10,7 +10,7 @@ export default class CuriousBeast extends Beast
     {
         super(startPos, "CURIO");
 
-        this.default = "graze";
+        this.default = "seek";
 
         this.moveSpeed = {
             seek: 5000 * this.phys.mass,

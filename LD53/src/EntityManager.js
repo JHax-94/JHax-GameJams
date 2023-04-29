@@ -13,7 +13,7 @@ export default class EntityManager
         this.drawColliders = false;
         this.hudLogOn = true;
         this.frameCount = 0;
-        this.bgColour = 3;
+        this.bgColour = 13;
         
         this.version = null;
 

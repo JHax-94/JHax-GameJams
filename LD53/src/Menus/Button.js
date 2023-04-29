@@ -34,7 +34,7 @@ export default class Button
             this.settings.rect.text = this.settings.text;
         }
 
-        /*
+        
         if(this.settings.font)
         {
             this.font = getFont(this.settings.font);
@@ -42,7 +42,7 @@ export default class Button
         else
         {
             this.font = getFont();
-        }*/
+        }
         /*
         consoleLog("Button loaded with font...");
         consoleLog(this.font);
@@ -98,16 +98,14 @@ export default class Button
         let btnMidX = (this.dims.x + 0.5 * this.dims.w) * PIXEL_SCALE;
         let btnMidY = (this.dims.y + 0.5 * this.dims.h) * PIXEL_SCALE;
 
-        let printX = btnMidX /*- 0.5 * (this.font.charWidth) *  txt.length*/;
-        let printY = btnMidY /*- Math.round(0.5 * this.font.charHeight)*/;
+        let printX = btnMidX - 0.5 * (this.font.charWidth) *  txt.length;
+        let printY = btnMidY - Math.round(0.5 * this.font.charHeight);
 
         return [ printX, printY ];
     }
 
     Draw()
     {
-        consoleLog("Draw button with settings:");
-        consoleLog(this.settings);
         if(this.settings.sprite)
         {
             let spriteIndex = this.settings.sprite;
@@ -142,10 +140,9 @@ export default class Button
             }
             else
             {
-                //setFont(null);
+                setFont(null);
             }
         
-            consoleLog(`Print Text: ${txt}`);
             print(txt, printPos[0], printPos[1]);
 
             if(this.state.hovered || this.state.focused)

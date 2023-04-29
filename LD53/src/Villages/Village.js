@@ -1,6 +1,7 @@
 import Texture from "pixelbox/Texture";
 import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main"
 import VillageRequest from "./VillageRequest";
+import VillageShop from "./VillageShop";
 
 export default class Village
 {
@@ -31,8 +32,52 @@ export default class Village
             22, 23, 24
         ];
 
+        this.players = [];
+
         this.requests = [];
         this.texture = this.BuildTexture()
+    }
+
+    PlayersChanged()
+    {
+        if(this.shop)
+        {
+            if(this.players.length === 0)
+            {
+                this.shop.Hide(true);
+            }
+            else 
+            {
+                this.shop.Hide(false);
+            }
+        }
+    }
+
+    TrackPlayer(player)
+    {
+        if(this.players.indexOf(player) < 0)
+        {
+            this.players.push(player);
+        }
+        this.PlayersChanged();
+    }
+
+    RemovePlayer(player)
+    {
+        let index = this.players.indexOf(player);
+
+        if(index >= 0)
+        {
+            this.players.splice(index, 1);
+        }
+
+        this.PlayersChanged();
+    }
+
+    AddShop(shopConfig)
+    {
+        this.shop = new VillageShop(this, shopConfig);
+        this.shop.Hide(true);
     }
 
     AddRequest(requestData)

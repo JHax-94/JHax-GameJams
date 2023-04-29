@@ -21,6 +21,11 @@
             "obstacleType": "water"
         },
         {
+            "name": "CoastCornerIn",
+            "scanIndex": 42,
+            "obstacleType": "water"
+        },
+        {
             "name": "MainMenu",
             "components": [
                 { 
@@ -41,6 +46,14 @@
                 "borderColour": 0,
                 "textColour": 1
             }
+        },
+        {
+            "name": "VillageShop"
+        },
+        {
+            "name": "BaitMeat",
+            "displayName": "Bait (Meat)",
+            "spriteIndex": 5
         }
     ]
 }

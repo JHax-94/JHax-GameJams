@@ -5,14 +5,18 @@ import VectorExtensions from './VectorExtensions';
 import BeastEvents from './PhysEvents/BeastEvents';
 import LevelMap from './LevelMap';
 import Menu from './Menus/Menu';
+import Utility from './Utility';
+import PlayerEvents from './PhysEvents/PlayerEvents';
 
 let pixelbox = require('pixelbox');
 let pointerEvents = require('pixelbox/pointerEvents');
 let p2 = require('p2');
 
+let UTIL = new Utility()
+
 let version = getVersionInformation();
 
-let physEvents = [ new BeastEvents() ];
+let physEvents = [ new BeastEvents(), new PlayerEvents() ];
 let COLLISION_GROUP = {
     PLAYER: Math.pow(2, 0)
 };
@@ -138,6 +142,70 @@ pointerEvents.onMove(function(x, y, pointerId, evt) {
     EM.MouseMove(mapped.x, mapped.y);
 });
 
+function getFontFromPath(fontPath)
+{
+    let fontRoot = assets.fonts;
+
+    let path = fontPath.split('/');
+
+    let layer = fontRoot;
+
+    for(let i = 0; i < path.length; i ++)
+    {
+        let checkLayer = layer[path[i]];
+
+        layer = checkLayer;
+    }
+
+    return layer;
+}
+
+function getFont(fontName)
+{
+    let fontMap = assets.fontConfig.map;
+
+    let font = null;
+
+    if(!fontName)
+    {
+        fontName = "Default";
+    }
+
+    for(let i = 0; i < fontMap.length; i ++)
+    {
+        let fm = fontMap[i];
+
+        if(fm.name === fontName)
+        {
+            let fontObj = Object.assign({}, fm);
+
+            if(fontObj.path)
+            {
+                fontObj.img = getFontFromPath(fontObj.path);
+            }
+
+            font = fontObj;
+        }
+    }
+
+    return font;
+}
+
+function setFont(fontImage)
+{
+    /*consoleLog("Set Font:");
+    consoleLog(fontImage);*/
+
+    if(fontImage && fontImage.img)
+    {
+        setCharset(fontImage.img);
+    }
+    else
+    {
+        setCharset(fontImage);
+    }
+}
+
 let PIXEL_SCALE = getPixelScale();
 let TILE_WIDTH = getTileWidth();
 let TILE_HEIGHT = getTileHeight();
@@ -196,5 +264,6 @@ exports.update = function () {
 };
 
 export {
-    consoleLog, p2, Texture, EM, SETUP, PIXEL_SCALE, FPS, COLLISION_GROUP, TILE_WIDTH, TILE_HEIGHT, getObjectConfig, getObjectConfigByProperty, formatToFixed
+    consoleLog, p2, Texture, EM, SETUP, PIXEL_SCALE, FPS, COLLISION_GROUP, TILE_WIDTH, TILE_HEIGHT, getObjectConfig, getObjectConfigByProperty, formatToFixed,
+    getFont, setFont, UTIL    
 }

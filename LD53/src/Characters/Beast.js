@@ -79,7 +79,6 @@ export default class Beast
     {
         let retBehaviour = null;
 
-        consoleLog("Checking behaviours...");
         for(let i = 0; i < this.behaviours.length; i ++ )
         {
             if(this.behaviours[i].behaviourType === behaviour)

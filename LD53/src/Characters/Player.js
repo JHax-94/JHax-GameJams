@@ -1,5 +1,5 @@
 import Texture from "pixelbox/Texture";
-import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_WIDTH, consoleLog, p2 } from "../main";
+import { COLLISION_GROUP, EM, PIXEL_SCALE, SETUP, TILE_WIDTH, consoleLog, p2 } from "../main";
 import Shadow from "./Shadow";
 import Whistle from "../PlayerActions/Whistle";
 
@@ -56,6 +56,11 @@ export default class Player
     {
         this.LogMovementInput(input);
         this.LogActionInput(input);
+
+        if(input.esc)
+        {
+            SETUP("MainMenu");
+        }
     }
 
     LogMovementInput(input)

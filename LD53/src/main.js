@@ -193,7 +193,7 @@ function SETUP(levelName)
 exports.update = function () {
 	if(!LOAD_COMPLETE)
     {
-        SETUP("CuriousTutorial");
+        SETUP("WhistleTutorial");
     }
 
     EM.Input();

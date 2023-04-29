@@ -18,6 +18,14 @@ export default class BeastBehaviour
         return vec;
     }
 
+    VectorFromTarget(target)
+    {
+        let vec = [];
+        p2.vec2.subtract(vec, this.beast.phys.position, target);
+
+        return vec;
+    }
+
     GetMoveForceVector(vector, deltaTime, speedType)
     {
         if(!deltaTime && deltaTime!==0) console.warn("GetMoveForceVector received null-ish delta time");

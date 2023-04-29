@@ -53,5 +53,9 @@ export default class CuriousBeast extends Beast
                 }
             }
         }
+        else if(stimulus.stimType === "WHISTLE")
+        {
+            this.behaviours = [ new FleeBehaviour(this, stimulus.GetSource()) ]; 
+        }
     }
 }

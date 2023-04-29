@@ -8,7 +8,10 @@ export default class FollowBehaviour extends BeastBehaviour
     {
         super(beast, "FOLLOW");
         this.target = target;
-        this.followToDistance = 2*PIXEL_SCALE;
+
+        this.minDistance = 1.5 * PIXEL_SCALE;
+
+        this.followToDistance = 2.5 * PIXEL_SCALE;
     }
 
     MoveToTarget (deltaTime)
@@ -25,11 +28,15 @@ export default class FollowBehaviour extends BeastBehaviour
 
             this.beast.phys.applyForce(force);
         }
-        else
+        else if(dist <  Math.pow(this.minDistance, 2))
         {
-            //let force = this.GetMoveForceVector([ this.target.phys.force[0], this.target.phys.force[1] ], deltaTime);
+            let spaceVector = this.VectorFromTarget(this.target.phys.position);
 
-            //this.beast.phys.applyForce(force);
+            console.log(`Space vector: (${spaceVector[0]}, ${spaceVector[1]})`);
+            let force = this.GetMoveForceVector(spaceVector, deltaTime);
+
+            console.log(`Force: (${force[0]}, ${force[1]})`);
+            this.beast.phys.applyForce(force);
         }
     }
 

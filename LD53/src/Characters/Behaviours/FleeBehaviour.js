@@ -14,11 +14,7 @@ export default class FleeBehaviour extends BeastBehaviour
 
     GetFleeVector()
     {
-        let fleeV = [];
-
-        p2.vec2.subtract(fleeV, this.beast.phys.position, this.fleeFrom.phys.position);
-        
-        return fleeV;
+        this.VectorFromTarget(this.fleeFrom.phys.position);
     }
 
     Act(deltaTime)

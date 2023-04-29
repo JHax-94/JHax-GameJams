@@ -1,0 +1,12 @@
+{
+	"name": "LD53",
+	"version": "1.0.0",
+	"description": "made with Pixelbox.js",
+	"dependencies": {
+		"audio-manager": "0.1.17",
+		"p2": "^0.7.1",
+		"pixelbox": "2.0.2",
+		"tina": "0.3.23"
+	},
+	"devDependencies": {}
+}

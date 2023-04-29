@@ -568,17 +568,16 @@ export default class EntityManager
             }
             if(phys.collider.shape === "circle")
             {
-                consoleLog("Try construct circle:");
-                consoleLog(phys.collider);
+                /*consoleLog("Try construct circle:");
+                consoleLog(phys.collider);*/
 
                 let circle = new p2.Circle({ radius: phys.collider.radius });
 
-                consoleLog("constructed circle shape:");
-                consoleLog(circle);
+                /*consoleLog("constructed circle shape:");
+                consoleLog(circle);*/
 
                 colliders.push(circle);
-
-
+                
                 if(phys.isDual) 
                 {
                     let dual = p2.Circle({ radius: phys.collider.radius });

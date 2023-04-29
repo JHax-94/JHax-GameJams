@@ -25,12 +25,8 @@ export default class VillageRequest
         {
             let beastItem = this.beastsList[i];
 
-            consoleLog(`Compare beast types: ${beast.beastType} ?= ${beastItem.beastType}`);
-            consoleLog(`Compare quantity: ${beastItem.completed} ?< ${beastItem.quantity}`);
-
             if(beast.beastType === beastItem.beastType && beastItem.completed < beastItem.quantity)
             {
-                consoleLog("Beast required!");
                 required = true;
                 break;
             }
@@ -54,6 +50,7 @@ export default class VillageRequest
 
     Draw()
     {   
+        
         let baseP = this.village.GetScreenPos();
 
         let bannerRect = {
@@ -70,11 +67,6 @@ export default class VillageRequest
             let beastItem = this.beastsList[i];
 
             let beast = getObjectConfigByProperty("beastType", beastItem.beastType);
-
-            /*
-            consoleLog("Draw beastRequest:");
-            consoleLog(beastItem);
-            consoleLog(beast);*/
 
             sprite(beast.boardSprite, bannerRect.x, bannerRect.y);
 

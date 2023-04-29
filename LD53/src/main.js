@@ -3,9 +3,9 @@ import EntityManager from './EntityManager';
 import TextureExtender from './TextureExtensions';
 import VectorExtensions from './VectorExtensions';
 import Player from './Characters/Player';
-import WhistleBeast from './Characters/Whistlebeast';
 import BeastEvents from './PhysEvents/BeastEvents';
 import Village from './Villages/Village';
+import LevelMap from './LevelMap';
 
 let pixelbox = require('pixelbox');
 let p2 = require('p2');
@@ -89,6 +89,25 @@ function getObjectConfigByProperty(propKey, propValue, copyObj)
     return copyObj ? Object.assign({}, objectConf) : objectConf;
 }
 
+function GetLevelDataByName(levelName)
+{
+    let levelData = null;
+
+    consoleLog(`Find level: ${levelName}`);
+    consoleLog("In List:");
+    consoleLog(assets.levels.data);
+
+    for(let i = 0; i < assets.levels.data.length; i ++)
+    {
+        if(assets.levels.data[i].levelName === levelName)
+        {
+            levelData = assets.levels.data[i];
+        }    
+    }
+
+    return levelData;
+}
+
 function AddPhysicsEvents()
 {
     /*consoleLog("ADD PHYS EVENTS");
@@ -123,12 +142,14 @@ let EM;
 
 
 
-function SETUP()
+function SETUP(levelName)
 {
     let newEm = new EntityManager();
     
     EM = newEm;
 
+    let levelData = GetLevelDataByName(levelName);
+    /*
     consoleLog("Construct player...");
     let player = new Player();
 
@@ -154,6 +175,15 @@ function SETUP()
     ]);
 
     EM.AddEntity("Player", player);
+    */
+    consoleLog("Level Data:");
+    consoleLog(levelData);
+
+    if(levelData)
+    {
+        AddPhysicsEvents();
+        new LevelMap(levelData);
+    }
 
     LOAD_COMPLETE = true;
 }
@@ -163,7 +193,7 @@ function SETUP()
 exports.update = function () {
 	if(!LOAD_COMPLETE)
     {
-        SETUP();
+        SETUP("WhistleTutorial");
     }
 
     EM.Input();

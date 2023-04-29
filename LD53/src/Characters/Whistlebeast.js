@@ -1,21 +1,23 @@
 import Texture from "pixelbox/Texture";
 import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_WIDTH, consoleLog } from "../main";
 import Shadow from "./Shadow";
-import GrazeBehaviour from "./GrazeBehaviour";
-import BeastBehaviour from "./BeastBehaviour";
-import FollowBehaviour from "./FollowBehaviour";
+import GrazeBehaviour from "./Behaviours/GrazeBehaviour";
+import FollowBehaviour from "./Behaviours/FollowBehaviour";
 import Whistle from "../PlayerActions/Whistle";
+import Beast from "./Beast";
 
 let BEAST_BEHAVIOUR = {
     GRAZE: 0,
     WANDER: 1
 };
 
-export default class WhistleBeast
+export default class WhistleBeast extends Beast
 {
 
     constructor(startPos)
     {
+        super();
+
         this.renderLayer = "CRITTERS";
 
         this.beastType = "WHISTLE";

@@ -1,0 +1,26 @@
+{
+    "data": [
+        {
+            "levelName": "WhistleTutorial",
+            "playerSpawn": { "x": 10, "y": 10 },
+            "villages": [
+                { 
+                    "pos": { "x": 21, "y": 17 },
+                    "requests": [
+                        [
+                            {
+                                "beastType": "WHISTLE",
+                                "quantity": 3
+                            }
+                        ]
+                    ]
+                }
+            ],
+            "beasts": [
+                { "beastType": "WHISTLE", "pos": { "x": 4, "y": 4 } },
+                { "beastType": "WHISTLE", "pos": { "x": 5, "y": 4 } },
+                { "beastType": "WHISTLE", "pos": { "x": 4, "y": 5 } }
+            ]
+        }
+    ]
+}

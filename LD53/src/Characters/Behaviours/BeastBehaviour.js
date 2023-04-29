@@ -1,5 +1,5 @@
 import p2 from "p2";
-import { consoleLog } from "../main";
+import { consoleLog } from "../../main";
 
 export default class BeastBehaviour
 {

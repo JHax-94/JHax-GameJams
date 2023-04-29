@@ -5,14 +5,14 @@ import Whistle from "../PlayerActions/Whistle";
 
 export default class Player
 {
-    constructor()
+    constructor(startPos)
     {
         this.renderLayer = "CRITTERS";
 
         let physSettings = {
             tileTransform: {
-                x: TILE_WIDTH / 2,
-                y: TILE_WIDTH / 2,
+                x: startPos.x,
+                y: startPos.y,
                 w: 1,
                 h: 1
             },

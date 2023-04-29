@@ -1,6 +1,6 @@
 import p2 from "p2";
 import BeastBehaviour from "./BeastBehaviour";
-import { EM, consoleLog } from "../main";
+import { EM, consoleLog } from "../../main";
 
 export default class GrazeBehaviour extends BeastBehaviour
 {

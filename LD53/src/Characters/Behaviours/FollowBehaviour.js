@@ -1,6 +1,6 @@
 import p2 from "p2";
 import BeastBehaviour from "./BeastBehaviour";
-import { EM, PIXEL_SCALE, formatToFixed } from "../main";
+import { EM, PIXEL_SCALE, formatToFixed } from "../../main";
 
 export default class FollowBehaviour extends BeastBehaviour
 {

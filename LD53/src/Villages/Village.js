@@ -28,7 +28,7 @@ export default class Village
         EM.RegisterEntity(this, { physSettings: physSettings });
 
         this.villageBuildingSprites = [
-            22, 23
+            22, 23, 24
         ];
 
         this.requests = [];

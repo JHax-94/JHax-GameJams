@@ -27,8 +27,6 @@ export default class Player
 
         this.texture = this.BuildTexture();
 
-        
-
         this.shadow = new Shadow(this, { x: 0, y: 7 });
 
         this.inputLog = { 

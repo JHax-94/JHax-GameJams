@@ -3,6 +3,7 @@ import EntityManager from './EntityManager';
 import TextureExtender from './TextureExtensions';
 import VectorExtensions from './VectorExtensions';
 import Player from './Characters/Player';
+import WhistleBeast from './Characters/Whistlebeast';
 
 let pixelbox = require('pixelbox');
 let p2 = require('p2');
@@ -106,6 +107,17 @@ function SETUP()
 
     consoleLog("Construct player...");
     let player = new Player();
+
+    for(let i = 0; i < 10; i ++)
+    {
+        let start = {
+            x: 4 + Math.random() * 3,
+            y: 4 + Math.random() * 3
+        };
+
+        let critter = new WhistleBeast(start);
+    }
+    
 
     EM.AddEntity("Player", player);
 

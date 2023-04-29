@@ -12,7 +12,7 @@ export default class EntityManager
         this.drawColliders = false;
         this.hudLogOn = false;
         this.frameCount = 0;
-        this.bgColour = 12;
+        this.bgColour = 3;
         
         this.version = null;
 
@@ -637,6 +637,14 @@ export default class EntityManager
         };
 
         this.phys.addBody(obj.phys);        
+    }
+
+    PhysToScreenPos(physPos)
+    {
+        return {
+            x: Math.floor(physPos[0]),
+            y: Math.floor(-physPos[1])
+        };
     }
 
     IsSensor(physObj)

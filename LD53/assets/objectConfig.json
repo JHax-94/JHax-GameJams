@@ -1,0 +1,9 @@
+{
+    "objectMap": [
+        {
+            "name": "WhistleBeast",
+            "beastType": "WHISTLE",
+            "boardSprite": 18
+        }
+    ]
+}

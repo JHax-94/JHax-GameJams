@@ -46,7 +46,12 @@ export default class WhistleBeast
 
         EM.RegisterEntity(this, { physSettings: physSettings});
 
-        this.moveSpeed = 1000 * this.phys.mass;
+        this.default = "graze";
+
+        this.moveSpeed = {
+            graze: 1000 * this.phys.mass,
+            follow: 6000 * this.phys.mass
+        };
 
         this.whistle = new Whistle(this);
 
@@ -88,9 +93,23 @@ export default class WhistleBeast
         }
     }
 
-    GetSpeed()
+    GetSpeed(type)
     {
-        return this.moveSpeed;
+        let speed = this.moveSpeed[type];
+
+        if(!speed)
+        {
+            speed = this.moveSpeed[this.default];
+        }
+
+        return speed;
+    }
+
+    DeleteBeast()
+    {
+        EM.RemoveEntity(this.whistle);
+        EM.RemoveEntity(this.shadow);
+        EM.RemoveEntity(this);
     }
 
     Update(deltaTime)

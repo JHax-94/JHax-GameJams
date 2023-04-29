@@ -24,7 +24,7 @@ export default class BeastEvents extends PhysEventRegistry
     }
 
     Begin_BeastBeast_Check(container, manager, evt) { return manager.CompareTags(evt, "BEAST", "BEAST"); }
-    Begin_BeastBeast_Check(container, manager, evt) 
+    Begin_BeastBeast_Resolve(container, manager, evt) 
     {
         let beasts = manager.BodiesWithTag(evt, "BEAST");
 
@@ -38,5 +38,14 @@ export default class BeastEvents extends PhysEventRegistry
                 chosen: chosenOne === i
             });
         }
+    }
+
+    Begin_BeastVillage_Check(container, manager, evt) { return manager.CompareTags(evt, "BEAST", "VILLAGE"); }
+    Begin_BeastVillage_Resolve(container, manager, evt)
+    {
+        let beast = manager.BodyWithTag(evt, "BEAST");
+        let village = manager.BodyWithTag(evt, "VILLAGE");
+
+        village.obj.OfferBeast(beast.obj);
     }
 }

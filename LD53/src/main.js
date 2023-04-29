@@ -5,6 +5,7 @@ import VectorExtensions from './VectorExtensions';
 import Player from './Characters/Player';
 import WhistleBeast from './Characters/Whistlebeast';
 import BeastEvents from './PhysEvents/BeastEvents';
+import Village from './Villages/Village';
 
 let pixelbox = require('pixelbox');
 let p2 = require('p2');
@@ -71,6 +72,23 @@ function getObjectConfig(objectName, copyObj)
     return copyObj ? Object.assign({}, objectConf) : objectConf;
 }
 
+function getObjectConfigByProperty(propKey, propValue, copyObj)
+{
+    let objectMap = assets.objectConfig.objectMap;
+    let objectConf = null;
+
+    for(let i = 0; i < objectMap.length; i ++)
+    {
+        if(objectMap[i][propKey] === propValue)
+        {
+            objectConf = objectMap[i];
+            break;
+        }
+    }
+
+    return copyObj ? Object.assign({}, objectConf) : objectConf;
+}
+
 function AddPhysicsEvents()
 {
     /*consoleLog("ADD PHYS EVENTS");
@@ -126,6 +144,14 @@ function SETUP()
         let critter = new WhistleBeast(start);
     }
     
+    let village = new Village({ x: TILE_WIDTH - 4, y: TILE_HEIGHT - 4 });
+
+    village.AddRequest([ 
+        {
+            beastType: "WHISTLE",
+            quantity: 3
+        }   
+    ]);
 
     EM.AddEntity("Player", player);
 
@@ -146,5 +172,5 @@ exports.update = function () {
 };
 
 export {
-    consoleLog, p2, Texture, EM, SETUP, PIXEL_SCALE, FPS, COLLISION_GROUP, TILE_WIDTH, TILE_HEIGHT, getObjectConfig, formatToFixed
+    consoleLog, p2, Texture, EM, SETUP, PIXEL_SCALE, FPS, COLLISION_GROUP, TILE_WIDTH, TILE_HEIGHT, getObjectConfig, getObjectConfigByProperty, formatToFixed
 }

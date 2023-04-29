@@ -21,7 +21,7 @@ export default class FollowBehaviour extends BeastBehaviour
 
         if(dist > minDist)
         {
-            let force = this.GetMoveForceVector(moveVec, deltaTime);
+            let force = this.GetMoveForceVector(moveVec, deltaTime, "follow");
 
             this.beast.phys.applyForce(force);
         }

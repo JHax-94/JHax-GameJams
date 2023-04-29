@@ -52,7 +52,7 @@ export default class GrazeBehaviour extends BeastBehaviour
         }
         else
         {
-            let force = this.GetMoveForceVector(moveVec, deltaTime);
+            let force = this.GetMoveForceVector(moveVec, deltaTime, "graze");
             this.beast.phys.applyForce(force);
         }
     }

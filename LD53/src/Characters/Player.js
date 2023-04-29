@@ -37,7 +37,7 @@ export default class Player
 
         EM.RegisterEntity(this, { physSettings: physSettings });
 
-        this.moveForce = 2000 * this.phys.mass;
+        this.moveForce = 10000 * this.phys.mass;
 
         consoleLog("Player registered!");
         consoleLog(this);

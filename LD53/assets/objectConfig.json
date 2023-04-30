@@ -107,6 +107,13 @@
             "btn": 2
         },
         {
+            "name": "Block",
+            "displayName": "Block",
+            "spriteIndex": 8,
+            "order": 5,
+            "btn": 5
+        },
+        {
             "name": "Rewards",
             "dropOffTime": 5
         }

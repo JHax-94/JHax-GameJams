@@ -885,11 +885,6 @@ export default class EntityManager
         {
             this.hudLog.push(`Input group: ${this.focusedInputGroup.name}`);
         }*/
-
-        if(this.lastMousePos)
-        {
-            this.hudLog.push(`Mouse: (${this.lastMousePos.x}, ${this.lastMousePos.y}) - [${Math.floor(this.lastMousePos.x/PIXEL_SCALE)}, ${Math.floor(this.lastMousePos.y / PIXEL_SCALE)}]`);
-        }
         
         for(var i = 0; i < this.updates.length; i ++)
         {
@@ -973,6 +968,11 @@ export default class EntityManager
             this.renderLayers[i].Render();
         }
         
+        if(this.lastMousePos)
+        {
+            this.hudLog.push(`Mouse: (${this.lastMousePos.x}, ${this.lastMousePos.y}) - [${Math.floor(this.lastMousePos.x/PIXEL_SCALE)}, ${Math.floor(this.lastMousePos.y / PIXEL_SCALE)}]`);
+        }
+
         if(this.hudLog.length > 0)
         {
             if(this.hudLogOn)
@@ -1064,10 +1064,9 @@ export default class EntityManager
     {
         var consumed = false;
 
+        this.lastMousePos = { x: x, y: y };
         if(this.trackMouse)
         {
-            this.lastMousePos = { x: x, y: y };
-
             for(var i = this.hovers.length-1; i >= 0; i --)
             {
                 if(!consumed)

@@ -186,6 +186,41 @@
                 { "beastType": "VEGGIE", "pos": { "x": 38, "y": 12 }},
                 { "clusterType": "WHISTLE", "pos": { "x": 29, "y": 20 } }
             ]
+        },
+        {
+            "levelName": "BlockTutorial",
+            "displayName": "Level 5",
+            "inventory": [
+                { "object": "Whistle" },
+                { "object": "Gold", "quantity": 20 },
+                { "object": "Block", "quantity": 5 }
+            ],
+            "levelType": "_Map",
+            "terrain": [
+                { "mapName": "block_terrain", "offset": {"x": 0, "y": 0 } }
+            ],
+            "playerSpawn": { "x": 15, "y": 23 },
+            "villages": [
+                {
+                    "pos": { "x": 12, "y": 23 },
+                    "requests": [
+                        [
+                            {
+                                "beastType": "CURIO",
+                                "quantity": 12,
+                                "rewards": {
+                                    "perBeast": 2,
+                                    "complete": 50
+                                }
+                            }
+                        ]
+                    ]
+                }
+            ],
+            "beasts": [
+                { "clusterType": "CURIO", "pos": { "x": 40, "y": 10 } },
+                { "clusterType": "CURIO", "pos": { "x": 38, "y": 12 } }
+            ]
         }
     ]
 }

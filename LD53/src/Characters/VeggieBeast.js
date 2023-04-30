@@ -55,9 +55,6 @@ export default class VeggieBeast extends Beast
     {
         super.ReactTo(stimulus);
 
-        consoleLog("Veggie Reacts:");
-        consoleLog(stimulus);
-
         if(stimulus.stimType === "SEEN")
         {
             if(stimulus.seenBody.obj.obstacleType === "bush")
@@ -67,11 +64,8 @@ export default class VeggieBeast extends Beast
         }
         else if(stimulus.stimType === "COLLISION")
         {
-            consoleLog("COLLISION:");
-            consoleLog(stimulus);
             if(stimulus.collisionWith.obstacleType === "bush" || stimulus.collisionWith.baitType === "Berry")
             {
-                consoleLog("Eat bush!");
                 this.behaviours = [ new FeedBehaviour(this, stimulus.collisionWith) ];
             }
         }

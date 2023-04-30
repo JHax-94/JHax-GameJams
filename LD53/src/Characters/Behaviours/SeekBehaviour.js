@@ -89,7 +89,7 @@ export default class SeekBehaviour extends BeastBehaviour
         
         vector = [Math.cos(this.travelAngle + angleScan.angle), Math.sin(this.travelAngle + angleScan.angle) ];
 
-        EM.hudLog.push(`Angle scan: ${formatToFixed(angleScan.min, 2)} < ${formatToFixed(angleScan.angle, 2)} < ${formatToFixed(angleScan.max, 2)} | (${angleScan.direction})`);
+        //EM.hudLog.push(`Angle scan: ${formatToFixed(angleScan.min, 2)} < ${formatToFixed(angleScan.angle, 2)} < ${formatToFixed(angleScan.max, 2)} | (${angleScan.direction})`);
 
         perceptionRay.SetVec(vector);
         perceptionRay.CalculateCast();

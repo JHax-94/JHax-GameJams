@@ -5,6 +5,7 @@ import Whistle from "../PlayerActions/Whistle";
 import PlayerInventory from "./PlayerInventory";
 import Bait from "../PlayerActions/Bait";
 import Horn from "../PlayerActions/Horn";
+import Block from "../Block";
 
 export default class Player
 {
@@ -225,13 +226,16 @@ export default class Player
             }
         }
 
+        let screenPos = this.GetScreenPos();
+        let spawnPos = {x: screenPos.x / PIXEL_SCALE, y: screenPos.y / PIXEL_SCALE };
+
         if(this.inputLog.action3Triggered)
         {
             if(this.HasItem("BaitMeat", 1))
             {
                 let baitConf = getObjectConfig("BaitMeat", true);
                 let screenPos = this.GetScreenPos();
-                new Bait({ x: screenPos.x / PIXEL_SCALE, y: screenPos.y / PIXEL_SCALE }, baitConf);
+                new Bait(spawnPos, baitConf);
 
                 this.AddItem({ object: "BaitMeat", quantity: -1 }, true);
             }
@@ -242,10 +246,20 @@ export default class Player
             if(this.HasItem("BaitBerry", 1))
             {
                 let baitConf = getObjectConfig("BaitBerry", true);
-                let screenPos = this.GetScreenPos();
-                new Bait({x: screenPos.x / PIXEL_SCALE, y: screenPos.y / PIXEL_SCALE }, baitConf);
+                
+                new Bait(spawnPos, baitConf);
 
                 this.AddItem({ object: "BaitBerry", quantity: -1 }, true);
+            }
+        }
+
+        if(this.inputLog.action5Triggered)
+        {
+            if(this.HasItem("Block", 1))
+            {
+                new Block(spawnPos);
+
+                this.AddItem({ object: "Block", quantity: -1}, true);
             }
         }
     }

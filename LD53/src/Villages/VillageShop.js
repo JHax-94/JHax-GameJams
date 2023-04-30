@@ -9,7 +9,7 @@ export default class VillageShop
 {
     constructor(village, shopConfig)
     {
-        this.globalConfig = getObjectConfig("villageShop", true);
+        this.globalConfig = getObjectConfig("VillageShop", true);
         this.shopConfig = shopConfig;
 
         this.village = village;
@@ -33,6 +33,31 @@ export default class VillageShop
         {
             this.components[i].hide = this.hide;
         }
+    }
+
+    TryBuy(item)
+    {
+        consoleLog("Try to buy item...");
+
+        consoleLog(item);
+
+        let shopper = this.village.GetShoppingPlayer();
+
+        consoleLog("Check shopper gold:");
+        if(shopper.HasItem("Gold", item.price))
+        {
+            consoleLog("Process transaction!");
+            shopper.AddItem({
+                object: "Gold",
+                quantity: -item.price
+            });
+
+            shopper.AddItem({
+                object: item.object,
+                quantity: 1
+            }, true);
+        }
+
     }
 
     BuildUi()
@@ -92,6 +117,12 @@ export default class VillageShop
                 style: "StandardButton",
                 text: `Buy`,
             }, "WORLD_UI");
+
+            let shop = this;
+
+            buyButton.ClickEvent = (btn) => {
+                shop.TryBuy(item);
+            }
 
             this.components.push(backingRect);
             this.components.push(itemSprite);

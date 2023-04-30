@@ -8,6 +8,9 @@
         {
             "levelName": "WhistleTutorial",
             "displayName": "Level 1",
+            "inventory": [
+                { "object": "Whistle" }                
+            ],
             "levelType": "Map",
             "terrain": [
                 { "mapName": "whistle_terrain", "offset": { "x": 0, "y": 0 } }  
@@ -35,6 +38,9 @@
         {
             "levelName": "CuriousTutorial",
             "displayName": "Level 2",
+            "inventory": [
+                { "object": "Whistle" }                
+            ],
             "levelType": "Map",
             "terrain": [
                 { "mapName": "curious_terrain", "offset": { "x": 0, "y": 0 } }  
@@ -64,6 +70,10 @@
         {
             "levelName": "ShopTutorial",
             "displayName": "Level 3",
+            "inventory": [
+                { "object": "Whistle" },
+                { "object": "Gold", "quantity": 20 }
+            ],
             "levelType": "Map",
             "terrain": [
                 { "mapName": "shop_terrain", "offset": {"x": 0, "y": 0 } }

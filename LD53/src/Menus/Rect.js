@@ -2,11 +2,16 @@ import { consoleLog, EM } from "../main";
 
 export default class Rect
 {
-    constructor(x, y, w, h, index, renderLayer)
+    constructor(x, y, w, h, index, renderLayer, borderOnly)
     {
         if(renderLayer)
         {
             this.renderLayer = renderLayer;
+        }
+
+        if(borderOnly)
+        {
+            this.borderOnly = borderOnly;
         }
 
         this.x = x;
@@ -21,6 +26,14 @@ export default class Rect
     Draw()
     {
         paper(this.index);
-        rectf(this.x, this.y, this.w, this.h);
+        pen ( this.index);
+        if(this.borderOnly) 
+        {  
+            rect(this.x, this.y, this.w, this.h);
+        }
+        else 
+        {
+            rectf(this.x, this.y, this.w, this.h);
+        }
     }
 }

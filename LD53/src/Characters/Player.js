@@ -2,10 +2,11 @@ import Texture from "pixelbox/Texture";
 import { COLLISION_GROUP, EM, PIXEL_SCALE, SETUP, TILE_WIDTH, consoleLog, p2 } from "../main";
 import Shadow from "./Shadow";
 import Whistle from "../PlayerActions/Whistle";
+import PlayerInventory from "./PlayerInventory";
 
 export default class Player
 {
-    constructor(startPos)
+    constructor(startPos, startItems)
     {
         this.renderLayer = "CRITTERS";
 
@@ -29,11 +30,16 @@ export default class Player
         this.texture = this.BuildTexture();
 
         this.shadow = new Shadow(this, { x: 0, y: 5 });
-        this.whistle = new Whistle(this);
+        //this.whistle = new Whistle(this);
 
         this.inputLog = { 
             moveInput: [0, 0]
         };
+
+        this.inventory = [];
+
+        this.AddItems(startItems);
+        this.inventoryUi = new PlayerInventory(this);
 
         EM.RegisterEntity(this, { physSettings: physSettings });
 
@@ -43,12 +49,72 @@ export default class Player
         consoleLog(this);
     }
 
+    HasItem(name, amount)
+    {
+        let hasItem = false;
+
+        let item = this.inventory.find(inv => inv.object === name);
+
+        if(item)
+        {
+            if(item.quantity >= amount)
+            {
+                hasItem = true;
+            }            
+        }
+
+        return hasItem;
+    }
+
     BuildTexture()
     {
         let pTex = new Texture(PIXEL_SCALE, PIXEL_SCALE);
 
         pTex.sprite(0, 0, 0);
         return pTex;
+    }
+
+    AddItem(srcItem, updateUi)
+    {
+        consoleLog("Adding Item:");
+        consoleLog(srcItem);
+
+        let copyItem = Object.assign({}, srcItem);
+
+        if(copyItem.object === "Whistle")
+        {  
+            this.whistle = new Whistle(this);
+        }
+
+
+        let item = this.inventory.find(inv => inv.object === copyItem.object);
+
+        if(item)
+        {
+            item.quantity += copyItem.quantity;
+        }
+        else
+        {
+            this.inventory.push(copyItem);
+        }
+
+        if(updateUi)
+        {
+            this.inventoryUi.UpdateUi();
+        }
+    }
+
+    AddItems(itemList)
+    {
+        for(let i = 0; i < itemList.length; i ++)
+        {
+            this.AddItem(itemList[i]);
+        }
+
+        if(this.inventoryUi)
+        {
+            this.inventoryUi.UpdateUi();
+        }
     }
 
 
@@ -118,9 +184,12 @@ export default class Player
 
     ApplyActions(deltaTime)
     {
-        if(this.inputLog.action1 && this.whistle.CanActivate())
+        if(this.whistle)
         {
-            this.whistle.Activate();
+            if(this.inputLog.action1 && this.whistle.CanActivate())
+            {
+                this.whistle.Activate();
+            }
         }
     }
 
@@ -129,7 +198,10 @@ export default class Player
         this.ApplyInputs(deltaTime);
         this.ApplyActions(deltaTime);
 
-        this.whistle.Act(deltaTime);
+        if(this.whistle)
+        {
+            this.whistle.Act(deltaTime);
+        }
     }
 
     Draw()

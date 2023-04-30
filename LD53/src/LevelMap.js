@@ -83,7 +83,11 @@ export default class LevelMap
 
     SpawnPlayer(levelData)
     {
-        new Player(levelData.playerSpawn);
+        let startInventory = levelData.inventory;
+
+        new Player(levelData.playerSpawn, startInventory);
+
+        
     }
 
     SpawnVillages(levelData)

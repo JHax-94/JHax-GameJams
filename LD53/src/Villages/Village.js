@@ -53,6 +53,18 @@ export default class Village
         }
     }
 
+    GetShoppingPlayer()
+    {
+        let player = null;
+
+        if(this.players.length > 0)
+        {
+            player = this.players[0];
+        }
+
+        return player;
+    }
+
     TrackPlayer(player)
     {
         if(this.players.indexOf(player) < 0)

@@ -73,6 +73,11 @@ function getObjectConfig(objectName, copyObj)
         }
     }
 
+    if(!objectConf)
+    {
+        console.warn(`Failed to retrieve config for: ${objectName}`);
+    }
+
     return copyObj ? Object.assign({}, objectConf) : objectConf;
 }
 

@@ -1,5 +1,5 @@
-import Whistle from "../PlayerActions/Whistle";
 import CuriousBeast from "./CuriousBeast";
+import HunterBeast from "./HunterBeast";
 import WhistleBeast from "./Whistlebeast";
 
 export default class BeastFactory
@@ -19,6 +19,10 @@ export default class BeastFactory
         else if(beastConf.beastType === "CURIO")
         {
             newBeast = new CuriousBeast(beastConf.pos);
+        }
+        else if(beastConf.beastType === "HUNTER")
+        {
+            newBeast = new HunterBeast(beastConf.pos);
         }
 
         return newBeast;

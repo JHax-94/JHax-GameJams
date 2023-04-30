@@ -10,7 +10,7 @@ let SWEEP_DIRECTION = {
 export default class SeekBehaviour extends BeastBehaviour
 {
 
-    constructor(beast)
+    constructor(beast, opts)
     {
         super(beast, "SEEK");
 
@@ -22,9 +22,16 @@ export default class SeekBehaviour extends BeastBehaviour
 
         this.sweepDirection = random(2) === 0 ? SWEEP_DIRECTION.CLOCK : SWEEP_DIRECTION.ANTI_CLOCK;
 
+        this.perceiveDistance = 2* PIXEL_SCALE;
+
+        if(opts && opts.perceiveDistance)
+        {
+            this.perceiveDistance = opts.perceiveDistance;
+        }
+
         this.sweptAngle = 0;
-        this.perceptionRayLeft = new PerceptionRay(this.beast.phys, [0, 1], 2 * PIXEL_SCALE, false, COLLISION_GROUP.PLAYER, false);
-        this.perceptionRayRight = new PerceptionRay(this.beast.phys, [0, 1], 2 * PIXEL_SCALE, false, COLLISION_GROUP.PLAYER, false);
+        this.perceptionRayLeft = new PerceptionRay(this.beast.phys, [0, 1], this.perceiveDistance, false, COLLISION_GROUP.PLAYER, false);
+        this.perceptionRayRight = new PerceptionRay(this.beast.phys, [0, 1], this.perceiveDistance, false, COLLISION_GROUP.PLAYER, false);
 
         
         this.leftScan = { angle: Math.PI *0.5, min: 0, max: Math.PI * 0.9, direction: 1 };

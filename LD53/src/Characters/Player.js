@@ -23,7 +23,7 @@ export default class Player
             tag: "PLAYER",
             material: "playerMaterial",
             collisionGroup: COLLISION_GROUP.PLAYER,
-            collisionMask: COLLISION_GROUP.PLAYER,
+            collisionMask: COLLISION_GROUP.PLAYER | COLLISION_GROUP.AURA,
             linearDrag: 0.9
         };
 
@@ -47,6 +47,11 @@ export default class Player
 
         consoleLog("Player registered!");
         consoleLog(this);
+    }
+
+    FollowTarget()
+    {
+        return this;
     }
 
     HasItem(name, amount)

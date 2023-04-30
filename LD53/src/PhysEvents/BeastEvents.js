@@ -11,6 +11,9 @@ export default class BeastEvents extends PhysEventRegistry
         let beastBody = manager.BodyWithTag(evt, "BEAST");
         let whistleBody = manager.BodyWithTag(evt, "WHISTLE");
 
+        consoleLog("Entered whistle zone:");
+        consoleLog(whistleBody.obj);
+
         whistleBody.obj.AddBeast(beastBody.obj);
     }
 
@@ -34,7 +37,7 @@ export default class BeastEvents extends PhysEventRegistry
         {
             beasts[i].obj.ReactTo({
                 stimType: "COLLISION",
-                collisionWith: beasts[i==0?0:1].obj,
+                collisionWith: beasts[i==0?1:0].obj,
                 chosen: chosenOne === i
             });
         }

@@ -35,7 +35,7 @@ export default class Whistle
             isKinematic: false,
             tag: "WHISTLE",
             material: "playerMaterial",
-            collisionGroup: COLLISION_GROUP.PLAYER,
+            collisionGroup: COLLISION_GROUP.AURA,
             collisionMask: COLLISION_GROUP.PLAYER,
             linearDrag: 0.9
         };

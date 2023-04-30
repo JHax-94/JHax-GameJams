@@ -117,8 +117,6 @@ export default class VillageRequest
             pen(1);
             print(`${beastItem.completed} / ${beastItem.quantity}`, bannerRect.x + PIXEL_SCALE, bannerRect.y + 0.3*PIXEL_SCALE);
 
-            consoleLog("beast list item");
-            consoleLog(beastItem);
             let rewardValue =  this.CalculateRewardForBeastItem(beastItem);
 
             sprite(gold.spriteIndex, bannerRect.x + 3 * PIXEL_SCALE, bannerRect.y);

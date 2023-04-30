@@ -11,6 +11,11 @@
             "boardSprite": 19
         },
         {
+            "name": "HunterBeast",
+            "beastType": "HUNTER",
+            "boardSprite": 20  
+        },
+        {
             "name": "Coast",
             "scanIndex": 26,
             "obstacleType": "water"
@@ -23,6 +28,11 @@
         {
             "name": "CoastCornerIn",
             "scanIndex": 42,
+            "obstacleType": "water"
+        },
+        {
+            "name": "Sea",
+            "scanIndex": 28,
             "obstacleType": "water"
         },
         {

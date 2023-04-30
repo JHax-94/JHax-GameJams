@@ -23,7 +23,7 @@ export default class Beast
             tag: "BEAST",
             material: "playerMaterial",
             collisionGroup: COLLISION_GROUP.PLAYER,
-            collisionMask: COLLISION_GROUP.PLAYER,
+            collisionMask: COLLISION_GROUP.PLAYER | COLLISION_GROUP.AURA,
             linearDrag: 0.9,
         };
 

@@ -20,8 +20,6 @@ export default class FleeBehaviour extends BeastBehaviour
     Act(deltaTime)
     {
         let fleeVector = this.GetFleeVector();
-        consoleLog("Flee Vector");
-        consoleLog(fleeVector);
 
         if(p2.vec2.sqrLen(fleeVector) >= Math.pow(this.safeDistance, 2))
         {

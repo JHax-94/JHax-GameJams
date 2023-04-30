@@ -94,11 +94,40 @@
                         "inventory": [
                             { "price": 10, "object": "BaitMeat" }
                         ]
-                    }
+                    },
+                    "requests": [
+                        [
+                            {
+                                "beastType": "WHISTLE",
+                                "quantity": 3,
+                                "rewards": {
+                                    "perBeast": 2,
+                                    "complete": 50
+                                }
+                            }
+                        ]
+                    ]
                 },
                 {
-                    "pos": {"x": 32, "y": 12 }
+                    "pos": {"x": 32, "y": 12 },
+                    "requests": [
+                        [
+                            {
+                                "beastType": "HUNTER",
+                                "quantity": 2,
+                                "rewards": {
+                                    "perBeast": 5,
+                                    "complete": 50
+                                }
+                            }
+                        ]
+                    ]
                 }
+            ],
+            "beasts": [
+                { "beastType": "HUNTER", "pos": { "x": 20, "y": 30 }},
+                { "beastType": "HUNTER", "pos": { "x": 26, "y": 32 }},
+                { "clusterType": "WHISTLE", "pos": { "x": 15, "y": 24 } }
             ]
         }
     ]

@@ -5,6 +5,7 @@ import GrazeBehaviour from "./Behaviours/GrazeBehaviour";
 import FollowBehaviour from "./Behaviours/FollowBehaviour";
 import Whistle from "../PlayerActions/Whistle";
 import Beast from "./Beast";
+import FleeBehaviour from "./Behaviours/FleeBehaviour";
 
 let BEAST_BEHAVIOUR = {
     GRAZE: 0,
@@ -26,7 +27,8 @@ export default class WhistleBeast extends Beast
 
         this.moveSpeed = {
             graze: 1000 * this.phys.mass,
-            follow: 6000 * this.phys.mass
+            follow: 6000 * this.phys.mass,
+            flee: 8000 * this.phys.mass
         };
 
         this.whistle = new Whistle(this);
@@ -43,7 +45,13 @@ export default class WhistleBeast extends Beast
 
         if(stimulus.stimType === "WHISTLE")
         {
-            this.behaviours = [ new FollowBehaviour(this, stimulus.GetSource()) ]; 
+            consoleLog("Heard whistle!");
+            let source = stimulus.GetSource();
+
+            if((source.FollowTarget && source.FollowTarget() !== this))
+            {
+                this.behaviours = [ new FollowBehaviour(this, stimulus.GetSource()) ]; 
+            }
         }
         else if(stimulus.stimType === "COLLISION")
         {
@@ -54,6 +62,10 @@ export default class WhistleBeast extends Beast
                     this.whistle.Activate();
                 }
             }
+        }
+        else if(stimulus.stimType === "HUNTED")
+        {
+            this.behaviours = [ new FleeBehaviour(this, stimulus.huntedBy )]
         }
     }
 

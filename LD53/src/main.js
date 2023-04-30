@@ -18,7 +18,8 @@ let version = getVersionInformation();
 
 let physEvents = [ new BeastEvents(), new PlayerEvents() ];
 let COLLISION_GROUP = {
-    PLAYER: Math.pow(2, 0)
+    PLAYER: Math.pow(2, 0),
+    AURA: Math.pow(2, 1)
 };
 
 function getVersionInformation()

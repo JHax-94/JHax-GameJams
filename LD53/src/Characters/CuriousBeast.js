@@ -57,5 +57,9 @@ export default class CuriousBeast extends Beast
         {
             this.behaviours = [ new FleeBehaviour(this, stimulus.GetSource()) ]; 
         }
+        else if(stimulus.stimType === "HUNTED")
+        {
+            this.behaviours = [ new FleeBehaviour(this, stimulus.huntedBy )]
+        }
     }
 }

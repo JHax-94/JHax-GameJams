@@ -1,3 +1,4 @@
+import BeastCluster from "./Characters/BeastCluster";
 import BeastFactory from "./Characters/BeastFactory";
 import Player from "./Characters/Player";
 import MapLayer from "./MapLayer";
@@ -120,8 +121,16 @@ export default class LevelMap
             for(let i = 0; i < levelData.beasts.length; i ++)
             {
                 let beast = levelData.beasts[i];
+                if(beast.beastType)
+                {
+                    this.beastFactory.BuildABeast(beast);
+                }
+                else if(beast.clusterType)
+                {
+                    new BeastCluster(beast);
+                }
 
-                this.beastFactory.BuildABeast(beast);
+                
             }
         }
     }

@@ -34,6 +34,14 @@ export default class Beast
         this.behaviours = [];
 
         EM.RegisterEntity(this, { physSettings: physSettings});
+        
+        if(!EM.beastCount)
+        {
+            EM.beastCount = 0;
+        }
+
+        this.beastId = EM.beastCount;
+        EM.beastCount ++;
 
         this.DefaultBehaviour();
     }
@@ -54,17 +62,29 @@ export default class Beast
         }
     }
 
-    FollowTarget()
+    FollowTarget(depth)
     {
         let followTarget = null;
         
+        if(!depth)
+        {
+            depth = 0;
+        }
+
         let follow = this.GetBehaviour("FOLLOW");
 
         if(follow)
         {
-            followTarget = follow.target;
+            if(depth > 400)
+            {
+                console.error("WOAH NELLY");
+                return;
+            }
 
-            let recurse = followTarget.FollowTarget();
+            followTarget = follow.target;
+            //consoleLog(`${this.beastId} > Follow target: ${depth} (${followTarget.beastId})`);
+
+            let recurse = followTarget.FollowTarget(depth+1);
 
             if(recurse)
             {

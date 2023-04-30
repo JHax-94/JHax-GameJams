@@ -1,3 +1,4 @@
+import Texture from "pixelbox/Texture";
 import { EM, PIXEL_SCALE, consoleLog, getObjectConfig, getObjectConfigByProperty } from "../main";
 
 export default class VillageRequest
@@ -9,6 +10,8 @@ export default class VillageRequest
         this.village = village;
         this.beastsList = beastsList;
 
+        this.firstComplete = false;
+
         for(let i = 0; i < this.beastsList.length; i ++)
         {
             this.beastsList[i].completed = 0;
@@ -17,6 +20,9 @@ export default class VillageRequest
         this.timeElapsed = 0;
 
         this.rewardsConfig = getObjectConfig("Rewards");
+
+        this.rewardTex = new Texture(3 * PIXEL_SCALE, PIXEL_SCALE);
+        this.progressTex = new Texture(3 * PIXEL_SCALE, PIXEL_SCALE);
 
         EM.RegisterEntity(this);
     }
@@ -47,6 +53,8 @@ export default class VillageRequest
 
             let addGold = 0;
 
+            let addItem = null;
+
             if(beast.beastType === beastItem.beastType)
             {
                 addGold += beastItem.rewards.perBeast;
@@ -55,20 +63,45 @@ export default class VillageRequest
 
                 if(beastItem.completed >= beastItem.quantity)
                 {
-                    addGold += this.CalculateRewardForBeastItem(beastItem);
+                    if(!this.firstComplete)
+                    {
+                        addGold += this.CalculateRewardForBeastItem(beastItem);
+                        this.firstComplete = true;
+                        beastItem.completed = 0;           
+                        
+                        
+                    }
+                    else
+                    {
+                        addItem = this.SubRewardForBeastItem(beastItem);
+                        beastItem.completed = 0;
+                    }
+
+                    
                 }
             }
 
-            if(addGold > 0)
+            if(addGold > 0 || addItem)
             {
                 let player = EM.GetEntity("PLAYER");
-
-                player.AddItem({
-                    object: "Gold",
-                    quantity: addGold
-                },
-                true);
+                if(addGold > 0)
+                {
+                    player.AddItem({
+                        object: "Gold",
+                        quantity: addGold
+                    },
+                    true);
+                }
+                if(addItem)
+                {
+                    player.AddItem({
+                        object: addItem,
+                        quantity: 1,
+                    }, 
+                    true);
+                }
             }
+            
         }
     }
 
@@ -91,36 +124,75 @@ export default class VillageRequest
         return value;
     }
 
-    Draw()
-    {   
-        let baseP = this.village.GetScreenPos();
+    SubRewardForBeastItem(beastItem)
+    {
+        return beastItem.rewards.subsequent;
+    }
 
-        let bannerRect = {
-            x: baseP.x,
-            y: baseP.y - 1.5*PIXEL_SCALE,
-            w: 6 * PIXEL_SCALE,
-            h: PIXEL_SCALE
-        }
-        paper(0);
-        rectf(bannerRect.x - 0.5*PIXEL_SCALE, bannerRect.y, bannerRect.w, bannerRect.h);
+    HasSubRewards()
+    {
+        let subRewards = false;
 
         for(let i = 0; i < this.beastsList.length; i ++)
         {
-            let beastItem = this.beastsList[i];
+            if(this.SubRewardForBeastItem(this.beastsList[i]))
+            {
+                subRewards = true;
+                break;
+            }
+        }
 
-            let beast = getObjectConfigByProperty("beastType", beastItem.beastType);
+        return subRewards;
+    }
 
-            let gold = getObjectConfig("Gold", true);
+    Draw()
+    {   
+        if(this.firstComplete === false || this.HasSubRewards())
+        {
+            let baseP = this.village.GetScreenPos();
 
-            sprite(beast.boardSprite, bannerRect.x, bannerRect.y);
+            let bannerRect = {
+                x: baseP.x,
+                y: baseP.y - 1.5*PIXEL_SCALE,
+                w: 6 * PIXEL_SCALE,
+                h: PIXEL_SCALE
+            }
+            paper(0);
+            rectf(bannerRect.x - 0.5*PIXEL_SCALE, bannerRect.y, bannerRect.w, bannerRect.h);
 
-            pen(1);
-            print(`${beastItem.completed} / ${beastItem.quantity}`, bannerRect.x + PIXEL_SCALE, bannerRect.y + 0.3*PIXEL_SCALE);
+            for(let i = 0; i < this.beastsList.length; i ++)
+            {
+                let beastItem = this.beastsList[i];
 
-            let rewardValue =  this.CalculateRewardForBeastItem(beastItem);
+                let beast = getObjectConfigByProperty("beastType", beastItem.beastType);
 
-            sprite(gold.spriteIndex, bannerRect.x + 3 * PIXEL_SCALE, bannerRect.y);
-            print(`${rewardValue}`, bannerRect.x + 4 *PIXEL_SCALE, bannerRect.y + 0.3 * PIXEL_SCALE);
+                let gold = getObjectConfig("Gold", true);
+
+                sprite(beast.boardSprite, bannerRect.x - 0.5 * PIXEL_SCALE, bannerRect.y);
+
+                this.progressTex.clear();
+                this.progressTex.pen(1);
+                this.progressTex.print(`${beastItem.completed}/${beastItem.quantity}`, 0, 0);
+                this.progressTex._drawEnhanced(bannerRect.x + PIXEL_SCALE, bannerRect.y + 2, { scale: 2 });
+
+                if(!this.firstComplete)
+                {
+                    let rewardValue =  this.CalculateRewardForBeastItem(beastItem);
+
+                    sprite(gold.spriteIndex, bannerRect.x + 3 * PIXEL_SCALE, bannerRect.y);
+                    this.rewardTex.clear();
+                    this.rewardTex.print(`${rewardValue}`, 0, 0);
+                    this.rewardTex._drawEnhanced(bannerRect.x + 4 *PIXEL_SCALE, bannerRect.y + 2, { scale: 2});
+                }
+                else
+                {
+                    let nextReward = this.SubRewardForBeastItem(beastItem);
+
+                    let rewardConf = getObjectConfig(nextReward);
+
+                    sprite(rewardConf.spriteIndex, bannerRect.x + 4 * PIXEL_SCALE, bannerRect.y);
+                }
+            }
         }
     }
     

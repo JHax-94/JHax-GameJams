@@ -103,11 +103,14 @@ export default class SeekBehaviour extends BeastBehaviour
         {
             let leftHit = this.perceptionRayLeft.rayResult.body;
 
-            hits.push(leftHit);
-
-            if(leftHit.tag === "OBSTACLE")
+            if(leftHit)
             {
-                this.SweepTo(SWEEP_DIRECTION.ANTI_CLOCK);
+                hits.push(leftHit);
+
+                if(leftHit.tag === "OBSTACLE")
+                {
+                    this.SweepTo(SWEEP_DIRECTION.ANTI_CLOCK);
+                }
             }
         }
         
@@ -115,11 +118,14 @@ export default class SeekBehaviour extends BeastBehaviour
         {
             let rightHit = this.perceptionRayRight.rayResult.body;
 
-            hits.push(rightHit);
-
-            if(rightHit.tag === "OBSTACLE")
+            if(rightHit)
             {
-                this.SweepTo(SWEEP_DIRECTION.CLOCK);
+                hits.push(rightHit);
+
+                if(rightHit.tag === "OBSTACLE")
+                {
+                    this.SweepTo(SWEEP_DIRECTION.CLOCK);
+                }
             }
         }
 

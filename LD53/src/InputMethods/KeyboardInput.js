@@ -51,7 +51,10 @@ export default class KeyboardInput
 
         this.action5Triggered = this.CheckForTrigger(this.action5, src.action5);
         this.action5 = src.action5;
-        
+
+        this.eTriggered = this.CheckForTrigger(this.e, src.e);
+        this.e = src.e;
+
         this.esc = src.esc;
     }
 }

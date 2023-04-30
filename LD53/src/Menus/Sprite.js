@@ -2,11 +2,18 @@ import { EM, PIXEL_SCALE, consoleLog } from "../main";
 
 export default class Sprite
 {
-    constructor(x, y, index, renderLayer)
+    constructor(x, y, index, renderLayer, targetTexture)
     {
         if(renderLayer)
         {
             this.renderLayer = renderLayer;
+        }
+
+        this.targetTexture = $screen;
+
+        if(targetTexture)
+        {
+            this.targetTexture = targetTexture;
         }
 
         this.x = x;
@@ -18,6 +25,6 @@ export default class Sprite
 
     Draw()
     {
-        sprite(this.index, this.x, this.y);
+        this.targetTexture.sprite(this.index, this.x, this.y);
     }
 }

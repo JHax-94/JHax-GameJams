@@ -26,7 +26,7 @@ export default class Player
             tag: "PLAYER",
             material: "playerMaterial",
             collisionGroup: COLLISION_GROUP.PLAYER,
-            collisionMask: COLLISION_GROUP.PLAYER | COLLISION_GROUP.AURA,
+            collisionMask: COLLISION_GROUP.PLAYER,
             linearDrag: 0.9
         };
 
@@ -48,13 +48,73 @@ export default class Player
 
         this.moveForce = 10000 * this.phys.mass;
 
+        this.pickupOverlaps = [];
+
         consoleLog("Player registered!");
         consoleLog(this);
+
+        this.promptTex = this.BuildPromptTex();
+    }
+
+    BuildPromptTex()
+    {
+        let newTex = new Texture( PIXEL_SCALE, PIXEL_SCALE + 1);
+
+        newTex.paper(6);
+        newTex.rectf(0, 1, PIXEL_SCALE*0.5, PIXEL_SCALE*0.5);
+
+        newTex.paper(4);
+        newTex.rectf(0, 0, PIXEL_SCALE*0.5, PIXEL_SCALE*0.5);
+
+        newTex.print("E", 2, 2);
+
+        return newTex;
     }
 
     FollowTarget()
     {
         return this;
+    }
+
+    PickupOverlaps()
+    {
+        for(let i = 0; i <this.pickupOverlaps.length; i ++)
+        {
+            let pu = this.pickupOverlaps[i];
+
+            consoleLog("Pick up item:");
+            consoleLog(pu);
+            let itemName = pu.GetItemName();
+
+            this.AddItem({
+                object: itemName,
+                quantity: 1,
+            }, true);
+
+            pu.DeleteBeast();
+        }
+    }
+
+    AddPickupOverlap(overlap)
+    {
+        if(this.pickupOverlaps.indexOf(overlap) < 0)
+        {
+            this.pickupOverlaps.push(overlap);
+        }
+    }
+
+    RemovePickupOverlap(overlap)
+    {
+        let index = this.pickupOverlaps.indexOf(overlap);
+
+        consoleLog(`Remove overlap: ${index}`);
+        consoleLog(overlap);
+        consoleLog(this.pickupOverlaps);
+
+        if(index >= 0)
+        {
+            this.pickupOverlaps.splice(index, 1);
+        }
     }
 
     HasItem(name, amount)
@@ -179,6 +239,9 @@ export default class Player
         
         this.inputLog.action5Triggered = input.action5Triggered;
         this.inputLog.action5 = input.action5;
+
+        this.inputLog.eTriggered = input.eTriggered;
+        this.inputLog.e = input.e;
     }   
 
     MoveForce()
@@ -262,6 +325,11 @@ export default class Player
                 this.AddItem({ object: "Block", quantity: -1}, true);
             }
         }
+
+        if(this.inputLog.eTriggered)
+        {
+            this.PickupOverlaps();
+        }
     }
 
     Update(deltaTime)
@@ -290,6 +358,11 @@ export default class Player
         else
         {
             consoleLog(`=== WARNING PLAYER TEXTURE MISSING ===`);
+        }
+
+        if(this.pickupOverlaps.length > 0)
+        {
+            this.promptTex._drawEnhanced(screenPos.x + PIXEL_SCALE, screenPos.y - 2 * PIXEL_SCALE, {scale: 2});
         }
 
         //this.whistle.Draw();

@@ -17,6 +17,13 @@ export default class Label
 
         this.posType = POS_TYPE.TOP_LEFT;
 
+        this.targetTexture = $screen;
+
+        if(settings.targetTexture)
+        {
+            this.targetTexture = settings.targetTexture;
+        }
+
         if(settings.posType)
         {
             this.posType = settings.posType;
@@ -234,8 +241,8 @@ export default class Label
     {
         if(this.background)
         {
-            paper(this.background.colour);
-            rectf(dims.x, dims.y, dims.w, dims.h);
+            this.targetTexture.paper(this.background.colour);
+            this.targetTexture.rectf(dims.x, dims.y, dims.w, dims.h);
         }
     }
 
@@ -243,9 +250,8 @@ export default class Label
     {
         let txtDims = this.CalculateTextWithinDims(dims);
 
-        pen(this.colours.font);
-
-        print(this.text, txtDims.x, txtDims.y);
+        this.targetTexture.pen(this.colours.font);
+        this.targetTexture.print(this.text, txtDims.x, txtDims.y);
     }
 
     DrawInternal()

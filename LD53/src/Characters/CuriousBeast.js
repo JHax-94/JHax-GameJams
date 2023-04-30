@@ -1,4 +1,4 @@
-import { EM } from "../main";
+import { EM, consoleLog } from "../main";
 import Beast from "./Beast";
 import FleeBehaviour from "./Behaviours/FleeBehaviour";
 import FollowBehaviour from "./Behaviours/FollowBehaviour";
@@ -42,6 +42,8 @@ export default class CuriousBeast extends Beast
                 }
                 else if(seen.obj.beastType === this.beastType)
                 {
+                    consoleLog("==== Try to follow beast ====");
+
                     if(seen.obj.FollowTarget() !== this)
                     {
                         this.behaviours = [ new FollowBehaviour(this, seen.obj) ];

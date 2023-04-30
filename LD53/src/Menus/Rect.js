@@ -2,12 +2,17 @@ import { consoleLog, EM } from "../main";
 
 export default class Rect
 {
-    constructor(x, y, w, h, index, renderLayer, borderOnly)
+    constructor(x, y, w, h, index, renderLayer, borderOnly, targetTexture)
     {
         if(renderLayer)
         {
             this.renderLayer = renderLayer;
         }
+
+        this.texture = targetTexture ? targetTexture : $screen;
+
+        consoleLog("Draw to texture:");
+        consoleLog(this.texture);
 
         if(borderOnly)
         {
@@ -25,15 +30,16 @@ export default class Rect
 
     Draw()
     {
-        paper(this.index);
-        pen ( this.index);
+        
+        this.texture.paper(this.index);
+        this.texture.pen ( this.index);
         if(this.borderOnly) 
         {  
-            rect(this.x, this.y, this.w, this.h);
+            this.texture.rect(this.x, this.y, this.w, this.h);
         }
         else 
         {
-            rectf(this.x, this.y, this.w, this.h);
+            this.texture.rectf(this.x, this.y, this.w, this.h);
         }
     }
 }

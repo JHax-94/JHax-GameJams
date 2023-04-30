@@ -40,8 +40,6 @@ export default class BeastEvents extends PhysEventRegistry
         {
             baitBody.obj.AddBeast(beastBody.obj);
         }
-
-        
     }
 
     End_BeastBait_Check(container, manager, evt) { return manager.CompareTags(evt, "BEAST", "BAIT"); }

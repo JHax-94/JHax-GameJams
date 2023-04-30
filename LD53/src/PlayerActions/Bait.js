@@ -8,6 +8,8 @@ export default class Bait
     {
         this.renderLayer = "CRITTERS";
 
+        this.conf = bait;
+
         let physSettings = {
             tileTransform: {
                 x: pos.x,
@@ -40,6 +42,11 @@ export default class Bait
         }
 
         this.elapsedTime = 0;
+    }
+
+    GetItemName()
+    {
+        return this.conf.name;
     }
 
     DeleteBeast()

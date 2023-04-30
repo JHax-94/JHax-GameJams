@@ -34,6 +34,8 @@ function getVersionInformation()
     console.log(ver);
     console.log(git);
 
+    console.log(pixelbox);
+
     return {
         version: ver,
         git: git

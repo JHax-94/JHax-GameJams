@@ -50,6 +50,9 @@
 		"esc": 27,
 		"action2": 50,
 		"d": 68,
+		"action3": 51,
+		"action4": 52,
+		"action5": 53,
 		"a": 65
 	},
 	"touchEvent": {

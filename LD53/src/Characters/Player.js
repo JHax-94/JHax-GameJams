@@ -4,6 +4,7 @@ import Shadow from "./Shadow";
 import Whistle from "../PlayerActions/Whistle";
 import PlayerInventory from "./PlayerInventory";
 import Bait from "../PlayerActions/Bait";
+import Horn from "../PlayerActions/Horn";
 
 export default class Player
 {
@@ -92,6 +93,12 @@ export default class Player
             this.whistle = new Whistle(this);
         }
 
+        if(copyItem.object === "Horn")
+        {
+            this.horn = new Horn(this);
+
+            copyItem.quantity = null;
+        }
 
         let item = this.inventory.find(inv => inv.object === copyItem.object);
 
@@ -159,8 +166,18 @@ export default class Player
     {
         this.inputLog.action1Triggered = input.action1Triggered;
         this.inputLog.action1 = input.action1;
+
         this.inputLog.action2Triggered = input.action2Triggered;
         this.inputLog.action2 = input.action2;
+
+        this.inputLog.action3Triggered = input.action3Triggered;
+        this.inputLog.action3 = input.action3;
+
+        this.inputLog.action4Triggered = input.action4Triggered;
+        this.inputLog.action4 = input.action4;
+        
+        this.inputLog.action5Triggered = input.action5Triggered;
+        this.inputLog.action5 = input.action5;
     }   
 
     MoveForce()
@@ -200,7 +217,15 @@ export default class Player
             }
         }
 
-        if(this.inputLog.action2Triggered)
+        if(this.horn)
+        {
+            if(this.inputLog.action2 && this.horn.CanActivate())
+            {
+                this.horn.Activate();
+            }
+        }
+
+        if(this.inputLog.action3Triggered)
         {
             if(this.HasItem("BaitMeat", 1))
             {
@@ -209,6 +234,18 @@ export default class Player
                 new Bait({ x: screenPos.x / PIXEL_SCALE, y: screenPos.y / PIXEL_SCALE }, baitConf);
 
                 this.AddItem({ object: "BaitMeat", quantity: -1 }, true);
+            }
+        }
+
+        if(this.inputLog.action4Triggered)
+        {
+            if(this.HasItem("BaitBerry", 1))
+            {
+                let baitConf = getObjectConfig("BaitBerry", true);
+                let screenPos = this.GetScreenPos();
+                new Bait({x: screenPos.x / PIXEL_SCALE, y: screenPos.y / PIXEL_SCALE }, baitConf);
+
+                this.AddItem({ object: "BaitBerry", quantity: -1 }, true);
             }
         }
     }
@@ -221,6 +258,10 @@ export default class Player
         if(this.whistle)
         {
             this.whistle.Act(deltaTime);
+        }
+        if(this.horn)
+        {
+            this.horn.Act(deltaTime);
         }
     }
 

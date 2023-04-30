@@ -16,6 +16,11 @@
             "boardSprite": 20  
         },
         {
+            "name": "VeggieBeast",
+            "beastType": "VEGGIE",
+            "boardSprite": 17
+        },
+        {
             "name": "Coast",
             "scanIndex": 26,
             "obstacleType": "water"
@@ -66,7 +71,7 @@
             "baitType": "Meat",
             "spriteIndex": 5,
             "order": 2,
-            "btn": 2
+            "btn": 3
         },
         {
             "name": "Whistle",
@@ -80,6 +85,26 @@
             "displayName": "Gold",
             "spriteIndex": 4,
             "order": 0
+        },
+        {
+            "name": "BerryBush",
+            "scanIndex": 33,
+            "obstacleType": "bush"
+        },
+        {
+            "name": "BaitBerry",
+            "displayName": "Bait (Berries)",
+            "baitType": "Berry",
+            "spriteIndex": 6,
+            "btn": 4,
+            "order": 3
+        },
+        {
+            "name": "Horn",
+            "displayName": "Horn",
+            "spriteIndex": 7,
+            "order": 4,
+            "btn": 2
         },
         {
             "name": "Rewards",

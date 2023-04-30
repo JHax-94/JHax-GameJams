@@ -1,3 +1,4 @@
+import BerryBush from "./BerryBush";
 import BeastCluster from "./Characters/BeastCluster";
 import BeastFactory from "./Characters/BeastFactory";
 import Player from "./Characters/Player";
@@ -50,7 +51,7 @@ export default class LevelMap
 
                 if(map)
                 {
-                    this.ScanMap(map)
+                    this.ScanMap(map, !tmap.hide)
                 }
                 else
                 {
@@ -60,8 +61,11 @@ export default class LevelMap
         }
     }
 
-    ScanMap(map)
+    ScanMap(map, renderMap)
     {
+        consoleLog("SCAN MAP");
+        consoleLog(map)
+
         let scanableTiles = assets.objectConfig.objectMap.filter(om => !!om.scanIndex);
 
         for(let i = 0; i < scanableTiles.length; i ++)
@@ -72,14 +76,23 @@ export default class LevelMap
 
             for(let ti = 0; ti < scanTiles.length; ti ++)
             {
-                if(["Coast", "CoastCorner", "CoastCornerIn"].indexOf(tileType.name) >= 0)
+                if(["Coast", "CoastCorner", "CoastCornerIn", "Sea"].indexOf(tileType.name) >= 0)
                 {
                     new Obstacle(scanTiles[ti], tileType.obstacleType);
+                }
+                else if(["BerryBush"].indexOf(tileType.name) >= 0)
+                {
+                    new BerryBush(scanTiles[ti], tileType.obstacleType);
                 }
             }
         }
 
-        new MapLayer(map);
+        if(renderMap)
+        {
+            consoleLog("Renderable map...");
+            new MapLayer(map);
+        }
+        
     }
 
     SpawnPlayer(levelData)

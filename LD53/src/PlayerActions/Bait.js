@@ -30,6 +30,8 @@ export default class Bait
         this.shadow = new Shadow(this, { x:0, y: 7 });
         this.aura = new Aura(this, 4 * PIXEL_SCALE, "BAIT");
 
+        this.spriteIndex = bait.spriteIndex;
+
         this.baitType = bait.baitType;
         let baitObj = this;
 
@@ -68,7 +70,7 @@ export default class Bait
     Draw()
     {
         let screenPos = this.GetScreenPos();
-        sprite(5, screenPos.x, screenPos.y);
+        sprite(this.spriteIndex, screenPos.x, screenPos.y);
 
         this.aura.DrawAura({ angle: this.elapsedTime });
     }

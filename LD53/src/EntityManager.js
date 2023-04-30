@@ -11,7 +11,7 @@ export default class EntityManager
     constructor(noPhys)
     {
         this.drawColliders = true;
-        this.hudLogOn = false;
+        this.hudLogOn = true;
         this.frameCount = 0;
         this.bgColour = 13;
         
@@ -880,10 +880,15 @@ export default class EntityManager
                 this.gameOverDelay = 0;
             }
         }
-
+        /*
         if(this.focusedInputGroup)
         {
             this.hudLog.push(`Input group: ${this.focusedInputGroup.name}`);
+        }*/
+
+        if(this.lastMousePos)
+        {
+            this.hudLog.push(`Mouse: (${this.lastMousePos.x}, ${this.lastMousePos.y}) - [${Math.floor(this.lastMousePos.x/PIXEL_SCALE)}, ${Math.floor(this.lastMousePos.y / PIXEL_SCALE)}]`);
         }
         
         for(var i = 0; i < this.updates.length; i ++)
@@ -1061,6 +1066,8 @@ export default class EntityManager
 
         if(this.trackMouse)
         {
+            this.lastMousePos = { x: x, y: y };
+
             for(var i = this.hovers.length-1; i >= 0; i --)
             {
                 if(!consumed)

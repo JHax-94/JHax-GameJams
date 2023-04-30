@@ -53,6 +53,13 @@ export default class WhistleBeast extends Beast
                 this.behaviours = [ new FollowBehaviour(this, stimulus.GetSource()) ]; 
             }
         }
+        else if(stimulus.stimType === "HORN")
+        {
+            let source = stimulus.GetSource();
+            
+            this.behaviours = [ new FleeBehaviour(this, source)];
+
+        }
         else if(stimulus.stimType === "COLLISION")
         {
             if(stimulus.collisionWith.beastType === this.beastType)

@@ -129,6 +129,63 @@
                 { "beastType": "HUNTER", "pos": { "x": 26, "y": 32 }},
                 { "clusterType": "WHISTLE", "pos": { "x": 15, "y": 24 } }
             ]
+        },
+        {
+            "levelName": "BerryTutorial",
+            "displayName": "Level 4",
+            "inventory": [
+                { "object": "Whistle" },
+                { "object": "Gold", "quantity": 20 }
+            ],
+            "levelType": "Map",
+            "terrain": [
+                { "mapName": "veggie_terrain", "offset": {"x": 0, "y": 0 } },
+                { "mapName": "veggie_objects", "offset": { "x": 0, "y": 0 }, "hide": true }
+            ],
+            "playerSpawn": { "x": 14, "y": 8 },
+            "villages": [
+                {
+                    "pos": { "x": 17, "y": 13 },
+                    "shop": {
+                        "inventory": [
+                            { "price": 40, "object": "Horn" },
+                            { "price": 10, "object": "BaitBerry" }
+                        ]
+                    },
+                    "requests": [
+                        [
+                            {
+                                "beastType": "WHISTLE",
+                                "quantity": 3,
+                                "rewards": {
+                                    "perBeast": 2,
+                                    "complete": 50
+                                }
+                            }
+                        ]
+                    ]
+                },
+                {
+                    "pos": {"x": 40, "y": 26 },
+                    "requests": [
+                        [
+                            {
+                                "beastType": "VEGGIE",
+                                "quantity": 2,
+                                "rewards": {
+                                    "perBeast": 5,
+                                    "complete": 30
+                                }
+                            }
+                        ]
+                    ]
+                }
+            ],
+            "beasts": [
+                { "beastType": "VEGGIE", "pos": { "x": 40, "y": 10 }},
+                { "beastType": "VEGGIE", "pos": { "x": 38, "y": 12 }},
+                { "clusterType": "WHISTLE", "pos": { "x": 29, "y": 20 } }
+            ]
         }
     ]
 }

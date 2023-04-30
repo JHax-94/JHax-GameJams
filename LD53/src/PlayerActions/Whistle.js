@@ -4,9 +4,23 @@ import Aura from "./Aura";
 
 export default class Whistle extends Aura
 {
-    constructor(src)
+    constructor(src, opts)
     {   
-        super(src, 2* PIXEL_SCALE, "WHISTLE");
+        let type = "WHISTLE";
+
+        if(opts && opts.type)
+        {
+            type = opts.type;
+        }
+
+        let radius = 2 * PIXEL_SCALE;
+
+        if(opts && opts.radius)
+        {
+            radius = opts.radius;
+        }
+
+        super(src, radius, "WHISTLE");
 
         this.activeTime = 0.8;
         this.activeTimer = 0;
@@ -14,7 +28,7 @@ export default class Whistle extends Aura
         this.cooldown = 1;
         this.cooldownTimer = 0;
 
-        this.stimType = "WHISTLE";
+        this.stimType = type;
     }
 
     Activate()

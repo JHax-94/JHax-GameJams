@@ -1,5 +1,6 @@
 import CuriousBeast from "./CuriousBeast";
 import HunterBeast from "./HunterBeast";
+import VeggieBeast from "./VeggieBeast";
 import WhistleBeast from "./Whistlebeast";
 
 export default class BeastFactory
@@ -23,6 +24,10 @@ export default class BeastFactory
         else if(beastConf.beastType === "HUNTER")
         {
             newBeast = new HunterBeast(beastConf.pos);
+        }
+        else if(beastConf.beastType === "VEGGIE")
+        {
+            newBeast = new VeggieBeast(beastConf.pos);
         }
 
         return newBeast;

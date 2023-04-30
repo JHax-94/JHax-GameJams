@@ -19,23 +19,13 @@ export default class PlayerInventory
 
     UpdateUi()
     {
-        consoleLog("Updating UI...")
-
         for(let i = 0; i < this.player.inventory.length; i ++)
         {
-            consoleLog("-------------------")
-            consoleLog("Check UI for item:");
-
             let item = this.player.inventory[i];
-            consoleLog(item);
-
-            consoleLog("In UI List...");
             let existing = this.inventoryItems.find(it => it.item.object === item.object);            
 
             if(existing)
             {
-                consoleLog("Update Existing UI:");
-                consoleLog(existing);
                 if(item.quantity || item.quantity === 0)
                 {
                     existing.qtyLabel.SetText(`${item.quantity}`);
@@ -45,7 +35,6 @@ export default class PlayerInventory
             {
                 this.BuildInventoryItem(this.player.inventory[i], i);
             }
-            
         }
     }
 

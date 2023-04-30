@@ -1,5 +1,6 @@
 import { consoleLog } from "../main";
 import Beast from "./Beast";
+import ChaseBehaviour from "./Behaviours/ChaseBehaviour";
 import FeedBehaviour from "./Behaviours/FeedBehaviour";
 import FleeBehaviour from "./Behaviours/FleeBehaviour";
 import FollowBehaviour from "./Behaviours/FollowBehaviour";
@@ -22,11 +23,45 @@ export default class HunterBeast extends Beast
         this.sprite = 20;
         this.texture = this.BuildTexture();
 
+        this.fedTime = 10;
+        this.fedTimer = 0;
+
         this.shadow.offset.y = 6;
     }
 
-    DefaultBehaviour()
+    IsHungry()
     {
+        let isHungry = this.fedTimer <= 0;
+        consoleLog(`Is hungry? ${this.fedTimer}: ${isHungry}`);
+        return isHungry;
+    }
+
+    UpdateInternal(deltaTime)
+    {
+        if(this.fedTimer > 0)
+        {
+            this.fedTimer -= deltaTime;
+
+            if(this.fedTimer <= 0)
+            {
+                this.fedTimer = 0;
+                if(this.HasBehaviour("FOLLOW"))
+                {
+                    this.DefaultBehaviour();
+                }
+            }
+        }
+    }
+
+    DefaultBehaviour(lastBehaviour)
+    {
+        consoleLog("Revert to default...");
+
+        if(lastBehaviour && lastBehaviour.behaviourType === "FEED")
+        {
+            this.fedTimer = this.fedTime;
+        }
+
         this.behaviours = [ new HuntBehaviour(this) ]; 
     }
 
@@ -42,7 +77,7 @@ export default class HunterBeast extends Beast
                 {
                     if(seen.obj.FollowTarget() !== this)
                     {
-                        this.behaviours = [ new FollowBehaviour(this, seen.obj, { minDist: 0, followToDistance: 0 }) ];
+                        this.behaviours = [ new ChaseBehaviour(this, seen.obj) ];
 
                         seen.obj.ReactTo({
                             stimType: "HUNTED",
@@ -58,11 +93,32 @@ export default class HunterBeast extends Beast
         }
         else if(stimulus.stimType === "COLLISION")
         {
-            if(stimulus.collisionWith.beastType && stimulus.collisionWith.beastType !== this.beastType)
+            let hit = stimulus.collisionWith;
+
+            if((hit.beastType && hit.beastType !== this.beastType) || (hit.baitType && hit.baitType === "Meat"))
             {
-                consoleLog("Feed on: ");
-                consoleLog(stimulus.collisionWith);
                 this.behaviours = [ new FeedBehaviour(this, stimulus.collisionWith) ]; 
+            }
+        }
+        else if(stimulus.stimType === "SMELL")
+        {
+            if(stimulus.dealtBy.baitType === "Meat")
+            {
+                this.behaviours = [ new ChaseBehaviour(this, stimulus.dealtBy) ];
+            }
+        }
+        else if(stimulus.stimType === "WHISTLE")
+        {
+            if(!this.IsHungry())
+            {
+                consoleLog("Not hungry! Follow player...");
+                let source = stimulus.GetSource();
+
+                if(!source.beastType)
+                {
+                    consoleLog("FOLLOW PLAYER!");
+                    this.behaviours = [ new FollowBehaviour(this, stimulus.GetSource()) ]; 
+                }
             }
         }
     }

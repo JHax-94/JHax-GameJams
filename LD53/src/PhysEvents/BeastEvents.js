@@ -11,9 +11,6 @@ export default class BeastEvents extends PhysEventRegistry
         let beastBody = manager.BodyWithTag(evt, "BEAST");
         let whistleBody = manager.BodyWithTag(evt, "WHISTLE");
 
-        consoleLog("Entered whistle zone:");
-        consoleLog(whistleBody.obj);
-
         whistleBody.obj.AddBeast(beastBody.obj);
     }
 
@@ -24,6 +21,40 @@ export default class BeastEvents extends PhysEventRegistry
         let whistleBody = manager.BodyWithTag(evt, "WHISTLE");
 
         whistleBody.obj.RemoveBeast(beastBody.obj);
+    }
+
+    Begin_BeastBait_Check(container, manager, evt) { return manager.CompareTags(evt, "BEAST", "BAIT"); }
+    Begin_BeastBait_Resolve(container, manager, evt) 
+    {
+        let beastBody = manager.BodyWithTag(evt, "BEAST");
+        let baitBody = manager.BodyWithTag(evt, "BAIT");
+
+        if(baitBody.obj.baitType)
+        {
+            beastBody.obj.ReactTo({
+                stimType:"COLLISION",
+                collisionWith: baitBody.obj
+            });
+        }
+        else 
+        {
+            baitBody.obj.AddBeast(beastBody.obj);
+        }
+
+        
+    }
+
+    End_BeastBait_Check(container, manager, evt) { return manager.CompareTags(evt, "BEAST", "BAIT"); }
+    End_BeastBait_Resolve(container, manager, evt)
+    {
+        let beastBody = manager.BodyWithTag(evt, "BEAST");
+        let baitBody = manager.BodyWithTag(evt, "BAIT");
+
+        if(!baitBody.obj.baitType)
+        {
+            baitBody.obj.RemoveBeast(beastBody.obj);
+        }
+        
     }
 
     Begin_BeastBeast_Check(container, manager, evt) { return manager.CompareTags(evt, "BEAST", "BEAST"); }

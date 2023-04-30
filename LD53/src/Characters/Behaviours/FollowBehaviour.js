@@ -6,7 +6,13 @@ export default class FollowBehaviour extends BeastBehaviour
 {
     constructor(beast, target, opts)
     {
-        super(beast, "FOLLOW");
+        let type = "FOLLOW";
+        if(opts && opts.type)
+        {
+            type = opts.type;
+        }
+
+        super(beast, type);
         this.target = target;
 
         this.minDistance = 1.5 * PIXEL_SCALE;

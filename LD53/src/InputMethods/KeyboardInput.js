@@ -28,7 +28,8 @@ export default class KeyboardInput
 
     SetState(src)
     {
-        /*consoleLog("Set input state from..");
+        /*
+        consoleLog("Set input state from..");
         consoleLog(src);*/
 
         this.left = (src.left || src.a) ? 1 : 0;
@@ -38,6 +39,9 @@ export default class KeyboardInput
 
         this.action1Triggered = this.CheckForTrigger(this.action1, src.action1);
         this.action1 = src.action1;
+
+        this.action2Triggered = this.CheckForTrigger(this.action2, src.action2);
+        this.action2 = src.action2;
 
         this.esc = src.esc;
     }

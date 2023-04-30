@@ -26,7 +26,7 @@ export default class FeedBehaviour extends BeastBehaviour
             {
                 this.feedTimer = this.feedTime;
                 this.feedOn.DeleteBeast();
-                this.beast.DefaultBehaviour();
+                this.beast.DefaultBehaviour(this);
             }
         }
     }

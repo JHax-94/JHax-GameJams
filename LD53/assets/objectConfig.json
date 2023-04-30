@@ -63,6 +63,7 @@
         {
             "name": "BaitMeat",
             "displayName": "Bait (Meat)",
+            "baitType": "Meat",
             "spriteIndex": 5,
             "order": 2,
             "btn": 2

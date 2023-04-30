@@ -47,9 +47,10 @@
 		"action1": 49,
 		"w": 87,
 		"s": 83,
+		"esc": 27,
+		"action2": 50,
 		"d": 68,
-		"a": 65,
-		"esc": 27
+		"a": 65
 	},
 	"touchEvent": {
 		"multiTouch": false,

@@ -92,7 +92,7 @@
                     "pos": { "x": 13, "y": 6 },
                     "shop": {
                         "inventory": [
-                            { "price": 10, "object": "BaitMeat" }
+                            { "price": 5, "object": "BaitMeat" }
                         ]
                     },
                     "requests": [

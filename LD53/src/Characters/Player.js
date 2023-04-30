@@ -1,8 +1,9 @@
 import Texture from "pixelbox/Texture";
-import { COLLISION_GROUP, EM, PIXEL_SCALE, SETUP, TILE_WIDTH, consoleLog, p2 } from "../main";
+import { COLLISION_GROUP, EM, PIXEL_SCALE, SETUP, TILE_WIDTH, consoleLog, getObjectConfig, p2 } from "../main";
 import Shadow from "./Shadow";
 import Whistle from "../PlayerActions/Whistle";
 import PlayerInventory from "./PlayerInventory";
+import Bait from "../PlayerActions/Bait";
 
 export default class Player
 {
@@ -158,6 +159,8 @@ export default class Player
     {
         this.inputLog.action1Triggered = input.action1Triggered;
         this.inputLog.action1 = input.action1;
+        this.inputLog.action2Triggered = input.action2Triggered;
+        this.inputLog.action2 = input.action2;
     }   
 
     MoveForce()
@@ -194,6 +197,18 @@ export default class Player
             if(this.inputLog.action1 && this.whistle.CanActivate())
             {
                 this.whistle.Activate();
+            }
+        }
+
+        if(this.inputLog.action2Triggered)
+        {
+            if(this.HasItem("BaitMeat", 1))
+            {
+                let baitConf = getObjectConfig("BaitMeat", true);
+                let screenPos = this.GetScreenPos();
+                new Bait({ x: screenPos.x / PIXEL_SCALE, y: screenPos.y / PIXEL_SCALE }, baitConf);
+
+                this.AddItem({ object: "BaitMeat", quantity: -1 }, true);
             }
         }
     }

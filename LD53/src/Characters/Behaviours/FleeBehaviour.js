@@ -1,4 +1,4 @@
-import { PIXEL_SCALE, p2 } from "../../main";
+import { PIXEL_SCALE, consoleLog, p2 } from "../../main";
 import BeastBehaviour from "./BeastBehaviour";
 
 export default class FleeBehaviour extends BeastBehaviour
@@ -14,12 +14,14 @@ export default class FleeBehaviour extends BeastBehaviour
 
     GetFleeVector()
     {
-        this.VectorFromTarget(this.fleeFrom.phys.position);
+        return this.VectorFromTarget(this.fleeFrom.phys.position);
     }
 
     Act(deltaTime)
     {
         let fleeVector = this.GetFleeVector();
+        consoleLog("Flee Vector");
+        consoleLog(fleeVector);
 
         if(p2.vec2.sqrLen(fleeVector) >= Math.pow(this.safeDistance, 2))
         {

@@ -21,6 +21,7 @@ export default class BeastBehaviour
     VectorFromTarget(target)
     {
         let vec = [];
+
         p2.vec2.subtract(vec, this.beast.phys.position, target);
 
         return vec;

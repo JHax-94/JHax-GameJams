@@ -3,7 +3,7 @@ import Player from "./Characters/Player";
 import MapLayer from "./MapLayer";
 import Obstacle from "./Obstacle";
 import Village from "./Villages/Village";
-import { consoleLog } from "./main";
+import { EM, consoleLog } from "./main";
 
 export default class LevelMap
 {
@@ -85,9 +85,9 @@ export default class LevelMap
     {
         let startInventory = levelData.inventory;
 
-        new Player(levelData.playerSpawn, startInventory);
+        let player = new Player(levelData.playerSpawn, startInventory);
 
-        
+        EM.AddEntity("PLAYER", player);
     }
 
     SpawnVillages(levelData)

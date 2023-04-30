@@ -14,6 +14,10 @@ export default class VillageRequest
             this.beastsList[i].completed = 0;
         }
 
+        this.timeElapsed = 0;
+
+        this.rewardsConfig = getObjectConfig("Rewards");
+
         EM.RegisterEntity(this);
     }
 
@@ -41,22 +45,60 @@ export default class VillageRequest
         {
             let beastItem = this.beastsList[i];
 
+            let addGold = 0;
+
             if(beast.beastType === beastItem.beastType)
             {
+                addGold += beastItem.rewards.perBeast;
+
                 beastItem.completed ++;
+
+                if(beastItem.completed >= beastItem.quantity)
+                {
+                    addGold += this.CalculateRewardForBeastItem(beastItem);
+                }
+            }
+
+            if(addGold > 0)
+            {
+                let player = EM.GetEntity("PLAYER");
+
+                player.AddItem({
+                    object: "Gold",
+                    quantity: addGold
+                },
+                true);
             }
         }
     }
 
+    Update(deltaTime)
+    {
+        this.timeElapsed += deltaTime;
+    }
+
+    CalculateRewardForBeastItem(beastItem)
+    {
+        let dropOff = Math.floor(this.timeElapsed / this.rewardsConfig.dropOffTime);
+
+        let value = beastItem.rewards.complete - dropOff;
+
+        if(value < beastItem.rewards.perBeast)
+        {
+            value = beastItem.rewards.perBeast;
+        }
+
+        return value;
+    }
+
     Draw()
     {   
-        
         let baseP = this.village.GetScreenPos();
 
         let bannerRect = {
             x: baseP.x,
             y: baseP.y - 1.5*PIXEL_SCALE,
-            w: 3 * PIXEL_SCALE,
+            w: 6 * PIXEL_SCALE,
             h: PIXEL_SCALE
         }
         paper(0);
@@ -68,10 +110,19 @@ export default class VillageRequest
 
             let beast = getObjectConfigByProperty("beastType", beastItem.beastType);
 
+            let gold = getObjectConfig("Gold", true);
+
             sprite(beast.boardSprite, bannerRect.x, bannerRect.y);
 
             pen(1);
             print(`${beastItem.completed} / ${beastItem.quantity}`, bannerRect.x + PIXEL_SCALE, bannerRect.y + 0.3*PIXEL_SCALE);
+
+            consoleLog("beast list item");
+            consoleLog(beastItem);
+            let rewardValue =  this.CalculateRewardForBeastItem(beastItem);
+
+            sprite(gold.spriteIndex, bannerRect.x + 3 * PIXEL_SCALE, bannerRect.y);
+            print(`${rewardValue}`, bannerRect.x + 4 *PIXEL_SCALE, bannerRect.y + 0.3 * PIXEL_SCALE);
         }
     }
     

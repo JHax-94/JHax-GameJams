@@ -23,7 +23,11 @@
                         [
                             {
                                 "beastType": "WHISTLE",
-                                "quantity": 3
+                                "quantity": 3,
+                                "rewards": {
+                                    "perBeast": 2,
+                                    "complete": 20
+                                }
                             }
                         ]
                     ]
@@ -53,7 +57,11 @@
                         [
                             {
                                 "beastType": "CURIO",
-                                "quantity": 5
+                                "quantity": 5,
+                                "rewards": {
+                                    "perBeast": 2,
+                                    "complete": 20
+                                }
                             }
                         ]
                     ]

@@ -69,6 +69,10 @@
             "displayName": "Gold",
             "spriteIndex": 4,
             "order": 0
+        },
+        {
+            "name": "Rewards",
+            "dropOffTime": 5
         }
     ]
 }

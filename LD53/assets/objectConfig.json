@@ -129,7 +129,7 @@
             "displayName": "Bait (Meat)",
             "baitType": "Meat",
             "spriteIndex": 5,
-            "order": 2,
+            "order": 3,
             "btn": 3
         },
         {
@@ -156,13 +156,13 @@
             "baitType": "Berry",
             "spriteIndex": 6,
             "btn": 4,
-            "order": 3
+            "order": 4
         },
         {
             "name": "Horn",
             "displayName": "Horn",
             "spriteIndex": 7,
-            "order": 4,
+            "order": 2,
             "btn": 2
         },
         {

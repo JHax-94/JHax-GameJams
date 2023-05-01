@@ -27,6 +27,8 @@ export default class Beast
             linearDrag: 0.9,
         };
 
+        this.hungerTex = null;
+
         this.deleted = false;
 
         this.shadow = new Shadow(this, {x: 0, y: 5 });
@@ -158,6 +160,46 @@ export default class Beast
         this.UpdateInternal(deltaTime);
     }
 
+    DrawHungerTimer(screenPos, percentage)
+    {
+
+
+        let radius = PIXEL_SCALE*0.5;
+    
+        let newTex = new Texture(radius * 2 + 4, radius * 2 + 4);
+
+        let centre = { x: newTex.width *0.5, y: newTex.height * 0.5 };
+
+        let segments = 8;
+
+        let drawSegments = Math.ceil(segments * percentage);
+
+        let segmentAngle = 2 * Math.PI / segments;
+
+        consoleLog(`Percentage: ${percentage} (${this.fedTimer} / ${this.fedTime})`);
+        consoleLog(`Draw segments: ${drawSegments}`);
+
+        for(let i = 0; i < drawSegments; i ++)
+        {
+            
+            let offset = { x: Math.floor(radius * Math.sin(segmentAngle*i)), y: -Math.floor(radius * Math.cos(segmentAngle*i)) };
+            let rectPos = { x: centre.x + offset.x - 1, y: centre.y + offset.y - 1 };
+            
+            newTex.paper(4);
+            newTex.rectf(rectPos.x-1, rectPos.y-1, 4, 4);
+            newTex.paper(1);
+            newTex.rectf(rectPos.x, rectPos.y, 2, 2);
+        }
+
+        this.hungerTex = newTex;
+
+
+        /*paper(9);
+        rectf(screenPos.x, screenPos.y - PIXEL_SCALE, PIXEL_SCALE, PIXEL_SCALE);*/
+
+        this.hungerTex._drawEnhanced(screenPos.x, screenPos.y - PIXEL_SCALE);
+    }
+
     Draw()
     {
         let screenPos = this.GetScreenPos();
@@ -165,6 +207,11 @@ export default class Beast
         if(this.texture)
         {
             this.texture._drawEnhanced(screenPos.x, screenPos.y);
+        }
+
+        if(this.fedTime && this.fedTimer > 0)
+        {
+            this.DrawHungerTimer(screenPos, (this.fedTimer / this.fedTime));
         }
 
         for(let i = 0; i < this.behaviours.length; i ++)

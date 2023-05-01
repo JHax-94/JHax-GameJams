@@ -51,7 +51,7 @@ export default class PlayerEvents extends PhysEventRegistry
         let playerBody = manager.BodyWithTag(contact, "PLAYER");
         let obstacleBody = manager.BodyWithTag(contact, "OBSTACLE");
         
-        if(obstacleBody.obj.obstacleType === "block")
+        if(obstacleBody.obj.obstacleType === "block" && playerBody.obj.HasPassthrough(obstacleBody))
         {
             evt.contactEquations[i].enabled = false;
         }
@@ -63,7 +63,11 @@ export default class PlayerEvents extends PhysEventRegistry
         let playerBody = manager.BodyWithTag(evt, "PLAYER");
         let obstacleBody = manager.BodyWithTag(evt, "OBSTACLE");
 
-        playerBody.obj.AddPickupOverlap(obstacleBody.obj);
+        if(obstacleBody.obj.obstacleType === "block")
+        {
+            playerBody.obj.AddPickupOverlap(obstacleBody.obj);
+        }
+        
     }
 
     End_PlayerObstacle_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER", "OBSTACLE"); }
@@ -72,7 +76,11 @@ export default class PlayerEvents extends PhysEventRegistry
         let playerBody = manager.BodyWithTag(evt, "PLAYER");
         let obstacleBody = manager.BodyWithTag(evt, "OBSTACLE");
 
-        playerBody.obj.RemovePickupOverlap(obstacleBody.obj);
+        if(obstacleBody.obj.obstacleType === "block")
+        {
+            playerBody.obj.RemovePickupOverlap(obstacleBody.obj);
+            playerBody.obj.RemovePassthrough(obstacleBody);
+        }
     }
     
 }

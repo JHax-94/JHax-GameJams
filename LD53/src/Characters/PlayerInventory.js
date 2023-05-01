@@ -9,6 +9,8 @@ export default class PlayerInventory
 {
     constructor(player)
     {
+        this.renderLayer = "OVERLAY_UI";
+
         this.player = player;
 
         EM.RegisterEntity(this);

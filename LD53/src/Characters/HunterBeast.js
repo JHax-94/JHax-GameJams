@@ -121,5 +121,14 @@ export default class HunterBeast extends Beast
                 }
             }
         }
+        else if(stimulus.stimType === "HORN")
+        {
+            let source = stimulus.GetSource();
+            
+            if(this.IsHungry() && this.HasBehaviour("CHASE") === false)
+            {
+                this.behaviours = [ new FleeBehaviour(this, source)];
+            }
+        }
     }
 }

@@ -174,7 +174,7 @@
         },
         {
             "name": "Rewards",
-            "dropOffTime": 5
+            "dropOffTime": 10
         }
     ]
 }

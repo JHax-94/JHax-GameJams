@@ -162,8 +162,6 @@ export default class Beast
 
     DrawHungerTimer(screenPos, percentage)
     {
-
-
         let radius = PIXEL_SCALE*0.5;
     
         let newTex = new Texture(radius * 2 + 4, radius * 2 + 4);
@@ -175,9 +173,6 @@ export default class Beast
         let drawSegments = Math.ceil(segments * percentage);
 
         let segmentAngle = 2 * Math.PI / segments;
-
-        consoleLog(`Percentage: ${percentage} (${this.fedTimer} / ${this.fedTime})`);
-        consoleLog(`Draw segments: ${drawSegments}`);
 
         for(let i = 0; i < drawSegments; i ++)
         {
@@ -192,10 +187,6 @@ export default class Beast
         }
 
         this.hungerTex = newTex;
-
-
-        /*paper(9);
-        rectf(screenPos.x, screenPos.y - PIXEL_SCALE, PIXEL_SCALE, PIXEL_SCALE);*/
 
         this.hungerTex._drawEnhanced(screenPos.x, screenPos.y - PIXEL_SCALE);
     }

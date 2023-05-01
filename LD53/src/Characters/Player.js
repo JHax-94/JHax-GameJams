@@ -30,6 +30,8 @@ export default class Player
             linearDrag: 0.9
         };
 
+        this.passthrough = [];
+
         this.texture = this.BuildTexture();
 
         this.shadow = new Shadow(this, { x: 0, y: 5 });
@@ -320,7 +322,9 @@ export default class Player
         {
             if(this.HasItem("Block", 1))
             {
-                new Block(spawnPos);
+                let block = new Block(spawnPos);
+
+                this.passthrough.push(block.phys);
 
                 this.AddItem({ object: "Block", quantity: -1}, true);
             }
@@ -329,6 +333,21 @@ export default class Player
         if(this.inputLog.eTriggered)
         {
             this.PickupOverlaps();
+        }
+    }
+
+    HasPassthrough(body)
+    {
+        return this.passthrough.indexOf(body) >= 0;
+    }
+
+    RemovePassthrough(body)
+    {
+        let index = this.passthrough.indexOf(body);
+
+        if(index >= 0)
+        {
+            this.passthrough.splice(index, 1);
         }
     }
 

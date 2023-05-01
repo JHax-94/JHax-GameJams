@@ -17,6 +17,13 @@ export default class VillageShop
 
         this.village = village;
 
+        this.offset = { x: 0, y: 0 };
+        if(shopConfig.offset)
+        {
+            this.offset.x = shopConfig.offset.x;
+            this.offset.y = shopConfig.offset.y;
+        }
+
         this.inventory = shopConfig.inventory;
 
         this.components = [];
@@ -65,12 +72,12 @@ export default class VillageShop
     BuildUi()
     {
         let base = this.village.GetScreenPos();
+        
 
-        let basePos = { x: base.x / PIXEL_SCALE, y: base.y / PIXEL_SCALE };
+        let basePos = { x: (this.offset.x * PIXEL_SCALE + base.x) / PIXEL_SCALE, y: (this.offset.y * PIXEL_SCALE + base.y) / PIXEL_SCALE };
 
         let backingRect = null;
 
-        console.log("Build Village Shop UI");
         for(let i = 0; i < this.inventory.length; i ++)
         {
             let item = this.inventory[i];

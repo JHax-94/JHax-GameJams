@@ -160,7 +160,8 @@
                                 "quantity": 3,
                                 "rewards": {
                                     "perBeast": 2,
-                                    "complete": 50
+                                    "complete": 50,
+                                    "subsequent": "BaitBerry"
                                 }
                             }
                         ]
@@ -189,12 +190,54 @@
             ]
         },
         {
-            "levelName": "HuntersLevel",
+            "levelName": "BlockTutorial",
             "displayName": "Level 5",
             "inventory": [
                 { "object": "Whistle" },
-                { "object": "Gold", "quantity": 20 },
-                { "object": "Block", "quantity": 5 }
+                { "object": "Gold", "quantity": 30 },
+                { "object": "Block", "quantity": 1 }
+            ],
+            "levelType": "Map",
+            "terrain": [
+                { "mapName": "block_terrain", "offset": {"x": 0, "y": 0 } }
+            ],
+            "playerSpawn": { "x": 15, "y": 23 },
+            "villages": [
+                {
+                    "pos": { "x": 7, "y": 27 },
+                    "shop": {
+                        "inventory": [
+                            { "price": 15, "object": "Block" },
+                            { "price": 10, "object": "BaitMeat" }
+                        ]
+                    },
+                    "requests": [
+                        [
+                            {
+                                "beastType": "CURIO",
+                                "quantity": 6,
+                                "rewards": {
+                                    "perBeast": 5,
+                                    "complete": 50
+                                }
+                            }
+                        ]
+                    ]
+                }
+            ],
+            "beasts": [
+                { "clusterType": "CURIO", "pos": { "x": 37, "y": 27 } },
+                { "clusterType": "CURIO", "pos": { "x": 39, "y": 15 } },
+                { "clusterType": "HUNTER", "pos": { "x": 14, "y": 17 } }
+            ]
+        },
+        {
+            "levelName": "HuntersLevel",
+            "displayName": "Level 6",
+            "inventory": [
+                { "object": "Whistle" },
+                { "object": "Gold", "quantity": 45 },
+                { "object": "Block", "quantity": 2 }
             ],
             "levelType": "Map",
             "terrain": [
@@ -204,14 +247,22 @@
             "villages": [
                 {
                     "pos": { "x": 12, "y": 35 },
+                    "shop": {
+                        "offset": { "x": 6, "y": 0 },
+                        "inventory": [
+                            { "price": 55, "object": "Horn" },
+                            { "price": 15, "object": "Block" }
+                        ]
+                    },
                     "requests": [
                         [
                             {
                                 "beastType": "CURIO",
                                 "quantity": 6,
                                 "rewards": {
-                                    "perBeast": 2,
-                                    "complete": 50
+                                    "perBeast": 5,
+                                    "complete": 50,
+                                    "subsequent": "Block"
                                 }
                             }
                         ]
@@ -219,14 +270,21 @@
                 },
                 {
                     "pos": { "x": 30, "y": 32},
+                    "shop": {
+                        "offset": { "x": -15, "y": 0 },
+                        "inventory": [
+                            { "price": 5, "object": "BaitMeat" }
+                        ]
+                    },
                     "requests": [
                         [
                             {
                                 "beastType": "WHISTLE",
-                                "quantity": 4,
+                                "quantity": 6,
                                 "rewards": {
-                                    "perBeast": 2,
-                                    "complete": 30
+                                    "perBeast": 4,
+                                    "complete": 30,
+                                    "subsequent": "BaitMeat"
                                 }
                             }
                         ]
@@ -237,7 +295,7 @@
                 { "clusterType": "WHISTLE", "pos": { "x": 40, "y": 10 } },
                 { "clusterType": "WHISTLE", "pos": { "x": 10, "y": 10 } },
                 { "clusterType": "CURIO", "pos": { "x": 38, "y": 12 } },
-                { "clusterType": "CURIO", "pos": { "x": 4, "y": 13 } },
+                { "clusterType": "CURIO", "pos": { "x": 6, "y": 11 } },
 
                 { "clusterType": "HUNTER", "pos": { "x": 20, "y": 16 } },
                 { "clusterType": "HUNTER", "pos": { "x": 26, "y": 30 } }
@@ -245,7 +303,7 @@
         },
         {
             "levelName": "HunterGatherersLevel",
-            "displayName": "Level 6",
+            "displayName": "Level 7",
             "inventory": [
                 { "object": "Whistle" },
                 { "object": "Gold", "quantity": 20 },
@@ -299,7 +357,7 @@
         },
         {
             "levelName": "Quadrants",
-            "displayName": "Level 7",
+            "displayName": "Level 8",
             "inventory": [
                 { "object": "Whistle" },
                 { "object": "Gold", "quantity": 20 },
@@ -369,7 +427,7 @@
         },
         {
             "levelName": "Two Rivers",
-            "displayName": "Level 8",
+            "displayName": "Level 9",
             "inventory": [
                 { "object": "Whistle" },
                 { "object": "Gold", "quantity": 20 },
@@ -456,7 +514,7 @@
         },
         {
             "levelName": "DonutLake",
-            "displayName": "Level 9",
+            "displayName": "Level 10",
             "inventory": [
                 { "object": "Whistle" },
                 { "object": "Gold", "quantity": 20 },
@@ -540,43 +598,8 @@
                 { "clusterType": "HUNTER", "pos": { "x": 18, "y": 3 } },
                 { "clusterType": "HUNTER", "pos": { "x": 13, "y": 12 } }
             ]
-        },
-        {
-            "levelName": "BlockTutorial",
-            "displayName": "Level 10",
-            "inventory": [
-                { "object": "Whistle" },
-                { "object": "Gold", "quantity": 20 },
-                { "object": "Block", "quantity": 5 }
-            ],
-            "levelType": "Map",
-            "terrain": [
-                { "mapName": "block_terrain", "offset": {"x": 0, "y": 0 } }
-            ],
-            "playerSpawn": { "x": 15, "y": 23 },
-            "villages": [
-                {
-                    "pos": { "x": 7, "y": 27 },
-                    "requests": [
-                        [
-                            {
-                                "beastType": "CURIO",
-                                "quantity": 6,
-                                "rewards": {
-                                    "perBeast": 2,
-                                    "complete": 50
-                                }
-                            }
-                        ]
-                    ]
-                }
-            ],
-            "beasts": [
-                { "clusterType": "CURIO", "pos": { "x": 37, "y": 27 } },
-                { "clusterType": "CURIO", "pos": { "x": 39, "y": 15 } },
-                { "clusterType": "HUNTER", "pos": { "x": 14, "y": 17 } }
-            ]
         }
+        
     ]
 }
 

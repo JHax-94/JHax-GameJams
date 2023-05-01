@@ -58,7 +58,6 @@ export default class WhistleBeast extends Beast
             let source = stimulus.GetSource();
             
             this.behaviours = [ new FleeBehaviour(this, source)];
-
         }
         else if(stimulus.stimType === "COLLISION")
         {

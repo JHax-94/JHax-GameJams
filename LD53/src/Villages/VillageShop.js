@@ -24,11 +24,7 @@ export default class VillageShop
 
         this.BuildUi();
 
-        consoleLog("Shop UI Built, render layers:");
-
         EM.RegisterEntity(this);
-
-        consoleLog(EM.renderLayers);
     }
 
     Hide(setHide)

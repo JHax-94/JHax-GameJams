@@ -87,11 +87,11 @@
         },
         {
             "name": "WinMenu",
-            "base": { "x": 20, "y": 15, "w": 8, "h": 5 },
+            "base": { "x": 20, "y": 15, "w": 6, "h": 5 },
             "components": [
                 {
                     "type": "Rect",
-                    "dims": { "x": 0, "y": 0, "w": 5, "h": 5 },
+                    "dims": { "x": 0, "y": 0, "w": 6, "h": 5 },
                     "background": 12 
                 },
                 {

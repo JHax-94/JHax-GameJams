@@ -118,7 +118,7 @@ export default class LevelMap
 
         if(renderMap)
         {
-            consoleLog("Renderable map...");
+            //consoleLog("Renderable map...");
             new MapLayer(map);
         }
         

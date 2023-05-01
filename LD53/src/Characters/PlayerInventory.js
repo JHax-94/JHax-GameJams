@@ -26,13 +26,23 @@ export default class PlayerInventory
 
     UpdateUi()
     {   
+        consoleLog("--- Update Player UI ---");
+
         this.scaleTex = new Texture(TILE_WIDTH * PIXEL_SCALE, TILE_HEIGHT * PIXEL_SCALE);
 
         this.inventoryItems = [];
 
+        let inv = [ ...this.player.inventory];
+        for(let i = 0; i < inv.length; i ++)
+        {
+            let conf = getObjectConfig(inv[i].object, true);
+
+            inv[i].data = conf;
+        }
+
         consoleLog(this.player.inventory);
 
-        this.player.inventory.sort((ia, ib) => (ia.order - ib.order));
+        this.player.inventory.sort((ia, ib) => (ia.data.order - ib.data.order));
 
         for(let i = 0; i < this.player.inventory.length; i ++)
         {

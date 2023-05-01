@@ -5,8 +5,8 @@ export default class Button
 {
     constructor(buttonDims, buttonSettings, renderLayer)
     {
-        consoleLog("Button Settings:");
-        consoleLog(buttonSettings);
+        /*consoleLog("Button Settings:");
+        consoleLog(buttonSettings);*/
 
         if(renderLayer)
         {

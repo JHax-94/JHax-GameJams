@@ -1,0 +1,76 @@
+{
+	"_type": "Bleeper program",
+	"v": 1,
+	"s": [
+		{
+			"n": "whistle",
+			"i": [
+				53,
+				0,
+				127,
+				0
+			],
+			"s": "(hU(hU(hU(iU(hU(gU(gU(iU(gU(gU(lU(lU(lU(lU(lU(lU"
+		},
+		{
+			"n": "delivered",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "&jU&dU&`U&]U&ZU(Z#(Z#(Z#(Z#(Z#&aU&dU&jU&oU&tU&yU&yU"
+		},
+		{
+			"n": "no_buy",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "###'@U'@U#K##K##K##K#'9U'9U'9U"
+		},
+		{
+			"n": "horn",
+			"i": [
+				32,
+				0,
+				127,
+				0
+			],
+			"s": ")UU)PU)KU)GU)DU)DU)DU)FU)HU)JU)LU)MU)PU)QU)RU)RU)RU)RU)RU)RU)RU)RU)RU)RU)RI)R9)R1)R/)R,)R))R)"
+		},
+		{
+			"n": "complete",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "###%O#&PU&PU&RU&XU&XU&XU&XU&X#&X#&X#&PU&PU&PU&RU&XU&XU&XU&XU&XU&XU&XU&XU&XU&XU&XU"
+		},
+		{
+			"n": "buy",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "#########'XU'XU'Y#&aU&aU&aU&aU%aU%aU%aU$aU$aU$aU$aU"
+		},
+		{
+			"n": "block",
+			"i": [
+				20,
+				0,
+				127,
+				0
+			],
+			"s": "),#&8J&8J&8J&8J&8J"
+		}
+	]
+}

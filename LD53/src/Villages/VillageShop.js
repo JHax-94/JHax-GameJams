@@ -4,7 +4,7 @@ import Label from "../Menus/Label";
 import { POS_TYPE } from "../Menus/PositionType";
 import Rect from "../Menus/Rect";
 import Sprite from "../Menus/Sprite";
-import { EM, PIXEL_SCALE, consoleLog, getObjectConfig } from "../main";
+import { EM, PIXEL_SCALE, consoleLog, getObjectConfig, playFx } from "../main";
 
 export default class VillageShop
 {
@@ -65,6 +65,12 @@ export default class VillageShop
                 object: item.object,
                 quantity: 1
             }, true);
+
+            playFx("buy");
+        }
+        else
+        {
+            playFx("no_buy");
         }
 
     }

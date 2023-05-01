@@ -1,5 +1,5 @@
 import Texture from "pixelbox/Texture";
-import { EM, PIXEL_SCALE, consoleLog, getObjectConfig, getObjectConfigByProperty } from "../main";
+import { EM, PIXEL_SCALE, consoleLog, getObjectConfig, getObjectConfigByProperty, playFx } from "../main";
 
 export default class VillageRequest
 {
@@ -61,6 +61,8 @@ export default class VillageRequest
 
                 beastItem.completed ++;
 
+                
+
                 if(beastItem.completed >= beastItem.quantity)
                 {
                     if(!this.firstComplete)
@@ -76,8 +78,11 @@ export default class VillageRequest
                         addItem = this.SubRewardForBeastItem(beastItem);
                         beastItem.completed = 0;
                     }
-
-                    
+                    playFx("complete");
+                }
+                else
+                {
+                    playFx("delivered");
                 }
             }
 

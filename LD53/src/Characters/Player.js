@@ -1,5 +1,5 @@
 import Texture from "pixelbox/Texture";
-import { COLLISION_GROUP, EM, PIXEL_SCALE, SETUP, TILE_WIDTH, consoleLog, formatToFixed, getObjectConfig, p2 } from "../main";
+import { COLLISION_GROUP, EM, PIXEL_SCALE, SETUP, TILE_WIDTH, consoleLog, formatToFixed, getObjectConfig, p2, playFx } from "../main";
 import Shadow from "./Shadow";
 import Whistle from "../PlayerActions/Whistle";
 import PlayerInventory from "./PlayerInventory";
@@ -163,6 +163,8 @@ export default class Player
         if(copyItem.object === "Whistle")
         {  
             this.whistle = new Whistle(this);
+
+            copyItem.quantity = null;
         }
 
         if(copyItem.object === "Horn")
@@ -332,6 +334,8 @@ export default class Player
             if(this.HasItem("Block", 1))
             {
                 let block = new Block(spawnPos);
+
+                playFx("block");
 
                 this.passthrough.push(block.phys);
 

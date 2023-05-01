@@ -18,7 +18,7 @@ export default class FeedBehaviour extends BeastBehaviour
 
     Act(deltaTime)
     {
-        if(this.feedTimer < this.feedTime)
+        if(!this.feedOn.deleted && this.feedTimer < this.feedTime)
         {
             this.feedTimer += deltaTime;
 
@@ -28,6 +28,10 @@ export default class FeedBehaviour extends BeastBehaviour
                 this.feedOn.DeleteBeast();
                 this.beast.DefaultBehaviour(this);
             }
+        }
+        else if(this.feedOn.deleted)
+        {
+            this.beast.DefaultBehaviour();
         }
     }
 }

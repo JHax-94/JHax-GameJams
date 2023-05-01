@@ -7,12 +7,15 @@ import LevelMap from './LevelMap';
 import Menu from './Menus/Menu';
 import Utility from './Utility';
 import PlayerEvents from './PhysEvents/PlayerEvents';
+import SoundManager from './SoundManager';
 
 let pixelbox = require('pixelbox');
 let pointerEvents = require('pixelbox/pointerEvents');
 let p2 = require('p2');
 
 let UTIL = new Utility()
+
+let SOUND = null;
 
 let version = getVersionInformation();
 
@@ -231,6 +234,14 @@ let LOGGING_ON = true;
 let LOAD_COMPLETE = false;
 let EM;
 
+function playFx(effectName)
+{
+    if(assets.bleeper[effectName])
+    {
+        assets.bleeper[effectName].play();
+    }
+}
+
 function SETUP(levelName)
 {
     let newEm = new EntityManager();
@@ -255,6 +266,16 @@ function SETUP(levelName)
         }
     }
 
+    if(!SOUND)
+    {
+        SOUND = new SoundManager({x:0, y: 0});
+        SOUND.Start();
+    }
+    else
+    {
+        SOUND.Reregister();
+    }
+
     LOAD_COMPLETE = true;
 }
 
@@ -273,5 +294,5 @@ exports.update = function () {
 
 export {
     consoleLog, p2, Texture, EM, SETUP, PIXEL_SCALE, FPS, COLLISION_GROUP, TILE_WIDTH, TILE_HEIGHT, getObjectConfig, getObjectConfigByProperty, formatToFixed,
-    getFont, setFont, UTIL    
+    getFont, setFont, UTIL, playFx
 }

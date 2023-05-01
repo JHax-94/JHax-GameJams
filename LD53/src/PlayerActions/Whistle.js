@@ -1,5 +1,5 @@
 import Texture from "pixelbox/Texture";
-import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_WIDTH, consoleLog } from "../main";
+import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_WIDTH, consoleLog, playFx } from "../main";
 import Aura from "./Aura";
 
 export default class Whistle extends Aura
@@ -31,10 +31,17 @@ export default class Whistle extends Aura
         this.stimType = type;
     }
 
+    AuraSound()
+    {
+        playFx("whistle");
+    }
+
     Activate()
     {
         this.activeTimer = this.activeTime;
 
+        this.AuraSound();
+        
         for(let i = 0; i < this.beasts.length; i ++)
         {
             this.beasts[i].ReactTo(this);

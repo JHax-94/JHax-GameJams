@@ -23,7 +23,12 @@ export default class BeastCluster
 
         this.SpawnBeasts(this.beastsMax);
 
-        
+        this.respawns = true;
+
+        if(settings.respawns === false)
+        {
+            this.respawns = settings.respawns;
+        }
 
         EM.RegisterEntity(this);
     }
@@ -46,9 +51,12 @@ export default class BeastCluster
             }
         }
 
-        if(this.TotalSpawns() < this.beastsMax && this.timeSinceLastSpawn > this.spawnTimer)
+        if(this.respawns)
         {
-            this.GrowBeast();
+            if(this.TotalSpawns() < this.beastsMax && this.timeSinceLastSpawn > this.spawnTimer)
+            {
+                this.GrowBeast();
+            }    
         }
         
         for(let i = 0; i < this.incubators.length; i ++)

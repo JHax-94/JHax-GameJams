@@ -37,6 +37,11 @@ export default class Aura
         EM.RegisterEntity(this, { physSettings: physSettings });
     }
 
+    AuraSound()
+    {
+        
+    }
+
     GetSource()
     {
         return this.src;

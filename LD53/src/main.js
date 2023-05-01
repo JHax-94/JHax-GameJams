@@ -8,6 +8,7 @@ import Menu from './Menus/Menu';
 import Utility from './Utility';
 import PlayerEvents from './PhysEvents/PlayerEvents';
 import SoundManager from './SoundManager';
+import SoundMenu from './Menus/SoundMenu';
 
 let pixelbox = require('pixelbox');
 let pointerEvents = require('pixelbox/pointerEvents');
@@ -236,10 +237,7 @@ let EM;
 
 function playFx(effectName)
 {
-    if(assets.bleeper[effectName])
-    {
-        assets.bleeper[effectName].play();
-    }
+    audioManager.playSound('sfx', effectName, SOUND.GetTrueSfxVolume());
 }
 
 function SETUP(levelName)
@@ -263,6 +261,17 @@ function SETUP(levelName)
             consoleLog(levelData);
             let config = getObjectConfig(levelData.menuConfig);
             new Menu(config);
+
+            let soundConf = getObjectConfig("SoundMenu");
+
+            let subMen = getObjectConfig("Subtitle");
+            let creditsConfig = getObjectConfig("Credits");
+            let controlsConfig = getObjectConfig("Controls");
+
+            new SoundMenu(soundConf);
+            new Menu(subMen);
+            new Menu(creditsConfig);
+            new Menu(controlsConfig);
         }
     }
 
@@ -294,5 +303,5 @@ exports.update = function () {
 
 export {
     consoleLog, p2, Texture, EM, SETUP, PIXEL_SCALE, FPS, COLLISION_GROUP, TILE_WIDTH, TILE_HEIGHT, getObjectConfig, getObjectConfigByProperty, formatToFixed,
-    getFont, setFont, UTIL, playFx
+    getFont, setFont, UTIL, playFx, SOUND
 }

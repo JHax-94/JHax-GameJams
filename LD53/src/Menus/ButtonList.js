@@ -3,7 +3,7 @@ import Button from "./Button";
 
 export default class ButtonList
 {
-    constructor(component)
+    constructor(rootDims, component)
     {
         this.src = Object.assign({}, component);
 
@@ -30,13 +30,18 @@ export default class ButtonList
 
                 if(item[filterKey] === filterVal)
                 {
+                    let newBtnDims = { x: rootDims.x, y: rootDims.y + this.buttons.length * (dims.h + spacing.y), w: dims.w, h: dims.h };
+
+                    consoleLog(`Create button @: (${newBtnDims.x}, ${newBtnDims.y})`);
+
                     let newButton = new Button(
-                        { x: 0, y: i * (dims.h + spacing.y), w: dims.w, h: dims.h },
+                        newBtnDims,
                         {
                             style: this.src.style,
                             text: item[this.src.btnText.key],
                             btnObj: item
-                        });
+                        },
+                        "BUTTONS_UI");
                 
                     newButton.ClickEvent = (btn) => { SETUP(item.levelName); }
 

@@ -42,9 +42,12 @@
         },
         {
             "name": "MainMenu",
+            "map": "title_map",
+            "base": {"x": 0, "y": 0},
             "components": [
                 { 
-                    "type": "ButtonList", 
+                    "type": "ButtonList",
+                    "dims": { "x": 8, "y": 19 }, 
                     "source": "Levels", 
                     "filter": { "key": "levelType", "value": "Map" }, 
                     "btnText": { "key": "displayName" },
@@ -52,6 +55,124 @@
                     "btnDims": { "w": 5, "h": 1.5 },
                     "spacing": {"y": 0.5 }
                 }
+            ]
+        },
+        {
+            "name": "Subtitle",
+            "base": { "x": 38, "y": 18, "w": 5, "h": 5 },
+            "components": [
+                {
+                    "type": "Text",
+                    "spacing": 0.5,
+                    "dims": { "x": 0, "y": 0, "w": 1, "h": 1 },
+                    "lines": [
+                        "a game by",
+                        "      Josh Haxell"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Credits",
+            "base": { "x": 35, "y": 36, "w": 8, "h": 5},
+            "components": [
+                {
+                    "type": "Text",
+                    "spacing": 0.5,
+                    "dims": { "x": 0, "y": 0, "w": 1, "h": 1 },
+                    "lines": [
+                        "Made with:",
+                        " PixelBox by Cstoquer",
+                        " p2.js by Schteppe"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Controls",
+            "base": {"x": 0.25, "y": 4.25, "w": 5, "h": 5},
+            "components": [
+                {
+                    "type": "Rect",
+                    "dims": {"x": 0, "y": 0, "w": 5, "h": 5 },
+                    "background": 12
+
+                },
+                {
+                    "type": "Text",
+                    "spacing": 0.5,
+                    "dims": {"x": 0.5, "y": 0.5, "w": 1, "h": 1},
+                    "lines": [
+                        "Controls",
+                        "--------",
+                        "",
+                        "Move:",
+                        "Arrow Keys / WASD",
+                        "",
+                        "Use Items",
+                        "1-5"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SoundMenu",
+            "base": { "x": 30, "y": 1, "w": 20, "h": 5 },
+            "components": [
+                {
+                    "type": "Text",
+                    "spacing": 1,
+                    "dims": { "x": 0, "y": 0, "w": 1, "h": 1 },
+                    "lines": [
+                        "Music Volume:"
+                    ]
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 0, "y": 1, "w": 1, "h": 1},
+                    "text": "<",
+                    "click": "MusicVolumeDown"
+                },
+                {
+                    "type": "Text",
+                    "dims": { "x": 1.25, "y": 0.5, "w": 1, "h": 1},
+                    "lines": [ "10" ],
+                    "id": "MusicVolume"
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 5, "y": 1, "w": 1, "h": 1},
+                    "text": ">",
+                    "click": "MusicVolumeUp"
+                },
+                {
+                    "type": "Text",
+                    "spacing": 1,
+                    "dims": { "x": 5, "y": 0, "w": 1, "h": 1 },
+                    "lines": [
+                        "Sfx Volume:"
+                    ]
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 10, "y": 1, "w": 1, "h": 1},
+                    "text": "<",
+                    "click": "SfxVolumeDown"
+                },
+                {
+                    "type": "Text",
+                    "dims": { "x": 6.25, "y": 0.5, "w": 1, "h": 1},
+                    "lines": [ "10" ],
+                    "id": "SfxVolume"
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 15, "y": 1, "w": 1, "h": 1},
+                    "text": ">",
+                    "click": "SfxVolumeUp"
+                }
+                
+
             ]
         },
         {

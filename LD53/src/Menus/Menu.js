@@ -10,6 +10,13 @@ export default class Menu
         this.renderLayer = "MENU_UI";
         this.base = {x: 0, y: 0, w: 1, h: 1};
 
+        this.map = null;
+
+        if(menuConfig.map)
+        {
+            this.map = getMap(menuConfig.map);
+        }
+
         if(menuConfig.base)
         {
             this.base.x = menuConfig.base.x;
@@ -48,7 +55,13 @@ export default class Menu
 
             if(c.type === "ButtonList")
             {
-                this.components.push(new ButtonList(c));
+                consoleLog("Add button list:");
+                let buttonList = { x: c.dims.x + this.base.x, y: c.dims.y + this.base.y };
+
+                consoleLog(`Root dims:`);
+                consoleLog(buttonList);
+
+                this.components.push(new ButtonList(buttonList, c));
             }
             else if(c.type === "Button")
             {
@@ -66,15 +79,15 @@ export default class Menu
                     
                 },
                 "BUTTONS_UI");
-
+                /*
                 consoleLog(`Bind button to: ${c.click}`);
 
                 consoleLog(this);
 
-                consoleLog(this[c.click]);
+                consoleLog(this[c.click]);*/
                 if(this[c.click])
                 {   
-                    consoleLog("-- bind button event --");
+                    //consoleLog("-- bind button event --");
                     let menu = this;
 
                     button.ClickEvent = () => { menu[c.click](); };
@@ -82,7 +95,7 @@ export default class Menu
 
                 this.components.push(button);
             }
-            else if(["Rect", "Text"].indexOf(c.type) >= 0)
+            else if(["Rect", "Text", "Sprite"].indexOf(c.type) >= 0)
             {
                 this.texComponents.push(c);
             }
@@ -101,13 +114,25 @@ export default class Menu
                 texture.paper(c.background);
                 texture.rectf(c.dims.x * PIXEL_SCALE, c.dims.y * PIXEL_SCALE, c.dims.w * PIXEL_SCALE, c.dims.h * PIXEL_SCALE);
             }
+            else if(c.type === "Sprite")
+            {
+                texture.sprite(c.dims.x * PIXEL_SCALE, c.dims.y * PIXEL_SCALE, c.index);
+            }
             else if(c.type === "Text")
             {
                 texture.pen(1);
 
+                if(!c.spacing)
+                {
+                    c.spacing = 1;
+                }
+
                 for(let l = 0; l < c.lines.length; l ++)
                 {
-                    texture.print(c.lines[l], c.dims.x * PIXEL_SCALE, (c.dims.y + l * c.spacing) * PIXEL_SCALE);
+                    let x = c.dims.x * PIXEL_SCALE;
+                    let y = (c.dims.y + l * c.spacing) * PIXEL_SCALE;
+
+                    texture.print(c.lines[l], x, y);
                 } 
             }
         }
@@ -120,6 +145,12 @@ export default class Menu
 
     Draw()
     {
+        
+        if(this.map)
+        {
+            this.map.draw(this.base.x * PIXEL_SCALE, this.base.y * PIXEL_SCALE);
+        }
+
         if(this.menuTex)
         {   
             this.menuTex._drawEnhanced(this.base.x * PIXEL_SCALE, this.base.y * PIXEL_SCALE, {scale: 2});

@@ -30,6 +30,10 @@ export default class PlayerInventory
 
         this.inventoryItems = [];
 
+        consoleLog(this.player.inventory);
+
+        this.player.inventory.sort((ia, ib) => (ia.order - ib.order));
+
         for(let i = 0; i < this.player.inventory.length; i ++)
         {
             let item = this.player.inventory[i];

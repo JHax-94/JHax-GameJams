@@ -197,9 +197,9 @@ export default class Player
         this.LogMovementInput(input);
         this.LogActionInput(input);
 
-        if(input.esc)
+        if(input.escTriggered)
         {
-            SETUP("MainMenu");
+            EM.Pause();
         }
     }
 

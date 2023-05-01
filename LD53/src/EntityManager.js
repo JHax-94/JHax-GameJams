@@ -1,10 +1,11 @@
 import p2 from "p2";
 import InputGroup from "./InputGroup";
-import { consoleLog, PIXEL_SCALE, EM, TILE_HEIGHT } from "./main";
+import { consoleLog, PIXEL_SCALE, EM, TILE_HEIGHT, getObjectConfig } from "./main";
 import PhysicsContainer from "./PhysicsContainer";
 import RenderLayer from "./RenderLayer";
 import KeyboardInput from "./InputMethods/KeyboardInput";
-import { circIn } from "tina/src/easing";
+import Menu from "./Menus/Menu";
+import PauseMenu from "./Menus/PauseMenu";
 
 export default class EntityManager
 {
@@ -58,6 +59,7 @@ export default class EntityManager
         this.AddRenderLayer("WORLD_UI", 2);
         this.AddRenderLayer("OVERLAY_UI", 3);
         this.AddRenderLayer("MENU_UI", 4);
+        this.AddRenderLayer("BUTTONS_UI", 5);
 
         this.AddInputGroup("DEFAULT");
         this.AddInputGroup("PLAYER");
@@ -809,14 +811,15 @@ export default class EntityManager
 
     Pause()
     {
-        /*
+        
         if(!this.pause)
         {
             this.pause = true;
 
-            let pauseMenuConf = getObjectConfig("pauseEndGameMenu");
+            let pauseMenuConf = getObjectConfig("PauseMenu");
 
             this.pauseMenu = new PauseMenu(pauseMenuConf, {});
+
             this.inputDetectMode = true;
             this.inputFreezeFrames = 10;
         }
@@ -826,7 +829,7 @@ export default class EntityManager
             this.cancelInputDetect = true;
             this.pause = false;
             this.inputDetectMode = false;
-        }*/
+        }
     }
     
     ShowGameOver()

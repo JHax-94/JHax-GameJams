@@ -11,9 +11,6 @@ export default class Rect
 
         this.texture = targetTexture ? targetTexture : $screen;
 
-        consoleLog("Draw to texture:");
-        consoleLog(this.texture);
-
         if(borderOnly)
         {
             this.borderOnly = borderOnly;

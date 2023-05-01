@@ -18,7 +18,7 @@ export default class KeyboardInput
     {
         let triggered = false;
 
-        if(btnState && btnIn === false)
+        if(btnState && btnIn == false)
         {
             triggered = true;
         }
@@ -42,7 +42,6 @@ export default class KeyboardInput
         let action3 = (src.action3 || src.num3) ? 1 : 0;
         let action4 = (src.action4 || src.num4) ? 1 : 0;
         let action5 = (src.action5 || src.num5) ? 1 : 0;
-
 
         this.action1Triggered = this.CheckForTrigger(this.action1, action1);
         this.action1 = action1;

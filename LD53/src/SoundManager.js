@@ -28,8 +28,8 @@ export default class SoundManager
         this.songNum = 0;
         this.trackNames = ["Track1", "Track2"];
 
-        this.defaultMusicVolume = 5;
-        this.defaultSfxVolume = 3;
+        this.defaultMusicVolume = 7;
+        this.defaultSfxVolume = 5;
 
         let prefMusicVol = getPlayerPref("musicVolume");
 

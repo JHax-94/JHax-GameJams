@@ -276,8 +276,8 @@
                                 "beastType": "CURIO",
                                 "quantity": 6,
                                 "rewards": {
-                                    "perBeast": 5,
-                                    "complete": 50,
+                                    "perBeast": 10,
+                                    "complete": 100,
                                     "subsequent": "Block"
                                 }
                             }
@@ -298,8 +298,8 @@
                                 "beastType": "WHISTLE",
                                 "quantity": 6,
                                 "rewards": {
-                                    "perBeast": 4,
-                                    "complete": 30,
+                                    "perBeast": 6,
+                                    "complete": 100,
                                     "subsequent": "BaitMeat"
                                 }
                             }
@@ -509,7 +509,7 @@
                                 "quantity": 3,
                                 "rewards": {
                                     "perBeast": 2,
-                                    "complete": 50
+                                    "complete": 150
                                 }
                             }
                         ]
@@ -532,7 +532,7 @@
                                 "quantity": 4,
                                 "rewards": {
                                     "perBeast": 2,
-                                    "complete": 30,
+                                    "complete": 100,
                                     "subsequent": "BaitBerry"
                                 }
                             }
@@ -555,7 +555,7 @@
                                 "quantity": 4,
                                 "rewards": {
                                     "perBeast": 2,
-                                    "complete": 30
+                                    "complete": 80
                                 }
                             }
                         ]
@@ -577,7 +577,7 @@
                                 "quantity": 3,
                                 "rewards": {
                                     "perBeast": 10,
-                                    "complete": 75,
+                                    "complete": 125,
                                     "subsequent": "Whistle"
                                 }
                             }
@@ -604,7 +604,7 @@
                 { "object": "Gold", "quantity": 20 },
                 { "object": "Block", "quantity": 5 }
             ],
-            "levelType": "Map",
+            "levelType": "_Map",
             "terrain": [
                 { "mapName": "donut_lake_terrain", "offset": {"x": 0, "y": 0 } }
             ],

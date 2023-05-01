@@ -54,7 +54,12 @@
 		"action4": 52,
 		"action5": 53,
 		"a": 65,
-		"e": 69
+		"e": 69,
+		"num1": 97,
+		"num2": 98,
+		"num3": 99,
+		"num4": 100,
+		"num5": 101
 	},
 	"touchEvent": {
 		"multiTouch": false,

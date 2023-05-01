@@ -266,9 +266,18 @@ function clearTutorialFrom(src)
 {
     for(let key in src)
     {
-        consoleLog(`Store key: ${key}`);
-
         if(key.match(/^seenTutorial_/))
+        {
+            delete src[key];
+        }
+    }
+}
+
+function clearScoreFrom(src)
+{
+    for(let key in src)
+    {
+        if(key.match(/^topGold_/))
         {
             delete src[key];
         }
@@ -277,22 +286,26 @@ function clearTutorialFrom(src)
 
 function clearTutorialData()
 {
-    consoleLog("PLAYER PREFS");
-    consoleLog(PLAYER_PREFS);
-
-    consoleLog(localStorage);
-
-
     try
     {
-        consoleLog("---CLEAR STORAGE---");
         clearTutorialFrom(localStorage);
     }
     catch(err) {}
-
-    consoleLog("--- CLEAR MEMORY ---");
     clearTutorialFrom(PLAYER_PREFS);
-    
+}
+
+function clearScoreData()
+{
+    try
+    {
+        clearScoreFrom(localStorage);        
+    }
+    catch(err)
+    {
+
+    }
+
+    clearScoreFrom(PLAYER_PREFS);
 }
 
 let PIXEL_SCALE = getPixelScale();
@@ -336,7 +349,7 @@ function SETUP(levelName)
         {
             consoleLog("Menu Level Data Found:");
             consoleLog(levelData);
-            let config = getObjectConfig(levelData.menuConfig);
+            let config = getObjectConfig(levelData.menuConfig, true);
             new Menu(config);
 
             let soundConf = getObjectConfig("SoundMenu");
@@ -364,6 +377,11 @@ function SETUP(levelName)
         SOUND.Reregister();
     }
 
+    if(!levelName)
+    {
+        SETUP("MainMenu");
+    }
+
     LOAD_COMPLETE = true;
 }
 
@@ -382,5 +400,5 @@ exports.update = function () {
 
 export {
     consoleLog, p2, Texture, EM, SETUP, PIXEL_SCALE, FPS, COLLISION_GROUP, TILE_WIDTH, TILE_HEIGHT, getObjectConfig, getObjectConfigByProperty, formatToFixed,
-    getFont, setFont, UTIL, playFx, SOUND, setPlayerPref, getPlayerPref, clearTutorialData
+    getFont, setFont, UTIL, playFx, SOUND, setPlayerPref, getPlayerPref, clearTutorialData, clearScoreData
 }

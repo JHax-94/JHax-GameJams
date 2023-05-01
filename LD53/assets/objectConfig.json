@@ -114,7 +114,7 @@
                     ]
                 }
             ]
-        },        
+        },
         {
             "name": "SoundMenu",
             "base": { "x": 30, "y": 1, "w": 20, "h": 5 },
@@ -410,7 +410,7 @@
                 },
                 {
                     "type": "Sprite",
-                    "dims": { "x": 4.75, "y": 3.75 },
+                    "dims": { "x": 5.25, "y": 3.75 },
                     "index": 4
                 },
                 {
@@ -492,13 +492,19 @@
         },
         {
             "name": "StorageMenu",
-            "base": { "x": 0, "y": 0, "w": 12, "h": 7.5 },
+            "base": { "x": 0.25, "y": 0.25, "w": 12, "h": 7.5 },
             "components": [
                 {
                     "type": "Button",
-                    "dims": { "x": 0, "y": 0, "w": 12, "h": 2 },
+                    "dims": { "x": 0, "y": 0, "w": 8, "h": 1 },
                     "text": "Reset Tutorials",
                     "click": "ClearTutorialData"
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 8.5, "y": 0, "w": 8, "h": 1 },
+                    "text": "Clear Scores",
+                    "click": "ClearScores"
                 }
 
             ]

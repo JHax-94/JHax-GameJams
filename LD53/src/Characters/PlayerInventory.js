@@ -23,6 +23,8 @@ export default class PlayerInventory
 
         this.BuildUi();
 
+        this.boxW = PIXEL_SCALE + 8;
+
         //this.drawAt = DRAW_AT.TOP;
     }
 
@@ -142,6 +144,21 @@ export default class PlayerInventory
         this.UpdateUi();
     }
 
+    GetIndexOf(item)
+    {
+        let index = -1;
+        for(let i = 0; i < this.inventoryItems.length; i ++)
+        {
+            if(this.inventoryItems[i].item.object === item)
+            {
+                index = i;
+                break
+            }
+        }
+
+        return index;
+    }
+
     Draw()
     {
         let screenPos = this.player.GetScreenPos();
@@ -153,5 +170,29 @@ export default class PlayerInventory
         }
 
         this.scaleTex._drawEnhanced(drawAt.x, drawAt.y, {scale: 2});
+
+        if(this.player.horn && this.player.horn.cooldownTimer > 0)
+        {
+            let index = this.GetIndexOf("Horn");
+
+            paper(15);
+            rectf(
+                drawAt.x + 2 * (PIXEL_SCALE * 2.5 * index + PIXEL_SCALE),
+                drawAt.y + 2 * PIXEL_SCALE, 
+                2*PIXEL_SCALE, 
+                2 * PIXEL_SCALE * (this.player.horn.cooldownTimer / this.player.horn.cooldown));
+        }
+
+        if(this.player.whistle && this.player.whistle.cooldownTimer > 0)
+        {
+            let index = this.GetIndexOf("Whistle");
+
+            paper(15);
+            rectf(
+                drawAt.x + 2 * (PIXEL_SCALE * 2.5 * index + PIXEL_SCALE),
+                drawAt.y + 2 * PIXEL_SCALE, 
+                2*PIXEL_SCALE, 
+                2 * PIXEL_SCALE * (this.player.whistle.cooldownTimer / this.player.whistle.cooldown));
+        }
     }
 }

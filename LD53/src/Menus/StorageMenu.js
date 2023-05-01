@@ -1,4 +1,4 @@
-import { clearTutorialData } from "../main";
+import { EM, SETUP, clearScoreData, clearTutorialData, consoleLog } from "../main";
 import Menu from "./Menu";
 
 export default class StorageMenu extends Menu
@@ -15,6 +15,8 @@ export default class StorageMenu extends Menu
 
     ClearScores()
     {
-
+        clearScoreData();
+        EM.ClearDown();
+        SETUP();
     }
 }

@@ -11,7 +11,7 @@ export default class EntityManager
     constructor(noPhys)
     {
         this.drawColliders = false;
-        this.hudLogOn = true;
+        this.hudLogOn = false;
         this.frameCount = 0;
         this.bgColour = 13;
         

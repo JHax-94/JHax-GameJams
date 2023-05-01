@@ -6,6 +6,7 @@ export default class ButtonList
 {
     constructor(rootDims, component)
     {
+        consoleLog("---BUILD BUTTON LIST---");
         this.renderLayer = "BUTTONS_UI";
         
         this.src = Object.assign({}, component);
@@ -52,10 +53,15 @@ export default class ButtonList
 
                     let scoreTex = new Texture(2 * PIXEL_SCALE, PIXEL_SCALE);
 
-                    let bestGold = getPlayerPref(`topGold_${item.levelName}`);
+                    let bestGoldKey = `topGold_${item.levelName}`;
+                    let bestGold = getPlayerPref(bestGoldKey);
+
+                    consoleLog(`Set best gold UI: ${bestGold}`);
 
                     if(bestGold)
                     {
+                        
+                        
                         scoreTex.pen(1);
                         scoreTex.print(bestGold, 0 , 5),
 

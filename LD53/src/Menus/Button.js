@@ -1,3 +1,4 @@
+import Texture from "pixelbox/Texture";
 import { consoleLog, EM, getFont, getObjectConfig, PIXEL_SCALE, setFont } from "../main";
 
 export default class Button
@@ -12,7 +13,10 @@ export default class Button
             this.renderLayer = renderLayer;
         }
 
-        this.dims = buttonDims;
+        this.drawDims = buttonDims;
+        this.dims = { x: buttonDims.x, y: buttonDims.y, w: buttonDims.w *0.5, h: buttonDims.h * 0.5 };
+
+        this.texture = new Texture(this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
 
         this.font = null;
 
@@ -80,7 +84,7 @@ export default class Button
 
     Bounds()
     {
-        return { x: this.dims.x * PIXEL_SCALE, y: this.dims.y * PIXEL_SCALE, w: this.dims.w * PIXEL_SCALE, h: this.dims.h * PIXEL_SCALE };
+        return { x: this.drawDims.x * PIXEL_SCALE, y: this.drawDims.y * PIXEL_SCALE, w: this.drawDims.w * PIXEL_SCALE, h: this.drawDims.h * PIXEL_SCALE };
     }
 
     Focus(focusOn)
@@ -95,11 +99,11 @@ export default class Button
 
     GetPrintPosition(txt)
     {
-        let btnMidX = (this.dims.x + 0.5 * this.dims.w) * PIXEL_SCALE;
-        let btnMidY = (this.dims.y + 0.5 * this.dims.h) * PIXEL_SCALE;
+        let btnMidX = (0.5 * this.dims.w) * PIXEL_SCALE;
+        let btnMidY = (0.5 * this.dims.h) * PIXEL_SCALE;
 
-        let printX = btnMidX - 0.5 * (this.font.charWidth) *  txt.length;
-        let printY = btnMidY - Math.round(0.5 * this.font.charHeight);
+        let printX = btnMidX - (this.font.charWidth * 0.5) *  txt.length;
+        let printY = btnMidY - Math.round(this.font.charHeight * 0.5);
 
         return [ printX, printY ];
     }
@@ -115,15 +119,15 @@ export default class Button
                 spriteIndex = this.settings.hoverSprite;
             }
     
-            sprite(spriteIndex, this.dims.x, this.dims.y);
+            this.texture.sprite(spriteIndex, 0, 0);
         }
         else if(this.settings.rect)
         {
             
-            paper(this.settings.rect.colour);
-            rectf(this.dims.x  * PIXEL_SCALE, this.dims.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
+            this.texture.paper(this.settings.rect.colour);
+            this.texture.rectf(0, 0, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
 
-            pen(this.settings.rect.textColour);
+            this.texture.pen(this.settings.rect.textColour);
             
             let txt = this.settings.rect.text;
 
@@ -143,13 +147,15 @@ export default class Button
                 setFont(null);
             }
         
-            print(txt, printPos[0], printPos[1]);
+            this.texture.print(txt, printPos[0], printPos[1]);
 
             if(this.state.hovered || this.state.focused)
             {
-                paper(this.settings.rect.borderColour);
-                rect(this.dims.x * PIXEL_SCALE, this.dims.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
+                this.texture.paper(this.settings.rect.borderColour);
+                this.texture.rect(0, 0, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
             }
         }
+
+        this.texture._drawEnhanced(this.dims.x * PIXEL_SCALE, this.dims.y * PIXEL_SCALE, { scale: 2 });
     }
 }

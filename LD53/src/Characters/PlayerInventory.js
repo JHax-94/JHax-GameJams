@@ -26,7 +26,7 @@ export default class PlayerInventory
 
     UpdateUi()
     {   
-        this.scaleTex.clear();
+        this.scaleTex = new Texture(TILE_WIDTH * PIXEL_SCALE, TILE_HEIGHT * PIXEL_SCALE);
 
         this.inventoryItems = [];
 
@@ -35,6 +35,9 @@ export default class PlayerInventory
             let item = this.player.inventory[i];
             let existing = this.inventoryItems.find(it => it.item.object === item.object);            
 
+            this.BuildInventoryItem(this.player.inventory[i], i, this.scaleTex);
+
+            /*
             if(existing)
             {
                 if(item.quantity || item.quantity === 0)
@@ -44,8 +47,8 @@ export default class PlayerInventory
             }
             else
             {
-                this.BuildInventoryItem(this.player.inventory[i], i, this.scaleTex);
-            }
+                
+            }*/
         }
     }
 
@@ -55,7 +58,7 @@ export default class PlayerInventory
         let qty = item.quantity;
 
         
-        let baseX = PIXEL_SCALE * 2 * i + PIXEL_SCALE;    
+        let baseX = PIXEL_SCALE * 2.5 * i + PIXEL_SCALE;    
         let baseY = PIXEL_SCALE;
 
         let boxW = PIXEL_SCALE + 8;

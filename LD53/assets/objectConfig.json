@@ -49,7 +49,7 @@
                     "filter": { "key": "levelType", "value": "Map" }, 
                     "btnText": { "key": "displayName" },
                     "style": "StandardButton",
-                    "btnDims": { "w": 5, "h": 1 },
+                    "btnDims": { "w": 5, "h": 1.5 },
                     "spacing": {"y": 0.5 }
                 }
             ]

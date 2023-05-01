@@ -33,10 +33,26 @@ export default class Village
         ];
 
         this.players = [];
+        
+        this.manager = null;
+
+        this.requestCompleted = true;
 
         this.requests = [];
         this.texture = this.BuildTexture()
     }
+
+    Manager()
+    {
+        if(!this.manager)
+        {
+            this.manager = EM.GetEntity("LEVEL_MANAGER");
+        }
+
+        return this.manager;
+    }
+
+    
 
     PlayersChanged()
     {
@@ -92,9 +108,18 @@ export default class Village
         this.shop.Hide(true);
     }
 
+    RequestCompleted()
+    {
+        this.requestCompleted = true;;
+
+        this.Manager().VillageRequestCompleted();
+    }
+
     AddRequest(requestData)
     {
         this.requests.push(new VillageRequest(this, requestData));
+
+        this.requestCompleted = false;
     }
 
     OfferBeast(beast)

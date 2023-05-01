@@ -3,9 +3,10 @@ import BeastCluster from "./Characters/BeastCluster";
 import BeastFactory from "./Characters/BeastFactory";
 import Player from "./Characters/Player";
 import MapLayer from "./MapLayer";
+import WinMenu from "./Menus/WinMenu";
 import Obstacle from "./Obstacle";
 import Village from "./Villages/Village";
-import { EM, consoleLog } from "./main";
+import { EM, consoleLog, getObjectConfig } from "./main";
 
 export default class LevelMap
 {
@@ -32,12 +33,40 @@ export default class LevelMap
 
     constructor(levelData)
     {
+        this.villages = [];
+
+        this.levelData = levelData;
+
         this.beastFactory = new BeastFactory();
         this.BuildTerrain(levelData);
         this.SpawnPlayer(levelData);
         this.SpawnVillages(levelData);
         this.SpawnBeasts(levelData);
+
+        EM.AddEntity("LEVEL_MANAGER", this)
     }   
+
+    VillageRequestCompleted()
+    {
+        let allComplete = true;
+
+        for(let i = 0; i < this.villages.length; i ++)
+        {
+            if(!this.villages[i].requestCompleted)
+            {
+                allComplete = false;
+                break;
+            }
+        }
+
+        if(allComplete)
+        {
+            let winConf = getObjectConfig("WinMenu", true);
+
+            new WinMenu(this.levelData, winConf);
+        }
+
+    }
 
     BuildTerrain(levelData)
     {
@@ -124,6 +153,8 @@ export default class LevelMap
             {
                 village.AddShop(v.shop);
             }
+
+            this.villages.push(village);
         }
     }
 

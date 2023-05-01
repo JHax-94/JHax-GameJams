@@ -86,6 +86,34 @@
             ]
         },
         {
+            "name": "WinMenu",
+            "base": { "x": 20, "y": 15, "w": 8, "h": 5 },
+            "components": [
+                {
+                    "type": "Rect",
+                    "dims": { "x": 0, "y": 0, "w": 5, "h": 5 },
+                    "background": 12 
+                },
+                {
+                    "type": "Text",
+                    "dims": { "x": 0.25, "y": 0.25 },
+                    "lines": [
+                        "Congratulations!",
+                        "",
+                        "All Beast deliveries",
+                        "Complete"
+                    ],
+                    "spacing": 0.5
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 1, "y": 7, "w": 8, "h": 2 },
+                    "text": "Back to Menu",
+                    "click": "Quit"
+                }
+            ]
+        },
+        {
             "name": "StandardButton",
             "rect": {
                 "colour":  4,

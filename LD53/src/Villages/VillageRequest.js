@@ -69,7 +69,7 @@ export default class VillageRequest
                         this.firstComplete = true;
                         beastItem.completed = 0;           
                         
-                        
+                        this.village.RequestCompleted();
                     }
                     else
                     {

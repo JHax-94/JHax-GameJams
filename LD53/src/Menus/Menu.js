@@ -107,7 +107,7 @@ export default class Menu
 
                 for(let l = 0; l < c.lines.length; l ++)
                 {
-                    texture.print(c.lines[l], c.dims.x * PIXEL_SCALE, (c.dims.y + i * c.spacing) * PIXEL_SCALE);
+                    texture.print(c.lines[l], c.dims.x * PIXEL_SCALE, (c.dims.y + l * c.spacing) * PIXEL_SCALE);
                 } 
             }
         }

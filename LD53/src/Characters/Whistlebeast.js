@@ -31,6 +31,8 @@ export default class WhistleBeast extends Beast
             flee: 8000 * this.phys.mass
         };
 
+        this.walkDamp = 500;
+
         this.whistle = new Whistle(this);
     }
 

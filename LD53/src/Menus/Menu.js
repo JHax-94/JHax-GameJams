@@ -116,7 +116,9 @@ export default class Menu
             }
             else if(c.type === "Sprite")
             {
-                texture.sprite(c.dims.x * PIXEL_SCALE, c.dims.y * PIXEL_SCALE, c.index);
+                consoleLog("DRAW SPRITE");
+
+                texture.sprite(c.index, c.dims.x * PIXEL_SCALE, c.dims.y * PIXEL_SCALE);
             }
             else if(c.type === "Text")
             {

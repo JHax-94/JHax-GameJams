@@ -11,6 +11,10 @@
             "inventory": [
                 { "object": "Whistle" }                
             ],
+            "tutorials": [
+                { "tutorialId": "basics", "config": "BasicTut" },
+                { "tutorialId": "whistler", "config": "WhistleTut" }
+            ],
             "levelType": "Map",
             "terrain": [
                 { "mapName": "whistle_terrain", "offset": { "x": 0, "y": 0 } }  
@@ -46,6 +50,10 @@
                 { "object": "Whistle" }                
             ],
             "levelType": "Map",
+            "tutorials": [
+                { "tutorialId": "curio", "config": "CurioTut" },
+                { "tutorialId": "curio2", "config": "CurioTut2" }
+            ],
             "terrain": [
                 { "mapName": "curious_terrain", "offset": { "x": 0, "y": 0 } }  
             ],
@@ -83,6 +91,11 @@
                 { "object": "Gold", "quantity": 20 }
             ],
             "levelType": "Map",
+            "tutorials": [
+                { "tutorialId": "shopTut", "config": "ShopTut" },
+                { "tutorialId": "shopTut2", "config": "ShopTut2" },
+                { "tutorialId": "hunterTut", "config": "HunterTut" }
+            ],
             "terrain": [
                 { "mapName": "shop_terrain", "offset": {"x": 0, "y": 0 } }
             ],
@@ -137,6 +150,9 @@
             "inventory": [
                 { "object": "Whistle" },
                 { "object": "Gold", "quantity": 20 }
+            ],
+            "tutorials": [
+                { "tutorialId": "veggieTut", "config": "VeggieTut" }
             ],
             "levelType": "Map",
             "terrain": [

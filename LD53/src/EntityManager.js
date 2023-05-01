@@ -926,7 +926,10 @@ export default class EntityManager
             }
             else 
             {
-                this.pauseMenu.Update(deltaTime);
+                if(this.pauseMenu)
+                {
+                    this.pauseMenu.Update(deltaTime);
+                }
             }
         }
         else

@@ -33,6 +33,8 @@ export default class Player
         this.walkAngle = 0;
         this.walkTime = 0;
 
+        this.step = 1;
+
         this.passthrough = [];
 
         this.texture = this.BuildTexture();
@@ -313,6 +315,8 @@ export default class Player
                 let screenPos = this.GetScreenPos();
                 new Bait(spawnPos, baitConf);
 
+                playFx("block");
+
                 this.AddItem({ object: "BaitMeat", quantity: -1 }, true);
             }
         }
@@ -322,7 +326,9 @@ export default class Player
             if(this.HasItem("BaitBerry", 1))
             {
                 let baitConf = getObjectConfig("BaitBerry", true);
-                
+
+                playFx("block");
+
                 new Bait(spawnPos, baitConf);
 
                 this.AddItem({ object: "BaitBerry", quantity: -1 }, true);
@@ -378,37 +384,20 @@ export default class Player
             this.horn.Act(deltaTime);
         }
 
-        this.elapsedTime += deltaTime;
+        let moveForce = p2.vec2.len(this.phys.force);
 
-        let moveSpeed = p2.vec2.sqrLen(this.phys.velocity);
-
-        this.walkAngle = 1 - Math.sin((this.elapsedTime % (Math.PI * 2)));
-        /*
-        if(moveSpeed > 0.1)
+        if(moveForce > 0.1)
         {
             this.walkTime += deltaTime;
-            consoleLog(`Move speed: ${moveSpeed}`);
+            //consoleLog(`Move speed: ${moveForce}`);
 
-            this.walkAngle = Math.sin((this.elapsedTime % (Math.PI * 2)) * moveSpeed / 750);
+            this.walkAngle = Math.sin((this.walkTime % (Math.PI * 2) * moveForce / 750));
         }
-        else if(this.walkAngle > 0)
+        else 
         {
             this.walkTime = 0;
-            this.walkAngle -= deltaTime;
-            if(this.walkAngle < 0)
-            {
-                this.walkAngle = 0;
-            }
+            this.walkAngle = 0;
         }
-        else if(this.walkAngle < 0)
-        {
-            this.walkTime = 0;
-            this.walkAngle += deltaTime;
-            if(this.walkAngle > 0)
-            {
-                this.walkAngle = 0;
-            }
-        }*/
     }
 
     Draw()

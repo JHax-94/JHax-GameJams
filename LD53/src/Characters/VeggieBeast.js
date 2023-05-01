@@ -27,7 +27,7 @@ export default class VeggieBeast extends Beast
         this.sprite = 17;
         this.texture = this.BuildTexture();
 
-        this.fedTime = 10;
+        this.fedTime = 8;
         this.fedTimer = 10;
     }
 

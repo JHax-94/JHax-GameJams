@@ -3,10 +3,11 @@ import BeastCluster from "./Characters/BeastCluster";
 import BeastFactory from "./Characters/BeastFactory";
 import Player from "./Characters/Player";
 import MapLayer from "./MapLayer";
+import TutorialMenu from "./Menus/TutorialMenu";
 import WinMenu from "./Menus/WinMenu";
 import Obstacle from "./Obstacle";
 import Village from "./Villages/Village";
-import { EM, consoleLog, getObjectConfig } from "./main";
+import { EM, consoleLog, getObjectConfig, getPlayerPref } from "./main";
 
 export default class LevelMap
 {
@@ -44,7 +45,54 @@ export default class LevelMap
         this.SpawnBeasts(levelData);
 
         EM.AddEntity("LEVEL_MANAGER", this)
+
+        this.tutNumber = 0;
+
+        if(this.levelData.tutorials && this.levelData.tutorials.length > 0);
+        {
+            this.ShowCurrentTutorial();
+        }
     }   
+
+    ShowCurrentTutorial()
+    {
+        let displayed = false;
+
+        if(this.levelData.tutorials && this.levelData.tutorials.length > this.tutNumber)
+        {
+            let tut = this.levelData.tutorials[this.tutNumber];
+
+            let seen = getPlayerPref(`seenTutorial_${tut.tutorialId}`);
+
+            if(!seen)
+            {
+                let tutConfig = getObjectConfig(tut.config);
+
+                new TutorialMenu(tut.tutorialId, tutConfig);
+                EM.pause = true;
+
+                displayed = true;
+            }
+            else 
+            {
+                this.NextTutorial();
+            }
+        }
+
+        return displayed;
+    }
+
+    NextTutorial()
+    {
+        this.tutNumber ++;
+
+        let showing = this.ShowCurrentTutorial();
+
+        if(!showing)
+        {
+            EM.pause = false;
+        }
+    }
 
     VillageRequestCompleted()
     {

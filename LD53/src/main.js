@@ -9,6 +9,7 @@ import Utility from './Utility';
 import PlayerEvents from './PhysEvents/PlayerEvents';
 import SoundManager from './SoundManager';
 import SoundMenu from './Menus/SoundMenu';
+import StorageMenu from './Menus/StorageMenu';
 
 let pixelbox = require('pixelbox');
 let pointerEvents = require('pixelbox/pointerEvents');
@@ -222,6 +223,8 @@ function setFont(fontImage)
 
 function setPlayerPref(key, value)
 {
+    consoleLog(`Try set key: ${key} = ${value}`);
+
     try
     {
         localStorage.setItem(key, value);
@@ -235,7 +238,10 @@ function setPlayerPref(key, value)
 }
 
 function getPlayerPref(key)
-{
+{   
+    consoleLog(`Try get key: ${key}`);
+
+
     let val = null;
 
     try
@@ -254,6 +260,39 @@ function getPlayerPref(key)
     }
 
     return val;
+}
+
+function clearTutorialFrom(src)
+{
+    for(let key in src)
+    {
+        consoleLog(`Store key: ${key}`);
+
+        if(key.match(/^seenTutorial_/))
+        {
+            delete src[key];
+        }
+    }
+}
+
+function clearTutorialData()
+{
+    consoleLog("PLAYER PREFS");
+    consoleLog(PLAYER_PREFS);
+
+    consoleLog(localStorage);
+
+
+    try
+    {
+        consoleLog("---CLEAR STORAGE---");
+        clearTutorialFrom(localStorage);
+    }
+    catch(err) {}
+
+    consoleLog("--- CLEAR MEMORY ---");
+    clearTutorialFrom(PLAYER_PREFS);
+    
 }
 
 let PIXEL_SCALE = getPixelScale();
@@ -305,11 +344,13 @@ function SETUP(levelName)
             let subMen = getObjectConfig("Subtitle");
             let creditsConfig = getObjectConfig("Credits");
             let controlsConfig = getObjectConfig("Controls");
+            let storageConfig = getObjectConfig("StorageMenu");
 
             new SoundMenu(soundConf);
             new Menu(subMen);
             new Menu(creditsConfig);
             new Menu(controlsConfig);
+            new StorageMenu(storageConfig);
         }
     }
 
@@ -341,5 +382,5 @@ exports.update = function () {
 
 export {
     consoleLog, p2, Texture, EM, SETUP, PIXEL_SCALE, FPS, COLLISION_GROUP, TILE_WIDTH, TILE_HEIGHT, getObjectConfig, getObjectConfigByProperty, formatToFixed,
-    getFont, setFont, UTIL, playFx, SOUND, setPlayerPref, getPlayerPref
+    getFont, setFont, UTIL, playFx, SOUND, setPlayerPref, getPlayerPref, clearTutorialData
 }

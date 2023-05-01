@@ -23,7 +23,7 @@ export default class HunterBeast extends Beast
         this.sprite = 20;
         this.texture = this.BuildTexture();
 
-        this.fedTime = 10;
+        this.fedTime = 16;
         this.fedTimer = 0;
 
         this.shadow.offset.y = 6;

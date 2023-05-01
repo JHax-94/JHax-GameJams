@@ -1,5 +1,5 @@
 import Texture from "pixelbox/Texture";
-import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
+import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog, p2 } from "../main";
 import Shadow from "./Shadow";
 
 export default class Beast
@@ -37,6 +37,12 @@ export default class Beast
 
         EM.RegisterEntity(this, { physSettings: physSettings});
         
+        this.walkAngle = 0;
+        this.walkTime = 0;
+
+        this.walkDamp = 1000;
+        this.walkAngleMax = (Math.PI / 4);
+
         if(!EM.beastCount)
         {
             EM.beastCount = 0;
@@ -157,6 +163,21 @@ export default class Beast
             this.behaviours[i].Act(deltaTime);
         }
 
+        let moveForce = p2.vec2.len(this.phys.force);
+
+        if(moveForce > 0.1 || this.walkTime > 0)
+        {
+            this.walkTime += deltaTime;
+            //consoleLog(`Move speed: ${moveForce}`);
+
+            this.walkAngle = Math.sin((this.walkTime % (Math.PI * 2) * moveForce / this.walkDamp));
+        }
+        else if(Math.abs(this.walkAngle) < 0.01)
+        {
+            this.walkTime = 0;
+            this.walkAngle = 0;
+        }
+
         this.UpdateInternal(deltaTime);
     }
 
@@ -197,7 +218,7 @@ export default class Beast
 
         if(this.texture)
         {
-            this.texture._drawEnhanced(screenPos.x, screenPos.y);
+            this.texture._drawEnhanced(screenPos.x, screenPos.y, { angle: this.walkAngle * this.walkAngleMax });
         }
 
         if(this.fedTime && this.fedTimer > 0)

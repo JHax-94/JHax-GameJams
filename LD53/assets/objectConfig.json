@@ -114,7 +114,7 @@
                     ]
                 }
             ]
-        },
+        },        
         {
             "name": "SoundMenu",
             "base": { "x": 30, "y": 1, "w": 20, "h": 5 },
@@ -232,6 +232,275 @@
                     "text": "Back to Menu",
                     "click": "Quit"
                 }
+            ]
+        },
+        {
+            "name": "BasicTut",
+            "base": { "x": 12, "y": 15, "w": 12, "h": 5 },
+            "components": [
+                {
+                    "type": "Rect",
+                    "dims": { "x": 0, "y": 0, "w": 12, "h": 5 },
+                    "background": 12
+                },
+                {
+                    "type": "Text",
+                    "dims": {"x": 0.25, "y": 0.25},
+                    "lines": [
+                        "Welcome to Rover Herd!",
+                        "Your goal is to deliver herds of beasts",
+                        "to villages"
+                    ]
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 1, "y": 7, "w": 8, "h": 2 },
+                    "text": "OK!",
+                    "click": "Close"
+                }
+            ]
+        },
+        {
+            "name": "WhistleTut",
+            "base": { "x": 12, "y": 15, "w": 12, "h": 6 },
+            "components": [
+                {
+                    "type": "Rect",
+                    "dims": { "x": 0, "y": 0, "w": 12, "h": 6 },
+                    "background": 12
+                },
+                {
+                    "type": "Text",
+                    "dims": {"x": 0.25, "y": 0.25},
+                    "lines": [
+                        "Here we see a Whistler Beast!",
+                        "",
+                        "If you use your whistle      near one",
+                        "by pressing 1 it'll follow you"
+                    ]
+                },
+                {
+                    "type": "Sprite",
+                    "dims": { "x": 0.25, "y": 1 },
+                    "index": 18
+                },
+                {
+                    "type": "Sprite",
+                    "dims": { "x": 6.25, "y": 1.75 },
+                    "index": 2
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 1, "y": 9, "w": 8, "h": 2 },
+                    "text": "got it!",
+                    "click": "Close"
+                }
+            ]
+        },
+        {
+            "name": "CurioTut",
+            "base": { "x": 12, "y": 15, "w": 12, "h": 6.5 },
+            "components": [
+                {
+                    "type": "Rect",
+                    "dims": { "x": 0, "y": 0, "w": 12, "h": 6.5 },
+                    "background": 12                    
+                },
+                {
+                    "type": "Text",
+                    "dims": {"x": 0.25, "y": 0.25},
+                    "lines": [
+                        "This village wants some Curio Beasts - ",
+                        "",
+                        "Look out for the orange dots that mark",
+                        "their gaze, they'll follow you if they",
+                        "spot you"
+                    ]
+                },
+                {
+                    "type": "Sprite",
+                    "dims": { "x": 0.25, "y": 1 },
+                    "index": 19
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 1, "y": 10, "w": 8, "h": 2 },
+                    "text": "righto!",
+                    "click": "Close"
+                }
+
+            ]
+        },
+        {
+            "name": "CurioTut2",
+            "base": { "x": 12, "y": 15, "w": 12, "h": 6 },
+            "components": [
+                {
+                    "type": "Rect",
+                    "dims": { "x": 0, "y": 0, "w": 12, "h": 6 },
+                    "background": 12                    
+                },
+                {
+                    "type": "Text",
+                    "dims": {"x": 0.25, "y": 0.25},
+                    "lines": [
+                        "But be careful!",
+                        "",
+                        "These skittish creatures will run away",
+                        "if they hear your whistle"
+                    ]
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 1, "y": 9, "w": 8, "h": 2 },
+                    "text": "I see",
+                    "click": "Close"
+                }
+
+            ]
+        },
+        {
+            "name": "ShopTut",
+            "base": { "x": 12, "y": 15, "w": 12, "h": 6.5 },
+            "components": [
+                {
+                    "type": "Rect",
+                    "dims": { "x": 0, "y": 0, "w": 12, "h": 6.5 },
+                    "background": 12                    
+                },
+                {
+                    "type": "Text",
+                    "dims": {"x": 0.25, "y": 0.25},
+                    "lines": [
+                        "Some villages will sell you items",
+                        "",
+                        "The item bar at the top or bottom of the",
+                        "screen will show you which key activates",
+                        "that item"
+                    ]
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 1, "y": 10, "w": 8, "h": 2 },
+                    "text": "makes sense",
+                    "click": "Close"
+                }
+            ]
+        },
+        {
+            "name": "ShopTut2",
+            "base": { "x": 12, "y": 15, "w": 12, "h": 7.5 },
+            "components": [
+                {
+                    "type": "Rect",
+                    "dims": { "x": 0, "y": 0, "w": 12, "h": 7.5 },
+                    "background": 12                    
+                },
+                {
+                    "type": "Text",
+                    "dims": {"x": 0.25, "y": 0.25},
+                    "lines": [
+                        "After completing a village's main quest",
+                        "They might give you an item for delivering",
+                        "beasts",
+                        "",
+                        "Only quests for gold      need to be",
+                        "completed to finish the level"
+                    ]
+                },
+                {
+                    "type": "Sprite",
+                    "dims": { "x": 4.75, "y": 3.75 },
+                    "index": 4
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 1, "y": 12, "w": 8, "h": 2 },
+                    "text": "I like gold!",
+                    "click": "Close"
+                }
+            ]
+        },
+        {
+            "name": "HunterTut",
+            "base": { "x": 12, "y": 15, "w": 12, "h": 6.5 },
+            "components": [
+                {
+                    "type": "Rect",
+                    "dims": { "x": 0, "y": 0, "w": 12, "h": 6.5 },
+                    "background": 12                    
+                },
+                {
+                    "type": "Text",
+                    "dims": {"x": 0.25, "y": 0.25},
+                    "lines": [
+                        "Watch out for hunter beasts on this island: ",
+                        "",
+                        "Look for dots over their head -",
+                        "this means they've eaten recently and",
+                        "will behave differently when they're hungry"
+                    ]
+                },
+                {
+                    "type": "Sprite",
+                    "dims": { "x": 0.25, "y": 1 },
+                    "index": 20
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 1, "y": 10, "w": 20, "h": 2 },
+                    "text": "we all get hangry from time to time",
+                    "click": "Close"
+                }
+
+            ]
+        },
+        {
+            "name": "VeggieTut",
+            "base": { "x": 12, "y": 15, "w": 12, "h": 7.5 },
+            "components": [
+                {
+                    "type": "Rect",
+                    "dims": { "x": 0, "y": 0, "w": 12, "h": 7.5 },
+                    "background": 12                    
+                },
+                {
+                    "type": "Text",
+                    "dims": {"x": 0.25, "y": 0.25},
+                    "lines": [
+                        "the mysterious veggie beast lives here: ",
+                        "",
+                        "Not much is known about their ways",
+                        "except they like eating berries...",
+                        "Try the tools at your disposal to get",
+                        "those beasts delivered!"
+                    ]
+                },
+                {
+                    "type": "Sprite",
+                    "dims": { "x": 0.25, "y": 1 },
+                    "index": 17
+                },
+                {
+                    "type": "Button",
+                    "dims": { "x": 1, "y": 12, "w": 20, "h": 2 },
+                    "text": "hooray trial and error time!",
+                    "click": "Close"
+                }
+
+            ]
+        },
+        {
+            "name": "StorageMenu",
+            "base": { "x": 0, "y": 0, "w": 12, "h": 7.5 },
+            "components": [
+                {
+                    "type": "Button",
+                    "dims": { "x": 0, "y": 0, "w": 12, "h": 2 },
+                    "text": "Reset Tutorials",
+                    "click": "ClearTutorialData"
+                }
+
             ]
         },
         {

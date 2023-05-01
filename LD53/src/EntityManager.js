@@ -4,7 +4,6 @@ import { consoleLog, PIXEL_SCALE, EM, TILE_HEIGHT, getObjectConfig } from "./mai
 import PhysicsContainer from "./PhysicsContainer";
 import RenderLayer from "./RenderLayer";
 import KeyboardInput from "./InputMethods/KeyboardInput";
-import Menu from "./Menus/Menu";
 import PauseMenu from "./Menus/PauseMenu";
 
 export default class EntityManager
@@ -450,9 +449,12 @@ export default class EntityManager
 
     TileToPhysPosition(tilePos)
     {
+        let useWidth = tilePos.w >= 1 ? tilePos.w : 1;
+        let useHeight = tilePos.h >= 1 ? tilePos.h : 1;
+
         return [ 
-            (tilePos.x + (0.5 * tilePos.w)) * PIXEL_SCALE,
-            - (tilePos.y + (0.5*tilePos.h) ) * PIXEL_SCALE 
+            (tilePos.x + (0.5 * useWidth)) * PIXEL_SCALE,
+            - (tilePos.y + (0.5 * useHeight) ) * PIXEL_SCALE 
         ];
     }
 
@@ -645,7 +647,13 @@ export default class EntityManager
             y: 0.5 * (aabb.lowerBound[1] + aabb.upperBound[1])
         };
 
-        obj.phys.centreOffset = [ phys.position[0] - aabbCentre.x, phys.position[1] -  aabbCentre.y ];
+        let xOffset = 0;
+        if(obj.phys.width < PIXEL_SCALE)
+        {
+            xOffset = PIXEL_SCALE - obj.phys.width;
+        }   
+
+        obj.phys.centreOffset = [ obj.phys.position[0] - aabbCentre.x + 0.5 *xOffset, phys.position[1] - aabbCentre.y ];
         obj.phys.position = [ obj.phys.position[0] + obj.phys.centreOffset[0], obj.phys.position[1] + obj.phys.centreOffset[1] ];
 
         obj.Position = function() {
@@ -653,9 +661,14 @@ export default class EntityManager
         };
         
         obj.GetScreenPos = function() {
+
+            let width = this.width < PIXEL_SCALE ? PIXEL_SCALE : this.width;
+            let height = this.height < PIXEL_SCALE ? PIXEL_SCALE : this.height;
+            
+
             return { 
-                x: Math.floor(this.phys.position[0] - this.phys.centreOffset[0] - 0.5 * this.width), 
-                y: Math.floor(-(this.phys.position[1] - this.phys.centreOffset[1] +0.5*this.height)) 
+                x: Math.floor(this.phys.position[0] -obj.phys.centreOffset[0] - 0.5 * (width)), 
+                y: Math.floor(-(this.phys.position[1] -obj.phys.centreOffset[0] + 0.5* height)) 
             };
         };
 

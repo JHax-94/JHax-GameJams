@@ -1,5 +1,5 @@
 import Texture from "pixelbox/Texture";
-import { COLLISION_GROUP, EM, PIXEL_SCALE, SETUP, TILE_WIDTH, consoleLog, getObjectConfig, p2 } from "../main";
+import { COLLISION_GROUP, EM, PIXEL_SCALE, SETUP, TILE_WIDTH, consoleLog, formatToFixed, getObjectConfig, p2 } from "../main";
 import Shadow from "./Shadow";
 import Whistle from "../PlayerActions/Whistle";
 import PlayerInventory from "./PlayerInventory";
@@ -17,8 +17,8 @@ export default class Player
             tileTransform: {
                 x: startPos.x,
                 y: startPos.y,
-                w: 1,
-                h: 1
+                w: 0.5,
+                h: 0.5
             },
             mass: 50,
             isSensor: false,
@@ -30,6 +30,9 @@ export default class Player
             linearDrag: 0.9
         };
 
+        this.walkAngle = 0;
+        this.walkTime = 0;
+
         this.passthrough = [];
 
         this.texture = this.BuildTexture();
@@ -37,22 +40,28 @@ export default class Player
         this.shadow = new Shadow(this, { x: 0, y: 5 });
         //this.whistle = new Whistle(this);
 
+        this.elapsedTime = 0;
+
         this.inputLog = { 
             moveInput: [0, 0]
         };
+
+        
 
         this.inventory = [];
 
         this.AddItems(startItems);
         this.inventoryUi = new PlayerInventory(this);
 
+        consoleLog("---REGISTER PLAYER ENTITY:---");
         EM.RegisterEntity(this, { physSettings: physSettings });
+        
 
         this.moveForce = 10000 * this.phys.mass;
 
         this.pickupOverlaps = [];
 
-        consoleLog("Player registered!");
+        consoleLog("---Player registered!---");
         consoleLog(this);
 
         this.promptTex = this.BuildPromptTex();
@@ -364,15 +373,48 @@ export default class Player
         {
             this.horn.Act(deltaTime);
         }
+
+        this.elapsedTime += deltaTime;
+
+        let moveSpeed = p2.vec2.sqrLen(this.phys.velocity);
+
+        this.walkAngle = 1 - Math.sin((this.elapsedTime % (Math.PI * 2)));
+        /*
+        if(moveSpeed > 0.1)
+        {
+            this.walkTime += deltaTime;
+            consoleLog(`Move speed: ${moveSpeed}`);
+
+            this.walkAngle = Math.sin((this.elapsedTime % (Math.PI * 2)) * moveSpeed / 750);
+        }
+        else if(this.walkAngle > 0)
+        {
+            this.walkTime = 0;
+            this.walkAngle -= deltaTime;
+            if(this.walkAngle < 0)
+            {
+                this.walkAngle = 0;
+            }
+        }
+        else if(this.walkAngle < 0)
+        {
+            this.walkTime = 0;
+            this.walkAngle += deltaTime;
+            if(this.walkAngle > 0)
+            {
+                this.walkAngle = 0;
+            }
+        }*/
     }
 
     Draw()
     {
+        EM.hudLog.push(`Walk angle: ${formatToFixed(this.walkAngle, 3)}`);
         let screenPos = this.GetScreenPos();
 
         if(this.texture)
         {
-            this.texture._drawEnhanced(screenPos.x, screenPos.y);
+            this.texture._drawEnhanced(screenPos.x, screenPos.y, { angle: this.walkAngle * (Math.PI / 4)  });
         }
         else
         {
@@ -381,7 +423,7 @@ export default class Player
 
         if(this.pickupOverlaps.length > 0)
         {
-            this.promptTex._drawEnhanced(screenPos.x + PIXEL_SCALE, screenPos.y - 2 * PIXEL_SCALE, {scale: 2});
+            this.promptTex._drawEnhanced(screenPos.x + PIXEL_SCALE, screenPos.y - 2 * PIXEL_SCALE, {scale: 2 });
         }
 
         //this.whistle.Draw();

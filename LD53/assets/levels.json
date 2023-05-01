@@ -305,9 +305,8 @@
             "levelName": "HunterGatherersLevel",
             "displayName": "Level 7",
             "inventory": [
-                { "object": "Whistle" },
-                { "object": "Gold", "quantity": 20 },
-                { "object": "Block", "quantity": 5 }
+                { "object": "Horn" },
+                { "object": "Gold", "quantity": 20 }
             ],
             "levelType": "Map",
             "terrain": [
@@ -318,14 +317,22 @@
             "villages": [
                 {
                     "pos": { "x": 14, "y": 5 },
+                    "shop": {
+                        "offset": { "x": 6, "y": 0 },
+                        "inventory": [
+                            { "price": 5, "object": "BaitMeat" },
+                            { "price": 7, "object": "BaitBerry" }
+                        ]
+                    },
                     "requests": [
                         [
                             {
                                 "beastType": "WHISTLE",
                                 "quantity": 6,
                                 "rewards": {
-                                    "perBeast": 2,
-                                    "complete": 50
+                                    "perBeast": 5,
+                                    "complete": 50,
+                                    "subsequent": "BaitBerry"
                                 }
                             }
                         ]
@@ -333,14 +340,23 @@
                 },
                 {
                     "pos": { "x": 5, "y": 15},
+                    "shop": {
+                        "offset": { "x": 6, "y": 0 },
+                        "inventory": [
+                            { "price": 30, "object": "Whistle" },
+                            { "price": 5, "object": "BaitMeat" },
+                            { "price": 7, "object": "BaitBerry" }
+                        ]
+                    },
                     "requests": [
                         [
                             {
                                 "beastType": "VEGGIE",
                                 "quantity": 4,
                                 "rewards": {
-                                    "perBeast": 2,
-                                    "complete": 30
+                                    "perBeast": 10,
+                                    "complete": 30,
+                                    "subsequent": "BaitBerry"
                                 }
                             }
                         ]

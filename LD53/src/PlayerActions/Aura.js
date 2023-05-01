@@ -97,10 +97,10 @@ export default class Aura
 
     DrawAura(opts)
     {
-        let screenPos = this.src.GetScreenPos();
+        let sp = this.GetScreenPos();
+
         this.texture._drawEnhanced(
-            screenPos.x + (this.src.width - this.texture.width) * 0.5, 
-            screenPos.y - (this.texture.height - this.src.height) * 0.5, 
-            opts);
+            sp.x, sp.y, opts
+        );
     }
 }

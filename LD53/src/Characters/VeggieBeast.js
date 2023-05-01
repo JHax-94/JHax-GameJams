@@ -75,6 +75,10 @@ export default class VeggieBeast extends Beast
             {
                 this.behaviours = [ new FleeBehaviour(this, stimulus.GetSource()) ];
             }
+            else if(this.HasBehaviour("FOLLOW"))
+            {
+                this.DefaultBehaviour();
+            }
         }
         else if(stimulus.stimType === "HORN")
         {

@@ -193,6 +193,11 @@ export default class Player
         }
     }
 
+    GetItem(objectName)
+    {
+        return this.inventory.find(inv => inv.object === objectName);
+    }
+
     AddItems(itemList)
     {
         for(let i = 0; i < itemList.length; i ++)

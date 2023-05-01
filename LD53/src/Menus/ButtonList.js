@@ -1,13 +1,18 @@
-import { PIXEL_SCALE, SETUP, consoleLog } from "../main";
+import Texture from "pixelbox/Texture";
+import { EM, PIXEL_SCALE, SETUP, consoleLog, getPlayerPref } from "../main";
 import Button from "./Button";
 
 export default class ButtonList
 {
     constructor(rootDims, component)
     {
+        this.renderLayer = "BUTTONS_UI";
+        
         this.src = Object.assign({}, component);
 
         this.buttons = [];
+
+        this.scoresTextures = [];
 
         if(this.src.source)
         {
@@ -45,9 +50,37 @@ export default class ButtonList
                 
                     newButton.ClickEvent = (btn) => { SETUP(item.levelName); }
 
+                    let scoreTex = new Texture(2 * PIXEL_SCALE, PIXEL_SCALE);
+
+                    let bestGold = getPlayerPref(`topGold_${item.levelName}`);
+
+                    if(bestGold)
+                    {
+                        scoreTex.pen(1);
+                        scoreTex.print(bestGold, 0 , 5),
+
+                        scoreTex.sprite(4, PIXEL_SCALE, 0);
+                    }
+
+                    this.scoresTextures.push(scoreTex);
                     this.buttons.push(newButton);
                 }
             }
+        }
+
+        EM.RegisterEntity(this);
+    }
+
+    Draw()
+    {
+        for(let i = 0; i < this.scoresTextures.length; i ++)
+        {
+            let scoreDims = {
+                x: (this.buttons[i].dims.x + this.buttons[i].dims.w * 2 + 0.5) * PIXEL_SCALE,
+                y: (this.buttons[i].dims.y - 0.25) * PIXEL_SCALE
+            };
+
+            this.scoresTextures[i]._drawEnhanced(scoreDims.x, scoreDims.y, { scale: 2});
         }
     }
 }

@@ -73,7 +73,7 @@ export default class Whistle extends Aura
 
     Act(deltaTime)
     {
-        this.phys.position = this.src.phys.position;
+        this.phys.position = [ this.src.phys.position[0], this.src.phys.position[1] ];
         if(this.IsActive())
         {
             this.activeTimer -= deltaTime;

@@ -165,14 +165,26 @@ export default class Beast
 
         let moveForce = p2.vec2.len(this.phys.force);
 
-        if(moveForce > 0.1 || this.walkTime > 0)
+        let forceThresh = 500;
+
+        if(moveForce > forceThresh || this.walkTime > 0)
         {
             this.walkTime += deltaTime;
             //consoleLog(`Move speed: ${moveForce}`);
 
-            this.walkAngle = Math.sin((this.walkTime % (Math.PI * 2) * moveForce / this.walkDamp));
+            EM.hudLog.push(`Move Force: ${moveForce}`);
+
+            let timer = moveForce > forceThresh ? moveForce : forceThresh;
+
+            if(moveForce < forceThresh)
+            {
+                this.walkSign = Math.sign(this.walkAngle);
+            }
+
+            this.walkAngle = Math.sin((this.walkTime % (Math.PI * 2) * timer / this.walkDamp));
         }
-        else if(Math.abs(this.walkAngle) < 0.01)
+        
+        if(moveForce < forceThresh && Math.sign(this.walkAngle) !== this.walkSign)
         {
             this.walkTime = 0;
             this.walkAngle = 0;

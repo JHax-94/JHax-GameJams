@@ -27,6 +27,9 @@ export default class HunterBeast extends Beast
         this.fedTimer = 0;
 
         this.shadow.offset.y = 6;
+
+        this.walkDamp = 500
+        this.walkAngleMax = Math.PI / 8;
     }
 
     IsHungry()

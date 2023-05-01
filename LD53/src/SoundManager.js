@@ -1,6 +1,6 @@
 import AudioManager from "audio-manager";
 import Button from "./Menus/Button";
-import { EM, PIXEL_SCALE, consoleLog, playFx } from "./main";
+import { EM, PIXEL_SCALE, consoleLog, getPlayerPref, playFx, setPlayerPref } from "./main";
 
 export default class SoundManager
 {
@@ -28,8 +28,35 @@ export default class SoundManager
         this.songNum = 0;
         this.trackNames = ["Track1", "Track2"];
 
-        this.musicVolume = 10;
-        this.sfxVolume = 10;
+        this.defaultMusicVolume = 10;
+        this.defaultSfxVolume = 10;
+
+        let prefMusicVol = getPlayerPref("musicVolume");
+
+        if(prefMusicVol || prefMusicVol === 0)
+        {
+            this.musicVolume = prefMusicVol;   
+        }
+        else
+        {
+            this.musicVolume = this.defaultMusicVolume;
+        }
+
+        let prefSfxVolume = getPlayerPref("sfxVolume");
+
+        if(prefSfxVolume || prefSfxVolume === 0)
+        {
+            this.sfxVolume = prefSfxVolume
+        }
+        else 
+        {
+            this.sfxVolume = this.defaultSfxVolume;
+        }
+
+        this.SetMusicVolume(this.musicVolume);
+        this.SetSfxVolume(this.sfxVolume);
+        
+        
     }
 
     GetMusicVolume()
@@ -50,6 +77,8 @@ export default class SoundManager
 
         this.musicVolume = value;
 
+        setPlayerPref("musicVolume", this.musicVolume);
+
         if(this.currentSong)
         {
             this.currentSong.volume = value / this.musicMax;
@@ -62,7 +91,7 @@ export default class SoundManager
     }
     GetTrueSfxVolume()
     {
-        return this.sfxVolume / 10;
+        return this.sfxVolume * 0.05;
     }
 
     SetSfxVolume(value, playSound)
@@ -76,9 +105,9 @@ export default class SoundManager
             value = 0;
         }
 
-        audioManager.channels['sfx'].volume = value;
-
         this.sfxVolume = value;
+
+        setPlayerPref("sfxVolume", this.sfxVolume);
 
         if(playSound)
         {

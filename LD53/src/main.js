@@ -20,6 +20,8 @@ let SOUND = null;
 
 let version = getVersionInformation();
 
+let PLAYER_PREFS = {};
+
 let physEvents = [ new BeastEvents(), new PlayerEvents() ];
 let COLLISION_GROUP = {
     PLAYER: Math.pow(2, 0),
@@ -218,6 +220,42 @@ function setFont(fontImage)
     }
 }
 
+function setPlayerPref(key, value)
+{
+    try
+    {
+        localStorage.setItem(key, value);
+    }
+    catch(err)
+    {
+
+    }
+
+    PLAYER_PREFS[key] = value;
+}
+
+function getPlayerPref(key)
+{
+    let val = null;
+
+    try
+    {
+        let readVal = localStorage.getItem(key);
+        val = readVal;
+    }
+    catch(err)
+    {
+
+    }
+
+    if(!val && PLAYER_PREFS[key])
+    {
+        val = PLAYER_PREFS[key];
+    }
+
+    return val;
+}
+
 let PIXEL_SCALE = getPixelScale();
 let TILE_WIDTH = getTileWidth();
 let TILE_HEIGHT = getTileHeight();
@@ -303,5 +341,5 @@ exports.update = function () {
 
 export {
     consoleLog, p2, Texture, EM, SETUP, PIXEL_SCALE, FPS, COLLISION_GROUP, TILE_WIDTH, TILE_HEIGHT, getObjectConfig, getObjectConfigByProperty, formatToFixed,
-    getFont, setFont, UTIL, playFx, SOUND
+    getFont, setFont, UTIL, playFx, SOUND, setPlayerPref, getPlayerPref
 }

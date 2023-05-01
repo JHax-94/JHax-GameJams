@@ -41,8 +41,6 @@ function getVersionInformation()
     console.log(ver);
     console.log(git);
 
-    console.log(pixelbox);
-
     return {
         version: ver,
         git: git
@@ -320,7 +318,7 @@ vecExtend.ExtendVec2(vec2)
 
 let FPS = 1/60;
 
-let LOGGING_ON = true;
+let LOGGING_ON = false;
 
 let LOAD_COMPLETE = false;
 let EM;

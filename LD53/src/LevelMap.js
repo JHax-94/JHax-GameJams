@@ -88,7 +88,7 @@ export default class LevelMap
 
         let showing = this.ShowCurrentTutorial();
 
-        if(!showing)
+        if(!showing || this.tutNumber >= this.levelData.tutorials.length)
         {
             EM.pause = false;
         }

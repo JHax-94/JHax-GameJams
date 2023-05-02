@@ -22,6 +22,22 @@ let SOUND = null;
 let version = getVersionInformation();
 
 let PLAYER_PREFS = {};
+/*
+console.log("LOCAL STORAGE:");
+console.log(localStorage);
+*/
+
+let LOCAL_STORAGE_BLOCKED = false;
+try
+{
+    localStorage["test"];
+}
+catch(err)
+{
+    console.log("Block local storage...");
+    LOCAL_STORAGE_BLOCKED = true;
+}
+
 
 let physEvents = [ new BeastEvents(), new PlayerEvents() ];
 let COLLISION_GROUP = {
@@ -225,11 +241,11 @@ function setPlayerPref(key, value)
 
     try
     {
-        localStorage.setItem(key, value);
+        if(!LOCAL_STORAGE_BLOCKED) localStorage.setItem(key, value);
     }
     catch(err)
     {
-
+        LOCAL_STORAGE_BLOCKED = true;
     }
 
     PLAYER_PREFS[key] = value;
@@ -244,12 +260,15 @@ function getPlayerPref(key)
 
     try
     {
-        let readVal = localStorage.getItem(key);
-        val = readVal;
+        if(!LOCAL_STORAGE_BLOCKED)
+        {
+            let readVal = localStorage.getItem(key);
+            val = readVal;
+        }
     }
     catch(err)
     {
-
+        LOCAL_STORAGE_BLOCKED = true;
     }
 
     if(!val && PLAYER_PREFS[key])
@@ -286,9 +305,16 @@ function clearTutorialData()
 {
     try
     {
-        clearTutorialFrom(localStorage);
+        if(!LOCAL_STORAGE_BLOCKED)
+        {
+            clearTutorialFrom(localStorage);
+        }
     }
-    catch(err) {}
+    catch(err) 
+    {
+        LOCAL_STORAGE_BLOCKED = true;
+    }
+
     clearTutorialFrom(PLAYER_PREFS);
 }
 
@@ -296,11 +322,15 @@ function clearScoreData()
 {
     try
     {
-        clearScoreFrom(localStorage);        
+        if(!LOCAL_STORAGE_BLOCKED)
+        {
+            clearScoreFrom(localStorage);        
+        }
+        
     }
     catch(err)
     {
-
+        LOCAL_STORAGE_BLOCKED = true;
     }
 
     clearScoreFrom(PLAYER_PREFS);

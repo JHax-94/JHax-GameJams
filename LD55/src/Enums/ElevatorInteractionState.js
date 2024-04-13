@@ -1,0 +1,7 @@
+let ELEVATOR_INTERACT_STATE = {
+    NONE: 0,
+    INTERACTABLE: 1,
+    ON_BOARD: 2
+};
+
+export { ELEVATOR_INTERACT_STATE } 

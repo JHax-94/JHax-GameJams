@@ -1,3 +1,4 @@
+import Elevator from "../Elevators/Elevator";
 import ElevatorImp from "../Player/ElevatorImp";
 import { EM, consoleLog } from "../main";
 
@@ -10,7 +11,8 @@ export default class Level
         this.drawMaps = [];
 
         this.processMap = [
-            { name: "ElevatorImp", method: this.BuildElevatorImp }
+            { name: "ElevatorImp", method: this.BuildElevatorImp },
+            { name: "Elevator", method: this.BuildElevator }
         ];
 
         this.ProcessMapObjects();
@@ -42,12 +44,22 @@ export default class Level
 
     BuildElevatorImp(tile, objDef)
     {
-        consoleLog("Build Elevator Imp @");
-        consoleLog(tile);
+        consoleLog(`Build Elevator Imp @ (${tile.x}, ${tile.y})`);
+        /*consoleLog(tile);
         consoleLog("With Definition:");
+        consoleLog(objDef);*/
+
+        let imp = new ElevatorImp(tile, objDef);
+    }
+
+    BuildElevator(tiles, objDef)
+    {
+        consoleLog("Build Elevator on Tiles:");
+        consoleLog(tiles);
+        consoleLog("With definition:");
         consoleLog(objDef);
 
-        let imp = new ElevatorImp(tile, objDef);        
+        let elevator = new Elevator(tiles, objDef);
     }
 
     ProcessTileMap(map)
@@ -66,11 +78,28 @@ export default class Level
                 {
                     let tile = objTiles[t];
                     
+                    let processTiles = [];
+
+                    processTiles.push(tile);
+                    
+                    if(objDef.scanAdjacent)
+                    {
+                        processTiles.push(...this.GetAdjacentTiles(tile, objTiles));
+                    }
+
                     let procMap = this.processMap.find(pm => pm.name === objDef.name);
                     
                     if(procMap)
                     {
-                        procMap.method(tile, objDef);
+                        if(processTiles.length === 1)
+                        {
+                            procMap.method(tile, objDef);
+                        }
+                        else
+                        {
+                            procMap.method(processTiles, objDef)
+                        }
+                        
                     }
                     else
                     {
@@ -79,13 +108,44 @@ export default class Level
 
                     if(objDef.replaceTile)
                     {
-                        map.remove(tile.x, tile.y);
+                        for(let pt = 0; pt < processTiles.length; pt ++)
+                        {
+                            let rTile = processTiles[pt];
+
+                            map.remove(rTile.x, rTile.y);
+                        }
+                    }
+
+                    if(processTiles.length > 1)
+                    {
+                        for(let pt = 1; pt < processTiles.length; pt ++)
+                        {
+                            let otIndex = objTiles.findIndex(ot => ot === processTiles[pt]);
+                            objTiles.splice(otIndex, 1);
+                        }
                     }
                 }
             }
         }
     }
 
+    GetAdjacentTiles(tile, list)
+    {
+        let tiles = [];
+
+        let up = list.find(t => t.x === tile.x && t.y === tile.y - 1);
+        let right = list.find(t => t.x === tile.x - 1 && t.y === tile.y);
+        let down = list.find(t => t.x === tile.x && t.y === tile.y + 1);
+        let left = list.find(t => t.x === tile.x + 1 && t.y === tile.y);
+
+        if(up) tiles.push(up);
+        if(right) tiles.push(right);
+        if(left) tiles.push(left);
+        if(down) tiles.push(down);
+
+        return tiles;
+    }
+    
     Draw()
     {
         for(let i = 0; i < this.drawMaps.length; i ++)

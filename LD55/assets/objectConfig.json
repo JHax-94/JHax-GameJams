@@ -1,5 +1,6 @@
 {
     "objectMap": [
-        { "index": 15, "name": "ElevatorImp", "searchMap": true, "replaceTile": true }
+        { "index": 15, "name": "ElevatorImp", "searchMap": true, "replaceTile": true },
+        { "index": 3, "name": "Elevator", "searchMap": true, "replaceTile": true, "scanAdjacent": true }
     ]
 }

@@ -1,4 +1,6 @@
-import { EM, consoleLog } from "../main";
+import { ELEVATOR_INTERACT_STATE } from "../Enums/ElevatorInteractionState";
+import { COLLISION_GROUP, EM, consoleLog } from "../main";
+import ImpElevatorInteractions from "./ImpElevatorInteractions";
 
 export default class ElevatorImp
 {
@@ -14,6 +16,8 @@ export default class ElevatorImp
             isKinematic: false,
             tag: "PLAYER",
             material: "playerMaterial",
+            collisionGroup: COLLISION_GROUP.PLAYER,
+            collisionMask: (COLLISION_GROUP.PLAYER | COLLISION_GROUP.ELEVATOR),
             linearDrag: 0.95
         };
 
@@ -24,35 +28,83 @@ export default class ElevatorImp
 
     Setup()
     {
-        this.speed = 10;
+        this.speed = 60;
+
+        this.elevator = new ImpElevatorInteractions(this);
+
+        this.inputs = {
+        }
     }
 
+    SetElevator(elevator) { this.elevator.SetElevator(elevator); }
+    RemoveElevator(elevator) { this.elevator.RemoveElevator(elevator); }
+
+    HideFromWorld()
+    {
+
+    }
+
+    RestoreToWorld(position)
+    {
+        this.phys.position = position;
+    }
 
     Input(input)
     {
-        if(input.left)
+        
+
+        if(this.elevator.ElevatorControlsActive())
         {
-            this.phys.velocity = [ -this.speed, this.phys.velocity[1] ];
+            this.elevator.PipeInput(input);
         }
-        else if(input.right)
+        else
         {
-            this.phys.velocity = [ this.speed, this.phys.velocity[1] ];
+            if(input.left)
+            {
+                this.phys.velocity = [ -this.speed, this.phys.velocity[1] ];
+            }
+            else if(input.right)
+            {
+                this.phys.velocity = [ this.speed, this.phys.velocity[1] ];
+            }
+        }
+
+        if(input.interact && !this.inputs.interact)
+        {
+            if(this.elevator.CanInteract())
+            {
+                this.inputs.interact = input.interact;
+            }
+        }
+        else if(!input.interact && this.inputs.interact)
+        {
+            if(this.elevator.CanInteract())
+            {
+                this.elevator.Interact();
+            }
+
+            this.inputs.interact = input.interact;
         }
     }
 
     Update(deltaTime)
     {
+        this.elevator.LogState();
+    }
 
+    IsVisible()
+    {
+        return !this.elevator.Is(ELEVATOR_INTERACT_STATE.ON_BOARD);
     }
 
     Draw()
     {
-        
-        let screenPos = this.GetScreenPos();
+        if(this.IsVisible())
+        {
+            let screenPos = this.GetScreenPos();
 
-        EM.hudLog.push(`draw imp [${this.index}] @ (${screenPos.x}, ${screenPos.y})`);
-
-        sprite(this.spriteIndex, screenPos.x, screenPos.y);
+            sprite(this.spriteIndex, screenPos.x, screenPos.y);
+        }
     }
 
 

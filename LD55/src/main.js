@@ -1,10 +1,22 @@
 import EntityManager from './EntityManager.js'
 import Level from './Levels/Level.js';
+import TileUtils from './TileUtils.js';
 import UiBuilder from './UI/UiBuilder.js'
+import { vec2 } from 'p2';
+import TextureExtender from './TextureExtensions.js'
+import VectorExtensions from './VectorExtensions.js'
+import TriggerZoneEvents from './PhysicsEvents/TriggerZoneEvents.js';
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
 let pointerEvents = require('pixelbox/pointerEvents');
+
+let extender = new TextureExtender();
+let vecExtender = new VectorExtensions();
+
+let Texture = extender.ExtendTextureClass(require('pixelbox/Texture'));
+
+vecExtender.ExtendVec2(vec2);
 
 function getVersionInformation()
 {
@@ -88,10 +100,18 @@ let TILE_WIDTH = getTileWidth();
 let TILE_HEIGHT = getTileHeight();
 let LOGGING_ON = true;
 
+let TILE_UTILS = new TileUtils();
+
 let LOAD_COMPLETE = false;
 let EM = null;
 
 let UI_BUILDER = new UiBuilder();
+
+let COLLISION_GROUP ={
+    PLAYER: Math.pow(2, 0),
+    ELEVATOR: Math.pow(2, 1),
+    NPC: Math.pow(2, 2)
+}
 
 function getLevelData(levelName)
 {
@@ -131,10 +151,24 @@ function SETUP(levelName)
         if(levelData)
         {
             let level = new Level(levelData);
+
+            AddPhysicsEvents();
         }
     }
 
     LOAD_COMPLETE = true;
+}
+
+let physEvents = [
+    new TriggerZoneEvents()
+];
+
+function AddPhysicsEvents()
+{
+    for(let i = 0; i < physEvents.length; i ++)
+    {
+        physEvents[i].RegisterEvents();
+    }
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -157,5 +191,5 @@ exports.update = function () {
 };
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, consoleLog
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, consoleLog
 };

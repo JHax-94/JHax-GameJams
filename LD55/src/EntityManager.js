@@ -959,7 +959,6 @@ export default class EntityManager
 
     Input()
     {
-        this.hudLog.push(`DebugKeys: ${this.debugKeys}`);
         if(this.debugKeys)
         {
             if(this.keyboardState.F1 && this.keyboardState.F1.r)
@@ -1063,7 +1062,7 @@ export default class EntityManager
 
         if(this.focusedInputGroup)
         {
-            this.hudLog.push(`Input group: ${this.focusedInputGroup.name}`);
+            //this.hudLog.push(`Input group: ${this.focusedInputGroup.name}`);
         }
         
         /*

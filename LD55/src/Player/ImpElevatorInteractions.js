@@ -78,6 +78,10 @@ export default class ImpElevatorInteractions
     {
         this.SetState(ELEVATOR_INTERACT_STATE.INTERACTABLE);
 
+        this.elevator.CloseAllDoors();
+        this.elevator.Stop();
+        this.input = {};
+
         let disembarkPos = this.elevator.GetDisembarkPosition();
 
         this.imp.RestoreToWorld(disembarkPos);
@@ -133,12 +137,10 @@ export default class ImpElevatorInteractions
     {
         let floorNum = this.elevator.GetCurrentFloorNumber();
 
-        let doorStateString = `F: ${floorNum}, L: ${this.elevator.leftDoorOpen ? "open" : "closed"}, R: ${this.elevator.rightDoorOpen ? "open" : "closed"}`;
+        let doorStateString = `F: ${floorNum}, L: ${this.elevator.leftDoorOpen ? "open" : "closed"}, R: ${this.elevator.rightDoorOpen ? "open" : "closed"}, P: ${this.elevator.passengers.length}`;
 
         pen(1);
         print(doorStateString, [0, 0]);
-
-        consoleLog(doorStateString);
     }
 
     LogState()

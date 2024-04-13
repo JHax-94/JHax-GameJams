@@ -112,8 +112,6 @@ export default class TimeStepper
                     this.onComplete();
                 }
             }
-            
-
         }
     }
 

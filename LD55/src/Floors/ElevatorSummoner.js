@@ -1,3 +1,4 @@
+import { CONDEMNED_STATE } from "../Enums/CondemnedState";
 import TriggerZone from "../PhysObjects/TriggerZone";
 import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
 
@@ -79,7 +80,7 @@ export default class ElevatorSummoner
             forLength = this.queue.length;
         }
 
-        consoleLog(`Get queuetile pos for summoner on tile: (${this.srcTile.x}, ${this.srcTile.y}) | Queue length: ${forLength}`);
+        //consoleLog(`Get queuetile pos for summoner on tile: (${this.srcTile.x}, ${this.srcTile.y}) | Queue length: ${forLength}`);
 
         let tilePos = {
             x: this.srcTile.x + 0.5 + forLength * 1.125,
@@ -111,14 +112,14 @@ export default class ElevatorSummoner
     {
         this.queueTriggerZone.MoveToTilePos(this.GetQueueTilePos());
 
-        consoleLog("New Queue");
-        consoleLog(this.queue);
+        /*consoleLog("New Queue");
+        consoleLog(this.queue);*/
 
         for(let i = 0; i < this.queue.length; i ++)
         {
             let newQueuePos = this.GetQueueTilePos(i);
 
-            consoleLog(`Give queuer ${i} the queue position: (${newQueuePos.x}, ${newQueuePos.y})`);
+            //consoleLog(`Give queuer ${i} the queue position: (${newQueuePos.x}, ${newQueuePos.y})`);
 
             this.queue[i].UpdateQueuePosition(newQueuePos);
         }
@@ -150,19 +151,20 @@ export default class ElevatorSummoner
         {
             let elevator = this.Elevator();
 
-            if(this.CanBoardElevator(elevator))
+            
+            if(this.queue[0].StateIs(CONDEMNED_STATE.BOARDING) === false && this.CanBoardElevator(elevator))
             {
                 this.isBoarding = true;
                 this.queue[0].StartBoarding();
             }
-            else if(this.isBoarding)
+            else if(this.isBoarding && this.CanBoardElevator(elevator) === false)
             {
-                this.queue[0].StopBoarding();
+                if(this.queue[0].StateIs(CONDEMNED_STATE.BOARDING))
+                {
+                    this.queue[0].StopBoarding();
+                }
             }
-            
         }
-
-        
     }
 
     Draw()

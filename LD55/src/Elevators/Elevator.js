@@ -2,6 +2,7 @@ import Texture from "pixelbox/Texture";
 import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_UTILS, consoleLog } from "../main";
 import TriggerZone from "../PhysObjects/TriggerZone";
 import { vec2 } from "p2";
+import TimeStepper from "../TimeStepper";
 
 export default class Elevator 
 {
@@ -40,6 +41,11 @@ export default class Elevator
         this.Setup();
     }
 
+    Update(deltaTime)
+    {
+        this.disembarkTimer.TickBy(deltaTime);
+    }
+
     Setup()
     {
         this.elevatorBounds = null;
@@ -47,6 +53,8 @@ export default class Elevator
 
         this.leftDoorOpen = false;
         this.rightDoorOpen = false;
+
+        this.disembarkTimer = new TimeStepper(0.5, { onComplete: () => { this.DisembarkCountdownComplete(); } });
 
         this.passengers = [];
     }
@@ -128,11 +136,44 @@ export default class Elevator
     ToggleRightDoor()
     {
         this.rightDoorOpen = !this.rightDoorOpen;
+
+        if(this.rightDoorOpen) this.DoorOpened();
     }
 
     ToggleLeftDoor()
     {
         this.leftDoorOpen = !this.leftDoorOpen;
+
+        if(this.leftDoorOpen) this.DoorOpened();
+    }
+
+    DisembarkPassenger()
+    {
+        for(let i = 0; i < this.passengers.length; i ++)
+        {
+            consoleLog(`Check if passenger ${i}: (${this.passengers[i].name}) wants to disembark?`);
+            if(this.passengers[i].IsDesiredDisembark(this))
+            {
+                let disembarkPosition = this.GetDisembarkPosition();
+
+                this.passengers[i].Disembark(disembarkPosition);
+                this.passengers.splice(i, 1);
+                this.disembarkTimer.StartTimer();
+                break;
+            }
+        }
+    }
+
+    DisembarkCountdownComplete()
+    {
+        this.DisembarkPassenger();
+    }
+
+    DoorOpened()
+    {
+        consoleLog("<< Door Opened >>");
+        this.DisembarkPassenger();
+        this.Stop();
     }
 
     DoorsClosed()
@@ -164,8 +205,11 @@ export default class Elevator
 
     OnBoard(npc)
     {
-        this.passengers.push(npc);
-        npc.Neutralise();
+        if(this.passengers.findIndex(p => p === npc) < 0)
+        {
+            this.passengers.push(npc);
+            npc.Neutralise();
+        }
     }
 
     ObjectExited(oldObject, fromZone)

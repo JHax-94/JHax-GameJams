@@ -48,6 +48,7 @@ export default class ElevatorImp
     RestoreToWorld(position)
     {
         this.phys.position = position;
+        this.phys.velocity = [0, 0];
         this.phys.gravityScale = 1;
     }
 

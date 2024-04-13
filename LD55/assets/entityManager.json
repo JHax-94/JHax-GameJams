@@ -1,8 +1,8 @@
 
 {
     "debugKeys": true,
-    "drawColliders": true,
-    "hudLogOn": false,
+    "drawColliders": false,
+    "hudLogOn": true,
     "debugSpawnTiles": false,
     "renderLayers": [
         { "name": "WORLD", "order": 0 },

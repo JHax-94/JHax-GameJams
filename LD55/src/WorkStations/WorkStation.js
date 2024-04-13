@@ -23,6 +23,18 @@ export default class WorkStation
 
         EM.RegisterEntity(this, {physSettings: physSettings});
     }
+    
+    FloorNumber()
+    {
+        let floorNumber = NaN;
+
+        if(this.floor)
+        {
+            floorNumber = this.floor.floorNumber;
+        }
+
+        return floorNumber;
+    }
 
     Draw()
     {

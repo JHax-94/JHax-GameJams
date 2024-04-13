@@ -11,25 +11,28 @@
                     "startLocation": { "floor": 0, "place": 6 },
                     "schedule": [
                         { "floor": 1, "workstation": 2 },
-                        { "floor": 0, "workstation": 3 }
+                        { "floor": 1, "workstation": 3 }
                     ],
-                    "type": "FloatingSkull"
+                    "type": "FloatingSkull",
+                    "name": "Alice"
                 },
                 { 
                     "startLocation": { "floor": 0, "place": 7 },
                     "schedule": [
-                        { "floor": 1, "workstation": 2 },
+                        { "floor": 2, "workstation": 2 },
                         { "floor": 0, "workstation": 3 }
                     ],
-                    "type": "FloatingSkull"
+                    "type": "FloatingSkull",
+                    "name": "Bob"
                 },
                 { 
                     "startLocation": { "floor": 0, "place":  8 },
                     "schedule": [
-                        { "floor": 1, "workstation": 2 },
-                        { "floor": 0, "workstation": 3 }
+                        { "floor": 1, "workstation": 1 },
+                        { "floor": 3, "workstation": 0 }
                     ],
-                    "type": "FloatingSkull"
+                    "type": "FloatingSkull",
+                    "name": "Eve"
                 }
             ]
         }

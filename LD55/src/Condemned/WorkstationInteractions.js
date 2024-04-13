@@ -21,6 +21,11 @@ export default class WorkstationInteractions
         }
     }
 
+    Target()
+    {
+        return this.npc.GetCurrentTargetWorkstation();
+    }
+
     WorkAtWorkstation(workstation)
     {
         this.npc.SetState(CONDEMNED_STATE.WORKING);

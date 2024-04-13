@@ -11,6 +11,7 @@ export default class CondemnedSoul
         this.hideCollider = true;
         this.schedule = data.schedule;
 
+        this.name = data.name;
         this.scheduler = scheduler;
 
         let config = getObjectConfig(data.type, true);
@@ -56,12 +57,22 @@ export default class CondemnedSoul
 
     StartBoarding(elevator)
     {
-        this.SetState(CONDEMNED_STATE.BOARDING);
+        consoleLog(`${this.name}: Start boarding...`);
+
+        if(!this.StateIs(CONDEMNED_STATE.BOARDING) && !this.StateIs(CONDEMNED_STATE.ON_BOARD))
+        {
+            this.SetState(CONDEMNED_STATE.BOARDING);
+        }
     }
 
     StopBoarding()
     {
-        this.SetState(CONDEMNED_STATE.QUEUEING);
+        consoleLog(`${this.name}: Abort boarding procedure!`);
+
+        if(this.StateIs(CONDEMNED_STATE.BOARDING))
+        {
+            this.SetState(CONDEMNED_STATE.QUEUEING);
+        }
     }
 
     BoardElevator(elevator)
@@ -75,6 +86,7 @@ export default class CondemnedSoul
     {
         if(this.boardableElevator && this.StateIs(CONDEMNED_STATE.BOARDING))
         {
+            consoleLog(`${this.name}: Boarding elevator`);
             this.boardableElevator.OnBoard(this);
             let summoner = this.scheduler.FindButtonForElevator(this.boardableElevator, this.GetCurrentFloor(), true);
             summoner.RemoveFromQueue(this);
@@ -88,7 +100,7 @@ export default class CondemnedSoul
 
     SetState(targetState)
     {
-        consoleLog(`Set NPC State to: ${targetState}`);
+        consoleLog(`Set NPC ${this.name} State to: ${CONDEMNED_STATE.ToString(targetState)} (${targetState})`);
         this.state = targetState;
 
         if(this.state === CONDEMNED_STATE.BOARDING)
@@ -104,12 +116,35 @@ export default class CondemnedSoul
         this.phys.velocity = [ 0, 0];
     }
 
+
+
+    Disembark(atPosition)
+    {
+        if(this.elevatorRoute)
+        {
+            if(this.elevatorRouteStep + 1 < this.elevatorRoute.length)
+            {
+                this.elevatorRouteStep ++;
+            }
+            else 
+            {
+                this.elevatorRoute = null;
+                this.elevatorRouteStep = -1;
+            }
+        }
+
+        this.phys.position = [ atPosition[0], atPosition[1]];
+        this.SetState(CONDEMNED_STATE.IDLE);
+        this.phys.gravityScale = 1;
+    }
+
     Update(deltaTime)
     {
+        EM.hudLog.push(`${this.name[0]}: (${this.phys.position[0].toFixed(2), this.phys.position[0].toFixed(2)})`);
         if(!this.StateIs(CONDEMNED_STATE.ON_BOARD))
         {
             this.UpdateThink(deltaTime);
-            EM.hudLog.push(`S: ${this.state}, I: ${this.input}, F: ${this.GetCurrentFloor()}`);
+            //EM.hudLog.push(`S: ${this.state}, I: ${this.input}, F: ${this.GetCurrentFloor()}`);
             this.UpdateAct(deltaTime);
         }
     }
@@ -125,9 +160,33 @@ export default class CondemnedSoul
         }
         else
         {
-            EM.hudLog.push(`F:${this.scheduleItem.floor}, W: ${this.scheduleItem.workstation}`);
+            //EM.hudLog.push(`F:${this.scheduleItem.floor}, W: ${this.scheduleItem.workstation}`);
             //// If I know what's next on the schedule, I should move towards my next schedule Item
             this.AttemptMoveToTarget(this.scheduleItem);
+        }
+    }
+
+    ReelTo(target, deltaTime)
+    {
+        let targetPosDiff = target[0] - this.phys.position[0];
+        if(Math.abs(targetPosDiff) > 0.01)
+        {
+            let newX = this.phys.position[0] + Math.sign(targetPosDiff) * this.reelDist * deltaTime;
+
+            consoleLog(`NewX:${newX}`);
+
+            if(targetPosDiff < 0 && newX < target[0])
+            {
+                consoleLog(`SnapX L: ${newX}`);
+                newX = target[0];
+            }
+            else if(targetPosDiff > 0 && newX > target[0])
+            {
+                consoleLog(`SnapX R: ${newX}`);
+                newX = target[0];
+            }
+            
+            this.phys.position = [ newX, this.phys.position[1] ];
         }
     }
 
@@ -135,27 +194,12 @@ export default class CondemnedSoul
     {
         if(this.StateIs(CONDEMNED_STATE.WORKING))
         {
+            this.ReelTo(this.workstation.Target().phys.position, deltaTime);
             this.workstation.UpdateWork(deltaTime);
         }
         else if(this.StateIs(CONDEMNED_STATE.QUEUEING))
         {
-            let queuePosDiff = this.queuePosition[0] - this.phys.position[0];
-
-            if(Math.abs(queuePosDiff) > 0.01)
-            {
-                let newX = this.phys.position[0] + Math.sign(queuePosDiff) * this.reelDist * deltaTime;
-
-                if(queuePosDiff < 0 && newX < this.queuePosition[0])
-                {
-                    newX = this.queuePosition[0];
-                }
-                else if(queuePosDiff > 0 && newX > this.queuePosition[0])
-                {
-                    newX = this.queuePosition[0]
-                }
-                
-                this.phys.position = [ newX, this.phys.position[1] ];
-            }
+            this.ReelTo(this.queuePosition, deltaTime);
         }
         else
         {
@@ -198,18 +242,86 @@ export default class CondemnedSoul
         }
     }
 
+    IsDesiredDisembark(elevator)
+    {
+        let desiresDisembark = false;
+
+        let elevatorFloor = elevator.GetCurrentFloorNumber();
+        let nextStep = this.elevatorRouteStep + 1;
+
+        let targetOnFloor = null;
+
+        let workstation = this.GetCurrentTargetWorkstation();
+
+        consoleLog(`Next workstation:`);
+        consoleLog(workstation);
+
+        if(nextStep < this.elevatorRoute.length)
+        {
+            consoleLog("Next step is another elevator...");
+
+            let next = this.elevatorRoute[nextStep];
+
+            if(next.StopsAtFloor(elevatorFloor))
+            {
+                targetOnFloor = this.scheduler.FindButtonForElevator(next, elevatorFloor);
+            }
+        }
+        else if(workstation.FloorNumber() === elevatorFloor)
+        {
+            consoleLog("Next step is a workstation...");
+            targetOnFloor = workstation;
+        }
+
+        if(targetOnFloor)
+        {
+            consoleLog("Target is on this floor:");
+            consoleLog(targetOnFloor);
+
+            let dirToTarget = this.GetMoveDirectionToTarget(elevator, targetOnFloor, true);
+
+            if(dirToTarget === CONDEMNED_INPUT.MOVE_LEFT)
+            {
+                consoleLog(`check left door: ${elevator.leftDoorOpen}`);
+                desiresDisembark = true;
+            }
+            else if(dirToTarget === CONDEMNED_INPUT.MOVE_RIGHT)
+            {
+                consoleLog(`check right door: ${elevator.rightDoorOpen}`);
+                desiresDisembark = true;
+            }
+        }
+
+        consoleLog(`Desires to disembark? ${desiresDisembark}`);
+
+        return desiresDisembark;
+    }
+
+    GetMoveDirectionToTarget(source, target, log)
+    {
+        if(log)
+        {
+            consoleLog(`Source.x = ${source.phys.position[0]}, target X = ${target.phys.position[0]}`);
+        }
+
+        let direction = null;
+        if(target.phys.position[0] < source.phys.position[0])
+        {
+            direction = CONDEMNED_INPUT.MOVE_LEFT;
+        }
+        else if(target.phys.position[0] > source.phys.position[0])
+        {
+            direction = CONDEMNED_INPUT.MOVE_RIGHT;
+        }
+
+        return direction;
+    }
+
     DetermineMoveDirectionToTarget(target)
     {
         /*consoleLog(`Determine move to target:`);
         consoleLog(target);*/
-        if(target.phys.position[0] < this.phys.position[0])
-        {
-            this.input = CONDEMNED_INPUT.MOVE_LEFT;
-        }
-        else if(target.phys.position[0] > this.phys.position[0])
-        {
-            this.input = CONDEMNED_INPUT.MOVE_RIGHT;
-        }
+        this.input = this.GetMoveDirectionToTarget(this, target);
     }
 
     GetNextScheduledItem()
@@ -263,15 +375,20 @@ export default class CondemnedSoul
 
     QueueForElevator(elevatorSummoner)    
     {
-        let targetElevator = this.elevatorRoute[this.elevatorRouteStep];
-
-        if(elevatorSummoner.Elevator() === targetElevator)
+        if(this.elevatorRoute && !this.StateIs(CONDEMNED_STATE.ON_BOARD) && !this.StateIs(CONDEMNED_STATE.BOARDING))
         {
-            this.SetState(CONDEMNED_STATE.QUEUEING);
-            let summonerTilePos = elevatorSummoner.GetQueueTilePos();
-            //consoleLog(`Start queueing @ (${this.summonerTilePos.x}, ${this.summonerTilePos.y})`);
-            this.queuePosition = EM.TileToPhysPosition(summonerTilePos);
-            elevatorSummoner.AddToQueue(this);
+            let targetElevator = this.elevatorRoute[this.elevatorRouteStep];
+
+            if(elevatorSummoner.Elevator() === targetElevator)
+            {
+                consoleLog(`${this.name}: start queueing for elevator`);
+
+                this.SetState(CONDEMNED_STATE.QUEUEING);
+                let summonerTilePos = elevatorSummoner.GetQueueTilePos();
+                //consoleLog(`Start queueing @ (${this.summonerTilePos.x}, ${this.summonerTilePos.y})`);
+                this.queuePosition = EM.TileToPhysPosition(summonerTilePos);
+                elevatorSummoner.AddToQueue(this);
+            }
         }
     }
 

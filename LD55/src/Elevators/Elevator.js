@@ -34,7 +34,8 @@ export default class Elevator
             w: this.dims.w + 1,
             h: this.dims.h
         },
-        this);
+        this,
+        { hideCollider: true, lockToParent: true });
 
         this.Setup();
     }

@@ -6,6 +6,13 @@ export default class TriggerZone
     {
         consoleLog("Building trigger zone with settings");
 
+        this.hideCollider = false;
+
+        if(settings && settings.hideCollider)
+        {
+            this.hideCollider = true;
+        }
+
         let physSettings = {
             tileTransform: { x: tileDimensions.x, y: tileDimensions.y, w: tileDimensions.w, h: tileDimensions.h },
             mass: 100,
@@ -20,6 +27,7 @@ export default class TriggerZone
 
         this.trackedObjects = [];
 
+        this.lockToParent = (settings && settings.lockToParent) ? true : false;
         this.parent = parent;
 
         consoleLog("Register trigger zone with phys settings:");        
@@ -37,7 +45,7 @@ export default class TriggerZone
 
     Update(deltaTime)
     {
-        if(this.parent)
+        if(this.parent && this.lockToParent)
         {
             this.phys.position = [ this.parent.phys.position[0], this.parent.phys.position[1] ];
         }

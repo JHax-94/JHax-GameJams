@@ -1,10 +1,12 @@
 import TriggerZone from "../PhysObjects/TriggerZone";
-import { COLLISION_GROUP, EM, PIXEL_SCALE } from "../main";
+import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
 
 export default class ElevatorSummoner
 {
     constructor(tile, objDef)
     {
+        this.hideCollider= true;
+
         this.srcTile = tile;
 
         this.spriteIndex = objDef.index;
@@ -25,9 +27,11 @@ export default class ElevatorSummoner
 
         this.Setup();
         
+        this.queueDims = { w: 1, h: 2 };
+
         let queuePos = this.GetQueueTilePos();
 
-        this.queueTriggerZone = new TriggerZone({ x: queuePos.x, y: queuePos.y, w: 1, h: 2 }, this, {
+        this.queueTriggerZone = new TriggerZone({ x: queuePos.x, y: queuePos.y, w: queuePos.w, h: queuePos.h }, this, {
             tag: "ELEVATOR_QUEUE",
             collisionGroup: COLLISION_GROUP.NPC_INTERACTABLE,
             collisionMask: COLLISION_GROUP.NPC
@@ -61,10 +65,21 @@ export default class ElevatorSummoner
 
     GetQueueTilePos()
     {
-        return {
-            x: this.srcTile.x + 0.5 + this.queue.length * 1,
-            y: this.srcTile.y - 1
+        consoleLog(`Get queuetile pos for summoner on tile: (${this.srcTile.x}, ${this.srcTile.y}) | Queue length: ${this.queue.length}`);
+
+        let tilePos = {
+            x: this.srcTile.x + 0.5 + this.queue.length * 1.125,
+            y: this.srcTile.y - 1,
+            w: this.queueDims.w,
+            h: this.queueDims.h
         };
+
+        return tilePos;
+    }
+
+    QueueZone()
+    {
+        return this.queueTriggerZone;
     }
 
     Elevator()
@@ -80,7 +95,7 @@ export default class ElevatorSummoner
 
     QueueChanged()
     {
-        this.queueTriggerZone.MoveToTilePos(this.GetQueueTilePos())
+        this.queueTriggerZone.MoveToTilePos(this.GetQueueTilePos());
     }
 
     FloorNumber()

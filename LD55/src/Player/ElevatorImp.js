@@ -6,6 +6,7 @@ export default class ElevatorImp
 {
     constructor(tile, def)
     {
+        this.hideCollider = true;
         this.spriteIndex = def.index;
 
         let physSettings = {

@@ -1,3 +1,4 @@
+import { vec2 } from "p2";
 import { CONDEMNED_INPUT } from "../Enums/CondemnedInputs";
 import { CONDEMNED_STATE } from "../Enums/CondemnedState";
 import { COLLISION_GROUP, EM, consoleLog, getObjectConfig } from "../main";
@@ -7,6 +8,7 @@ export default class CondemnedSoul
 {
     constructor(tile, data, scheduler)
     {
+        this.hideCollider = true;
         this.schedule = data.schedule;
 
         this.scheduler = scheduler;
@@ -39,6 +41,8 @@ export default class CondemnedSoul
     Setup()
     {
         this.workstation = new WorkstationInteractions(this);
+
+        this.reelDist = 10;
 
         this.state = CONDEMNED_STATE.IDLE;
         this.speed = 10;
@@ -93,7 +97,23 @@ export default class CondemnedSoul
         }
         else if(this.StateIs(CONDEMNED_STATE.QUEUEING))
         {
+            let queuePosDiff = this.queuePosition[0] - this.phys.position[0];
 
+            if(Math.abs(queuePosDiff) > 0.01)
+            {
+                let newX = this.phys.position[0] + Math.sign(queuePosDiff) * this.reelDist * deltaTime;
+
+                if(queuePosDiff < 0 && newX < this.queuePosition[0])
+                {
+                    newX = this.queuePosition[0];
+                }
+                else if(queuePosDiff > 0 && newX > this.queuePosition[0])
+                {
+                    newX = this.queuePosition[0]
+                }
+
+                this.phys.position = [ newX, this.phys.position[1] ];
+            }
         }
         else
         {
@@ -127,7 +147,7 @@ export default class CondemnedSoul
             this.targetElevator = this.elevatorRoute[this.elevatorRouteStep];
             let targetButton = this.scheduler.FindButtonForElevator(this.targetElevator, currentFloor)
 
-            this.DetermineMoveDirectionToTarget(targetButton);
+            this.DetermineMoveDirectionToTarget(targetButton.QueueZone());
         }
     }
 
@@ -194,6 +214,7 @@ export default class CondemnedSoul
         if(elevatorSummoner.Elevator() === targetElevator)
         {
             this.SetState(CONDEMNED_STATE.QUEUEING);
+            this.queuePosition = EM.TileToPhysPosition(elevatorSummoner.GetQueueTilePos());
             elevatorSummoner.AddToQueue(this);
         }
     }

@@ -12,16 +12,11 @@ export default class WorkstationInteractions
 
     ProcessWorkstationCollision(workstation)
     {
-        consoleLog("Check workstation");
-        consoleLog(workstation);
-
         let targetWorkstation = this.npc.GetCurrentTargetWorkstation();
-
-        consoleLog("Against target workstation:");
-        consoleLog(targetWorkstation);
 
         if(targetWorkstation === workstation)
         {
+            consoleLog("NPC Working at workstation");
             this.WorkAtWorkstation(workstation);
         }
     }
@@ -42,5 +37,6 @@ export default class WorkstationInteractions
     {
         consoleLog("NPC Finished working!");
         this.workTimer.Reset();
+        this.npc.ScheduledItemCompleted();
     }
 }

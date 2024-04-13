@@ -3,7 +3,8 @@
         {
             "levelName": "Test",
             "maps": [
-                { "name": "map" }
+                { "name": "map" },
+                { "name": "elevator_bounds" }
             ],
             "condemned": [
                 { 

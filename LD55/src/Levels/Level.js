@@ -1,5 +1,6 @@
 import CondemnedScheduler from "../Condemned/CondemnedScheduler";
 import Elevator from "../Elevators/Elevator";
+import ElevatorBounds from "../Elevators/ElevatorBounds";
 import ElevatorSummoner from "../Floors/ElevatorSummoner";
 import Floor from "../Floors/Floor";
 import ElevatorImp from "../Player/ElevatorImp";
@@ -22,7 +23,8 @@ export default class Level
             { name: "Elevator", method: this.BuildElevator },
             { name: "Floor", method: this.BuildFloor },
             { name: "Workstation", method: this.BuildWorkStation },
-            { name: "ElevatorSummoner", method: this.BuildElevatorSummoner }
+            { name: "ElevatorSummoner", method: this.BuildElevatorSummoner },
+            { name: "ElevatorBounds", method: this.BuildElevatorBounds }
         ];
 
         this.ProcessMapObjects();
@@ -65,8 +67,17 @@ export default class Level
     
     }
 
+    BuildElevatorBounds(tiles, objDef)
+    {
+        let bounds = new ElevatorBounds(tiles, objDef);
+
+        return bounds;
+    }
+
     BuildElevatorSummoner(tile, objDef)
     {
+        consoleLog("BUILDING ELEVATOR SUMMONER");
+
         let summoner = new ElevatorSummoner(tile, objDef);
 
         return summoner;

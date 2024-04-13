@@ -39,6 +39,7 @@ export default class Floor
     {
         this.floorNumber = null;
         this.workstations = [];
+        this.summoners = [];
         this.floorY = this.phys.position[1];
     }
 
@@ -46,6 +47,12 @@ export default class Floor
     {
         this.workstations.push(workstation);
         workstation.floor = this;
+    }
+
+    AddSummoner(summoner)
+    {
+        this.summoners.push(this.summoners);
+        summoner.floor = this;
     }
 
     Draw()

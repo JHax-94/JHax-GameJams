@@ -34,8 +34,6 @@ export default class CondemnedSoul
         EM.RegisterEntity(this, { physSettings: physSettings }); 
 
         this.Setup();
-
-        
     }
 
     Setup()
@@ -45,6 +43,8 @@ export default class CondemnedSoul
         this.state = CONDEMNED_STATE.IDLE;
         this.speed = 10;
         this.scheduleItem = null;
+        this.elvatorRoute = null;
+        this.elevatorRouteStep = -1;
         this.scheduleStep = -1;
 
         this.input = null;
@@ -64,7 +64,7 @@ export default class CondemnedSoul
     Update(deltaTime)
     {
         this.UpdateThink(deltaTime);
-        EM.hudLog.push(`S: ${this.state}, I: ${this.input}`);
+        EM.hudLog.push(`S: ${this.state}, I: ${this.input}, F: ${this.GetCurrentFloor()}`);
         this.UpdateAct(deltaTime);
     }
 
@@ -85,8 +85,6 @@ export default class CondemnedSoul
         }
     }
 
-
-
     UpdateAct(deltaTime)
     {
         if(this.StateIs(CONDEMNED_STATE.WORKING))
@@ -106,19 +104,39 @@ export default class CondemnedSoul
     {
         /// If I am on the right floor for my schedule item I should go to my work station
 
-        if(scheduleItem.floor === this.GetCurrentFloor())
+        let currentFloor = this.GetCurrentFloor();
+
+        if(scheduleItem.floor === currentFloor)
         {
             let workstation = this.scheduler.GetTargetWorkstation(scheduleItem);
 
-            if(workstation.phys.position[0] < this.phys.position[0])
-            {
-                this.input = CONDEMNED_INPUT.MOVE_LEFT;
-            }
-            else if(workstation.phys.position[0] > this.phys.position[0])
-            {
-                this.input = CONDEMNED_INPUT.MOVE_RIGHT;
-            }
-        } 
+            this.DetermineMoveDirectionToTarget(workstation);
+        }
+        else if(!this.elevatorRoute)
+        {
+            consoleLog(`Look for route from Floor ${this.GetCurrentFloor()} to floor ${scheduleItem.floor}`);
+            this.elevatorRoute = this.scheduler.PlotRouteToFloor(currentFloor, scheduleItem.floor, true);
+            this.elevatorRouteStep = 0;
+        }
+        else
+        {
+            this.targetElevator = this.elevatorRoute[this.elevatorRouteStep];
+            let targetButton = this.scheduler.FindButtonForElevator(this.targetElevator, currentFloor)
+
+            this.DetermineMoveDirectionToTarget(targetButton);
+        }
+    }
+
+    DetermineMoveDirectionToTarget(target)
+    {
+        if(target.phys.position[0] < this.phys.position[0])
+        {
+            this.input = CONDEMNED_INPUT.MOVE_LEFT;
+        }
+        else if(target.phys.position[0] > this.phys.position[0])
+        {
+            this.input = CONDEMNED_INPUT.MOVE_RIGHT;
+        }
     }
 
     GetNextScheduledItem()
@@ -154,9 +172,15 @@ export default class CondemnedSoul
 
     ProcessWorkstationCollision(workstation) { this.workstation.ProcessWorkstationCollision(workstation); }
 
+    ScheduledItemCompleted()
+    {
+        this.scheduleItem = null;
+        this.SetState(CONDEMNED_STATE.IDLE);
+    }
+
     GetCurrentFloor()
     {
-        return 0;
+        return this.scheduler.GetFloorForPhysObject(this)?.floorNumber ?? 0;
     }
 
     Draw()

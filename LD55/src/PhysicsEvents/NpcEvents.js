@@ -10,9 +10,7 @@ export default class NpcEvents extends PhysEventRegistry
     {
         let workstationBody = container.BodyWithTag(evt, "WORKSTATION");
         let npcBody = container.BodyWithTag(evt, "NPC");
-
-        consoleLog("NPC / WORKSTATION COLLISION");
-
+        
         let npc = npcBody.obj;
         let workstation = workstationBody.obj;
 

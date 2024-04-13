@@ -1,9 +1,11 @@
-import { EM } from "../main";
+import { COLLISION_GROUP, EM, PIXEL_SCALE } from "../main";
 
 export default class ElevatorSummoner
 {
     constructor(tile, objDef)
     {
+        this.srcTile = tile;
+
         this.spriteIndex = objDef.index;
         let physSettings = {
             tileTransform: { x: tile.x, y: tile.y, w: 1, h: 1 },
@@ -19,6 +21,18 @@ export default class ElevatorSummoner
         };
 
         EM.RegisterEntity(this, {physSettings: physSettings});
+    }
+
+    FloorNumber()
+    {
+        let floorNumber = NaN;
+
+        if(this.floor)
+        {
+            floorNumber = this.floor.floorNumber;
+        }
+
+        return floorNumber;
     }
 
     Draw()

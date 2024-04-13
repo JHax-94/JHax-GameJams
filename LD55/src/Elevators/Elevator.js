@@ -1,5 +1,5 @@
 import Texture from "pixelbox/Texture";
-import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_UTILS } from "../main";
+import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_UTILS, consoleLog } from "../main";
 import TriggerZone from "../PhysObjects/TriggerZone";
 import { vec2 } from "p2";
 
@@ -8,6 +8,9 @@ export default class Elevator
     constructor(tiles, objDef)
     {
         this.hideCollider = true;
+        
+        this.srcTiles = tiles;
+        
         this.dims = TILE_UTILS.GetBlockDimensions(tiles);
         this.texture = TILE_UTILS.BuildTextureFromTiles(tiles, this.dims);
 
@@ -38,10 +41,45 @@ export default class Elevator
 
     Setup()
     {
+        this.elevatorBounds = null;
         this.speed = 30;
     }
 
-    
+    StopsAtFloor(floorNumber)
+    {
+        return !!this.GetSummonerOnFloor(floorNumber);
+    }
+
+    GetSummonerOnFloor(floorNumber)
+    {
+        let summoner = null;
+
+        if(this.elevatorBounds)
+        {
+            let summoners = this.elevatorBounds.summoners;
+
+            for(let i = 0; i < summoners.length; i ++)
+            {
+                if(summoners[i].FloorNumber() === floorNumber)
+                {
+                    summoner = summoners[i];
+                    break;
+                }
+            }
+        }
+        else
+        {
+            console.error(`Unable to check stops for elevator without bounds`);
+            consoleLog(this);
+        }
+
+        return summoner;
+    }
+
+    AddBounds(bounds)
+    {
+        this.elevatorBounds = bounds;
+    }
 
     IsMoving()
     {

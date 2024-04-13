@@ -7,8 +7,8 @@ export default class TileUtils
 
     GetBlockDimensions(tileList)
     {
-        consoleLog("Get Block Dimensions of tile List:");
-        consoleLog(tileList);
+        /*consoleLog("Get Block Dimensions of tile List:");
+        consoleLog(tileList);*/
 
         let minX = Number.MAX_VALUE;
         let minY = Number.MAX_VALUE;
@@ -47,8 +47,8 @@ export default class TileUtils
             h: 1 + maxY - minY
         };
 
-        consoleLog("DIMS:");
-        consoleLog(dims);
+        /*consoleLog("DIMS:");
+        consoleLog(dims);*/
 
         return dims;
     }

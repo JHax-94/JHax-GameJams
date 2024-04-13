@@ -7,6 +7,7 @@ export default class Elevator
 {
     constructor(tiles, objDef)
     {
+        this.hideCollider = true;
         this.dims = TILE_UTILS.GetBlockDimensions(tiles);
         this.texture = TILE_UTILS.BuildTextureFromTiles(tiles, this.dims);
 

@@ -1,8 +1,11 @@
+import CondemnedScheduler from "../Condemned/CondemnedScheduler";
 import Elevator from "../Elevators/Elevator";
+import ElevatorSummoner from "../Floors/ElevatorSummoner";
 import Floor from "../Floors/Floor";
 import ElevatorImp from "../Player/ElevatorImp";
 import WorkStation from "../WorkStations/WorkStation";
 import { EM, consoleLog } from "../main";
+import LevelObjectList from "./LevelObjectList";
 
 export default class Level
 {
@@ -12,24 +15,40 @@ export default class Level
 
         this.drawMaps = [];
 
+        this.levelObjects = [];
+
         this.processMap = [
             { name: "ElevatorImp", method: this.BuildElevatorImp },
             { name: "Elevator", method: this.BuildElevator },
             { name: "Floor", method: this.BuildFloor },
-            { name: "Workstation", method: this.BuildWorkStation }
+            { name: "Workstation", method: this.BuildWorkStation },
+            { name: "ElevatorSummoner", method: this.BuildElevatorSummoner }
         ];
 
         this.ProcessMapObjects();
 
         EM.RegisterEntity(this);
+
+        let scheduler = new CondemnedScheduler(this);
     }   
+
+    GetObjectList(type)
+    {
+        let returnArray = [];
+
+        let list = this.levelObjects.find(lo => lo.type === type);
+
+        if(list)
+        {
+            returnArray = list.objects;
+        }
+
+        return returnArray;
+    }
 
     ProcessMapObjects()
     {
         let scanMaps = this.data.maps;
-
-        consoleLog("Process objects for maps: ");
-        consoleLog(scanMaps);
 
         for(let i = 0; i < scanMaps.length; i++)
         {
@@ -46,37 +65,52 @@ export default class Level
     
     }
 
+    BuildElevatorSummoner(tile, objDef)
+    {
+        let summoner = new ElevatorSummoner(tile, objDef);
+
+        return summoner;
+    }
+
     BuildWorkStation(tile, objDef)
     {
         let workstation = new WorkStation(tile, objDef);
+
+        return workstation;
     }
 
     BuildElevatorImp(tile, objDef)
     {
-        consoleLog(`Build Elevator Imp @ (${tile.x}, ${tile.y})`);
-        /*consoleLog(tile);
+        /*consoleLog(`Build Elevator Imp @ (${tile.x}, ${tile.y})`);
+        consoleLog(tile);
         consoleLog("With Definition:");
         consoleLog(objDef);*/
 
         let imp = new ElevatorImp(tile, objDef);
+
+        return imp;
     }
 
     BuildElevator(tiles, objDef)
     {
-        consoleLog("Build Elevator on Tiles:");
+        /*consoleLog("Build Elevator on Tiles:");
         consoleLog(tiles);
-        /*consoleLog("With definition:");
+        consoleLog("With definition:");
         consoleLog(objDef);*/
 
         let elevator = new Elevator(tiles, objDef);
+        return elevator;
     }
 
     BuildFloor(tiles, objDef)
     {
+        /*
         consoleLog("Build Floor on Tiles:");
-        consoleLog(tiles);
+        consoleLog(tiles);*/
 
         let floor = new Floor(tiles, objDef);
+
+        return floor;
     }
 
     ProcessTileMap(map)
@@ -110,15 +144,26 @@ export default class Level
                     
                     if(procMap)
                     {
+                        let newObject = null;
+
                         if(processTiles.length === 1)
                         {
-                            procMap.method(tile, objDef);
+                            newObject = procMap.method(tile, objDef);
                         }
                         else
                         {
-                            procMap.method(processTiles, objDef)
+                            newObject = procMap.method(processTiles, objDef)
                         }
-                        
+
+                        let objectRecord = this.levelObjects.find(lo => lo.type === objDef.name);
+
+                        if(!objectRecord)
+                        {
+                            objectRecord = new LevelObjectList(objDef.name);
+                            this.levelObjects.push(objectRecord);
+                        }
+
+                        objectRecord.AddObject(newObject);
                     }
                     else
                     {

@@ -4,6 +4,7 @@ export default class Floor
 {
     constructor(tiles, objectDef)
     {
+        this.hideCollider = true;
         this.dims = TILE_UTILS.GetBlockDimensions(tiles);
         this.texture = TILE_UTILS.BuildTextureFromTiles(tiles, this.dims);
 
@@ -20,6 +21,21 @@ export default class Floor
         }; 
 
         EM.RegisterEntity(this, { physSettings: physSettings });
+
+        this.Setup();
+    }
+
+    Setup()
+    {
+        this.floorNumber = null;
+        this.workstations = [];
+        this.floorY = this.phys.position[1];
+    }
+
+    AddWorkstation(workstation)
+    {
+        this.workstations.push(workstation);
+        workstation.floor = this;
     }
 
     Draw()

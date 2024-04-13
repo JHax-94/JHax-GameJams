@@ -69,6 +69,32 @@ export default class CondemnedScheduler
         }
     }
 
+    GetTargetWorkstation(scheduleItem, log)
+    {
+        if(log)
+        {
+            consoleLog("Check for schedule item station:");
+            consoleLog(scheduleItem);
+        }
+
+        let workstation = null;
+
+        let floor = this.floors[scheduleItem.floor];
+        
+        if(floor)
+        {
+            workstation = floor.workstations[scheduleItem.workstation];
+
+            if(!workstation) console.error(`No workstation ${scheduleItem.workstation} on floor ${scheduleItem.floor}`);
+        }
+        else
+        {
+            console.error(`No floor with number: ${scheduleItem.floor}`);
+        }
+
+        return workstation;
+    }
+
     GetTile(startLocation)
     {
         let floor = this.floors.find(f => f.floorNumber === startLocation.floor);
@@ -111,7 +137,7 @@ export default class CondemnedScheduler
         {
             let startTile = this.GetTile(condemnedData[i].startLocation);
 
-            let condemnedSoul = new CondemnedSoul(startTile, condemnedData[i]);
+            let condemnedSoul = new CondemnedSoul(startTile, condemnedData[i], this);
             this.condemned.push(condemnedSoul);
         }
     }

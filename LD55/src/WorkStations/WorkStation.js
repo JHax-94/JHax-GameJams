@@ -16,7 +16,7 @@ export default class WorkStation
             isKinematic: true,
             tag: "WORKSTATION",
             material: "playerMaterial",
-            collisionGroup: COLLISION_GROUP.WORKSTATION,
+            collisionGroup: COLLISION_GROUP.NPC_INTERACTABLE,
             collisionMask: (COLLISION_GROUP.NPC),
             linearDrag: 0.99
         };

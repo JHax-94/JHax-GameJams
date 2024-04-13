@@ -6,6 +6,7 @@ import { vec2 } from 'p2';
 import TextureExtender from './TextureExtensions.js'
 import VectorExtensions from './VectorExtensions.js'
 import TriggerZoneEvents from './PhysicsEvents/TriggerZoneEvents.js';
+import NpcEvents from './PhysicsEvents/NpcEvents.js';
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -128,8 +129,9 @@ let COLLISION_GROUP ={
     PLAYER: Math.pow(2, 0),
     ELEVATOR: Math.pow(2, 1),
     NPC: Math.pow(2, 2),
-    FLOOR: Math.pow(2, 3)
-}
+    FLOOR: Math.pow(2, 3),
+    NPC_INTERACTABLE: Math.pow(2, 4),
+};
 
 function getLevelData(levelName)
 {
@@ -178,7 +180,8 @@ function SETUP(levelName)
 }
 
 let physEvents = [
-    new TriggerZoneEvents()
+    new TriggerZoneEvents(),
+    new NpcEvents()
 ];
 
 function AddPhysicsEvents()

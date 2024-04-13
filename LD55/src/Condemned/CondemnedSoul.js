@@ -173,16 +173,12 @@ export default class CondemnedSoul
         {
             let newX = this.phys.position[0] + Math.sign(targetPosDiff) * this.reelDist * deltaTime;
 
-            consoleLog(`NewX:${newX}`);
-
             if(targetPosDiff < 0 && newX < target[0])
             {
-                consoleLog(`SnapX L: ${newX}`);
                 newX = target[0];
             }
             else if(targetPosDiff > 0 && newX > target[0])
             {
-                consoleLog(`SnapX R: ${newX}`);
                 newX = target[0];
             }
             

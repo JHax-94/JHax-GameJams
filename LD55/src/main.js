@@ -7,6 +7,7 @@ import TextureExtender from './TextureExtensions.js'
 import VectorExtensions from './VectorExtensions.js'
 import TriggerZoneEvents from './PhysicsEvents/TriggerZoneEvents.js';
 import NpcEvents from './PhysicsEvents/NpcEvents.js';
+import ImpEvents from './PhysicsEvents/ImpEvents.js';
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -181,7 +182,8 @@ function SETUP(levelName)
 
 let physEvents = [
     new TriggerZoneEvents(),
-    new NpcEvents()
+    new NpcEvents(),
+    new ImpEvents()
 ];
 
 function AddPhysicsEvents()

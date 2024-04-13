@@ -1,4 +1,5 @@
 import { ELEVATOR_INTERACT_STATE } from "../Enums/ElevatorInteractionState";
+import TimeStepper from "../TimeStepper";
 import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
 import ImpElevatorInteractions from "./ImpElevatorInteractions";
 
@@ -30,6 +31,8 @@ export default class ElevatorImp
     Setup()
     {
         this.speed = 60;
+        this.jump = 45;
+        this.jumpTimer = new TimeStepper(0.3, { onComplete: () => { this.jumpTimer.Reset(); } });
 
         this.elevator = new ImpElevatorInteractions(this);
 
@@ -71,6 +74,22 @@ export default class ElevatorImp
             }
         }
 
+        if(input.up && !this.inputs.up)
+        {
+            this.inputs.up = input.up;
+        }
+        else if(!input.up && this.inputs.up)
+        {
+            if(!this.jumpTimer.InProgress())
+            {
+                consoleLog("Jump!");
+                this.phys.velocity = [ this.phys.velocity[0], this.jump ];
+                this.jumpTimer.StartTimer();
+            }
+
+            this.inputs.up = false;
+        }
+
         if(input.interact && !this.inputs.interact)
         {
             if(this.elevator.CanInteract())
@@ -91,6 +110,7 @@ export default class ElevatorImp
 
     Update(deltaTime)
     {
+        this.jumpTimer.TickBy(deltaTime);
         this.elevator.LogState();
     }
 

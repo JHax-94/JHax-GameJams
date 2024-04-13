@@ -5,9 +5,15 @@ export default class ElevatorBounds
     constructor(tiles, objDef)
     {
         this.srcTiles = tiles;
-
-        this.summoners = [];
         this.tileDims = TILE_UTILS.GetBlockDimensions(tiles);
+
+        this.Setup();
+    }
+
+    Setup()
+    {
+        this.summoners = [];
+        this.elevator = null;
     }
 
     AdjacentToSummoner(summoner)
@@ -20,11 +26,7 @@ export default class ElevatorBounds
         {
             let bTile = this.srcTiles[i];
 
-            consoleLog(`Is summoner on tile: (${sTile.x}, ${sTile.y}) adjacent to bounds tile (${bTile.x}, ${bTile.y})?`);
-
             let testAdjacency = Math.abs(bTile.x - sTile.x) <= 1 && bTile.y === sTile.y;
-
-            consoleLog(testAdjacency);
 
             if(testAdjacency)
             {

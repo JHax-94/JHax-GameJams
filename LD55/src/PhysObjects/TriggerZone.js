@@ -1,18 +1,20 @@
-import { COLLISION_GROUP, EM } from "../main";
+import { COLLISION_GROUP, EM, consoleLog } from "../main";
 
 export default class TriggerZone
 {
-    constructor(tileDimensions, parent)
+    constructor(tileDimensions, parent, settings)
     {
+        consoleLog("Building trigger zone with settings");
+
         let physSettings = {
             tileTransform: { x: tileDimensions.x, y: tileDimensions.y, w: tileDimensions.w, h: tileDimensions.h },
             mass: 100,
             isSensor: true,
             freeRotate: false,
             isKinematic: true,
-            tag: "TRIGGER_ZONE",
-            collisionGroup: COLLISION_GROUP.ELEVATOR,
-            collisionMask: (COLLISION_GROUP.PLAYER | COLLISION_GROUP.NPC),
+            tag: (settings && settings.tag) ? settings.tag : "TRIGGER_ZONE",
+            collisionGroup: (settings && settings.collisionGroup) ? settings.collisionGroup : COLLISION_GROUP.ELEVATOR,
+            collisionMask: (settings && settings.collisionMask) ? settings.collisionMask : (COLLISION_GROUP.PLAYER | COLLISION_GROUP.NPC),
             material: "playerMaterial",
         };
 
@@ -20,7 +22,17 @@ export default class TriggerZone
 
         this.parent = parent;
 
+        consoleLog("Register trigger zone with phys settings:");        
+        consoleLog(physSettings);
+
         EM.RegisterEntity(this, { physSettings: physSettings });
+    }
+
+    MoveToTilePos(tilePosition)
+    {
+        let physPos = EM.TileToPhysPosition(tilePosition);
+
+        this.phys.position = [physPos[0], physPos[1]];
     }
 
     Update(deltaTime)

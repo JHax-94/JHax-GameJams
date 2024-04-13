@@ -79,6 +79,7 @@ export default class Elevator
     AddBounds(bounds)
     {
         this.elevatorBounds = bounds;
+        bounds.elevator = this;
     }
 
     IsMoving()

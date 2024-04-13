@@ -1,3 +1,4 @@
+import TriggerZone from "../PhysObjects/TriggerZone";
 import { COLLISION_GROUP, EM, PIXEL_SCALE } from "../main";
 
 export default class ElevatorSummoner
@@ -21,6 +22,65 @@ export default class ElevatorSummoner
         };
 
         EM.RegisterEntity(this, {physSettings: physSettings});
+
+        this.Setup();
+        
+        let queuePos = this.GetQueueTilePos();
+
+        this.queueTriggerZone = new TriggerZone({ x: queuePos.x, y: queuePos.y, w: 1, h: 2 }, this, {
+            tag: "ELEVATOR_QUEUE",
+            collisionGroup: COLLISION_GROUP.NPC_INTERACTABLE,
+            collisionMask: COLLISION_GROUP.NPC
+        });
+    }
+
+    Setup()
+    {
+        this.bounds = null;
+        this.queue = [];
+    }
+
+    AddToQueue(queuer)
+    {
+        this.queue.push(queuer);
+
+        this.QueueChanged();
+    }
+
+    RemoveFromQueue(queuer)
+    {
+        let index = this.queue.indexOf(queuer);
+
+        if(index >= 0)
+        {
+            this.queue.splice(index, 1);
+        }
+
+        this.QueueChanged()
+    }
+
+    GetQueueTilePos()
+    {
+        return {
+            x: this.srcTile.x + 0.5 + this.queue.length * 1,
+            y: this.srcTile.y - 1
+        };
+    }
+
+    Elevator()
+    {
+        let elevator = null;
+        if(this.bounds)
+        {
+            elevator = this.bounds.elevator;
+        }
+
+        return elevator;
+    }
+
+    QueueChanged()
+    {
+        this.queueTriggerZone.MoveToTilePos(this.GetQueueTilePos())
     }
 
     FloorNumber()

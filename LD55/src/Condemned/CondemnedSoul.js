@@ -91,6 +91,10 @@ export default class CondemnedSoul
         {
             this.workstation.UpdateWork(deltaTime);
         }
+        else if(this.StateIs(CONDEMNED_STATE.QUEUEING))
+        {
+
+        }
         else
         {
             if(this.input === CONDEMNED_INPUT.MOVE_LEFT || this.input === CONDEMNED_INPUT.MOVE_RIGHT)
@@ -181,6 +185,17 @@ export default class CondemnedSoul
     GetCurrentFloor()
     {
         return this.scheduler.GetFloorForPhysObject(this)?.floorNumber ?? 0;
+    }
+
+    QueueForElevator(elevatorSummoner)    
+    {
+        let targetElevator = this.elevatorRoute[this.elevatorRouteStep];
+
+        if(elevatorSummoner.Elevator() === targetElevator)
+        {
+            this.SetState(CONDEMNED_STATE.QUEUEING);
+            elevatorSummoner.AddToQueue(this);
+        }
     }
 
     Draw()

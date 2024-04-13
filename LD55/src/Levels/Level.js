@@ -76,7 +76,7 @@ export default class Level
 
     BuildElevatorSummoner(tile, objDef)
     {
-        consoleLog("BUILDING ELEVATOR SUMMONER");
+        //consoleLog("BUILDING ELEVATOR SUMMONER");
 
         let summoner = new ElevatorSummoner(tile, objDef);
 

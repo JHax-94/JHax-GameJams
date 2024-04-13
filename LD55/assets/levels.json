@@ -10,8 +10,8 @@
                 { 
                     "startLocation": { "floor": 0, "place": 3 },
                     "schedule": [
-                        { "floor": 0, "workstation": 3 },
-                        { "floor": 1, "workstation": 2 }
+                        { "floor": 1, "workstation": 2 },
+                        { "floor": 0, "workstation": 3 }
                     ],
                     "type": "FloatingSkull"
                 }

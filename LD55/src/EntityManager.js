@@ -1,11 +1,10 @@
 import p2, { vec2 } from "p2";
 import InputGroup from "./InputGroup";
-import { consoleLog, PIXEL_SCALE, EM, getObjectConfig, UTIL, setFont, TILE_HEIGHT, DISPLAY_SETTINGS, AUDIO_HELPER, TILE_WIDTH } from "./main";
+import { consoleLog, PIXEL_SCALE, EM, getObjectConfig, TILE_HEIGHT, TILE_WIDTH } from "./main";
 import PauseMenu from "./UI/PauseMenu";
 import PhysicsContainer from "./PhysicsContainer";
 import RenderLayer from "./RenderLayer";
 import InputMethod from "./InputMethod";
-import { render } from "pixelbox/webGL/renderers/sprite";
 import { INPUT_TYPE } from "./InputType";
 
 export default class EntityManager
@@ -1067,6 +1066,8 @@ export default class EntityManager
             this.hudLog.push(`Input group: ${this.focusedInputGroup.name}`);
         }
         
+        /*
+
         let pollResult = AUDIO_HELPER.PollAudioCtx();
 
         if(this.barTime > 0)
@@ -1082,9 +1083,8 @@ export default class EntityManager
         {
             this.barTime = pollResult;
         }
-
+        */
         
-
         for(var i = 0; i < this.updates.length; i ++)
         {
             this.updates[i].Update(deltaTime);

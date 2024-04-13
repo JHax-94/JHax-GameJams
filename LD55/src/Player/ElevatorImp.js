@@ -32,8 +32,7 @@ export default class ElevatorImp
 
         this.elevator = new ImpElevatorInteractions(this);
 
-        this.inputs = {
-        }
+        this.inputs = {}
     }
 
     SetElevator(elevator) { this.elevator.SetElevator(elevator); }

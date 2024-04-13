@@ -1,6 +1,7 @@
 import Elevator from "../Elevators/Elevator";
 import Floor from "../Floors/Floor";
 import ElevatorImp from "../Player/ElevatorImp";
+import WorkStation from "../WorkStations/WorkStation";
 import { EM, consoleLog } from "../main";
 
 export default class Level
@@ -14,7 +15,8 @@ export default class Level
         this.processMap = [
             { name: "ElevatorImp", method: this.BuildElevatorImp },
             { name: "Elevator", method: this.BuildElevator },
-            { name: "Floor", method: this.BuildFloor }
+            { name: "Floor", method: this.BuildFloor },
+            { name: "Workstation", method: this.BuildWorkStation }
         ];
 
         this.ProcessMapObjects();
@@ -42,6 +44,11 @@ export default class Level
             this.drawMaps.push(tileMap);
         }
     
+    }
+
+    BuildWorkStation(tile, objDef)
+    {
+        let workstation = new WorkStation(tile, objDef);
     }
 
     BuildElevatorImp(tile, objDef)

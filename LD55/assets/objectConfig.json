@@ -2,6 +2,16 @@
     "objectMap": [
         { "index": 15, "name": "ElevatorImp", "searchMap": true, "replaceTile": true },
         { "index": 3, "name": "Elevator", "searchMap": true, "replaceTile": true, "scanAdjacent": true },
-        { "index": 0, "name": "Floor", "searchMap": true, "replaceTile": true, "scanAdjacent": true }
+        { "index": 0, "name": "Floor", "searchMap": true, "replaceTile": true, "scanAdjacent": true },
+        { "index": 5, "name": "Workstation", "type": "GreenBooth", "searchMap": true, "replaceTile": true },
+        { "index": 6, "name": "Workstation", "type": "YellowBooth", "searchMap": true, "replaceTile": true },
+        { "index": 7, "name": "Workstation", "type": "BlueBooth", "searchMap": true, "replaceTile": true },
+        { "index": 21, "name": "Workstation", "type": "GreenDesk", "searchMap": true, "replaceTile": true },
+        { "index": 22, "name": "Workstation", "type": "YellowDesk", "searchMap": true, "replaceTile": true },
+        { "index": 23, "name": "Workstation", "type": "BlueDesk", "searchMap": true, "replaceTile": true },
+        { "index": 37, "name": "Workstation", "type": "GreenBoard", "searchMap": true, "replaceTile": true },
+        { "index": 38, "name": "Workstation", "type": "YelowBoard", "searchMap": true, "replaceTile": true },
+        { "index": 39, "name": "Workstation", "type": "BlueBoard", "searchMap": true, "replaceTile": true },
+        { "index": 2, "name": "ElevatorSummoner", "searchMap": true, "replaceTile": true }
     ]
 }

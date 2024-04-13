@@ -53,11 +53,10 @@ export default class ElevatorImp
 
     Input(input)
     {
-        
-
         if(this.elevator.ElevatorControlsActive())
         {
             this.elevator.PipeInput(input);
+            
         }
         else
         {
@@ -107,6 +106,11 @@ export default class ElevatorImp
 
             sprite(this.spriteIndex, screenPos.x, screenPos.y);
         }
+        else if(this.elevator.ElevatorControlsActive())
+        {
+            this.elevator.ShowDoorState();
+        }
+
     }
 
 

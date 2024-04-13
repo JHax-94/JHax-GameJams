@@ -13,7 +13,7 @@ export default class Elevator
         
         this.dims = TILE_UTILS.GetBlockDimensions(tiles);
         this.texture = TILE_UTILS.BuildTextureFromTiles(tiles, this.dims);
-
+        
         let physSettings = {
             tileTransform: { x: this.dims.x, y: this.dims.y, w: this.dims.w, h: this.dims.h },
             mass: 100,
@@ -35,7 +35,7 @@ export default class Elevator
             h: this.dims.h
         },
         this,
-        { hideCollider: true, lockToParent: true });
+        { hideCollider: false, lockToParent: true });
 
         this.Setup();
     }
@@ -44,7 +44,24 @@ export default class Elevator
     {
         this.elevatorBounds = null;
         this.speed = 30;
+
+        this.leftDoorOpen = false;
+        this.rightDoorOpen = false;
+
+        this.passengers = [];
     }
+
+    Scheduler()
+    {
+        if(!this.scheduler)
+        {
+            this.scheduler = EM.GetEntity("SCHEDULER");
+        }
+
+        return this.scheduler;
+    }
+
+    
 
     StopsAtFloor(floorNumber)
     {
@@ -108,6 +125,27 @@ export default class Elevator
         return [ this.phys.position[0] + PIXEL_SCALE, this.phys.position[1] ];
     }
 
+    ToggleRightDoor()
+    {
+        this.rightDoorOpen = !this.rightDoorOpen;
+    }
+
+    ToggleLeftDoor()
+    {
+        this.leftDoorOpen = !this.leftDoorOpen;
+    }
+
+    DoorsClosed()
+    {
+        return !this.rightDoorOpen && !this.leftDoorOpen;
+    }
+
+    CloseAllDoors()
+    {
+        this.rightDoorOpen = false;
+        this.leftDoorOpen = false;
+    }
+
     ObjectEntered(newObject, fromZone)
     {
         if(newObject.tag === "PLAYER")
@@ -116,6 +154,18 @@ export default class Elevator
 
             player.SetElevator(this);
         }
+        else if(newObject.tag === "NPC")
+        {
+            let npc = newObject.obj;
+
+            npc.BoardElevator(this);
+        }
+    }
+
+    OnBoard(npc)
+    {
+        this.passengers.push(npc);
+        npc.Neutralise();
     }
 
     ObjectExited(oldObject, fromZone)
@@ -126,17 +176,22 @@ export default class Elevator
 
             player.RemoveElevator(this);
         }
+        else if(oldObject.tag === "NPC")
+        {
+            let npc = oldObject.obj;
+
+            npc.BoardElevator(null);
+        }
+    }
+
+    GetCurrentFloorNumber()
+    {
+        return this.Scheduler()?.GetFloorForPhysObject(this)?.floorNumber ?? -1;
     }
 
     Draw()
     {
         let screenPos = this.GetScreenPos();
-        this.texture._drawEnhanced(screenPos.x, screenPos.y);
-
-        let disembark = this.GetDisembarkPosition();
-        let screenDisembark = EM.PhysToScreenPos(disembark);
-
-        paper(9);
-        rectf(screenDisembark.x, screenDisembark.y, PIXEL_SCALE, PIXEL_SCALE);
+        this.texture._drawEnhanced(screenPos.x, screenPos.y);        
     }
 }

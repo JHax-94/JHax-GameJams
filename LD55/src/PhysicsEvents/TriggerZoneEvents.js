@@ -31,6 +31,27 @@ export default class TriggerZoneEvents extends PhysEventRegistry
         tz.ObjectExited(playBody);
     }
 
+    Begin_TriggerZoneNpc_Check(container, manager, evt) { return manager.CompareTags(evt, "TRIGGER_ZONE", "NPC"); }
+    Begin_TriggerZoneNpc_Resolve(container, manager, evt)
+    {
+        let tzBody = container.BodyWithTag(evt, "TRIGGER_ZONE");
+        let npcBody = container.BodyWithTag(evt, "NPC");
+        consoleLog("Collision between NPC and Trigger Zone!");
+
+        let tz = tzBody.obj;
+        tz.ObjectEntered(npcBody);
+    }
+
+    End_TriggerZoneNpc_Check(container, manager, evt) { return manager.CompareTags(evt, "TRIGGER_ZONE", "NPC"); }
+    End_TriggerZoneNpc_Resolve(container, manager, evt)
+    {
+        let tzBody = container.BodyWithTag(evt, "TRIGGER_ZONE");
+        let npcBody = container.BodyWithTag(evt, "NPC");
+
+        let tz = tzBody.obj;
+        tz.ObjectExited(npcBody);
+    }
+
     Begin_TriggerZoneNpcQueue_Check(container, manager, evt) { return manager.CompareTags(evt, "ELEVATOR_QUEUE", "NPC"); }
     Begin_TriggerZoneNpcQueue_Resolve(container, manager, evt)
     {

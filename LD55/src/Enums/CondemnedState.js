@@ -3,7 +3,9 @@ let CONDEMNED_STATE = {
     IDLE: 0,
     MOVING: 1,
     WORKING: 2,
-    QUEUEING: 3
+    QUEUEING: 3,
+    BOARDING: 4,
+    ON_BOARD: 5
 };
 
 export { CONDEMNED_STATE };

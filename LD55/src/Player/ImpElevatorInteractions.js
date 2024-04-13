@@ -1,5 +1,5 @@
 import { ELEVATOR_INTERACT_STATE } from "../Enums/ElevatorInteractionState";
-import { EM } from "../main";
+import { EM, consoleLog } from "../main";
 
 export default class ImpElevatorInteractions
 {
@@ -8,6 +8,10 @@ export default class ImpElevatorInteractions
         this.interactionState = ELEVATOR_INTERACT_STATE.NONE;
         this.elevator = null;
         this.imp = imp;
+
+        this.input = {
+
+        }
     }
 
     Is(state)
@@ -83,23 +87,58 @@ export default class ImpElevatorInteractions
     {
         if(this.elevator)
         {
-            if(input.up)
+            if(this.elevator.DoorsClosed())
             {
-                this.elevator.MoveUp();
+                if(input.up)
+                {
+                    this.elevator.MoveUp();
+                }
+                else if(input.down)
+                {
+                    this.elevator.MoveDown();
+                }
+                else if(this.elevator.IsMoving())
+                {
+                    this.elevator.Stop();
+                }
             }
-            else if(input.down)
+
+            if(input.right && !this.input.right)
             {
-                this.elevator.MoveDown();
+                this.input.right = true;
             }
-            else if(this.elevator.IsMoving())
+            else if(!input.right && this.input.right)
             {
-                this.elevator.Stop();
+                this.elevator.ToggleRightDoor();
+                this.input.right = false;
+            }
+
+            if(input.left && this.input.left)
+            {
+                this.input.left = true;
+            }
+            else if(!input.left && this.input.left)
+            {
+                this.elevator.ToggleLeftDoor();
+                this.input.left = false;
             }
         }
         else
         {
             console.error(`Interaction with null elevator...`);
         }
+    }
+
+    ShowDoorState()
+    {
+        let floorNum = this.elevator.GetCurrentFloorNumber();
+
+        let doorStateString = `F: ${floorNum}, L: ${this.elevator.leftDoorOpen ? "open" : "closed"}, R: ${this.elevator.rightDoorOpen ? "open" : "closed"}`;
+
+        pen(1);
+        print(doorStateString, [0, 0]);
+
+        consoleLog(doorStateString);
     }
 
     LogState()

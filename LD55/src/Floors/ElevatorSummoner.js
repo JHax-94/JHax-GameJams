@@ -31,6 +31,9 @@ export default class ElevatorSummoner
 
         let queuePos = this.GetQueueTilePos();
 
+        consoleLog(`QUEUE START POSITION:`);
+        consoleLog(queuePos);
+
         this.queueTriggerZone = new TriggerZone({ x: queuePos.x, y: queuePos.y, w: queuePos.w, h: queuePos.h }, this, {
             tag: "ELEVATOR_QUEUE",
             collisionGroup: COLLISION_GROUP.NPC_INTERACTABLE,
@@ -42,13 +45,19 @@ export default class ElevatorSummoner
     {
         this.bounds = null;
         this.queue = [];
+        this.isBoarding = false;
     }
 
     AddToQueue(queuer)
     {
-        this.queue.push(queuer);
+        let index = this.queue.indexOf(queuer);
+        
+        if(index < 0)
+        {
+            this.queue.push(queuer);
 
-        this.QueueChanged();
+            this.QueueChanged();
+        }
     }
 
     RemoveFromQueue(queuer)
@@ -58,17 +67,22 @@ export default class ElevatorSummoner
         if(index >= 0)
         {
             this.queue.splice(index, 1);
-        }
 
-        this.QueueChanged()
+            this.QueueChanged()
+        }
     }
 
-    GetQueueTilePos()
+    GetQueueTilePos(forLength = null)
     {
-        consoleLog(`Get queuetile pos for summoner on tile: (${this.srcTile.x}, ${this.srcTile.y}) | Queue length: ${this.queue.length}`);
+        if(forLength === null)
+        {
+            forLength = this.queue.length;
+        }
+
+        consoleLog(`Get queuetile pos for summoner on tile: (${this.srcTile.x}, ${this.srcTile.y}) | Queue length: ${forLength}`);
 
         let tilePos = {
-            x: this.srcTile.x + 0.5 + this.queue.length * 1.125,
+            x: this.srcTile.x + 0.5 + forLength * 1.125,
             y: this.srcTile.y - 1,
             w: this.queueDims.w,
             h: this.queueDims.h
@@ -96,6 +110,18 @@ export default class ElevatorSummoner
     QueueChanged()
     {
         this.queueTriggerZone.MoveToTilePos(this.GetQueueTilePos());
+
+        consoleLog("New Queue");
+        consoleLog(this.queue);
+
+        for(let i = 0; i < this.queue.length; i ++)
+        {
+            let newQueuePos = this.GetQueueTilePos(i);
+
+            consoleLog(`Give queuer ${i} the queue position: (${newQueuePos.x}, ${newQueuePos.y})`);
+
+            this.queue[i].UpdateQueuePosition(newQueuePos);
+        }
     }
 
     FloorNumber()
@@ -108,6 +134,35 @@ export default class ElevatorSummoner
         }
 
         return floorNumber;
+    }
+
+    CanBoardElevator(elevator)
+    {
+        let relevantDoorOpen = (elevator.rightDoorOpen && elevator.phys.position[0] < this.phys.position[0]) 
+            || (elevator.leftDoorOpen && elevator.phys.position[0] > this.phys.position[0]);
+
+        return relevantDoorOpen && elevator.GetCurrentFloorNumber() === this.FloorNumber();
+    }
+
+    Update(deltaTime)
+    {
+        if(this.queue.length > 0)
+        {
+            let elevator = this.Elevator();
+
+            if(this.CanBoardElevator(elevator))
+            {
+                this.isBoarding = true;
+                this.queue[0].StartBoarding();
+            }
+            else if(this.isBoarding)
+            {
+                this.queue[0].StopBoarding();
+            }
+            
+        }
+
+        
     }
 
     Draw()

@@ -32,6 +32,7 @@ export default class Level
         EM.RegisterEntity(this);
 
         let scheduler = new CondemnedScheduler(this);
+        EM.AddEntity("SCHEDULER", scheduler);
     }   
 
     GetObjectList(type)

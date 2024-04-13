@@ -38,6 +38,8 @@ export default class TriggerZone
 
     MoveToTilePos(tilePosition)
     {
+        consoleLog(`Move to tile position: (${tilePosition.x}, ${tilePosition.y})`);
+
         let physPos = EM.TileToPhysPosition(tilePosition);
 
         this.phys.position = [physPos[0], physPos[1]];

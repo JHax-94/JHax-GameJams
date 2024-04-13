@@ -270,8 +270,14 @@ export default class CondemnedScheduler
         return eligibleElevators;
     }
 
-    FindButtonForElevator(targetElevator, currentFloorNumber)
+    FindButtonForElevator(targetElevator, currentFloorNumber, log)
     {
+        if(log)
+        {
+            consoleLog(`Find button on floor ${currentFloorNumber} for elevator:`);
+            consoleLog(targetElevator);
+        }
+        
         let summoner = targetElevator.GetSummonerOnFloor(currentFloorNumber);
 
         return summoner;

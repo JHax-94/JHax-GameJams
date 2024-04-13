@@ -54,6 +54,33 @@ export default class CondemnedSoul
         this.input = null;
     }
 
+    StartBoarding(elevator)
+    {
+        this.SetState(CONDEMNED_STATE.BOARDING);
+    }
+
+    StopBoarding()
+    {
+        this.SetState(CONDEMNED_STATE.QUEUEING);
+    }
+
+    BoardElevator(elevator)
+    {
+        this.boardableElevator = elevator;
+
+        this.CheckToBoard();
+    }
+
+    CheckToBoard()
+    {
+        if(this.boardableElevator && this.StateIs(CONDEMNED_STATE.BOARDING))
+        {
+            this.boardableElevator.OnBoard(this);
+            let summoner = this.scheduler.FindButtonForElevator(this.boardableElevator, this.GetCurrentFloor(), true);
+            summoner.RemoveFromQueue(this);
+        }
+    }
+
     StateIs(queryState)
     {
         return this.state === queryState;
@@ -63,13 +90,28 @@ export default class CondemnedSoul
     {
         consoleLog(`Set NPC State to: ${targetState}`);
         this.state = targetState;
+
+        if(this.state === CONDEMNED_STATE.BOARDING)
+        {
+            this.CheckToBoard();
+        }
+    }
+
+    Neutralise()
+    {
+        this.SetState(CONDEMNED_STATE.ON_BOARD);
+        this.phys.gravityScale = 0;
+        this.phys.velocity = [ 0, 0];
     }
 
     Update(deltaTime)
     {
-        this.UpdateThink(deltaTime);
-        EM.hudLog.push(`S: ${this.state}, I: ${this.input}, F: ${this.GetCurrentFloor()}`);
-        this.UpdateAct(deltaTime);
+        if(!this.StateIs(CONDEMNED_STATE.ON_BOARD))
+        {
+            this.UpdateThink(deltaTime);
+            EM.hudLog.push(`S: ${this.state}, I: ${this.input}, F: ${this.GetCurrentFloor()}`);
+            this.UpdateAct(deltaTime);
+        }
     }
 
     UpdateThink(deltaTime)
@@ -111,7 +153,7 @@ export default class CondemnedSoul
                 {
                     newX = this.queuePosition[0]
                 }
-
+                
                 this.phys.position = [ newX, this.phys.position[1] ];
             }
         }
@@ -142,6 +184,11 @@ export default class CondemnedSoul
             this.elevatorRoute = this.scheduler.PlotRouteToFloor(currentFloor, scheduleItem.floor, true);
             this.elevatorRouteStep = 0;
         }
+        else if(this.StateIs(CONDEMNED_STATE.BOARDING))
+        {
+            this.targetElevator = this.elevatorRoute[this.elevatorRouteStep];
+            this.DetermineMoveDirectionToTarget(this.targetElevator);
+        }
         else
         {
             this.targetElevator = this.elevatorRoute[this.elevatorRouteStep];
@@ -153,6 +200,8 @@ export default class CondemnedSoul
 
     DetermineMoveDirectionToTarget(target)
     {
+        /*consoleLog(`Determine move to target:`);
+        consoleLog(target);*/
         if(target.phys.position[0] < this.phys.position[0])
         {
             this.input = CONDEMNED_INPUT.MOVE_LEFT;
@@ -207,6 +256,11 @@ export default class CondemnedSoul
         return this.scheduler.GetFloorForPhysObject(this)?.floorNumber ?? 0;
     }
 
+    UpdateQueuePosition(tilePosition)
+    {
+        this.queuePosition = EM.TileToPhysPosition(tilePosition);
+    }
+
     QueueForElevator(elevatorSummoner)    
     {
         let targetElevator = this.elevatorRoute[this.elevatorRouteStep];
@@ -214,18 +268,23 @@ export default class CondemnedSoul
         if(elevatorSummoner.Elevator() === targetElevator)
         {
             this.SetState(CONDEMNED_STATE.QUEUEING);
-            this.queuePosition = EM.TileToPhysPosition(elevatorSummoner.GetQueueTilePos());
+            let summonerTilePos = elevatorSummoner.GetQueueTilePos();
+            //consoleLog(`Start queueing @ (${this.summonerTilePos.x}, ${this.summonerTilePos.y})`);
+            this.queuePosition = EM.TileToPhysPosition(summonerTilePos);
             elevatorSummoner.AddToQueue(this);
         }
     }
 
     Draw()
     {
-        let screenPos = this.GetScreenPos();
-
-        if(this.spriteIndex >= 0)
+        if(!this.StateIs(CONDEMNED_STATE.ON_BOARD))
         {
-            sprite(this.spriteIndex, screenPos.x, screenPos.y);
+            let screenPos = this.GetScreenPos();
+
+            if(this.spriteIndex >= 0)
+            {
+                sprite(this.spriteIndex, screenPos.x, screenPos.y);
+            }
         }
     }
 }

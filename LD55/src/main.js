@@ -1,4 +1,5 @@
 import EntityManager from './EntityManager.js'
+import Level from './Levels/Level.js';
 import UiBuilder from './UI/UiBuilder.js'
 
 let p2 = require('p2');
@@ -44,6 +45,43 @@ function getTileHeight()
     return pixelbox.settings.screen.height / PIXEL_SCALE;
 }
 
+function mapMousePos(x, y)
+{
+    return { x: x, y: y };
+}
+
+document.addEventListener('keydown', function(evt) 
+{
+    EM.UpdateKeyboardState(evt.key, true);
+});
+
+document.addEventListener('keyup', function(evt)
+{
+    EM.UpdateKeyboardState(evt.key, false);
+});
+
+pointerEvents.onPress(function(x, y, pointerId, evt) 
+{
+    let mapped = mapMousePos(x, y);
+    let consumed = EM.MouseClick(mapped.x, mapped.y, evt.button);
+
+    if(!consumed)
+    {
+        EM.UpdateKeyboardState(`m_${evt.button}`, true);
+    }
+});
+
+pointerEvents.onRelease(function(x, y, pointerID, evt)
+{    
+    EM.UpdateKeyboardState(`m_${evt.button}`, false);
+});
+
+pointerEvents.onMove(function(x, y, pointerId, evt) 
+{
+    let mapped = mapMousePos(x, y);
+    EM.MouseMove(mapped.x, mapped.y);
+});
+
 let PIXEL_SCALE = getPixelScale();
 let FPS = 1/60;
 let TILE_WIDTH = getTileWidth();
@@ -55,23 +93,56 @@ let EM = null;
 
 let UI_BUILDER = new UiBuilder();
 
-function SETUP(levelName)
+function getLevelData(levelName)
 {
+    consoleLog(`- Search for levelName: ${levelName}`);
+    consoleLog(assets.levels.data);
 
-    LOAD_COMPLETE = true;
+    let levelData = null;
 
-    EM = new EntityManager();
+    for(let i = 0; i < assets.levels.data.length; i ++)
+    {
+        let lvl = assets.levels.data[i];
+
+        consoleLog(`Check match: ${lvl.levelName} ?= ${levelName}`);
+
+        if(lvl.levelName === levelName)
+        {
+            levelData = lvl;
+            break;
+        }
+    }
+    consoleLog(`- returning:`);
+    consoleLog(levelData);
+
+    return levelData;
 }
 
-let frameCount = 0;
+function SETUP(levelName)
+{
+    consoleLog(`==== Loading Level: ${levelName} ====`);
+    
+    EM = new EntityManager();
 
+    if(levelName)
+    {
+        let levelData = getLevelData(levelName);
+
+        if(levelData)
+        {
+            let level = new Level(levelData);
+        }
+    }
+
+    LOAD_COMPLETE = true;
+}
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // Update is called once per frame
 exports.update = function () {
     if(!LOAD_COMPLETE)
     {
-        SETUP();
+        SETUP("Test");
     }
 
     EM.Input();

@@ -959,7 +959,7 @@ export default class EntityManager
 
     Input()
     {
-        
+        this.hudLog.push(`DebugKeys: ${this.debugKeys}`);
         if(this.debugKeys)
         {
             if(this.keyboardState.F1 && this.keyboardState.F1.r)
@@ -1171,7 +1171,7 @@ export default class EntityManager
         {
             if(this.hudLogOn)
             {
-                setFont();
+                //setFont();
                 pen(this.hudLogColour);
                 for(let i = 0; i < this.hudLog.length; i ++)
                 {
@@ -1225,7 +1225,7 @@ export default class EntityManager
 
         if(this.version)
         {
-            setFont();
+            //setFont();
             pen(this.hudLogColour);
             print(`v.${this.version.version} (${this.version.git})`, 0, (TILE_HEIGHT - 0.5) * PIXEL_SCALE);
             print(`Show Portraits: ${DISPLAY_SETTINGS.showPortraits}`, 0, (TILE_HEIGHT - 1) * PIXEL_SCALE);

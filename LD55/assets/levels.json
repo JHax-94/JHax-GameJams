@@ -1,0 +1,10 @@
+{
+    "data": [
+        {
+            "levelName": "Test",
+            "maps": [
+                { "name": "map" }
+            ]
+        }
+    ]
+}

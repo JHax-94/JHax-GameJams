@@ -110,7 +110,8 @@ let UI_BUILDER = new UiBuilder();
 let COLLISION_GROUP ={
     PLAYER: Math.pow(2, 0),
     ELEVATOR: Math.pow(2, 1),
-    NPC: Math.pow(2, 2)
+    NPC: Math.pow(2, 2),
+    FLOOR: Math.pow(2, 3)
 }
 
 function getLevelData(levelName)

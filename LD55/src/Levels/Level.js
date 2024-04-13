@@ -1,4 +1,5 @@
 import Elevator from "../Elevators/Elevator";
+import Floor from "../Floors/Floor";
 import ElevatorImp from "../Player/ElevatorImp";
 import { EM, consoleLog } from "../main";
 
@@ -12,7 +13,8 @@ export default class Level
 
         this.processMap = [
             { name: "ElevatorImp", method: this.BuildElevatorImp },
-            { name: "Elevator", method: this.BuildElevator }
+            { name: "Elevator", method: this.BuildElevator },
+            { name: "Floor", method: this.BuildFloor }
         ];
 
         this.ProcessMapObjects();
@@ -56,10 +58,18 @@ export default class Level
     {
         consoleLog("Build Elevator on Tiles:");
         consoleLog(tiles);
-        consoleLog("With definition:");
-        consoleLog(objDef);
+        /*consoleLog("With definition:");
+        consoleLog(objDef);*/
 
         let elevator = new Elevator(tiles, objDef);
+    }
+
+    BuildFloor(tiles, objDef)
+    {
+        consoleLog("Build Floor on Tiles:");
+        consoleLog(tiles);
+
+        let floor = new Floor(tiles, objDef);
     }
 
     ProcessTileMap(map)
@@ -80,11 +90,13 @@ export default class Level
                     
                     let processTiles = [];
 
-                    processTiles.push(tile);
-                    
                     if(objDef.scanAdjacent)
                     {
-                        processTiles.push(...this.GetAdjacentTiles(tile, objTiles));
+                        processTiles.push(...this.GetTileBlock(tile, objTiles));
+                    }
+                    else
+                    {
+                        processTiles.push(tile);
                     }
 
                     let procMap = this.processMap.find(pm => pm.name === objDef.name);
@@ -127,6 +139,42 @@ export default class Level
                 }
             }
         }
+    }
+
+    GetTileBlock(tile, list)
+    {
+        let block = [ tile ];
+
+        let targetTileIndex = 0;
+        let targetTile = tile;
+
+        while(targetTile != null)
+        {
+            let adjacentTiles = this.GetAdjacentTiles(targetTile, list);
+
+            for(let i = 0; i < adjacentTiles.length; i ++)
+            {
+                
+                let newTile = adjacentTiles[i];
+                if(block.findIndex(bt => bt === newTile) < 0)
+                {
+                    block.push(newTile);
+                }
+            }
+
+            targetTileIndex ++;
+
+            if(targetTileIndex < block.length)
+            {
+                targetTile = block[targetTileIndex];
+            }
+            else
+            {
+                targetTile = null;
+            }
+        }
+
+        return block;
     }
 
     GetAdjacentTiles(tile, list)

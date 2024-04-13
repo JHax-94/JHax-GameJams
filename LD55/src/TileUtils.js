@@ -1,4 +1,5 @@
-import { consoleLog } from "./main";
+import Texture from "pixelbox/Texture";
+import { PIXEL_SCALE, consoleLog } from "./main";
 
 export default class TileUtils
 {
@@ -50,5 +51,31 @@ export default class TileUtils
         consoleLog(dims);
 
         return dims;
+    }
+
+    BuildTextureFromTiles(tiles, dims)
+    {
+        let texture = new Texture(dims.w * PIXEL_SCALE, dims.h * PIXEL_SCALE);
+        
+        for(let i = 0; i < tiles.length; i ++)
+        {
+            let tile = tiles[i];
+
+            let tSprite = {
+                i: tile.sprite,
+                x: tile.x - dims.x,
+                y: tile.y - dims.y,
+                flipH: tile.flipH,
+                flipV: tile.flipV,
+                flipR: tile.flipR
+            };
+
+            texture.sprite(tSprite.i, tSprite.x * PIXEL_SCALE, tSprite.y * PIXEL_SCALE, tSprite.flipH, tSprite.flipV, tSprite.flipR);
+        }
+        /*
+        paper(9)
+        texture.rectf(0, 0, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
+*/
+        return texture;
     }
 }

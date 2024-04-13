@@ -1,5 +1,5 @@
 import { ELEVATOR_INTERACT_STATE } from "../Enums/ElevatorInteractionState";
-import { COLLISION_GROUP, EM, consoleLog } from "../main";
+import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
 import ImpElevatorInteractions from "./ImpElevatorInteractions";
 
 export default class ElevatorImp
@@ -17,8 +17,8 @@ export default class ElevatorImp
             tag: "PLAYER",
             material: "playerMaterial",
             collisionGroup: COLLISION_GROUP.PLAYER,
-            collisionMask: (COLLISION_GROUP.PLAYER | COLLISION_GROUP.ELEVATOR),
-            linearDrag: 0.95
+            collisionMask: (COLLISION_GROUP.PLAYER | COLLISION_GROUP.ELEVATOR | COLLISION_GROUP.FLOOR),
+            linearDrag: 0.99
         };
 
         this.Setup();
@@ -41,12 +41,14 @@ export default class ElevatorImp
 
     HideFromWorld()
     {
-
+        this.phys.gravityScale = 0;
+        this.phys.velocity = [ 0, 0];
     }
 
     RestoreToWorld(position)
     {
         this.phys.position = position;
+        this.phys.gravityScale = 1;
     }
 
     Input(input)

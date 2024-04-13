@@ -8,7 +8,7 @@ export default class Elevator
     constructor(tiles, objDef)
     {
         this.dims = TILE_UTILS.GetBlockDimensions(tiles);
-        this.texture = this.BuildTextureFromTiles(tiles);
+        this.texture = TILE_UTILS.BuildTextureFromTiles(tiles, this.dims);
 
         let physSettings = {
             tileTransform: { x: this.dims.x, y: this.dims.y, w: this.dims.w, h: this.dims.h },
@@ -40,31 +40,7 @@ export default class Elevator
         this.speed = 30;
     }
 
-    BuildTextureFromTiles(tiles)
-    {
-        let texture = new Texture(this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
-        
-        for(let i = 0; i < tiles.length; i ++)
-        {
-            let tile = tiles[i];
-
-            let tSprite = {
-                i: tile.sprite,
-                x: tile.x - this.dims.x,
-                y: tile.y - this.dims.y,
-                flipH: tile.flipH,
-                flipV: tile.flipV,
-                flipR: tile.flipR
-            };
-
-            texture.sprite(tSprite.i, tSprite.x * PIXEL_SCALE, tSprite.y * PIXEL_SCALE, tSprite.flipH, tSprite.flipV, tSprite.flipR);
-        }
-        /*
-        paper(9)
-        texture.rectf(0, 0, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
-*/
-        return texture;
-    }
+    
 
     IsMoving()
     {
@@ -88,7 +64,7 @@ export default class Elevator
 
     GetDisembarkPosition()
     {
-        return [ this.phys.position[0] + PIXEL_SCALE, this.phys.position[1] + PIXEL_SCALE ];
+        return [ this.phys.position[0] + PIXEL_SCALE, this.phys.position[1] ];
     }
 
     ObjectEntered(newObject, fromZone)
@@ -115,5 +91,11 @@ export default class Elevator
     {
         let screenPos = this.GetScreenPos();
         this.texture._drawEnhanced(screenPos.x, screenPos.y);
+
+        let disembark = this.GetDisembarkPosition();
+        let screenDisembark = EM.PhysToScreenPos(disembark);
+
+        paper(9);
+        rectf(screenDisembark.x, screenDisembark.y, PIXEL_SCALE, PIXEL_SCALE);
     }
 }

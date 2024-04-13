@@ -12,6 +12,7 @@
         { "index": 37, "name": "Workstation", "type": "GreenBoard", "searchMap": true, "replaceTile": true },
         { "index": 38, "name": "Workstation", "type": "YelowBoard", "searchMap": true, "replaceTile": true },
         { "index": 39, "name": "Workstation", "type": "BlueBoard", "searchMap": true, "replaceTile": true },
-        { "index": 2, "name": "ElevatorSummoner", "searchMap": true, "replaceTile": true }
+        { "index": 2, "name": "ElevatorSummoner", "searchMap": true, "replaceTile": true },
+        { "name": "FloatingSkull", "spriteIndex": 9 }
     ]
 }

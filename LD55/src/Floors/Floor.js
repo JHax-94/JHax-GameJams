@@ -15,7 +15,7 @@ export default class Floor
             freeRotate: false,
             isKinematic: true,
             tag: "FLOOR",
-            collisionGroup: COLLISION_GROUP.R,
+            collisionGroup: COLLISION_GROUP.FLOOR,
             collisionMask: (COLLISION_GROUP.PLAYER | COLLISION_GROUP.NPC),
             material: "playerMaterial",
         }; 
@@ -23,6 +23,16 @@ export default class Floor
         EM.RegisterEntity(this, { physSettings: physSettings });
 
         this.Setup();
+    }
+
+    GetPlaceTile(placeNumber)
+    {
+        let tile = {
+            x: this.dims.x + placeNumber,
+            y: this.dims.y - 1
+        };
+
+        return tile;
     }
 
     Setup()

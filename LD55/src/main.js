@@ -38,6 +38,23 @@ function getVersionInformation()
 
 let VERSION = getVersionInformation();
 
+function getObjectConfig(objectName, copyObj)
+{
+    let objectMap = assets.objectConfig.objectMap;
+    let objectConf = null;
+
+    for(let i = 0; i < objectMap.length; i ++)
+    {
+        if(objectMap[i].name === objectName)
+        {
+            objectConf = objectMap[i];
+            break;
+        }
+    }
+
+    return copyObj ? Object.assign({}, objectConf) : objectConf;
+}
+
 function consoleLog(logData) {
     if(LOGGING_ON) console.log(logData); 
 }
@@ -192,5 +209,5 @@ exports.update = function () {
 };
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, consoleLog
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, consoleLog, getObjectConfig
 };

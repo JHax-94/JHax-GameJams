@@ -1,7 +1,7 @@
 import { vec2 } from "p2";
 import { CONDEMNED_INPUT } from "../Enums/CondemnedInputs";
 import { CONDEMNED_STATE } from "../Enums/CondemnedState";
-import { COLLISION_GROUP, EM, consoleLog, getObjectConfig } from "../main";
+import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog, getObjectConfig } from "../main";
 import WorkstationInteractions from "./WorkstationInteractions";
 
 export default class CondemnedSoul
@@ -47,7 +47,7 @@ export default class CondemnedSoul
         this.reelDist = 10;
 
         this.state = CONDEMNED_STATE.IDLE;
-        this.speed = 10;
+        this.speed = 2 * PIXEL_SCALE;
         this.scheduleItem = null;
         this.elvatorRoute = null;
         this.elevatorRouteStep = -1;

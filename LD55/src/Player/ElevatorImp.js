@@ -32,8 +32,8 @@ export default class ElevatorImp
 
     Setup()
     {
-        this.speed = 60;
-        this.jump = 45;
+        this.speed = 4 * PIXEL_SCALE;
+        this.jump = 5 * PIXEL_SCALE;
         this.jumpTimer = new TimeStepper(0.3, { onComplete: () => { this.jumpTimer.Reset(); } });
 
         this.elevator = new ImpElevatorInteractions(this);
@@ -126,6 +126,9 @@ export default class ElevatorImp
         if(this.IsVisible())
         {
             let screenPos = this.GetScreenPos();
+
+            sprite(13, screenPos.x - PIXEL_SCALE * 0.25, screenPos.y);
+            sprite(14, screenPos.x + PIXEL_SCALE * 0.5, screenPos.y);
 
             sprite(this.spriteIndex, screenPos.x, screenPos.y);
         }

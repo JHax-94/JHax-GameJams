@@ -56,7 +56,7 @@ export default class ImpEvents extends PhysEventRegistry
             {
                 let eq = evt.frictionEquations[i];
 
-                if(eq.bodyA.tag === "PLAYER" && eq.bodyB === container.impEventst.passthrough || eq.bodyA === container.impEvents.passthrough && eq.bodyB.tag === "PLAYER")
+                if(eq.bodyA.tag === "PLAYER" && eq.bodyB === container.impEvents.passthrough || eq.bodyA === container.impEvents.passthrough && eq.bodyB.tag === "PLAYER")
                 {
                     eq.enabled = false;
                 }

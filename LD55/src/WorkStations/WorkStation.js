@@ -4,6 +4,7 @@ export default class WorkStation
 {
     constructor(tile, objDef)
     {
+        this.renderLayer = "WORKSTATIONS";
         this.hideCollider = true;
 
         this.spriteIndex = objDef.index;

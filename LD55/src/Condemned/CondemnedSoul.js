@@ -8,6 +8,7 @@ export default class CondemnedSoul
 {
     constructor(tile, data, scheduler)
     {
+        this.renderLayer = "CONDEMNED";
         this.hideCollider = true;
         this.schedule = data.schedule;
 

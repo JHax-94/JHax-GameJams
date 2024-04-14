@@ -7,6 +7,8 @@ export default class ElevatorImp
 {
     constructor(tile, def)
     {
+        this.renderLayer = "IMP";
+
         this.hideCollider = true;
         this.spriteIndex = def.index;
 

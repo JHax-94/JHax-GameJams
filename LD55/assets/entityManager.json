@@ -6,10 +6,10 @@
     "debugSpawnTiles": false,
     "renderLayers": [
         { "name": "WORLD", "order": 0 },
-        { "name": "CRITTER_SHADOW", "order": 1, "ySort": true },
-        { "name": "CRITTERS", "order": 2, "ySort": true },
-        { "name": "WORLD_UI", "order": 3 },
-        { "name": "OVERLAY_UI", "order": 4 },
+        { "name": "CONDEMNED", "order": 1 },
+        { "name": "WORKSTATIONS", "order": 2 },
+        { "name": "IMP", "order": 3 },
+        { "name": "CONDEMNED_UI", "order": 4 },
         { "name": "MENU_UI", "order": 5 },
         { "name": "BANNER", "order": 6 }
     ],  

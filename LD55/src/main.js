@@ -8,6 +8,7 @@ import VectorExtensions from './VectorExtensions.js'
 import TriggerZoneEvents from './PhysicsEvents/TriggerZoneEvents.js';
 import NpcEvents from './PhysicsEvents/NpcEvents.js';
 import ImpEvents from './PhysicsEvents/ImpEvents.js';
+import Utility from './Utility.js';
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -17,6 +18,8 @@ let extender = new TextureExtender();
 let vecExtender = new VectorExtensions();
 
 let Texture = extender.ExtendTextureClass(require('pixelbox/Texture'));
+
+let UTILS = new Utility();
 
 vecExtender.ExtendVec2(vec2);
 
@@ -199,7 +202,7 @@ function AddPhysicsEvents()
 exports.update = function () {
     if(!LOAD_COMPLETE)
     {
-        SETUP("Test");
+        SETUP("LevelSelect");
     }
 
     EM.Input();
@@ -214,5 +217,5 @@ exports.update = function () {
 };
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, consoleLog, getObjectConfig
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, UTILS, consoleLog, getObjectConfig
 };

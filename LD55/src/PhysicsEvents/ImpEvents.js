@@ -64,7 +64,27 @@ export default class ImpEvents extends PhysEventRegistry
         }
     }
 
+    Begin_ImpDoor_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER", "DOOR"); }
+    Begin_ImpDoor_Resolve(container, manager, evt)
+    {
+        let imp = container.BodyWithTag(evt, "PLAYER");
+        let door = container.BodyWithTag(evt, "DOOR");
+        consoleLog("BEGIN DOOR");
 
-    
+        imp.obj.door = door.obj;
+    }
 
+    End_ImpDoor_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER", "DOOR"); }
+    End_ImpDoor_Resolve(container, manager, evt)
+    {
+        let imp = container.BodyWithTag(evt, "PLAYER");
+        let door = container.BodyWithTag(evt, "DOOR");
+
+        consoleLog("END DOOR");
+
+        if(imp.obj.door === door.obj)
+        {
+            imp.obj.door = null;
+        }
+    }
 }

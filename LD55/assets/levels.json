@@ -1,10 +1,20 @@
 {
     "data": [
         {
+            "levelName": "LevelSelect",
+            "maps": [
+                { "name": "Level_Select/level_select"}
+            ],
+            "condemned": [],
+            "levelDoors": [
+                { "display": "1", "target": "Test" }
+            ]
+        },
+        {            
             "levelName": "Test",
             "maps": [
-                { "name": "map" },
-                { "name": "elevator_bounds" }
+                { "name": "Level1/map" },
+                { "name": "Level1/elevator_bounds" }
             ],
             "condemned": [
                 { 

@@ -98,12 +98,20 @@ export default class ElevatorImp
             {
                 this.inputs.interact = input.interact;
             }
+            else if(this.door)
+            {
+                this.inputs.interact = input.interact;
+            }
         }
         else if(!input.interact && this.inputs.interact)
         {
             if(this.elevator.CanInteract())
             {
                 this.elevator.Interact();
+            }
+            else if(this.door)
+            {
+                this.door.EnterDoor();
             }
 
             this.inputs.interact = input.interact;

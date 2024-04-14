@@ -7,6 +7,7 @@ import ElevatorImp from "../Player/ElevatorImp";
 import GameFrame from "../UI/GameFrameUi";
 import WorkStation from "../WorkStations/WorkStation";
 import { EM, consoleLog } from "../main";
+import LevelDoor from "./LevelDoor";
 import LevelObjectList from "./LevelObjectList";
 
 export default class Level
@@ -25,7 +26,8 @@ export default class Level
             { name: "Floor", method: this.BuildFloor },
             { name: "Workstation", method: this.BuildWorkStation },
             { name: "ElevatorSummoner", method: this.BuildElevatorSummoner },
-            { name: "ElevatorBounds", method: this.BuildElevatorBounds }
+            { name: "ElevatorBounds", method: this.BuildElevatorBounds },
+            { name: "LevelDoor", method: (tile, objDef) => { return this.BuildLevelDoor(tile, objDef); } }
         ];
 
         this.ProcessMapObjects();
@@ -70,6 +72,20 @@ export default class Level
             this.drawMaps.push(tileMap);
         }
     
+    }
+
+    BuildLevelDoor(tile, objDef)
+    {
+        consoleLog("level objects:");
+        consoleLog(this.levelObjects);
+
+        let doors = this.GetObjectList("LevelDoor");
+
+        let doorData = this.data.levelDoors[doors.length];
+
+        let door = new LevelDoor(tile, objDef, doorData);
+
+        return door;
     }
 
     BuildElevatorBounds(tiles, objDef)

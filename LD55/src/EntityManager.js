@@ -691,8 +691,8 @@ export default class EntityManager
         
         obj.GetScreenPos = function() {
             return { 
-                x: Math.floor(this.phys.position[0] - this.phys.centreOffset[0] - 0.5 * this.width), 
-                y: Math.floor(-(this.phys.position[1] - this.phys.centreOffset[1] +0.5*this.height)) 
+                x: Math.floor(this.phys.position[0] - this.phys.centreOffset[0] - 0.5 * this.width - EM.camera.x), 
+                y: Math.floor(-(this.phys.position[1] - this.phys.centreOffset[1] +0.5* this.height - EM.camera.y)) 
             };
         };
 
@@ -710,6 +710,12 @@ export default class EntityManager
         };
 
         this.phys.addBody(obj.phys);        
+    }
+
+    IgnoreCamera(xy)
+    {
+        xy.x -= EM.camera.x;
+        xy.y -= EM.camera.y;
     }
 
     IsSensor(physObj)

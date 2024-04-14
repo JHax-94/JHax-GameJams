@@ -126,11 +126,11 @@ export default class TextureExtender
             if(!options) options = {};
 
 
-            if(EM.camera)
+            /*if(EM.camera)
             {                
                 x -= EM.camera.x;
                 y -= EM.camera.y;
-            }
+            }*/
             
             let maintainCentre = options.maintainCentre ?? false;
             let scale = options.scale ?? 1;

@@ -22,6 +22,6 @@ export default class Camera
 
     UpdateCameraPos()
     {
-        camera(this.x, this.y);
+        //camera(this.x, this.y);
     }
 }

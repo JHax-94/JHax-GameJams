@@ -3,6 +3,7 @@ import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_UTILS, consoleLog } from "../mai
 import TriggerZone from "../PhysObjects/TriggerZone";
 import { vec2 } from "p2";
 import TimeStepper from "../TimeStepper";
+import PassengerFollowUi from "./PassengerFollowUi";
 
 export default class Elevator 
 {
@@ -41,6 +42,11 @@ export default class Elevator
         this.Setup();
     }
 
+    EmptySlots()
+    {
+        return this.srcTiles.length - this.passengers.length;
+    }
+
     Update(deltaTime)
     {
         this.disembarkTimer.TickBy(deltaTime);
@@ -57,6 +63,7 @@ export default class Elevator
         this.disembarkTimer = new TimeStepper(0.5, { onComplete: () => { this.DisembarkCountdownComplete(); } });
 
         this.passengers = [];
+        this.passengerUi = new PassengerFollowUi(this);
     }
 
     Scheduler()

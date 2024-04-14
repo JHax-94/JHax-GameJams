@@ -36,7 +36,6 @@ export default class GameFrame
 
             for(let e = 0; e < t.elements.length; e ++)
             {
-                consoleLog(`Draw title line ${i}, element: ${e}`);
                 let drawAt = {
                     x: this.x + this.titleAt.x * PIXEL_SCALE + e * PIXEL_SCALE + t.offset,
                     y: this.y + this.titleAt.y * PIXEL_SCALE + i * PIXEL_SCALE

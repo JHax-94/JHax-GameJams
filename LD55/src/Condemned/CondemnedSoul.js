@@ -3,6 +3,8 @@ import { CONDEMNED_INPUT } from "../Enums/CondemnedInputs";
 import { CONDEMNED_STATE } from "../Enums/CondemnedState";
 import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog, getObjectConfig } from "../main";
 import WorkstationInteractions from "./WorkstationInteractions";
+import TimeStepper from "../TimeStepper";
+import CondemnedFollowUi from "./CondemnedFollowUi";
 
 export default class CondemnedSoul
 {
@@ -37,12 +39,17 @@ export default class CondemnedSoul
 
         EM.RegisterEntity(this, { physSettings: physSettings }); 
 
+        this.followUi = new CondemnedFollowUi(this);
+
         this.Setup();
     }
 
     Setup()
     {
         this.workstation = new WorkstationInteractions(this);
+
+        this.obliterateTimer = new TimeStepper(10);
+        this.obliterateTimer.StartTimer();
 
         this.reelDist = 10;
 
@@ -141,13 +148,15 @@ export default class CondemnedSoul
 
     Update(deltaTime)
     {
-        EM.hudLog.push(`${this.name[0]}: (${this.phys.position[0].toFixed(2), this.phys.position[0].toFixed(2)})`);
+        //EM.hudLog.push(`${this.name[0]}: (${this.phys.position[0].toFixed(2), this.phys.position[0].toFixed(2)})`);
         if(!this.StateIs(CONDEMNED_STATE.ON_BOARD))
         {
             this.UpdateThink(deltaTime);
             //EM.hudLog.push(`S: ${this.state}, I: ${this.input}, F: ${this.GetCurrentFloor()}`);
             this.UpdateAct(deltaTime);
         }
+
+        this.obliterateTimer.TickBy(deltaTime);
     }
 
     UpdateThink(deltaTime)
@@ -237,6 +246,27 @@ export default class CondemnedSoul
 
             this.DetermineMoveDirectionToTarget(targetButton.QueueZone());
         }
+    }
+
+    CurrentTargetFloor()
+    {
+        let targetFloor = 0;
+
+        let nextStep = this.elevatorRouteStep + 1;
+
+        let targetWorkstation = this.GetCurrentTargetWorkstation();
+
+        if(this.elevatorRoute && nextStep < this.elevatorRoute.length)
+        {
+            let elevatorRouteStep = this.elevatorRoute[nextStep];
+            console.error("MULTI ELEVATOR ROUTE HOW TO HANDLE TARGET?");
+        }
+        else if(targetWorkstation)
+        {
+            targetFloor = targetWorkstation.FloorNumber();
+        }
+
+        return targetFloor;
     }
 
     IsDesiredDisembark(elevator)
@@ -389,9 +419,14 @@ export default class CondemnedSoul
         }
     }
 
+    ShouldDraw()
+    {
+        return !this.StateIs(CONDEMNED_STATE.ON_BOARD);
+    }
+
     Draw()
     {
-        if(!this.StateIs(CONDEMNED_STATE.ON_BOARD))
+        if(this.ShouldDraw())
         {
             let screenPos = this.GetScreenPos();
 

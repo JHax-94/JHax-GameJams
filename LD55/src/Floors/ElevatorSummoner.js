@@ -142,7 +142,9 @@ export default class ElevatorSummoner
         let relevantDoorOpen = (elevator.rightDoorOpen && elevator.phys.position[0] < this.phys.position[0]) 
             || (elevator.leftDoorOpen && elevator.phys.position[0] > this.phys.position[0]);
 
-        return relevantDoorOpen && elevator.GetCurrentFloorNumber() === this.FloorNumber();
+        let elevatorHasRoom = elevator.EmptySlots() > 0;
+
+        return relevantDoorOpen && elevatorHasRoom && elevator.GetCurrentFloorNumber() === this.FloorNumber();
     }
 
     Update(deltaTime)

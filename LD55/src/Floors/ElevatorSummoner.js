@@ -10,6 +10,8 @@ export default class ElevatorSummoner
 
         this.srcTile = tile;
 
+        this.isFlipped = this.srcTile.flipH;
+
         this.spriteIndex = objDef.index;
         let physSettings = {
             tileTransform: { x: tile.x, y: tile.y, w: 1, h: 1 },
@@ -83,7 +85,7 @@ export default class ElevatorSummoner
         //consoleLog(`Get queuetile pos for summoner on tile: (${this.srcTile.x}, ${this.srcTile.y}) | Queue length: ${forLength}`);
 
         let tilePos = {
-            x: this.srcTile.x + 0.5 + forLength * 1.125,
+            x: this.srcTile.x + (0.5 + forLength * 1.125) * (this.isFlipped ? -1 : 1),
             y: this.srcTile.y - 1,
             w: this.queueDims.w,
             h: this.queueDims.h
@@ -112,8 +114,8 @@ export default class ElevatorSummoner
     {
         this.queueTriggerZone.MoveToTilePos(this.GetQueueTilePos());
 
-        /*consoleLog("New Queue");
-        consoleLog(this.queue);*/
+        consoleLog("QUEUE CHANGED");
+        consoleLog(this.queue);
 
         for(let i = 0; i < this.queue.length; i ++)
         {
@@ -144,7 +146,7 @@ export default class ElevatorSummoner
 
         let elevatorHasRoom = elevator.EmptySlots() > 0;
 
-        return relevantDoorOpen && elevatorHasRoom && elevator.GetCurrentFloorNumber() === this.FloorNumber();
+        return relevantDoorOpen && elevatorHasRoom && elevator.IsAtFloor(this.FloorNumber());
     }
 
     Update(deltaTime)
@@ -152,7 +154,6 @@ export default class ElevatorSummoner
         if(this.queue.length > 0)
         {
             let elevator = this.Elevator();
-
             
             if(this.queue[0].StateIs(CONDEMNED_STATE.BOARDING) === false && this.CanBoardElevator(elevator))
             {
@@ -165,6 +166,8 @@ export default class ElevatorSummoner
                 {
                     this.queue[0].StopBoarding();
                 }
+
+                this.isBoarding = false;
             }
         }
     }
@@ -173,6 +176,11 @@ export default class ElevatorSummoner
     {
         let screenPos = this.GetScreenPos();
 
-        sprite(this.spriteIndex, screenPos.x, screenPos.y);
+        if(this.queue.length > 0)
+        {
+            EM.hudLog.push(`S${this.FloorNumber()}: ${this.CanBoardElevator(this.Elevator())}`);
+        }
+
+        sprite(this.spriteIndex, screenPos.x, screenPos.y, this.isFlipped);
     }
 }

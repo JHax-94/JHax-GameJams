@@ -1,6 +1,7 @@
+import { CONDEMNED_STATE } from "../Enums/CondemnedState";
 import TimeStepper from "../TimeStepper";
 import ArrowSprite from "../UI/ArrowSprite";
-import { EM, PIXEL_SCALE } from "../main";
+import { EM, PIXEL_SCALE, consoleLog } from "../main";
 
 export default class CondemnedFollowUi
 {
@@ -57,8 +58,8 @@ export default class CondemnedFollowUi
     {
         let offset =  { x: 0, y: -1 }
 
-        let targetFloor = this.target.CurrentTargetFloor();
-        let currentFloor = this.target.GetCurrentFloor();
+        let targetFloor = this.target.CurrentTargetFloorLayer();
+        let currentFloor = this.target.GetCurrentFloorLayerNumber();
 
         EM.hudLog.push(`${this.target.name} - c: ${currentFloor}, t: ${targetFloor}`);
 
@@ -74,7 +75,16 @@ export default class CondemnedFollowUi
         }
         else if(targetFloor === currentFloor)
         {
-            dirFlips = this.arrowSprite.right;
+            let currentTarget = this.target.GetCurrentTarget();
+            
+            if(currentTarget.phys.position[0] < this.target.phys.position[0])
+            {
+                dirFlips = this.arrowSprite.left;
+            }
+            else 
+            {
+                dirFlips = this.arrowSprite.right;
+            }
         }
 
         if(dirFlips)
@@ -98,13 +108,27 @@ export default class CondemnedFollowUi
         this.rotationTimer.TickBy(deltaTime);
     }
 
+    ShouldDrawTimeRemaining()
+    {
+        return true;
+    }
+
+    ShouldDrawTravelDirection()
+    {
+        return this.target.StateIsAny([CONDEMNED_STATE.QUEUEING, CONDEMNED_STATE.BOARDING]);
+    }
+
     Draw()
     {
         if(this.ShouldDraw())
         {
             let root = this.target.GetScreenPos();
             //this.DrawTimeRemainingBar(root);
-            this.DrawTravelDirection(root);
+
+            if(this.ShouldDrawTravelDirection())
+            {
+                this.DrawTravelDirection(root);
+            }
         }
     }
 

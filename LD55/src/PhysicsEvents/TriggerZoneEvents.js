@@ -36,7 +36,6 @@ export default class TriggerZoneEvents extends PhysEventRegistry
     {
         let tzBody = container.BodyWithTag(evt, "TRIGGER_ZONE");
         let npcBody = container.BodyWithTag(evt, "NPC");
-        consoleLog("Collision between NPC and Trigger Zone!");
 
         let tz = tzBody.obj;
         tz.ObjectEntered(npcBody);

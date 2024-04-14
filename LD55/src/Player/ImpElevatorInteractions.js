@@ -82,7 +82,8 @@ export default class ImpElevatorInteractions
         this.elevator.Stop();
         this.input = {};
 
-        let disembarkPos = this.elevator.GetDisembarkPosition();
+        let info = {};
+        let disembarkPos = this.elevator.GetDisembarkPosition(info);
 
         this.imp.RestoreToWorld(disembarkPos);
     }
@@ -117,7 +118,7 @@ export default class ImpElevatorInteractions
                 this.input.right = false;
             }
 
-            if(input.left && this.input.left)
+            if(input.left && !this.input.left)
             {
                 this.input.left = true;
             }

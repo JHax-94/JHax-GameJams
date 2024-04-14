@@ -18,11 +18,11 @@ export default class PassengerFollowUi
         if(i < this.elevator.srcTiles.length)
         {
             let tile = this.elevator.srcTiles[i];
-
+            /*
             consoleLog("Draw on src tile: ");
             consoleLog(tile);
             consoleLog(this.elevator.dims);
-
+            */
             offset.x =  (tile.x - this.elevator.dims.x) * PIXEL_SCALE;
             offset.y = (tile.y - this.elevator.dims.y) * PIXEL_SCALE;
         }
@@ -30,7 +30,7 @@ export default class PassengerFollowUi
         let drawAt = { x: root.x + offset.x, y: root.y + offset.y };
 
         let currentFloor = this.elevator.GetCurrentFloorNumber();
-        let targetFloor = passenger.CurrentTargetFloor();
+        let targetFloor = passenger.CurrentTargetFloorLayer();
 
         let dirFlips = null;
 
@@ -44,7 +44,19 @@ export default class PassengerFollowUi
         }
         else
         {
-            dirFlips = this.arrowSprite.right;
+            let targetWorkstation = passenger.GetCurrentTargetWorkstation();
+
+            /*consoleLog("Check departure side:");
+            consoleLog(targetWorkstation);*/
+
+            if(targetWorkstation.phys.position[0] < this.elevator.phys.position[0])
+            {
+                dirFlips = this.arrowSprite.left;
+            }
+            else
+            {
+                dirFlips = this.arrowSprite.right;
+            }
         }
 
         if(dirFlips)

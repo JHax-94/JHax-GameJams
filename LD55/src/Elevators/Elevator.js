@@ -4,6 +4,7 @@ import TriggerZone from "../PhysObjects/TriggerZone";
 import { vec2 } from "p2";
 import TimeStepper from "../TimeStepper";
 import PassengerFollowUi from "./PassengerFollowUi";
+import { CONDEMNED_INPUT } from "../Enums/CondemnedInputs";
 
 export default class Elevator 
 {
@@ -135,9 +136,23 @@ export default class Elevator
         this.phys.velocity = [0, 0];
     }
 
-    GetDisembarkPosition()
+    GetDisembarkPosition(info)
     {
-        return [ this.phys.position[0] + PIXEL_SCALE, this.phys.position[1] ];
+        consoleLog("Disembark info:");
+        consoleLog(info);
+
+        let dirMulti = 1;
+        if(info.dir === CONDEMNED_INPUT.MOVE_LEFT)
+        {
+            dirMulti = -1;
+        }
+
+        consoleLog(`Disembark direction: ${dirMulti}`);
+
+        let disembarkPos = [ this.phys.position[0] + (dirMulti * PIXEL_SCALE), this.phys.position[1] ];
+        consoleLog(`DISEMBARK POS: (x: ${disembarkPos[0].toFixed(3)}, y: ${disembarkPos[1].toFixed(3)})`);
+
+        return disembarkPos;
     }
 
     ToggleRightDoor()
@@ -159,9 +174,11 @@ export default class Elevator
         for(let i = 0; i < this.passengers.length; i ++)
         {
             consoleLog(`Check if passenger ${i}: (${this.passengers[i].name}) wants to disembark?`);
-            if(this.passengers[i].IsDesiredDisembark(this))
+
+            let info = {};
+            if(this.passengers[i].IsDesiredDisembark(this, info))
             {
-                let disembarkPosition = this.GetDisembarkPosition();
+                let disembarkPosition = this.GetDisembarkPosition(info);
 
                 this.passengers[i].Disembark(disembarkPosition);
                 this.passengers.splice(i, 1);
@@ -216,6 +233,9 @@ export default class Elevator
         {
             this.passengers.push(npc);
             npc.Neutralise();
+
+            this.disembarkTimer.Reset();
+            this.disembarkTimer.StartTimer();
         }
     }
 
@@ -235,9 +255,31 @@ export default class Elevator
         }
     }
 
+    ElevatorAtFloors()
+    {
+        return this.Scheduler()?.GetFloorLayerForPhysObject(this).floors;
+    }
+
+    IsAtFloor(floorNumber)
+    {
+        let isAtFloor = false;
+        let atFloors = this.ElevatorAtFloors();
+
+        for(let i = 0; i < atFloors.length; i ++)
+        {
+            if(atFloors[i].floorNumber === floorNumber)
+            {
+                isAtFloor = true;
+                break;
+            }
+        }
+
+        return isAtFloor;
+    }
+
     GetCurrentFloorNumber()
     {
-        return this.Scheduler()?.GetFloorForPhysObject(this)?.floorNumber ?? -1;
+        return this.Scheduler()?.GetFloorLayerForPhysObject(this)?.number;
     }
 
     Draw()

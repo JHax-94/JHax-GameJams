@@ -7,7 +7,8 @@
             ],
             "condemned": [],
             "levelDoors": [
-                { "display": "1", "target": "Test" }
+                { "display": "1", "target": "Test" },
+                { "display": "2", "target": "Level2" }
             ]
         },
         {            
@@ -43,6 +44,66 @@
                     ],
                     "type": "FloatingSkull",
                     "name": "Eve"
+                }
+            ]
+        },
+        {
+            "levelName": "Level2",
+            "maps": [
+                { "name": "Level2/Level2" },
+                { "name": "Level2/elevatorbounds" }
+            ],
+            "condemned": [
+                { 
+                    "startLocation": { "floor": 0, "place": 0 },
+                    "schedule": [
+                        { "floor": 1, "workstation": 0 },
+                        { "floor": 2, "workstation": 0 },
+                        { "floor": 7, "workstation": 1 } 
+                        
+                    ],
+                    "type": "FloatingSkull",
+                    "name": "Alice"
+                },
+                { 
+                    "startLocation": { "floor": 0, "place": 15 },
+                    "schedule": [
+                        { "floor": 2, "workstation": 2 },
+                        { "floor": 0, "workstation": 1 },
+                        { "floor": 6, "workstation": 1 }
+                    ],
+                    "type": "FloatingSkull",
+                    "name": "Bob"
+                },
+                { 
+                    "startLocation": { "floor": 0, "place":  3 },
+                    "schedule": [
+                        { "floor": 1, "workstation": 1 },
+                        { "floor": 3, "workstation": 0 },
+                        { "floor": 8, "workstation": 0 }
+                    ],
+                    "type": "FloatingSkull",
+                    "name": "Eve"
+                },
+                {
+                    "startLocation": { "floor": 2, "place":  1 },
+                    "schedule": [
+                        { "floor": 4, "workstation": 1 },
+                        { "floor": 5, "workstation": 0 }
+                    ],
+                    "type": "FloatingSkull",
+                    "name": "Daryll"
+                },
+                {
+                    "startLocation": { "floor": 3, "place":  3 },
+                    "schedule": [
+                        { "floor": 9, "workstation": 0 },
+                        { "floor": 8, "workstation": 0 },
+                        { "floor": 5, "workstation": 2 }
+
+                    ],
+                    "type": "FloatingSkull",
+                    "name": "Gilbert"
                 }
             ]
         }

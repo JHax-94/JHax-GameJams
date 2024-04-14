@@ -1,6 +1,7 @@
 import { start } from "tina";
 import { consoleLog } from "../main";
 import CondemnedSoul from "./CondemnedSoul";
+import FloorLayer from "../Floors/FloorLayer";
 
 export default class CondemnedScheduler
 {
@@ -15,6 +16,8 @@ export default class CondemnedScheduler
 
         this.condemned = [];
 
+        this.floorLayers = [];
+
         this.OrderFloors();
         this.FindSummonersAlongBounds();
         this.AddBoundsToElevators()
@@ -25,7 +28,7 @@ export default class CondemnedScheduler
         //this.EstablishSummonerElevatorConnections();
 
         consoleLog("Workstation Setup complete:");
-        consoleLog(this);        
+        consoleLog(this);
 
         this.BuildCondemned();
     }   
@@ -75,7 +78,7 @@ export default class CondemnedScheduler
 
     OrderFloors()
     {
-        this.floors = this.floors.sort((floorA, floorB) => floorA.phys.position[1] - floorB.phys.position[1]);
+        this.floors = this.floors.sort((floorA, floorB) => floorA.floorY - floorB.floorY);
 
         for(let i = 0; i < this.floors.length; i ++)
         {
@@ -84,62 +87,90 @@ export default class CondemnedScheduler
 
         consoleLog("Ordered Floors:");
         consoleLog(this.floors);
+
+        for(let i = 0; i < this.floors.length; i ++)
+        {
+            let floor = this.floors[i];
+
+            let floorLayer = this.floorLayers.find(fl => fl.y === floor.floorY);
+
+            if(!floorLayer)
+            {
+                floorLayer = new FloorLayer(this.floorLayers.length, floor.floorY);
+                this.floorLayers.push(floorLayer);
+            }
+
+            floorLayer.AddFloor(floor);
+        }
+
+        consoleLog("Layered Floors:");
+        consoleLog(this.floorLayers);
+    }
+
+    GetFloorLayerForPhysObject(physObj, log)
+    {
+        let py = physObj.phys.aabb.lowerBound[1];
+
+        let belowLayer = null;
+        let aboveLayer = null;
+
+        let returnLayer = null;
+
+        for(let fl = 0; fl < this.floorLayers.length; fl ++)
+        {
+            let layer = this.floorLayers[fl];
+
+            if(layer.y < py)
+            {
+                aboveLayer = layer;
+            }
+
+            if(layer.y >= py)
+            {
+                belowLayer = layer;
+            }
+
+            if(belowLayer || fl === this.floorLayers.length - 1)
+            {
+                returnLayer = aboveLayer;
+                break;
+            }
+        }
+
+        return returnLayer;
     }
 
     GetFloorForPhysObject(physObj, log)
     {
         if(log)
         {
-            consoleLog("Find floor for obj: ");
-            consoleLog(physObj)
+            consoleLog(`Find Floor for object @ (${physObj.phys.position[0]}, ${physObj.phys.position[1]})`);
         }
 
-        let poy = physObj.phys.position[1];
+        let layer = this.GetFloorLayerForPhysObject(physObj, log);
 
         if(log)
         {
-            consoleLog(`Y=${poy}`);
+            consoleLog("Is on layer: ");
+            consoleLog(layer);
         }
-
-        let belowFloor = null;
-        let aboveFloor = null;
 
         let returnFloor = null;
 
-        for(let f = 0; f < this.floors.length; f ++)
+        for(let f = 0; f < layer.floors.length; f ++)
         {
-            let floor = this.floors[f];
+            let floor = layer.floors[f];
+            
+            let xPos = physObj.phys.position[0];
+            let lowX = floor.phys.aabb.lowerBound[0];
+            let upX = floor.phys.aabb.upperBound[0];
 
-            if(log)
+            if(lowX < xPos && xPos < upX)
             {
-                consoleLog(`Comparing Y values: PhysObj: ${poy} - Floor ${floor.floorNumber}: ${floor.floorY}`);
-            }
-
-            if(floor.floorY <= poy)
-            {
-                if(log) consoleLog(`Phys object above floor: ${floor.floorNumber}`);
-                aboveFloor = floor;
-            }
-
-            if(floor.floorY > poy)
-            {
-                if(log) consoleLog(`Phys object below floor: ${floor.floorNumber}`);
-                belowFloor = floor;
-            }
-
-            if(belowFloor || f === this.floors.length - 1)
-            {
-                if(log)
-                {
-                    consoleLog("Floor found:");
-                    consoleLog(aboveFloor)
-                }
-                
-                returnFloor = aboveFloor;
-                break;
+                returnFloor = floor;
             }
         }
-
+        
         return returnFloor;
     }
 
@@ -154,6 +185,11 @@ export default class CondemnedScheduler
             {
                 console.error("No Suitable floor found for workstation:");
                 consoleLog(ws);
+                consoleLog(this.floorLayers);
+            }
+            else
+            {
+                consoleLog(`Add WS (${ws.phys.position[0]}, ${ws.phys.position[1]}) to Floor ${floor.floorNumber} (${floor.phys.position[0]}, ${floor.phys.position[1]})`);
             }
 
             floor.AddWorkstation(ws);
@@ -165,7 +201,7 @@ export default class CondemnedScheduler
         for(let i = 0; i < this.summoners.length; i ++)
         {
             let summ = this.summoners[i];
-            let floor = this.GetFloorForPhysObject(summ);
+            let floor = this.GetFloorForPhysObject(summ, true);
 
             if(!floor)
             {
@@ -270,6 +306,51 @@ export default class CondemnedScheduler
         return eligibleElevators;
     }
 
+
+    GetLayerForFloor(floor)
+    {
+        let layer = this.GetLayerForFloorNumber(floor.floorNumber);
+
+        if(!layer)
+        {
+            console.error(`No Layer found for floor:`);
+            consoleLog(floor);
+        }
+
+        return layer;
+    }
+
+    GetLayerForFloorNumber(floorNumber)
+    {
+        let floorLayer = null;
+
+        for(let i = 0; i < this.floorLayers.length; i ++)
+        {
+            for(let j = 0; j < this.floorLayers[i].floors.length; j++)
+            {
+                let checkFloorNumber = this.floorLayers[i].floors[j].floorNumber;
+
+                if(checkFloorNumber === floorNumber)
+                {  
+                    floorLayer = this.floorLayers[i];
+                    break;
+                }
+            }
+
+            if(floorLayer)
+            {
+                break;
+            }
+        }
+
+        if(!floorLayer)
+        {
+            console.error(`No layer found for floor number: ${floorNumber}`);
+        }
+
+        return floorLayer;
+    }
+
     FindButtonForElevator(targetElevator, currentFloorNumber, log)
     {
         if(log)
@@ -313,7 +394,7 @@ export default class CondemnedScheduler
         }
         else
         {
-            console.error(`Unabled to find route from floor ${fromFloor} to ${toFloor}`);
+            console.error(`Unable to find route from floor ${fromFloor} to ${toFloor}`);
         }
         
         return route;

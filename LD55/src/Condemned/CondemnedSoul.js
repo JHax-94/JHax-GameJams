@@ -5,6 +5,7 @@ import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog, getObjectConfig } from ".
 import WorkstationInteractions from "./WorkstationInteractions";
 import TimeStepper from "../TimeStepper";
 import CondemnedFollowUi from "./CondemnedFollowUi";
+import { CONDEMNED_MARK } from "../Enums/CondemnedMark";
 
 export default class CondemnedSoul
 {
@@ -13,6 +14,8 @@ export default class CondemnedSoul
         this.renderLayer = "CONDEMNED";
         this.hideCollider = true;
         this.schedule = data.schedule;
+        
+        this.mark = CONDEMNED_MARK.WORKING;
 
         this.name = data.name;
         this.scheduler = scheduler;
@@ -48,7 +51,7 @@ export default class CondemnedSoul
     {
         this.workstation = new WorkstationInteractions(this);
 
-        this.obliterateTimer = new TimeStepper(10);
+        this.obliterateTimer = new TimeStepper(60, { onComplete: () => { consoleLog("---- OBLITERATE ----"); this.DestroyBad(); } });
         this.obliterateTimer.StartTimer();
 
         this.reelDist = 10;
@@ -139,8 +142,6 @@ export default class CondemnedSoul
         this.phys.gravityScale = 0;
         this.phys.velocity = [ 0, 0];
     }
-
-
 
     Disembark(atPosition)
     {
@@ -309,6 +310,10 @@ export default class CondemnedSoul
     {
         let targetFloor = this.CurrentTargetFloor();
 
+        consoleLog(`${this.name} is on schedule item X looking for floor Y`);
+        consoleLog(this.scheduleItem);
+        consoleLog(targetFloor);
+
         let layer = this.scheduler.GetLayerForFloor(targetFloor);
 
         return layer.number;
@@ -448,8 +453,20 @@ export default class CondemnedSoul
 
     ScheduledItemCompleted()
     {
+        this.scheduler.TaskCompleted(this.scheduleItem);
         this.scheduleItem = null;
-        this.SetState(CONDEMNED_STATE.IDLE);
+
+        this.obliterateTimer.Reset();
+        this.obliterateTimer.StartTimer();
+
+        if(this.scheduleStep + 1 < this.schedule.length)
+        {
+            this.SetState(CONDEMNED_STATE.IDLE);
+        }
+        else
+        {
+            this.DestroyGood();
+        }
     }
 
     GetCurrentFloorLayerNumber()
@@ -489,6 +506,25 @@ export default class CondemnedSoul
     ShouldDraw()
     {
         return !this.StateIs(CONDEMNED_STATE.ON_BOARD);
+    }
+
+    Destroy()
+    {
+        EM.RemoveEntity(this.followUi);
+        EM.RemoveEntity(this);
+    }
+
+    DestroyGood()
+    {
+        this.mark = CONDEMNED_MARK.CLOCKED_OFF;
+        this.Destroy();
+    }
+
+    DestroyBad()
+    {
+        consoleLog("XXXX OBLITERATE TIMER FINISHED XXXX");
+        this.mark = CONDEMNED_MARK.OBLITERATED;
+        this.Destroy();
     }
 
     Draw()

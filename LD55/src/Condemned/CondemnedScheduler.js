@@ -26,12 +26,49 @@ export default class CondemnedScheduler
         this.EstablishSummonerFloorConnections();
 
         //this.EstablishSummonerElevatorConnections();
-
-        consoleLog("Workstation Setup complete:");
-        consoleLog(this);
-
         this.BuildCondemned();
+
+        this.allTasks = [];
+        this.completedTasks = [];
+        this.CompileTasks();
+
+        consoleLog("Scheduler Setup complete:");
+        consoleLog(this);
     }   
+
+    MarkedWorkers(mark)
+    {
+        let count = 0;
+        
+        for(let i = 0; i < this.condemned.length; i++)
+        {
+            if(this.condemned[i].mark === mark)
+            {
+                count ++;
+            }
+        }
+
+        return count;
+    }
+
+    CompileTasks()
+    {
+        for(let i = 0; i < this.condemned.length; i ++)
+        {
+            for(let j = 0; j < this.condemned[i].schedule.length; j ++)
+            {
+                this.allTasks.push(this.condemned[i].schedule[j]);
+            }
+        }
+    }
+
+    TaskCompleted(task)
+    {
+        if(this.completedTasks.findIndex(ct => ct === task) <= 0 && this.allTasks.findIndex(at => at === task))
+        {
+            this.completedTasks.push(task);
+        }
+    }
 
     FindSummonersAlongBounds()
     {

@@ -1,4 +1,5 @@
-import { EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, consoleLog } from "../main";
+import { CONDEMNED_MARK } from "../Enums/CondemnedMark";
+import { EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTILS, consoleLog } from "../main";
 
 export default class GameFrame
 {
@@ -7,10 +8,16 @@ export default class GameFrame
     {
         this.renderLayer = "FRAME"
 
+        this.scheduler = null;
+
         this.x = PIXEL_SCALE * 16;
         this.y = 0;
         this.h = PIXEL_SCALE * TILE_HEIGHT;
         this.w = TILE_WIDTH * PIXEL_SCALE - this.x;
+
+        this.padding = 0.25;
+
+        this.lineHeight = UTILS.GetTextHeight("") * PIXEL_SCALE + 2;
 
         this.titleAt = { x: 0, y: 0.5 };
         this.title = [ 
@@ -48,6 +55,56 @@ export default class GameFrame
         }
     }
 
+    DrawQuota()
+    {
+        let quotaPos = { x: this.padding, y: 3 };
+
+        let drawAt = { x: quotaPos.x * PIXEL_SCALE + this.x, y: quotaPos.y * PIXEL_SCALE + this.y };
+
+        pen(1);
+
+        let quota = `${this.scheduler.completedTasks.length} / ${this.scheduler.allTasks.length}`;
+
+        print(`Quota:`, drawAt.x, drawAt.y);
+        print(quota, drawAt.x, drawAt.y + this.lineHeight);
+    }
+
+    DrawWorkers()
+    {
+        let workPos = { x: this.padding, y: 5 };
+        let drawAt = { x: workPos.x * PIXEL_SCALE + this.x, y: workPos.y * PIXEL_SCALE + this.y };
+
+        let lines = 0;
+
+        let marks = [
+             { m: CONDEMNED_MARK.WORKING, col: 1 }, 
+             { m: CONDEMNED_MARK.CLOCKED_OFF, col: 7 },
+             { m: CONDEMNED_MARK.OBLITERATED, col: 9 }
+        ];
+
+        pen(1);
+        print(`Workers:`, drawAt.x, drawAt.y);
+       
+        for(let i = 0; i < marks.length; i ++)
+        {
+            let count = this.scheduler.MarkedWorkers(marks[i].m);
+
+            if(count > 0)
+            {
+                pen(marks[i].col);
+                print(`${CONDEMNED_MARK.ToString(marks[i].m)}: ${count}`, drawAt.x, drawAt.y + (this.lineHeight) * (lines + 1));
+                lines++;
+            }
+        }        
+
+        /*
+        print(`Working: ${this.scheduler.MarkedWorkers(CONDEMNED_MARK.WORKING)}`, drawAt.x, drawAt.y + this.lineHeight);
+        pen(7)
+        print(`Clocked off: ${this.scheduler.MarkedWorkers(CONDEMNED_MARK.CLOCKED_OFF)}`, drawAt.x, drawAt.y + this.lineHeight * 2);
+        pen(9)
+        print(`Obliterated: ${this.scheduler.MarkedWorkers(CONDEMNED_MARK.OBLITERATED)}`, drawAt.x, drawAt.y + this.lineHeight * 3);*/
+    }
+
     Draw()
     {
         paper(0);
@@ -57,6 +114,12 @@ export default class GameFrame
         rectf(this.x, this.y, this.w, this.h);
 
         this.DrawTitle();
+
+        if(this.scheduler)
+        {
+            this.DrawQuota();
+            this.DrawWorkers();
+        }
     }
 
 

@@ -138,7 +138,16 @@ export default class ImpElevatorInteractions
     {
         let floorNum = this.elevator.GetCurrentFloorNumber();
 
-        let doorStateString = `F: ${floorNum}, L: ${this.elevator.leftDoorOpen ? "open" : "closed"}, R: ${this.elevator.rightDoorOpen ? "open" : "closed"}, P: ${this.elevator.passengers.length}`;
+
+        let distToFloor = this.elevator.GetDistanceToFloorLayer();
+
+        let distStr = distToFloor;
+        if(distToFloor !== NaN)
+        {
+            distStr = distToFloor.toFixed(3);
+        }
+
+        let doorStateString = `F: ${floorNum}, L: ${this.elevator.leftDoorOpen ? "open" : "closed"}, R: ${this.elevator.rightDoorOpen ? "open" : "closed"}, P: ${this.elevator.passengers.length}, D: ${distStr}`;
 
         pen(1);
         print(doorStateString, [0, 0]);

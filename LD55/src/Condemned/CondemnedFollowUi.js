@@ -5,22 +5,22 @@ import { EM, PIXEL_SCALE, consoleLog } from "../main";
 
 export default class CondemnedFollowUi
 {
+    
     constructor(condemned)
     {
         this.renderLayer = "CONDEMNED_UI"
         this.target = condemned;
 
-        this.rotationTimer = new TimeStepper(1.2);
-        this.rotationTimer.StartTimer();
-
         this.arrowSprite = new ArrowSprite(20);
+
+        this.activeUi = 0;
 
         EM.RegisterEntity(this);
     }
 
     DrawTimeRemainingBar(root)
     {
-        let offset = { x: 0, y: -0.5 };
+        let offset = { x: 0, y: 14/16 };
 
         let height = 3;
         let height2 = 1;
@@ -43,9 +43,6 @@ export default class CondemnedFollowUi
 
         paper(backColour);
         rectf(base.x + 1, base.y, backWidth-2, height);
-
-        
-        
 
         paper(barCol);
         rectf(base.x + 1, base.y, barWidth, height);
@@ -103,11 +100,7 @@ export default class CondemnedFollowUi
         return this.target.ShouldDraw();
     }
 
-    Update(deltaTime)
-    {
-        this.rotationTimer.TickBy(deltaTime);
-    }
-
+    
     ShouldDrawTimeRemaining()
     {
         return true;
@@ -123,11 +116,15 @@ export default class CondemnedFollowUi
         if(this.ShouldDraw())
         {
             let root = this.target.GetScreenPos();
-            //this.DrawTimeRemainingBar(root);
 
             if(this.ShouldDrawTravelDirection())
             {
                 this.DrawTravelDirection(root);
+            }
+
+            if(this.ShouldDrawTimeRemaining())
+            {
+                this.DrawTimeRemainingBar(root);
             }
         }
     }

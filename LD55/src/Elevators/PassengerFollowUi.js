@@ -11,7 +11,7 @@ export default class PassengerFollowUi
         EM.RegisterEntity(this);
     }
 
-    DrawPassengerDesiredTravel(root, i, passenger)
+    GetDrawAt(root, i)
     {
         let offset = { x: i * PIXEL_SCALE, y: 0 };
 
@@ -29,6 +29,41 @@ export default class PassengerFollowUi
 
         let drawAt = { x: root.x + offset.x, y: root.y + offset.y };
 
+        return drawAt;
+    }
+
+    DrawRemainingTime(root, i, passenger)
+    {
+        let drawAt = this.GetDrawAt(root, i);
+
+        let backColour = 5;
+        let barHeight = 2;
+
+        let barCol2 = 9;
+
+        let inset = 2;
+        let barFullWidth = PIXEL_SCALE - 2* inset;
+        
+        drawAt.x += inset;
+        drawAt.y += (PIXEL_SCALE - barHeight - 2);
+
+        paper(backColour);
+        rectf(drawAt.x, drawAt.y, barFullWidth, barHeight);
+
+        let barWidthMax = barFullWidth - 2;
+        let barWidth = (1-passenger.obliterateTimer.Value()) * barWidthMax;
+
+        /*paper(barCol1);
+        rectf(drawAt.x + 1, drawAt.y, barWidth, 1);*/
+
+        paper(barCol2);
+        rectf(drawAt.x + 1, drawAt.y, barWidth, 2);        
+    }
+
+    DrawPassengerDesiredTravel(root, i, passenger)
+    {
+        let drawAt = this.GetDrawAt(root, i);
+
         let currentFloor = this.elevator.GetCurrentFloorNumber();
         let targetFloor = passenger.CurrentTargetFloorLayer();
 
@@ -38,7 +73,7 @@ export default class PassengerFollowUi
         {
             dirFlips = this.arrowSprite.up;
         }
-        else if(targetFloor < currentFloor)
+        else if(targetFloor < currentFloor || (targetFloor === currentFloor  && this.elevator.CanDisembark() === false))
         {
             dirFlips = this.arrowSprite.down;
         }
@@ -74,6 +109,8 @@ export default class PassengerFollowUi
         for(let i = 0; i < passengers.length; i ++)
         {
             this.DrawPassengerDesiredTravel(root, i, passengers[i]);
+
+            this.DrawRemainingTime(root, i, passengers[i]);
         }
     }
 }

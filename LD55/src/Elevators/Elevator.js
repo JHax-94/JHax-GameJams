@@ -56,7 +56,7 @@ export default class Elevator
     Setup()
     {
         this.elevatorBounds = null;
-        this.speed = 30;
+        this.speed = 3 * PIXEL_SCALE;
 
         this.leftDoorOpen = false;
         this.rightDoorOpen = false;
@@ -171,19 +171,22 @@ export default class Elevator
 
     DisembarkPassenger()
     {
-        for(let i = 0; i < this.passengers.length; i ++)
+        if(this.CanDisembark())
         {
-            consoleLog(`Check if passenger ${i}: (${this.passengers[i].name}) wants to disembark?`);
-
-            let info = {};
-            if(this.passengers[i].IsDesiredDisembark(this, info))
+            for(let i = 0; i < this.passengers.length; i ++)
             {
-                let disembarkPosition = this.GetDisembarkPosition(info);
+                consoleLog(`Check if passenger ${i}: (${this.passengers[i].name}) wants to disembark?`);
 
-                this.passengers[i].Disembark(disembarkPosition);
-                this.passengers.splice(i, 1);
-                this.disembarkTimer.StartTimer();
-                break;
+                let info = {};
+                if(this.passengers[i].IsDesiredDisembark(this, info))
+                {
+                    let disembarkPosition = this.GetDisembarkPosition(info);
+
+                    this.passengers[i].Disembark(disembarkPosition);
+                    this.passengers.splice(i, 1);
+                    this.disembarkTimer.StartTimer();
+                    break;
+                }
             }
         }
     }
@@ -277,8 +280,37 @@ export default class Elevator
         return isAtFloor;
     }
 
+    CanDisembark()
+    {
+        return this.GetDistanceToFloorLayer() < 12;
+    }
+
+    GetDistanceToFloorLayer()
+    {
+        let layer = this.Scheduler().GetFloorLayerForPhysObject(this);
+        
+        let dist = NaN;
+
+        if(layer)
+        {
+            
+            dist = this.phys.aabb.lowerBound[1] - layer.y;
+        }
+
+        return dist;
+    }
+
     GetCurrentFloorNumber()
     {
+        let number = -1;
+
+        let layer = this.Scheduler()?.GetFloorLayerForPhysObject(this);
+
+        if(layer)
+        {
+            number = layer.number;
+        }
+
         return this.Scheduler()?.GetFloorLayerForPhysObject(this)?.number;
     }
 

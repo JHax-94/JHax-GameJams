@@ -39,6 +39,11 @@ export default class Level
 
         let frame = new GameFrame();
         EM.AddEntity("FRAME", frame);
+
+        if(scheduler.allTasks.length > 0)
+        {
+            frame.scheduler = scheduler;
+        }
     }   
 
     GetObjectList(type)
@@ -119,6 +124,8 @@ export default class Level
         consoleLog(objDef);*/
 
         let imp = new ElevatorImp(tile, objDef);
+
+        EM.AddEntity("PLAYER", imp);
 
         return imp;
     }

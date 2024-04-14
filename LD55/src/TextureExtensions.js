@@ -1,4 +1,4 @@
-import { EM } from "./main";
+import { EM, consoleLog } from "./main";
 
 let pixelBox = require("pixelbox");
 let gl = require("pixelbox/webGL");
@@ -125,6 +125,13 @@ export default class TextureExtender
         {
             if(!options) options = {};
 
+
+            if(EM.camera)
+            {                
+                x -= EM.camera.x;
+                y -= EM.camera.y;
+            }
+            
             let maintainCentre = options.maintainCentre ?? false;
             let scale = options.scale ?? 1;
             let angle = options.angle ?? 0;

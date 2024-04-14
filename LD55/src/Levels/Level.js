@@ -4,6 +4,7 @@ import ElevatorBounds from "../Elevators/ElevatorBounds";
 import ElevatorSummoner from "../Floors/ElevatorSummoner";
 import Floor from "../Floors/Floor";
 import ElevatorImp from "../Player/ElevatorImp";
+import GameFrame from "../UI/GameFrameUi";
 import WorkStation from "../WorkStations/WorkStation";
 import { EM, consoleLog } from "../main";
 import LevelObjectList from "./LevelObjectList";
@@ -33,6 +34,9 @@ export default class Level
 
         let scheduler = new CondemnedScheduler(this);
         EM.AddEntity("SCHEDULER", scheduler);
+
+        let frame = new GameFrame();
+        EM.AddEntity("FRAME", frame);
     }   
 
     GetObjectList(type)
@@ -260,9 +264,9 @@ export default class Level
     
     Draw()
     {
-        for(let i = 0; i < this.drawMaps.length; i ++)
+        /*for(let i = 0; i < this.drawMaps.length; i ++)
         {
             this.drawMaps[i].draw();
-        }
+        }*/
     }
 }

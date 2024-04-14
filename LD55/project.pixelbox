@@ -6,7 +6,7 @@
 		"fullscreen": false,
 		"resizable": false,
 		"keepAspectRatio": false,
-		"width": 256,
+		"width": 320,
 		"height": 256,
 		"pixelSize": {
 			"width": 3,

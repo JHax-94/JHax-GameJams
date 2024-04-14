@@ -6,12 +6,15 @@ import PhysicsContainer from "./PhysicsContainer";
 import RenderLayer from "./RenderLayer";
 import InputMethod from "./InputMethod";
 import { INPUT_TYPE } from "./InputType";
+import Camera from "./Camera";
 
 export default class EntityManager
 {
     constructor(noPhys)
     {
         this.LoadSettings();
+
+        this.camera = new Camera();
 
         this.frameCount = 0;
         this.bgColour = 12;
@@ -71,6 +74,8 @@ export default class EntityManager
         this.hudLogRoot = 12;
         this.hudLogHeight = 0.75;
         this.hudLogColour = 1;
+
+        
 
         if(this.phys) this.SetupPhys();
     }

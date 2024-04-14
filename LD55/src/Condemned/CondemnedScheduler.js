@@ -39,7 +39,7 @@ export default class CondemnedScheduler
     MarkedWorkers(mark)
     {
         let count = 0;
-        
+
         for(let i = 0; i < this.condemned.length; i++)
         {
             if(this.condemned[i].mark === mark)
@@ -91,6 +91,8 @@ export default class CondemnedScheduler
 
     AddBoundsToElevators()
     {
+        consoleLog("-- ADDING BOUNDS TO ELEVATORS ---")
+
         for(let i = 0; i < this.elevators.length; i ++)
         {
             let e = this.elevators[i];
@@ -107,9 +109,6 @@ export default class CondemnedScheduler
                     break;
                 }
             }
-
-            if(isBound) break;
-
         }
     }
 
@@ -226,7 +225,7 @@ export default class CondemnedScheduler
             }
             else
             {
-                consoleLog(`Add WS (${ws.phys.position[0]}, ${ws.phys.position[1]}) to Floor ${floor.floorNumber} (${floor.phys.position[0]}, ${floor.phys.position[1]})`);
+                //consoleLog(`Add WS (${ws.phys.position[0]}, ${ws.phys.position[1]}) to Floor ${floor.floorNumber} (${floor.phys.position[0]}, ${floor.phys.position[1]})`);
             }
 
             floor.AddWorkstation(ws);
@@ -401,39 +400,138 @@ export default class CondemnedScheduler
         return summoner;
     }
 
-    PlotRouteToFloor(fromFloor, toFloor, log)
+    PlotRouteToFloor(forObj, fromFloor, toFloor, checkedElevators = null)
     {
-        let elevatorsToTargetFloor = this.FindElevatorsStoppingAtFloor(toFloor);
+        consoleLog(`=== Plot Route from floor ${fromFloor} to floor ${toFloor} ===`);
+        consoleLog("== Elevators already checked");
+        consoleLog(checkedElevators);
+        let log = true;
 
-        if(log)
+        let isRootCall = false;
+
+        if(checkedElevators === null)
         {
-            consoleLog(`Elevators stopping at target floor: ${toFloor}`);
-            consoleLog(elevatorsToTargetFloor);
+            isRootCall = true;
+            checkedElevators = [];
         }
 
-        let route = [];
+        let elevatorsToTargetFloor = this.FindElevatorsStoppingAtFloor(toFloor);
+
+        consoleLog(`== Elevators stopping at floor: ${toFloor}`);
+        consoleLog(elevatorsToTargetFloor);
+
+        let routeCandidates = [  ];
 
         for(let i = 0; i < elevatorsToTargetFloor.length; i ++)
         {
-            let elevator = elevatorsToTargetFloor[i];
-            consoleLog(`Check if elevator stops at source floor: ${fromFloor}`);
+            let index = checkedElevators.findIndex(et => et === elevatorsToTargetFloor[i]);
 
-            if(elevator.StopsAtFloor(fromFloor))
+            if(index < 0)
             {
-                route.push(elevator);
+                consoleLog("= Elevator hasn't been checked yet, create route candidate for:");
+                consoleLog(elevatorsToTargetFloor[i]);
+
+                routeCandidates.push({
+                    target: elevatorsToTargetFloor[i],
+                    route: null
+                });
             }
         }
 
-        if(route.length > 0)
+        if(log)
         {
-            consoleLog(`Route from floor ${fromFloor} to ${toFloor}:`);
-            consoleLog(route);
+            consoleLog(`Starting route candidates to target floor: ${toFloor}`);
+            consoleLog(routeCandidates);
+        }
+
+        let routeAtLevelFound = false;
+
+        for(let i = 0; i < routeCandidates.length; i ++)
+        {
+            let route = [];
+
+            let elevator = routeCandidates[i].target;
+
+            route.push(elevator);
+
+            if(elevator.StopsAtFloor(fromFloor))
+            {
+                routeAtLevelFound = true;
+            }
+            else if(!routeAtLevelFound)
+            {
+                consoleLog("--- Add to checked elevators ---");
+                checkedElevators.push(elevator);
+                consoleLog(checkedElevators);
+
+                let stops = elevator.StopsAtFloors();
+
+                for(let j = 0; j < stops.length; j ++)
+                {
+                    let subRoute = this.PlotRouteToFloor(forObj, fromFloor, stops[j], checkedElevators);
+
+                    if(subRoute)
+                    {
+                        for(let i = 0; i < subRoute.length; i ++)
+                        {
+                            route.splice(0, 0, subRoute[i]);
+                        }
+                        routeAtLevelFound = true;
+                        break;
+                    }
+                }
+            }
+
+            if(route.length > 0)
+            {
+                consoleLog(`== ROUTE FROM ${fromFloor} to ${toFloor} FOUND ==`);
+                routeCandidates[i].route = route;
+            }
+        } 
+
+        consoleLog("==== ROUTE CANDIDATES ====");
+        consoleLog(routeCandidates);
+        let returnRoute = null;
+
+        if(isRootCall)
+        {
+            let closestStart = null;
+
+            for(let i = 0; i < routeCandidates.length; i ++)
+            {
+                if(routeCandidates[i].route && routeCandidates[i].route.length > 0)
+                {
+                    let startPoint = routeCandidates[i].route[0];
+
+                    let startX = startPoint.GetSummonerOnFloor(fromFloor).phys.position[0];
+
+                    let forX = forObj.phys.position[0];
+
+                    let distToStart = Math.abs(startX - forX);
+
+                    routeCandidates[i].distToStart = distToStart;   
+                    
+                    if(closestStart === null || distToStart < routeCandidates[closestStart].distToStart)
+                    {
+                        closestStart = i;
+                    }
+                }
+            }
+
+            returnRoute = routeCandidates[closestStart].route;
         }
         else
         {
-            console.error(`Unable to find route from floor ${fromFloor} to ${toFloor}`);
+            for(let i = 0; i < routeCandidates.length; i ++)
+            {
+                if(routeCandidates[i].route)
+                {
+                    returnRoute = routeCandidates[i].route;
+                    break;
+                }
+            }
         }
         
-        return route;
+        return returnRoute;
     }
 }

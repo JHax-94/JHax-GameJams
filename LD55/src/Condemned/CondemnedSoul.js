@@ -134,11 +134,18 @@ export default class CondemnedSoul
         {
             this.CheckToBoard();
         }
+
+        if(this.onBoardElevator && this.state !== CONDEMNED_STATE.ON_BOARD)
+        {
+            console.error("NULLING ON BOARD ELEVATOR");
+            this.onBoardElevator = null;
+        }
     }
 
-    Neutralise()
+    Neutralise(elevator)
     {
         this.SetState(CONDEMNED_STATE.ON_BOARD);
+        this.onBoardElevator = elevator;
         this.phys.gravityScale = 0;
         this.phys.velocity = [ 0, 0];
     }
@@ -252,7 +259,7 @@ export default class CondemnedSoul
             else if(!this.elevatorRoute)
             {
                 consoleLog(`Look for route from Floor ${currentFloor} to floor ${scheduleItem.floor}`);
-                this.elevatorRoute = this.scheduler.PlotRouteToFloor(currentFloor, scheduleItem.floor, true);
+                this.elevatorRoute = this.scheduler.PlotRouteToFloor(this, currentFloor, scheduleItem.floor);
                 this.elevatorRouteStep = 0;
             }
             else if(this.StateIs(CONDEMNED_STATE.BOARDING))
@@ -281,7 +288,78 @@ export default class CondemnedSoul
         if(this.elevatorRoute && nextStep < this.elevatorRoute.length)
         {
             let elevatorRouteStep = this.elevatorRoute[nextStep];
-            console.error("MULTI ELEVATOR ROUTE HOW TO HANDLE TARGET?");
+            //console.error("MULTI ELEVATOR ROUTE HOW TO HANDLE TARGET?");
+            //consoleLog(this.elevatorRoute);
+
+            /*consoleLog("Current step");
+            consoleLog(elevatorRouteStep);*/
+            let nextStepSummoners = elevatorRouteStep.GetSummoners();
+            
+            let targetSummoners = [];
+
+            let onLayer = this.scheduler.GetFloorLayerForPhysObject(this).number;
+
+            if(this.StateIs(CONDEMNED_STATE.ON_BOARD) && this.onBoardElevator)
+            {
+                onLayer = this.onBoardElevator.GetCurrentFloorNumber();
+
+                let availableSummoners = this.onBoardElevator.GetSummoners();
+
+                consoleLog("Compare target list");
+                
+
+                for(let i = 0; i < nextStepSummoners.length; i ++)
+                {
+                    let floorNumber = nextStepSummoners[i].FloorNumber();
+
+                    let available = availableSummoners.findIndex(avs => avs.FloorNumber() === floorNumber);
+
+                    if(available >= 0)
+                    {
+                        targetSummoners.push(nextStepSummoners[i]);
+                    }
+                }
+            }
+            else
+            {
+                targetSummoners = nextStepSummoners;
+            }
+
+            consoleLog(`--- On Layer: ${onLayer} ---`);
+            consoleLog("Target summoners:");
+            consoleLog(targetSummoners);
+
+            let closestSummoner = targetSummoners[0];
+
+            for(let i = 1; i < targetSummoners.length; i ++)
+            {
+                let ts = targetSummoners[i];
+
+                let targetFloor = ts.FloorNumber();
+                let closestFloor = closestSummoner.FloorNumber();
+                /*
+                consoleLog(`Check if summoner on ${targetFloor}`);
+                consoleLog(ts);
+                consoleLog(`is closer than the one on ${closestFloor}`);
+                consoleLog(closestSummoner);
+                */
+                let targetLayer = this.scheduler.GetLayerForFloorNumber(targetFloor);
+                let closestLayer = this.scheduler.GetLayerForFloorNumber(closestFloor);
+
+                //consoleLog(`Compare layer: T${targetLayer.number}, C${closestLayer.number} against: ${onLayer}`);
+
+                if(Math.abs(targetLayer.number - onLayer) < 
+                    Math.abs(closestLayer.number - onLayer) )
+                {
+                    //consoleLog(`Summoner on: ${targetLayer.number} is closer than the one on ${closestLayer.number}`);
+                    closestSummoner = ts;   
+
+                }
+            }
+
+            /*consoleLog(`Closest summoner:`);
+            consoleLog(closestSummoner);*/
+            targetObj = closestSummoner;
         }
         else if(targetWorkstation)
         {
@@ -310,9 +388,9 @@ export default class CondemnedSoul
     {
         let targetFloor = this.CurrentTargetFloor();
 
-        consoleLog(`${this.name} is on schedule item X looking for floor Y`);
+        /*consoleLog(`${this.name} is on schedule item X looking for floor Y`);
         consoleLog(this.scheduleItem);
-        consoleLog(targetFloor);
+        consoleLog(targetFloor);*/
 
         let layer = this.scheduler.GetLayerForFloor(targetFloor);
 

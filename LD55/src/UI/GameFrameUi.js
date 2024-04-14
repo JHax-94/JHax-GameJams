@@ -33,6 +33,8 @@ export default class GameFrame
         
 
         EM.RegisterEntity(this);
+
+        this.imp = EM.GetEntity("PLAYER");
     }
 
     DrawTitle()
@@ -119,6 +121,11 @@ export default class GameFrame
         {
             this.DrawQuota();
             this.DrawWorkers();
+        }
+
+        if(this.player)
+        {
+            this.player.instructions.DrawInstructions(this);
         }
     }
 

@@ -2,6 +2,7 @@ import { ELEVATOR_INTERACT_STATE } from "../Enums/ElevatorInteractionState";
 import TimeStepper from "../TimeStepper";
 import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
 import ImpElevatorInteractions from "./ImpElevatorInteractions";
+import ImpInstructions from "./ImpInstructions";
 
 export default class ElevatorImp
 {
@@ -37,6 +38,8 @@ export default class ElevatorImp
         this.jumpTimer = new TimeStepper(0.3, { onComplete: () => { this.jumpTimer.Reset(); } });
 
         this.elevator = new ImpElevatorInteractions(this);
+
+        this.instructions = new ImpInstructions(this);
 
         this.inputs = {}
     }

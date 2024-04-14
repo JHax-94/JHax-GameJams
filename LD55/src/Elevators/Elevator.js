@@ -77,11 +77,25 @@ export default class Elevator
         return this.scheduler;
     }
 
-    
+    StopsAtFloors()
+    {
+        let connectedFloors = this.elevatorBounds.ListConnectedFloors();
+
+        return connectedFloors;
+    }
 
     StopsAtFloor(floorNumber)
     {
-        return !!this.GetSummonerOnFloor(floorNumber);
+        let stops = !!this.GetSummonerOnFloor(floorNumber);
+
+        consoleLog(`Does stop at floor? ${floorNumber}: ${stops}`);
+
+        return stops;
+    }
+
+    GetSummoners()
+    {
+        return this.elevatorBounds.summoners;
     }
 
     GetSummonerOnFloor(floorNumber)
@@ -235,7 +249,7 @@ export default class Elevator
         if(this.passengers.findIndex(p => p === npc) < 0)
         {
             this.passengers.push(npc);
-            npc.Neutralise();
+            npc.Neutralise(this);
 
             this.disembarkTimer.Reset();
             this.disembarkTimer.StartTimer();
@@ -280,9 +294,30 @@ export default class Elevator
         return isAtFloor;
     }
 
+    StopsAtCurrentLayer()
+    {
+        let layer = this.Scheduler().GetFloorLayerForPhysObject(this);
+
+        let stops = false;
+
+        if(layer)
+        {
+            for(let i = 0; i < layer.floors.length; i ++)
+            {
+                if(this.StopsAtFloor(layer.floors[i].floorNumber))
+                {
+                    stops = true;
+                    break;
+                }
+            }
+        }
+
+        return stops;
+    }
+
     CanDisembark()
     {
-        return this.GetDistanceToFloorLayer() < 12;
+        return this.GetDistanceToFloorLayer() < 12 && this.StopsAtCurrentLayer();
     }
 
     GetDistanceToFloorLayer()

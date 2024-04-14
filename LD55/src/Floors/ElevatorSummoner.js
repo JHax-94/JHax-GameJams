@@ -34,8 +34,8 @@ export default class ElevatorSummoner
 
         let queuePos = this.GetQueueTilePos();
 
-        consoleLog(`QUEUE START POSITION:`);
-        consoleLog(queuePos);
+        /*consoleLog(`QUEUE START POSITION:`);
+        consoleLog(queuePos);*/
 
         this.queueTriggerZone = new TriggerZone({ x: queuePos.x, y: queuePos.y, w: queuePos.w, h: queuePos.h }, this, {
             tag: "ELEVATOR_QUEUE",

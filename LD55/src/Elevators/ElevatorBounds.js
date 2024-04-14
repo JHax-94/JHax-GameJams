@@ -43,6 +43,18 @@ export default class ElevatorBounds
         summoner.bounds = this;
         this.summoners.push(summoner);
     }
+    
+    ListConnectedFloors()
+    {
+        let floorNumbers = [];
+
+        for(let i = 0; i < this.summoners.length; i ++)
+        {
+            floorNumbers.push(this.summoners[i].FloorNumber())
+        }
+
+        return floorNumbers;
+    }
 
     ContainsElevator(elevator)
     {

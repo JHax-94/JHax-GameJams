@@ -106,6 +106,57 @@
                     "name": "Gilbert"
                 }
             ]
+        },
+        {
+            "levelName": "Level3",
+            "maps": [
+                { "name": "Level3/Level3" },
+                { "name": "Level3/elevatorbounds" }
+            ],
+            "condemned": [
+                { 
+                    "startLocation": { "floor": 0, "place": 3 },
+                    "schedule": [
+                        { "floor": 2, "workstation": 1 },
+                        { "floor": 0, "workstation": 2 },
+                        { "floor": 2, "workstation": 6 },
+                        { "floor": 1, "workstation": 3 },
+                        { "floor": 4, "workstation": 1 },
+                        { "floor": 4, "workstation": 0 }
+                        
+                    ],
+                    "type": "FloatingSkull",
+                    "name": "Alice"
+                }
+            ],
+            "_condemned": [
+                { 
+                    "startLocation": { "floor": 0, "place": 6 },
+                    "schedule": [
+                        { "floor": 4, "workstation": 0 },
+                        { "floor": 1, "workstation": 1 },
+                        { "floor": 2, "workstation": 3 },
+                        { "floor": 3, "workstation": 5 },
+                        { "floor": 0, "workstation": 3 },
+                        { "floor": 1, "workstation": 3 }
+                    ],
+                    "type": "FloatingSkull",
+                    "name": "Bob"
+                },
+                { 
+                    "startLocation": { "floor": 0, "place":  9 },
+                    "schedule": [
+                        { "floor": 3, "workstation": 8 },
+                        { "floor": 2, "workstation": 0 },
+                        { "floor": 4, "workstation": 1 },
+                        { "floor": 0, "workstation": 0 },
+                        { "floor": 4, "workstation": 0 },
+                        { "floor": 2, "workstation": 1 }
+                    ],
+                    "type": "FloatingSkull",
+                    "name": "Eve"
+                }
+            ]
         }
     ]
 }

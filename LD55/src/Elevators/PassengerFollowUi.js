@@ -1,3 +1,4 @@
+import { CONDEMNED_INPUT } from "../Enums/CondemnedInputs";
 import ArrowSprite from "../UI/ArrowSprite";
 import { EM, PIXEL_SCALE, consoleLog } from "../main";
 
@@ -69,29 +70,33 @@ export default class PassengerFollowUi
 
         let dirFlips = null;
 
-        if(targetFloor > currentFloor)
-        {
-            dirFlips = this.arrowSprite.up;
-        }
-        else if(targetFloor < currentFloor || (targetFloor === currentFloor  && this.elevator.CanDisembark() === false))
-        {
-            dirFlips = this.arrowSprite.down;
-        }
-        if(targetFloor === currentFloor)
-        {
-            let targetWorkstation = passenger.GetCurrentTargetWorkstation();
+        let canDisembark = this.elevator.CanDisembark();
+        let disembark = passenger.GetDesiredDisembark(this.elevator);
 
-            /*consoleLog("Check departure side:");
-            consoleLog(targetWorkstation);*/
+        EM.hudLog.push(`P${i}: D? ${!!disembark} | <>${disembark?.dir ?? "NULL"} | T${targetFloor} | C${currentFloor} | G:${canDisembark}`);
 
-            if(targetWorkstation.phys.position[0] < this.elevator.phys.position[0])
+        if(disembark && canDisembark)
+        {
+            if(disembark.dir === CONDEMNED_INPUT.MOVE_LEFT)
             {
                 dirFlips = this.arrowSprite.left;
             }
-            else
+            else if(disembark.dir === CONDEMNED_INPUT.MOVE_RIGHT)
             {
                 dirFlips = this.arrowSprite.right;
             }
+        }
+        else if(targetFloor === currentFloor && !canDisembark)
+        {
+            dirFlips = this.arrowSprite.down;
+        }
+        else if(targetFloor > currentFloor)
+        {
+            dirFlips = this.arrowSprite.up;
+        }
+        else if(targetFloor < currentFloor)
+        {
+            dirFlips = this.arrowSprite.down;
         }
 
         if(dirFlips)

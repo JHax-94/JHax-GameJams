@@ -202,7 +202,7 @@ function AddPhysicsEvents()
 exports.update = function () {
     if(!LOAD_COMPLETE)
     {
-        SETUP("Level1");
+        SETUP("LevelSelect");
     }
 
     EM.Input();

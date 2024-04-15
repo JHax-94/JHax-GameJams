@@ -151,6 +151,7 @@ export default class ImpElevatorInteractions
 
     ShowDoorState()
     {
+        /*
         let floorNum = this.elevator.GetCurrentFloorNumber();
 
 
@@ -168,6 +169,7 @@ export default class ImpElevatorInteractions
 
         pen(1);
         print(doorStateString, [0, 0]);
+        */
     }
 
     LogState()
@@ -190,6 +192,6 @@ export default class ImpElevatorInteractions
             }
         }
 
-        EM.hudLog.push(`LIFT: ${logString}`);
+        //EM.hudLog.push(`LIFT: ${logString}`);
     }
 }

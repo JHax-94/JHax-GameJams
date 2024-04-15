@@ -279,6 +279,11 @@ export default class CondemnedSoul
 
     GetCurrentTarget()
     {
+        /*
+        consoleLog(`---${this.name} target---`)
+        consoleLog(`-elevator route (step: ${this.elevatorRouteStep}):`);
+        consoleLog(this.elevatorRoute);
+        */
         let targetObj = null;
 
         let nextStep = this.elevatorRouteStep + 1;
@@ -287,12 +292,10 @@ export default class CondemnedSoul
 
         if(this.elevatorRoute && nextStep < this.elevatorRoute.length)
         {
-            let elevatorRouteStep = this.elevatorRoute[nextStep];
-            //console.error("MULTI ELEVATOR ROUTE HOW TO HANDLE TARGET?");
-            //consoleLog(this.elevatorRoute);
+            consoleLog("--- TARGET IS ELEVATOR");
 
-            /*consoleLog("Current step");
-            consoleLog(elevatorRouteStep);*/
+            let elevatorRouteStep = this.elevatorRoute[nextStep];
+            
             let nextStepSummoners = elevatorRouteStep.GetSummoners();
             
             let targetSummoners = [];
@@ -306,8 +309,6 @@ export default class CondemnedSoul
                 let availableSummoners = this.onBoardElevator.GetSummoners();
 
                 consoleLog("Compare target list");
-                
-
                 for(let i = 0; i < nextStepSummoners.length; i ++)
                 {
                     let floorNumber = nextStepSummoners[i].FloorNumber();
@@ -324,11 +325,11 @@ export default class CondemnedSoul
             {
                 targetSummoners = nextStepSummoners;
             }
-
+            /*
             consoleLog(`--- On Layer: ${onLayer} ---`);
             consoleLog("Target summoners:");
             consoleLog(targetSummoners);
-
+            */
             let closestSummoner = targetSummoners[0];
 
             for(let i = 1; i < targetSummoners.length; i ++)
@@ -363,7 +364,9 @@ export default class CondemnedSoul
         }
         else if(targetWorkstation)
         {
+            //consoleLog("--- Target is workstation");
             targetObj = targetWorkstation;
+            //consoleLog(targetWorkstation);
         }
 
         return targetObj;
@@ -397,9 +400,9 @@ export default class CondemnedSoul
         return layer.number;
     }
 
-    IsDesiredDisembark(elevator, disembarkInfo)
+    GetDesiredDisembark(elevator)
     {
-        let desiresDisembark = false;
+        //let desiresDisembark = false;
 
         let accessibleFloors = elevator.ElevatorAtFloors();
         let nextStep = this.elevatorRouteStep + 1;
@@ -408,10 +411,15 @@ export default class CondemnedSoul
 
         let workstation = this.GetCurrentTargetWorkstation();
 
-        consoleLog("Check floors for disembark:");
-        consoleLog(accessibleFloors);
+        let disembarkInfo = null;
+
+        /*consoleLog("Check floors for disembark:");
+        onsoleLog(accessibleFloors);
         consoleLog(`Next workstation:`);
-        consoleLog(workstation);
+        consoleLog(workstation);*/
+
+        consoleLog(`--- DOES ${this.name} WANT TO DISEMBARK? ---`)
+
         for(let i = 0; i < accessibleFloors.length; i ++)
         {
             let elevatorFloor = accessibleFloors[i].floorNumber;
@@ -440,28 +448,34 @@ export default class CondemnedSoul
 
                 let dirToTarget = this.GetMoveDirectionToTarget(elevator, targetOnFloor, true);
 
-                if(dirToTarget === CONDEMNED_INPUT.MOVE_LEFT)
-                {
-                    consoleLog(`check left door: ${elevator.leftDoorOpen}`);
-                    if(elevator.leftDoorOpen)
-                    {
-                        desiresDisembark = true;
-                        disembarkInfo.dir = CONDEMNED_INPUT.MOVE_LEFT;
-                    }
-                    
-                }
-                else if(dirToTarget === CONDEMNED_INPUT.MOVE_RIGHT)
-                {
-                    consoleLog(`check right door: ${elevator.rightDoorOpen}`);
-                    if(elevator.rightDoorOpen)
-                    {
-                        desiresDisembark = true;
-                        disembarkInfo.dir = CONDEMNED_INPUT.MOVE_RIGHT;
-                    }
-                }
+                disembarkInfo = { dir: dirToTarget };
 
-                if(desiresDisembark) break;
+                break;
             }
+        }
+
+        return disembarkInfo;
+    }
+
+    IsDesiredDisembark(elevator, disembarkInfo)
+    {
+        let desiresDisembark = false;
+
+        let desireInfo = this.GetDesiredDisembark(elevator);
+
+        if(desireInfo)
+        {
+            if(elevator.rightDoorOpen && desireInfo.dir === CONDEMNED_INPUT.MOVE_RIGHT)
+            {
+                desiresDisembark = true;
+            }
+
+            if(elevator.leftDoorOpen && desireInfo.dir === CONDEMNED_INPUT.MOVE_LEFT)
+            {
+                desiresDisembark = true;
+            }
+
+            disembarkInfo.dir = desireInfo.dir;
         }
 
         consoleLog(`Desires to disembark? ${desiresDisembark}`);
@@ -502,6 +516,8 @@ export default class CondemnedSoul
         if(this.scheduleStep < this.schedule.length)
         {
             let newScheduleStep = this.schedule[this.scheduleStep];
+            this.elevatorRoute = null;
+            this.elevatorRouteStep = -1;
             this.SetScheduleItem(newScheduleStep);
         }
     }

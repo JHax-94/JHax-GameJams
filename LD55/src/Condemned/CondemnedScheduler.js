@@ -517,8 +517,11 @@ export default class CondemnedScheduler
                         {
                             route.push(subRoute[i]);
                         }
-
-                        if(!isRootCall) route.push(elevator);
+                        
+                        if(route.findIndex(re => re === elevator) < 0)
+                        {
+                            route.push(elevator);
+                        }
 
                         routeAtLevelFound = true;
 

@@ -16,9 +16,6 @@ export default class ImpInstructions
 
         let drawAt = {x: frame.x + frame.padding * PIXEL_SCALE, y: frame.y + startY, w: PIXEL_SCALE, h: PIXEL_SCALE};
 
-        EM.hudLog.push(`Imp instructions: ${drawAt.x}, ${drawAt.y}, ${drawAt.w}, ${drawAt.h}`);
-        //rectf(drawAt.x, drawAt.y, drawAt.w, drawAt.h);
-
         let lineHeight = frame.lineHeight;
 
         let txtOff = 6;

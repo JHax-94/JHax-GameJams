@@ -61,6 +61,22 @@ export default class PassengerFollowUi
         rectf(drawAt.x + 1, drawAt.y, barWidth, 2);        
     }
 
+    GetPassengerPosition(passenger)
+    {
+        let pos = null;
+
+        for(let i = 0; i <this.elevator.passengers.length; i ++)
+        {
+            if(this.elevator.passengers[i] === passenger)
+            {
+                pos = this.GetDrawAt(this.elevator.GetScreenPos(), i);
+                break;
+            }
+        }
+
+        return pos;
+    }
+
     DrawPassengerDesiredTravel(root, i, passenger)
     {
         let drawAt = this.GetDrawAt(root, i);

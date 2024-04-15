@@ -1,5 +1,7 @@
+import { CONDEMNED_MARK } from "../Enums/CondemnedMark";
 import { CONDEMNED_STATE } from "../Enums/CondemnedState";
 import TriggerZone from "../PhysObjects/TriggerZone";
+import ImpInstructions from "../Player/ImpInstructions";
 import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
 
 export default class ElevatorSummoner
@@ -73,6 +75,20 @@ export default class ElevatorSummoner
 
             this.QueueChanged()
         }
+    }
+
+    IsInQueue(npc)
+    {
+        let inQueue = false;
+        for(let i=0; i < this.queue.length; i ++)
+        {
+            if(this.queue[i] === npc)
+            {
+                inQueue = true;
+            }
+        }
+
+        return inQueue;
     }
 
     GetQueueTilePos(forLength = null)
@@ -151,6 +167,14 @@ export default class ElevatorSummoner
 
     Update(deltaTime)
     {
+        for(let i = 0; i < this.queue.length; i ++)
+        {
+            if(this.queue[i].mark === CONDEMNED_MARK.OBLITERATED)
+            {
+                this.RemoveFromQueue(this.queue[i]);
+            }
+        }
+
         if(this.queue.length > 0)
         {
             let elevator = this.Elevator();
@@ -169,6 +193,8 @@ export default class ElevatorSummoner
 
                 this.isBoarding = false;
             }
+
+            
         }
     }
 

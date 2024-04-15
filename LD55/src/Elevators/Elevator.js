@@ -1,10 +1,12 @@
 import Texture from "pixelbox/Texture";
 import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_UTILS, consoleLog } from "../main";
 import TriggerZone from "../PhysObjects/TriggerZone";
-import { vec2 } from "p2";
+import { Particle, vec2 } from "p2";
 import TimeStepper from "../TimeStepper";
 import PassengerFollowUi from "./PassengerFollowUi";
 import { CONDEMNED_INPUT } from "../Enums/CondemnedInputs";
+import ParticleSystem from "../ParticleSystem";
+import { CONDEMNED_MARK } from "../Enums/CondemnedMark";
 
 export default class Elevator 
 {
@@ -45,7 +47,40 @@ export default class Elevator
         this,
         { hideCollider: false, lockToParent: true });
 
+
+        this.impParticles = new ParticleSystem({ 
+
+            renderLayer: "IMP",
+            max: 30,
+            rect: { w: 0.325, h: 0.325, c: [ 13, 14, 15 ]  },
+            rootPos: () => { 
+                let sp = this.GetScreenPos();
+                return { x: sp.x + PIXEL_SCALE * this.dims.w * 0.5, y: sp.y };
+            },
+            offset: {
+                r: 0.25,
+            },
+            //velocity: { r: 5 },
+            velocity: { x: 0, y: 40 },
+            lifetime: 0.5,
+            spawnTime: 0.01,
+            preWarm: false
+        });
+
         this.Setup();
+    }
+
+    ImpOnBoard(imp)
+    {
+        this.imp = imp;
+        if(this.imp)
+        {
+            this.impParticles.Play();
+        }
+        else
+        {
+            this.impParticles.Off();
+        }
     }
 
     EmptySlots()
@@ -56,6 +91,11 @@ export default class Elevator
     Capacity()
     {
         return this.srcTiles.length;
+    }
+
+    GetPassengerPosition(npc)
+    {
+        return this.passengerUi.GetPassengerPosition(npc);
     }
 
     Update(deltaTime)
@@ -99,6 +139,13 @@ export default class Elevator
             }
         }
 
+        for(let i = 0; i < this.passengers.length; i ++)
+        {
+            if(this.passengers[i].mark === CONDEMNED_MARK.OBLITERATED)
+            {
+                this.passengers.splice(i, 1);
+            }
+        }
 
         this.LockToBounds();
     }
@@ -143,6 +190,8 @@ export default class Elevator
 
     Setup()
     {
+        this.imp = null;
+
         this.elevatorBounds = null;
         this.speed = 3 * PIXEL_SCALE;
 

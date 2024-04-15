@@ -83,6 +83,7 @@ export default class ImpElevatorInteractions
     BoardElevator()
     {
         this.SetState(ELEVATOR_INTERACT_STATE.ON_BOARD);
+        this.elevator.ImpOnBoard(this.imp);
         this.imp.HideFromWorld()
     }
 
@@ -101,6 +102,8 @@ export default class ImpElevatorInteractions
         let disembarkPos = this.elevator.GetDisembarkPosition(info);
 
         this.imp.RestoreToWorld(disembarkPos);
+
+        this.elevator.ImpOnBoard(null);
     }
 
     PipeInput(input)

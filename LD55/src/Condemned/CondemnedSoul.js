@@ -6,6 +6,7 @@ import WorkstationInteractions from "./WorkstationInteractions";
 import TimeStepper from "../TimeStepper";
 import CondemnedFollowUi from "./CondemnedFollowUi";
 import { CONDEMNED_MARK } from "../Enums/CondemnedMark";
+import ParticleSystem from "../ParticleSystem";
 
 export default class CondemnedSoul
 {
@@ -53,7 +54,9 @@ export default class CondemnedSoul
     {
         this.workstation = new WorkstationInteractions(this);
 
-        this.obliterateTimer = new TimeStepper(60, { onComplete: () => { consoleLog("---- OBLITERATE ----"); this.DestroyBad(); } });
+        let timer = 50;
+
+        this.obliterateTimer = new TimeStepper(timer, { onComplete: () => { this.DestroyBad(); } });
         this.obliterateTimer.StartTimer();
 
         this.reelDist = 10;
@@ -306,7 +309,7 @@ export default class CondemnedSoul
 
         if(this.elevatorRoute && nextStep < this.elevatorRoute.length)
         {
-            consoleLog("--- TARGET IS ELEVATOR");
+            //consoleLog("--- TARGET IS ELEVATOR");
 
             let elevatorRouteStep = this.elevatorRoute[nextStep];
             
@@ -432,7 +435,7 @@ export default class CondemnedSoul
         consoleLog(`Next workstation:`);
         consoleLog(workstation);*/
 
-        consoleLog(`--- DOES ${this.name} WANT TO DISEMBARK? ---`)
+        //consoleLog(`--- DOES ${this.name} WANT TO DISEMBARK? ---`)
 
         for(let i = 0; i < accessibleFloors.length; i ++)
         {
@@ -440,8 +443,6 @@ export default class CondemnedSoul
 
             if(this.elevatorRoute && nextStep < this.elevatorRoute.length)
             {
-                consoleLog("Next step is another elevator...");
-
                 let next = this.elevatorRoute[nextStep];
 
                 if(next.StopsAtFloor(elevatorFloor))
@@ -451,14 +452,14 @@ export default class CondemnedSoul
             }
             else if(workstation.FloorNumber() === elevatorFloor)
             {
-                consoleLog("Next step is a workstation...");
+                //consoleLog("Next step is a workstation...");
                 targetOnFloor = workstation;
             }
 
             if(targetOnFloor)
             {
-                consoleLog("Target is on this floor:");
-                consoleLog(targetOnFloor);
+                /*consoleLog("Target is on this floor:");
+                consoleLog(targetOnFloor);*/
 
                 let dirToTarget = this.GetMoveDirectionToTarget(elevator, targetOnFloor, true);
 
@@ -602,11 +603,14 @@ export default class CondemnedSoul
             {
                 consoleLog(`${this.name}: start queueing for elevator`);
 
-                this.SetState(CONDEMNED_STATE.QUEUEING);
-                let summonerTilePos = elevatorSummoner.GetQueueTilePos();
-                //consoleLog(`Start queueing @ (${this.summonerTilePos.x}, ${this.summonerTilePos.y})`);
-                this.queuePosition = EM.TileToPhysPosition(summonerTilePos);
-                elevatorSummoner.AddToQueue(this);
+                if(!elevatorSummoner.IsInQueue(this))
+                {
+                    this.SetState(CONDEMNED_STATE.QUEUEING);
+                    let summonerTilePos = elevatorSummoner.GetQueueTilePos();
+                    //consoleLog(`Start queueing @ (${this.summonerTilePos.x}, ${this.summonerTilePos.y})`);
+                    this.queuePosition = EM.TileToPhysPosition(summonerTilePos);
+                    elevatorSummoner.AddToQueue(this);
+                }
             }
         }
     }
@@ -616,8 +620,13 @@ export default class CondemnedSoul
         return !this.StateIs(CONDEMNED_STATE.ON_BOARD);
     }
 
-    Destroy()
+    Destroy(particles)
     {
+        if(particles)
+        {
+            particles.PlayOnce();
+        }
+
         EM.RemoveEntity(this.followUi);
         EM.RemoveEntity(this);
         this.scheduler.CheckForLevelEnd();
@@ -626,14 +635,76 @@ export default class CondemnedSoul
     DestroyGood()
     {
         this.mark = CONDEMNED_MARK.CLOCKED_OFF;
-        this.Destroy();
+
+        this.deathPos = this.FindDeathPos();
+
+        let ascendParticles = new ParticleSystem({ 
+
+            renderLayer: "IMP",
+            max: 16,
+            rect: { w: 0.25, h: 0.25, c: [ 3, 7, 11 ]  },
+            rootPos: () => { 
+                return this.DeathPos();
+            },
+            offset: {
+                r: 0.25,
+            },
+            velocity: { r: 0.5* PIXEL_SCALE },
+            //velocity: { x: 0, y: 40 },
+            lifetime: 0.75,
+            spawnTime: 0.01,
+            preWarm: false
+        });
+
+        this.Destroy(ascendParticles);
+    }
+
+    DeathPos()
+    {
+        return {x: this.deathPos.x + 0.5 * PIXEL_SCALE, y: this.deathPos.y + 0.5 * PIXEL_SCALE };
+    }
+
+    FindDeathPos()
+    {
+        let deathPos = this.GetScreenPos();
+
+        if(this.onBoardElevator)
+        {
+            let passengerPos = this.onBoardElevator.GetPassengerPosition(this);
+            deathPos = passengerPos;
+        }
+
+        return deathPos;
     }
 
     DestroyBad()
     {
         consoleLog("XXXX OBLITERATE TIMER FINISHED XXXX");
         this.mark = CONDEMNED_MARK.OBLITERATED;
-        this.Destroy();
+
+
+
+        this.deathPos =this.FindDeathPos();
+
+        let obliterateParticles = new ParticleSystem({ 
+
+            renderLayer: "IMP",
+            max: 16,
+            rect: { w: 0.25, h: 0.25, c: [ 9, 10, 11 ]  },
+            rootPos: () => { 
+                return this.DeathPos();
+            },
+            offset: {
+                r: 0.25,
+            },
+            //velocity: { r: 2* PIXEL_SCALE },
+            velocity: { x: 0, y: 40 },
+            lifetime: 0.75,
+            spawnTime: 0.02,
+            preWarm: false
+        });
+
+        this.Destroy(obliterateParticles);
     }
 
     Draw()
@@ -641,6 +712,14 @@ export default class CondemnedSoul
         if(this.ShouldDraw())
         {
             let screenPos = this.GetScreenPos();
+
+            if(this.queuePosition)
+            {
+                let queueRect = EM.PhysToScreenPos(this.queuePosition);
+
+                paper(9);
+                rectf(queueRect.x, queueRect.y, PIXEL_SCALE, PIXEL_SCALE);
+            }
 
             if(this.spriteIndex >= 0)
             {

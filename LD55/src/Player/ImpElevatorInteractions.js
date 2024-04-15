@@ -89,8 +89,6 @@ export default class ImpElevatorInteractions
 
     LeaveElevator(dir)
     {
-        this.SetState(ELEVATOR_INTERACT_STATE.INTERACTABLE);
-
         this.elevator.CloseAllDoors();
         this.elevator.Stop();
         this.input = {};
@@ -104,6 +102,8 @@ export default class ImpElevatorInteractions
         this.imp.RestoreToWorld(disembarkPos);
 
         this.elevator.ImpOnBoard(null);
+
+        this.SetState(ELEVATOR_INTERACT_STATE.INTERACTABLE);
     }
 
     PipeInput(input)

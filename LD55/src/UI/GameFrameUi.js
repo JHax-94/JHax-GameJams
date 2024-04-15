@@ -35,6 +35,7 @@ export default class GameFrame
         EM.RegisterEntity(this);
 
         this.imp = EM.GetEntity("PLAYER");
+        this.levelGuide = null;
     }
 
     DrawTitle()
@@ -116,6 +117,11 @@ export default class GameFrame
         rectf(this.x, this.y, this.w, this.h);
 
         this.DrawTitle();
+
+        if(this.levelGuide)
+        {
+            this.levelGuide.AddToFrame(this);
+        }
 
         if(this.scheduler)
         {

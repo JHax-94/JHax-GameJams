@@ -216,21 +216,24 @@ export default class CondemnedSoul
 
     ReelTo(target, deltaTime)
     {
-        let targetPosDiff = target[0] - this.phys.position[0];
-        if(Math.abs(targetPosDiff) > 0.01)
+        if(target)
         {
-            let newX = this.phys.position[0] + Math.sign(targetPosDiff) * this.reelDist * deltaTime;
+            let targetPosDiff = target[0] - this.phys.position[0];
+            if(Math.abs(targetPosDiff) > 0.01)
+            {
+                let newX = this.phys.position[0] + Math.sign(targetPosDiff) * this.reelDist * deltaTime;
 
-            if(targetPosDiff < 0 && newX < target[0])
-            {
-                newX = target[0];
+                if(targetPosDiff < 0 && newX < target[0])
+                {
+                    newX = target[0];
+                }
+                else if(targetPosDiff > 0 && newX > target[0])
+                {
+                    newX = target[0];
+                }
+                
+                this.phys.position = [ newX, this.phys.position[1] ];
             }
-            else if(targetPosDiff > 0 && newX > target[0])
-            {
-                newX = target[0];
-            }
-            
-            this.phys.position = [ newX, this.phys.position[1] ];
         }
     }
 

@@ -16,17 +16,17 @@ export default class WorkstationInteractions
     {
         let targetWorkstation = this.npc.GetCurrentTargetWorkstation();
 
-        consoleLog("Add Workstation to list:");
-        consoleLog(workstation);
+        /*consoleLog("Add Workstation to list:");
+        consoleLog(workstation);*/
 
         if(this.workstations.findIndex(ws => ws === workstation) < 0)
         {
             this.workstations.push(workstation);
         }
 
-        consoleLog("TARGET WORKSTATION: ");
+        /*consoleLog("TARGET WORKSTATION: ");
         consoleLog(workstation);
-        consoleLog(targetWorkstation);
+        consoleLog(targetWorkstation);*/
 
         if(targetWorkstation === workstation)
         {
@@ -37,12 +37,12 @@ export default class WorkstationInteractions
 
     CheckWorkstations()
     {
-        consoleLog("Check workstations list against target");
-        consoleLog(this.workstations);
+        /*consoleLog("Check workstations list against target");
+        consoleLog(this.workstations);*/
               
         let targetWorkstation = this.npc.GetCurrentTargetWorkstation();
 
-        consoleLog(targetWorkstation);  
+        //consoleLog(targetWorkstation);  
 
         for(let i = 0; i < this.workstations.length; i ++)
         {

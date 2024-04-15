@@ -4,7 +4,8 @@
             "levelName": "LevelSelect",
             "maps": [
                 { "name": "Level_Select/level_select"},
-                { "name": "Level_Select/elevator_bounds" }
+                { "name": "Level_Select/elevator_bounds" },
+                { "name": "Level_Select/noticeboard", "draw": true }
             ],
             "condemned": [],
             "levelDoors": [
@@ -26,7 +27,7 @@
             ],
             "condemned": [
                 { 
-                    "startLocation": { "floor": 1, "place": 9 },
+                    "startLocation": { "floor": 0, "place": 6 },
                     "schedule": [
                         { "floor": 1, "workstation": 2 },
                         { "floor": 1, "workstation": 3 }

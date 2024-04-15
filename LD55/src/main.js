@@ -10,6 +10,10 @@ import NpcEvents from './PhysicsEvents/NpcEvents.js';
 import ImpEvents from './PhysicsEvents/ImpEvents.js';
 import Utility from './Utility.js';
 import AudioHelper from './AudioHelper.js';
+import LevelGuide from './UI/LevelGuide.js';
+import UiComponent from './UI/UiComponent.js';
+import Label from './UI/Label.js';
+import Rect from './UI/Rect.js';
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -195,6 +199,59 @@ function SETUP(levelName)
 
             AddPhysicsEvents();
         }
+
+        if(levelName === "LevelSelect")
+        {
+            let guide = new LevelGuide();
+
+            let frame = EM.GetEntity("FRAME");
+
+            frame.levelGuide = guide;
+
+
+
+            new Label(
+                { x: 8, y: 9.25 },
+                "Employee Notice",
+                {
+                    posType: "CENTRE",
+                    colours: {
+                        font: 1
+                    }
+                });
+
+            new Label(
+                { x: 8, y: 10.25 },
+                "Pilot elevators to take damned",
+                {
+                    posType: "CENTRE",
+                    colours: { font: 1 }   
+                });
+
+            new Label(
+                { x: 8, y: 10.75 },
+                "to their designated workstations.",
+                {
+                    posType: "CENTRE",
+                    colours: { font: 1 }   
+                });
+
+            new Label(
+                { x: 8, y: 12 },
+                "Souls that take too much time between",
+                {
+                    posType: "CENTRE",
+                    colours: { font: 1 }   
+                });
+            
+            new Label(
+                { x: 8, y: 12.5 },
+                "tasks will be obliterated!",
+                {
+                    posType: "CENTRE",
+                    colours: { font: 1 }   
+                });
+        }
     }
 
     LOAD_COMPLETE = true;
@@ -219,7 +276,7 @@ function AddPhysicsEvents()
 exports.update = function () {
     if(!LOAD_COMPLETE)
     {
-        SETUP("Level1");
+        SETUP("LevelSelect");
         AUDIO.PlayMusic();
     }
 

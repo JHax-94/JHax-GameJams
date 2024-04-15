@@ -81,9 +81,11 @@ export default class Level
 
             this.ProcessTileMap(tileMap);
 
-            this.drawMaps.push(tileMap);
-        }
-    
+            if(map.draw)
+            {
+                this.drawMaps.push(tileMap);
+            }
+        }    
     }
 
     BuildLevelDoor(tile, objDef)
@@ -310,9 +312,9 @@ export default class Level
     
     Draw()
     {
-        /*for(let i = 0; i < this.drawMaps.length; i ++)
+        for(let i = 0; i < this.drawMaps.length; i ++)
         {
             this.drawMaps[i].draw();
-        }*/
+        }
     }
 }

@@ -189,6 +189,16 @@ export default class ElevatorImp
 
             this.inputs.interactLeft = input.interactLeft;
         }
+
+        if(input.esc && !this.inputs.esc)
+        {
+            this.inputs.esc = input.esc;
+        }
+        else if(!input.esc && this.inputs.esc)
+        {
+            this.inputs.esc = input.esc;
+            EM.Pause();
+        }
     }
 
     HasDoor()

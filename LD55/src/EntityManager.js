@@ -1,6 +1,6 @@
 import p2, { vec2 } from "p2";
 import InputGroup from "./InputGroup";
-import { consoleLog, PIXEL_SCALE, EM, getObjectConfig, TILE_HEIGHT, TILE_WIDTH } from "./main";
+import { consoleLog, PIXEL_SCALE, EM, getObjectConfig, TILE_HEIGHT, TILE_WIDTH, AUDIO } from "./main";
 import PauseMenu from "./UI/PauseMenu";
 import PhysicsContainer from "./PhysicsContainer";
 import RenderLayer from "./RenderLayer";
@@ -863,7 +863,7 @@ export default class EntityManager
         {
             this.pause = true;
 
-            let pauseMenuConf = getObjectConfig("pauseEndGameMenu");
+            let pauseMenuConf = getObjectConfig("PauseMenu");
 
             this.pauseMenu = new PauseMenu(pauseMenuConf, {});
 
@@ -1105,6 +1105,11 @@ export default class EntityManager
     {
         if(this.phys)
         {
+            if(AUDIO)
+            {
+                AUDIO.AlwaysUpdate(deltaTime);
+            }
+
             if(!this.pause)
             {
                 this.deltaTime = deltaTime;

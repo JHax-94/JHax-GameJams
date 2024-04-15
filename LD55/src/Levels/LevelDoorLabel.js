@@ -1,5 +1,4 @@
-import Utils from "p2/src/utils/Utils";
-import { EM, PIXEL_SCALE, UTILS, consoleLog } from "../main";
+import { EM, PIXEL_SCALE, UTIL, consoleLog } from "../main";
 
 export default class LevelDoorLabel
 {
@@ -28,8 +27,8 @@ export default class LevelDoorLabel
             screenPos.x += this.offset.x;
             screenPos.y += this.offset.y;
 
-            let textWidth = UTILS.GetTextWidth(this.door.display);
-            let textHeight = UTILS.GetTextHeight(this.door.display);
+            let textWidth = UTIL.GetTextWidth(this.door.display);
+            let textHeight = UTIL.GetTextHeight(this.door.display);
 
             paper(0);
             rectf(screenPos.x -1, screenPos.y - 1, (textWidth * PIXEL_SCALE) + 2, (textHeight * PIXEL_SCALE) + 2);

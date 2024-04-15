@@ -18,6 +18,44 @@
         { "index": 2, "name": "ElevatorBounds", "searchMap": true, "replaceTile": true, "scanAdjacent": true },
         { "name": "FloatingSkull", "spriteIndex": 9 },
         { "index": 48, "name": "LevelDoor", "searchMap": true, "replaceTile": true },
-        { "index": 64, "name": "ReturnDoor", "searchMap": true, "replaceTile": true }
+        { "index": 64, "name": "ReturnDoor", "searchMap": true, "replaceTile": true },
+        { "name": "PauseMenu", 
+            "components": [
+                {
+                    "type": "Rect",
+                    "dims": { "x": "centre", "y": "centre", "w": 6, "h": 5 },
+                    "colour": 4,
+                    "isBaseDims": true
+                },
+                {
+                    "type": "Label",
+                    "dims": { "x": "c", "y": 0.5 },
+                    "text": "Game Paused!",
+                    "posType": "CENTRE",
+                    "colours": {
+                        "font": 1
+                    }
+                },
+                {
+                    "type": "Button", 
+                    "dims": { "x": "centre", "y": 2, "w": 5.5, "h": 1 }, 
+                    "settings": 
+                    { 
+                        "buttonCalls": "Resume",
+                        "rect": { "text": "Resume", "colour": 1, "textColour": 0, "borderColour": 0 }
+                    }
+                },
+                { 
+                    "type": "Button", 
+                    "buttonClass": "Load",
+                    "dims": { "x": "centre", "y": 3.5, "w": 5.5, "h": 1 }, 
+                    "settings": 
+                    { 
+                        "rect": { "text": "Back to Level Select", "colour": 1, "textColour": 0, "borderColour": 1 }, 
+                        "loadTarget": "LevelSelect"
+                    }
+                }
+            ]
+        }
     ]
 }

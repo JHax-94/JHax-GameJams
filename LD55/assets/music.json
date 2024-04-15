@@ -1,0 +1,7 @@
+{
+    "tracks": [
+        { "name": "Track1", "file": "HellevatorMain", "time": 0 },
+        { "name": "Track2", "file": "HellevatorSecond", "time": 0 },
+        { "name": "Track3", "file": "HellevatorThird", "time": 0 }
+    ]
+}

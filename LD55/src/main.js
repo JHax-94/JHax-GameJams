@@ -22,9 +22,23 @@ let vecExtender = new VectorExtensions();
 
 let Texture = extender.ExtendTextureClass(require('pixelbox/Texture'));
 
-let UTILS = new Utility();
+let UTIL = new Utility();
 
 vecExtender.ExtendVec2(vec2);
+
+function getFont()
+{
+    return {
+        name: "Default",
+        charWidth: 4,
+        charHeight: 5
+    };
+}
+
+function setFont()
+{
+
+}
 
 function getVersionInformation()
 {
@@ -206,6 +220,7 @@ exports.update = function () {
     if(!LOAD_COMPLETE)
     {
         SETUP("Level3");
+        AUDIO.PlayMusic();
     }
 
     EM.Input();
@@ -220,5 +235,5 @@ exports.update = function () {
 };
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, UTILS, AUDIO, consoleLog, getObjectConfig
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, UTIL, AUDIO, getFont, setFont, consoleLog, getObjectConfig
 };

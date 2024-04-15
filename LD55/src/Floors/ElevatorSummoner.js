@@ -62,6 +62,8 @@ export default class ElevatorSummoner
             if(this.queue.length === 0)
             {
                 AUDIO.PlayFx("summon");
+
+                AUDIO.PlayFx("Summoned");
             }
 
             this.queue.push(queuer);

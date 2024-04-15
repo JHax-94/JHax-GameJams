@@ -1,0 +1,10 @@
+{
+    "voicefx": [
+
+        { "name": "Ascended" },
+        { "name": "Obliterated" },
+        { "name": "QuotaFilled" },
+        { "name": "Summoned" },
+        { "name": "WorkComplete" }
+    ]
+}

@@ -1,5 +1,5 @@
 import { CONDEMNED_MARK } from "../Enums/CondemnedMark";
-import { EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTILS, consoleLog } from "../main";
+import { EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL, consoleLog } from "../main";
 
 export default class GameFrame
 {
@@ -17,7 +17,7 @@ export default class GameFrame
 
         this.padding = 2 / 16;
 
-        this.lineHeight = UTILS.GetTextHeight("") * PIXEL_SCALE + 2;
+        this.lineHeight = UTIL.GetTextHeight("") * PIXEL_SCALE + 2;
 
         this.titleAt = { x: 0.5, y: 0.5 };
         this.title = [ 

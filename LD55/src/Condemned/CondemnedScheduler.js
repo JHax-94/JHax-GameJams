@@ -1,5 +1,5 @@
 import { start } from "tina";
-import { consoleLog } from "../main";
+import { AUDIO, consoleLog } from "../main";
 import CondemnedSoul from "./CondemnedSoul";
 import FloorLayer from "../Floors/FloorLayer";
 import { CONDEMNED_STATE } from "../Enums/CondemnedState";
@@ -40,6 +40,8 @@ export default class CondemnedScheduler
         this.allTasks = [];
         this.completedTasks = [];
         this.CompileTasks();
+
+        this.workFinished = false;
 
         consoleLog("Scheduler Setup complete:");
         consoleLog(this);
@@ -84,6 +86,17 @@ export default class CondemnedScheduler
             for(let i = 0; i < this.returnDoors.length; i ++)
             {
                 this.returnDoors[i].Show();
+
+                this.workFinished = true;
+
+                if(this.completedTasks.length === this.allTasks.length)
+                {
+                    AUDIO.PlayFx("QuotaFilled");
+                }
+                else 
+                {
+                    AUDIO.PlayFx("WorkComplete");
+                }
             }
         }
     }

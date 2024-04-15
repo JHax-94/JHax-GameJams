@@ -4,6 +4,12 @@ import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
 import ImpElevatorInteractions from "./ImpElevatorInteractions";
 import ImpInstructions from "./ImpInstructions";
 
+let ANIM_STATES = 
+{
+    IDLE: 0,
+    RUN: 1
+};
+
 export default class ElevatorImp
 {
     constructor(tile, def)
@@ -26,6 +32,21 @@ export default class ElevatorImp
             linearDrag: 0.99
         };
 
+        this.runAnimations = [
+            [ 15 ],
+            [ 31, 47 ]
+        ];
+
+        this.lWingAnimation = [ 14, 30, 14, 46, 46, 46 ];
+        this.rWingAnimation = [ 13, 29, 13, 45, 45, 45 ]; 
+
+        this.wingAnimation = 0;
+
+        this.animationState = ANIM_STATES.IDLE;
+        this.animationFrame = 0;
+
+        this.lastDir = -1;
+
         this.Setup();
 
         EM.RegisterEntity(this, { physSettings: physSettings })        
@@ -34,14 +55,37 @@ export default class ElevatorImp
     Setup()
     {
         this.speed = 4 * PIXEL_SCALE;
-        this.jump = 5 * PIXEL_SCALE;
+        this.jump = 5.5 * PIXEL_SCALE;
         this.jumpTimer = new TimeStepper(0.3, { onComplete: () => { this.jumpTimer.Reset(); } });
+
+        this.runAnimTimer = new TimeStepper(0.2, { onComplete: () => { this.RunAnimationTick(); }});
+        this.runAnimTimer.StartTimer();
+
+        this.wingAnimationTimer = new TimeStepper(0.1, { onComplete: () => { this.WingAnimationTick(); }});
 
         this.elevator = new ImpElevatorInteractions(this);
 
         this.instructions = new ImpInstructions(this);
 
         this.inputs = {}
+    }
+
+    WingAnimationTick()
+    {
+        this.wingAnimation = (this.wingAnimation + 1) % this.lWingAnimation.length;
+
+        if(this.wingAnimation !== 0)
+        {
+            this.wingAnimationTimer.Reset();
+            this.wingAnimationTimer.StartTimer();
+        }
+    }
+
+    RunAnimationTick()
+    {
+        this.animationFrame = (this.animationFrame + 1) % this.runAnimations[this.animationState].length;
+        this.runAnimTimer.Reset();
+        this.runAnimTimer.StartTimer();
     }
 
     SetElevator(elevator) { this.elevator.SetElevator(elevator); }
@@ -71,11 +115,17 @@ export default class ElevatorImp
         {
             if(input.left)
             {
+                this.animationState = ANIM_STATES.RUN;
                 this.phys.velocity = [ -this.speed, this.phys.velocity[1] ];
             }
             else if(input.right)
             {
+                this.animationState = ANIM_STATES.RUN;
                 this.phys.velocity = [ this.speed, this.phys.velocity[1] ];
+            }
+            else 
+            {
+                this.animationState = ANIM_STATES.IDLE;
             }
         }
 
@@ -90,6 +140,9 @@ export default class ElevatorImp
                 consoleLog("Jump!");
                 this.phys.velocity = [ this.phys.velocity[0], this.jump ];
                 this.jumpTimer.StartTimer();
+                
+                this.WingAnimationTick();
+                this.wingAnimationTimer.StartTimer();
             }
 
             this.inputs.up = false;
@@ -146,7 +199,19 @@ export default class ElevatorImp
     Update(deltaTime)
     {
         this.jumpTimer.TickBy(deltaTime);
+        this.runAnimTimer.TickBy(deltaTime);
+        this.wingAnimationTimer.TickBy(deltaTime);
+
         this.elevator.LogState();
+
+        if(this.phys.velocity[0] > 0.1)
+        {
+            this.lastDir = 1;
+        }
+        else if(this.phys.velocity[0] < -0.1)
+        {
+            this.lastDir = -1;
+        }
     }
 
     IsVisible()
@@ -160,10 +225,17 @@ export default class ElevatorImp
         {
             let screenPos = this.GetScreenPos();
 
-            sprite(13, screenPos.x - PIXEL_SCALE * 0.25, screenPos.y);
-            sprite(14, screenPos.x + PIXEL_SCALE * 0.5, screenPos.y);
+            let flipH = this.lastDir > 0;
 
-            sprite(this.spriteIndex, screenPos.x, screenPos.y);
+            sprite(this.rWingAnimation[this.wingAnimation], screenPos.x + (this.lastDir * PIXEL_SCALE * 0.25), screenPos.y, flipH);
+            sprite(this.lWingAnimation[this.wingAnimation], screenPos.x - (this.lastDir * PIXEL_SCALE * 0.5), screenPos.y, flipH);
+
+            let anims = this.runAnimations[this.animationState];
+            let frame = this.animationFrame % anims.length;
+
+            let spriteIndex = anims[frame];
+
+            sprite(spriteIndex, screenPos.x, screenPos.y, flipH);
         }
         else if(this.elevator.ElevatorControlsActive())
         {

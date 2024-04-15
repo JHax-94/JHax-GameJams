@@ -266,7 +266,7 @@ export default class CondemnedScheduler
         for(let i = 0; i < this.summoners.length; i ++)
         {
             let summ = this.summoners[i];
-            let floor = this.GetFloorForPhysObject(summ, true);
+            let floor = this.GetFloorForPhysObject(summ);
 
             if(!floor)
             {
@@ -431,12 +431,10 @@ export default class CondemnedScheduler
 
     PlotRouteToFloor(forObj, fromFloor, toFloor, checkedElevators = null)
     {
-        consoleLog(`=== Plot Route from floor ${fromFloor} to floor ${toFloor} ===`);
-        /*consoleLog("== Elevators already checked");
-        consoleLog(checkedElevators);*/
+        let isRootCall = false;
         let log = true;
 
-        let isRootCall = false;
+        
 
         if(checkedElevators === null)
         {
@@ -444,10 +442,16 @@ export default class CondemnedScheduler
             checkedElevators = [];
         }
 
+
+        if(isRootCall) consoleLog( "=========================================================");
+        consoleLog(`== Plot Route from floor ${fromFloor} to floor ${toFloor} ==`);
+        consoleLog("== Elevators already checked");
+        consoleLog(checkedElevators);
+
         let elevatorsToTargetFloor = this.FindElevatorsStoppingAtFloor(toFloor);
 
-        /*consoleLog(`== Elevators stopping at floor: ${toFloor}`);
-        consoleLog(elevatorsToTargetFloor);*/
+        consoleLog(`== Elevators stopping at floor: ${toFloor}`);
+        consoleLog(elevatorsToTargetFloor);
 
         let routeCandidates = [  ];
 
@@ -483,10 +487,8 @@ export default class CondemnedScheduler
 
             let elevator = routeCandidates[i].target;
 
-            
-
-            consoleLog(`Attempt route:`);
-            consoleLog([...route]);
+            consoleLog("Check to add elevator:");
+            consoleLog(elevator);
 
             if(elevator.StopsAtFloor(fromFloor))
             {
@@ -538,60 +540,110 @@ export default class CondemnedScheduler
                 consoleLog(`== ROUTE FROM ${fromFloor} to ${toFloor} FOUND ==`);
                 consoleLog([...route]);
                 routeCandidates[i].route = route;
-                break;
             }
         } 
 
-        consoleLog("==== ROUTE CANDIDATES ====");
-        consoleLog(routeCandidates);
         let returnRoute = null;
+
+        if(routeCandidates.length > 0)
+        {
+            if(isRootCall)
+            {
+                consoleLog("=== FIND FINAL ROUTE FROM CANDIDATES ===");
+                consoleLog(routeCandidates);
+
+                let closestStart = null;
+
+                let shortestRoutes = {
+                    length: null,
+                    routes: []
+                };
+
+                for(let i = 0; i < routeCandidates.length; i ++)
+                {
+                    if(routeCandidates[i].route && routeCandidates[i].route.length > 0)
+                    {
+                        let addRoute = false;
+
+                        if(shortestRoutes.length === null)
+                        {
+                            addRoute = true;
+                        }
+                        else if(routeCandidates[i].route.length <= shortestRoutes.length)
+                        {
+                            addRoute = true;
+                        }
+
+                        if(addRoute)
+                        {
+                            if(shortestRoutes.length !== null && routeCandidates[i].route.length < shortestRoutes.length)
+                            {
+                                shortestRoutes.routes = [];
+                            }
+
+                            shortestRoutes.length = routeCandidates[i].route.length;
+                            shortestRoutes.routes.push(routeCandidates[i]);
+                        }
+                    }
+                }
+
+                routeCandidates = shortestRoutes.routes;
+
+                for(let i = 0; i < routeCandidates.length; i ++)
+                {
+                    if(routeCandidates[i].route && routeCandidates[i].route.length > 0)
+                    {
+                        let startPoint = routeCandidates[i].route[0];
+
+                        consoleLog(`Look for summoner on floor: ${fromFloor}`);
+
+
+
+                        let startX = startPoint.GetSummonerOnFloor(fromFloor).phys.position[0];
+
+                        let forX = forObj.phys.position[0];
+
+                        let distToStart = Math.abs(startX - forX);
+
+                        routeCandidates[i].distToStart = distToStart;   
+                        
+                        if(closestStart === null || distToStart < routeCandidates[closestStart].distToStart)
+                        {
+                            closestStart = i;
+                        }
+                    }
+                }
+
+                returnRoute = routeCandidates[closestStart].route;
+
+                consoleLog(`Final route:`);
+                consoleLog([...returnRoute]);
+            }
+            else
+            {
+                consoleLog("-- Best partial route from candidates: --")
+                consoleLog(routeCandidates)
+
+                let shortestRoute = routeCandidates[0];
+
+                for(let i = 1; i < routeCandidates.length; i ++)
+                {
+                    if(routeCandidates[i].route && routeCandidates[i].route.length > 0 && routeCandidates[i].route.length < shortestRoute.route.length)
+                    {
+                        shortestRoute = routeCandidates[i];
+                    }
+                }
+                returnRoute = shortestRoute.route;
+            }
+        }
+        consoleLog("==== Returning route ====");
+        consoleLog(returnRoute)
 
         if(isRootCall)
         {
-            let closestStart = null;
-
-            for(let i = 0; i < routeCandidates.length; i ++)
-            {
-                if(routeCandidates[i].route && routeCandidates[i].route.length > 0)
-                {
-                    let startPoint = routeCandidates[i].route[0];
-
-                    consoleLog(`Look for summoner on floor: ${fromFloor}`);
-
-
-
-                    let startX = startPoint.GetSummonerOnFloor(fromFloor).phys.position[0];
-
-                    let forX = forObj.phys.position[0];
-
-                    let distToStart = Math.abs(startX - forX);
-
-                    routeCandidates[i].distToStart = distToStart;   
-                    
-                    if(closestStart === null || distToStart < routeCandidates[closestStart].distToStart)
-                    {
-                        closestStart = i;
-                    }
-                }
-            }
-
-            returnRoute = routeCandidates[closestStart].route;
-
-            consoleLog(`Final route:`);
-            consoleLog([...returnRoute]);
+            if(isRootCall) consoleLog( "=========================================================");
         }
-        else
-        {
-            for(let i = 0; i < routeCandidates.length; i ++)
-            {
-                if(routeCandidates[i].route)
-                {
-                    returnRoute = routeCandidates[i].route;
-                    break;
-                }
-            }
-        }
-        
+
         return returnRoute;
     }
 }

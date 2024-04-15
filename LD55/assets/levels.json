@@ -130,9 +130,7 @@
                     ],
                     "type": "FloatingSkull",
                     "name": "Alice"
-                }
-            ],
-            "_condemned": [
+                },
                 { 
                     "startLocation": { "floor": 0, "place": 6 },
                     "schedule": [
@@ -183,6 +181,38 @@
                     ],
                     "type": "FloatingSkull",
                     "name": "Alice"
+                },
+                { 
+                    "startLocation": { "floor": 4, "place": 3 },
+                    "schedule": [
+                        { "floor": 7, "workstation": 1 },
+                        { "floor": 2, "workstation": 0 },
+                        { "floor": 8, "workstation": 2 },
+                        { "floor": 6, "workstation": 0 },
+                        { "floor": 1, "workstation": 0 },
+                        { "floor": 3, "workstation": 0 },
+                        { "floor": 4, "workstation": 1 },
+                        { "floor": 2, "workstation": 0 },
+                        { "floor": 0, "workstation": 0 }
+                    ],
+                    "type": "FloatingSkull",
+                    "name": "Bob"
+                },
+                { 
+                    "startLocation": { "floor": 8, "place": 3 },
+                    "schedule": [
+                        { "floor": 8, "workstation": 4 },
+                        { "floor": 1, "workstation": 0 },
+                        { "floor": 2, "workstation": 0 },
+                        { "floor": 8, "workstation": 3 },
+                        { "floor": 4, "workstation": 0 },
+                        { "floor": 2, "workstation": 0 },
+                        { "floor": 8, "workstation": 2 },
+                        { "floor": 7, "workstation": 0 },
+                        { "floor": 8, "workstation": 1 }
+                    ],
+                    "type": "FloatingSkull",
+                    "name": "Eve"
                 }
             ]
         }

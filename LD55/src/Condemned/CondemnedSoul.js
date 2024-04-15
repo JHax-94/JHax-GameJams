@@ -27,6 +27,8 @@ export default class CondemnedSoul
             this.spriteIndex = config.spriteIndex;
         }
 
+        this.lastDir = 1;
+
         let physSettings = {
             tileTransform: { x: tile.x, y: tile.y, w: 1, h: 1 },
             mass: 100,
@@ -180,6 +182,15 @@ export default class CondemnedSoul
             this.UpdateAct(deltaTime);
         }
 
+        if(this.phys.velocity[0] > 0.1)
+        {
+            this.lastDir = 1;
+        }
+        else if(this.phys.velocity[0] < -0.1)
+        {
+            this.lastDir = -1;
+        }
+
         this.obliterateTimer.TickBy(deltaTime);
     }
 
@@ -272,7 +283,10 @@ export default class CondemnedSoul
                 this.targetElevator = this.elevatorRoute[this.elevatorRouteStep];
                 let targetButton = this.scheduler.FindButtonForElevator(this.targetElevator, currentFloor)
 
-                this.DetermineMoveDirectionToTarget(targetButton.QueueZone());
+                if(targetButton)
+                {
+                    this.DetermineMoveDirectionToTarget(targetButton.QueueZone());
+                }
             }
         }
     }
@@ -630,7 +644,8 @@ export default class CondemnedSoul
 
             if(this.spriteIndex >= 0)
             {
-                sprite(this.spriteIndex, screenPos.x, screenPos.y);
+                //EM.hudLog.push(`${this.name}: FlipH:${this.lastDir > 0} (${this.phys.velocity[0]})`);
+                sprite(this.spriteIndex, screenPos.x, screenPos.y, this.lastDir > 0);
             }
         }
     }

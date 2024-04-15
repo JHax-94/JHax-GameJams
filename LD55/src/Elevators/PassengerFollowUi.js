@@ -77,7 +77,7 @@ export default class PassengerFollowUi
         {
             dirFlips = this.arrowSprite.down;
         }
-        else
+        if(targetFloor === currentFloor)
         {
             let targetWorkstation = passenger.GetCurrentTargetWorkstation();
 

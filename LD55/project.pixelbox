@@ -46,6 +46,7 @@
 		"right": 39,
 		"A": 32,
 		"B": 88,
+		"interactLeft": 81,
 		"interact": 69
 	},
 	"touchEvent": {

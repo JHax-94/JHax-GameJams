@@ -88,7 +88,7 @@ export default class Elevator
     {
         let stops = !!this.GetSummonerOnFloor(floorNumber);
 
-        consoleLog(`Does stop at floor? ${floorNumber}: ${stops}`);
+        //consoleLog(`Does stop at floor? ${floorNumber}: ${stops}`);
 
         return stops;
     }
@@ -98,13 +98,19 @@ export default class Elevator
         return this.elevatorBounds.summoners;
     }
 
-    GetSummonerOnFloor(floorNumber)
+    GetSummonerOnFloor(floorNumber, log)
     {
         let summoner = null;
 
         if(this.elevatorBounds)
         {
             let summoners = this.elevatorBounds.summoners;
+
+            if(log)
+            {
+                consoleLog(`Check list of summoners for floor${floorNumber}`);
+                consoleLog(summoners);
+            }
 
             for(let i = 0; i < summoners.length; i ++)
             {

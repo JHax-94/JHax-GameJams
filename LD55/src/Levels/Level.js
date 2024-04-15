@@ -27,7 +27,8 @@ export default class Level
             { name: "Workstation", method: this.BuildWorkStation },
             { name: "ElevatorSummoner", method: this.BuildElevatorSummoner },
             { name: "ElevatorBounds", method: this.BuildElevatorBounds },
-            { name: "LevelDoor", method: (tile, objDef) => { return this.BuildLevelDoor(tile, objDef); } }
+            { name: "LevelDoor", method: (tile, objDef) => { return this.BuildLevelDoor(tile, objDef); } },
+            { name: "ReturnDoor", method: this.BuildReturnDoor }
         ];
 
         this.ProcessMapObjects();
@@ -68,7 +69,11 @@ export default class Level
         {
             let map = scanMaps[i];
 
-            let tileMap  = getMap(map.name);
+
+
+            let mapSrc = getMap(map.name);
+
+            let tileMap = mapSrc.copy(0, 0, mapSrc.width, mapSrc.height);
 
             if(!tileMap) console.error(`No Map Found with name: ${map.name}`);
 
@@ -89,6 +94,15 @@ export default class Level
         let doorData = this.data.levelDoors[doors.length];
 
         let door = new LevelDoor(tile, objDef, doorData);
+
+        return door;
+    }
+
+    BuildReturnDoor(tile, objDef)
+    {
+        consoleLog("BUILDING RETURN DOOR!");
+
+        let door = new LevelDoor(tile, objDef, { hidden: true, display: "End Level", target: "LevelSelect", offset: { x: -10, y: -8 }});
 
         return door;
     }
@@ -156,13 +170,20 @@ export default class Level
     {
         let objectMap = assets.objectConfig.objectMap;
 
+        consoleLog("Processing map: ");
+        consoleLog(map);
+
         for(let i = 0; i < objectMap.length; i ++)
         {
             let objDef = objectMap[i];
 
             if(objDef.searchMap)
             {
+                consoleLog(`=== Searching map for index: ${objDef.index} ===`);
+
                 let objTiles = map.find(objDef.index);
+
+                consoleLog(objTiles);
 
                 for(let t = 0; t < objTiles.length; t ++)
                 {

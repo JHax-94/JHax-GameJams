@@ -97,11 +97,7 @@ export default class ElevatorImp
 
         if(input.interact && !this.inputs.interact)
         {
-            if(this.elevator.CanInteract())
-            {
-                this.inputs.interact = input.interact;
-            }
-            else if(this.door)
+            if(this.elevator.CanInteract() || this.door)
             {
                 this.inputs.interact = input.interact;
             }
@@ -110,7 +106,7 @@ export default class ElevatorImp
         {
             if(this.elevator.CanInteract())
             {
-                this.elevator.Interact();
+                this.elevator.Interact(1);
             }
             else if(this.door)
             {
@@ -118,6 +114,27 @@ export default class ElevatorImp
             }
 
             this.inputs.interact = input.interact;
+        }
+
+        if(input.interactLeft && !this.inputs.interactLeft)
+        {
+            if(this.elevator.CanInteract() || this.door)
+            {
+                this.inputs.interactLeft = input.interactLeft;                
+            }
+        }
+        else if(!input.interactLeft && this.inputs.interactLeft)
+        {
+            if(this.elevator.CanInteract())
+            {
+                this.elevator.Interact(-1);
+            }
+            else if(this.door)
+            {
+                this.door.EnterDoor();
+            }
+
+            this.inputs.interactLeft = input.interactLeft;
         }
     }
 

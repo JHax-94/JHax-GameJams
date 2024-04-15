@@ -2,6 +2,8 @@ import { start } from "tina";
 import { consoleLog } from "../main";
 import CondemnedSoul from "./CondemnedSoul";
 import FloorLayer from "../Floors/FloorLayer";
+import { CONDEMNED_STATE } from "../Enums/CondemnedState";
+import { CONDEMNED_MARK } from "../Enums/CondemnedMark";
 
 export default class CondemnedScheduler
 {
@@ -13,6 +15,13 @@ export default class CondemnedScheduler
         this.elevators = levelObject.GetObjectList("Elevator");
         this.summoners = levelObject.GetObjectList("ElevatorSummoner");
         this.bounds = levelObject.GetObjectList("ElevatorBounds");
+
+        this.returnDoors = levelObject.GetObjectList("ReturnDoor");
+
+        
+
+
+
 
         this.condemned = [];
 
@@ -62,9 +71,29 @@ export default class CondemnedScheduler
         }
     }
 
+    CheckForLevelEnd()
+    {
+        consoleLog("---- CHECK LEVEL END ----");
+
+        let stillWorkingCount = this.MarkedWorkers(CONDEMNED_MARK.WORKING);
+        consoleLog(`Still working: ${stillWorkingCount}`);
+
+        if(stillWorkingCount === 0)
+        {
+            consoleLog("SHOW DOORS!");
+            for(let i = 0; i < this.returnDoors.length; i ++)
+            {
+                this.returnDoors[i].Show();
+            }
+        }
+    }
+
     TaskCompleted(task)
     {
-        if(this.completedTasks.findIndex(ct => ct === task) <= 0 && this.allTasks.findIndex(at => at === task))
+        consoleLog(">>>> TASK COMPLETED");
+        consoleLog(task);
+
+        if(this.completedTasks.findIndex(ct => ct === task) < 0 && this.allTasks.findIndex(at => at === task) >= 0)
         {
             this.completedTasks.push(task);
         }
@@ -403,8 +432,8 @@ export default class CondemnedScheduler
     PlotRouteToFloor(forObj, fromFloor, toFloor, checkedElevators = null)
     {
         consoleLog(`=== Plot Route from floor ${fromFloor} to floor ${toFloor} ===`);
-        consoleLog("== Elevators already checked");
-        consoleLog(checkedElevators);
+        /*consoleLog("== Elevators already checked");
+        consoleLog(checkedElevators);*/
         let log = true;
 
         let isRootCall = false;
@@ -417,8 +446,8 @@ export default class CondemnedScheduler
 
         let elevatorsToTargetFloor = this.FindElevatorsStoppingAtFloor(toFloor);
 
-        consoleLog(`== Elevators stopping at floor: ${toFloor}`);
-        consoleLog(elevatorsToTargetFloor);
+        /*consoleLog(`== Elevators stopping at floor: ${toFloor}`);
+        consoleLog(elevatorsToTargetFloor);*/
 
         let routeCandidates = [  ];
 
@@ -428,11 +457,13 @@ export default class CondemnedScheduler
 
             if(index < 0)
             {
-                consoleLog("= Elevator hasn't been checked yet, create route candidate for:");
-                consoleLog(elevatorsToTargetFloor[i]);
+                /*consoleLog("= Elevator hasn't been checked yet, create route candidate for:");
+                consoleLog(elevatorsToTargetFloor[i]);*/
 
                 routeCandidates.push({
                     target: elevatorsToTargetFloor[i],
+                    from: fromFloor,
+                    toFloor: toFloor,
                     route: null
                 });
             }
@@ -440,8 +471,8 @@ export default class CondemnedScheduler
 
         if(log)
         {
-            consoleLog(`Starting route candidates to target floor: ${toFloor}`);
-            consoleLog(routeCandidates);
+            /*consoleLog(`Starting route candidates to target floor: ${toFloor}`);
+            consoleLog(routeCandidates);*/
         }
 
         let routeAtLevelFound = false;
@@ -452,17 +483,22 @@ export default class CondemnedScheduler
 
             let elevator = routeCandidates[i].target;
 
-            route.push(elevator);
+            
+
+            consoleLog(`Attempt route:`);
+            consoleLog([...route]);
 
             if(elevator.StopsAtFloor(fromFloor))
             {
+                consoleLog(`Root from source floor found!`);
+                route.push(elevator);
                 routeAtLevelFound = true;
             }
             else if(!routeAtLevelFound)
             {
-                consoleLog("--- Add to checked elevators ---");
+                //consoleLog("--- Add to checked elevators ---");
                 checkedElevators.push(elevator);
-                consoleLog(checkedElevators);
+                //consoleLog(checkedElevators);
 
                 let stops = elevator.StopsAtFloors();
 
@@ -470,22 +506,36 @@ export default class CondemnedScheduler
                 {
                     let subRoute = this.PlotRouteToFloor(forObj, fromFloor, stops[j], checkedElevators);
 
-                    if(subRoute)
+                    if(subRoute && subRoute.length > 0)
                     {
+                        consoleLog(`=Sub Route found from: ${fromFloor} to ${stops[j]}`);
+                        consoleLog(subRoute);
+                        consoleLog("=Current Route");
+                        consoleLog(route);
+
                         for(let i = 0; i < subRoute.length; i ++)
                         {
-                            route.splice(0, 0, subRoute[i]);
+                            route.push(subRoute[i]);
                         }
+
+                        if(!isRootCall) route.push(elevator);
+
                         routeAtLevelFound = true;
+
+                        consoleLog("Add sub route to main route:");
+                        consoleLog([...route]);
+
                         break;
                     }
                 }
             }
 
-            if(route.length > 0)
+            if(routeAtLevelFound)
             {
                 consoleLog(`== ROUTE FROM ${fromFloor} to ${toFloor} FOUND ==`);
+                consoleLog([...route]);
                 routeCandidates[i].route = route;
+                break;
             }
         } 
 
@@ -503,6 +553,10 @@ export default class CondemnedScheduler
                 {
                     let startPoint = routeCandidates[i].route[0];
 
+                    consoleLog(`Look for summoner on floor: ${fromFloor}`);
+
+
+
                     let startX = startPoint.GetSummonerOnFloor(fromFloor).phys.position[0];
 
                     let forX = forObj.phys.position[0];
@@ -519,6 +573,9 @@ export default class CondemnedScheduler
             }
 
             returnRoute = routeCandidates[closestStart].route;
+
+            consoleLog(`Final route:`);
+            consoleLog([...returnRoute]);
         }
         else
         {

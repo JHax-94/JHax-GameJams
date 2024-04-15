@@ -9,6 +9,13 @@ export default class LevelDoor
         consoleLog(tile);
         consoleLog(opts);
 
+        this.hidden = false;
+
+        if(opts && opts.hidden)
+        {
+            this.hidden = true;
+        }
+
         this.target = opts ? opts.target : null;
         this.display = opts ? opts.display : null;
 
@@ -30,22 +37,35 @@ export default class LevelDoor
 
         if(this.display)
         {
-            this.label = new LevelDoorLabel(this);
+            this.label = new LevelDoorLabel(this, opts);
         }
+    }
+
+    Show()
+    {
+        consoleLog("SHOWING DOOR!");
+
+        this.hidden = false;
     }
 
     EnterDoor()
     {
-        if(this.target)
+        if(!this.hidden)
         {
-            SETUP(this.target);
+            if(this.target)
+            {
+                SETUP(this.target);
+            }
         }
     }
 
     Draw()
     {
-        let screenPos = this.GetScreenPos();
+        if(!this.hidden)
+        {
+            let screenPos = this.GetScreenPos();
 
-        sprite(this.sprite, screenPos.x, screenPos.y);
+            sprite(this.sprite, screenPos.x, screenPos.y);
+        }
     }
 }

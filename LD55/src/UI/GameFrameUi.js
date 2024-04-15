@@ -123,9 +123,12 @@ export default class GameFrame
             this.DrawWorkers();
         }
 
-        if(this.player)
+
+        EM.hudLog.push(`GF PR: ${this.imp}`);
+
+        if(this.imp)
         {
-            this.player.instructions.DrawInstructions(this);
+            this.imp.instructions.DrawInstructions(this);
         }
     }
 

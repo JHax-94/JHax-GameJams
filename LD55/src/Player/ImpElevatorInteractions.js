@@ -1,3 +1,4 @@
+import { CONDEMNED_INPUT } from "../Enums/CondemnedInputs";
 import { ELEVATOR_INTERACT_STATE } from "../Enums/ElevatorInteractionState";
 import { EM, consoleLog } from "../main";
 
@@ -47,7 +48,7 @@ export default class ImpElevatorInteractions
         return this.elevator != null;
     }
 
-    Interact()
+    Interact(dir)
     {
         if(this.elevator)
         {   
@@ -57,7 +58,7 @@ export default class ImpElevatorInteractions
                     this.BoardElevator();
                     break;
                 case ELEVATOR_INTERACT_STATE.ON_BOARD:
-                    this.LeaveElevator();
+                    this.LeaveElevator(dir);
                     break;
             }
         }
@@ -74,7 +75,7 @@ export default class ImpElevatorInteractions
         this.imp.HideFromWorld()
     }
 
-    LeaveElevator()
+    LeaveElevator(dir)
     {
         this.SetState(ELEVATOR_INTERACT_STATE.INTERACTABLE);
 
@@ -82,7 +83,10 @@ export default class ImpElevatorInteractions
         this.elevator.Stop();
         this.input = {};
 
-        let info = {};
+        let info = {
+            dir: dir < 0 ? CONDEMNED_INPUT.MOVE_LEFT : CONDEMNED_INPUT.MOVE_RIGHT
+        };
+
         let disembarkPos = this.elevator.GetDisembarkPosition(info);
 
         this.imp.RestoreToWorld(disembarkPos);

@@ -2,6 +2,7 @@
     "objectMap": [
         { "index": 15, "name": "ElevatorImp", "searchMap": true, "replaceTile": true },
         { "index": 3, "name": "Elevator", "searchMap": true, "replaceTile": true, "scanAdjacent": true },
+        { "index": 19, "name": "Elevator", "searchMap": true, "replaceTile": true, "scanAdjacent": true },
         { "index": 0, "name": "Floor", "searchMap": true, "replaceTile": true, "scanAdjacent": true },
         { "index": 16, "name": "Floor", "searchMap": true, "replaceTile": true, "scanAdjacent": true },
         { "index": 5, "name": "Workstation", "type": "GreenBooth", "searchMap": true, "replaceTile": true },
@@ -16,6 +17,7 @@
         { "index": 1, "name": "ElevatorSummoner", "searchMap": true, "replaceTile": true },
         { "index": 2, "name": "ElevatorBounds", "searchMap": true, "replaceTile": true, "scanAdjacent": true },
         { "name": "FloatingSkull", "spriteIndex": 9 },
-        { "index": 48, "name": "LevelDoor", "searchMap": true, "replaceTile": true }
+        { "index": 48, "name": "LevelDoor", "searchMap": true, "replaceTile": true },
+        { "index": 64, "name": "ReturnDoor", "searchMap": true, "replaceTile": true }
     ]
 }

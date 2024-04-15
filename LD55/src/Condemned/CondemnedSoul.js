@@ -137,7 +137,7 @@ export default class CondemnedSoul
 
         if(this.onBoardElevator && this.state !== CONDEMNED_STATE.ON_BOARD)
         {
-            console.error("NULLING ON BOARD ELEVATOR");
+            consoleLog(">>> NULLING ON BOARD ELEVATOR <<<");
             this.onBoardElevator = null;
         }
     }
@@ -590,6 +590,7 @@ export default class CondemnedSoul
     {
         EM.RemoveEntity(this.followUi);
         EM.RemoveEntity(this);
+        this.scheduler.CheckForLevelEnd();
     }
 
     DestroyGood()

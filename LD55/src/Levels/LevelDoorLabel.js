@@ -3,26 +3,39 @@ import { EM, PIXEL_SCALE, UTILS, consoleLog } from "../main";
 
 export default class LevelDoorLabel
 {
-    constructor(levelDoor)
+    constructor(levelDoor, opts)
     {
         this.renderLayer = "MENU_UI";
 
         this.door = levelDoor;
+
+        this.offset = { x: 0, y: 0 };
+
+        if(opts && opts.offset)
+        {
+            this.offset = { x: opts.offset.x, y: opts.offset.y };
+        }
 
         EM.RegisterEntity(this);
     }
 
     Draw()
     {
-        let screenPos = this.door.GetScreenPos();
+        if(!this.door.hidden)
+        {
+            let screenPos = this.door.GetScreenPos();
 
-        let textWidth = UTILS.GetTextWidth(this.door.display);
-        let textHeight = UTILS.GetTextHeight(this.door.display);
+            screenPos.x += this.offset.x;
+            screenPos.y += this.offset.y;
 
-        paper(0);
-        rectf(screenPos.x -1, screenPos.y - 1, (textWidth * PIXEL_SCALE) + 2, (textHeight * PIXEL_SCALE) + 2);
+            let textWidth = UTILS.GetTextWidth(this.door.display);
+            let textHeight = UTILS.GetTextHeight(this.door.display);
 
-        pen(1);
-        print(this.door.display, screenPos.x, screenPos.y);
+            paper(0);
+            rectf(screenPos.x -1, screenPos.y - 1, (textWidth * PIXEL_SCALE) + 2, (textHeight * PIXEL_SCALE) + 2);
+
+            pen(1);
+            print(this.door.display, screenPos.x, screenPos.y);
+        }
     }
 }

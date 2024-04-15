@@ -3,7 +3,8 @@
         {
             "levelName": "LevelSelect",
             "maps": [
-                { "name": "Level_Select/level_select"}
+                { "name": "Level_Select/level_select"},
+                { "name": "Level_Select/elevator_bounds" }
             ],
             "condemned": [],
             "levelDoors": [
@@ -155,6 +156,31 @@
                     ],
                     "type": "FloatingSkull",
                     "name": "Eve"
+                }
+            ]
+        },
+        {
+            "levelName": "Level4",
+            "maps": [
+                { "name": "Level4/Level4" },
+                { "name": "Level4/elevatorbounds" }
+            ],
+            "condemned": [
+                { 
+                    "startLocation": { "floor": 0, "place": 4 },
+                    "schedule": [
+                        { "floor": 8, "workstation": 0 },
+                        { "floor": 4, "workstation": 0 },
+                        { "floor": 5, "workstation": 0 },
+                        { "floor": 6, "workstation": 0 },
+                        { "floor": 7, "workstation": 0 },
+                        { "floor": 8, "workstation": 0 },
+                        { "floor": 0, "workstation": 0 },
+                        { "floor": 1, "workstation": 0 },
+                        { "floor": 2, "workstation": 0 }
+                    ],
+                    "type": "FloatingSkull",
+                    "name": "Alice"
                 }
             ]
         }

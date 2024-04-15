@@ -358,15 +358,83 @@ export default class CondemnedScheduler
     BuildCondemned()
     {
         let lvlData = this.levelObject.data;
-        let condemnedData = lvlData.condemned;
-        
-        for(let i = 0; i < condemnedData.length; i ++)
-        {
-            let startTile = this.GetTile(condemnedData[i].startLocation);
 
-            let condemnedSoul = new CondemnedSoul(startTile, condemnedData[i], this);
-            this.condemned.push(condemnedSoul);
+        if(lvlData.condemned)
+        {
+            let condemnedData = lvlData.condemned;
+            
+            for(let i = 0; i < condemnedData.length; i ++)
+            {
+                let startTile = this.GetTile(condemnedData[i].startLocation);
+
+                let condemnedSoul = new CondemnedSoul(startTile, condemnedData[i], this);
+                this.condemned.push(condemnedSoul);
+            }
         }
+        else if(lvlData.randomSchedule)
+        {
+            let rules = lvlData.randomSchedule;
+
+            let condemnedData = [];
+
+            for(let i = 0; i < rules.condemned; i ++)
+            {
+                let data = {
+                    startLocation: { floor: 0, place: 0 },
+                    schedule: [],
+                    type: "FloatingSkull",
+                    name: i
+                };
+
+                let startFloor = this.GetRandomFloor();
+                let startPlace = this.GetRandomPlaceOnFloor(startFloor);
+
+                data.startLocation.floor = startFloor.floorNumber;
+                data.startLocation.place = startPlace;
+
+                condemnedData.push(data);
+            }
+
+            let floorAllocations = [];
+
+            for(let i = 0; i < rules.tasks; i ++)
+            {   
+                let taskTarget = condemnedData[i % condemnedData.length];
+
+                let randomFloor = this.GetRandomFloor();
+                let randomWorkstation = this.GetRandomWorkstationOnFloor(randomFloor);
+                
+                let task = { floor: randomFloor.floorNumber, workstation: randomWorkstation };
+
+                taskTarget.schedule.push(task);
+            }
+
+            for(let i = 0; i < condemnedData.length; i ++)
+            {
+                let startTile = this.GetTile(condemnedData[i].startLocation);
+
+                let condemnedSoul = new CondemnedSoul(startTile, condemnedData[i], this);
+
+                this.condemned.push(condemnedSoul);
+            }
+        }
+    }
+
+    GetRandomPlaceOnFloor(floor)
+    {
+        return 2 + random(floor.dims.w - 4);
+    }
+
+    GetRandomWorkstationOnFloor(floor)
+    {
+        return random(floor.workstations.length);;
+    }
+
+    GetRandomFloor()
+    {
+        let floor = this.floors[random(this.floors.length)];
+
+        return floor;
     }
 
     FindElevatorsStoppingAtFloor(floorNumber)

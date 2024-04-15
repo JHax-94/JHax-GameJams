@@ -687,7 +687,6 @@ export default class CondemnedSoul
         this.mark = CONDEMNED_MARK.OBLITERATED;
 
         AUDIO.PlayFx("oblit");
-        AUDIO.PlayFx("Obliterated");
 
         this.deathPos =this.FindDeathPos();
 
@@ -710,6 +709,8 @@ export default class CondemnedSoul
         });
 
         this.Destroy(obliterateParticles);
+
+        if(!this.scheduler.workFinished) AUDIO.PlayFx("Obliterated");
     }
 
     Draw()

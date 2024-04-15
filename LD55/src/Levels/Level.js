@@ -172,8 +172,8 @@ export default class Level
     {
         let objectMap = assets.objectConfig.objectMap;
 
-        consoleLog("Processing map: ");
-        consoleLog(map);
+        /*consoleLog("Processing map: ");
+        consoleLog(map);*/
 
         for(let i = 0; i < objectMap.length; i ++)
         {
@@ -181,11 +181,11 @@ export default class Level
 
             if(objDef.searchMap)
             {
-                consoleLog(`=== Searching map for index: ${objDef.index} ===`);
+                //consoleLog(`=== Searching map for index: ${objDef.index} ===`);
 
                 let objTiles = map.find(objDef.index);
 
-                consoleLog(objTiles);
+                //consoleLog(objTiles);
 
                 for(let t = 0; t < objTiles.length; t ++)
                 {

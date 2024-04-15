@@ -9,9 +9,13 @@
             "condemned": [],
             "levelDoors": [
                 { "display": "1", "target": "Level1" },
+                { "display": "5", "target": "Level5" },
                 { "display": "2", "target": "Level2" },
+                { "display": "6", "target": "Level6" },
                 { "display": "3", "target": "Level3" },
-                { "display": "4", "target": "Level4" }
+                { "display": "7", "target": "Level7" },
+                { "display": "4", "target": "Level4" },
+                { "display": "8", "target": "Level8" }
             ]
         },
         {            
@@ -247,6 +251,38 @@
                     "name": "Gertrude"
                 }
             ]
+        },
+        {
+            "levelName": "Level5",
+            "maps": [
+                { "name": "Level1/map" },
+                { "name": "Level1/elevator_bounds" }
+            ],
+            "randomSchedule": { "condemned": 5, "tasks": 25 }
+        },
+        {
+            "levelName": "Level6",
+            "maps": [
+                { "name": "Level2/Level2" },
+                { "name": "Level2/elevatorbounds" }
+            ],
+            "randomSchedule": { "condemned": 6, "tasks": 30 }
+        },
+        {
+            "levelName": "Level7",
+            "maps": [
+                { "name": "Level3/Level3" },
+                { "name": "Level3/elevatorbounds" }
+            ],
+            "randomSchedule": { "condemned": 6, "tasks": 40 }
+        },
+        {
+            "levelName": "Level8",
+            "maps": [
+                { "name": "Level4/Level4" },
+                { "name": "Level4/elevatorbounds" }
+            ],
+            "randomSchedule": { "condemned": 6, "tasks": 50 }
         }
     ]
 }

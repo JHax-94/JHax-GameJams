@@ -219,7 +219,7 @@ function AddPhysicsEvents()
 exports.update = function () {
     if(!LOAD_COMPLETE)
     {
-        SETUP("Level3");
+        SETUP("LevelSelect");
         AUDIO.PlayMusic();
     }
 

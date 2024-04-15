@@ -1,7 +1,7 @@
 import { vec2 } from "p2";
 import { CONDEMNED_INPUT } from "../Enums/CondemnedInputs";
 import { CONDEMNED_STATE } from "../Enums/CondemnedState";
-import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog, getObjectConfig } from "../main";
+import { AUDIO, COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog, getObjectConfig } from "../main";
 import WorkstationInteractions from "./WorkstationInteractions";
 import TimeStepper from "../TimeStepper";
 import CondemnedFollowUi from "./CondemnedFollowUi";
@@ -638,6 +638,8 @@ export default class CondemnedSoul
 
         this.deathPos = this.FindDeathPos();
 
+        AUDIO.PlayFx("ascend");
+
         let ascendParticles = new ParticleSystem({ 
 
             renderLayer: "IMP",
@@ -682,7 +684,7 @@ export default class CondemnedSoul
         consoleLog("XXXX OBLITERATE TIMER FINISHED XXXX");
         this.mark = CONDEMNED_MARK.OBLITERATED;
 
-
+        AUDIO.PlayFx("oblit");
 
         this.deathPos =this.FindDeathPos();
 

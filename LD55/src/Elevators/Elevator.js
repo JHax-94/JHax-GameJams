@@ -1,5 +1,5 @@
 import Texture from "pixelbox/Texture";
-import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_UTILS, consoleLog } from "../main";
+import { AUDIO, COLLISION_GROUP, EM, PIXEL_SCALE, TILE_UTILS, consoleLog } from "../main";
 import TriggerZone from "../PhysObjects/TriggerZone";
 import { Particle, vec2 } from "p2";
 import TimeStepper from "../TimeStepper";
@@ -316,14 +316,28 @@ export default class Elevator
     {
         this.rightDoorOpen = !this.rightDoorOpen;
 
-        if(this.rightDoorOpen) this.DoorOpened();
+        if(this.rightDoorOpen)
+        {
+            this.DoorOpened();
+        } 
+        else
+        {
+            AUDIO.PlayFx("door_closed");
+        }
     }
 
     ToggleLeftDoor()
     {
         this.leftDoorOpen = !this.leftDoorOpen;
 
-        if(this.leftDoorOpen) this.DoorOpened();
+        if(this.leftDoorOpen) 
+        {
+            this.DoorOpened();
+        }
+        else
+        {
+            AUDIO.PlayFx("door_closed");
+        }
     }
 
     DisembarkPassenger()
@@ -355,7 +369,7 @@ export default class Elevator
 
     DoorOpened()
     {
-        consoleLog("<< Door Opened >>");
+        AUDIO.PlayFx("door_open");
         this.DisembarkPassenger();
         this.Stop();
     }
@@ -369,6 +383,8 @@ export default class Elevator
     {
         this.rightDoorOpen = false;
         this.leftDoorOpen = false;
+
+        AUDIO.PlayFx("door_closed");
     }
 
     ObjectEntered(newObject, fromZone)

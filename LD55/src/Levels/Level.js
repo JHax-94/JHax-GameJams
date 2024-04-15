@@ -6,7 +6,7 @@ import Floor from "../Floors/Floor";
 import ElevatorImp from "../Player/ElevatorImp";
 import GameFrame from "../UI/GameFrameUi";
 import WorkStation from "../WorkStations/WorkStation";
-import { EM, consoleLog } from "../main";
+import { AUDIO, EM, consoleLog } from "../main";
 import LevelDoor from "./LevelDoor";
 import LevelObjectList from "./LevelObjectList";
 
@@ -40,6 +40,8 @@ export default class Level
 
         let frame = new GameFrame();
         EM.AddEntity("FRAME", frame);
+
+        EM.RegisterEntity(AUDIO);
 
         if(scheduler.allTasks.length > 0)
         {

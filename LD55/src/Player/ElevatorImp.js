@@ -1,6 +1,6 @@
 import { ELEVATOR_INTERACT_STATE } from "../Enums/ElevatorInteractionState";
 import TimeStepper from "../TimeStepper";
-import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
+import { AUDIO, COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
 import ImpElevatorInteractions from "./ImpElevatorInteractions";
 import ImpInstructions from "./ImpInstructions";
 
@@ -127,25 +127,25 @@ export default class ElevatorImp
             {
                 this.animationState = ANIM_STATES.IDLE;
             }
-        }
 
-        if(input.up && !this.inputs.up)
-        {
-            this.inputs.up = input.up;
-        }
-        else if(!input.up && this.inputs.up)
-        {
-            if(!this.jumpTimer.InProgress())
+            if(input.up && !this.inputs.up)
             {
-                consoleLog("Jump!");
-                this.phys.velocity = [ this.phys.velocity[0], this.jump ];
-                this.jumpTimer.StartTimer();
-                
-                this.WingAnimationTick();
-                this.wingAnimationTimer.StartTimer();
+                this.inputs.up = input.up;
             }
+            else if(!input.up && this.inputs.up)
+            {
+                if(!this.jumpTimer.InProgress())
+                {
+                    AUDIO.PlayFx("flap");
+                    this.phys.velocity = [ this.phys.velocity[0], this.jump ];
+                    this.jumpTimer.StartTimer();
+                    
+                    this.WingAnimationTick();
+                    this.wingAnimationTimer.StartTimer();
+                }
 
-            this.inputs.up = false;
+                this.inputs.up = false;
+            }
         }
 
         if(input.interact && !this.inputs.interact)

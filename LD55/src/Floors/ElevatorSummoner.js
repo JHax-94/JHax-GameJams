@@ -2,7 +2,7 @@ import { CONDEMNED_MARK } from "../Enums/CondemnedMark";
 import { CONDEMNED_STATE } from "../Enums/CondemnedState";
 import TriggerZone from "../PhysObjects/TriggerZone";
 import ImpInstructions from "../Player/ImpInstructions";
-import { COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
+import { AUDIO, COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
 
 export default class ElevatorSummoner
 {
@@ -59,6 +59,11 @@ export default class ElevatorSummoner
         
         if(index < 0)
         {
+            if(this.queue.length === 0)
+            {
+                AUDIO.PlayFx("summon");
+            }
+
             this.queue.push(queuer);
 
             this.QueueChanged();
@@ -72,6 +77,11 @@ export default class ElevatorSummoner
         if(index >= 0)
         {
             this.queue.splice(index, 1);
+
+            if(queuer.queuePosition)
+            {
+                queuer.queuePosition = null;
+            }
 
             this.QueueChanged()
         }

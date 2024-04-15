@@ -9,10 +9,13 @@ import TriggerZoneEvents from './PhysicsEvents/TriggerZoneEvents.js';
 import NpcEvents from './PhysicsEvents/NpcEvents.js';
 import ImpEvents from './PhysicsEvents/ImpEvents.js';
 import Utility from './Utility.js';
+import AudioHelper from './AudioHelper.js';
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
 let pointerEvents = require('pixelbox/pointerEvents');
+
+let AUDIO = new AudioHelper();
 
 let extender = new TextureExtender();
 let vecExtender = new VectorExtensions();
@@ -217,5 +220,5 @@ exports.update = function () {
 };
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, UTILS, consoleLog, getObjectConfig
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, UTILS, AUDIO, consoleLog, getObjectConfig
 };

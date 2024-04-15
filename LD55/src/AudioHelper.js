@@ -25,7 +25,10 @@ export default class AudioHelper
 
     NextTrack()
     {
+        consoleLog("---- NEXT TRACK ----");
+
         this.ostTrackNumber = (this.ostTrackNumber + 1) % this.ost.length;
+        this.PlayMusic();
     }
 
     ShuffleOst(tracks)
@@ -110,8 +113,10 @@ export default class AudioHelper
         consoleLog("Play Track:");
         consoleLog(track);
 
-        this.ostTimer.timer = track.time;
+        this.ostTimer.Reset();
+        this.ostTimer.time = track.time;
         this.ostTimer.StartTimer();
+        consoleLog(this.ostTimer);
 
         music(track.file);
     }

@@ -461,7 +461,7 @@ export default class CondemnedSoul
                 /*consoleLog("Target is on this floor:");
                 consoleLog(targetOnFloor);*/
 
-                let dirToTarget = this.GetMoveDirectionToTarget(elevator, targetOnFloor, true);
+                let dirToTarget = this.GetMoveDirectionToTarget(elevator, targetOnFloor);
 
                 disembarkInfo = { dir: dirToTarget };
 
@@ -493,7 +493,7 @@ export default class CondemnedSoul
             disembarkInfo.dir = desireInfo.dir;
         }
 
-        consoleLog(`Desires to disembark? ${desiresDisembark}`);
+        //consoleLog(`Desires to disembark? ${desiresDisembark}`);
 
         return desiresDisembark;
     }
@@ -543,6 +543,8 @@ export default class CondemnedSoul
         consoleLog(scheduleStep);
 
         this.scheduleItem = scheduleStep;
+
+        this.workstation.CheckWorkstations();
     }
 
 

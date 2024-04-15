@@ -103,12 +103,24 @@ export default class CondemnedFollowUi
     
     ShouldDrawTimeRemaining()
     {
-        return true;
+        return !this.target.StateIs(CONDEMNED_STATE.WORKING);
     }
 
     ShouldDrawTravelDirection()
     {
         return this.target.StateIsAny([CONDEMNED_STATE.QUEUEING, CONDEMNED_STATE.BOARDING]);
+    }
+
+    ShouldDrawWorking()
+    {
+        return this.target.StateIs(CONDEMNED_STATE.WORKING);
+    }
+
+    DrawWorking(root)
+    {
+        paper(0)
+        rectf(root.x + 5, root.y - 5, 12, PIXEL_SCALE * 0.5 )
+        print("...", root.x + 6, root.y - 4);
     }
 
     Draw()
@@ -125,6 +137,11 @@ export default class CondemnedFollowUi
             if(this.ShouldDrawTimeRemaining())
             {
                 this.DrawTimeRemainingBar(root);
+            }
+
+            if(this.ShouldDrawWorking())
+            {
+                this.DrawWorking(root);
             }
         }
     }

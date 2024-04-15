@@ -346,7 +346,7 @@ export default class Elevator
         {
             for(let i = 0; i < this.passengers.length; i ++)
             {
-                consoleLog(`Check if passenger ${i}: (${this.passengers[i].name}) wants to disembark?`);
+                //consoleLog(`Check if passenger ${i}: (${this.passengers[i].name}) wants to disembark?`);
 
                 let info = {};
                 if(this.passengers[i].IsDesiredDisembark(this, info))

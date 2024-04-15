@@ -216,7 +216,7 @@ export default class ElevatorSummoner
 
         if(this.queue.length > 0)
         {
-            EM.hudLog.push(`S${this.FloorNumber()}: ${this.CanBoardElevator(this.Elevator())}`);
+            //EM.hudLog.push(`S${this.FloorNumber()}: ${this.CanBoardElevator(this.Elevator())}`);
         }
 
         sprite(this.spriteIndex, screenPos.x, screenPos.y, this.isFlipped);

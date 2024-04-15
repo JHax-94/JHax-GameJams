@@ -89,7 +89,7 @@ export default class PassengerFollowUi
         let canDisembark = this.elevator.CanDisembark();
         let disembark = passenger.GetDesiredDisembark(this.elevator);
 
-        EM.hudLog.push(`P${i}: D? ${!!disembark} | <>${disembark?.dir ?? "NULL"} | T${targetFloor} | C${currentFloor} | G:${canDisembark}`);
+        //EM.hudLog.push(`P${i}: D? ${!!disembark} | <>${disembark?.dir ?? "NULL"} | T${targetFloor} | C${currentFloor} | G:${canDisembark}`);
 
         if(disembark && canDisembark)
         {

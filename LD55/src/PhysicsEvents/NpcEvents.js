@@ -8,6 +8,8 @@ export default class NpcEvents extends PhysEventRegistry
     Begin_NpcWorkstation_Check(container, manager, evt) { return manager.CompareTags(evt, "NPC", "WORKSTATION"); }
     Begin_NpcWorkstation_Resolve(container, manager, evt)
     {
+        consoleLog("=== NPC / WORKSTATION COLLISION ===");
+
         let workstationBody = container.BodyWithTag(evt, "WORKSTATION");
         let npcBody = container.BodyWithTag(evt, "NPC");
         
@@ -15,6 +17,18 @@ export default class NpcEvents extends PhysEventRegistry
         let workstation = workstationBody.obj;
 
         npc.ProcessWorkstationCollision(workstation);
+    }
+
+    End_NpcWorkstation_Check(container, manager, evt) { return manager.CompareTags(evt, "NPC", "WORKSTATION"); }
+    End_NpcWorkstation_Resolve(container, manager, evt) 
+    {
+        let workstationBody = container.BodyWithTag(evt, "WORKSTATION");
+        let npcBody = container.BodyWithTag(evt, "NPC");
+        
+        let npc = npcBody.obj;
+        let workstation = workstationBody.obj;
+
+        npc.workstation.WorkstationLeft(workstation);
     }
 
 }

@@ -26,7 +26,7 @@
             ],
             "condemned": [
                 { 
-                    "startLocation": { "floor": 0, "place": 6 },
+                    "startLocation": { "floor": 1, "place": 9 },
                     "schedule": [
                         { "floor": 1, "workstation": 2 },
                         { "floor": 1, "workstation": 3 }

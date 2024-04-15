@@ -224,7 +224,7 @@ function SETUP(levelName)
                 });
 
             new Label(
-                { x: 8, y: 10.25 },
+                { x: 8, y: 9.75 },
                 "Pilot elevators to take damned souls",
                 {
                     posType: "CENTRE",
@@ -232,15 +232,31 @@ function SETUP(levelName)
                 });
 
             new Label(
-                { x: 8, y: 10.75 },
+                { x: 8, y: 10.25 },
                 "to their designated workstations.",
                 {
                     posType: "CENTRE",
                     colours: { font: 1 }   
                 });
+            
+            new Label(
+                { x: 8, y: 11 },
+                "Doors must be open for souls",
+                {
+                    posType: "CENTRE",
+                    colours: { font: 1 }
+                });
 
             new Label(
-                { x: 8, y: 12 },
+                { x: 8, y: 11.5 },
+                "to board and disembark.",
+                {
+                    posType: "CENTRE",
+                    colours: { font: 1 }
+                });
+
+            new Label(
+                { x: 8, y: 12.25 },
                 "Souls that take too much time between",
                 {
                     posType: "CENTRE",
@@ -248,7 +264,7 @@ function SETUP(levelName)
                 });
             
             new Label(
-                { x: 8, y: 12.5 },
+                { x: 8, y: 12.75 },
                 "tasks will be obliterated!",
                 {
                     posType: "CENTRE",

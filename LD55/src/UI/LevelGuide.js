@@ -35,5 +35,7 @@ export default class LevelGuide
         drawAt.y += lineHeight;
         print("cstoquer", drawAt.x, drawAt.y);
         print("schteppe", drawAt.x + 2.5 *PIXEL_SCALE, drawAt.y);
+
+        print("Arrow Keys to move:", drawAt.x, (TILE_HEIGHT * 0.5) * PIXEL_SCALE - 8);
     }
 }

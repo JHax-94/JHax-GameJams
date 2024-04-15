@@ -15,7 +15,7 @@ export default class GameFrame
         this.h = PIXEL_SCALE * TILE_HEIGHT;
         this.w = TILE_WIDTH * PIXEL_SCALE - this.x;
 
-        this.padding = 0.25;
+        this.padding = 2 / 16;
 
         this.lineHeight = UTILS.GetTextHeight("") * PIXEL_SCALE + 2;
 

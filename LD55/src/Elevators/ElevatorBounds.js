@@ -1,4 +1,5 @@
-import { TILE_UTILS, consoleLog } from "../main";
+import TriggerZone from "../PhysObjects/TriggerZone";
+import { EM, TILE_UTILS, consoleLog } from "../main";
 
 export default class ElevatorBounds
 {
@@ -8,12 +9,28 @@ export default class ElevatorBounds
         this.tileDims = TILE_UTILS.GetBlockDimensions(tiles);
 
         this.Setup();
+
+        this.zone = new TriggerZone(this.tileDims, this, {
+            tag: "ELEVATOR_BOUNDS",
+            collisionGroup: 0,
+            collisionMask: 0
+        })
     }
 
     Setup()
     {
         this.summoners = [];
         this.elevator = null;
+    }
+
+    MinY()
+    {
+        return this.zone.phys.aabb.lowerBound[1];
+    }
+
+    MaxY()
+    {
+        return this.zone.phys.aabb.upperBound[1];
     }
 
     AdjacentToSummoner(summoner)
@@ -56,6 +73,8 @@ export default class ElevatorBounds
         return floorNumbers;
     }
 
+    
+
     ContainsElevator(elevator)
     {
         let elevatorContained = false;
@@ -81,5 +100,4 @@ export default class ElevatorBounds
         return elevatorContained;
     }
 
-    
 }

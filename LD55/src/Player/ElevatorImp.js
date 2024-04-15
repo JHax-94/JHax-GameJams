@@ -138,6 +138,11 @@ export default class ElevatorImp
         }
     }
 
+    HasDoor()
+    {
+        return this.door && !this.door.hidden;
+    }
+
     Update(deltaTime)
     {
         this.jumpTimer.TickBy(deltaTime);

@@ -8,12 +8,12 @@
             ],
             "condemned": [],
             "levelDoors": [
-                { "display": "1", "target": "Test" },
+                { "display": "1", "target": "Level1" },
                 { "display": "2", "target": "Level2" }
             ]
         },
         {            
-            "levelName": "Test",
+            "levelName": "Level1",
             "maps": [
                 { "name": "Level1/map" },
                 { "name": "Level1/elevator_bounds" }

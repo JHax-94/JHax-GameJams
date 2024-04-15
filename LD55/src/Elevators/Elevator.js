@@ -51,6 +51,46 @@ export default class Elevator
     Update(deltaTime)
     {
         this.disembarkTimer.TickBy(deltaTime);
+
+        this.LockToBounds();
+    }
+
+    LockToBounds()
+    {
+        let tolerance = 0.1;
+        let minY = this.elevatorBounds.MinY() - tolerance;
+        let maxY = this.elevatorBounds.MaxY() + tolerance;
+
+        let topY = this.phys.aabb.upperBound[1];
+        let bottomY = this.phys.aabb.lowerBound[1];
+
+        let inBoundTop = maxY > topY;
+        let inBoundBottom = minY < bottomY;
+
+        //consoleLog(`Check elevator (${bottomY} > ${topY}) within bounds: (${minY} > ${maxY}): ${inBoundBottom} | ${inBoundTop}`);
+
+        let elevatorHeight = (this.dims.h * PIXEL_SCALE);
+
+        if(!inBoundTop)
+        {
+            /*
+            consoleLog("Out of bounds: (top)");
+            consoleLog(this.phys);*/
+
+            let safeY = maxY - tolerance - elevatorHeight * 0.5;
+            this.phys.position = [ this.phys.position[0], safeY ];
+        }
+        else if(!inBoundBottom)
+        {
+            /*consoleLog("Out of bounds (bottom)");
+            consoleLog(this.phys);*/
+
+            let safeY  = minY + tolerance + elevatorHeight *0.5;
+
+            //consoleLog(`Lock Y to: ${safeY}`);
+
+            this.phys.position = [this.phys.position[0], safeY];
+        }
     }
 
     Setup()

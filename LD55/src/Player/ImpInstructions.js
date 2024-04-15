@@ -1,4 +1,3 @@
-import { linear } from "tina/src/easing";
 import { EM, PIXEL_SCALE, TILE_HEIGHT } from "../main";
 
 export default class ImpInstructions
@@ -24,8 +23,6 @@ export default class ImpInstructions
         let txtOff = 6;
         pen(1);
 
-        
-
         sprite(12, drawAt.x, drawAt.y);
         print("Imp", drawAt.x + PIXEL_SCALE + 4, drawAt.y + txtOff);
 
@@ -39,5 +36,33 @@ export default class ImpInstructions
 
         sprite(74, drawAt.x, drawAt.y)
         print("Wings", drawAt.x + PIXEL_SCALE, drawAt.y + txtOff);
+
+        drawAt.y += PIXEL_SCALE
+
+        if(this.imp.HasDoor() || this.imp.elevator.CanInteract())
+        {
+            
+
+            sprite(72, drawAt.x, drawAt.y);
+            sprite(71, drawAt.x + PIXEL_SCALE, drawAt.y);
+            if(this.imp.HasDoor())
+            {
+                print("open door", drawAt.x + 2 * PIXEL_SCALE, drawAt.y + txtOff);
+            }
+            else
+            {
+                print("Board", drawAt.x + 2 * PIXEL_SCALE, drawAt.y + 2);
+                print("Elevator", drawAt.x + 2 * PIXEL_SCALE, drawAt.y + 1 + lineHeight);
+            }            
+        }
+        else
+        {
+            sprite(88, drawAt.x, drawAt.y);
+            sprite(87, drawAt.x + PIXEL_SCALE, drawAt.y);
+            pen(5);
+            print("Interact", drawAt.x + 2* PIXEL_SCALE, drawAt.y + txtOff);
+        }
+        pen(1);
+
     }
 }

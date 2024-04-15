@@ -17,7 +17,7 @@ export default class LevelGuide
 
         let txtOff = 6;
 
-        consoleLog(`Draw at: ${drawAt.x}, ${drawAt.y}`);
+        //consoleLog(`Draw at: ${drawAt.x}, ${drawAt.y}`);
 
         pen(1);
         print("Game by", drawAt.x + PIXEL_SCALE, drawAt.y);

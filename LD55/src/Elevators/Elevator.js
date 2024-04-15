@@ -295,8 +295,8 @@ export default class Elevator
 
     GetDisembarkPosition(info)
     {
-        consoleLog("Disembark info:");
-        consoleLog(info);
+        /*consoleLog("Disembark info:");
+        consoleLog(info);*/
 
         let dirMulti = 1;
         if(info.dir === CONDEMNED_INPUT.MOVE_LEFT)
@@ -304,10 +304,10 @@ export default class Elevator
             dirMulti = -1;
         }
 
-        consoleLog(`Disembark direction: ${dirMulti}`);
+        //consoleLog(`Disembark direction: ${dirMulti}`);
 
         let disembarkPos = [ this.phys.position[0] + (dirMulti * PIXEL_SCALE), this.phys.position[1] ];
-        consoleLog(`DISEMBARK POS: (x: ${disembarkPos[0].toFixed(3)}, y: ${disembarkPos[1].toFixed(3)})`);
+        //consoleLog(`DISEMBARK POS: (x: ${disembarkPos[0].toFixed(3)}, y: ${disembarkPos[1].toFixed(3)})`);
 
         return disembarkPos;
     }
@@ -391,6 +391,8 @@ export default class Elevator
     {
         if(newObject.tag === "PLAYER")
         {
+            consoleLog("PLAYER ENTERED ELEVATOR");
+
             let player = newObject.obj;
 
             player.SetElevator(this);
@@ -419,6 +421,8 @@ export default class Elevator
     {
         if(oldObject.tag === "PLAYER")
         {
+            consoleLog("PLAYER LEFT ELEVATOR");
+
             let player = oldObject.obj;
 
             player.RemoveElevator(this);

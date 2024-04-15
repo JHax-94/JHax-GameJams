@@ -27,8 +27,12 @@ export default class TriggerZoneEvents extends PhysEventRegistry
         let playBody = container.BodyWithTag(evt, "PLAYER");
 
         let tz = tzBody.obj;
+        let player = playBody.obj;
 
-        tz.ObjectExited(playBody);
+        if(player.IsVisible())
+        {
+            tz.ObjectExited(playBody);
+        }
     }
 
     Begin_TriggerZoneNpc_Check(container, manager, evt) { return manager.CompareTags(evt, "TRIGGER_ZONE", "NPC"); }

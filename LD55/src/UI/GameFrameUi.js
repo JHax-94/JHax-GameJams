@@ -19,7 +19,7 @@ export default class GameFrame
 
         this.lineHeight = UTILS.GetTextHeight("") * PIXEL_SCALE + 2;
 
-        this.titleAt = { x: 0, y: 0.5 };
+        this.titleAt = { x: 0.5, y: 0.5 };
         this.title = [ 
             {
                 offset: 4,

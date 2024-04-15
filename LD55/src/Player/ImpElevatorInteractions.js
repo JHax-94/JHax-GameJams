@@ -34,6 +34,17 @@ export default class ImpElevatorInteractions
         }        
     }
 
+    GetBoardedElevator()
+    {
+        let elevator= null;
+        if(this.Is(ELEVATOR_INTERACT_STATE.ON_BOARD))
+        {
+            elevator = this.elevator;
+        }
+
+        return elevator;
+    }
+
     RemoveElevator(elevator)
     {
         if(this.elevator === elevator && this.interactionState !== ELEVATOR_INTERACT_STATE.ON_BOARD)

@@ -7,6 +7,7 @@ export default class ImpInstructions
         this.imp = imp;
     }
 
+
     DrawInstructions(frame)
     {
         paper(1);
@@ -23,6 +24,20 @@ export default class ImpInstructions
         let txtOff = 6;
         pen(1);
 
+        let elevator=  this.imp.elevator.GetBoardedElevator();
+
+        if(elevator)
+        {
+            this.DrawElevatorControls(elevator, drawAt, lineHeight, txtOff);
+        }
+        else
+        {
+            this.DrawImpControls(drawAt, lineHeight, txtOff);
+        }
+    }
+
+    DrawImpControls(drawAt, lineHeight, txtOff)
+    {
         sprite(12, drawAt.x, drawAt.y);
         print("Imp", drawAt.x + PIXEL_SCALE + 4, drawAt.y + txtOff);
 
@@ -41,8 +56,6 @@ export default class ImpInstructions
 
         if(this.imp.HasDoor() || this.imp.elevator.CanInteract())
         {
-            
-
             sprite(72, drawAt.x, drawAt.y);
             sprite(71, drawAt.x + PIXEL_SCALE, drawAt.y);
             if(this.imp.HasDoor())
@@ -63,6 +76,52 @@ export default class ImpInstructions
             print("Interact", drawAt.x + 2* PIXEL_SCALE, drawAt.y + txtOff);
         }
         pen(1);
+    }
 
+    DrawElevatorControls(elevator, drawAt, lineHeight, txtOff)
+    {
+        sprite(28, drawAt.x, drawAt.y);
+        print("Elevator", drawAt.x + PIXEL_SCALE + 4, drawAt.y + txtOff);
+
+        drawAt.y += PIXEL_SCALE + 2;
+
+        let elevatorLayer = elevator.GetCurrentFloorNumber();
+        print(`Floor: ${elevatorLayer}`, drawAt.x, drawAt.y);
+
+        drawAt.y += lineHeight;
+        
+        print(`Passengers: ${elevator.passengers.length} / ${elevator.Capacity()}`, drawAt.x, drawAt.y);
+
+        drawAt.y += lineHeight *2
+
+        print("Doors:", drawAt.x, drawAt.y);
+        drawAt.y +=lineHeight;
+        print(`L: ${elevator.leftDoorOpen ? 'open' : 'closed'}`, drawAt.x, drawAt.y);
+        print(`R: ${elevator.rightDoorOpen ? 'open' : 'closed'}`, drawAt.x + 2 * PIXEL_SCALE + 8, drawAt.y);
+
+        drawAt.y += PIXEL_SCALE;
+
+        sprite(74, drawAt.x, drawAt.y);
+        print("UP", drawAt.x + PIXEL_SCALE, drawAt.y + txtOff);
+
+        /*drawAt.y += PIXEL_SCALE;*/
+
+        sprite(75, drawAt.x + 2 *PIXEL_SCALE, drawAt.y);
+        print("Down", drawAt.x + 3 * PIXEL_SCALE, drawAt.y + txtOff);
+
+        drawAt.y += PIXEL_SCALE;
+
+        sprite(73, drawAt.x, drawAt.y);
+        sprite(73, drawAt.x + PIXEL_SCALE, drawAt.y, true );
+        print("Doors", drawAt.x + 2 * PIXEL_SCALE, drawAt.y + txtOff);
+
+        drawAt.y += PIXEL_SCALE;
+        sprite(72, drawAt.x, drawAt.y);
+        print("Exit Left", drawAt.x + PIXEL_SCALE, drawAt.y + txtOff);
+        //print("Left", drawAt.x +PIXEL_SCALE, drawAt.y);
+
+        drawAt.y += PIXEL_SCALE;
+        sprite(71, drawAt.x, drawAt.y);
+        print("Exit Right", drawAt.x + PIXEL_SCALE, drawAt.y + txtOff);
     }
 }

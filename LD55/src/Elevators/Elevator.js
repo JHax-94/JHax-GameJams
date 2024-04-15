@@ -45,7 +45,12 @@ export default class Elevator
 
     EmptySlots()
     {
-        return this.srcTiles.length - this.passengers.length;
+        return this.Capacity() - this.passengers.length;
+    }
+
+    Capacity()
+    {
+        return this.srcTiles.length;
     }
 
     Update(deltaTime)

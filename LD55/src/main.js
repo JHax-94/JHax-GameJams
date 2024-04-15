@@ -14,6 +14,7 @@ import LevelGuide from './UI/LevelGuide.js';
 import UiComponent from './UI/UiComponent.js';
 import Label from './UI/Label.js';
 import Rect from './UI/Rect.js';
+import HighScoresStore from './HighScoresStore.js';
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -23,6 +24,8 @@ let AUDIO = new AudioHelper();
 
 let extender = new TextureExtender();
 let vecExtender = new VectorExtensions();
+
+let SCORES = new HighScoresStore();
 
 let Texture = extender.ExtendTextureClass(require('pixelbox/Texture'));
 
@@ -292,5 +295,5 @@ exports.update = function () {
 };
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, UTIL, AUDIO, getFont, setFont, consoleLog, getObjectConfig
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, UTIL, AUDIO, SCORES, getFont, setFont, consoleLog, getObjectConfig
 };

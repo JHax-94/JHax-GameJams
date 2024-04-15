@@ -1,8 +1,6 @@
-import { start } from "tina";
-import { AUDIO, consoleLog } from "../main";
+import { AUDIO, SCORES, consoleLog } from "../main";
 import CondemnedSoul from "./CondemnedSoul";
 import FloorLayer from "../Floors/FloorLayer";
-import { CONDEMNED_STATE } from "../Enums/CondemnedState";
 import { CONDEMNED_MARK } from "../Enums/CondemnedMark";
 
 export default class CondemnedScheduler
@@ -17,12 +15,6 @@ export default class CondemnedScheduler
         this.bounds = levelObject.GetObjectList("ElevatorBounds");
 
         this.returnDoors = levelObject.GetObjectList("ReturnDoor");
-
-        
-
-
-
-
         this.condemned = [];
 
         this.floorLayers = [];
@@ -88,6 +80,15 @@ export default class CondemnedScheduler
                 this.returnDoors[i].Show();
 
                 this.workFinished = true;
+
+                let quotaPercent = this.completedTasks.length / this.allTasks.length;
+
+                let prevHighScore = SCORES.GetHighScore(this.levelObject.levelName);
+
+                if(quotaPercent > prevHighScore)
+                {
+                    SCORES.SaveHighScore(this.levelObject.levelName, quotaPercent);
+                }
 
                 if(this.completedTasks.length === this.allTasks.length)
                 {

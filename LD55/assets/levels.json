@@ -9,14 +9,14 @@
             ],
             "condemned": [],
             "levelDoors": [
-                { "display": "1", "target": "Level1" },
-                { "display": "5", "target": "Level5" },
-                { "display": "2", "target": "Level2" },
-                { "display": "6", "target": "Level6" },
-                { "display": "3", "target": "Level3" },
-                { "display": "7", "target": "Level7" },
-                { "display": "4", "target": "Level4" },
-                { "display": "8", "target": "Level8" }
+                { "display": "1", "target": "Level1", "longTitle": "Level 1" },
+                { "display": "5", "target": "Level5", "longTitle": "Level 5" },
+                { "display": "2", "target": "Level2", "longTitle": "Level 2" },
+                { "display": "6", "target": "Level6", "longTitle": "Level 6" },
+                { "display": "3", "target": "Level3", "longTitle": "Level 3" },
+                { "display": "7", "target": "Level7", "longTitle": "Level 7" },
+                { "display": "4", "target": "Level4", "longTitle": "Level 4" },
+                { "display": "8", "target": "Level8", "longTitle": "Level 8" }
             ]
         },
         {            

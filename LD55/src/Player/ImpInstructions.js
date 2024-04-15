@@ -1,4 +1,4 @@
-import { EM, PIXEL_SCALE, TILE_HEIGHT } from "../main";
+import { EM, PIXEL_SCALE, SCORES, TILE_HEIGHT, consoleLog } from "../main";
 
 export default class ImpInstructions
 {
@@ -30,6 +30,27 @@ export default class ImpInstructions
         else
         {
             this.DrawImpControls(drawAt, lineHeight, txtOff);
+        }
+
+        if(this.imp.HasDoor())
+        {
+            this.DrawDoorInfo(drawAt, lineHeight);
+        }
+    }
+
+    DrawDoorInfo(drawAt, lineHeight)
+    {
+        let door = this.imp.door;
+        
+        if(door.longTitle)
+        {
+            drawAt.y += PIXEL_SCALE + 8;
+            //consoleLog(`Draw door info @ ${drawAt.x}, ${drawAt.y}`);
+            let highScore = SCORES.GetHighScore(door.target);
+            pen(1);
+            print(`Door to ${door.longTitle}...`, drawAt.x, drawAt.y);
+            drawAt.y += lineHeight;
+            if(highScore > 0) print(`Best Quota: ${(highScore * 100).toFixed(0)}%`, drawAt.x, drawAt.y);
         }
     }
 
@@ -83,7 +104,18 @@ export default class ImpInstructions
         drawAt.y += PIXEL_SCALE + 2;
 
         let elevatorLayer = elevator.GetCurrentFloorNumber();
-        print(`Floor: ${elevatorLayer}`, drawAt.x, drawAt.y);
+
+        let layerStr = elevatorLayer;
+        if(elevatorLayer === 0)
+        {
+            layerStr = "G";
+        }
+        else if(elevatorLayer < 0)
+        {
+            layerStr = "B"
+        }
+
+        print(`Floor: ${layerStr}`, drawAt.x, drawAt.y);
 
         drawAt.y += lineHeight;
         

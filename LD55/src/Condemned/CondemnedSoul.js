@@ -727,14 +727,14 @@ export default class CondemnedSoul
         if(this.ShouldDraw())
         {
             let screenPos = this.GetScreenPos();
-
+            /*
             if(this.queuePosition)
             {
                 let queueRect = EM.PhysToScreenPos(this.queuePosition);
 
                 paper(9);
                 rectf(queueRect.x, queueRect.y, PIXEL_SCALE, PIXEL_SCALE);
-            }
+            }*/
 
             if(this.spriteIndex >= 0)
             {

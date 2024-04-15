@@ -16,6 +16,8 @@ export default class Level
     {
         this.data = levelData;
 
+        this.levelName = levelData.levelName;
+
         this.drawMaps = [];
 
         this.levelObjects = [];
@@ -70,8 +72,6 @@ export default class Level
         for(let i = 0; i < scanMaps.length; i++)
         {
             let map = scanMaps[i];
-
-
 
             let mapSrc = getMap(map.name);
 

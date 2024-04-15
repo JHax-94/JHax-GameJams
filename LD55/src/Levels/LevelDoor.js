@@ -18,6 +18,7 @@ export default class LevelDoor
 
         this.target = opts ? opts.target : null;
         this.display = opts ? opts.display : null;
+        this.longTitle = opts ? opts.longTitle : null;
 
         this.sprite = tile.sprite;
 

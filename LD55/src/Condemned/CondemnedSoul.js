@@ -104,8 +104,12 @@ export default class CondemnedSoul
         {
             consoleLog(`${this.name}: Boarding elevator`);
             this.boardableElevator.OnBoard(this);
-            let summoner = this.scheduler.FindButtonForElevator(this.boardableElevator, this.GetCurrentFloor().floorNumber, true);
-            summoner.RemoveFromQueue(this);
+            //let summoner = this.scheduler.FindButtonForElevator(this.boardableElevator, this.GetCurrentFloor().floorNumber, true);
+
+            if(this.inQueueFor)
+            {
+                this.inQueueFor.RemoveFromQueue(this);
+            }
         }
     }
 

@@ -108,7 +108,7 @@ export default class CondemnedFollowUi
 
     ShouldDrawTravelDirection()
     {
-        return this.target.StateIsAny([CONDEMNED_STATE.QUEUEING, CONDEMNED_STATE.BOARDING]);
+        return this.target.StateIsAny([CONDEMNED_STATE.QUEUEING]);
     }
 
     ShouldDrawWorking()

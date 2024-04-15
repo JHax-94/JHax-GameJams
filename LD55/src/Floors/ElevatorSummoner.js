@@ -67,6 +67,7 @@ export default class ElevatorSummoner
             }
 
             this.queue.push(queuer);
+            queuer.inQueueFor = this;
 
             this.QueueChanged();
         }
@@ -78,6 +79,7 @@ export default class ElevatorSummoner
 
         if(index >= 0)
         {
+            this.queue[index].inQueueFor = null;
             this.queue.splice(index, 1);
 
             if(queuer.queuePosition)
@@ -114,9 +116,9 @@ export default class ElevatorSummoner
 
         let tilePos = {
             x: this.srcTile.x + (0.5 + forLength * 1.125) * (this.isFlipped ? -1 : 1),
-            y: this.srcTile.y - 1,
-            w: this.queueDims.w,
-            h: this.queueDims.h
+            y: this.srcTile.y,
+            w: 1,
+            h: 1
         };
 
         return tilePos;

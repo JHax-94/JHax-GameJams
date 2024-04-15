@@ -267,7 +267,7 @@
                 { "name": "Level2/Level2" },
                 { "name": "Level2/elevatorbounds" }
             ],
-            "randomSchedule": { "condemned": 6, "tasks": 30 }
+            "randomSchedule": { "condemned": 5, "tasks": 30 }
         },
         {
             "levelName": "Level7",
@@ -275,7 +275,7 @@
                 { "name": "Level3/Level3" },
                 { "name": "Level3/elevatorbounds" }
             ],
-            "randomSchedule": { "condemned": 6, "tasks": 40 }
+            "randomSchedule": { "condemned": 5, "tasks": 40 }
         },
         {
             "levelName": "Level8",
@@ -283,7 +283,7 @@
                 { "name": "Level4/Level4" },
                 { "name": "Level4/elevatorbounds" }
             ],
-            "randomSchedule": { "condemned": 6, "tasks": 50 }
+            "randomSchedule": { "condemned": 5, "tasks": 50 }
         }
     ]
 }

@@ -110,21 +110,30 @@ export default class ImpElevatorInteractions
     {
         if(this.elevator)
         {
-            if(this.elevator.DoorsClosed())
+            
+            
+            if(input.up)
             {
-                if(input.up)
+                if(!this.elevator.DoorsClosed())
                 {
-                    this.elevator.MoveUp();
+                    this.elevator.CloseAllDoors();
                 }
-                else if(input.down)
-                {
-                    this.elevator.MoveDown();
-                }
-                else if(this.elevator.IsMoving())
-                {
-                    this.elevator.Stop();
-                }
+                this.elevator.MoveUp();
             }
+            else if(input.down)
+            {
+                if(!this.elevator.DoorsClosed())
+                {
+                    this.elevator.CloseAllDoors();
+                }
+
+                this.elevator.MoveDown();
+            }
+            else if(this.elevator.IsMoving())
+            {
+                this.elevator.Stop();
+            }
+            
 
             if(input.right && !this.input.right)
             {

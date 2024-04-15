@@ -1,7 +1,7 @@
 
 {
     "debugKeys": true,
-    "drawColliders": false,
+    "drawColliders": true,
     "hudLogOn": true,
     "debugSpawnTiles": false,
     "renderLayers": [

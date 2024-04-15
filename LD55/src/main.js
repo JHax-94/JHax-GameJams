@@ -222,7 +222,7 @@ function SETUP(levelName)
 
             new Label(
                 { x: 8, y: 10.25 },
-                "Pilot elevators to take damned",
+                "Pilot elevators to take damned souls",
                 {
                     posType: "CENTRE",
                     colours: { font: 1 }   

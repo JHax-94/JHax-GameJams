@@ -304,6 +304,15 @@ export default class Elevator
             dirMulti = -1;
         }
 
+        if(this.dims.x === 0)
+        {
+            dirMulti = 1;
+        }
+        else if(this.dims.x === 15)
+        {
+            dirMulti = -1;
+        }
+
         //consoleLog(`Disembark direction: ${dirMulti}`);
 
         let disembarkPos = [ this.phys.position[0] + (dirMulti * PIXEL_SCALE), this.phys.position[1] ];

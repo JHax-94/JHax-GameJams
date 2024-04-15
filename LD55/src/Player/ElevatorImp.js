@@ -14,6 +14,8 @@ export default class ElevatorImp
 {
     constructor(tile, def)
     {
+        this.srcTile = tile;
+
         this.renderLayer = "IMP";
 
         this.hideCollider = true;
@@ -222,6 +224,19 @@ export default class ElevatorImp
         {
             this.lastDir = -1;
         }
+
+        let screenPos = this.GetScreenPos();
+        
+        if(screenPos.x < -PIXEL_SCALE || screenPos.y < -PIXEL_SCALE || screenPos.x > 16 * PIXEL_SCALE || screenPos.y > 16 * PIXEL_SCALE)
+        {
+            let tilePos = { x: this.srcTile.x, y: this.srcTile.y, w: 1, h: 1};
+            let physPos = EM.TileToPhysPosition(tilePos);
+
+            this.phys.position = physPos;
+            this.phys.velocity = [ 0, 0 ];
+            AUDIO.PlayFx("respawn");
+        }
+
     }
 
     IsVisible()

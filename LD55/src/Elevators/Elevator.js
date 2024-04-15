@@ -31,6 +31,11 @@ export default class Elevator
 
         EM.RegisterEntity(this, { physSettings: physSettings });
 
+        this.doorSpeed = 4;
+
+        this.rightDoorOpenAmnt = 0;
+        this.leftDoorOpenAmnt = 0;
+
         this.triggerZone = new TriggerZone({
             x: this.dims.x - 1,
             y: this.dims.y,
@@ -56,6 +61,44 @@ export default class Elevator
     Update(deltaTime)
     {
         this.disembarkTimer.TickBy(deltaTime);
+
+        if(this.leftDoorOpen && this.leftDoorOpenAmnt < 1)
+        {
+            this.leftDoorOpenAmnt += this.doorSpeed * deltaTime;
+            if(this.leftDoorOpenAmnt > 1)
+            {
+                this.leftDoorOpenAmnt = 1;
+            }
+        }
+
+        if(this.rightDoorOpen && this.rightDoorOpenAmnt < 1)
+        {
+            this.rightDoorOpenAmnt += this.doorSpeed * deltaTime;
+            if(this.rightDoorOpenAmnt > 1)
+            {
+                this.rightDoorOpenAmnt = 1;
+            }
+        }
+        
+        if(!this.leftDoorOpen && this.leftDoorOpenAmnt > 0)
+        {
+            this.leftDoorOpenAmnt -= this.doorSpeed * deltaTime;
+            if(this.leftDoorOpenAmnt < 0)
+            {
+                this.leftDoorOpenAmnt = 0;
+            }
+        }
+
+        if(!this.rightDoorOpen&& this.rightDoorOpenAmnt > 0)
+        {
+            this.rightDoorOpenAmnt -= this.doorSpeed * deltaTime;
+
+            if(this.rightDoorOpenAmnt < 0)
+            {
+                this.rightDoorOpenAmnt = 0;
+            }
+        }
+
 
         this.LockToBounds();
     }
@@ -400,9 +443,96 @@ export default class Elevator
         return this.Scheduler()?.GetFloorLayerForPhysObject(this)?.number;
     }
 
+
+    GetDoorDims()
+    {
+        let doorRect = { x: 0, y: 0, w: 0, h: 0 };
+
+        if(this.dims.w === 1)
+        {
+            doorRect.x = 0;
+            doorRect.y = 0;
+            doorRect.w = 6;
+            doorRect.h = 2 *PIXEL_SCALE - 8;
+        }
+        else if(this.dims.w === 2)
+        {
+            doorRect.x = 0,
+            doorRect.y = 0,
+            doorRect.w = 12,
+            doorRect.h = 2 * PIXEL_SCALE - 6
+        }
+
+        return doorRect;
+    }
+
+    GetRightDoorRect()
+    {
+        let doorRect = { x: 0, y: 0, w: 0, h: 0 };
+
+        let doorDims = this.GetDoorDims();
+
+        doorRect.w = doorDims.w * this.rightDoorOpenAmnt;
+        doorRect.h = doorDims.h;
+
+        if(this.dims.w === 1)
+        {
+            doorRect.x = PIXEL_SCALE*0.5;
+            doorRect.y = 4;
+        }
+        else if(this.dims.w === 2)
+        {
+            doorRect.x = PIXEL_SCALE;
+            doorRect.y = 3;
+        }
+
+        return doorRect;
+    }
+
+    GetLeftDoorRect()
+    {
+        let doorRect = { x: 0, y: 0, w: 0, h :0 };
+        let doorDims = this.GetDoorDims();
+
+        doorRect.w = doorDims.w * this.leftDoorOpenAmnt;
+        doorRect.h = doorDims.h;
+
+        if(this.dims.w === 1)
+        {
+            doorRect.x = 2 + (doorDims.w - doorRect.w);
+            doorRect.y = 4;
+        }
+        else if(this.dims.w === 2)
+        {
+            doorRect.x = 4 + (doorDims.w - doorRect.w);
+            doorRect.y = 3;
+        }
+
+        return doorRect;
+    }
+
+    DrawDoorRect(screenPos, doorRect)
+    {
+        paper(0);
+        rectf(screenPos.x + doorRect.x, screenPos.y + doorRect.y, doorRect.w, doorRect.h);
+    }
+
     Draw()
     {
         let screenPos = this.GetScreenPos();
         this.texture._drawEnhanced(screenPos.x, screenPos.y);        
+
+        if(this.rightDoorOpenAmnt > 0)
+        {
+            let doorRect = this.GetRightDoorRect()
+            this.DrawDoorRect(screenPos, doorRect);
+        }
+
+        if(this.leftDoorOpenAmnt > 0)
+        {
+            let doorRect = this.GetLeftDoorRect();
+            this.DrawDoorRect(screenPos, doorRect);
+        }
+
     }
 }

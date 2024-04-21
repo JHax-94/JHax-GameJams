@@ -22,6 +22,8 @@ let pointerEvents = require('pixelbox/pointerEvents');
 
 let AUDIO = new AudioHelper();
 
+let GAMEPAD_DEAD_ZONE = 0.3;
+
 let extender = new TextureExtender();
 let vecExtender = new VectorExtensions();
 
@@ -311,5 +313,5 @@ exports.update = function () {
 };
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, UTIL, AUDIO, SCORES, getFont, setFont, consoleLog, getObjectConfig
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UI_BUILDER, TILE_UTILS, Texture, COLLISION_GROUP, UTIL, AUDIO, SCORES, GAMEPAD_DEAD_ZONE, getFont, setFont, consoleLog, getObjectConfig
 };

@@ -56,7 +56,7 @@
 		"hideMousePointer": false
 	},
 	"gamepad": {
-		"analogToDpad": true,
+		"analogToDpad": false,
 		"deadZone": 0.5
 	},
 	"loader": {

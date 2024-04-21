@@ -1,6 +1,6 @@
 import { ELEVATOR_INTERACT_STATE } from "../Enums/ElevatorInteractionState";
 import TimeStepper from "../TimeStepper";
-import { AUDIO, COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog } from "../main";
+import { AUDIO, COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog, GAMEPAD_DEAD_ZONE } from "../main";
 import ImpElevatorInteractions from "./ImpElevatorInteractions";
 import ImpInstructions from "./ImpInstructions";
 
@@ -106,21 +106,63 @@ export default class ElevatorImp
         this.phys.gravityScale = 1;
     }
 
+    BtnFullPress(from, key, additionalCheck = null)
+    {
+        let fullPressed = false;
+
+        let addCheckPassed = (additionalCheck === null) || additionalCheck;
+
+        if(from[key] && !this.inputs[key] && addCheckPassed)
+        {
+            this.inputs[key] = true;
+        }
+        else if(!from[key] && this.inputs[key])
+        {
+            this.inputs[key] = false;
+            fullPressed = true && addCheckPassed;
+        }
+
+        return fullPressed;
+
+    }
+
     Input(input)
     {
+        let padIn = Object.assign({}, gamepad);
+        
+        for(let i = 0; i < 3; i ++ )
+        {
+            if(gamepads[i].available)
+            {
+                let pad = gamepads[i];
+
+                if(Math.abs(pad.x) > GAMEPAD_DEAD_ZONE/* && Math.abs(pad.x) > Math.abs(padIn.x)*/)
+                {
+                    padIn.x = pad.x;
+                }
+                
+                if(Math.abs(pad.y) > GAMEPAD_DEAD_ZONE/* && Math.abs(pad.y) > Math.abs(padIn.y)*/)
+                {
+                    padIn.y = pad.y;
+                }
+            }
+        }
+
+        EM.hudLog.push(`PadIN: (${padIn.x.toFixed(3)}, ${padIn.y.toFixed(3)}) A: ${padIn.btn.A} B: ${padIn.btn.B} X: ${padIn.btn.X}`);
+
         if(this.elevator.ElevatorControlsActive())
         {
-            this.elevator.PipeInput(input);
+            this.elevator.PipeInput(input, padIn);
             
         }
         else
         {
-            if(input.left)
+            if(input.left || padIn.x < -GAMEPAD_DEAD_ZONE)
             {
                 this.animationState = ANIM_STATES.RUN;
                 this.phys.velocity = [ -this.speed, this.phys.velocity[1] ];
             }
-            else if(input.right)
+            else if(input.right || padIn.x > GAMEPAD_DEAD_ZONE)
             {
                 this.animationState = ANIM_STATES.RUN;
                 this.phys.velocity = [ this.speed, this.phys.velocity[1] ];
@@ -130,11 +172,8 @@ export default class ElevatorImp
                 this.animationState = ANIM_STATES.IDLE;
             }
 
-            if(input.up && !this.inputs.up)
-            {
-                this.inputs.up = input.up;
-            }
-            else if(!input.up && this.inputs.up)
+            
+            if(this.BtnFullPress(input, "up") || this.BtnFullPress(padIn.btn, "A"))
             {
                 if(!this.jumpTimer.InProgress())
                 {
@@ -146,18 +185,13 @@ export default class ElevatorImp
                     this.wingAnimationTimer.StartTimer();
                 }
 
-                this.inputs.up = false;
+                /*this.inputs.up = false;*/
             }
         }
 
-        if(input.interact && !this.inputs.interact)
-        {
-            if(this.elevator.CanInteract() || this.door)
-            {
-                this.inputs.interact = input.interact;
-            }
-        }
-        else if(!input.interact && this.inputs.interact)
+        let canInteract = (this.elevator.CanInteract() || this.door)
+
+        if(this.BtnFullPress(input, "interact", canInteract) || this.BtnFullPress(padIn.btn, "B", canInteract))
         {
             if(this.elevator.CanInteract())
             {
@@ -168,17 +202,10 @@ export default class ElevatorImp
                 this.door.EnterDoor();
             }
 
-            this.inputs.interact = input.interact;
+            //this.inputs.interact = input.interact;
         }
 
-        if(input.interactLeft && !this.inputs.interactLeft)
-        {
-            if(this.elevator.CanInteract() || this.door)
-            {
-                this.inputs.interactLeft = input.interactLeft;                
-            }
-        }
-        else if(!input.interactLeft && this.inputs.interactLeft)
+        if(this.BtnFullPress(input, "interactLeft", canInteract) || this.BtnFullPress(padIn.btn, "X", canInteract))
         {
             if(this.elevator.CanInteract())
             {
@@ -189,14 +216,10 @@ export default class ElevatorImp
                 this.door.EnterDoor();
             }
 
-            this.inputs.interactLeft = input.interactLeft;
+            //this.inputs.interactLeft = input.interactLeft;
         }
 
-        if(input.esc && !this.inputs.esc)
-        {
-            this.inputs.esc = input.esc;
-        }
-        else if(!input.esc && this.inputs.esc)
+        if(this.BtnFullPress(input, "esc") || this.BtnFullPress(padIn.btn, "start"))
         {
             this.inputs.esc = input.esc;
             EM.Pause();

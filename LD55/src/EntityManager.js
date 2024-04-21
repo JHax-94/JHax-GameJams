@@ -999,6 +999,14 @@ export default class EntityManager
                 consoleLog(this);
             }
 
+            if(this.keyboardState.F5 && this.keyboardState.F5.r)
+            {
+                consoleLog(gamepad);
+                consoleLog(gamepads);
+                consoleLog(navigator.getGamepads());
+            }
+
+
         }
 
         this.MapInputs(this.keyboardMaps, gamepads, this.inputActions);

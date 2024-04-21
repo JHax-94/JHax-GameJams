@@ -1,6 +1,6 @@
 import { CONDEMNED_INPUT } from "../Enums/CondemnedInputs";
 import { ELEVATOR_INTERACT_STATE } from "../Enums/ElevatorInteractionState";
-import { EM, consoleLog } from "../main";
+import { EM, consoleLog, GAMEPAD_DEAD_ZONE } from "../main";
 
 export default class ImpElevatorInteractions
 {
@@ -10,7 +10,7 @@ export default class ImpElevatorInteractions
         this.elevator = null;
         this.imp = imp;
 
-        this.input = {
+        this.inputs = {
 
         }
     }
@@ -91,7 +91,7 @@ export default class ImpElevatorInteractions
     {
         this.elevator.CloseAllDoors();
         this.elevator.Stop();
-        this.input = {};
+        this.inputs = {};
 
         let info = {
             dir: dir < 0 ? CONDEMNED_INPUT.MOVE_LEFT : CONDEMNED_INPUT.MOVE_RIGHT
@@ -106,13 +106,34 @@ export default class ImpElevatorInteractions
         this.SetState(ELEVATOR_INTERACT_STATE.INTERACTABLE);
     }
 
-    PipeInput(input)
+
+    BtnFullPress(from, key, additionalCheck = null, saveAs = null)
+    {
+        let fullPressed = false;
+
+        let addCheckPassed = (additionalCheck === null) || additionalCheck;
+
+        let saveKey = saveAs ?? key;
+
+        if(from[key] && !this.inputs[saveKey] && addCheckPassed)
+        {
+            this.inputs[saveKey] = true;
+        }
+        else if(!from[key] && this.inputs[saveKey])
+        {
+            this.inputs[saveKey] = false;
+            fullPressed = true && addCheckPassed;
+        }
+
+        return fullPressed;
+
+    }
+
+    PipeInput(input, padIn)
     {
         if(this.elevator)
         {
-            
-            
-            if(input.up)
+            if(input.up || padIn.y < -GAMEPAD_DEAD_ZONE)
             {
                 if(!this.elevator.DoorsClosed())
                 {
@@ -120,7 +141,7 @@ export default class ImpElevatorInteractions
                 }
                 this.elevator.MoveUp();
             }
-            else if(input.down)
+            else if(input.down || padIn.y > GAMEPAD_DEAD_ZONE)
             {
                 if(!this.elevator.DoorsClosed())
                 {
@@ -135,24 +156,17 @@ export default class ImpElevatorInteractions
             }
             
 
-            if(input.right && !this.input.right)
-            {
-                this.input.right = true;
-            }
-            else if(!input.right && this.input.right)
+            if(this.BtnFullPress(input, "right") || this.BtnFullPress(padIn.btn, "right", null, "dRight"))
             {
                 this.elevator.ToggleRightDoor();
-                this.input.right = false;
+                /*this.input.right = false;*/
             }
 
-            if(input.left && !this.input.left)
-            {
-                this.input.left = true;
-            }
-            else if(!input.left && this.input.left)
+            
+            if(this.BtnFullPress(input, "left") || this.BtnFullPress(padIn.btn, "left", null, "dLeft"))
             {
                 this.elevator.ToggleLeftDoor();
-                this.input.left = false;
+                /*this.input.left = false;*/
             }
         }
         else

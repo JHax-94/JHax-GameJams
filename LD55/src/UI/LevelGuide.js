@@ -1,4 +1,4 @@
-import { PIXEL_SCALE, TILE_HEIGHT, consoleLog } from "../main";
+import { EM, PIXEL_SCALE, PromptMode, TILE_HEIGHT, consoleLog } from "../main";
 
 export default class LevelGuide
 {
@@ -36,6 +36,14 @@ export default class LevelGuide
         print("cstoquer", drawAt.x, drawAt.y);
         print("schteppe", drawAt.x + 2.5 *PIXEL_SCALE, drawAt.y);
 
-        print("Arrow Keys to move:", drawAt.x, (TILE_HEIGHT * 0.5) * PIXEL_SCALE - 8);
+        if(!PromptMode)
+        {
+            print("Arrow Keys to move:", drawAt.x, (TILE_HEIGHT * 0.5) * PIXEL_SCALE - 8);
+        }
+        else 
+        {
+            print("D-Pad / Left stick", drawAt.x, (TILE_HEIGHT * 0.5) * PIXEL_SCALE - 8 - lineHeight);
+            print("to move:", drawAt.x, (TILE_HEIGHT * 0.5) * PIXEL_SCALE - 8);
+        }
     }
 }

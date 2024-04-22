@@ -1,6 +1,7 @@
 import { ELEVATOR_INTERACT_STATE } from "../Enums/ElevatorInteractionState";
+import { PROMPT_MODE } from "../Enums/PromptMode";
 import TimeStepper from "../TimeStepper";
-import { AUDIO, COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog, GAMEPAD_DEAD_ZONE } from "../main";
+import { AUDIO, COLLISION_GROUP, EM, PIXEL_SCALE, consoleLog, GAMEPAD_DEAD_ZONE, PromptMode } from "../main";
 import ImpElevatorInteractions from "./ImpElevatorInteractions";
 import ImpInstructions from "./ImpInstructions";
 
@@ -153,16 +154,15 @@ export default class ElevatorImp
         if(this.elevator.ElevatorControlsActive())
         {
             this.elevator.PipeInput(input, padIn);
-            
         }
         else
         {
-            if(input.left || padIn.x < -GAMEPAD_DEAD_ZONE)
+            if(input.left || padIn.x < -GAMEPAD_DEAD_ZONE || padIn.btn.left)
             {
                 this.animationState = ANIM_STATES.RUN;
                 this.phys.velocity = [ -this.speed, this.phys.velocity[1] ];
             }
-            else if(input.right || padIn.x > GAMEPAD_DEAD_ZONE)
+            else if(input.right || padIn.x > GAMEPAD_DEAD_ZONE || padIn.btn.right)
             {
                 this.animationState = ANIM_STATES.RUN;
                 this.phys.velocity = [ this.speed, this.phys.velocity[1] ];
@@ -223,6 +223,11 @@ export default class ElevatorImp
         {
             this.inputs.esc = input.esc;
             EM.Pause();
+        }
+
+        if(this.BtnFullPress(padIn.btn, "back"))
+        {
+            PromptMode.c = (PromptMode.c + 1) % PROMPT_MODE.LENGTH;
         }
     }
 

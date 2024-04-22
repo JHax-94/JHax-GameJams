@@ -1,4 +1,5 @@
-import { EM, PIXEL_SCALE, SCORES, TILE_HEIGHT, consoleLog } from "../main";
+import { PROMPT_MODE } from "../Enums/PromptMode";
+import { EM, PIXEL_SCALE, SCORES, TILE_HEIGHT, PromptMode, consoleLog } from "../main";
 
 export default class ImpInstructions
 {
@@ -67,15 +68,41 @@ export default class ImpInstructions
 
         drawAt.y += PIXEL_SCALE;
 
-        sprite(74, drawAt.x, drawAt.y)
+        if(!PromptMode.c)
+        {
+            sprite(74, drawAt.x, drawAt.y)
+        }
+        else if(PromptMode.c === PROMPT_MODE.DUALSHOCK)
+        {
+            sprite(138, drawAt.x, drawAt.y)
+        }
+        else if(PromptMode.c === PROMPT_MODE.XBOX)
+        {
+            sprite(106, drawAt.x, drawAt.y);            
+        }
+
         print("Wings", drawAt.x + PIXEL_SCALE, drawAt.y + txtOff);
 
         drawAt.y += PIXEL_SCALE
 
         if(this.imp.HasDoor() || this.imp.elevator.CanInteract())
         {
-            sprite(72, drawAt.x, drawAt.y);
-            sprite(71, drawAt.x + PIXEL_SCALE, drawAt.y);
+            if(!PromptMode.c)
+            {
+                sprite(72, drawAt.x, drawAt.y);
+                sprite(71, drawAt.x + PIXEL_SCALE, drawAt.y);
+            }
+            else if(PromptMode.c === PROMPT_MODE.DUALSHOCK)
+            {
+                sprite(140, drawAt.x, drawAt.y);
+                sprite(139, drawAt.x + PIXEL_SCALE, drawAt.y);
+            }
+            else if(PromptMode.c === PROMPT_MODE.XBOX)
+            {
+                sprite(108, drawAt.x, drawAt.y);
+                sprite(107, drawAt.x + PIXEL_SCALE, drawAt.y);
+            }
+            
             if(this.imp.HasDoor())
             {
                 print("open door", drawAt.x + 2 * PIXEL_SCALE, drawAt.y + txtOff);
@@ -88,8 +115,22 @@ export default class ImpInstructions
         }
         else
         {
-            sprite(88, drawAt.x, drawAt.y);
-            sprite(87, drawAt.x + PIXEL_SCALE, drawAt.y);
+            if(!PromptMode.c)
+            {
+                sprite(88, drawAt.x, drawAt.y);
+                sprite(87, drawAt.x + PIXEL_SCALE, drawAt.y);
+            }
+            else if(PromptMode.c === PROMPT_MODE.DUALSHOCK)
+            {
+                sprite(156, drawAt.x, drawAt.y);
+                sprite(155, drawAt.x + PIXEL_SCALE, drawAt.y);
+            }
+            else if(PromptMode.c === PROMPT_MODE.XBOX)
+            {
+                sprite(124, drawAt.x, drawAt.y);
+                sprite(123, drawAt.x + PIXEL_SCALE, drawAt.y);
+            }
+            
             pen(5);
             print("Interact", drawAt.x + 2* PIXEL_SCALE, drawAt.y + txtOff);
         }
@@ -145,12 +186,38 @@ export default class ImpInstructions
         print("Doors", drawAt.x + 2 * PIXEL_SCALE, drawAt.y + txtOff);
 
         drawAt.y += PIXEL_SCALE;
-        sprite(72, drawAt.x, drawAt.y);
+        
+        if(!PromptMode.c)
+        {
+            sprite(72, drawAt.x, drawAt.y);
+        }
+        else if(PromptMode.c === PROMPT_MODE.DUALSHOCK)
+        {
+            sprite(140, drawAt.x, drawAt.y)
+        }
+        else if(PromptMode.c === PROMPT_MODE.XBOX)
+        {
+            sprite(108, drawAt.x, drawAt.y);
+        }
+        
         print("Exit Left", drawAt.x + PIXEL_SCALE, drawAt.y + txtOff);
         //print("Left", drawAt.x +PIXEL_SCALE, drawAt.y);
 
         drawAt.y += PIXEL_SCALE;
-        sprite(71, drawAt.x, drawAt.y);
+
+        if(!PromptMode.c)
+        {
+            sprite(71, drawAt.x, drawAt.y);
+        }
+        else if(PromptMode.c === PROMPT_MODE.DUALSHOCK)
+        {
+            sprite(139, drawAt.x, drawAt.y);
+        }
+        else if(PromptMode.c === PROMPT_MODE.XBOX)
+        {
+            sprite(107, drawAt.x, drawAt.y);
+        }
+        
         print("Exit Right", drawAt.x + PIXEL_SCALE, drawAt.y + txtOff);
     }
 }

@@ -129,6 +129,24 @@ export default class ImpElevatorInteractions
 
     }
 
+    AxisCheck(axis, label, threshold)
+    {
+        let axisOverThreshold = false;
+
+        if(!this.inputs[label] &&
+            ( (threshold > 0 && axis > threshold) || (threshold < 0 && axis < threshold) ))
+        {
+            this.inputs[label] = true;
+            axisOverThreshold = true;
+        }        
+        else if(Math.abs(axis) < GAMEPAD_DEAD_ZONE)
+        {
+            this.inputs[label] = false;
+        }
+
+        return axisOverThreshold;
+    }
+
     PipeInput(input, padIn)
     {
         if(this.elevator)
@@ -156,14 +174,14 @@ export default class ImpElevatorInteractions
             }
             
 
-            if(this.BtnFullPress(input, "right") || this.BtnFullPress(padIn.btn, "right", null, "dRight"))
+            if(this.BtnFullPress(input, "right") || this.BtnFullPress(padIn.btn, "right", null, "dRight") || this.AxisCheck(padIn.x, "xPlus", 0.6))
             {
                 this.elevator.ToggleRightDoor();
                 /*this.input.right = false;*/
             }
 
             
-            if(this.BtnFullPress(input, "left") || this.BtnFullPress(padIn.btn, "left", null, "dLeft"))
+            if(this.BtnFullPress(input, "left") || this.BtnFullPress(padIn.btn, "left", null, "dLeft") || this.AxisCheck(padIn.x, "xMinus", -0.6))
             {
                 this.elevator.ToggleLeftDoor();
                 /*this.input.left = false;*/

@@ -867,15 +867,15 @@ export default class EntityManager
 
             this.pauseMenu = new PauseMenu(pauseMenuConf, {});
 
-            this.prePauseInputDetect = this.inputDetectMode;
+            //this.prePauseInputDetect = this.inputDetectMode;
             this.inputDetectMode = true;
-            this.inputFreezeFrames = 10;
+            this.inputFreezeFrames = 6;
         }
         else
         {
             this.pauseMenu.Close();
             this.pause = false;
-            this.inputDetectMode = this.prePauseInputDetect;
+            this.inputDetectMode = false;
         }
     }
     
@@ -1035,7 +1035,10 @@ export default class EntityManager
                             {
                                 if(this.inputFreezeFrames <= 0 && !this.cancelInputDetect)
                                 {
-                                    this.inputDetectors[i].InputDetect(this.mappedInputs[j], j);
+                                    if(this.inputDetectors[i] && this.inputDetectors[i].InputDetect)
+                                    {
+                                        this.inputDetectors[i].InputDetect(this.mappedInputs[j], j);
+                                    }
                                 } 
                             }
                         }

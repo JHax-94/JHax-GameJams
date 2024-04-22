@@ -151,7 +151,7 @@ export default class ImpElevatorInteractions
     {
         if(this.elevator)
         {
-            if(input.up || padIn.y < -GAMEPAD_DEAD_ZONE)
+            if(input.up || padIn.y < -GAMEPAD_DEAD_ZONE || padIn.btn.up)
             {
                 if(!this.elevator.DoorsClosed())
                 {
@@ -159,7 +159,7 @@ export default class ImpElevatorInteractions
                 }
                 this.elevator.MoveUp();
             }
-            else if(input.down || padIn.y > GAMEPAD_DEAD_ZONE)
+            else if(input.down || padIn.y > GAMEPAD_DEAD_ZONE || padIn.btn.down)
             {
                 if(!this.elevator.DoorsClosed())
                 {

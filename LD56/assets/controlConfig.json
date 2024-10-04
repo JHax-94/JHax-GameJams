@@ -1,0 +1,27 @@
+{
+    "actions": [
+        { "action": "accept" },
+        { "action": "confirm" },
+        { "action": "cancel" },
+        { "axis": "y" },
+        { "axis": "x" }
+    ],
+    "keyboardMaps": [
+        {
+            "y-": "w",
+            "y+": "s",
+            "x-": "a",
+            "x+": "d",
+            "accept": "m_0",
+            "confirm": "Enter",
+            "reject": "Escape"
+        }
+    ],
+    "gamepadMaps": [
+        {
+            "accept": "A",
+            "confirm": "start",
+            "reject": "B"
+        }
+    ]
+}

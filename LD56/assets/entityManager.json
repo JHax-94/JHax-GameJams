@@ -1,0 +1,14 @@
+
+{
+    "debugKeys": true,
+    "drawColliders": false,
+    "hudLogOn": false,
+    "debugSpawnTiles": false,
+    "renderLayers": [
+        { "name": "WORLD", "order": 0 }
+    ],  
+    "inputGroups": [
+        { "name": "PLAYERS" },
+        { "name": "BANNER" }
+    ]
+}

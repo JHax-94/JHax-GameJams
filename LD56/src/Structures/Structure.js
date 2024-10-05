@@ -5,6 +5,8 @@ export default class Structure
     constructor(pos)
     {
 
+        this.spriteIndex = 1;
+
         let physSettings = {
             tileTransform: { x: pos.x, y: pos.y, w: 1, h: 1 },
             mass: 100,
@@ -25,7 +27,7 @@ export default class Structure
     {
         let screenPos = this.GetScreenPos();
 
-        sprite(1, screenPos.x, screenPos.y);
+        sprite(this.spriteIndex, screenPos.x, screenPos.y);
     }
 
 }

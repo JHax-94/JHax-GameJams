@@ -691,10 +691,17 @@ export default class EntityManager
         
         obj.GetScreenPos = function() {
             return { 
-                x: Math.floor(this.phys.position[0] - this.phys.centreOffset[0] - 0.5 * this.width - EM.camera.x), 
-                y: Math.floor(-(this.phys.position[1] - this.phys.centreOffset[1] +0.5* this.height - EM.camera.y)) 
+                x: Math.round(this.phys.position[0] - this.phys.centreOffset[0] - 0.5 * this.width - EM.camera.x), 
+                y: Math.round(-(this.phys.position[1] - this.phys.centreOffset[1] +0.5* this.height - EM.camera.y)) 
             };
         };
+
+        obj.GetTilePos = function () {
+            return {
+                x: Math.round(this.phys.position[0] - this.phys.centreOffset[0] - 0.5 * this.width) / PIXEL_SCALE, 
+                y: Math.round(-(this.phys.position[1] - this.phys.centreOffset[1] +0.5* this.height)) / PIXEL_SCALE 
+            };
+        }
 
         obj.GetDistanceFromScreenCentre = function() {
             let screenPos = this.GetScreenPos();

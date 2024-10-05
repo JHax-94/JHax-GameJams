@@ -1,11 +1,13 @@
 import { vec2 } from "p2";
 import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main"
+import TimeStepper from "../TimeStepper";
+import TinyCreature from "./TinyCreature";
 
 export default class PlayerSwarm
 {
     constructor(pos)
     {
-        this.speed = 2*PIXEL_SCALE;
+        this.speed = 3*PIXEL_SCALE;
 
         let physSettings = {
             tileTransform: { x: pos.x, y: pos.y, w: 1, h: 1 },
@@ -20,7 +22,31 @@ export default class PlayerSwarm
             linearDrag: 0.99
         };
 
+        this.bugSpawnTime = 60;
+        this.bugSpawnTimer = 0;
+        this.maxBugs = 1;
+        
+        this.bugs = [];
+
         EM.RegisterEntity(this, { physSettings: physSettings });
+
+        this.SpawnBug();
+    }
+
+    SpawnBug()
+    {
+        let tilePos = this.GetTilePos();
+
+        let newBug = new TinyCreature(
+            tilePos, 
+            this, 
+            {
+                tag: "PLAYER_BUG", 
+                collisionGroup: COLLISION_GROUP.PLAYER, 
+                collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.ENEMY) 
+            });
+
+        this.bugs.push(newBug);
     }
 
     Input(input)
@@ -66,7 +92,7 @@ export default class PlayerSwarm
         let hWidth = 0.5 * TILE_WIDTH * PIXEL_SCALE;
         let hHeight = 0.5 * TILE_HEIGHT * PIXEL_SCALE;
 
-        EM.camera.MoveTo(Math.floor(physPos[0]-hWidth), Math.floor(physPos[1]+hHeight));
+        EM.camera.MoveTo(physPos[0]-hWidth, physPos[1]+hHeight);
     }
 
     Draw()
@@ -74,7 +100,7 @@ export default class PlayerSwarm
         let screenPos = this.GetScreenPos();
 
         
-
+        EM.hudLog.push(`Player: (${screenPos.x}, ${screenPos.y}`);
         paper(6);
         rectf(screenPos.x, screenPos.y, PIXEL_SCALE, PIXEL_SCALE);
     }

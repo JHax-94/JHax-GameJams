@@ -2,7 +2,7 @@
 {
     "debugKeys": true,
     "drawColliders": false,
-    "hudLogOn": true,
+    "hudLogOn": false,
     "debugSpawnTiles": false,
     "renderLayers": [
         { "name": "WORLD", "order": 0 },

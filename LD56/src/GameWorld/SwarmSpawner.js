@@ -75,13 +75,20 @@ export default class SwarmSpawner
             size: 1,
             maxSize: 1,
             spawnTime: 10,
-            lerpRate: 0.01
+            lerpRate: 0.01,
+            convertChance: 0.1
         };
 
         baseStats.maxSize += Math.floor(1.1 * (level - 1));
         baseStats.size += (level - 1);
         baseStats.spawnTime -= (level-1) * 0.1;
         baseStats.lerpRate += ((level-1) * 0.001);
+        baseStats.convertChance += ((level-1) * 0.02);
+
+        if(baseStats.convertChance > 1)
+        {
+            baseStats.convertChance = 1;
+        }
 
         return baseStats;
     }
@@ -101,7 +108,7 @@ export default class SwarmSpawner
 
         let levelStats = this.GetSwarmLevelStats(swarmLevel);
 
-        let newSwarm = new EnemySwarm(spawnPos, levelStats.size, levelStats.maxSize, levelStats.spawnTime, levelStats.lerpRate);
+        let newSwarm = new EnemySwarm(spawnPos, levelStats.size, levelStats.maxSize, levelStats.spawnTime, levelStats.lerpRate, levelStats.convertChance);
 
         this.swarms.push(newSwarm);
     }

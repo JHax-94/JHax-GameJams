@@ -4,7 +4,7 @@ import Swarm from "./Swarm";
 
 export default class EnemySwarm extends Swarm
 {
-    constructor(pos, size, maxSize, spawnTime, lerpRate)
+    constructor(pos, size, maxSize, spawnTime, lerpRate, convertChance)
     {
         super(pos, 
         { 
@@ -29,6 +29,7 @@ export default class EnemySwarm extends Swarm
         this.maxSize = maxSize;
         this.spawnTime = spawnTime;
         this.spawnTimer = 0;
+        this.convertChance = convertChance;
 
         for(let i = 0; i < size; i ++)
         {

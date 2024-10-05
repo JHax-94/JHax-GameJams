@@ -55,7 +55,7 @@ export default class Structure
         if(this.population >= this.minReplenish && this.population < this.maxPopulation)
         {
             factor = (this.population - this.minReplenish) / (this.maxPopulation - this.minReplenish);  
-            EM.hudLog.push(`replenish factor: ${factor.toFixed(3)}`);
+            //EM.hudLog.push(`replenish factor: ${factor.toFixed(3)}`);
         } 
 
         return factor ? this.minReplenish + (1 - factor) * (this.maxReplenishTime - this.minReplenish) : null;
@@ -104,7 +104,7 @@ export default class Structure
     {
         if(this.targetStructures.indexOf(structure) < 0)
         {
-            let spawn = this.targetStructures.length === 0;
+            let spawn = (this.targetStructures.length === 0 && this.population > this.minReplenish);
 
             this.targetStructures.push(structure);
             this.connectors = new PathIndicator(structure, this);
@@ -138,29 +138,39 @@ export default class Structure
 
     SpawnTimeRemaining()
     {
-        return this.spawnTime - this.SpawnTimeModifier();
+        let spawnTime = this.spawnTime - this.SpawnTimeModifier();
+
+        /*if(this.population < this.minReplenish && this.targetStructures.length <= 1)
+        {
+            spawnTime = spawnTime * 2;
+        }*/
+
+        return spawnTime;
     }
 
     Update(deltaTime)
     {
         if(!this.dead)
         {
-            EM.hudLog.push(`-HIVE- T: ${this.targetStructures.length} P: ${this.population}`);
+            //EM.hudLog.push(`-HIVE- T: ${this.targetStructures.length} P: ${this.population}`);
             if(this.targetStructures.length > 0 && this.population > 0)
             {
-                EM.hudLog.push(`Spawn time: ${this.spawnTimer.toFixed(3)} / ${this.SpawnTimeRemaining().toFixed(3)}`);
+                //EM.hudLog.push(`Spawn time: ${this.spawnTimer.toFixed(3)} / ${this.SpawnTimeRemaining().toFixed(3)}`);
 
                 this.spawnTimer += deltaTime;
 
                 if(this.spawnTimer > this.SpawnTimeRemaining())
                 {
                     this.spawnTimer -= this.SpawnTimeRemaining();
-                    this.SpawnBug();
+
+                    if(this.targetStructures[this.currentTarget].population < this.targetStructures[this.currentTarget].maxPopulation)
+                    {
+                        this.SpawnBug();
+                    }
                 }
             }    
 
             let replenishTime = this.ReplenishTime();
-
 
             if(replenishTime > 0)
             {
@@ -211,7 +221,7 @@ export default class Structure
 
         this.currentTarget = (this.currentTarget + 1) % this.targetStructures.length;
 
-        if(this.population <= 0)
+        if(this.population <= 0 && this.GameWorld().HiveSupplied(this) === false)
         {
             this.Kill();
         }

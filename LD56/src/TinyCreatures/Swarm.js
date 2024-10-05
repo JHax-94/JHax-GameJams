@@ -79,16 +79,26 @@ export default class Swarm
         return isHunting;
     }
 
-    SpawnBug()
+    ConvertBug(bug)
     {
-        let tilePos = this.GetTilePos();
+        let tilePos = bug.GetTilePos();
+        bug.Despawn();
 
-        let xOffset = -1 + (Math.random() * 2);
-        let yOffset = -1 + (Math.random() * 2);
+        this.SpawnBug(tilePos);
+    }
 
-        tilePos.x += xOffset;
-        tilePos.y += yOffset;
+    SpawnBug(tilePos = null)
+    {
+        if(tilePos === null)
+        {
+            tilePos = this.GetTilePos();
 
+            let xOffset = -1 + (Math.random() * 2);
+            let yOffset = -1 + (Math.random() * 2);
+
+            tilePos.x += xOffset;
+            tilePos.y += yOffset;
+        }
         let newBug = new Scout(tilePos, this);
 
         /*consoleLog("===== BUG SPAWNED ======");

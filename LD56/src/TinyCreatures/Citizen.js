@@ -22,6 +22,18 @@ export default class Citizen extends TinyCreature
         this.targetHive = target;
     }
 
+    ProcessHitWith(bug)
+    {
+        if(Math.random() < bug.parentSwarm.convertChance)
+        {
+            bug.parentSwarm.ConvertBug(this);
+        }
+        else 
+        {
+            this.Despawn();
+        }
+    }
+
     Refresh()
     {
         super.Refresh();
@@ -54,6 +66,6 @@ export default class Citizen extends TinyCreature
 
         this.phys.velocity = [ targetNormed[0] * this.speed, targetNormed[1] * this.speed ];
 
-        EM.hudLog.push(`Cit Speed: ${vec2.length(this.phys.velocity).toFixed(3)}`);
+        //EM.hudLog.push(`Cit Speed: ${vec2.length(this.phys.velocity).toFixed(3)}`);
     }
 }

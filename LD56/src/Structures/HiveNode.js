@@ -1,3 +1,4 @@
+import { EM } from "../main";
 import Structure from "./Structure";
 
 export default class HiveNode extends Structure
@@ -16,5 +17,18 @@ export default class HiveNode extends Structure
     DrawHighlight(screenPos)
     {
         sprite(18, screenPos.x, screenPos.y);
+    }
+
+    SpawnTimeRemaining()
+    {
+        let spawnTimeRemaining = super.SpawnTimeRemaining();
+
+        let factor = this.population / this.maxPopulation;
+
+        let returnTime = spawnTimeRemaining + (1-factor) * spawnTimeRemaining;
+
+        EM.hudLog.push(`Node ${this.population}/${this.maxPopulation} - ${factor.toFixed(3)} - T: ${returnTime} - t: ${spawnTimeRemaining}`);
+
+        return returnTime;
     }
 }

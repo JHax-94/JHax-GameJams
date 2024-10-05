@@ -26,7 +26,7 @@ export default class GameWorld
         this.numberOfNodes = 3;
 
         /// GLOBAL STATS
-        this.citizenSpeed = 2 * PIXEL_SCALE;
+        this.citizenSpeed = 1.5 * PIXEL_SCALE;
 
         this.swarmSpawner = new SwarmSpawner(this);
     }
@@ -76,6 +76,27 @@ export default class GameWorld
             let hiveNode = new HiveNode(pos);
 
             this.structures.push(hiveNode);
+        }
+    }
+
+    HiveSupplied(hive)
+    {
+        let supplied = false;
+
+        for(let i = 0; i < this.structures.length; i ++)
+        {
+            if(this.structures[i] !== hive && this.structures[i].IsActive())
+            {
+                for(let j = 0; j < this.structures[i].targetStructures.length; j ++)
+                {
+                    if(this.structures[i].targetStructures[j] === hive)
+                    {
+                        supplied = true;
+                        break;
+                    }
+                }
+            }
+            if(supplied) break;
         }
     }
 

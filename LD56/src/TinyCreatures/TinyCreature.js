@@ -1,17 +1,18 @@
-import { consoleLog, EM } from "../main";
+import { consoleLog, EM, PIXEL_SCALE } from "../main";
 
 export default class TinyCreature
 {
-    constructor(pos, parentSwarm, physConfig)
+    constructor(pos, physConfig)
     {
-        this.parentSwarm = parentSwarm;
+        this.colours = [ 9, 10 ];
+        this.speed = 2 * PIXEL_SCALE;
 
         let physSettings = {
             tileTransform: { x: pos.x, y: pos.y, w: 1, h: 1 },
             mass: 100,
             isSensor: false,
             freeRotate: false,
-            isKinematic: true,
+            isKinematic: false,
             tag: physConfig.tag,
             material: "playerMaterial",
             collisionGroup: physConfig.collisionGroup,
@@ -19,24 +20,29 @@ export default class TinyCreature
             linearDrag: 0.99
         };
 
+        consoleLog("Register tiny creature with phys settings:");
+        consoleLog(physSettings);
+
         EM.RegisterEntity(this, { physSettings: physSettings });
     }
 
-    Update(deltaTime)
+    StructureTouched(structure)
     {
-        this.phys.velocity = [ this.parentSwarm.phys.velocity[0], this.parentSwarm.phys.velocity[1]];
+
+    }
+
+    Despawn()
+    {
+        EM.RemoveEntity(this);   
     }
 
     Draw()
     {
-        consoleLog("Tiny creature!");
         let screenPos = this.GetScreenPos();
 
-        paper(9);
+        paper(this.colours[0]);
         rectf(screenPos.x, screenPos.y, 1, 1);
-        paper(10);
+        paper(this.colours[1]);
         rectf(screenPos.x, screenPos.y + 1, 1, 1);
-
-        EM.hudLog.push(`Tc: (${screenPos.x}, ${screenPos.y})`);
     }
 }

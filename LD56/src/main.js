@@ -4,6 +4,7 @@ import VectorExtensions from './VectorExtensions.js'
 import Utility from './Utility.js'
 import { vec2 } from 'p2'
 import GameWorld from './GameWorld/GameWorld.js'
+import PlayerEvents from './PhysEvents/PlayerEvents.js'
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -11,7 +12,6 @@ let pointerEvents = require('pixelbox/pointerEvents');
 
 let extender = new TextureExtender();
 let vecExtender = new VectorExtensions();
-
 
 let Texture = extender.ExtendTextureClass(require('pixelbox/Texture'));
 
@@ -175,6 +175,17 @@ function setFont(fontImage)
     }
 }
 
+let physEvents = [
+    new PlayerEvents()
+];
+
+function AddPhysicsEvents()
+{
+    for(let i = 0; i < physEvents.length; i ++)
+    {
+        physEvents[i].RegisterEvents();
+    }
+}
 
 let COLLISION_GROUP ={
     PLAYER: Math.pow(2, 0),
@@ -186,6 +197,7 @@ let COLLISION_GROUP ={
 function SETUP(levelName)
 {
     EM = new EntityManager();
+    AddPhysicsEvents();
     let gameWorld = new GameWorld();
     gameWorld.BuildWorld();
     
@@ -194,6 +206,7 @@ function SETUP(levelName)
     LOAD_COMPLETE = true;
 }
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+
 // Update is called once per frame
 exports.update = function () {
     if(!LOAD_COMPLETE)

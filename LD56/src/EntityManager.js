@@ -367,6 +367,9 @@ export default class EntityManager
 
     AddEntity(name, entity)
     {
+        consoleLog(`Adding entity ${name}`);
+        consoleLog(entity);
+
         entity.ENTITY_NAME = name;
 
         this.entities[name] = entity;

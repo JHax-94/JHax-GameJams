@@ -2,6 +2,7 @@ import { vec2 } from "p2";
 import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main"
 import TimeStepper from "../TimeStepper";
 import TinyCreature from "./TinyCreature";
+import Scout from "./Scout";
 
 export default class PlayerSwarm
 {
@@ -15,12 +16,15 @@ export default class PlayerSwarm
             isSensor: true,
             freeRotate: false,
             isKinematic: false,
-            tag: "PLAYER",
+            tag: "PLAYER_SWARM",
             material: "playerMaterial",
-            collisionGroup: COLLISION_GROUP.STRUCTURE,
+            collisionGroup: COLLISION_GROUP.PLAYER,
             collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.PLAYER | COLLISION_GROUP.ENEMY),
             linearDrag: 0.99
         };
+
+        this.startHive = null;
+        this.lastTouchedStructure = null;
 
         this.bugSpawnTime = 60;
         this.bugSpawnTimer = 0;
@@ -33,18 +37,43 @@ export default class PlayerSwarm
         this.SpawnBug();
     }
 
+    TouchedStructure(structure)
+    {
+        this.lastTouchedStructure = structure;
+    }
+
+    GetSourceStructure()
+    {
+        consoleLog("--- Getting Source Structure ---");
+        consoleLog(this);
+
+        if(this.lastTouchedStructure)
+        {
+            consoleLog("Use last touched structure...");
+            consoleLog(this.lastTouchedStructure);
+            return this.lastTouchedStructure;
+        }
+        else
+        {
+            consoleLog("Use start hive...");
+            if(this.startHive == null)
+            {
+                consoleLog("Fetch start hive from EM:");
+                consoleLog(EM);
+                this.startHive = EM.GetEntity("START_HIVE");
+
+                consoleLog(this.startHive);
+            }
+
+            return this.startHive;
+        }
+    }
+
     SpawnBug()
     {
         let tilePos = this.GetTilePos();
 
-        let newBug = new TinyCreature(
-            tilePos, 
-            this, 
-            {
-                tag: "PLAYER_BUG", 
-                collisionGroup: COLLISION_GROUP.PLAYER, 
-                collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.ENEMY) 
-            });
+        let newBug = new Scout(tilePos, this);
 
         this.bugs.push(newBug);
     }

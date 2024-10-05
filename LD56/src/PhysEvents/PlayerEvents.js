@@ -64,7 +64,46 @@ export default class PlayerEvents extends PhysEventRegistry
         let enemyBug = container.BodyWithTag(evt, "ENEMY_BUG");
 
         playerBug.obj.ProcessHitWith(enemyBug.obj);
+    }
 
+    PreSolve_BugHivePassthrough_Check(container, manager, evt) { return true; }
+    PreSolve_BugHivePassthrough_Check(container, manage, evt)
+    {
+        let passthroughPairs = [
+            { a: "PLAYER_BUG", b: "HIVE" },
+            { a: "ENEMY_BUG", b: "HIVE" }
+        ];
+
+        for(let i = 0; i < evt.contactEquations.length; i ++)
+        {
+            let eq = evt.contactEquations[i];
+
+            for(let j = 0; j < passthroughPairs.length; j ++)
+            {
+                let pair = passthroughPairs[j];
+
+                if(eq.bodyA.tag === pair.a  && eq.bodyB.tag === pair.b || eq.bodyA.tag === pair.b && eq.bodyB.tag === pair.a)
+                {
+                    eq.enabled = false;
+                    break;
+                }
+            }
+        }
+
+        for(let i = 0; i < evt.frictionEquations.length; i ++)
+        {
+            let eq = evt.frictionEquations[i];
+            for(let j = 0; j < passthroughPairs.length; j ++)
+            {
+                let pair = passthroughPairs[j];
+
+                if(eq.bodyA.tag === pair.a && eq.bodyB.tag === pair.b || eq.bodyA.tag === pair.b && eq.bodyB.tag === pair.a)
+                {
+                    eq.enabled = false;
+                    break;
+                }
+            }
+        }
     }
 
 }

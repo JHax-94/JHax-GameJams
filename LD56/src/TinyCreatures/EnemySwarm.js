@@ -29,7 +29,7 @@ export default class EnemySwarm extends Swarm
 
         this.gravLerpRate = 0.001;
 
-        this.gravLerp = 0;
+        this.gravLerp = 1;
         this.target = this.FindTarget();
     }
 

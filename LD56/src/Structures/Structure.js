@@ -1,10 +1,14 @@
-import { COLLISION_GROUP, EM } from "../main";
+import Utils from "p2/src/utils/Utils";
+import { COLLISION_GROUP, EM, PIXEL_SCALE, UTIL } from "../main";
 import Citizen from "../TinyCreatures/Citizen";
 
 export default class Structure
 {
     constructor(pos)
     {
+        this.maxPopulation = 100;
+        this.population = 0;
+
         this.spriteIndex = 1;
         this.isConnected = false;        
         this.targetStructures = [];
@@ -82,7 +86,19 @@ export default class Structure
 
         let newBug = new Citizen(tilePos, this, targetStructure);
 
+        this.population --;
+
         this.bugLog.push(newBug);
+    }
+
+    CanAddPopulation(addPop)
+    {
+        return this.population + addPop <= this.maxPopulation;
+    }
+
+    AddPopulation(addPop)
+    {
+        this.population += addPop;
     }
 
     Draw()
@@ -90,6 +106,13 @@ export default class Structure
         let screenPos = this.GetScreenPos();
 
         sprite(this.spriteIndex, screenPos.x, screenPos.y);
+
+        let popString = `${this.population}/${this.maxPopulation}`;
+
+        let tw = UTIL.GetTextWidth(popString, null);
+        let th = UTIL.GetTextHeight(popString, null);
+
+        print(popString, screenPos.x + 0.5 * (1 - tw) * PIXEL_SCALE, screenPos.y-th*PIXEL_SCALE);
     }
 
 }

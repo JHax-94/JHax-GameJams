@@ -6,6 +6,7 @@ export default class StartHive extends Structure
     constructor(pos)
     {
         super(pos);
+        this.population = this.maxPopulation;
 
         this.isConnected = true;
 

@@ -1,4 +1,4 @@
-import { COLLISION_GROUP, EM, PIXEL_SCALE } from "../main"
+import { COLLISION_GROUP, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main"
 
 export default class PlayerSwarm
 {
@@ -18,6 +18,16 @@ export default class PlayerSwarm
         };
 
         EM.RegisterEntity(this, { physSettings: physSettings });
+    }
+
+    Update(deltaTime)
+    {
+        let physPos = this.phys.position;
+
+        let hWidth = 0.5 * TILE_WIDTH * PIXEL_SCALE;
+        let hHeight = 0.5 * TILE_HEIGHT * PIXEL_SCALE;
+
+        EM.camera.MoveTo(physPos[0]-hWidth, physPos[1]+hHeight);
     }
 
     Draw()

@@ -19,7 +19,7 @@ export default class Camera
         this.y = y;
         this.UpdateCameraPos();
     }
-
+    
     UpdateCameraPos()
     {
         //camera(this.x, this.y);

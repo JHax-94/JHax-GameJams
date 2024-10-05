@@ -1245,6 +1245,15 @@ export default class EntityManager
             print(`v.${this.version.version} (${this.version.git})`, 0, (TILE_HEIGHT - 0.5) * PIXEL_SCALE);
             print(`Show Portraits: ${DISPLAY_SETTINGS.showPortraits}`, 0, (TILE_HEIGHT - 1) * PIXEL_SCALE);
         }
+
+        /* Screen guides */
+        /*
+        paper(7);
+        rectf(0, 0.5 * (TILE_HEIGHT * PIXEL_SCALE - PIXEL_SCALE), TILE_WIDTH * PIXEL_SCALE *0.5, PIXEL_SCALE);
+        paper(8);
+        rectf(0.5 * (TILE_WIDTH * PIXEL_SCALE - PIXEL_SCALE), 0, PIXEL_SCALE, TILE_HEIGHT * PIXEL_SCALE * 0.5);
+        */
+        
     }
 
     DrawColliders(phys)

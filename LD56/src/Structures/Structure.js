@@ -1,4 +1,4 @@
-import { COLLISION_GROUP, EM, PIXEL_SCALE, UTIL } from "../main";
+import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, UTIL } from "../main";
 import Citizen from "../TinyCreatures/Citizen";
 import PathIndicator from "./PathIndicator";
 
@@ -12,8 +12,6 @@ export default class Structure
         this.player = null;
         this.maxPopulation = 100;
         this.population = 0;
-
-
 
         this.deadSprite = 0;
         this.dead = false;
@@ -41,7 +39,32 @@ export default class Structure
         this.spawnTime = 2;
         this.spawnTimer = 0;
 
+        this.minReplenish = 5;
+
+        this.maxReplenishTime = 12;
+        this.minReplenishTime = 3;
+        this.replenishTimer = 0;
+
         EM.RegisterEntity(this, { physSettings: physSettings });
+    }
+
+    ReplenishTime()
+    {
+        let factor = null;
+        
+        if(this.population >= this.minReplenish && this.population < this.maxPopulation)
+        {
+            factor = (this.population - this.minReplenish) / (this.maxPopulation - this.minReplenish);  
+            EM.hudLog.push(`replenish factor: ${factor.toFixed(3)}`);
+        } 
+
+        return factor ? this.minReplenish + (1 - factor) * (this.maxReplenishTime - this.minReplenish) : null;
+    }
+
+    Replenish()
+    {
+        consoleLog("REPLENISH!");
+        this.population ++;
     }
 
     IsActive()
@@ -95,21 +118,66 @@ export default class Structure
         }
     }
 
+    SpawnTimeModifier()
+    {
+        let spawnTimeModifier = 0;
+
+        if(this.targetStructures.length > 1)
+        {
+            let n = this.targetStructures.length - 1;
+
+            for(let i = 1; i <= n; i ++)
+            {
+                spawnTimeModifier += 1/(i+1);
+            }
+        }
+
+        return spawnTimeModifier;
+        
+    }
+
+    SpawnTimeRemaining()
+    {
+        return this.spawnTime - this.SpawnTimeModifier();
+    }
+
     Update(deltaTime)
     {
-        if(this.dead)
+        if(!this.dead)
         {
+            EM.hudLog.push(`-HIVE- T: ${this.targetStructures.length} P: ${this.population}`);
             if(this.targetStructures.length > 0 && this.population > 0)
             {
+                EM.hudLog.push(`Spawn time: ${this.spawnTimer.toFixed(3)} / ${this.SpawnTimeRemaining().toFixed(3)}`);
+
                 this.spawnTimer += deltaTime;
 
-                if(this.spawnTimer > this.spawnTime)
+                if(this.spawnTimer > this.SpawnTimeRemaining())
                 {
-                    this.spawnTimer -= this.spawnTime;
+                    this.spawnTimer -= this.SpawnTimeRemaining();
                     this.SpawnBug();
-
                 }
             }    
+
+            let replenishTime = this.ReplenishTime();
+
+
+            if(replenishTime > 0)
+            {
+                EM.hudLog.push(`Replenish: ${this.replenishTimer.toFixed(3)}/${replenishTime.toFixed(3)}`);
+
+                this.replenishTimer += deltaTime;
+
+                if(this.replenishTimer > replenishTime)
+                {
+                    this.replenishTimer = 0;
+                    this.Replenish();
+                }
+            }
+        }
+        else
+        {
+            EM.hudLog.push(`-DEAD-`);
         }
     }
 
@@ -127,6 +195,7 @@ export default class Structure
 
     Kill()
     {
+        console.warn("-HIVE KILLED-");
         this.dead = true;
     }
 
@@ -140,7 +209,9 @@ export default class Structure
 
         this.population --;
 
-        if(this.population < 0)
+        this.currentTarget = (this.currentTarget + 1) % this.targetStructures.length;
+
+        if(this.population <= 0)
         {
             this.Kill();
         }

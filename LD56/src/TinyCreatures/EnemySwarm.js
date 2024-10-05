@@ -29,8 +29,18 @@ export default class EnemySwarm extends Swarm
 
         this.gravLerpRate = 0.001;
 
-        this.gravLerp = 1;
+        this.gravLerp = 0;
         this.target = this.FindTarget();
+    }
+
+    RemoveBug(bug)
+    {
+        super.RemoveBug(bug);
+
+        if(this.bugs.length === 0)
+        {
+            EM.RemoveEntity(this);
+        }
     }
 
     ResetTarget()

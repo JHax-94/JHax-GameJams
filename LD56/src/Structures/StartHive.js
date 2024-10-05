@@ -6,7 +6,7 @@ export default class StartHive extends Structure
     constructor(pos)
     {
         super(pos);
-        this.maxPopulation = 2;
+        this.maxPopulation = 100;
         this.population = this.maxPopulation;
 
         this.deadSprite = 81;

@@ -7,6 +7,8 @@ export default class HiveNode extends Structure
         super(pos);
         this.maxPopulation = 50;
 
+        this.maxReplenishTime = 6;
+
         this.deadSprite = 34;
         this.spriteIndex = 2;
     }

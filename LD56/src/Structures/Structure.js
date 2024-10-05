@@ -13,6 +13,11 @@ export default class Structure
         this.maxPopulation = 100;
         this.population = 0;
 
+
+
+        this.deadSprite = 0;
+        this.dead = false;
+
         this.spriteIndex = 1;
         this.isConnected = false;        
         this.targetStructures = [];
@@ -41,7 +46,7 @@ export default class Structure
 
     IsActive()
     {
-        return this.population > 0;
+        return this.population > 0 && this.dead === false;
     }
 
     RefreshCitizens()
@@ -92,17 +97,20 @@ export default class Structure
 
     Update(deltaTime)
     {
-        if(this.targetStructures.length > 0 && this.population > 0)
+        if(this.dead)
         {
-            this.spawnTimer += deltaTime;
-
-            if(this.spawnTimer > this.spawnTime)
+            if(this.targetStructures.length > 0 && this.population > 0)
             {
-                this.spawnTimer -= this.spawnTime;
-                this.SpawnBug();
+                this.spawnTimer += deltaTime;
 
-            }
-        }    
+                if(this.spawnTimer > this.spawnTime)
+                {
+                    this.spawnTimer -= this.spawnTime;
+                    this.SpawnBug();
+
+                }
+            }    
+        }
     }
 
     RemoveBug(bug)
@@ -117,6 +125,11 @@ export default class Structure
         }
     }
 
+    Kill()
+    {
+        this.dead = true;
+    }
+
     SpawnBug()
     {
         let tilePos = this.GetTilePos();
@@ -126,6 +139,11 @@ export default class Structure
         let newBug = new Citizen(tilePos, this, targetStructure);
 
         this.population --;
+
+        if(this.population < 0)
+        {
+            this.Kill();
+        }
 
         this.bugLog.push(newBug);
     }
@@ -141,6 +159,17 @@ export default class Structure
         this.GameWorld().AddExpToPlayer(addPop);
     }
 
+    RemovePopulation(amount)
+    {
+        this.population -= amount;
+        
+        if(this.population < 0)
+        {
+            this.population = 0;
+            this.Kill();
+        }
+    }
+
     DrawHighlight(screenPos)
     {
 
@@ -150,7 +179,9 @@ export default class Structure
     {
         let screenPos = this.GetScreenPos();
 
-        sprite(this.spriteIndex, screenPos.x, screenPos.y);
+        let spriteIndex = this.dead ? this.deadSprite : this.spriteIndex;
+
+        sprite(spriteIndex, screenPos.x, screenPos.y);
 
         let popString = `${this.population}/${this.maxPopulation}`;
 
@@ -161,10 +192,6 @@ export default class Structure
 
         pen(1);
         print(popString, screenPos.x + 0.5 * (1 - tw) * PIXEL_SCALE, screenPos.y-th*PIXEL_SCALE - 4);
-
-        
-
-
     }
 
 }

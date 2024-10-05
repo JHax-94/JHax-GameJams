@@ -33,6 +33,13 @@ export default class EnemySwarm extends Swarm
         this.target = this.FindTarget();
     }
 
+    ResetTarget()
+    {
+        this.gravLerp = 0;
+
+        this.target = this.FindTarget();
+    }
+
     FindTarget()
     {
         let newTarget = null;
@@ -70,7 +77,7 @@ export default class EnemySwarm extends Swarm
                 if(minDist === null)
                 {
                     nah = hive;
-                    minDist = sqDist;
+                    minDist = vec2.sqrDist(this.phys.position, hive.phys.position);
                 }
                 else
                 {

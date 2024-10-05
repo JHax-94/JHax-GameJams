@@ -4,7 +4,7 @@ import StartHive from "../Structures/StartHive";
 import EnemySwarm from "../TinyCreatures/EnemySwarm";
 import PlayerSwarm from "../TinyCreatures/PlayerSwarm";
 import LevelUpMenu from "../UI/LevelUpMenu";
-import { PIXEL_SCALE, UTIL } from "../main";
+import { consoleLog, PIXEL_SCALE, UTIL } from "../main";
 
 export default class GameWorld
 {
@@ -30,12 +30,14 @@ export default class GameWorld
     {
         let startHive = new StartHive({ x: 0, y: 0 });
         this.player = new PlayerSwarm({ x: 1, y: 0});
-        let enemySwarm = new EnemySwarm({ x: -6, y: -6});
+        
         let endHive = new EndHive(this.GetRandomPositionWithRadius(this.maxDistance));
 
         this.structures.push(startHive);
         this.GenerateNodes();
         this.structures.push(endHive);
+
+        let enemySwarm = new EnemySwarm({ x: -6, y: -6});
     }
 
     GetRandomPositionWithRadius(radius)
@@ -63,7 +65,25 @@ export default class GameWorld
 
     ActiveHives()
     {
-        return this.structures.filter(hive => hive.IsActive());
+        let activeHives = [];
+        /*
+        consoleLog("Checking for active hives:");
+        consoleLog(this.structures);*/
+
+        for(let i = 0; i < this.structures.length; i ++)
+        {
+            let hiveActive = this.structures[i].IsActive();
+            /*
+            consoleLog("Check hive is active:");
+            consoleLog(hiveActive);*/
+            
+            if(hiveActive)
+            {
+                activeHives.push(this.structures[i]);
+            }
+        }
+
+        return activeHives;
     }
 
     UpgradeApplied(upgrade)

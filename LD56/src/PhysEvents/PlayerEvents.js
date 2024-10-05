@@ -57,6 +57,24 @@ export default class PlayerEvents extends PhysEventRegistry
         }
     }
 
+    Begin_BugPerceptionPlayer_Check(container, manager, evt) { return manager.CompareTags(evt, "ENEMY_PERCEPTION", "PLAYER_SWARM"); }
+    Begin_BugPerceptionPlayer_Resolve(container, manager, evt)
+    {
+        let enemyPerception = container.BodyWithTag(evt, "ENEMY_PERCEPTION");
+        let playerSwarm = container.BodyWithTag(evt, "PLAYER_SWARM");
+
+        enemyPerception.obj.scout.PerceiveBug(playerSwarm.obj);
+    }
+
+    Begin_BugOnPlayer_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_SWARM", "ENEMY_BUG"); }
+    Begin_BugOnPlayer_Resolve(container, manager, evt)
+    {
+        let player = container.BodyWithTag(evt, "PLAYER_SWARM");
+        let enemyBug = container.BodyWithTag(evt, "ENEMY_BUG");
+
+        enemyBug.obj.ProcessHitWith(player.obj);
+    }
+
     Begin_BugOnBug_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_BUG", "ENEMY_BUG"); }
     Begin_BugOnBug_Resolve(container, manager, evt)
     {
@@ -64,6 +82,20 @@ export default class PlayerEvents extends PhysEventRegistry
         let enemyBug = container.BodyWithTag(evt, "ENEMY_BUG");
 
         playerBug.obj.ProcessHitWith(enemyBug.obj);
+    }
+
+    Begin_EnemyBugHive_Check(container, manager, evt) { return manager.CompareTags(evt, "ENEMY_BUG", "HIVE"); }
+    Begin_EnemyBugHive_Resolve(container, manager, evt)
+    {
+        consoleLog("ENEMY BUG / HIVE COLLISION!");
+
+        let hive = container.BodyWithTag(evt, "HIVE");
+        let enemyBug = container.BodyWithTag(evt, "ENEMY_BUG");
+
+        if(hive.obj.IsActive())
+        {
+            enemyBug.obj.AttackHive(hive.obj);
+        }
     }
 
     PreSolve_BugHivePassthrough_Check(container, manager, evt) { return true; }

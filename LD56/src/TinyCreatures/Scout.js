@@ -24,6 +24,11 @@ export default class Scout extends TinyCreature
 
         this.parentSwarm = parentSwarm;
 
+        this.hiveAttackTime = 1;
+        this.hiveAttackTimer = 0;
+
+        this.attackingHive = null;
+
         /*
         consoleLog(" --- Scout created --- ");
         consoleLog(`CollisionGroup: ${this.phys.shapes[0].collisionGroup}`);
@@ -33,6 +38,16 @@ export default class Scout extends TinyCreature
         consoleLog(`CollisionGroup: ${this.perception.phys.shapes[0].collisionGroup}`);
         consoleLog(`CollisionMask: ${this.perception.phys.shapes[0].collisionMask}`);
         consoleLog(`Tag: ${this.perception.phys.tag}`);*/
+    }
+
+    AttackHive(hive)
+    {
+        this.attackingHive = hive;
+    }
+
+    RemoveAttackHive()
+    {
+        this.attackingHive = null;
     }
 
     Despawn()
@@ -47,11 +62,22 @@ export default class Scout extends TinyCreature
 
     PerceiveBug(perceivedBug)
     {
-        this.prey = perceivedBug;
+        if(this.prey === null)
+        {
+            let canPrey = true;
+
+            if(perceivedBug.isPlayer && perceivedBug.bugs.length > 0)
+            {
+                canPrey = false;
+            }
+
+            this.prey = perceivedBug;
+        }
     }
 
     ProcessHitWith(bug)
     {
+        
         bug.Despawn();
         this.Despawn();
     }
@@ -66,6 +92,22 @@ export default class Scout extends TinyCreature
             vec2.normalize(normedTarget, targetVec);
             
             this.phys.velocity = [ normedTarget[0] * this.speed, normedTarget[1] * this.speed ];
+        }
+        else if(this.attackingHive)
+        {
+            this.hiveAttackTimer += deltaTime;
+
+            if(this.hiveAttackTimer > this.hiveAttackTime)
+            {
+                this.hiveAttackTimer -= this.hiveAttackTime;
+
+                this.attackingHive.RemovePopulation(1);
+                if(this.attackingHive.dead)
+                {
+                    this.RemoveAttackHive();
+                    this.parentSwarm.ResetTarget();
+                }
+            }
         }
         else if(vec2.sqrDist(this.phys.position, this.parentSwarm.phys.position) > (this.minDist * this.minDist))
         {

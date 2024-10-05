@@ -15,6 +15,8 @@ export default class PlayerSwarm extends Swarm
             collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.PLAYER | COLLISION_GROUP.ENEMY) 
         });
 
+        this.isPlayer = true;
+
         this.bugType = {
             colors: [9, 10],
             tag: "PLAYER_BUG",
@@ -35,11 +37,21 @@ export default class PlayerSwarm extends Swarm
 
         this.bugSpawnTime = 60;
         this.bugSpawnTimer = 0;
-        this.maxBugs = 1;
+        this.maxBugs = 3;
 
         this.statusUi = new PlayerStatusUi(this);
 
-        this.SpawnBug();
+        for(let i = 0; i < this.maxBugs; i ++)
+        {
+            this.SpawnBug();
+        }
+    }
+
+    Despawn()
+    {
+        consoleLog(">>>> DESPAWN PLAYER <<<<");
+        EM.RemoveEntity(this.statusUi);
+        EM.RemoveEntity(this);
     }
 
     IncreaseSwarmSize(amount)

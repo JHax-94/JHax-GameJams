@@ -34,7 +34,7 @@ export default class GameWorld
     BuildWorld()
     {
         let startHive = new StartHive({ x: 0, y: 0 });
-        this.player = new PlayerSwarm({ x: 1, y: 0});
+        this.player = new PlayerSwarm({ x: 2, y: 0});
         
         let endHive = new EndHive(this.GetRandomPositionWithRadius(this.maxDistance));
 

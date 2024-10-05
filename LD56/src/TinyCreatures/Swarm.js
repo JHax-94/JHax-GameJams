@@ -63,9 +63,31 @@ export default class Swarm
         }
     }
 
+    IsHunting(sourceBug, targetBug)
+    {
+        let isHunting = false;
+
+        for(let i = 0; i < this.bugs.length; i ++)
+        {
+            if(this.bugs[i] !== sourceBug && this.bugs[i].prey === targetBug)
+            {
+                isHunting = true;
+                break;
+            }
+        }
+
+        return isHunting;
+    }
+
     SpawnBug()
     {
         let tilePos = this.GetTilePos();
+
+        let xOffset = -1 + (Math.random() * 2);
+        let yOffset = -1 + (Math.random() * 2);
+
+        tilePos.x += xOffset;
+        tilePos.y += yOffset;
 
         let newBug = new Scout(tilePos, this);
 

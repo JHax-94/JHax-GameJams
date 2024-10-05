@@ -16,7 +16,7 @@ export default class TinyCreature
         this.speed = 2 * PIXEL_SCALE;
 
         let physSettings = {
-            tileTransform: { x: pos.x, y: pos.y, w: 1, h: 1 },
+            tileTransform: { x: pos.x, y: pos.y, w: 0.25, h: 0.25 },
             mass: 100,
             isSensor: false,
             freeRotate: false,
@@ -36,7 +36,7 @@ export default class TinyCreature
 
     Refresh()
     {
-        
+
     }
 
     GameWorld()

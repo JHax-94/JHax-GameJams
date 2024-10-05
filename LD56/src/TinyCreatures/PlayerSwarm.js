@@ -23,7 +23,8 @@ export default class PlayerSwarm extends Swarm
             collisionGroup: COLLISION_GROUP.PLAYER,
             collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.ENEMY),
             perceptionTag: "PLAYER_PERCEPTION",
-            perceptionMask: COLLISION_GROUP.ENEMY
+            perceptionMask: COLLISION_GROUP.ENEMY,
+            speed: 2.5 * PIXEL_SCALE
         };
 
         this.level = 1;
@@ -37,7 +38,7 @@ export default class PlayerSwarm extends Swarm
 
         this.bugSpawnTime = 60;
         this.bugSpawnTimer = 0;
-        this.maxBugs = 3;
+        this.maxBugs = 2;
 
         this.statusUi = new PlayerStatusUi(this);
 

@@ -57,6 +57,19 @@ export default class PlayerEvents extends PhysEventRegistry
         }
     }
 
+    End_BugPerception_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_PERCEPTION", "ENEMY_BUG") || manager.CompareTags(evt, "ENEMY_PERCEPTION", "PLAYER_BUG"); }
+    End_BugPerception_Resolve(container, manager, evt)
+    {
+        let perceiver = manager.GetPerceivingBug(container, evt);
+        let perceived = manager.GetPerceivedBug(container, evt);
+
+        if(perceived && perceiver)
+        {
+            perceiver.obj.scout.RemovePerceivedBug(perceived.obj);
+        }
+    }
+
+
     Begin_BugPerceptionPlayer_Check(container, manager, evt) { return manager.CompareTags(evt, "ENEMY_PERCEPTION", "PLAYER_SWARM"); }
     Begin_BugPerceptionPlayer_Resolve(container, manager, evt)
     {

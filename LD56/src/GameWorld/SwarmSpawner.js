@@ -15,7 +15,7 @@ export default class SwarmSpawner
         this.elapsedTime = 0;
         this.timeSinceSpawn = 0;
         
-        this.spawnTime = 10;
+        this.spawnTime = 30;
         this.minSpawnTime = 1;
 
         this.spawnTimeDecay = 0.1;
@@ -78,17 +78,17 @@ export default class SwarmSpawner
             lerpRate: 0.01
         };
 
-        baseStats.maxSize += 2 * level;
-        baseStats.size += level;
-        baseStats.spawnTime -= level * 0.1;
-        baseStats.lerpRate += (level * 0.001);
+        baseStats.maxSize += Math.floor(1.1 * (level - 1));
+        baseStats.size += (level - 1);
+        baseStats.spawnTime -= (level-1) * 0.1;
+        baseStats.lerpRate += ((level-1) * 0.001);
 
         return baseStats;
     }
 
     GetSwarmLevel()
     {
-        return 1 + Math.floor(this.elapsedTime / 10);
+        return 1 + Math.floor(this.elapsedTime / 60);
     }
 
     SpawnSwarm()

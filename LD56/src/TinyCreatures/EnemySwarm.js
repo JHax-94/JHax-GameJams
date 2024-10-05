@@ -1,5 +1,5 @@
 import { vec2 } from "p2";
-import { COLLISION_GROUP, consoleLog, EM } from "../main";
+import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE } from "../main";
 import Swarm from "./Swarm";
 
 export default class EnemySwarm extends Swarm
@@ -19,8 +19,11 @@ export default class EnemySwarm extends Swarm
             collisionGroup: COLLISION_GROUP.ENEMY,
             collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.PLAYER),
             perceptionTag: "ENEMY_PERCEPTION",
-            perceptionMask: COLLISION_GROUP.PLAYER
+            perceptionMask: COLLISION_GROUP.PLAYER,
+            speed: 3.2 * PIXEL_SCALE
         };
+
+        this.speed = 3.2 * PIXEL_SCALE;
 
         this.size = size;
         this.maxSize = maxSize;

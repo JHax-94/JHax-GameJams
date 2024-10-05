@@ -16,7 +16,7 @@ export default class Citizen extends TinyCreature
         this.sourceHive = source;
         this.targetHive = target;
 
-        this.speed = 2 * PIXEL_SCALE;
+        
     }
 
     StructureTouched(structure)

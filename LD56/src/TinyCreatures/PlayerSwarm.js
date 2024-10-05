@@ -71,12 +71,15 @@ export default class PlayerSwarm extends Swarm
     {
         let target = this.level;
         
-        return target * 2;
+        return target * 5;
     }
 
     TouchedStructure(structure)
     {
-        this.lastTouchedStructure = structure;
+        if(!structure.isEndHive)
+        {
+            this.lastTouchedStructure = structure;
+        }
     }
 
     GetSourceStructure()

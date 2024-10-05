@@ -1,4 +1,4 @@
-import { EM } from "../main";
+import { EM, PIXEL_SCALE } from "../main";
 import Structure from "./Structure";
 
 export default class StartHive extends Structure
@@ -11,5 +11,14 @@ export default class StartHive extends Structure
         this.isConnected = true;
 
         EM.AddEntity("START_HIVE", this);
+    }
+
+    DrawHighlight(screenPos)
+    {
+        sprite(17, screenPos.x, screenPos.y);
+        sprite(33, screenPos.x, screenPos.y - PIXEL_SCALE);
+        sprite(65, screenPos.x, screenPos.y + PIXEL_SCALE);
+        sprite(49, screenPos.x - PIXEL_SCALE, screenPos.y, true);
+        sprite(47, screenPos.x + PIXEL_SCALE, screenPos.y);
     }
 }

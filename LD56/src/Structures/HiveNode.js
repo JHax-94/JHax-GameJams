@@ -9,4 +9,9 @@ export default class HiveNode extends Structure
 
         this.spriteIndex = 2;
     }
+
+    DrawHighlight(screenPos)
+    {
+        sprite(18, screenPos.x, screenPos.y);
+    }
 }

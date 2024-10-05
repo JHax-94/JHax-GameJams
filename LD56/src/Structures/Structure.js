@@ -1,12 +1,15 @@
 import { COLLISION_GROUP, EM, PIXEL_SCALE, UTIL } from "../main";
 import Citizen from "../TinyCreatures/Citizen";
+import PathIndicator from "./PathIndicator";
 
 
 export default class Structure
 {
     constructor(pos)
     {
+        this.isEndHive = false;
         this.gameWorld = null;
+        this.player = null;
         this.maxPopulation = 100;
         this.population = 0;
 
@@ -54,6 +57,16 @@ export default class Structure
         return this.gameWorld;
     }
 
+    Player()
+    {
+        if(this.player === null)
+        {
+            this.player = this.GameWorld().player;
+        }
+
+        return this.player;
+    }
+
     AddTargetStructure(structure)
     {
         if(this.targetStructures.indexOf(structure) < 0)
@@ -61,6 +74,8 @@ export default class Structure
             let spawn = this.targetStructures.length === 0;
 
             this.targetStructures.push(structure);
+            this.connectors = new PathIndicator(structure, this);
+
             structure.isConnected = true;
 
             if(spawn)
@@ -72,7 +87,7 @@ export default class Structure
 
     Update(deltaTime)
     {
-        if(this.targetStructures.length > 0)
+        if(this.targetStructures.length > 0 && this.population > 0)
         {
             this.spawnTimer += deltaTime;
 
@@ -82,7 +97,7 @@ export default class Structure
                 this.SpawnBug();
 
             }
-        }
+        }    
     }
 
     RemoveBug(bug)
@@ -121,6 +136,11 @@ export default class Structure
         this.GameWorld().AddExpToPlayer(addPop);
     }
 
+    DrawHighlight(screenPos)
+    {
+
+    }
+
     Draw()
     {
         let screenPos = this.GetScreenPos();
@@ -132,8 +152,14 @@ export default class Structure
         let tw = UTIL.GetTextWidth(popString, null);
         let th = UTIL.GetTextHeight(popString, null);
 
+        if(this.Player().GetSourceStructure() === this) this.DrawHighlight(screenPos);
+
         pen(1);
-        print(popString, screenPos.x + 0.5 * (1 - tw) * PIXEL_SCALE, screenPos.y-th*PIXEL_SCALE);
+        print(popString, screenPos.x + 0.5 * (1 - tw) * PIXEL_SCALE, screenPos.y-th*PIXEL_SCALE - 4);
+
+        
+
+
     }
 
 }

@@ -1,27 +1,20 @@
 import { vec2 } from "p2";
 import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main"
-import TimeStepper from "../TimeStepper";
-import TinyCreature from "./TinyCreature";
 import Scout from "./Scout";
+import Swarm from "./Swarm";
 
-export default class PlayerSwarm
+export default class PlayerSwarm extends Swarm
 {
     constructor(pos)
     {
-        this.speed = 3*PIXEL_SCALE;
+        super(pos, 
+        { 
+            tag: "PLAYER_SWARM", 
+            collisionGroup: COLLISION_GROUP.PLAYER, 
+            collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.PLAYER | COLLISION_GROUP.ENEMY) 
+        });
 
-        let physSettings = {
-            tileTransform: { x: pos.x, y: pos.y, w: 1, h: 1 },
-            mass: 100,
-            isSensor: true,
-            freeRotate: false,
-            isKinematic: false,
-            tag: "PLAYER_SWARM",
-            material: "playerMaterial",
-            collisionGroup: COLLISION_GROUP.PLAYER,
-            collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.PLAYER | COLLISION_GROUP.ENEMY),
-            linearDrag: 0.99
-        };
+        this.speed = 3*PIXEL_SCALE;
 
         this.startHive = null;
         this.lastTouchedStructure = null;
@@ -29,10 +22,6 @@ export default class PlayerSwarm
         this.bugSpawnTime = 60;
         this.bugSpawnTimer = 0;
         this.maxBugs = 1;
-        
-        this.bugs = [];
-
-        EM.RegisterEntity(this, { physSettings: physSettings });
 
         this.SpawnBug();
     }
@@ -69,14 +58,7 @@ export default class PlayerSwarm
         }
     }
 
-    SpawnBug()
-    {
-        let tilePos = this.GetTilePos();
-
-        let newBug = new Scout(tilePos, this);
-
-        this.bugs.push(newBug);
-    }
+    
 
     Input(input)
     {
@@ -122,15 +104,5 @@ export default class PlayerSwarm
         let hHeight = 0.5 * TILE_HEIGHT * PIXEL_SCALE;
 
         EM.camera.MoveTo(physPos[0]-hWidth, physPos[1]+hHeight);
-    }
-
-    Draw()
-    {
-        let screenPos = this.GetScreenPos();
-
-        
-        EM.hudLog.push(`Player: (${screenPos.x}, ${screenPos.y}`);
-        paper(6);
-        rectf(screenPos.x, screenPos.y, PIXEL_SCALE, PIXEL_SCALE);
     }
 }

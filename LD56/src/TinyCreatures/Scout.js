@@ -10,7 +10,8 @@ export default class Scout extends TinyCreature
             tag: "PLAYER_BUG", 
             collisionGroup: COLLISION_GROUP.PLAYER, 
             collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.ENEMY) 
-        });
+        }, 
+        parentSwarm.bugType.colours);
 
         this.minDist = 0.5;
 

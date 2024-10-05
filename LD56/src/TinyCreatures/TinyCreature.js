@@ -2,9 +2,14 @@ import { consoleLog, EM, PIXEL_SCALE } from "../main";
 
 export default class TinyCreature
 {
-    constructor(pos, physConfig)
+    constructor(pos, physConfig, colours)
     {
         this.colours = [ 9, 10 ];
+        if(colours)
+        {
+            this.colours = colours;
+        }
+
         this.speed = 2 * PIXEL_SCALE;
 
         let physSettings = {

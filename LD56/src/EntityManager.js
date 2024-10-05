@@ -60,7 +60,7 @@ export default class EntityManager
 
         this.cancelInputDetect = false;
 
-        this.phys = (!noPhys) ? new p2.World({gravity: [0, -10 * PIXEL_SCALE] }) : null;
+        this.phys = (!noPhys) ? new p2.World({gravity: [0, 0] }) : null;
 
         this.LoadRenderLayers();
         this.LoadInputGroups();

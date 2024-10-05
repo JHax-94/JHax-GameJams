@@ -3,6 +3,7 @@ import TextureExtender from './TextureExtensions.js'
 import VectorExtensions from './VectorExtensions.js'
 import Utility from './Utility.js'
 import { vec2 } from 'p2'
+import GameWorld from './GameWorld/GameWorld.js'
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -174,9 +175,20 @@ function setFont(fontImage)
     }
 }
 
+
+let COLLISION_GROUP ={
+    PLAYER: Math.pow(2, 0),
+    STRUCTURE: Math.pow(2, 1),
+    ENEMY: Math.pow(2, 2)
+};
+
+///====== GAME SETUP ======
 function SETUP(levelName)
 {
     EM = new EntityManager();
+    let gameWorld = new GameWorld();
+    gameWorld.BuildWorld();
+    
     consoleLog("Game started - Entity Manager:");
     consoleLog(EM);
     LOAD_COMPLETE = true;
@@ -203,5 +215,5 @@ exports.update = function () {
 
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, getFont, setFont, consoleLog, getObjectConfig
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, getFont, setFont, consoleLog, getObjectConfig
 };

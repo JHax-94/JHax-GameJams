@@ -38,6 +38,10 @@ export default class Scout extends TinyCreature
     Despawn()
     {
         super.Despawn();
+        if(this.parentSwarm)
+        {
+            this.parentSwarm.RemoveBug(this);
+        }
         EM.RemoveEntity(this.perception);
     }
 
@@ -48,10 +52,6 @@ export default class Scout extends TinyCreature
 
     ProcessHitWith(bug)
     {
-        if(this.parentSwarm)
-        {
-            this.parentSwarm.RemoveBug(bug);
-        }
         bug.Despawn();
         this.Despawn();
     }

@@ -8,16 +8,22 @@ export default class GameWorld
 {
     constructor()
     {
+        this.player = null;
     }
 
     BuildWorld()
     {
         let startHive = new StartHive({ x: 0, y: 0 });
-        let player = new PlayerSwarm({ x: 1, y: 0});
+        this.player = new PlayerSwarm({ x: 1, y: 0});
 
         let enemySwarm = new EnemySwarm({ x: -6, y: -6});
 
         let nodes = [];
         nodes.push(new HiveNode({ x: 2, y: 4}));
+    }
+
+    AddExpToPlayer(amount)
+    {
+        this.player.AddExp(amount);
     }
 }

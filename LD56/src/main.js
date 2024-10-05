@@ -199,7 +199,12 @@ function SETUP(levelName)
     EM = new EntityManager();
     AddPhysicsEvents();
     let gameWorld = new GameWorld();
+
+    EM.AddEntity("GAMEWORLD", gameWorld);
+
     gameWorld.BuildWorld();
+
+    
     
     consoleLog("Game started - Entity Manager:");
     consoleLog(EM);

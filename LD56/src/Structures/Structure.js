@@ -1,11 +1,12 @@
-import Utils from "p2/src/utils/Utils";
 import { COLLISION_GROUP, EM, PIXEL_SCALE, UTIL } from "../main";
 import Citizen from "../TinyCreatures/Citizen";
+
 
 export default class Structure
 {
     constructor(pos)
     {
+        this.gameWorld = null;
         this.maxPopulation = 100;
         this.population = 0;
 
@@ -33,6 +34,16 @@ export default class Structure
         this.spawnTimer = 0;
 
         EM.RegisterEntity(this, { physSettings: physSettings });
+    }
+
+    GameWorld()
+    {
+        if(this.gameWorld === null)
+        {
+            this.gameWorld = EM.GetEntity("GAMEWORLD");
+        }
+
+        return this.gameWorld;
     }
 
     AddTargetStructure(structure)
@@ -99,6 +110,7 @@ export default class Structure
     AddPopulation(addPop)
     {
         this.population += addPop;
+        this.GameWorld().AddExpToPlayer(addPop);
     }
 
     Draw()

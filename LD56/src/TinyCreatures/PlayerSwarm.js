@@ -2,6 +2,7 @@ import { vec2 } from "p2";
 import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main"
 import Scout from "./Scout";
 import Swarm from "./Swarm";
+import PlayerStatusUi from "../UI/PlayerStatusUi";
 
 export default class PlayerSwarm extends Swarm
 {
@@ -23,6 +24,10 @@ export default class PlayerSwarm extends Swarm
             perceptionMask: COLLISION_GROUP.ENEMY
         };
 
+        this.level = 1;
+        this.exp = 0;
+
+
         this.speed = 3*PIXEL_SCALE;
 
         this.startHive = null;
@@ -32,7 +37,29 @@ export default class PlayerSwarm extends Swarm
         this.bugSpawnTimer = 0;
         this.maxBugs = 1;
 
+        this.statusUi = new PlayerStatusUi(this);
+
         this.SpawnBug();
+    }
+
+    AddExp(amount)
+    {
+        this.exp += amount;
+
+        let nextLevel = this.ExpForNextLevel();
+
+        if(this.exp > nextLevel)
+        {
+            this.level ++;
+            this.exp -= nextLevel;
+        }
+    }
+
+    ExpForNextLevel()
+    {
+        let target = this.level;
+        
+        return target * 10;
     }
 
     TouchedStructure(structure)
@@ -105,6 +132,16 @@ export default class PlayerSwarm extends Swarm
         this.phys.velocity = [moveVec[0] * this.speed, moveVec[1] * this.speed];
     }
 
+    SpawnProgress()
+    {
+        return this.bugSpawnTimer / this.bugSpawnTime;
+    }
+
+    SpawningBugs()
+    {
+        return this.bugs.length < this.maxBugs;
+    }
+
     Update(deltaTime)
     {
         let physPos = this.phys.position;
@@ -113,6 +150,22 @@ export default class PlayerSwarm extends Swarm
         let hHeight = 0.5 * TILE_HEIGHT * PIXEL_SCALE;
 
         EM.camera.MoveTo(physPos[0]-hWidth, physPos[1]+hHeight);
+
+        if(this.SpawningBugs())
+        {
+            this.bugSpawnTimer += deltaTime;
+
+            if(this.bugSpawnTimer > this.bugSpawnTime)
+            {
+                this.bugSpawnTimer -= this.bugSpawnTime;
+                this.SpawnBug();
+
+                if(this.bugs.length === this.maxBugs)
+                {
+                    this.bugSpawnTimer = 0;
+                }
+            }
+        }
     }
 
     Draw()

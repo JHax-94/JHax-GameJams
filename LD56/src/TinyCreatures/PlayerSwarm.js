@@ -84,25 +84,15 @@ export default class PlayerSwarm extends Swarm
 
     GetSourceStructure()
     {
-        consoleLog("--- Getting Source Structure ---");
-        consoleLog(this);
-
         if(this.lastTouchedStructure)
         {
-            consoleLog("Use last touched structure...");
-            consoleLog(this.lastTouchedStructure);
             return this.lastTouchedStructure;
         }
         else
         {
-            consoleLog("Use start hive...");
             if(this.startHive == null)
             {
-                consoleLog("Fetch start hive from EM:");
-                consoleLog(EM);
                 this.startHive = EM.GetEntity("START_HIVE");
-
-                consoleLog(this.startHive);
             }
 
             return this.startHive;

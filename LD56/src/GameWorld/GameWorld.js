@@ -61,6 +61,11 @@ export default class GameWorld
         }
     }
 
+    ActiveHives()
+    {
+        return this.structures.filter(hive => hive.IsActive());
+    }
+
     UpgradeApplied(upgrade)
     {
         this.upgradeHistory.push(upgrade);

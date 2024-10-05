@@ -1,9 +1,10 @@
-import { COLLISION_GROUP, EM } from "../main";
+import { vec2 } from "p2";
+import { COLLISION_GROUP, consoleLog, EM } from "../main";
 import Swarm from "./Swarm";
 
 export default class EnemySwarm extends Swarm
 {
-    constructor(pos)
+    constructor(pos, size = 1)
     {
         super(pos, 
         { 
@@ -21,16 +22,110 @@ export default class EnemySwarm extends Swarm
             perceptionMask: COLLISION_GROUP.PLAYER
         };
 
-        this.SpawnBug();
+        for(let i = 0; i < size; i ++)
+        {
+            this.SpawnBug();    
+        }
+
+        this.gravLerpRate = 0.001;
+
+        this.gravLerp = 0;
+        this.target = this.FindTarget();
+    }
+
+    FindTarget()
+    {
+        let newTarget = null;
+
+        let nearestHive = this.NearestActiveHive();
+
+        if(nearestHive === null)
+        {
+            newTarget = this.GameWorld().player;
+        }
+        else
+        {
+            newTarget = nearestHive;
+        }
+
+        return newTarget;
+    }
+
+    NearestActiveHive()
+    {
+        let activeHives = this.GameWorld().ActiveHives();
+
+        consoleLog("Find target from hives:");
+        consoleLog(activeHives);
+        let nah = null;
+
+        if(activeHives.length > 0)
+        {
+            let minDist = null;
+            
+            for(let i = 0; i < activeHives.length; i ++)
+            {
+                let hive = activeHives[i];
+
+                if(minDist === null)
+                {
+                    nah = hive;
+                    minDist = sqDist;
+                }
+                else
+                {
+                    let sqDist = vec2.sqrDist(this.phys.position, hive.phys.position);
+
+                    if(sqDist < minDist)
+                    {
+                        nah = hive;
+                        minDist = sqDist;
+                    }
+                }
+            }
+        }
+
+        return nah;
     }
 
     Update(deltaTime)
     {
+        EM.hudLog.push(`gravlerp: ${this.gravLerp.toFixed(3)}`);
+
+        if(this.gravLerp < 1)
+        {
+            this.gravLerp += deltaTime * this.gravLerpRate;
+
+            if(this.gravLerp > 1)
+            {
+                this.gravLerp = 1;
+            }
+        }
+        
         let forward = [0, 1];
         this.phys.vectorToWorldFrame(forward, [0, 1]);
         
         this.phys.angularVelocity = 1;
 
-        this.phys.velocity = [forward[0] * this.speed, forward[1] * this.speed];
+        //this.phys.velocity = [forward[0] * this.speed, forward[1] * this.speed];
+
+        let vecToTarget = [];
+        vec2.sub(vecToTarget, this.target.phys.position, this.phys.position);
+        let normedTarget = [];
+        vec2.normalize(normedTarget, vecToTarget);
+
+        let lerped = [ 
+            forward[0] + (normedTarget[0] - forward[0]) * this.gravLerp, 
+            forward[1] + (normedTarget[1] - forward[1]) * this.gravLerp
+            /*normedTarget[0],
+            normedTarget[1]*/
+        ];
+
+        vec2.scale(lerped, lerped, this.speed);
+
+        EM.hudLog.push(`SwarmV: (${lerped[0].toFixed(3)}, ${lerped[1].toFixed(3)})`);
+        this.phys.velocity = [lerped[0], lerped[1]];
+
+        EM.hudLog.push(`TargetV: (${normedTarget[0].toFixed(3)}, ${normedTarget[1].toFixed(3)})`);
     }
 }

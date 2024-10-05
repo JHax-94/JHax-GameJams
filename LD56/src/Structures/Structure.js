@@ -39,6 +39,11 @@ export default class Structure
         EM.RegisterEntity(this, { physSettings: physSettings });
     }
 
+    IsActive()
+    {
+        return this.population > 0;
+    }
+
     RefreshCitizens()
     {
         for(let i = 0; i < this.bugLog.length; i ++)

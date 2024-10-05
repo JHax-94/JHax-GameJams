@@ -13,7 +13,12 @@ export default class EnemySwarm extends Swarm
         });
 
         this.bugType = {
-            colours: [13, 14]
+            colours: [13, 14],
+            tag: "ENEMY_BUG",
+            collisionGroup: COLLISION_GROUP.ENEMY,
+            collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.PLAYER),
+            perceptionTag: "ENEMY_PERCEPTION",
+            perceptionMask: COLLISION_GROUP.PLAYER
         };
 
         this.SpawnBug();

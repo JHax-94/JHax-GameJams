@@ -83,15 +83,19 @@ export default class PhysEventRegistry
             let f = functionList[i];
             let matches = f.name.match(regex);
 
-            /*consoleLog(`Function ${f.name} matches:`);
+            /*
+            consoleLog(`Function ${f.name} matches:`);
             consoleLog(matches);*/
-
-            this.AddEventMethod(events, {
-                eventType: matches[REGEX_GROUPS.EVENT_TYPE],
-                methodName: matches[REGEX_GROUPS.METHOD_NAME],
-                methodType: matches[REGEX_GROUPS.METHOD_TYPE],
-                method: f.method
-            });
+            
+            if(matches)
+            {
+                this.AddEventMethod(events, {
+                    eventType: matches[REGEX_GROUPS.EVENT_TYPE],
+                    methodName: matches[REGEX_GROUPS.METHOD_NAME],
+                    methodType: matches[REGEX_GROUPS.METHOD_TYPE],
+                    method: f.method
+                });
+            }
         }
         
         for(let i = 0; i < events.length; i ++)

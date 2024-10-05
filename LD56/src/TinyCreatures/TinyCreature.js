@@ -9,6 +9,7 @@ export default class TinyCreature
         {
             this.colours = colours;
         }
+        this.physConfig = physConfig;
 
         this.speed = 2 * PIXEL_SCALE;
 
@@ -29,6 +30,11 @@ export default class TinyCreature
         consoleLog(physSettings);
 
         EM.RegisterEntity(this, { physSettings: physSettings });
+    }
+
+    ProcessHitWith(bug)
+    {
+        
     }
 
     StructureTouched(structure)

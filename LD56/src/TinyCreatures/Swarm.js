@@ -1,4 +1,4 @@
-import { COLLISION_GROUP, EM, PIXEL_SCALE } from "../main";
+import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE } from "../main";
 import Scout from "./Scout";
 
 export default class Swarm
@@ -7,7 +7,10 @@ export default class Swarm
     {
         this.bugs = [];
         this.bugType = {
-            colors: [9, 10]
+            colors: [9, 10],
+            tag: "PLAYER_BUG",
+            perceptionTag: "PLAYER_PERCEPTION",
+            perceptionMask: COLLISION_GROUP.ENEMY
         };
 
         let physSettings = {
@@ -28,20 +31,35 @@ export default class Swarm
         EM.RegisterEntity(this, { physSettings: physSettings });
     }
 
+    RemoveBug(bug)
+    {
+        for(let i = 0; i < this.bugs.length; i ++)
+        {
+            if(this.bugs[i] === bug)
+            {
+                this.bugs.splice(i,1);
+                break;
+            }
+        }
+    }
+
     SpawnBug()
     {
         let tilePos = this.GetTilePos();
 
         let newBug = new Scout(tilePos, this);
 
+        /*consoleLog("===== BUG SPAWNED ======");
+        consoleLog(newBug);*/
+
         this.bugs.push(newBug);
     }
-
+    /*
     Draw()
     {
         let screenPos = this.GetScreenPos();
 
         paper(6);
         rectf(screenPos.x, screenPos.y, PIXEL_SCALE, PIXEL_SCALE);
-    }
+    }*/
 }

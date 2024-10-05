@@ -197,7 +197,7 @@ export default class RenderLayer
                     consoleLog("EDGE RECT");
                     consoleLog(edgeRect);**/
 
-                    rectf(vertRect.x, vertRect.y, vertRect.w, vertRect.h);
+                    rectf(vertRect.x - EM.camera.x, vertRect.y + EM.camera.y, vertRect.w, vertRect.h);
 
                     /*setFont(null);
                     pen(1);
@@ -205,11 +205,11 @@ export default class RenderLayer
 
 
                     pen(colour);
-                    rect(edgeRect.x, edgeRect.y, edgeRect.w, edgeRect.h);
+                    rect(edgeRect.x - EM.camera.x, edgeRect.y + EM.camera.y, edgeRect.w, edgeRect.h);
 
                     // CENTRE POINT
                     paper(23);
-                    rectf(phys.position[0]-1, -phys.position[1]-1, 2, 2);
+                    rectf(phys.position[0]-1 - EM.camera.x, -phys.position[1]-1 + EM.camera.y, 2, 2);
                 }
             }
             else

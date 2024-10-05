@@ -11,7 +11,10 @@ export default class Citizen extends TinyCreature
             tag: "PLAYER_BUG", 
             collisionGroup: COLLISION_GROUP.PLAYER, 
             collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.ENEMY) 
-        });
+        },
+        [
+            11, 0
+        ]);
         
         this.sourceHive = source;
         this.targetHive = target;

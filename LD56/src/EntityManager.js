@@ -17,7 +17,7 @@ export default class EntityManager
         this.camera = new Camera();
 
         this.frameCount = 0;
-        this.bgColour = 12;
+        this.bgColour = 3;
 
         this.version = null;
 
@@ -833,7 +833,7 @@ export default class EntityManager
     }
 
     HasTag(evt, tag)
-    {
+    {   
         return evt.bodyA.tag === tag || evt.bodyB.tag === tag;
     }
 
@@ -1405,5 +1405,29 @@ export default class EntityManager
         }
 
         return consumed;
+    }
+
+    GetPerceivingBug(container, evt)
+    {
+        let body = container.BodyWithTag(evt, "PLAYER_PERCEPTION");
+
+        if(!body)
+        {
+            body = container.BodyWithTag(evt, "ENEMY_PERCEPTION");
+        }
+
+        return body;
+    }
+
+    GetPerceivedBug(container, evt)
+    {
+        let body = container.BodyWithTag(evt, "PLAYER_BUG");
+        
+        if(!body)
+        {
+            body = container.BodyWithTag(evt, "ENEMY_BUG");
+        }
+
+        return body;
     }
 }

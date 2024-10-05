@@ -14,6 +14,15 @@ export default class PlayerSwarm extends Swarm
             collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.PLAYER | COLLISION_GROUP.ENEMY) 
         });
 
+        this.bugType = {
+            colors: [9, 10],
+            tag: "PLAYER_BUG",
+            collisionGroup: COLLISION_GROUP.PLAYER,
+            collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.ENEMY),
+            perceptionTag: "PLAYER_PERCEPTION",
+            perceptionMask: COLLISION_GROUP.ENEMY
+        };
+
         this.speed = 3*PIXEL_SCALE;
 
         this.startHive = null;
@@ -104,5 +113,12 @@ export default class PlayerSwarm extends Swarm
         let hHeight = 0.5 * TILE_HEIGHT * PIXEL_SCALE;
 
         EM.camera.MoveTo(physPos[0]-hWidth, physPos[1]+hHeight);
+    }
+
+    Draw()
+    {
+        let screenPos = this.GetScreenPos()
+        
+        sprite(3, screenPos.x, screenPos.y);
     }
 }

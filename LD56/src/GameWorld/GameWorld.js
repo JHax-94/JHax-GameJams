@@ -5,6 +5,7 @@ import EnemySwarm from "../TinyCreatures/EnemySwarm";
 import PlayerSwarm from "../TinyCreatures/PlayerSwarm";
 import LevelUpMenu from "../UI/LevelUpMenu";
 import { consoleLog, PIXEL_SCALE, UTIL } from "../main";
+import SwarmSpawner from "./SwarmSpawner";
 
 export default class GameWorld
 {
@@ -15,6 +16,8 @@ export default class GameWorld
         this.endHive = null;
         this.player = null;
         this.structures = [];
+        this.swarms = [];
+
 
         this.upgradeHistory = [];
 
@@ -24,6 +27,8 @@ export default class GameWorld
 
         /// GLOBAL STATS
         this.citizenSpeed = 2 * PIXEL_SCALE;
+
+        this.swarmSpawner = new SwarmSpawner(this);
     }
 
     BuildWorld()
@@ -37,7 +42,7 @@ export default class GameWorld
         this.GenerateNodes();
         this.structures.push(endHive);
 
-        let enemySwarm = new EnemySwarm({ x: -6, y: -6});
+        this.swarmSpawner.SpawnSwarm();
     }
 
     GetRandomPositionWithRadius(radius)
@@ -47,15 +52,26 @@ export default class GameWorld
         return { x: radius * Math.cos(angle), y: radius * Math.sin(angle) }
     }
 
+    SwarmDestroyed(swarm)
+    {
+        this.swarmSpawner.SwarmDestroyed(swarm);
+    }
+
     GenerateNodes()
     {
-        let radius = this.maxDistance / (this.numberOfNodes + 1);
+        let radiusDiff = this.maxDistance / (this.numberOfNodes + 1);
+        let radius = radiusDiff;
 
         for(let i = 0; i < this.numberOfNodes; i ++)
         {
+
+            consoleLog(`Spawn hive node at radius: ${radius}`);
+
             let pos = this.GetRandomPositionWithRadius(radius);
 
-            radius += radius;
+            consoleLog(`Pos: (${pos.x}, ${pos.y})`);
+
+            radius += radiusDiff;
 
             let hiveNode = new HiveNode(pos);
 

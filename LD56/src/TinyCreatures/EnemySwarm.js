@@ -4,7 +4,7 @@ import Swarm from "./Swarm";
 
 export default class EnemySwarm extends Swarm
 {
-    constructor(pos, size = 1)
+    constructor(pos, size, maxSize, spawnTime, lerpRate)
     {
         super(pos, 
         { 
@@ -22,12 +22,17 @@ export default class EnemySwarm extends Swarm
             perceptionMask: COLLISION_GROUP.PLAYER
         };
 
+        this.size = size;
+        this.maxSize = maxSize;
+        this.spawnTime = spawnTime;
+        this.spawnTimer = 0;
+
         for(let i = 0; i < size; i ++)
         {
             this.SpawnBug();    
         }
 
-        this.gravLerpRate = 0.001;
+        this.gravLerpRate = lerpRate;
 
         this.gravLerp = 0;
         this.target = this.FindTarget();
@@ -39,6 +44,7 @@ export default class EnemySwarm extends Swarm
 
         if(this.bugs.length === 0)
         {
+            this.GameWorld().SwarmDestroyed(this);
             EM.RemoveEntity(this);
         }
     }
@@ -108,6 +114,18 @@ export default class EnemySwarm extends Swarm
     Update(deltaTime)
     {
         EM.hudLog.push(`gravlerp: ${this.gravLerp.toFixed(3)}`);
+
+        if(this.bugs.length < this.maxSize)
+        {
+            this.spawnTimer += deltaTime;
+
+            if(this.spawnTimer >= this.spawnTime)
+            {
+                this.spawnTimer -= this.spawnTime;
+
+                this.SpawnBug();
+            }
+        }
 
         if(this.gravLerp < 1)
         {

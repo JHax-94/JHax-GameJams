@@ -1,5 +1,5 @@
 import { vec2 } from "p2";
-import { COLLISION_GROUP, consoleLog, PIXEL_SCALE } from "../main";
+import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE } from "../main";
 import TinyCreature from "./TinyCreature";
 
 export default class Citizen extends TinyCreature
@@ -16,10 +16,16 @@ export default class Citizen extends TinyCreature
             11, 0
         ]);
         
+        this.speed = this.GameWorld().citizenSpeed;
+
         this.sourceHive = source;
         this.targetHive = target;
+    }
 
-        
+    Refresh()
+    {
+        super.Refresh();
+        this.speed = this.GameWorld().citizenSpeed;
     }
 
     StructureTouched(structure)
@@ -47,5 +53,7 @@ export default class Citizen extends TinyCreature
         vec2.normalize(targetNormed, targetVec);
 
         this.phys.velocity = [ targetNormed[0] * this.speed, targetNormed[1] * this.speed ];
+
+        EM.hudLog.push(`Cit Speed: ${vec2.length(this.phys.velocity).toFixed(3)}`);
     }
 }

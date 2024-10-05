@@ -165,13 +165,16 @@ function setFont(fontImage)
         fontImage = getFont(fontImage);
     }
 
-    if(fontImage && fontImage.img)
+    if(fontImage)
     {
-        setCharset(fontImage.img);
-    }
-    else
-    {
-        setCharset(fontImage);
+        if(fontImage && fontImage.img)
+        {
+            setCharset(fontImage.img);
+        }
+        else
+        {
+            setCharset(fontImage);
+        }
     }
 }
 

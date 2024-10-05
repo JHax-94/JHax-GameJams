@@ -42,6 +42,16 @@ export default class PlayerSwarm extends Swarm
         this.SpawnBug();
     }
 
+    IncreaseSwarmSize(amount)
+    {
+        this.maxBugs += amount;
+    }
+
+    DecreaseRespawnTime(amount)
+    {
+        this.bugSpawnTime = this.bugSpawnTime * (1-amount);
+    }
+
     AddExp(amount)
     {
         this.exp += amount;
@@ -52,6 +62,8 @@ export default class PlayerSwarm extends Swarm
         {
             this.level ++;
             this.exp -= nextLevel;
+
+            this.GameWorld().PlayerLevelled();
         }
     }
 
@@ -59,7 +71,7 @@ export default class PlayerSwarm extends Swarm
     {
         let target = this.level;
         
-        return target * 10;
+        return target * 2;
     }
 
     TouchedStructure(structure)

@@ -30,10 +30,18 @@ export default class Structure
             linearDrag: 0.99
         };
 
-        this.spawnTime = 10;
+        this.spawnTime = 2;
         this.spawnTimer = 0;
 
         EM.RegisterEntity(this, { physSettings: physSettings });
+    }
+
+    RefreshCitizens()
+    {
+        for(let i = 0; i < this.bugLog.length; i ++)
+        {
+            this.bugLog[i].Refresh();
+        }
     }
 
     GameWorld()
@@ -124,6 +132,7 @@ export default class Structure
         let tw = UTIL.GetTextWidth(popString, null);
         let th = UTIL.GetTextHeight(popString, null);
 
+        pen(1);
         print(popString, screenPos.x + 0.5 * (1 - tw) * PIXEL_SCALE, screenPos.y-th*PIXEL_SCALE);
     }
 

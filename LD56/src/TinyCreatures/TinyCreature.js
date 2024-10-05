@@ -11,6 +11,8 @@ export default class TinyCreature
         }
         this.physConfig = physConfig;
 
+        this.gameWorld = null;
+
         this.speed = 2 * PIXEL_SCALE;
 
         let physSettings = {
@@ -32,9 +34,24 @@ export default class TinyCreature
         EM.RegisterEntity(this, { physSettings: physSettings });
     }
 
-    ProcessHitWith(bug)
+    Refresh()
     {
         
+    }
+
+    GameWorld()
+    {
+        if(this.gameWorld === null)
+        {
+            this.gameWorld = EM.GetEntity("GAMEWORLD");
+        }
+
+        return this.gameWorld;
+    }
+
+    ProcessHitWith(bug)
+    {
+
     }
 
     StructureTouched(structure)

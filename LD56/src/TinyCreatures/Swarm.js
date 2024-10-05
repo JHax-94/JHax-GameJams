@@ -5,6 +5,7 @@ export default class Swarm
 {
     constructor(pos, physConf)
     {
+        this.gameWorld = null;
         this.bugs = [];
         this.bugType = {
             colors: [9, 10],
@@ -29,6 +30,21 @@ export default class Swarm
         this.speed = 2*PIXEL_SCALE;
 
         EM.RegisterEntity(this, { physSettings: physSettings });
+    }
+
+    Refresh()
+    {
+        
+    }
+
+    GameWorld()
+    {
+        if(this.gameWorld === null)
+        {
+            this.gameWorld = EM.GetEntity("GAMEWORLD");
+        }
+
+        return this.gameWorld;
     }
 
     RemoveBug(bug)

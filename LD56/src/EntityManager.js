@@ -867,15 +867,19 @@ export default class EntityManager
         // Not sure what this will look like yet...
     }
 
-    Pause()
+    Pause(showPauseMenu = true)
     {
         if(!this.pause)
         {
             this.pause = true;
+            
 
-            let pauseMenuConf = getObjectConfig("PauseMenu");
+            if(showPauseMenu)
+            {
+                let pauseMenuConf = getObjectConfig("PauseMenu");
 
-            this.pauseMenu = new PauseMenu(pauseMenuConf, {});
+                this.pauseMenu = new PauseMenu(pauseMenuConf, {});
+            }
 
             this.prePauseInputDetect = this.inputDetectMode;
             this.inputDetectMode = true;
@@ -883,7 +887,10 @@ export default class EntityManager
         }
         else
         {
-            this.pauseMenu.Close();
+            if(this.pauseMenu)
+            {
+                this.pauseMenu.Close();
+            }
             this.pause = false;
             this.inputDetectMode = this.prePauseInputDetect;
         }
@@ -1132,7 +1139,7 @@ export default class EntityManager
                     this.phys.step(deltaTime, deltaTime, 20);
                 }
             }
-            else 
+            else if(this.pauseMenu)
             {
                 this.pauseMenu.Update(deltaTime);
             }

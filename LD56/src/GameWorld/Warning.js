@@ -104,9 +104,9 @@ export default class Warning
             {
                 sprite(this.warningSprite, screenPos.x, screenPos.y);
             }
-            else
+            else if(this.object.DrawWarning)
             {
-                //this.object.DrawWarning();
+                this.object.DrawWarning();
             }
         }
     }

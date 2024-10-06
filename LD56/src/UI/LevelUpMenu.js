@@ -1,4 +1,4 @@
-import { consoleLog, EM, getFont, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
+import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
 import UpgradeCitizenSpeed from "../Upgrades/UpgradeCitizenSpeed";
 import UpgradeRespawnTime from "../Upgrades/UpgradeRespawnTime";
 import UpgradeSwarmSize from "../Upgrades/UpgradeSwarmSize";
@@ -105,6 +105,8 @@ export default class LevelUpMenu
 
     Draw()
     {
+        setFont(this.font);
+
         pen(12);
         paper(8);
         rectf(this.dims.x * PIXEL_SCALE, this.dims.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);

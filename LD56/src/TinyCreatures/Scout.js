@@ -318,12 +318,17 @@ export default class Scout extends TinyCreature
 
     HuntPrey()
     {
-        this.action = "HUNT PREY";
+        this.action = `HUNT PREY ${this.targetBugs.length}`;
         if(this.prey.dead)
         {
             this.RemovePerceivedBug(this.prey);
             this.prey = null;
             this.CheckPrey();
+        }
+        else if(this.targetBugs.length === 0)
+        {
+            consoleLog("hunting prey:");
+            consoleLog(this.prey);
         }
         else
         {
@@ -434,7 +439,7 @@ export default class Scout extends TinyCreature
             this.phys.velocity = [ this.parentSwarm.phys.velocity[0], this.parentSwarm.phys.velocity[1]];
         }*/
 
-        if(this.parentSwarm.isPlayer)
+        if(this.phys.tag === "ENEMY_BUG")
         {
             EM.hudLog.push(`action: ${this.action}`);
         }

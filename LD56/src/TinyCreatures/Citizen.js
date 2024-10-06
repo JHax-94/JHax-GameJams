@@ -18,6 +18,8 @@ export default class Citizen extends TinyCreature
         
         this.speed = this.GameWorld().citizenSpeed;
 
+        this.arrived = false;
+
         this.sourceHive = source;
         this.targetHive = target;
     }
@@ -26,10 +28,12 @@ export default class Citizen extends TinyCreature
     {
         if(Math.random() < bug.parentSwarm.convertChance)
         {
+            this.dead = true;
             bug.parentSwarm.ConvertBug(this);
         }
         else 
         {
+            this.dead = true;
             this.Despawn(true);
         }
     }
@@ -47,6 +51,7 @@ export default class Citizen extends TinyCreature
         if(this.targetHive === structure && structure.CanAddPopulation(popCount))
         {
             structure.AddPopulation(popCount);
+            this.arrived = true;
             this.Despawn();
         }
     }

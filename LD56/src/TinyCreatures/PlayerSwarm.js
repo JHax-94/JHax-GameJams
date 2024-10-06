@@ -30,6 +30,8 @@ export default class PlayerSwarm extends Swarm
         this.level = 1;
         this.exp = 0;
 
+        this.waitForWaggleUp = false;
+        this.waggleDown = false;
 
         this.turnSpeed = 2;
         this.speed = 3*PIXEL_SCALE;
@@ -41,6 +43,13 @@ export default class PlayerSwarm extends Swarm
         this.bugSpawnTimer = 0;
         this.maxBugs = 3;
 
+        this.isWaggling = false;
+        this.waggleMaxAngle = Math.PI / 6;
+        this.waggleSpeed = 12;
+        this.waggleAmount = 0;
+        this.waggleTimer = 0;
+        this.waggleUntil = 0;
+
         this.statusUi = new PlayerStatusUi(this);
 
         for(let i = 0; i < this.maxBugs; i ++)
@@ -51,7 +60,7 @@ export default class PlayerSwarm extends Swarm
         this.targetAngle = 0;
 
         this.mainTexture = this.BuildMainTexture();
-
+        this.abdomenTexture = this.BuildAbdomenTexture();
     }
 
     BuildMainTexture()
@@ -61,7 +70,14 @@ export default class PlayerSwarm extends Swarm
         tex.sprite(3, 0, 0);
 
         return tex;
+    }
 
+    BuildAbdomenTexture()
+    {
+        let tex = new Texture(PIXEL_SCALE, PIXEL_SCALE);
+        tex.sprite(19, 0, 0);
+
+        return tex;
     }
 
     Despawn()
@@ -110,7 +126,10 @@ export default class PlayerSwarm extends Swarm
         if(!structure.isEndHive)
         {
             this.lastTouchedStructure = structure;
+            this.noSource = false;
         }
+
+        this.WaggleDance();
     }
 
     GetSourceStructure()
@@ -119,7 +138,7 @@ export default class PlayerSwarm extends Swarm
         {
             return this.lastTouchedStructure;
         }
-        else
+        else if(!this.noSource)
         {
             if(this.startHive == null)
             {
@@ -127,6 +146,10 @@ export default class PlayerSwarm extends Swarm
             }
 
             return this.startHive;
+        }
+        else
+        {
+            return null;
         }
     }
 
@@ -171,6 +194,16 @@ export default class PlayerSwarm extends Swarm
         {
             this.targetAngle = vec2.angleDelta([0, 1], this.phys.velocity);
         }
+
+        if(this.waitForWaggleUp === false && input.Waggle)
+        {
+            this.waitForWaggleUp = true;
+        }
+        else if(this.waitForWaggleUp && input.Waggle === false)
+        {
+            this.WaggleDance(true);
+            this.waitForWaggleUp = false;
+        }
     }
 
     SpawnProgress()
@@ -183,43 +216,107 @@ export default class PlayerSwarm extends Swarm
         return this.bugs.length < this.maxBugs;
     }
 
+    WaggleDance(clearHiveSource = false)
+    {
+        this.waggleUntil += 1;
+
+        if(clearHiveSource)
+        {
+            this.ClearHiveSource();
+        }
+    }
+
+    ClearHiveSource()
+    {
+        this.lastTouchedStructure = null;
+        this.noSource = true;
+    }
+
     Update(deltaTime)
     {
-        //EM.hudLog.push(`T: ${this.targetAngle.toFixed(3)} C: ${this.phys.angle.toFixed(3)} DL: ${(this.targetAngle - this.phys.angle).toFixed(3)} DR: ${(this.phys.angle - (this.targetAngle + 2*Math.PI)).toFixed(3)}`);
+        if(this.waggleUntil > 0)
+        {
+            this.waggleUntil -= deltaTime;
+
+            if(this.waggleUntil < 0)
+            {
+                this.waggleUntil = 0;
+            }
+
+            this.waggleTimer += deltaTime * this.waggleSpeed;
+
+            if(this.waggleTimer > 2 * Math.PI)
+            {
+                this.waggleTimer -= 2 * Math.PI;
+            }
+
+            let waggleProgress= Math.sin(this.waggleTimer);
+
+            this.waggleAmount = this.waggleMaxAngle * waggleProgress
+        }
+        else if(this.waggleTimer > 0)
+        {
+            this.waggleTimer += deltaTime * this.waggleSpeed;
+
+            if(this.waggleTimer >= 2*Math.PI)
+            {
+                this.waggleTimer = 0;
+            }
+
+            let preWaggleAmount = this.waggleAmount;
+            let waggleProgress = Math.sin(this.waggleTimer);
+
+            this.waggleAmount = this.waggleMaxAngle * waggleProgress;
+            
+            if(preWaggleAmount > 0 && this.waggleAmount < 0 || preWaggleAmount < 0 && this.waggleAmount > 0)
+            {
+                this.waggleAmount = 0;
+                this.waggleTimer = 0;
+            }
+        }
+
+        //EM.hudLog.push(`Waggle: ${this.waggleUntil.toFixed(3)} (${this.waggleTimer.toFixed(3)})`);
 
         let angleDiff = this.targetAngle - this.phys.angle;
 
-        if((angleDiff < 0 && Math.abs(angleDiff) < Math.PI) || (angleDiff > 0 && Math.abs(angleDiff) > Math.PI))
+        let turnAmount = deltaTime * this.turnSpeed;
+        
+        if(Math.abs(angleDiff) < turnAmount)
         {
-            this.phys.angle -= deltaTime * this.turnSpeed;
+            this.phys.angle = this.targetAngle;
+        }
+        else if((angleDiff < 0 && Math.abs(angleDiff) <= Math.PI) || (angleDiff > 0 && Math.abs(angleDiff) >= Math.PI))
+        {
+            this.phys.angle -= turnAmount;
 
             if(this.phys.angle <= -Math.PI)
             {
                 this.phys.angle += 2 * Math.PI;
             }
-
+            
+            /*
             if(this.phys.angle < this.targetAngle)
             {
                 this.phys.angle = this.targetAngle;
                 
                 consoleLog(`SNAP ANGLE: ${this.phys.angle.toFixed(3)} to ${this.targetAngle.toFixed(3)}`)
-            }  
+            }  */
         }
         else if((angleDiff > 0 && Math.abs(angleDiff) < Math.PI) || (angleDiff < 0 && Math.abs(angleDiff) > Math.PI) )
         {
-            this.phys.angle += deltaTime * this.turnSpeed;
+            this.phys.angle += turnAmount;
 
             if(this.phys.angle >= Math.PI)
             {
                 this.phys.angle -= 2 * Math.PI;
             }
 
-            if(this.phys.angle > this.targetAngle)
+            /*if(this.phys.angle > this.targetAngle)
             {
                 consoleLog(`SNAP ANGLE: ${this.phys.angle.toFixed(3)} to ${this.targetAngle.toFixed(3)}`)
 
                 this.phys.angle = this.targetAngle;
-            }  
+            } */ 
         }
 
         let physPos = this.phys.position;
@@ -251,5 +348,6 @@ export default class PlayerSwarm extends Swarm
         let screenPos = this.GetScreenPos();
         
         this.mainTexture._drawEnhanced(screenPos.x, screenPos.y, { angle: this.phys.angle, maintainCentre: true });
+        this.abdomenTexture._drawEnhanced(screenPos.x, screenPos.y, { angle: this.phys.angle + this.waggleAmount, maintainCentre: true });
     }
 }

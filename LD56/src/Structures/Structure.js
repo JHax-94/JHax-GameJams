@@ -214,28 +214,33 @@ export default class Structure
                 }
             }    
 
-            let replenishTime = this.ReplenishTime();
-
-            if(replenishTime > 0)
-            {
-                //EM.hudLog.push(`Replenish: ${this.replenishTimer.toFixed(3)}/${replenishTime.toFixed(3)}`);
-
-                this.replenishTimer += deltaTime * this.replenishRate;
-
-                if(this.replenishTimer > replenishTime)
-                {
-                    this.replenishTimer = 0;
-                    if(!this.UnderAttack())
-                    {
-                        this.Replenish();
-                    }
-                }
-            }
+            this.ReplenishUpdate(deltaTime);
         }
         else
         {
             EM.hudLog.push(`-DEAD-`);
         }
+    }
+
+    ReplenishUpdate(deltaTime)
+    {
+        let replenishTime = this.ReplenishTime();
+
+        if(replenishTime > 0)
+        {
+            //EM.hudLog.push(`Replenish: ${this.replenishTimer.toFixed(3)}/${replenishTime.toFixed(3)}`);
+
+            this.replenishTimer += deltaTime * this.replenishRate;
+
+            if(this.replenishTimer > replenishTime)
+            {
+                this.replenishTimer = 0;
+                if(!this.UnderAttack())
+                {
+                    this.Replenish();
+                }
+            }
+        }        
     }
 
     RemoveBug(bug)
@@ -357,6 +362,8 @@ export default class Structure
 
     RemovePopulation(amount)
     {
+        consoleLog(`--- HIVE ATTACKED ---`);
+
         this.population -= amount;
         
         this.gameWorld.warningTracker.AddWarning(this);
@@ -389,7 +396,7 @@ export default class Structure
         let th = UTIL.GetTextHeight(popString, this.font);
 
         if(this.Player().GetSourceStructure() === this) this.DrawHighlight(screenPos);
-        if(this.attackers.length > 0 && this.DrawWarning) this.DrawWarning();
+        /*if(this.attackers.length > 0 && this.DrawWarning) this.DrawWarning();*/
 
         if(!this.dead)
         {

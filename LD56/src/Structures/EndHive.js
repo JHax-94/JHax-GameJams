@@ -12,4 +12,6 @@ export default class EndHive extends Structure
     CanAddSource() { return true; }
 
     IsValidSource() { return false; }
+    
+    ReplenishUpdate(deltaTime) {}
 }

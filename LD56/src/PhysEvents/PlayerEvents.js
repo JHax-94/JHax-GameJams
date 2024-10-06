@@ -11,21 +11,35 @@ export default class PlayerEvents extends PhysEventRegistry
     Begin_PlayerStructure_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_SWARM", "HIVE"); }
     Begin_PlayerStructure_Resolve(container, manager, evt)
     {
-        //consoleLog("PLAYER HIVE COLLISION!");
+        consoleLog("PLAYER HIVE COLLISION!");
         let player = container.BodyWithTag(evt, "PLAYER_SWARM");
         let hive = container.BodyWithTag(evt, "HIVE");
 
         let sourceStruct = player.obj.GetSourceStructure();
 
-        if(hive.obj.CanAddSource(sourceStruct))
+        if(sourceStruct !== null)
         {
-            sourceStruct.AddTargetStructure(hive.obj);
+            if(hive.obj.CanAddSource(sourceStruct))
+            {
+                sourceStruct.AddTargetStructure(hive.obj);
+            }
         }
+        
+        let validSource = hive.obj.IsValidSource();
 
-        if(hive.obj.IsValidSource())
+        consoleLog(`Is valid source? ${validSource}`);
+
+        if(validSource)
         {
+            consoleLog("Register Touch");
             player.obj.TouchedStructure(hive.obj);
         }
+        else if(hive.obj.isEndHive)
+        {
+            player.obj.WaggleDance();
+        }
+
+        
     }
 
     Begin_BugStructure_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_BUG", "HIVE"); }

@@ -1,6 +1,5 @@
 import { vec2 } from "p2";
 import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main"
-import Scout from "./Scout";
 import Swarm from "./Swarm";
 import PlayerStatusUi from "../UI/PlayerStatusUi";
 
@@ -38,7 +37,7 @@ export default class PlayerSwarm extends Swarm
 
         this.bugSpawnTime = 60;
         this.bugSpawnTimer = 0;
-        this.maxBugs = 3;
+        this.maxBugs = 1;
 
         this.statusUi = new PlayerStatusUi(this);
 
@@ -184,6 +183,8 @@ export default class PlayerSwarm extends Swarm
                 }
             }
         }
+
+        
     }
 
     Draw()

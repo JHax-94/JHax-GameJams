@@ -18,6 +18,8 @@ export default class Scout extends TinyCreature
 
         this.dead = false;
 
+        this.onFlower = parentSwarm.bugType.onFlower ?? false;
+
         this.speed = parentSwarm.bugType.speed;
 
         this.minDist = 8;
@@ -44,6 +46,8 @@ export default class Scout extends TinyCreature
         this.targetBugs = [];
         this.targetStructures = [];
 
+        this.swarms = [];
+
         /*
         consoleLog(" --- Scout created --- ");
         consoleLog(`CollisionGroup: ${this.phys.shapes[0].collisionGroup}`);
@@ -53,6 +57,26 @@ export default class Scout extends TinyCreature
         consoleLog(`CollisionGroup: ${this.perception.phys.shapes[0].collisionGroup}`);
         consoleLog(`CollisionMask: ${this.perception.phys.shapes[0].collisionMask}`);
         consoleLog(`Tag: ${this.perception.phys.tag}`);*/
+    }
+
+    PerceiveSwarm(swarm)
+    {
+        if(this.swarms.indexOf(swarm) < 0)
+        {
+            this.swarms.push(swarm);
+        }
+    }
+
+    UnperceiveSwarm(swarm)
+    {
+        for(let i = 0; i < this.swarms.length; i++)
+        {
+            if(this.swarms[i] === swarm)
+            {
+                this.swarms.splice(i, 1);
+                break;
+            }
+        }
     }
 
     AttackHive(hive)
@@ -187,6 +211,23 @@ export default class Scout extends TinyCreature
     Update(deltaTime)
     {
         this.lifeTime += deltaTime;
+
+        if(this.onFlower)
+        {
+            for(let i = 0; i < this.swarms.length; i ++)
+            {
+                let swarm = this.swarms[i];
+                EM.hudLog.push(`Check swarm ${i} available - P: ${swarm.isPlayer}, ${swarm.bugs.length}/${swarm.maxBugs}`);
+
+                if(swarm.isPlayer && swarm.bugs.length < swarm.maxBugs)
+                {
+                    this.parentSwarm.RemoveBug(this);
+                    this.parentSwarm = swarm;
+                    swarm.AddBug(this);
+                    this.onFlower = false;
+                }
+            }
+        }
 
         if(this.prey)
         {

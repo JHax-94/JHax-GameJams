@@ -1,3 +1,4 @@
+import FlowerPatch from "../Pickups/FlowerPatch";
 import EndHive from "../Structures/EndHive";
 import HiveNode from "../Structures/HiveNode";
 import StartHive from "../Structures/StartHive";
@@ -5,6 +6,7 @@ import EnemySwarm from "../TinyCreatures/EnemySwarm";
 import PlayerSwarm from "../TinyCreatures/PlayerSwarm";
 import LevelUpMenu from "../UI/LevelUpMenu";
 import { consoleLog, PIXEL_SCALE, UTIL } from "../main";
+import FlowerSpawner from "./FlowerSpawner";
 import SwarmSpawner from "./SwarmSpawner";
 
 export default class GameWorld
@@ -35,6 +37,7 @@ export default class GameWorld
 
         /// SERVICES
         this.swarmSpawner = new SwarmSpawner(this);
+        this.flowerSpawner = new FlowerSpawner(this);
     }
 
     BuildWorld()
@@ -44,11 +47,14 @@ export default class GameWorld
         
         let endHive = new EndHive(this.GetRandomPositionWithRadius(this.maxDistance));
 
+        new FlowerPatch({ x: 6, y: 0 });
+
         this.structures.push(startHive);
         this.GenerateNodes();
         this.structures.push(endHive);
 
         this.swarmSpawner.SpawnSwarm();
+        
     }
 
     GetRandomPositionWithRadius(radius)

@@ -63,6 +63,14 @@ export default class Swarm
         }
     }
 
+    AddBug(bug)
+    {
+        if(this.bugs.indexOf(bug) < 0)
+        {
+            this.bugs.push(bug);
+        }
+    }
+
     IsHunting(sourceBug, targetBug)
     {
         let isHunting = false;
@@ -100,6 +108,7 @@ export default class Swarm
             tilePos.y += yOffset;
         }
         let newBug = new Scout(tilePos, this);
+
 
         /*consoleLog("===== BUG SPAWNED ======");
         consoleLog(newBug);*/

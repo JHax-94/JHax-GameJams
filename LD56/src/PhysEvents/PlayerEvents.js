@@ -70,6 +70,33 @@ export default class PlayerEvents extends PhysEventRegistry
     }
 
 
+    Begin_FriendlyBugPlayer_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_BUG", "PLAYER_SWARM"); }
+    Begin_FriendlyBugPlayer_Resolve(container, manager, evt)
+    {
+        consoleLog("PLAYER BUG / SWARM COLLISION");
+        let bug = manager.BodyWithTag(evt, "PLAYER_BUG");
+
+        if(bug.obj.onFlower)
+        {
+            let playerSwarm = manager.BodyWithTag(evt, "PLAYER_SWARM");
+
+            bug.obj.PerceiveSwarm(playerSwarm.obj);
+        }
+    }
+
+    End_FriendlyBugPlayer_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_BUG", "PLAYER_SWARM"); }
+    End_FriendlyBugPlayer_Resolve(container, manager, evt)
+    {
+        let bug = manager.BodyWithTag(evt, "PLAYER_BUG");
+
+        if(bug.obj.onFlower)
+        {
+            let playerSwarm = manager.BodyWithTag(evt, "PLAYER_SWARM");
+
+            bug.obj.UnperceiveSwarm(playerSwarm.obj);
+        }
+    }
+
     Begin_BugPerceptionPlayer_Check(container, manager, evt) { return manager.CompareTags(evt, "ENEMY_PERCEPTION", "PLAYER_SWARM"); }
     Begin_BugPerceptionPlayer_Resolve(container, manager, evt)
     {
@@ -116,7 +143,8 @@ export default class PlayerEvents extends PhysEventRegistry
     {
         let passthroughPairs = [
             { a: "PLAYER_BUG", b: "HIVE" },
-            { a: "ENEMY_BUG", b: "HIVE" }
+            { a: "ENEMY_BUG", b: "HIVE" },
+            { a: "PLAYER_BUG", b: "PLAYER_BUG" }
         ];
 
         for(let i = 0; i < evt.contactEquations.length; i ++)

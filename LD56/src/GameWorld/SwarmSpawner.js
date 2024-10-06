@@ -1,16 +1,15 @@
 import DIR from "../Directions";
 import { consoleLog, EM, TILE_HEIGHT, TILE_WIDTH } from "../main";
 import EnemySwarm from "../TinyCreatures/EnemySwarm";
+import Spawner from "./Spawner";
 
-export default class SwarmSpawner 
+export default class SwarmSpawner extends Spawner
 {
-    constructor(gameWorld)
+    constructor(gameWorld) 
     {
+        super(gameWorld);
+
         this.swarms = [];
-
-        EM.RegisterEntity(this);
-
-        this.gameWorld = gameWorld;
 
         this.elapsedTime = 0;
         this.timeSinceSpawn = 0;
@@ -19,54 +18,6 @@ export default class SwarmSpawner
         this.minSpawnTime = 1;
 
         this.spawnTimeDecay = 0.1;
-
-    
-    }
-
-    GetOffscreenPosition()
-    {
-        let playerTilePos = this.gameWorld.player.GetTilePos();
-
-        let minX = playerTilePos.x - TILE_WIDTH * 0.5;
-        let maxX = playerTilePos.x + TILE_WIDTH * 0.5;
-
-        let minY = playerTilePos.y - TILE_HEIGHT * 0.5;
-        let maxY = playerTilePos.y + TILE_HEIGHT * 0.5;
-
-        let side = DIR.random();
-
-        let pos = { x: 0, y: 0 };
-
-        if(side === DIR.UP || side === DIR.DOWN)
-        {
-            if(side === DIR.UP)
-            {
-                pos.y = minY - 1;
-            }
-            else if(side === DIR.DOWN)
-            {
-                pos.y = maxY + 1;
-            }
-
-            pos.x = minX + (maxX - minX) * Math.random();
-        }
-        else if(side == DIR.LEFT || side === DIR.RIGHT)
-        {
-            if(side === DIR.LEFT)
-            {
-                pos.x = minX - 1;
-            }
-            else if(side === DIR.RIGHT)
-            {
-                pos.x = maxX + 1;
-            }
-
-            pos.y = minY + (maxY - minY) * Math.random();
-        }
-
-        //let pos = { x: -6, y: -6 };
-
-        return pos;
     }
 
     GetSwarmLevelStats(level)

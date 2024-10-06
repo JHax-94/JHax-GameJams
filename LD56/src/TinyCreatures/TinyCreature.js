@@ -40,6 +40,11 @@ export default class TinyCreature
 
     }
 
+    Damage()
+    {
+        this.Despawn();
+    }
+
     GameWorld()
     {
         if(this.gameWorld === null)

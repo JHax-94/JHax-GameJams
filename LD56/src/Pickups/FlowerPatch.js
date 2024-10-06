@@ -16,9 +16,9 @@ export default class FlowerPatch extends Swarm
             colors: [9, 10],
             tag: "PLAYER_BUG",
             collisionGroup: COLLISION_GROUP.PLAYER,
-            collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.ENEMY | COLLISION_GROUP.PLAYER),
+            collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.ENEMY | COLLISION_GROUP.PLAYER | COLLISION_GROUP.PICKUP),
             perceptionTag: "PLAYER_PERCEPTION",
-            perceptionMask: (COLLISION_GROUP.ENEMY),
+            perceptionMask: (COLLISION_GROUP.ENEMY | COLLISION_GROUP.PICKUP),
             speed: 2.5 * PIXEL_SCALE,
             onFlower: true
         };

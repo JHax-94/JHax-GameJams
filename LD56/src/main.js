@@ -200,7 +200,8 @@ function AddPhysicsEvents()
 let COLLISION_GROUP ={
     PLAYER: Math.pow(2, 0),
     STRUCTURE: Math.pow(2, 1),
-    ENEMY: Math.pow(2, 2)
+    ENEMY: Math.pow(2, 2),
+    PICKUP: Math.pow(2, 3)
 };
 
 ///====== GAME SETUP ======

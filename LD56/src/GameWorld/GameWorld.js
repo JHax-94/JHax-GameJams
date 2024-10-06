@@ -1,4 +1,5 @@
 import FlowerPatch from "../Pickups/FlowerPatch";
+import RoyalJelly from "../Pickups/RoyalJelly";
 import EndHive from "../Structures/EndHive";
 import HiveNode from "../Structures/HiveNode";
 import StartHive from "../Structures/StartHive";
@@ -63,7 +64,9 @@ export default class GameWorld
         
         let endHive = new EndHive(this.GetRandomPositionWithRadius(this.maxDistance));
 
-        new FlowerPatch({ x: 6, y: 0 });
+        //new FlowerPatch({ x: 6, y: 0 });
+
+        new RoyalJelly({ x: 6, y: 6});
 
         this.structures.push(startHive);
         this.GenerateNodes();

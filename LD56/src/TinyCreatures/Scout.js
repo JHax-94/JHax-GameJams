@@ -46,6 +46,12 @@ export default class Scout extends TinyCreature
         this.targetBugs = [];
         this.targetStructures = [];
 
+        this.pickups = [];
+
+        this.jelliedUp = false;
+
+        this.action = "NONE";
+
         this.swarms = [];
 
         /*
@@ -57,6 +63,45 @@ export default class Scout extends TinyCreature
         consoleLog(`CollisionGroup: ${this.perception.phys.shapes[0].collisionGroup}`);
         consoleLog(`CollisionMask: ${this.perception.phys.shapes[0].collisionMask}`);
         consoleLog(`Tag: ${this.perception.phys.tag}`);*/
+    }
+
+    JellyUp(pickup)
+    {
+        consoleLog("JELLY UP!");
+        this.jelliedUp = true;
+        this.UnperceivePickup(pickup);
+    }
+
+    IsJelliedUp()
+    {
+        return this.jelliedUp;
+    }
+
+    PerceivePickup(pickup)
+    {
+        if(this.parentSwarm.isPlayer && pickup.charges > 0 && !this.IsJelliedUp())
+        {
+            if(this.pickups.indexOf(pickup) < 0)
+            {
+                this.pickups.push(pickup);
+            }
+        }
+    }
+
+    UnperceivePickup(pickup)
+    {
+        consoleLog("Remove pickup:");
+        consoleLog(pickup);
+        for(let i = 0; i < this.pickups.length; i ++)
+        {
+            if(this.pickups[i] === pickup)
+            {
+                consoleLog("PICKUP REMOVED");
+                this.pickups.splice(i, 1);
+                break;
+            }
+        }
+        consoleLog("----");
     }
 
     PerceiveSwarm(swarm)
@@ -236,8 +281,117 @@ export default class Scout extends TinyCreature
     {
         if(this.CanKillBug(bug))
         {
-            bug.Despawn();
+            bug.Damage();
+            this.Damage();
+        }
+    }
+
+    Damage()
+    {
+        if(this.jelliedUp)
+        {
+            this.jelliedUp = false;
+        }
+        else
+        {
             this.Despawn();
+        }
+    }
+
+    EnjoyFlower()
+    {
+        this.action = "ENJOY FLOWER";
+        for(let i = 0; i < this.swarms.length; i ++)
+        {
+            let swarm = this.swarms[i];
+            EM.hudLog.push(`Check swarm ${i} available - P: ${swarm.isPlayer}, ${swarm.bugs.length}/${swarm.maxBugs}`);
+
+            if(swarm.isPlayer && swarm.bugs.length < swarm.maxBugs)
+            {
+                this.parentSwarm.RemoveBug(this);
+                this.parentSwarm = swarm;
+                swarm.AddBug(this);
+                this.onFlower = false;
+            }
+        }
+    }
+
+    HuntPrey()
+    {
+        this.action = "HUNT PREY";
+        if(this.prey.dead)
+        {
+            this.RemovePerceivedBug(this.prey);
+            this.prey = null;
+            this.CheckPrey();
+        }
+        else
+        {
+            this.MoveToObject(this.prey);
+        }
+    }
+
+    MoveToObject(object)
+    {
+        let targetVec = [];
+        vec2.sub(targetVec, object.phys.position, this.phys.position);
+
+        let normedTarget = [];
+        vec2.normalize(normedTarget, targetVec);
+        
+        this.phys.velocity = [ normedTarget[0] * this.speed, normedTarget[1] * this.speed ];
+    }    
+
+    ProcessAttackHive(deltaTime)
+    {
+        this.action = "ATTACK HIVE";
+        EM.hudLog.push(`ATTACKING HIVE ${this.hiveAttackTimer.toFixed(3)}/${this.hiveAttackTimer.toFixed(3)}`);
+
+        this.hiveAttackTimer += deltaTime;
+
+        if(this.hiveAttackTimer > this.hiveAttackTime)
+        {
+            this.hiveAttackTimer -= this.hiveAttackTime;
+
+            this.attackingHive.RemovePopulation(1);
+            if(this.attackingHive.dead)
+            {
+                this.RemoveAttackHive();
+                this.parentSwarm.ResetTarget();
+            }
+        }
+    }
+
+    FollowSwarm(deltaTime)
+    {
+        this.action = "FOLLOW SWARM";
+
+        let targetOffset = this.GetTargetOffset(deltaTime);
+
+        let targetPos = []
+        vec2.add(targetPos, targetOffset, this.parentSwarm.phys.position);
+        
+        let targetVec = [ ];
+        vec2.sub(targetVec, targetPos, this.phys.position);
+        let normedTarget = [];
+        vec2.normalize(normedTarget, targetVec);
+
+        this.phys.velocity = [ normedTarget[0] * this.speed, normedTarget[1] * this.speed ];
+    }
+
+    GatherPickup()
+    {
+        this.action = "GATHER PICKUP";
+
+        let targetPickup = this.pickups[0];
+
+        if(targetPickup.charges > 0)
+        {
+            this.MoveToObject(targetPickup);
+        }
+        else
+        {
+            this.UnperceivePickup(targetPickup);
         }
     }
 
@@ -247,70 +401,24 @@ export default class Scout extends TinyCreature
 
         if(this.onFlower)
         {
-            for(let i = 0; i < this.swarms.length; i ++)
-            {
-                let swarm = this.swarms[i];
-                EM.hudLog.push(`Check swarm ${i} available - P: ${swarm.isPlayer}, ${swarm.bugs.length}/${swarm.maxBugs}`);
-
-                if(swarm.isPlayer && swarm.bugs.length < swarm.maxBugs)
-                {
-                    this.parentSwarm.RemoveBug(this);
-                    this.parentSwarm = swarm;
-                    swarm.AddBug(this);
-                    this.onFlower = false;
-                }
-            }
+            this.EnjoyFlower();
         }
 
         if(this.prey)
         {
-            if(this.prey.dead)
-            {
-                this.RemovePerceivedBug(this.prey);
-                this.prey = null;
-                this.CheckPrey();
-            }
-            else
-            {
-                let targetVec = [];
-                vec2.sub(targetVec, this.prey.phys.position, this.phys.position);
-                let normedTarget = [];
-                vec2.normalize(normedTarget, targetVec);
-                
-                this.phys.velocity = [ normedTarget[0] * this.speed, normedTarget[1] * this.speed ];
-            }
+            this.HuntPrey();
+        }
+        else if(this.pickups.length > 0)
+        {
+            this.GatherPickup();
         }
         else if(this.attackingHive)
         {
-            EM.hudLog.push(`ATTACKING HIVE ${this.hiveAttackTimer.toFixed(3)}/${this.hiveAttackTimer.toFixed(3)}`);
-
-            this.hiveAttackTimer += deltaTime;
-
-            if(this.hiveAttackTimer > this.hiveAttackTime)
-            {
-                this.hiveAttackTimer -= this.hiveAttackTime;
-
-                this.attackingHive.RemovePopulation(1);
-                if(this.attackingHive.dead)
-                {
-                    this.RemoveAttackHive();
-                    this.parentSwarm.ResetTarget();
-                }
-            }
+            this.ProcessAttackHive(deltaTime);   
         }
         else
         {
-            let targetOffset = this.GetTargetOffset(deltaTime);
-
-            let targetPos = []
-            vec2.add(targetPos, targetOffset, this.parentSwarm.phys.position);
-            
-            let targetVec = [ ];
-            vec2.sub(targetVec, targetPos, this.phys.position);
-            let normedTarget = [];
-            vec2.normalize(normedTarget, targetVec);
-
-            this.phys.velocity = [ normedTarget[0] * this.speed, normedTarget[1] * this.speed ];
+            this.FollowSwarm(deltaTime);
         }
         /*else if(vec2.sqrDist(this.phys.position, this.parentSwarm.phys.position) > (this.minDist * this.minDist))
         {
@@ -325,6 +433,11 @@ export default class Scout extends TinyCreature
         {
             this.phys.velocity = [ this.parentSwarm.phys.velocity[0], this.parentSwarm.phys.velocity[1]];
         }*/
+
+        if(this.parentSwarm.isPlayer)
+        {
+            EM.hudLog.push(`action: ${this.action}`);
+        }
     }
 
     GetTargetOffset(deltaTime)
@@ -364,5 +477,22 @@ export default class Scout extends TinyCreature
         }
 
         return closestBug;
+    }
+
+    Draw()
+    {
+        if(!this.jelliedUp)
+        {
+            super.Draw();
+        }
+        else
+        {
+            let screenPos = this.GetScreenPos();
+
+            paper(this.colours[0]);
+            rectf(screenPos.x - 1, screenPos.y - 1, 2, 2);
+            paper(this.colours[1]);
+            rectf(screenPos.x - 1, screenPos.y + 1, 2, 2);
+        }
     }
 }

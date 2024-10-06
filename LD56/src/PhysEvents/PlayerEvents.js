@@ -106,6 +106,34 @@ export default class PlayerEvents extends PhysEventRegistry
         enemyPerception.obj.scout.PerceiveBug(playerSwarm.obj);
     }
 
+    Begin_BugPerceptionPickup_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_PERCEPTION", "PICKUP"); }
+    Begin_BugPerceptionPickup_Resolve(container, manager, evt) 
+    {
+        let playerPerception = container.BodyWithTag(evt, "PLAYER_PERCEPTION");
+        let pickup = container.BodyWithTag(evt, "PICKUP");
+
+        playerPerception.obj.scout.PerceivePickup(pickup.obj);
+    }
+
+    End_BugPerceptionPickup_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_PERCEPTION", "PICKUP"); }
+    End_BugPerceptionPickup_Resolve(container, manager, evt)
+    {
+        let playerPerception = container.BodyWithTag(evt, "PLAYER_PERCEPTION");
+        let pickup = container.BodyWithTag(evt, "PICKUP");
+
+        playerPerception.obj.scout.UnperceivePickup(pickup);
+    }
+
+    Begin_BugPickup_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_BUG", "PICKUP"); }
+    Begin_BugPickup_Resolve(container, manager, evt)
+    {
+        consoleLog("BUG / PICKUP COLLISION!");
+        let bug = container.BodyWithTag(evt, "PLAYER_BUG");
+        let pickup = container.BodyWithTag(evt, "PICKUP");
+
+        pickup.obj.InteractWithBug(bug.obj);
+    }
+
     Begin_BugOnPlayer_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_SWARM", "ENEMY_BUG"); }
     Begin_BugOnPlayer_Resolve(container, manager, evt)
     {
@@ -141,6 +169,7 @@ export default class PlayerEvents extends PhysEventRegistry
     End_EnemyBugHive_Check(container, manager, evt) { return manager.CompareTags(evt, "ENEMY_BUG", "HIVE"); }
     End_EnemyBugHive_Resolve(container, manager, evt)
     {
+        consoleLog("ENEMY BUG LEFT HIVE");
         let enemyBug = container.BodyWithTag(evt, "ENEMY_BUG");
         let hive = container.BodyWithTag(evt, "HIVE");
 
@@ -156,7 +185,9 @@ export default class PlayerEvents extends PhysEventRegistry
         let passthroughPairs = [
             { a: "PLAYER_BUG", b: "HIVE" },
             { a: "ENEMY_BUG", b: "HIVE" },
-            { a: "PLAYER_BUG", b: "PLAYER_BUG" }
+            { a: "PLAYER_BUG", b: "PLAYER_BUG" },
+            { a: "PLAYER_BUG", b: "PICKUP" },
+            { a: "ENEMY_BUG", b: "PICKUP" }
         ];
 
         for(let i = 0; i < evt.contactEquations.length; i ++)

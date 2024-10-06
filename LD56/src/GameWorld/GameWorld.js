@@ -8,6 +8,7 @@ import PlayerSwarm from "../TinyCreatures/PlayerSwarm";
 import LevelUpMenu from "../UI/LevelUpMenu";
 import { consoleLog, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
 import FlowerSpawner from "./FlowerSpawner";
+import RoyalJellySpawner from "./RoyalJellySpawner";
 import SwarmSpawner from "./SwarmSpawner";
 import WarningTracker from "./WarningTracker";
 
@@ -41,6 +42,7 @@ export default class GameWorld
         this.swarmSpawner = new SwarmSpawner(this);
         this.flowerSpawner = new FlowerSpawner(this);
         this.warningTracker = new WarningTracker(this);
+        this.royalJellySpawner = new RoyalJellySpawner(this);
     }
 
     GetScreenBounds()
@@ -63,10 +65,6 @@ export default class GameWorld
         this.player = new PlayerSwarm({ x: 2, y: 0});
         
         let endHive = new EndHive(this.GetRandomPositionWithRadius(this.maxDistance));
-
-        //new FlowerPatch({ x: 6, y: 0 });
-
-        new RoyalJelly({ x: 6, y: 6});
 
         this.structures.push(startHive);
         this.GenerateNodes();
@@ -116,6 +114,7 @@ export default class GameWorld
         let supplied = false;
 
         consoleLog("- CHECK HIVE SUPPLIED -");
+        consoleLog(hive);
 
         for(let i = 0; i < this.structures.length; i ++)
         {
@@ -134,6 +133,10 @@ export default class GameWorld
             }
             if(supplied) break;
         }
+
+        consoleLog(`Is supplied? ${supplied}`);
+
+        return supplied;
     }
 
     ActiveHives()

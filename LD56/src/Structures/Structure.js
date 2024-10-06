@@ -19,9 +19,11 @@ export default class Structure
         this.spriteIndex = 1;
         this.isConnected = false;        
         this.targetStructures = [];
+        this.connectors = [];
         this.currentTarget = 0;
 
         this.bugLog = [];
+
 
         let physSettings = {
             tileTransform: { x: pos.x, y: pos.y, w: 1, h: 1 },
@@ -131,7 +133,7 @@ export default class Structure
             let spawn = (this.targetStructures.length === 0 && this.population > this.minReplenish);
 
             this.targetStructures.push(structure);
-            this.connectors = new PathIndicator(structure, this);
+            this.connectors.push(new PathIndicator(structure, this));
 
             structure.isConnected = true;
 
@@ -244,6 +246,14 @@ export default class Structure
     {
         console.warn("-HIVE KILLED-");
         this.dead = true;
+
+        consoleLog(`Clear ${this.connectors.length} connectors`);
+        for(let i = 0; i < this.connectors.length; i ++)
+        {
+            consoleLog("Remove connector");
+            EM.RemoveEntity(this.connectors[i]);
+        }
+        this.targetStructures = [];
     }
 
     SpawnBug()

@@ -1,10 +1,11 @@
-import { EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main";
+import { consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main";
 
 export default class Warning
 {
-    constructor(pos, object, gameWorld, tracker)
+    constructor(object, gameWorld, tracker)
     {
-        this.pos = pos;
+        this.renderLayer = "UI";
+
         this.object = object;
         this.gameWorld = gameWorld;
         this.tracker = tracker;
@@ -19,6 +20,9 @@ export default class Warning
 
         this.totalTime = 3*(this.blinkOnTime + this.blinkOffTime);
         
+        consoleLog("CREATING WARNING FOR");
+        consoleLog(object);
+
         EM.RegisterEntity(this);
     }
 
@@ -102,7 +106,7 @@ export default class Warning
             }
             else
             {
-                this.object.DrawWarning();
+                //this.object.DrawWarning();
             }
         }
     }

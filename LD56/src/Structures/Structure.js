@@ -45,9 +45,31 @@ export default class Structure
         this.minReplenishTime = 3;
         this.replenishTimer = 0;
 
+        this.attackers = [];
+
         this.font = getFont("Default");
 
         EM.RegisterEntity(this, { physSettings: physSettings });
+    }
+
+    AddAttacker(attacker)
+    {
+        if(this.attackers.indexOf(attacker) < 0)
+        {
+            this.attackers.push(attacker);
+        }
+    }
+
+    RemoveAttacker(attacker)
+    {
+        for(let i = 0; i < this.attackers.length; i ++)
+        {
+            if(this.attackers[i] === attacker)
+            {
+                this.attackers.splice(i, 1);
+                break;
+            }
+        }
     }
 
     ReplenishTime()
@@ -150,8 +172,18 @@ export default class Structure
         return spawnTime;
     }
 
+    UnderAttack()
+    {
+        return this.attackers.length > 0;
+    }
+
     Update(deltaTime)
     {
+        if(this.UnderAttack())
+        {
+            EM.hudLog.push(`Hive under attack (${this.attackers.length})`);
+        }
+
         if(!this.dead)
         {
             //EM.hudLog.push(`-HIVE- T: ${this.targetStructures.length} P: ${this.population}`);
@@ -165,7 +197,7 @@ export default class Structure
                 {
                     this.spawnTimer -= this.SpawnTimeRemaining();
 
-                    if(this.targetStructures[this.currentTarget].population < this.targetStructures[this.currentTarget].maxPopulation)
+                    if(this.targetStructures[this.currentTarget].population < this.targetStructures[this.currentTarget].maxPopulation && !this.UnderAttack())
                     {
                         this.SpawnBug();
                     }
@@ -176,14 +208,17 @@ export default class Structure
 
             if(replenishTime > 0)
             {
-                EM.hudLog.push(`Replenish: ${this.replenishTimer.toFixed(3)}/${replenishTime.toFixed(3)}`);
+                //EM.hudLog.push(`Replenish: ${this.replenishTimer.toFixed(3)}/${replenishTime.toFixed(3)}`);
 
                 this.replenishTimer += deltaTime;
 
                 if(this.replenishTimer > replenishTime)
                 {
                     this.replenishTimer = 0;
-                    this.Replenish();
+                    if(!this.UnderAttack())
+                    {
+                        this.Replenish();
+                    }
                 }
             }
         }
@@ -223,9 +258,14 @@ export default class Structure
 
         this.currentTarget = (this.currentTarget + 1) % this.targetStructures.length;
 
-        if(this.population <= 0 && this.GameWorld().HiveSupplied(this) === false)
+        if(this.population <= 0)
         {
-            this.Kill();
+
+            consoleLog("-- HIVE POPULATION AT ZERO --");            
+            if(this.GameWorld().HiveSupplied(this) === false)
+            {
+                this.Kill();
+            }
         }
 
         this.bugLog.push(newBug);
@@ -246,6 +286,8 @@ export default class Structure
     {
         this.population -= amount;
         
+        this.gameWorld.warningTracker.AddWarning(this);
+
         if(this.population < 0)
         {
             this.population = 0;
@@ -274,6 +316,7 @@ export default class Structure
         let th = UTIL.GetTextHeight(popString, this.font);
 
         if(this.Player().GetSourceStructure() === this) this.DrawHighlight(screenPos);
+        if(this.attackers.length > 0 && this.DrawWarning) this.DrawWarning();
 
         pen(1);
         print(popString, screenPos.x + 0.5 * (1 - tw) * PIXEL_SCALE, screenPos.y-th*PIXEL_SCALE - 4);

@@ -117,7 +117,7 @@ export default class EnemySwarm extends Swarm
 
     Update(deltaTime)
     {
-        EM.hudLog.push(`gravlerp: ${this.gravLerp.toFixed(3)}`);
+        //EM.hudLog.push(`gravlerp: ${this.gravLerp.toFixed(3)}`);
 
         if(this.bugs.length < this.maxSize)
         {
@@ -162,9 +162,9 @@ export default class EnemySwarm extends Swarm
 
         vec2.scale(lerped, lerped, this.speed);
 
-        EM.hudLog.push(`SwarmV: (${lerped[0].toFixed(3)}, ${lerped[1].toFixed(3)})`);
+        //EM.hudLog.push(`SwarmV: (${lerped[0].toFixed(3)}, ${lerped[1].toFixed(3)})`);
         this.phys.velocity = [lerped[0], lerped[1]];
 
-        EM.hudLog.push(`TargetV: (${normedTarget[0].toFixed(3)}, ${normedTarget[1].toFixed(3)})`);
+        //EM.hudLog.push(`TargetV: (${normedTarget[0].toFixed(3)}, ${normedTarget[1].toFixed(3)})`);
     }
 }

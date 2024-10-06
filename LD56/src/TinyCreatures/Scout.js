@@ -82,16 +82,24 @@ export default class Scout extends TinyCreature
     AttackHive(hive)
     {
         this.attackingHive = hive;
+        hive.AddAttacker(this);
     }
 
     RemoveAttackHive()
     {
+        this.attackingHive.RemoveAttacker(this);
         this.attackingHive = null;
     }
 
     Despawn()
     {
         super.Despawn();
+
+        if(this.attackingHive)
+        {
+            this.attackingHive.RemoveAttacker(this);
+        }
+
         if(this.parentSwarm)
         {
             this.parentSwarm.RemoveBug(this);
@@ -125,6 +133,11 @@ export default class Scout extends TinyCreature
         {
             /*consoleLog(`Choose Prey[${index}]:`);
             consoleLog(this.targetBugs[index]);*/
+
+            if(this.attackingHive)
+            {
+                this.RemoveAttackHive();
+            }
 
             this.prey = this.targetBugs[index];
         }
@@ -249,7 +262,7 @@ export default class Scout extends TinyCreature
         }
         else if(this.attackingHive)
         {
-            EM.hudLog.push("ATTACKING HIVE");
+            EM.hudLog.push(`ATTACKING HIVE ${this.hiveAttackTimer.toFixed(3)}/${this.hiveAttackTimer.toFixed(3)}`);
 
             this.hiveAttackTimer += deltaTime;
 

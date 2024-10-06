@@ -21,6 +21,8 @@ export default class HiveNode extends Structure
 
     DrawWarning()
     {
+        let screenPos = this.GetScreenPos();
+
         sprite(50, screenPos.x, screenPos.y);
     }
 

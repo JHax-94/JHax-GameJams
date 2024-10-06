@@ -42,7 +42,7 @@ export default class Citizen extends TinyCreature
 
     StructureTouched(structure)
     {
-        consoleLog("Citizen bug collision!");
+        //consoleLog("Citizen bug collision!");
         let popCount = 1;
         if(this.targetHive === structure && structure.CanAddPopulation(popCount))
         {

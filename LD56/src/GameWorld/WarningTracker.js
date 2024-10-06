@@ -37,7 +37,7 @@ export default class WarningTracker
 
         if(!warningExists)
         {
-            let newWarning = new Warning(null, object, this.gameWorld, this);
+            let newWarning = new Warning(object, this.gameWorld, this);
 
             this.warnings.push(newWarning);
         }

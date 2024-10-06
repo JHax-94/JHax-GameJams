@@ -112,6 +112,8 @@ export default class GameWorld
     {
         let supplied = false;
 
+        consoleLog("- CHECK HIVE SUPPLIED -");
+
         for(let i = 0; i < this.structures.length; i ++)
         {
             if(this.structures[i] !== hive && this.structures[i].IsActive())
@@ -120,6 +122,8 @@ export default class GameWorld
                 {
                     if(this.structures[i].targetStructures[j] === hive)
                     {
+                        consoleLog("Hive Supplied by:");
+                        consoleLog(this.structures[i]);
                         supplied = true;
                         break;
                     }

@@ -23,11 +23,17 @@ export default class GameWorld
 
         /// GAME CONFIGURATION
         this.maxDistance = 20;
-        this.numberOfNodes = 3;
+        this.numberOfNodes = 10;
 
         /// GLOBAL STATS
         this.citizenSpeed = 1.5 * PIXEL_SCALE;
 
+
+        /// GENERATOR DATA
+        this.minRadius = 4;
+        this.lastAngle = 2 * Math.PI * Math.random();
+
+        /// SERVICES
         this.swarmSpawner = new SwarmSpawner(this);
     }
 
@@ -47,9 +53,11 @@ export default class GameWorld
 
     GetRandomPositionWithRadius(radius)
     {
-        let angle = 2 * Math.random() * Math.PI;
+        let angle = this.lastAngle + 0.5 * Math.PI + Math.random() * Math.PI;
 
-        return { x: radius * Math.cos(angle), y: radius * Math.sin(angle) }
+        this.lastAngle = angle;
+
+        return { x: radius * Math.cos(angle), y: radius * Math.sin(angle) };
     }
 
     SwarmDestroyed(swarm)
@@ -59,8 +67,8 @@ export default class GameWorld
 
     GenerateNodes()
     {
-        let radiusDiff = this.maxDistance / (this.numberOfNodes + 1);
-        let radius = radiusDiff;
+        let radiusDiff = (this.maxDistance - this.minRadius) / (this.numberOfNodes + 1);
+        let radius = this.minRadius + radiusDiff;
 
         for(let i = 0; i < this.numberOfNodes; i ++)
         {

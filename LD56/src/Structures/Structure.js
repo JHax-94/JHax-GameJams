@@ -1,6 +1,7 @@
 import { COLLISION_GROUP, consoleLog, EM, getFont, PIXEL_SCALE, setFont, UTIL } from "../main";
 import Citizen from "../TinyCreatures/Citizen";
 import PathIndicator from "./PathIndicator";
+import ReplenishAnimation from "./ReplenishAnimation";
 
 
 export default class Structure
@@ -92,6 +93,12 @@ export default class Structure
     {
         consoleLog("REPLENISH!");
         this.population ++;
+
+        let animPos = this.GetTilePos();
+
+        animPos.y -= 2;
+
+        new ReplenishAnimation(animPos);
     }
 
     IsActive()
@@ -384,8 +391,11 @@ export default class Structure
         if(this.Player().GetSourceStructure() === this) this.DrawHighlight(screenPos);
         if(this.attackers.length > 0 && this.DrawWarning) this.DrawWarning();
 
-        pen(1);
-        print(popString, screenPos.x + 0.5 * (1 - tw) * PIXEL_SCALE, screenPos.y-th*PIXEL_SCALE - 4);
+        if(!this.dead)
+        {
+            pen(1);
+            print(popString, screenPos.x + 0.5 * (1 - tw) * PIXEL_SCALE, screenPos.y-th*PIXEL_SCALE - 4);
+        }
     }
 
 }

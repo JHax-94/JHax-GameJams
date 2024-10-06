@@ -12,12 +12,6 @@ export default class GameOverScreen extends EndScreen
         this.BuildButtons([ { text: "TRY AGAIN", callback: this.Restart } ]);
     }
 
-    Restart()
-    {
-        consoleLog("Restart");
-
-        SETUP();
-    }
 
     Draw()
     {

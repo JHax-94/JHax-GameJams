@@ -73,13 +73,13 @@ export default class GameWorld
     Victory()
     {
         this.EndGamePause();
-        new VictoryScreen();
+        EM.pauseMenu = new VictoryScreen();
     }
 
     Defeat(reason)
     {
         this.EndGamePause();
-        new GameOverScreen(reason);
+        EM.pauseMenu = new GameOverScreen(reason);
     }
 
     BuildWorld()
@@ -88,6 +88,8 @@ export default class GameWorld
         this.player = new PlayerSwarm({ x: 2, y: 0});
         
         let endHive = new EndHive(this.GetRandomPositionWithRadius(this.maxDistance));
+
+        EM.AddEntity("END_HIVE", endHive);
 
         this.structures.push(startHive);
         this.GenerateNodes();

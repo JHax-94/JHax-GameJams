@@ -1,4 +1,4 @@
-import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main"
+import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, SETUP, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main"
 import Button from "./Button";
 
 export default class EndScreen
@@ -23,6 +23,17 @@ export default class EndScreen
         this.dims.y = (TILE_HEIGHT - this.dims.h) * 0.5;
 
         EM.RegisterEntity(this);
+    }
+
+    Update(deltaTime)
+    {
+    }
+
+    Restart()
+    {
+        consoleLog("Restart");
+
+        SETUP();
     }
 
     Pos()

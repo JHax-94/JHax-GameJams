@@ -44,9 +44,9 @@
 		"down": 40,
 		"left": 37,
 		"right": 39,
-		"A": 32,
+		"A": 90,
 		"B": 88,
-		"Waggle": 32,
+		"Waggle": 67,
 		"esc": 27
 	},
 	"touchEvent": {

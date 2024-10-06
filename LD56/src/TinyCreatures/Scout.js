@@ -327,8 +327,9 @@ export default class Scout extends TinyCreature
         }
         else if(this.targetBugs.length === 0)
         {
-            consoleLog("hunting prey:");
+            console.warn("BUG STUCK HUNTING");
             consoleLog(this.prey);
+            this.prey = null;
         }
         else
         {

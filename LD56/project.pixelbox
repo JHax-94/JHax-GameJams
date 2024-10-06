@@ -46,7 +46,8 @@
 		"right": 39,
 		"A": 32,
 		"B": 88,
-		"Waggle": 32
+		"Waggle": 32,
+		"esc": 27
 	},
 	"touchEvent": {
 		"multiTouch": false,

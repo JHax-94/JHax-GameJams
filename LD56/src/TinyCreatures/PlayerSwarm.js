@@ -85,6 +85,8 @@ export default class PlayerSwarm extends Swarm
         consoleLog(">>>> DESPAWN PLAYER <<<<");
         EM.RemoveEntity(this.statusUi);
         EM.RemoveEntity(this);
+
+        this.GameWorld().Defeat([ "The pilot bee was killed!" ]);
     }
 
     Damage() { this.Despawn(); }
@@ -157,6 +159,7 @@ export default class PlayerSwarm extends Swarm
 
     Input(input)
     {
+
         let inputVector = { x: 0, y: 0 };
 
         if(input.right)
@@ -232,8 +235,20 @@ export default class PlayerSwarm extends Swarm
         this.noSource = true;
     }
 
+    CheckSourceStillValid()
+    {
+        let source = this.GetSourceStructure();
+
+        if(source && source.dead)
+        {
+            this.ClearHiveSource();
+        }
+    }
+
     Update(deltaTime)
     {
+        this.CheckSourceStillValid();
+        
         if(this.waggleUntil > 0)
         {
             this.waggleUntil -= deltaTime;

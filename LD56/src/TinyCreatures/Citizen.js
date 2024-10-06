@@ -63,10 +63,17 @@ export default class Citizen extends TinyCreature
         this.sourceHive.RemoveBug(this);
 
         if(showWarning) this.GameWorld().warningTracker.AddWarning(this);
+
+        this.GameWorld().CheckEndGame();
     }
 
     Update(deltaTime)
     {
+        if(this.targetHive.dead)
+        {
+            this.Despawn();
+        }
+
         let targetVec = [];
         vec2.sub(targetVec, this.targetHive.phys.position, this.phys.position);
         let targetNormed = [];

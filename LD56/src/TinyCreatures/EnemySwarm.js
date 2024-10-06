@@ -131,40 +131,48 @@ export default class EnemySwarm extends Swarm
             }
         }
 
-        if(this.gravLerp < 1)
+        if(this.target)
         {
-            this.gravLerp += deltaTime * this.gravLerpRate;
-
-            if(this.gravLerp > 1)
+            if(this.target.IsActive && !this.target.IsActive())
             {
-                this.gravLerp = 1;
+                this.ResetTarget();
             }
+
+            if(this.gravLerp < 1)
+            {
+                this.gravLerp += deltaTime * this.gravLerpRate;
+
+                if(this.gravLerp > 1)
+                {
+                    this.gravLerp = 1;
+                }
+            }
+            
+            let forward = [0, 1];
+            this.phys.vectorToWorldFrame(forward, [0, 1]);
+            
+            this.phys.angularVelocity = 1;
+
+            //this.phys.velocity = [forward[0] * this.speed, forward[1] * this.speed];
+
+            let vecToTarget = [];
+            vec2.sub(vecToTarget, this.target.phys.position, this.phys.position);
+            let normedTarget = [];
+            vec2.normalize(normedTarget, vecToTarget);
+
+            let lerped = [ 
+                forward[0] + (normedTarget[0] - forward[0]) * this.gravLerp, 
+                forward[1] + (normedTarget[1] - forward[1]) * this.gravLerp
+                /*normedTarget[0],
+                normedTarget[1]*/
+            ];
+
+            vec2.scale(lerped, lerped, this.speed);
+
+            //EM.hudLog.push(`SwarmV: (${lerped[0].toFixed(3)}, ${lerped[1].toFixed(3)})`);
+            this.phys.velocity = [lerped[0], lerped[1]];
+
+            //EM.hudLog.push(`TargetV: (${normedTarget[0].toFixed(3)}, ${normedTarget[1].toFixed(3)})`);
         }
-        
-        let forward = [0, 1];
-        this.phys.vectorToWorldFrame(forward, [0, 1]);
-        
-        this.phys.angularVelocity = 1;
-
-        //this.phys.velocity = [forward[0] * this.speed, forward[1] * this.speed];
-
-        let vecToTarget = [];
-        vec2.sub(vecToTarget, this.target.phys.position, this.phys.position);
-        let normedTarget = [];
-        vec2.normalize(normedTarget, vecToTarget);
-
-        let lerped = [ 
-            forward[0] + (normedTarget[0] - forward[0]) * this.gravLerp, 
-            forward[1] + (normedTarget[1] - forward[1]) * this.gravLerp
-            /*normedTarget[0],
-            normedTarget[1]*/
-        ];
-
-        vec2.scale(lerped, lerped, this.speed);
-
-        //EM.hudLog.push(`SwarmV: (${lerped[0].toFixed(3)}, ${lerped[1].toFixed(3)})`);
-        this.phys.velocity = [lerped[0], lerped[1]];
-
-        //EM.hudLog.push(`TargetV: (${normedTarget[0].toFixed(3)}, ${normedTarget[1].toFixed(3)})`);
     }
 }

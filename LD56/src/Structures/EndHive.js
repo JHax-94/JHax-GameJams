@@ -14,4 +14,14 @@ export default class EndHive extends Structure
     IsValidSource() { return false; }
     
     ReplenishUpdate(deltaTime) {}
+
+    Update(deltaTime)
+    {
+        super.Update(deltaTime);
+
+        if(this.population === this.maxPopulation)
+        {
+            this.GameWorld().Victory();
+        }
+    }
 }

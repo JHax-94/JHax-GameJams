@@ -317,6 +317,8 @@ export default class Structure
         }
 
         this.targetStructures = [];
+
+        this.GameWorld().CheckEndGame();
     }
 
     Disconnected()

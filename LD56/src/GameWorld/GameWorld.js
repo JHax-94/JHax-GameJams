@@ -5,9 +5,11 @@ import HiveNode from "../Structures/HiveNode";
 import StartHive from "../Structures/StartHive";
 import EnemySwarm from "../TinyCreatures/EnemySwarm";
 import PlayerSwarm from "../TinyCreatures/PlayerSwarm";
+import GameOverScreen from "../UI/GameOverScreen";
 import LevelUpMenu from "../UI/LevelUpMenu";
+import VictoryScreen from "../UI/VictoryScreen";
 import UpgradeGenerator from "../Upgrades/UpgradeGenerator";
-import { consoleLog, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
+import { consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
 import FlowerSpawner from "./FlowerSpawner";
 import RoyalJellySpawner from "./RoyalJellySpawner";
 import SwarmSpawner from "./SwarmSpawner";
@@ -45,6 +47,8 @@ export default class GameWorld
         this.warningTracker = new WarningTracker(this);
         this.royalJellySpawner = new RoyalJellySpawner(this);
         this.upgradeGenerator = new UpgradeGenerator();
+
+        EM.RegisterEntity(this);
     }
 
     GetScreenBounds()
@@ -61,6 +65,23 @@ export default class GameWorld
         return bounds;
     }
 
+    EndGamePause()
+    {
+        EM.Pause(false);
+    }
+
+    Victory()
+    {
+        this.EndGamePause();
+        new VictoryScreen();
+    }
+
+    Defeat(reason)
+    {
+        this.EndGamePause();
+        new GameOverScreen(reason);
+    }
+
     BuildWorld()
     {
         let startHive = new StartHive({ x: 0, y: 0 });
@@ -73,6 +94,33 @@ export default class GameWorld
         this.structures.push(endHive);
 
         this.swarmSpawner.SpawnSwarm();
+    }
+
+    TotalStructPopulation()
+    {
+        let total = 0;
+        for(let i = 0; i < this.structures.length; i ++)
+        {
+            if(!this.endHive)
+            {
+                total += this.structures[i].population;
+            }
+        }
+        return total;
+    }
+
+    TotalCitizens()
+    {
+        let total = 0;
+        for(let i = 0; i < this.structures.length; i ++)
+        {
+            if(!this.endHive)
+            {
+                total += this.structures[i].bugLog.length;
+            }
+        }
+
+        return total;
     }
 
     GetRandomPositionWithRadius(radius)
@@ -190,5 +238,18 @@ export default class GameWorld
     PlayerLevelled()
     {
         new LevelUpMenu(this.player);
+    }
+    /*
+    Update(deltaTime)
+    {
+        EM.hudLog.push(`H: ${this.TotalStructPopulation()} C: ${this.TotalCitizens()}`);
+    }*/
+
+    CheckEndGame()
+    {
+        if(this.TotalStructPopulation() + this.TotalCitizens() <= 0)
+        {
+            this.Defeat([ "The whole colony", "was killed!" ]);
+        }
     }
 }

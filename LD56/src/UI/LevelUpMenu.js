@@ -116,9 +116,5 @@ export default class LevelUpMenu
 
         this.DrawCentredText(this.title, lineHeight);
         this.DrawCentredText(this.subtitle, lineHeight * 2 + 0.25);
-
-        
-
-
     }
 }

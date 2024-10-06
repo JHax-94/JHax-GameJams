@@ -4,6 +4,13 @@
             "name": "Default",
             "charWidth": 4,
             "charHeight": 5
+        },
+        {
+            "name": "LargeNarr",
+            "charWidth": 6,
+            "charHeight": 8,
+            "path": "restricted/large_font_narrow",
+            "forceCaps": false
         }
     ]
 }

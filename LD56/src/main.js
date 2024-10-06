@@ -169,11 +169,18 @@ function setFont(fontImage)
     {
         if(fontImage && fontImage.img)
         {
-            setCharset(fontImage.img);
+            $screen.setCharset(fontImage.img);
         }
         else
         {
-            setCharset(fontImage);
+            if(fontImage.name === "Default")
+            {
+                $screen.setCharset(null);
+            }
+            else
+            {
+                $screen.setCharset(fontImage);
+            }
         }
     }
 }
@@ -199,6 +206,16 @@ let COLLISION_GROUP ={
 ///====== GAME SETUP ======
 function SETUP(levelName)
 {
+
+    consoleLog("SETUP");
+    /*consoleLog($screen);
+    consoleLog($screen.charset);
+    consoleLog($screen.charSet);
+    consoleLog($screen.setCharset);
+    consoleLog($screen.DEFAULT_CHARSET);
+    consoleLog(DEFAULT_CHARSET);*/
+
+
     EM = new EntityManager();
     AddPhysicsEvents();
     let gameWorld = new GameWorld();

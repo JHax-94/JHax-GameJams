@@ -1,6 +1,6 @@
 import p2, { vec2 } from "p2";
 import InputGroup from "./InputGroup";
-import { consoleLog, PIXEL_SCALE, EM, getObjectConfig, TILE_HEIGHT, TILE_WIDTH, AUDIO } from "./main";
+import { consoleLog, PIXEL_SCALE, EM, getObjectConfig, TILE_HEIGHT, TILE_WIDTH, AUDIO, getFont, setFont } from "./main";
 import PauseMenu from "./UI/PauseMenu";
 import PhysicsContainer from "./PhysicsContainer";
 import RenderLayer from "./RenderLayer";
@@ -61,6 +61,8 @@ export default class EntityManager
         this.cancelInputDetect = false;
 
         this.phys = (!noPhys) ? new p2.World({gravity: [0, 0] }) : null;
+
+        this.font = getFont("Default");
 
         this.LoadRenderLayers();
         this.LoadInputGroups();
@@ -1201,6 +1203,8 @@ export default class EntityManager
         
         if(this.hudLog.length > 0)
         {
+            setFont(this.font);
+
             if(this.hudLogOn)
             {
                 //setFont();

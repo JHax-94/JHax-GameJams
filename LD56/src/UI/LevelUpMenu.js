@@ -1,4 +1,4 @@
-import { consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
+import { consoleLog, EM, getFont, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
 import UpgradeCitizenSpeed from "../Upgrades/UpgradeCitizenSpeed";
 import UpgradeRespawnTime from "../Upgrades/UpgradeRespawnTime";
 import UpgradeSwarmSize from "../Upgrades/UpgradeSwarmSize";
@@ -12,7 +12,9 @@ export default class LevelUpMenu
 
         this.player = player;
 
-        this.title = "Level Up!";
+        this.font = getFont("LargeNarr");
+
+        this.title = "Level Up!".toUpperCase();
 
         this.subtitle = `Choose a level ${player.level + 1} upgrade`;
 
@@ -25,8 +27,8 @@ export default class LevelUpMenu
         ];
 
         this.dims = {
-            w: 16,
-            h: 10,
+            w: 20,
+            h: 12,
             x: 0,
             y: 0
         };
@@ -71,17 +73,18 @@ export default class LevelUpMenu
         let levelUp = this;
         for(let i = 0; i < options.length; i ++)
         {
-            let buttonDims = { x: 0, y: 3 + 2 * i, w: 12, h: 1.5 };
+            let buttonDims = { x: 0, y: 4 + 2 * i, w: 16, h: 1.5 };
 
             buttonDims.x = (this.dims.w - buttonDims.w) * 0.5;
 
             let button = new Button(
                 buttonDims, 
                 { 
+                    font: "LargeNarr",
                     rect: 
                     { 
                         colour: 5, textColour: 1, borderColor: 0,
-                        text: options[i].description
+                        text: options[i].description,
                     } 
                 }, 
                 "UI", 
@@ -98,7 +101,7 @@ export default class LevelUpMenu
 
     DrawCentredText(text, y)
     {
-        let textW = UTIL.GetTextWidth(text, null);
+        let textW = UTIL.GetTextWidth(text, this.font);
         print(text, (this.dims.x + (this.dims.w - textW) * 0.5) * PIXEL_SCALE, (this.dims.y + y) * PIXEL_SCALE);
     }
 
@@ -109,7 +112,7 @@ export default class LevelUpMenu
         rectf(this.dims.x * PIXEL_SCALE, this.dims.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
         rect(this.dims.x * PIXEL_SCALE, this.dims.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
 
-        let lineHeight = UTIL.GetTextHeight("", null);
+        let lineHeight = UTIL.GetTextHeight("", this.font);
 
         this.DrawCentredText(this.title, lineHeight);
         this.DrawCentredText(this.subtitle, lineHeight * 2 + 0.25);

@@ -9,6 +9,9 @@ node_modules
 # Ignore distrib directory
 distrib
 
+# ignore assets that might not be readily distributable
+/assets/fonts/restricted
+
 # ignore local tool settings
 /tools/settings.json
 /tools/bleeper.json

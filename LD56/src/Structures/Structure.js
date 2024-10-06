@@ -1,4 +1,4 @@
-import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, UTIL } from "../main";
+import { COLLISION_GROUP, consoleLog, EM, getFont, PIXEL_SCALE, setFont, UTIL } from "../main";
 import Citizen from "../TinyCreatures/Citizen";
 import PathIndicator from "./PathIndicator";
 
@@ -44,6 +44,8 @@ export default class Structure
         this.maxReplenishTime = 12;
         this.minReplenishTime = 3;
         this.replenishTimer = 0;
+
+        this.font = getFont("Default");
 
         EM.RegisterEntity(this, { physSettings: physSettings });
     }
@@ -258,6 +260,8 @@ export default class Structure
 
     Draw()
     {
+        setFont(this.font);
+
         let screenPos = this.GetScreenPos();
 
         let spriteIndex = this.dead ? this.deadSprite : this.spriteIndex;
@@ -266,8 +270,8 @@ export default class Structure
 
         let popString = `${this.population}/${this.maxPopulation}`;
 
-        let tw = UTIL.GetTextWidth(popString, null);
-        let th = UTIL.GetTextHeight(popString, null);
+        let tw = UTIL.GetTextWidth(popString, this.font);
+        let th = UTIL.GetTextHeight(popString, this.font);
 
         if(this.Player().GetSourceStructure() === this) this.DrawHighlight(screenPos);
 

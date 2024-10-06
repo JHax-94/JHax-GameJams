@@ -38,7 +38,7 @@ export default class PlayerSwarm extends Swarm
 
         this.bugSpawnTime = 60;
         this.bugSpawnTimer = 0;
-        this.maxBugs = 2;
+        this.maxBugs = 3;
 
         this.statusUi = new PlayerStatusUi(this);
 

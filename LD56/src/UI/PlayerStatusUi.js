@@ -34,7 +34,7 @@ export default class PlayerStatusUi
         {
             lvlString = `00${level}`;
         }
-        else if(level < 10)
+        else if(level < 100)
         {
             lvlString = `0${level}`;
         }

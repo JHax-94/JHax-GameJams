@@ -339,7 +339,7 @@ export default class Structure
 
     CanAddPopulation(addPop)
     {
-        return this.population + addPop <= this.maxPopulation;
+        return !this.dead && this.population + addPop <= this.maxPopulation;
     }
 
     AddPopulation(addPop)

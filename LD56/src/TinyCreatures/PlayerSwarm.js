@@ -188,19 +188,35 @@ export default class PlayerSwarm extends Swarm
 
         let angleDiff = this.targetAngle - this.phys.angle;
 
-        if(angleDiff < 0)
+        if((angleDiff < 0 && Math.abs(angleDiff) < Math.PI) || (angleDiff > 0 && Math.abs(angleDiff) > Math.PI))
         {
             this.phys.angle -= deltaTime;
+
+            if(this.phys.angle <= -Math.PI)
+            {
+                this.phys.angle += 2 * Math.PI;
+            }
+
             if(this.phys.angle < this.targetAngle)
             {
                 this.phys.angle = this.targetAngle;
+                
+                consoleLog(`SNAP ANGLE: ${this.phys.angle.toFixed(3)} to ${this.targetAngle.toFixed(3)}`)
             }  
         }
-        else if(angleDiff > 0)
+        else if((angleDiff > 0 && Math.abs(angleDiff) < Math.PI) || (angleDiff < 0 && Math.abs(angleDiff) > Math.PI) )
         {
             this.phys.angle += deltaTime;
+
+            if(this.phys.angle >= Math.PI)
+            {
+                this.phys.angle -= 2 * Math.PI;
+            }
+
             if(this.phys.angle > this.targetAngle)
             {
+                consoleLog(`SNAP ANGLE: ${this.phys.angle.toFixed(3)} to ${this.targetAngle.toFixed(3)}`)
+
                 this.phys.angle = this.targetAngle;
             }  
         }

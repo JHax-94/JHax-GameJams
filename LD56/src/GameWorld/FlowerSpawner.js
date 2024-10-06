@@ -48,6 +48,19 @@ export default class FlowerSpawner extends Spawner
         this.patches.push(newPatch);
     }
 
+    GenerateFlowerPatchOnScreen()
+    {
+        let screenBounds = this.gameWorld.GetScreenBounds();
+
+        let pos = {
+            x: screenBounds.minX + (screenBounds.maxX - screenBounds.minX) * Math.random(),
+            y: screenBounds.minY + (screenBounds.maxY - screenBounds.minY) * Math.random()
+        };
+
+        let newPatch = new FlowerPatch(pos);
+        this.patches.push(newPatch);
+    }
+
     Update(deltaTime)
     {
         this.spawnTimer += deltaTime;

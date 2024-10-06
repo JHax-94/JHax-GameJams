@@ -6,6 +6,7 @@ import StartHive from "../Structures/StartHive";
 import EnemySwarm from "../TinyCreatures/EnemySwarm";
 import PlayerSwarm from "../TinyCreatures/PlayerSwarm";
 import LevelUpMenu from "../UI/LevelUpMenu";
+import UpgradeGenerator from "../Upgrades/UpgradeGenerator";
 import { consoleLog, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
 import FlowerSpawner from "./FlowerSpawner";
 import RoyalJellySpawner from "./RoyalJellySpawner";
@@ -32,7 +33,7 @@ export default class GameWorld
 
         /// GLOBAL STATS
         this.citizenSpeed = 1.5 * PIXEL_SCALE;
-
+        
 
         /// GENERATOR DATA
         this.minRadius = 4;
@@ -43,6 +44,7 @@ export default class GameWorld
         this.flowerSpawner = new FlowerSpawner(this);
         this.warningTracker = new WarningTracker(this);
         this.royalJellySpawner = new RoyalJellySpawner(this);
+        this.upgradeGenerator = new UpgradeGenerator();
     }
 
     GetScreenBounds()
@@ -109,6 +111,14 @@ export default class GameWorld
         }
     }
 
+    UpgradeHivePopulationRate(amount)
+    {
+        for(let i = 0; i < this.structures.length; i ++)
+        {
+            this.structures[i].replenishRate += amount;
+        }
+    }
+    
     HiveSupplied(hive)
     {
         let supplied = false;

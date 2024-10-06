@@ -20,11 +20,9 @@ export default class LevelUpMenu
 
         this.buttons = [];
 
-        this.options = [
-            new UpgradeSwarmSize(1),
-            new UpgradeRespawnTime(0.1),
-            new UpgradeCitizenSpeed(1)
-        ];
+        let upgradeGen = EM.GetEntity("GAMEWORLD").upgradeGenerator;
+
+        this.options = upgradeGen.GenerateUpgrades();
 
         this.dims = {
             w: 20,

@@ -46,6 +46,7 @@ export default class Structure
         this.maxReplenishTime = 12;
         this.minReplenishTime = 3;
         this.replenishTimer = 0;
+        this.replenishRate = 1;
 
         this.attackers = [];
 
@@ -212,7 +213,7 @@ export default class Structure
             {
                 //EM.hudLog.push(`Replenish: ${this.replenishTimer.toFixed(3)}/${replenishTime.toFixed(3)}`);
 
-                this.replenishTimer += deltaTime;
+                this.replenishTimer += deltaTime * this.replenishRate;
 
                 if(this.replenishTimer > replenishTime)
                 {

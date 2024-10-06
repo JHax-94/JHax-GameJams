@@ -6,6 +6,7 @@ import Upgrade from "./Upgrade";
 import UpgradeSpawnFlower from "./UpgradeSpawnFlower";
 import UpgradeHivePopulationRate from "./UpgradeHivePopulationRate";
 import UpgradeRoyalJelly from "./UpgradeRoyalJelly";
+import UpgradeRespawnFlowers from "./UpgradeRespawnFlowers";
 
 export default class UpgradeGenerator
 {
@@ -17,7 +18,8 @@ export default class UpgradeGenerator
             { type: "CitizenSpeed" },
             { type: "SpawnFlower"},
             { type: "Repopulate" },
-            { type: "RoyalJelly" }
+            { type: "RoyalJelly" },
+            { type: "PopFlower" },
         ];
     }
 
@@ -37,6 +39,8 @@ export default class UpgradeGenerator
                 return new UpgradeHivePopulationRate(0.1);
             case "RoyalJelly":
                 return new UpgradeRoyalJelly();
+            case "PopFlower":
+                return new UpgradeRespawnFlowers();
             default:
                 console.warn("UPGRADE TYPE NOT RECOGNISED");
                 consoleLog(upgradeData);

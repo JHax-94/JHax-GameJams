@@ -34,7 +34,7 @@ export default class HiveNode extends Structure
 
         let returnTime = spawnTimeRemaining + (1-factor) * spawnTimeRemaining;
 
-        EM.hudLog.push(`Node ${this.population}/${this.maxPopulation} - ${factor.toFixed(3)} - T: ${returnTime} - t: ${spawnTimeRemaining}`);
+        //EM.hudLog.push(`Node ${this.population}/${this.maxPopulation} - ${factor.toFixed(3)} - T: ${returnTime} - t: ${spawnTimeRemaining}`);
 
         return returnTime;
     }

@@ -53,7 +53,7 @@ export default class Citizen extends TinyCreature
 
     Despawn(showWarning = false)
     {
-        consoleLog(`--- DESPAWN CITIZEN | Warn? ${showWarning} ---`);
+        //consoleLog(`--- DESPAWN CITIZEN | Warn? ${showWarning} ---`);
         super.Despawn();
         this.sourceHive.RemoveBug(this);
 

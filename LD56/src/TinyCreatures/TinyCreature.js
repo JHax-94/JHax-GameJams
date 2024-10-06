@@ -28,8 +28,9 @@ export default class TinyCreature
             linearDrag: 0.99
         };
 
+        /*
         consoleLog("Register tiny creature with phys settings:");
-        consoleLog(physSettings);
+        consoleLog(physSettings);*/
 
         EM.RegisterEntity(this, { physSettings: physSettings });
     }

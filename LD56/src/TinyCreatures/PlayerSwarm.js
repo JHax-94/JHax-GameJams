@@ -1,7 +1,8 @@
 import { vec2 } from "p2";
-import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main"
+import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main"
 import Swarm from "./Swarm";
 import PlayerStatusUi from "../UI/PlayerStatusUi";
+import Texture from "pixelbox/Texture";
 
 export default class PlayerSwarm extends Swarm
 {
@@ -45,6 +46,21 @@ export default class PlayerSwarm extends Swarm
         {
             this.SpawnBug();
         }
+
+        this.targetAngle = 0;
+
+        this.mainTexture = this.BuildMainTexture();
+
+    }
+
+    BuildMainTexture()
+    {
+        let tex = new Texture(PIXEL_SCALE, PIXEL_SCALE);
+
+        tex.sprite(3, 0, 0);
+
+        return tex;
+
     }
 
     Despawn()
@@ -147,6 +163,11 @@ export default class PlayerSwarm extends Swarm
         vec2.normalize(moveVec, [inputVector.x, inputVector.y]);
 
         this.phys.velocity = [moveVec[0] * this.speed, moveVec[1] * this.speed];
+
+        if(inputVector.x !== 0 || inputVector.y !== 0)
+        {
+            this.targetAngle = vec2.angleDelta([0, 1], this.phys.velocity);
+        }
     }
 
     SpawnProgress()
@@ -161,6 +182,27 @@ export default class PlayerSwarm extends Swarm
 
     Update(deltaTime)
     {
+        //EM.hudLog.push(`T: ${this.targetAngle.toFixed(3)} C: ${this.phys.angle.toFixed(3)} DL: ${(this.targetAngle - this.phys.angle).toFixed(3)} DR: ${(this.phys.angle - (this.targetAngle + 2*Math.PI)).toFixed(3)}`);
+
+        let angleDiff = this.targetAngle - this.phys.angle;
+
+        if(angleDiff < 0)
+        {
+            this.phys.angle -= deltaTime;
+            if(this.phys.angle < this.targetAngle)
+            {
+                this.phys.angle = this.targetAngle;
+            }  
+        }
+        else if(angleDiff > 0)
+        {
+            this.phys.angle += deltaTime;
+            if(this.phys.angle > this.targetAngle)
+            {
+                this.phys.angle = this.targetAngle;
+            }  
+        }
+
         let physPos = this.phys.position;
 
         let hWidth = 0.5 * TILE_WIDTH * PIXEL_SCALE;
@@ -183,14 +225,12 @@ export default class PlayerSwarm extends Swarm
                 }
             }
         }
-
-        
     }
 
     Draw()
     {
-        let screenPos = this.GetScreenPos()
+        let screenPos = this.GetScreenPos();
         
-        sprite(3, screenPos.x, screenPos.y);
+        this.mainTexture._drawEnhanced(screenPos.x, screenPos.y, { angle: this.phys.angle, maintainCentre: true });
     }
 }

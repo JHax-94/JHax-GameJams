@@ -19,9 +19,9 @@ export default class Warning
         this.elapsedTimer = 0;
 
         this.totalTime = 3*(this.blinkOnTime + this.blinkOffTime);
-        
+        /*
         consoleLog("CREATING WARNING FOR");
-        consoleLog(object);
+        consoleLog(object);*/
 
         EM.RegisterEntity(this);
     }

@@ -11,7 +11,7 @@ export default class PlayerEvents extends PhysEventRegistry
     Begin_PlayerStructure_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_SWARM", "HIVE"); }
     Begin_PlayerStructure_Resolve(container, manager, evt)
     {
-        consoleLog("PLAYER HIVE COLLISION!");
+        //consoleLog("PLAYER HIVE COLLISION!");
         let player = container.BodyWithTag(evt, "PLAYER_SWARM");
         let hive = container.BodyWithTag(evt, "HIVE");
 
@@ -73,7 +73,7 @@ export default class PlayerEvents extends PhysEventRegistry
     Begin_FriendlyBugPlayer_Check(container, manager, evt) { return manager.CompareTags(evt, "PLAYER_BUG", "PLAYER_SWARM"); }
     Begin_FriendlyBugPlayer_Resolve(container, manager, evt)
     {
-        consoleLog("PLAYER BUG / SWARM COLLISION");
+        //consoleLog("PLAYER BUG / SWARM COLLISION");
         let bug = manager.BodyWithTag(evt, "PLAYER_BUG");
 
         if(bug.obj.onFlower)
@@ -135,6 +135,18 @@ export default class PlayerEvents extends PhysEventRegistry
         if(hive.obj.IsActive())
         {
             enemyBug.obj.AttackHive(hive.obj);
+        }
+    }
+
+    End_EnemyBugHive_Check(container, manager, evt) { return manager.CompareTags(evt, "ENEMY_BUG", "HIVE"); }
+    End_EnemyBugHive_Resolve(container, manager, evt)
+    {
+        let enemyBug = container.BodyWithTag(evt, "ENEMY_BUG");
+        let hive = container.BodyWithTag(evt, "HIVE");
+
+        if(enemyBug.obj.attackHive === hive.obj)
+        {
+            enemyBug.obj.RemoveAttackHive();
         }
     }
 

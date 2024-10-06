@@ -79,6 +79,26 @@ export default class Scout extends TinyCreature
         }
     }
 
+    PerceiveStructure(structure)
+    {
+        if(this.targetStructures.indexOf(structure) < 0)
+        {
+            this.targetStructures.push(structure);
+        }
+    }
+
+    UnperceiveStructure(structure)
+    {
+        for(let i = 0; i < this.targetStructures.length; i ++)
+        {
+            if(this.targetStructures[i] === structure)
+            {
+                this.targetStructures.splice(i, 1);
+                break;
+            }
+        }
+    }
+
     AttackHive(hive)
     {
         this.attackingHive = hive;
@@ -147,7 +167,7 @@ export default class Scout extends TinyCreature
             this.prey = null;
         }
 
-        consoleLog(`-- ${this.phys.tag} PREY CHECK END -- `);
+        //consoleLog(`-- ${this.phys.tag} PREY CHECK END -- `);
     }
 
     PreyScore(bug)

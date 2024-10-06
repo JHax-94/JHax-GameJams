@@ -48,7 +48,7 @@ export default class PlayerStatusUi
     Draw()
     {
         let lvlString = `Level ${this.GetPaddedLevelString(this.player.level)}`.toUpperCase();
-        let swarmString = `Swarm`;
+        let swarmString = `SWARM`;
         let swarmCount = `${this.player.bugs.length}/${this.player.maxBugs}`;
 
         let lineHeight = UTIL.GetTextHeight("", this.font) *PIXEL_SCALE + 1;

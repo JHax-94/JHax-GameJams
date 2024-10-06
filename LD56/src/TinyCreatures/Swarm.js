@@ -49,10 +49,10 @@ export default class Swarm
 
     RemoveBug(bug)
     {
-        consoleLog("Remove bug:");
+        /*consoleLog("Remove bug:");
         consoleLog(bug);
         consoleLog("From list:");
-        consoleLog(this.bugs);
+        consoleLog(this.bugs);*/
         for(let i = 0; i < this.bugs.length; i ++)
         {
             if(this.bugs[i] === bug)

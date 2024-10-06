@@ -9,5 +9,7 @@ export default class EndHive extends Structure
         this.isEndHive = true;
     }
 
+    CanAddSource() { return true; }
 
+    IsValidSource() { return false; }
 }

@@ -31,6 +31,7 @@ export default class PlayerSwarm extends Swarm
         this.exp = 0;
 
 
+        this.turnSpeed = 2;
         this.speed = 3*PIXEL_SCALE;
 
         this.startHive = null;
@@ -38,7 +39,7 @@ export default class PlayerSwarm extends Swarm
 
         this.bugSpawnTime = 60;
         this.bugSpawnTimer = 0;
-        this.maxBugs = 1;
+        this.maxBugs = 3;
 
         this.statusUi = new PlayerStatusUi(this);
 
@@ -190,7 +191,7 @@ export default class PlayerSwarm extends Swarm
 
         if((angleDiff < 0 && Math.abs(angleDiff) < Math.PI) || (angleDiff > 0 && Math.abs(angleDiff) > Math.PI))
         {
-            this.phys.angle -= deltaTime;
+            this.phys.angle -= deltaTime * this.turnSpeed;
 
             if(this.phys.angle <= -Math.PI)
             {
@@ -206,7 +207,7 @@ export default class PlayerSwarm extends Swarm
         }
         else if((angleDiff > 0 && Math.abs(angleDiff) < Math.PI) || (angleDiff < 0 && Math.abs(angleDiff) > Math.PI) )
         {
-            this.phys.angle += deltaTime;
+            this.phys.angle += deltaTime * this.turnSpeed;
 
             if(this.phys.angle >= Math.PI)
             {

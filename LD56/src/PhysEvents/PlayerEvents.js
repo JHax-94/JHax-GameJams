@@ -17,12 +17,12 @@ export default class PlayerEvents extends PhysEventRegistry
 
         let sourceStruct = player.obj.GetSourceStructure();
 
-        if(!hive.obj.isConnected)
+        if(hive.obj.CanAddSource(sourceStruct))
         {
             sourceStruct.AddTargetStructure(hive.obj);
         }
 
-        if(hive.obj.isConnected)
+        if(hive.obj.IsValidSource())
         {
             player.obj.TouchedStructure(hive.obj);
         }

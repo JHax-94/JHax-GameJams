@@ -243,6 +243,50 @@ export default class Structure
         }
     }
 
+    SearchTargetTreeForStructure(structure)
+    {
+        let containsStructure = false;
+
+        for(let i = 0; i < this.targetStructures.length; i ++)
+        {
+            if(this.targetStructures[i] === structure)
+            {
+                containsStructure = true;
+            }
+            else
+            {
+                containsStructure = this.targetStructures[i].SearchTargetTreeForStructure(structure);                
+            }
+
+            if(containsStructure) break;
+        }
+
+        return containsStructure;
+    }
+
+    CanAddSource(sourceStruct)
+    {
+        let canAdd = !this.isConnected;
+
+        if(canAdd)
+        {
+            /*consoleLog("Check whether source is already a target for this structure");
+            consoleLog("Source");
+            consoleLog(sourceStruct);*/
+            if(this.SearchTargetTreeForStructure(sourceStruct))
+            {
+                canAdd = false;
+            }
+        }
+
+        return canAdd;
+    }
+
+    IsValidSource()
+    {
+        return this.population > 0 || this.isConnected;
+    }
+
     Kill()
     {
         console.warn("-HIVE KILLED-");
@@ -254,7 +298,18 @@ export default class Structure
             consoleLog("Remove connector");
             EM.RemoveEntity(this.connectors[i]);
         }
+        
+        for(let i = 0; i < this.targetStructures.length; i ++)
+        {
+            this.targetStructures[i].Disconnected();            
+        }
+
         this.targetStructures = [];
+    }
+
+    Disconnected()
+    {
+        this.isConnected = false;
     }
 
     SpawnBug()

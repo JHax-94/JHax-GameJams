@@ -4,7 +4,7 @@ export default class UpgradeHivePopulationRate extends Upgrade
 {
     constructor(amount)
     {
-        super(`Hive Population Growth +${amount * 100}%`);      
+        super(`Hive Growth +${amount * 100}%`);      
         
         this.amount = amount;
     }

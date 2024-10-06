@@ -21,6 +21,13 @@ export default class RoyalJellySpawner extends Spawner
         this.jellies.push(new RoyalJelly(pos));
     }
 
+    SpawnRoyalJellyOnScreen()
+    {
+        let pos = this.GetOnscreenPosition();
+
+        this.jellies.push(new RoyalJelly(pos));
+    }
+
     Update(deltaTime)
     {
         this.spawnTimer += deltaTime;

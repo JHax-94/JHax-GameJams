@@ -21,6 +21,18 @@ export default class Spawner
         return { x: radius * Math.cos(angle), y: radius * Math.sin(angle) };
     }
 
+    GetOnscreenPosition()
+    {
+        let screenBounds = this.gameWorld.GetScreenBounds();
+
+        let pos = {
+            x: screenBounds.minX + (screenBounds.maxX - screenBounds.minX) * Math.random(),
+            y: screenBounds.minY + (screenBounds.maxY - screenBounds.minY) * Math.random()
+        };
+
+        return pos;
+    }
+
     GetOffscreenPosition()
     {
         let playerTilePos = this.gameWorld.player.GetTilePos();

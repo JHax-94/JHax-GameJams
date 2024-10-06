@@ -249,6 +249,8 @@ export default class Scout extends TinyCreature
         }
         else if(this.attackingHive)
         {
+            EM.hudLog.push("ATTACKING HIVE");
+
             this.hiveAttackTimer += deltaTime;
 
             if(this.hiveAttackTimer > this.hiveAttackTime)

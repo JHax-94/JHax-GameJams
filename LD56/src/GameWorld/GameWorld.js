@@ -5,9 +5,10 @@ import StartHive from "../Structures/StartHive";
 import EnemySwarm from "../TinyCreatures/EnemySwarm";
 import PlayerSwarm from "../TinyCreatures/PlayerSwarm";
 import LevelUpMenu from "../UI/LevelUpMenu";
-import { consoleLog, PIXEL_SCALE, UTIL } from "../main";
+import { consoleLog, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
 import FlowerSpawner from "./FlowerSpawner";
 import SwarmSpawner from "./SwarmSpawner";
+import WarningTracker from "./WarningTracker";
 
 export default class GameWorld
 {
@@ -38,6 +39,21 @@ export default class GameWorld
         /// SERVICES
         this.swarmSpawner = new SwarmSpawner(this);
         this.flowerSpawner = new FlowerSpawner(this);
+        this.warningTracker = new WarningTracker(this);
+    }
+
+    GetScreenBounds()
+    {
+        let playerTilePos = this.player.GetTilePos();
+
+        let bounds = {
+            minX: playerTilePos.x - TILE_WIDTH * 0.5,
+            maxX: playerTilePos.x + TILE_WIDTH * 0.5,
+            minY: playerTilePos.y - TILE_HEIGHT * 0.5,
+            maxY: playerTilePos.y + TILE_HEIGHT * 0.5
+        };
+
+        return bounds;
     }
 
     BuildWorld()
@@ -54,7 +70,6 @@ export default class GameWorld
         this.structures.push(endHive);
 
         this.swarmSpawner.SpawnSwarm();
-        
     }
 
     GetRandomPositionWithRadius(radius)

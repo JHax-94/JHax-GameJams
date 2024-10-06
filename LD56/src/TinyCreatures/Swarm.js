@@ -90,7 +90,7 @@ export default class Swarm
     ConvertBug(bug)
     {
         let tilePos = bug.GetTilePos();
-        bug.Despawn();
+        bug.Despawn(true);
 
         this.SpawnBug(tilePos);
     }

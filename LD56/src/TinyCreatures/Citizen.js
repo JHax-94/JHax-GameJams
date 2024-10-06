@@ -30,7 +30,7 @@ export default class Citizen extends TinyCreature
         }
         else 
         {
-            this.Despawn();
+            this.Despawn(true);
         }
     }
 
@@ -51,10 +51,13 @@ export default class Citizen extends TinyCreature
         }
     }
 
-    Despawn()
+    Despawn(showWarning = false)
     {
+        consoleLog(`--- DESPAWN CITIZEN | Warn? ${showWarning} ---`);
         super.Despawn();
         this.sourceHive.RemoveBug(this);
+
+        if(showWarning) this.GameWorld().warningTracker.AddWarning(this);
     }
 
     Update(deltaTime)

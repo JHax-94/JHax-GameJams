@@ -19,6 +19,11 @@ export default class HiveNode extends Structure
         sprite(18, screenPos.x, screenPos.y);
     }
 
+    DrawWarning()
+    {
+        sprite(50, screenPos.x, screenPos.y);
+    }
+
     SpawnTimeRemaining()
     {
         let spawnTimeRemaining = super.SpawnTimeRemaining();

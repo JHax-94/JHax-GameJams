@@ -12,7 +12,7 @@ export default class PathIndicator
 
         this.visible = true;
         this.log = false;
-        this.blipColour = 7;
+        this.blipColour = 1;
         this.phase = 0;
         this.phases = 10;
         this.phaseTime = 0.5;
@@ -152,14 +152,14 @@ export default class PathIndicator
     Update(deltaTime)
     {
         this.UpdatePhaseTimer(deltaTime);
-
-        this.BuildConnectorTexture();
     }
 
     Draw()
     {
-        if(this.visible && this.connectorTexture)
+        if(this.visible)
         {
+            this.BuildConnectorTexture();
+
             draw(this.connectorTexture, this.texturePos.x, this.texturePos.y); 
         }
     }

@@ -1,5 +1,5 @@
 
-import { consoleLog, EM, PIXEL_SCALE } from "../main";
+import { AUDIO, consoleLog, EM, PIXEL_SCALE } from "../main";
 import TutorialControl from "../Tutorial/TutorialControl";
 import EndScreen from "./EndScreen";
 
@@ -66,6 +66,8 @@ export default class StartScreen extends EndScreen
         {
             gameWorld.tutorial = new TutorialControl(gameWorld);
         }
+
+        AUDIO.PlayMusic();
     }
 
     Draw()

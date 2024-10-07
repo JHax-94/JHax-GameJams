@@ -1,5 +1,5 @@
 import { vec2 } from "p2";
-import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE } from "../main";
+import { AUDIO, COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE } from "../main";
 import TinyCreature from "./TinyCreature";
 import ScoutPerceptionZone from "./ScoutPerceptionZone";
 
@@ -281,6 +281,7 @@ export default class Scout extends TinyCreature
     {
         if(this.CanKillBug(bug))
         {
+            AUDIO.PlayFx("fight");
             bug.Damage(this);
             this.Damage(bug);
         }

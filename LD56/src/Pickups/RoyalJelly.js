@@ -1,4 +1,4 @@
-import { COLLISION_GROUP, EM } from "../main";
+import { AUDIO, COLLISION_GROUP, EM } from "../main";
 
 export default class RoyalJelly
 {
@@ -33,6 +33,8 @@ export default class RoyalJelly
         if(this.charges > 0 && !bug.IsJelliedUp())
         {
             bug.JellyUp(this);
+
+            AUDIO.PlayFx("sip");
 
             this.charges --;
 

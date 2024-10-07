@@ -1,5 +1,5 @@
 import { vec2 } from "p2";
-import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main"
+import { AUDIO, COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main"
 import Swarm from "./Swarm";
 import PlayerStatusUi from "../UI/PlayerStatusUi";
 import Texture from "pixelbox/Texture";
@@ -250,6 +250,11 @@ export default class PlayerSwarm extends Swarm
 
     WaggleDance(clearHiveSource = false)
     {
+        if(this.waggleUntil <= 0)
+        {
+            AUDIO.PlayFx("waggle");
+        }
+
         this.waggleUntil += 1;
 
         if(clearHiveSource)

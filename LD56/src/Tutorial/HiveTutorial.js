@@ -17,7 +17,7 @@ export default class HiveTutorial extends TutorialItem
 
         for(let i = 0; i < structures.length; i ++)
         {
-            if(structures[i].IsValidTarget() && !structures[i].isConnected)
+            if(structures[i].IsValidTarget() && !structures[i].isConnected && !structures[i].isEndHive)
             {
                 this.hive = structures[i];
                 break;

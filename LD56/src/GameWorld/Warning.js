@@ -1,4 +1,4 @@
-import { consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main";
+import { AUDIO, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main";
 
 export default class Warning
 {
@@ -24,6 +24,8 @@ export default class Warning
         consoleLog(object);*/
 
         EM.RegisterEntity(this);
+
+        AUDIO.PlayFx("warning");
     }
 
     Update(deltaTime)

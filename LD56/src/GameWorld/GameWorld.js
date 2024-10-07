@@ -10,7 +10,7 @@ import GameOverScreen from "../UI/GameOverScreen";
 import LevelUpMenu from "../UI/LevelUpMenu";
 import VictoryScreen from "../UI/VictoryScreen";
 import UpgradeGenerator from "../Upgrades/UpgradeGenerator";
-import { BASE_DISTANCE, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
+import { AUDIO, BASE_DISTANCE, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
 import Background from "./Background";
 import FlowerSpawner from "./FlowerSpawner";
 import RoyalJellySpawner from "./RoyalJellySpawner";
@@ -100,12 +100,14 @@ export default class GameWorld
     {
         this.EndGamePause();
         EM.pauseMenu = new VictoryScreen();
+        AUDIO.PlayFx("victory");
     }
 
     Defeat(reason)
     {
         this.EndGamePause();
         EM.pauseMenu = new GameOverScreen(reason);
+        AUDIO.PlayFx("defeat");
     }
 
     BuildWorld()
@@ -411,6 +413,7 @@ export default class GameWorld
     PlayerLevelled()
     {
         new LevelUpMenu(this.player);
+        AUDIO.PlayFx("level");
     }
     
     Update(deltaTime)

@@ -6,6 +6,7 @@ import { vec2 } from 'p2'
 import GameWorld from './GameWorld/GameWorld.js'
 import PlayerEvents from './PhysEvents/PlayerEvents.js'
 import StartScreen from './UI/StartScreen.js'
+import AudioHelper from './AudioHelper.js'
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -27,6 +28,8 @@ let TILE_HEIGHT = getTileHeight();
 let LOGGING_ON = true;
 let LOAD_COMPLETE = false;
 let EM = null;
+
+let AUDIO = new AudioHelper();
 
 let BASE_DISTANCE = 20;
 
@@ -243,8 +246,6 @@ function SETUP(options)
 
     gameWorld.BuildWorld();
     
-    consoleLog("Game started - Entity Manager:");
-    consoleLog(EM);
     LOAD_COMPLETE = true;
 }
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -256,7 +257,6 @@ exports.update = function () {
         SETUP({ firstLoad: true });
 
         //SETUP({ distance: 30 });
-        //AUDIO.PlayMusic();
     }
 
     EM.Input();
@@ -272,5 +272,5 @@ exports.update = function () {
 
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, BASE_DISTANCE, getFont, setFont, consoleLog, getObjectConfig
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, BASE_DISTANCE, AUDIO, getFont, setFont, consoleLog, getObjectConfig
 };

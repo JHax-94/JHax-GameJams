@@ -36,6 +36,7 @@ export default class GameWorld
         
         /// GLOBAL STATS
         this.citizenSpeed = 1.5 * PIXEL_SCALE;
+        this.droneExp = 1;
         
 
         /// GENERATOR DATA

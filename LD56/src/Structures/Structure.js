@@ -418,7 +418,7 @@ export default class Structure
     AddPopulation(addPop)
     {
         this.population += addPop;
-        this.GameWorld().AddExpToPlayer(addPop);
+        this.GameWorld().AddExpToPlayer(addPop * this.GameWorld().droneExp);
     }
 
     RemovePopulation(amount)

@@ -13,6 +13,7 @@ import UpgradeHivePop from "./UpgradeHivePop";
 import UpgradeBugRespawnRate from "./UpgradeBugRespawnRate";
 import UpgradeFlowerPopulation from "./UpgradeFlowerPopulation";
 import UpgradePlayerSpeed from "./UpgradePlayerSpeed";
+import UpgradeDroneExp from "./UpgradeDroneExp";
 
 export default class UpgradeGenerator
 {
@@ -29,7 +30,8 @@ export default class UpgradeGenerator
             { type: "SpawnHive", weight: 10 },
             { type: "HivePop", weight: 5 },
             { type: "FlowerPop", weight: 5 },
-            { type: "PlayerSpeed", weight: 50 }
+            { type: "PlayerSpeed", weight: 50 },
+            { type: "DroneExp", weight: 3 },
         ];
     }
 
@@ -59,6 +61,8 @@ export default class UpgradeGenerator
                 return new UpgradeFlowerPopulation(1);
             case "PlayerSpeed":
                 return new UpgradePlayerSpeed(2);
+            case "DroneExp":
+                return new UpgradeDroneExp(1);
             default:
                 console.warn("UPGRADE TYPE NOT RECOGNISED");
                 consoleLog(upgradeData);

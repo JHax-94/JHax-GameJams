@@ -8,6 +8,8 @@ export default class EndScreen extends AbstractUi
     {
         super();
 
+        this.destroyed = false;
+
         this.renderLayer = "SUPER_UI";
         this.title = title;
 
@@ -56,6 +58,8 @@ export default class EndScreen extends AbstractUi
         consoleLog("REMOVE ENTITY:");
         consoleLog(this);
         EM.RemoveEntity(this);
+
+        this.destroyed = true;
     }
 
     Pos()

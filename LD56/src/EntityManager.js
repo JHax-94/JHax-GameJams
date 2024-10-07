@@ -7,6 +7,7 @@ import RenderLayer from "./RenderLayer";
 import InputMethod from "./InputMethod";
 import { INPUT_TYPE } from "./InputType";
 import Camera from "./Camera";
+import PlanBeePauseMenu from "./UI/PlanBeePauseMenu";
 
 export default class EntityManager
 {
@@ -77,7 +78,7 @@ export default class EntityManager
         this.hudLogHeight = 0.75;
         this.hudLogColour = 1;
 
-        
+        this.waitForEscUp = false;
 
         if(this.phys) this.SetupPhys();
     }
@@ -1052,6 +1053,8 @@ export default class EntityManager
                             {
                                 if(this.inputFreezeFrames <= 0 && !this.cancelInputDetect)
                                 {
+                                    if(this.inputDetectors[i] == null) break;
+                                    
                                     this.inputDetectors[i].InputDetect(this.mappedInputs[j], j);
                                 } 
                             }
@@ -1067,6 +1070,7 @@ export default class EntityManager
         {
             this.inputFreezeFrames --;
         }
+
     }
 
     RefreshInputStates()

@@ -3,6 +3,7 @@ import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, 
 import Swarm from "./Swarm";
 import PlayerStatusUi from "../UI/PlayerStatusUi";
 import Texture from "pixelbox/Texture";
+import PlanBeePauseMenu from "../UI/PlanBeePauseMenu";
 
 export default class PlayerSwarm extends Swarm
 {
@@ -29,6 +30,8 @@ export default class PlayerSwarm extends Swarm
 
         this.level = 1;
         this.exp = 0;
+
+        this.waitForEscUp = false;
 
         this.waitForWaggleUp = false;
         this.waggleDown = false;
@@ -171,6 +174,8 @@ export default class PlayerSwarm extends Swarm
     Input(input)
     {
 
+        EM.hudLog.push(`Player input...`);
+
         let inputVector = { x: 0, y: 0 };
 
         if(input.right)
@@ -217,6 +222,19 @@ export default class PlayerSwarm extends Swarm
         {
             this.WaggleDance(true);
             this.waitForWaggleUp = false;
+        }
+
+        if(input.esc && !this.waitForEscUp)
+        {
+            this.waitForEscUp = true;
+        }
+        else if(!input.esc && this.waitForEscUp)
+        {
+            this.waitForEscUp = false;
+
+            EM.pauseMenu = new PlanBeePauseMenu();
+
+            EM.Pause(false);
         }
     }
 

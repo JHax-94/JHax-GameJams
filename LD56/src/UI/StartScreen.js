@@ -52,25 +52,6 @@ export default class StartScreen extends EndScreen
 
     }
 
-    GridHeight(grid)
-    {
-        return grid.length;
-    }
-
-    GridWidth(grid)
-    {
-        let width = 0;
-        for(let i = 0; i < grid.length; i ++)
-        {
-            if(grid[i].length > width)
-            {
-                width = grid[i].length;
-            }
-        }
-
-        return width;
-    }
-
     StartGame()
     {
         EM.Unpause();
@@ -81,54 +62,7 @@ export default class StartScreen extends EndScreen
         gameWorld.tutorial = new TutorialControl(gameWorld);
     }
 
-    DrawGridCentred(grid, y, rectAround = false)
-    {
-        let width =this.GridWidth(grid);
-        let x = (this.dims.x + (this.dims.w - width) * 0.5);
-        //let height = this.GridHeight(grid);
-
-        if(rectAround)
-        {
-            paper(3);
-            pen(12);
-
-            rectf(x * PIXEL_SCALE - 2, y * PIXEL_SCALE - 2, width * PIXEL_SCALE + 4, PIXEL_SCALE + 4);
-            rect(x * PIXEL_SCALE - 2, y * PIXEL_SCALE - 2, width * PIXEL_SCALE + 4, PIXEL_SCALE + 4);
-        }
-
-        for(let i = 0; i < grid.length; i ++)
-        {
-            for(let j = 0; j < grid[i].length; j ++)
-            {
-                if(grid[i][j] !== null)
-                {
-                    let item = grid[i][j];
-
-                    let drawAt = { x: (x+j)* PIXEL_SCALE ,  y: (y+i) * PIXEL_SCALE };
-
-                    let h = false;
-                    let v = false;
-                    let r = false;
-
-                    let index = 0;
-
-                    if(item.sprite)
-                    {
-                        index = item.sprite;
-                        h = item.h ?? false;
-                        v = item.v ?? false;
-                        r = item.r ?? false;
-                    }
-                    else
-                    {
-                        index = grid[i][j];
-                    }
-
-                    sprite(index, drawAt.x, drawAt.y, h, v, r);
-                }
-            }
-        }
-    }
+    
 
     Draw()
     {

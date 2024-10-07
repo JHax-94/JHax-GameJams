@@ -174,7 +174,7 @@ export default class PlayerEvents extends PhysEventRegistry
         let hive = container.BodyWithTag(evt, "HIVE");
         let enemyBug = container.BodyWithTag(evt, "ENEMY_BUG");
 
-        if(hive.obj.IsActive())
+        if(hive.obj.IsActive() && !hive.obj.isEndHive)
         {
             enemyBug.obj.AttackHive(hive.obj);
         }

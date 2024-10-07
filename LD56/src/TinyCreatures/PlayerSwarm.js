@@ -44,6 +44,7 @@ export default class PlayerSwarm extends Swarm
 
         this.bugSpawnTime = 60;
         this.bugSpawnTimer = 0;
+        this.bugRespawnRate = 1;
         this.maxBugs = 3;
 
         this.isWaggling = false;
@@ -369,7 +370,7 @@ export default class PlayerSwarm extends Swarm
 
         if(this.SpawningBugs())
         {
-            this.bugSpawnTimer += deltaTime;
+            this.bugSpawnTimer += deltaTime * this.bugRespawnRate;
 
             if(this.bugSpawnTimer > this.bugSpawnTime)
             {

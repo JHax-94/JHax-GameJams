@@ -210,10 +210,22 @@ export default class Structure
                 {
                     this.spawnTimer -= this.SpawnTimeRemaining();
 
-                    if(this.targetStructures[this.currentTarget].population < this.targetStructures[this.currentTarget].maxPopulation && !this.UnderAttack())
+                    
+                    try
                     {
-                        this.SpawnBug();
+                        if(this.targetStructures[this.currentTarget].population < this.targetStructures[this.currentTarget].maxPopulation && !this.UnderAttack())
+                        {
+                            this.SpawnBug();
+                        }
                     }
+                    catch(e)
+                    {
+                        console.error(e);
+                        consoleLog(this.targetStructures);
+                        consoleLog(this.currentTarget);
+                    }
+
+                    
                 }
             }    
 

@@ -13,6 +13,8 @@ export default class FlowerSpawner extends Spawner
         this.spawnTime = 120;
         this.spawnTimer = 0;
 
+        this.flowerPop = 1;
+
         this.minRadius = 8;
 
         this.InitialGenerate(3);
@@ -36,7 +38,7 @@ export default class FlowerSpawner extends Spawner
     {
         let pos = this.GetRandomPositionWithRadius(radius);
 
-        let newPatch = new FlowerPatch(pos);
+        let newPatch = new FlowerPatch(pos, this.flowerPop);
         this.patches.push(newPatch);
     }
 
@@ -44,16 +46,24 @@ export default class FlowerSpawner extends Spawner
     {
         let pos = this.GetOffscreenPosition();
 
-        let newPatch = new FlowerPatch(pos);
+        let newPatch = new FlowerPatch(pos, this.flowerPop);
         this.patches.push(newPatch);
     }
 
+    IncreaseFlowerLimit(amount)
+    {
+        this.flowerPop += amount;
 
+        for(let i = 0; i < this.patches.length; i ++)
+        {
+            this.patches[i].maxBugs = this.flowerPop;
+        }
+    }
 
     GenerateFlowerPatchOnScreen()
     {
         let pos = this.GetOnscreenPosition();
-        let newPatch = new FlowerPatch(pos);
+        let newPatch = new FlowerPatch(pos, this.flowerPop);
         this.patches.push(newPatch);
     }
 

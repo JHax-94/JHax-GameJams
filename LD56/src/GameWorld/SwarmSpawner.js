@@ -31,10 +31,10 @@ export default class SwarmSpawner extends Spawner
         };
 
         baseStats.maxSize += Math.floor(1.1 * (level - 1));
-        baseStats.size += (level - 1);
+        baseStats.size += (Math.ceil(level/2) - 1);
         baseStats.spawnTime -= (level-1) * 0.1;
         baseStats.lerpRate += ((level-1) * 0.001);
-        baseStats.convertChance += ((level-1) * 0.02);
+        baseStats.convertChance += ((level-1) * 0.01);
 
         if(baseStats.convertChance > 1)
         {
@@ -46,7 +46,7 @@ export default class SwarmSpawner extends Spawner
 
     GetSwarmLevel()
     {
-        return 1 + Math.floor(this.elapsedTime / 60);
+        return 1 + Math.floor(this.elapsedTime / 120);
     }
 
     SpawnSwarm()

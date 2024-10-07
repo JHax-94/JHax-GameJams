@@ -1,9 +1,9 @@
-import { COLLISION_GROUP, consoleLog, PIXEL_SCALE } from "../main";
+import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE } from "../main";
 import Swarm from "../TinyCreatures/Swarm";
 
 export default class FlowerPatch extends Swarm
 {
-    constructor(pos)
+    constructor(pos, flowerPop)
     {
         super(pos, 
         { 
@@ -24,7 +24,7 @@ export default class FlowerPatch extends Swarm
             onFlower: true
         };
 
-        this.maxBugs = 1;
+        this.maxBugs = flowerPop;
 
         this.sprites = [6, 7, 22, 23];
         this.sprite = this.sprites[random(this.sprites.length)]
@@ -57,7 +57,7 @@ export default class FlowerPatch extends Swarm
     {
         if(this.bugs.length < this.maxBugs)
         {
-            this.respawnTimer += deltaTime;
+            this.respawnTimer += deltaTime * this.Player().bugRespawnRate;
 
             if(this.respawnTimer > this.RespawnTime())
             {
@@ -69,6 +69,7 @@ export default class FlowerPatch extends Swarm
 
     Draw()
     {
+        EM.hudLog.push(`Flower bugs: ${this.bugs.length} [ ${this.respawnTimer.toFixed(3) / this.RespawnTime().toFixed(3)}]`);
         let screenPos = this.GetScreenPos();
 
         sprite(this.sprite, screenPos.x, screenPos.y);

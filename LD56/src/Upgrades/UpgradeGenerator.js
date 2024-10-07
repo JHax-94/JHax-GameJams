@@ -10,6 +10,8 @@ import UpgradeRespawnFlowers from "./UpgradeRespawnFlowers";
 import { consoleLog } from "../main";
 import UpgradeSpawnHive from "./UpgradeSpawnHive";
 import UpgradeHivePop from "./UpgradeHivePop";
+import UpgradeBugRespawnRate from "./UpgradeBugRespawnRate";
+import UpgradeFlowerPopulation from "./UpgradeFlowerPopulation";
 
 export default class UpgradeGenerator
 {
@@ -22,9 +24,10 @@ export default class UpgradeGenerator
             { type: "SpawnFlower", weight: 50 },
             { type: "Repopulate", weight: 100 },
             { type: "RoyalJelly", weight: 10 },
-            { type: "PopFlower", weight: 20  },
+            { type: "PopFlower", weight: 20 },
             { type: "SpawnHive", weight: 10 },
             { type: "HivePop", weight: 5 },
+            { type: "FlowerPop", weight: 5 }
         ];
     }
 
@@ -35,7 +38,7 @@ export default class UpgradeGenerator
             case "SwarmSize":
                 return new UpgradeSwarmSize(1);
             case "RespawnTime":
-                return new UpgradeRespawnTime(UpgradeRespawnTime.UpgradeAmount());
+                return new UpgradeBugRespawnRate(0.1);
             case "CitizenSpeed":
                 return new UpgradeCitizenSpeed(1);
             case "SpawnFlower":
@@ -50,6 +53,8 @@ export default class UpgradeGenerator
                 return new UpgradeSpawnHive();
             case "HivePop":
                 return new UpgradeHivePop(5);
+            case "FlowerPop":
+                return new UpgradeFlowerPopulation(1);
             default:
                 console.warn("UPGRADE TYPE NOT RECOGNISED");
                 consoleLog(upgradeData);

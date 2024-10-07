@@ -131,6 +131,7 @@ export default class GameWorld
 
             if(sqDist < min)
             {
+                console.warn("PROXIMITY WARNING!");
                 consoleLog(`(${pos.x}, ${pos.y}) - (${hive.pos.x}, ${hive.pos.y})`);
                 consoleLog(`Unsuitable Sq Dist: ${sqDist} / ${this.minSqDist}`);
 
@@ -225,8 +226,6 @@ export default class GameWorld
 
 
             let pos = this.GetRandomPositionWithRadius(radius);
-
-            
 
             while(!this.CheckStructureProximity(pos))
             {

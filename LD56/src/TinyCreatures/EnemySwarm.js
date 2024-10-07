@@ -94,19 +94,22 @@ export default class EnemySwarm extends Swarm
             {
                 let hive = activeHives[i];
 
-                if(minDist === null)
+                if(!hive.isEndHive)
                 {
-                    nah = hive;
-                    minDist = vec2.sqrDist(this.phys.position, hive.phys.position);
-                }
-                else
-                {
-                    let sqDist = vec2.sqrDist(this.phys.position, hive.phys.position);
-
-                    if(sqDist < minDist)
+                    if(minDist === null)
                     {
                         nah = hive;
-                        minDist = sqDist;
+                        minDist = vec2.sqrDist(this.phys.position, hive.phys.position);
+                    }
+                    else
+                    {
+                        let sqDist = vec2.sqrDist(this.phys.position, hive.phys.position);
+
+                        if(sqDist < minDist)
+                        {
+                            nah = hive;
+                            minDist = sqDist;
+                        }
                     }
                 }
             }

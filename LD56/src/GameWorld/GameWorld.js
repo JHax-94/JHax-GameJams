@@ -1,3 +1,4 @@
+import { createProgram } from "pixelbox/webGL/context";
 import FlowerPatch from "../Pickups/FlowerPatch";
 import RoyalJelly from "../Pickups/RoyalJelly";
 import EndHive from "../Structures/EndHive";
@@ -9,7 +10,7 @@ import GameOverScreen from "../UI/GameOverScreen";
 import LevelUpMenu from "../UI/LevelUpMenu";
 import VictoryScreen from "../UI/VictoryScreen";
 import UpgradeGenerator from "../Upgrades/UpgradeGenerator";
-import { consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
+import { BASE_DISTANCE, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
 import Background from "./Background";
 import FlowerSpawner from "./FlowerSpawner";
 import RoyalJellySpawner from "./RoyalJellySpawner";
@@ -18,8 +19,13 @@ import WarningTracker from "./WarningTracker";
 
 export default class GameWorld
 {
-    constructor()
+    constructor(options)
     {
+        if(!options)
+        {
+            options = {};
+        }
+
         /// Entities
         this.startHive = null;
         this.endHive = null;
@@ -31,7 +37,14 @@ export default class GameWorld
         this.upgradeHistory = [];
 
         /// GAME CONFIGURATION
-        this.maxDistance = 20;
+        this.maxDistance = BASE_DISTANCE;
+        if(options.distance)
+        {
+            this.maxDistance = options.distance;
+        }
+        
+        consoleLog(`======== NEW GAME WITH MAX DISTANCE: ${this.maxDistance} ========`);
+
         this.numberOfNodes = this.maxDistance;
         
         /// GLOBAL STATS
@@ -46,7 +59,7 @@ export default class GameWorld
 
         this.lastAngle = 2 * Math.PI * Math.random();
 
-        this.minSqDist = this.SqDist({x: 0, y: 0}, { x: 1, y: 1 });
+        this.minSqDist = this.SqDist({x: 0, y: 0}, { x: 1.5, y: 1.5 });
 
         /// SERVICES
         this.swarmSpawner = new SwarmSpawner(this);
@@ -106,9 +119,10 @@ export default class GameWorld
         EM.AddEntity("END_HIVE", this.endHive);
 
         this.structures.push(this.startHive);
+        this.structures.push(this.endHive);
         this.GenerateNodes();
         this.GenerateNodesFromTargetHive();
-        this.structures.push(this.endHive);
+        
 
         this.swarmSpawner.SpawnSwarm();
     }
@@ -117,9 +131,13 @@ export default class GameWorld
     {
         let suitable = true;
 
+        //consoleLog(`[${this.structures.length}] COMPARE PROX FOR ${pos.x.toFixed(3)}, ${pos.y.toFixed()}`);
+
         for(let i = 0; i < this.structures.length; i ++)
         {
             let hive = this.structures[i];
+
+            //consoleLog(`Check against ${hive.pos.x.toFixed(3)}, ${hive.pos.y.toFixed(3)}`);
 
             let sqDist = this.SqDist(hive.pos, pos);
 
@@ -128,6 +146,8 @@ export default class GameWorld
             if(hive === this.startHive || hive === this.endHive)
             {
                 min = this.minRadius * this.minRadius;
+
+                //consoleLog(`Use ${min} instead of ${this.minSqDist}`);
             }
 
             if(sqDist < min)
@@ -149,9 +169,18 @@ export default class GameWorld
     {
         let onScreen = this.swarmSpawner.GetOnscreenPosition();
 
+        let loopCounter = 0;
+
         while(!this.CheckStructureProximity(onScreen))
         {
+            console.warn("Retrying extra hive placement");
             onScreen = this.swarmSpawner.GetOnscreenPosition();
+
+            loopCounter ++;
+            if(loopCounter > 10)
+            {
+                break;
+            }
         }
 
         let newNode = new HiveNode(onScreen);
@@ -222,24 +251,37 @@ export default class GameWorld
 
         for(let i = 0; i < this.numberOfNodes; i ++)
         {
-
-            consoleLog(`Spawn hive node at radius: ${radius}`);
-
-
+            //consoleLog(`Spawn hive node at radius: ${radius}`);
             let pos = this.GetRandomPositionWithRadius(radius);
+
+            let loopCounter = 0;
 
             while(!this.CheckStructureProximity(pos))
             {
-                pos = this.GetRandomPositionWithRadius(radius);
+                console.warn(`Retrying initial node hive placement ${this.structures.length}`);
+                pos = this.GetRandomPositionWithRadius(radius);                
+
+                loopCounter ++;
+                if(loopCounter > 10)
+                {
+                    pos = null;
+                    break;
+                }
             }
 
-            consoleLog(`Pos: (${pos.x}, ${pos.y})`);
+            
+            //consoleLog(`Pos: (${pos.x}, ${pos.y})`);
 
             radius += radiusDiff;
 
-            let hiveNode = new HiveNode(pos);
+            if(pos !== null)
+            {
+                let hiveNode = new HiveNode(pos);
 
-            this.structures.push(hiveNode);
+                hiveNode.INDEX = this.structures.length;
+
+                this.structures.push(hiveNode);
+            }
         }
     }
 
@@ -252,25 +294,40 @@ export default class GameWorld
 
         for(let i = 0; i < this.numberOfNodes; i ++)
         {
-
-            consoleLog(`Spawn hive node at radius: ${radius}`);
+            //consoleLog(`Spawn hive node at radius: ${radius}`);
 
             let pos = this.GetRandomPositionWithRadius(radius);
 
-            while(!this.CheckStructureProximity(pos))
+            let fromHive = { x: pos.x + this.endHive.pos.x, y: pos.y + this.endHive.pos.y };
+
+            let loopCounter = 0;
+
+            while(!this.CheckStructureProximity(fromHive))
             {
+                console.warn(`Retrying target node hive placement ${this.structures.length}`);
                 pos = this.GetRandomPositionWithRadius(radius);
+                fromHive = { x: pos.x + this.endHive.pos.x, y: pos.y + this.endHive.pos.y };
+
+                loopCounter ++;
+                if(loopCounter > 10)
+                {
+                    fromHive = null;
+                    break;
+                }
             }
 
-            consoleLog(`Pos: (${pos.x}, ${pos.y})`);
+            //consoleLog(`Pos: (${pos.x}, ${pos.y})`);
 
             radius += radiusDiff;
 
-            let fromHive = { x: pos.x + this.endHive.pos.x, y: pos.y + this.endHive.pos.y };
+            if(fromHive !== null)
+            {
+                let hiveNode = new HiveNode(fromHive);
 
-            let hiveNode = new HiveNode(fromHive);
+                hiveNode.INDEX = this.structures.length;
 
-            this.structures.push(hiveNode);
+                this.structures.push(hiveNode);
+            }
         }
 
     }

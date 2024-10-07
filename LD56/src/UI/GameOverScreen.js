@@ -1,4 +1,4 @@
-import { consoleLog, SETUP } from "../main";
+import { BASE_DISTANCE, consoleLog, EM, SETUP } from "../main";
 import EndScreen from "./EndScreen";
 
 export default class GameOverScreen extends EndScreen
@@ -9,9 +9,23 @@ export default class GameOverScreen extends EndScreen
 
         this.reason = gameOverReason;
 
-        this.BuildButtons([ { text: "TRY AGAIN", callback: this.Restart } ]);
+        this.distance = EM.GetEntity("GAMEWORLD").maxDistance;
+
+        let options = [ { text: `RESET`, callback: this.Restart } ];
+
+        let _this = this;
+        if(this.distance > BASE_DISTANCE)
+        {
+            options.unshift({ text: `TRY AGAIN (DISTANCE: ${this.distance})`, callback: () => { _this.ResetWithDistance(); } });
+        }
+
+        this.BuildButtons(options);
     }
 
+    ResetWithDistance()
+    {
+        SETUP({ distance: this.distance });
+    }
 
     Draw()
     {

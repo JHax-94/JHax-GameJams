@@ -36,9 +36,9 @@ export default class EndHive extends Structure
     {
         super.Update(deltaTime);
 
-        /*
+        
         EM.hudLog.push(`DIST: ${vec2.dist(this.phys.position, this.startHive.phys.position)}`);
-        EM.hudLog.push(`PDIST: ${vec2.dist(this.phys.position, this.Player().phys.position)}`);
+        /*EM.hudLog.push(`PDIST: ${vec2.dist(this.phys.position, this.Player().phys.position)}`);
         */
 
         if(this.population === this.maxPopulation)

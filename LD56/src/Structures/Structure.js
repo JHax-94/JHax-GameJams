@@ -210,7 +210,6 @@ export default class Structure
                 {
                     this.spawnTimer -= this.SpawnTimeRemaining();
 
-                    
                     try
                     {
                         if(this.targetStructures[this.currentTarget].population < this.targetStructures[this.currentTarget].maxPopulation && !this.UnderAttack())
@@ -223,9 +222,10 @@ export default class Structure
                         console.error(e);
                         consoleLog(this.targetStructures);
                         consoleLog(this.currentTarget);
+                        this.currentTarget = 0;
                     }
 
-                    
+                    this.currentTarget = (this.currentTarget + 1) % this.targetStructures.length;
                 }
             }    
 
@@ -394,8 +394,6 @@ export default class Structure
         let newBug = new Citizen(tilePos, this, targetStructure);
 
         this.population --;
-
-        this.currentTarget = (this.currentTarget + 1) % this.targetStructures.length;
 
         if(this.population <= 0)
         {

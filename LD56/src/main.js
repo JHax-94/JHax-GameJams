@@ -28,6 +28,8 @@ let LOGGING_ON = true;
 let LOAD_COMPLETE = false;
 let EM = null;
 
+let BASE_DISTANCE = 20;
+
 function getObjectConfig(objectName, copyObj)
 {
     let objectMap = assets.objectConfig.objectMap;
@@ -215,7 +217,10 @@ function SETUP(options)
 
 
 
-    consoleLog("SETUP");
+    consoleLog("=================");
+    consoleLog("===== SETUP =====");
+    consoleLog("=================");
+    consoleLog(options);
     /*consoleLog($screen);
     consoleLog($screen.charset);
     consoleLog($screen.charSet);
@@ -226,7 +231,7 @@ function SETUP(options)
 
     EM = new EntityManager();
     AddPhysicsEvents();
-    let gameWorld = new GameWorld();
+    let gameWorld = new GameWorld(options);
     
     if(options.firstLoad)
     {
@@ -237,8 +242,6 @@ function SETUP(options)
     EM.AddEntity("GAMEWORLD", gameWorld);
 
     gameWorld.BuildWorld();
-
-    
     
     consoleLog("Game started - Entity Manager:");
     consoleLog(EM);
@@ -251,6 +254,8 @@ exports.update = function () {
     if(!LOAD_COMPLETE)
     {
         SETUP({ firstLoad: true });
+
+        //SETUP({ distance: 30 });
         //AUDIO.PlayMusic();
     }
 
@@ -267,5 +272,5 @@ exports.update = function () {
 
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, getFont, setFont, consoleLog, getObjectConfig
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, BASE_DISTANCE, getFont, setFont, consoleLog, getObjectConfig
 };

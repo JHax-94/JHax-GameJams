@@ -1,4 +1,4 @@
-import { consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
+import { consoleLog, EM, PIXEL_SCALE, SETUP, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
 import EndScreen from "./EndScreen";
 
 export default class VictoryScreen extends EndScreen
@@ -68,9 +68,18 @@ export default class VictoryScreen extends EndScreen
             {
                 this.waitTimer = this.waitTime;
 
-                this.BuildButtons([ { text: "PLAY AGAIN", callback: this.Restart } ]);
+                let _this = this;
+
+                this.BuildButtons([  { text: "NEW GAME (DISTANCE +10)", callback: () => { _this.RestartWithDistanceBoost(); }}, { text: "RESET", callback: this.Restart }, ]);
             }
         }
+    }
+
+    RestartWithDistanceBoost()
+    {
+        let gameWorld = EM.GetEntity("GAMEWORLD");
+
+        SETUP({ distance: gameWorld.maxDistance + 10 });
     }
 
     Draw()

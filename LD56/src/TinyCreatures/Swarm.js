@@ -13,6 +13,7 @@ export default class Swarm
         }
 
         this.gameWorld = null;
+        this.highlight = false;
         this.bugs = [];
         this.bugType = {
             colors: [9, 10],
@@ -20,6 +21,8 @@ export default class Swarm
             perceptionTag: "PLAYER_PERCEPTION",
             perceptionMask: COLLISION_GROUP.ENEMY
         };
+
+        this.damageLog = [];
 
         let physSettings = {
             tileTransform: { x: pos.x, y: pos.y, w: 1, h: 1 },
@@ -42,6 +45,15 @@ export default class Swarm
     Refresh()
     {
 
+    }
+
+    AddToDamageLog(bug)
+    {
+        if(bug)
+        {
+            consoleLog("Logging damage!");
+            this.damageLog.push(bug);
+        }
     }
 
     GameWorld()

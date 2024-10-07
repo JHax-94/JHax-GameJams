@@ -281,13 +281,18 @@ export default class Scout extends TinyCreature
     {
         if(this.CanKillBug(bug))
         {
-            bug.Damage();
-            this.Damage();
+            bug.Damage(this);
+            this.Damage(bug);
         }
     }
 
-    Damage()
+    Damage(damagedBy)
     {
+        if(this.parentSwarm)
+        {
+            this.parentSwarm.AddToDamageLog(damagedBy);
+        }
+
         if(this.jelliedUp)
         {
             this.jelliedUp = false;
@@ -485,15 +490,34 @@ export default class Scout extends TinyCreature
         return closestBug;
     }
 
+    HighlightBlink()
+    {
+        return (Math.floor(EM.gameTimeElapsed) % 2) === 0;
+    }
+
     Draw()
     {
         if(!this.jelliedUp)
         {
+            if(this.parentSwarm.highlight && this.HighlightBlink())
+            {
+                let screenPos = this.GetScreenPos();
+
+                paper(1);
+                rectf(screenPos.x - 1, screenPos.y - 1, 3, 4);
+            }
+
             super.Draw();
         }
         else
         {
             let screenPos = this.GetScreenPos();
+
+            if(this.parentSwarm.highlight && this.HighlightBlink())
+            {
+                paper(1);
+                rectf(screenPos.x - 2, screenPos.y - 2, 4, 6);
+            }
 
             paper(this.colours[0]);
             rectf(screenPos.x - 1, screenPos.y - 1, 2, 2);

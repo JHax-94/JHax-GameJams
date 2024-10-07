@@ -254,11 +254,12 @@ export default class GameWorld
     {
         new LevelUpMenu(this.player);
     }
-    /*
+    
     Update(deltaTime)
     {
-        EM.hudLog.push(`H: ${this.TotalStructPopulation()} C: ${this.TotalCitizens()}`);
-    }*/
+        //EM.hudLog.push(`H: ${this.TotalStructPopulation()} C: ${this.TotalCitizens()}`);
+        EM.hudLog.push(`Swarms: ${this.swarmSpawner.swarms.length}`);
+    }
 
     CheckEndGame()
     {

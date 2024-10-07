@@ -1,5 +1,6 @@
 import { EM } from "../main";
 import DroneTutorial from "./DroneTutorial";
+import EnemyTutorial from "./EnemyTutorial";
 import HiveTutorial from "./HiveTutorial";
 import MoveTutorial from "./MoveTutorial";
 
@@ -11,15 +12,18 @@ export default class TutorialControl
         this.gameWorld = gameWorld;
         this.player = gameWorld.player;
 
-        this.currentStep = 0;
+        this.currentStep = -1;
 
         this.tutorial = [
+            new EnemyTutorial(this),
             new MoveTutorial(this),
             new HiveTutorial(this),
-            new DroneTutorial(this)
+            new DroneTutorial(this),
+            
         ];
 
         EM.RegisterEntity(this);
+        this.SetStep(0);
     }
 
     TutorialOn()

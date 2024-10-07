@@ -1,5 +1,6 @@
 
 import { consoleLog, EM, PIXEL_SCALE } from "../main";
+import TutorialControl from "../Tutorial/TutorialControl";
 import EndScreen from "./EndScreen";
 
 export default class StartScreen extends EndScreen
@@ -74,6 +75,10 @@ export default class StartScreen extends EndScreen
     {
         EM.Unpause();
         this.Destroy();
+
+        let gameWorld = EM.GetEntity("GAMEWORLD");
+
+        gameWorld.tutorial = new TutorialControl(gameWorld);
     }
 
     DrawGridCentred(grid, y, rectAround = false)

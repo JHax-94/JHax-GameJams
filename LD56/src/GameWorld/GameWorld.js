@@ -48,6 +48,7 @@ export default class GameWorld
         this.warningTracker = new WarningTracker(this);
         this.royalJellySpawner = new RoyalJellySpawner(this);
         this.upgradeGenerator = new UpgradeGenerator();
+        this.tutorial = null; // Set elsewhere
 
         EM.RegisterEntity(this);
     }

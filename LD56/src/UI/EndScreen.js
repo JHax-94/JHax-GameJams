@@ -1,10 +1,13 @@
 import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, SETUP, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main"
+import AbstractUi from "./AbstractUi";
 import Button from "./Button";
 
-export default class EndScreen
+export default class EndScreen extends AbstractUi
 {
     constructor(title, dims = null)
     {
+        super();
+
         this.renderLayer = "SUPER_UI";
         this.title = title;
 
@@ -90,27 +93,7 @@ export default class EndScreen
         }
     }
 
-    DrawCentredSprite(index, y, rectC = null)
-    {
-        let drawAt = { x: this.dims.x * PIXEL_SCALE + 0.5 * (this.dims.w - 1) * PIXEL_SCALE , y: (this.dims.y + y) * PIXEL_SCALE }
-
-        if(rectC !== null)
-        {
-            paper(rectC);
-            pen(12);
-            rectf(drawAt.x - 2, drawAt.y - 2, PIXEL_SCALE + 4, PIXEL_SCALE + 4);
-            rect(drawAt.x - 2, drawAt.y -2, PIXEL_SCALE + 4, PIXEL_SCALE + 4);
-        
-        }
-
-        sprite(index, drawAt.x, drawAt.y );
-    }
-
-    DrawCentredText(text, y)
-    {
-        let textW = UTIL.GetTextWidth(text, this.font);
-        print(text, this.dims.x * PIXEL_SCALE + 0.5 * (this.dims.w - textW) * PIXEL_SCALE, (this.dims.y + y) * PIXEL_SCALE);
-    }
+    
 
     Draw()
     {

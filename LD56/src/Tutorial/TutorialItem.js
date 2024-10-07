@@ -63,7 +63,7 @@ export default class TutorialItem extends AbstractUi
         paper(8);
         pen(12);
 
-        EM.hudLog.push(`Tut: (${this.dims.x}, ${this.dims.y}) [${this.dims.w}, ${this.dims.h}]`);
+        // EM.hudLog.push(`Tut: (${this.dims.x}, ${this.dims.y}) [${this.dims.w}, ${this.dims.h}]`);
 
         rectf(this.dims.x * PIXEL_SCALE, this.dims.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);
         rect(this.dims.x * PIXEL_SCALE, this.dims.y * PIXEL_SCALE, this.dims.w * PIXEL_SCALE, this.dims.h * PIXEL_SCALE);

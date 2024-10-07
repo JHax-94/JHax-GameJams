@@ -7,11 +7,14 @@ export default class StartScreen extends EndScreen
 {
     constructor()
     {
-        super("", { w: 28, h: 20});
+        super("", { w: 26, h: 22});
 
         let _this = this;
 
-        this.BuildButtons([ { text: "CLICK TO START", callback: () => _this.StartGame() }]);
+        this.BuildButtons([ 
+            { text: "CLICK TO START", callback: () => _this.StartGame() }, 
+            { text: "START (NO TUTORIAL)", callback: () => { _this.StartGame(true); 
+        }}]);
 
         this.insetY = 1;
 
@@ -52,17 +55,18 @@ export default class StartScreen extends EndScreen
 
     }
 
-    StartGame()
+    StartGame(skipTutorial = false)
     {
         EM.Unpause();
         this.Destroy();
 
         let gameWorld = EM.GetEntity("GAMEWORLD");
 
-        gameWorld.tutorial = new TutorialControl(gameWorld);
+        if(!skipTutorial)
+        {
+            gameWorld.tutorial = new TutorialControl(gameWorld);
+        }
     }
-
-    
 
     Draw()
     {

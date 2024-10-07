@@ -8,6 +8,8 @@ export default class Structure
 {
     constructor(pos)
     {
+        this.pos = pos;
+
         this.renderLayer = "WORLD";
         this.isEndHive = false;
         this.gameWorld = null;

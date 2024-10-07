@@ -173,9 +173,6 @@ export default class PlayerSwarm extends Swarm
 
     Input(input)
     {
-
-        EM.hudLog.push(`Player input...`);
-
         let inputVector = { x: 0, y: 0 };
 
         if(input.right)

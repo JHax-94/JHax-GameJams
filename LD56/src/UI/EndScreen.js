@@ -74,7 +74,7 @@ export default class EndScreen extends AbstractUi
 
         for(let i = 0; i < options.length; i ++)
         {
-            let buttonDims = { x: 0, y: this.dims.h - (options.length + i) * (height + space) , w: 16, h: 1.5 };
+            let buttonDims = { x: 0, y: this.dims.h - (options.length - i) * (height + space) , w: 16, h: 1.5 };
 
             buttonDims.x = (this.dims.w - buttonDims.w) * 0.5;
 

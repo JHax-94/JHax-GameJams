@@ -81,8 +81,6 @@ export default class Background
     {
         let physPos = EM.TileToPhysPosition(tilePos);
 
-        EM.hudLog.push(`BPhys: (${physPos[0]}, ${physPos[1]})`);
-
         return { 
             x: Math.round(physPos[0] - 0.5 * this.w * PIXEL_SCALE - EM.camera.x), 
             y: Math.round(-(physPos[1] +0.5* this.h * PIXEL_SCALE - EM.camera.y)) 

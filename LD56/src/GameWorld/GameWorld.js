@@ -31,15 +31,18 @@ export default class GameWorld
         this.upgradeHistory = [];
 
         /// GAME CONFIGURATION
-        this.maxDistance = 20;
-        this.numberOfNodes = 10;
-
+        this.maxDistance = 50;
+        this.numberOfNodes = this.maxDistance;
+        
         /// GLOBAL STATS
         this.citizenSpeed = 1.5 * PIXEL_SCALE;
         
 
         /// GENERATOR DATA
         this.minRadius = 4;
+
+        this.hiveRadius = 1;
+
         this.lastAngle = 2 * Math.PI * Math.random();
 
         /// SERVICES
@@ -87,16 +90,17 @@ export default class GameWorld
     BuildWorld()
     {
         let background = new Background();
-        let startHive = new StartHive({ x: 0, y: 0 });
+        this.startHive = new StartHive({ x: 0, y: 0 });
         this.player = new PlayerSwarm({ x: 2, y: 0});
         
-        let endHive = new EndHive(this.GetRandomPositionWithRadius(this.maxDistance));
+        this.endHive = new EndHive(this.GetRandomPositionWithRadius(this.maxDistance));
 
-        EM.AddEntity("END_HIVE", endHive);
+        EM.AddEntity("END_HIVE", this.endHive);
 
-        this.structures.push(startHive);
+        this.structures.push(this.startHive);
         this.GenerateNodes();
-        this.structures.push(endHive);
+        this.GenerateNodesFromTargetHive();
+        this.structures.push(this.endHive);
 
         this.swarmSpawner.SpawnSwarm();
     }
@@ -116,7 +120,7 @@ export default class GameWorld
         let total = 0;
         for(let i = 0; i < this.structures.length; i ++)
         {
-            if(!this.endHive)
+            if(this.structures[i] !== this.endHive)
             {
                 total += this.structures[i].population;
             }
@@ -129,13 +133,18 @@ export default class GameWorld
         let total = 0;
         for(let i = 0; i < this.structures.length; i ++)
         {
-            if(!this.endHive)
+            if(this.structures[i] !== this.endHive)
             {
                 total += this.structures[i].bugLog.length;
             }
         }
 
         return total;
+    }
+
+    PolarToCartesian(radius, angle)
+    {
+        return { x: radius * Math.cos(angle), y: radius * Math.sin(angle) };
     }
 
     GetRandomPositionWithRadius(radius)
@@ -154,7 +163,7 @@ export default class GameWorld
 
     GenerateNodes()
     {
-        let radiusDiff = (this.maxDistance - this.minRadius) / (this.numberOfNodes + 1);
+        let radiusDiff = (this.maxDistance * 2 - this.minRadius) / (this.numberOfNodes + 1);
         let radius = this.minRadius + radiusDiff;
 
         for(let i = 0; i < this.numberOfNodes; i ++)
@@ -172,6 +181,33 @@ export default class GameWorld
 
             this.structures.push(hiveNode);
         }
+    }
+
+    GenerateNodesFromTargetHive()
+    {
+        let gravNodes = Math.floor(this.numberOfNodes / 2);
+
+        let radiusDiff = (this.maxDistance - this.minRadius) / (gravNodes + 1);
+        let radius = this.minRadius + radiusDiff;
+
+        for(let i = 0; i < this.numberOfNodes; i ++)
+        {
+
+            consoleLog(`Spawn hive node at radius: ${radius}`);
+
+            let pos = this.GetRandomPositionWithRadius(radius);
+
+            consoleLog(`Pos: (${pos.x}, ${pos.y})`);
+
+            radius += radiusDiff;
+
+            let fromHive = { x: pos.x + this.endHive.pos.x, y: pos.y + this.endHive.pos.y };
+
+            let hiveNode = new HiveNode(fromHive);
+
+            this.structures.push(hiveNode);
+        }
+
     }
 
     UpgradeHivePopulationRate(amount)
@@ -257,12 +293,15 @@ export default class GameWorld
     
     Update(deltaTime)
     {
-        //EM.hudLog.push(`H: ${this.TotalStructPopulation()} C: ${this.TotalCitizens()}`);
+        EM.hudLog.push(`H: ${this.TotalStructPopulation()} C: ${this.TotalCitizens()}`);
         EM.hudLog.push(`Swarms: ${this.swarmSpawner.swarms.length}`);
+        EM.hudLog.push(`Structs: ${this.structures.length}`);
     }
 
     CheckEndGame()
     {
+
+
         if(this.TotalStructPopulation() + this.TotalCitizens() <= 0)
         {
             this.Defeat([ "The whole colony", "was killed!" ]);

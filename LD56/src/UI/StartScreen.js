@@ -78,6 +78,14 @@ export default class StartScreen extends EndScreen
 
         this.DrawGridCentred(this.overGrid, this.dims.y + this.insetY + 1);
 
+        pen(1);
+        print('Game by', this.dims.x * PIXEL_SCALE + 1, this.dims.y * PIXEL_SCALE + 2);
+        print('JHax', this.dims.x * PIXEL_SCALE + 1, (this.dims.y + 1) * PIXEL_SCALE + 2);
+        
+        print("Made with", (this.dims.x + 20) * PIXEL_SCALE - 7, this.dims.y * PIXEL_SCALE + 2);
+        print("PixelBox ", (this.dims.x + 20) * PIXEL_SCALE - 7, (this.dims.y + 1) * PIXEL_SCALE +2 );
+        print("P2.js ", (this.dims.x + 20) * PIXEL_SCALE - 7, (this.dims.y + 2) * PIXEL_SCALE + 2);
+
         for(let i = 0; i < this.intro.length; i ++)
         {
             pen(1)

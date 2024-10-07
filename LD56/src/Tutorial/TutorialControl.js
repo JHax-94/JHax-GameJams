@@ -1,18 +1,20 @@
 import { EM } from "../main";
+import HiveTutorial from "./HiveTutorial";
 import MoveTutorial from "./MoveTutorial";
 
 export default class TutorialControl
 {
     constructor(gameWorld)
     {
-        this.renderLayer = "SUPER_UI";
+        this.renderLayer = "TUTORIAL";
         this.gameWorld = gameWorld;
         this.player = gameWorld.player;
 
         this.currentStep = 0;
 
         this.tutorial = [
-            new MoveTutorial(this)
+            new MoveTutorial(this),
+            new HiveTutorial(this)
         ];
 
         EM.RegisterEntity(this);
@@ -33,8 +35,14 @@ export default class TutorialControl
         }
         else
         {
-            this.currentStep = nextStep;
+            this.SetStep(nextStep);
         }
+    }
+
+    SetStep(step)
+    {
+        this.currentStep = step;
+        this.tutorial[this.currentStep].Activate();
     }
 
     Update(deltaTime)

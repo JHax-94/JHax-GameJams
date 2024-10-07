@@ -5,7 +5,7 @@ export default class MoveTutorial extends TutorialItem
 {
     constructor(control)
     {
-        super(control, { y: 4, h: 6, w: 18 });
+        super(control, { y: 4, h: 6, w: 14 });
 
         this.arrowGrid = [
             [ null, { sprite: 238}, null ],

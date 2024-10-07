@@ -7,10 +7,11 @@
     "renderLayers": [
         { "name": "BACKGROUND", "order": 0 },
         { "name": "WORLD", "order": 1 },
-        { "name": "WORLD_AIR", "order": 2},
-        { "name": "WORLD_SUPER", "order": 3},
-        { "name": "UI", "order": 4 },
-        { "name": "SUPER_UI", "order": 5 }
+        { "name": "TUTORIAL", "order": 2 },
+        { "name": "WORLD_AIR", "order": 3},
+        { "name": "WORLD_SUPER", "order": 4},
+        { "name": "UI", "order": 5 },
+        { "name": "SUPER_UI", "order": 6 }
     ],  
     "inputGroups": [
         { "name": "PLAYERS" },

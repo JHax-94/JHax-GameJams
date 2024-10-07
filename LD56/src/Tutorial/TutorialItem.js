@@ -38,8 +38,28 @@ export default class TutorialItem extends AbstractUi
         this.control = control;
     }
 
-    DrawWindow()
+    DrawWindow(atObject = null)
     {
+        if(atObject)
+        {
+            let obj = atObject.obj;
+            let screenPos = obj.GetScreenPos();
+            
+            let off = {
+                x: 0,
+                y: 0
+            };
+
+            if(atObject.off)
+            {
+                off.x = atObject.off?.x ?? 0;
+                off.y = atObject.off?.y ?? 0;
+            }
+
+            this.dims.x = (screenPos.x / PIXEL_SCALE) - (this.dims.w - 1) * 0.5 + off.x;
+            this.dims.y = (screenPos.y / PIXEL_SCALE) - (this.dims.h - 1) * 0.5 + off.y;
+        }
+
         paper(8);
         pen(12);
 
@@ -52,4 +72,6 @@ export default class TutorialItem extends AbstractUi
     DrawTutorial() {}
 
     CheckTutorialEnd(update) { }
+    
+    Activate() { }
 }

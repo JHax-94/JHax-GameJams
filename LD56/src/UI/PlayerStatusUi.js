@@ -1,4 +1,3 @@
-import { getDefaultTweener } from "tina";
 import { EM, getFont, PIXEL_SCALE, setFont, TILE_WIDTH, UTIL } from "../main";
 
 export default class PlayerStatusUi
@@ -19,6 +18,11 @@ export default class PlayerStatusUi
 
     DrawProgressBar(x, y, w, h, value)
     {
+        if(value > 1)
+        {
+            value = 1;
+        }
+
         paper(6);
         rectf(x, y, w, h);
 

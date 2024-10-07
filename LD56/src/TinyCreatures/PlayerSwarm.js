@@ -50,6 +50,8 @@ export default class PlayerSwarm extends Swarm
         this.waggleTimer = 0;
         this.waggleUntil = 0;
 
+        this.waitForIncrement = false;
+
         this.statusUi = new PlayerStatusUi(this);
 
         for(let i = 0; i < this.maxBugs; i ++)
@@ -107,20 +109,29 @@ export default class PlayerSwarm extends Swarm
 
         let nextLevel = this.ExpForNextLevel();
 
-        if(this.exp > nextLevel)
+        if(this.exp >= nextLevel && this.waitForIncrement === false)
         {
-            this.level ++;
-            this.exp -= nextLevel;
-
+            this.waitForIncrement = true;
             this.GameWorld().PlayerLevelled();
+            
+            /*this.level ++;
+            this.exp -= nextLevel;*/
         }
+    }
+
+    IncrementLevel()
+    {
+        this.waitForIncrement = false;
+        let nextLevel = this.ExpForNextLevel();
+        this.exp -= nextLevel;
+        this.level ++;
     }
 
     ExpForNextLevel()
     {
         let target = this.level;
         
-        return target * 5;
+        return target * 3;
     }
 
     TouchedStructure(structure)

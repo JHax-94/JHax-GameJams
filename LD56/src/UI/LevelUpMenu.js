@@ -1,7 +1,5 @@
 import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
-import UpgradeCitizenSpeed from "../Upgrades/UpgradeCitizenSpeed";
-import UpgradeRespawnTime from "../Upgrades/UpgradeRespawnTime";
-import UpgradeSwarmSize from "../Upgrades/UpgradeSwarmSize";
+
 import Button from "./Button";
 
 export default class LevelUpMenu
@@ -16,7 +14,10 @@ export default class LevelUpMenu
 
         this.title = "Level Up!".toUpperCase();
 
-        this.subtitle = `Choose a level ${player.level + 1} upgrade`;
+        this.subtitle = [ 
+            `Click on a level ${player.level + 1} perk`,
+            `to level up!`
+        ];
 
         this.buttons = [];
 
@@ -53,6 +54,8 @@ export default class LevelUpMenu
 
         option.ApplyUpgrade();
 
+        this.player.IncrementLevel();
+
         this.Close();
     }
 
@@ -69,9 +72,15 @@ export default class LevelUpMenu
     BuildButtons(options)
     {
         let levelUp = this;
+
+        let buttonHeight = 1.5;
+        let buttonSpace= 0.5;
+
+        let buttonY = this.dims.h - (options.length) * (buttonHeight + buttonSpace);
+
         for(let i = 0; i < options.length; i ++)
         {
-            let buttonDims = { x: 0, y: 4 + 2 * i, w: 16, h: 1.5 };
+            let buttonDims = { x: 0, y: buttonY + (buttonHeight + buttonSpace) * i, w: 16, h: buttonHeight};
 
             buttonDims.x = (this.dims.w - buttonDims.w) * 0.5;
 
@@ -114,7 +123,14 @@ export default class LevelUpMenu
 
         let lineHeight = UTIL.GetTextHeight("", this.font);
 
+        pen(1);
         this.DrawCentredText(this.title, lineHeight);
-        this.DrawCentredText(this.subtitle, lineHeight * 2 + 0.25);
+
+        for(let i = 0; i < this.subtitle.length; i ++)
+        {
+            pen(1);
+            this.DrawCentredText(this.subtitle[i],(2+i) * lineHeight + 0.25);
+        }
+        
     }
 }

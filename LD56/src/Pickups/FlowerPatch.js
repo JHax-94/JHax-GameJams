@@ -50,7 +50,11 @@ export default class FlowerPatch extends Swarm
 
     RespawnTime()
     {
-        return this.Player().respawnTime * 2;
+        let player = this.Player();
+
+        let respawnTime = player.bugSpawnTime * 2;
+
+        return respawnTime;
     }
 
     Update(deltaTime)
@@ -69,7 +73,7 @@ export default class FlowerPatch extends Swarm
 
     Draw()
     {
-        EM.hudLog.push(`Flower bugs: ${this.bugs.length} [ ${this.respawnTimer.toFixed(3) / this.RespawnTime().toFixed(3)}]`);
+        //EM.hudLog.push(`Flower bugs: ${this.bugs.length} [ ${this.respawnTimer.toFixed(3)}/${this.RespawnTime().toFixed(3)}]`);
         let screenPos = this.GetScreenPos();
 
         sprite(this.sprite, screenPos.x, screenPos.y);

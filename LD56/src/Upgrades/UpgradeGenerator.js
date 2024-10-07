@@ -7,11 +7,12 @@ import UpgradeSpawnFlower from "./UpgradeSpawnFlower";
 import UpgradeHivePopulationRate from "./UpgradeHivePopulationRate";
 import UpgradeRoyalJelly from "./UpgradeRoyalJelly";
 import UpgradeRespawnFlowers from "./UpgradeRespawnFlowers";
-import { consoleLog } from "../main";
+import { consoleLog, PIXEL_SCALE } from "../main";
 import UpgradeSpawnHive from "./UpgradeSpawnHive";
 import UpgradeHivePop from "./UpgradeHivePop";
 import UpgradeBugRespawnRate from "./UpgradeBugRespawnRate";
 import UpgradeFlowerPopulation from "./UpgradeFlowerPopulation";
+import UpgradePlayerSpeed from "./UpgradePlayerSpeed";
 
 export default class UpgradeGenerator
 {
@@ -27,7 +28,8 @@ export default class UpgradeGenerator
             { type: "PopFlower", weight: 20 },
             { type: "SpawnHive", weight: 10 },
             { type: "HivePop", weight: 5 },
-            { type: "FlowerPop", weight: 5 }
+            { type: "FlowerPop", weight: 5 },
+            { type: "PlayerSpeed", weight: 50 }
         ];
     }
 
@@ -55,6 +57,8 @@ export default class UpgradeGenerator
                 return new UpgradeHivePop(5);
             case "FlowerPop":
                 return new UpgradeFlowerPopulation(1);
+            case "PlayerSpeed":
+                return new UpgradePlayerSpeed(2);
             default:
                 console.warn("UPGRADE TYPE NOT RECOGNISED");
                 consoleLog(upgradeData);

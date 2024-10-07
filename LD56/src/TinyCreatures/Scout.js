@@ -387,7 +387,18 @@ export default class Scout extends TinyCreature
         let normedTarget = [];
         vec2.normalize(normedTarget, targetVec);
 
-        this.phys.velocity = [ normedTarget[0] * this.speed, normedTarget[1] * this.speed ];
+        let speed = this.speed;
+
+        if(this.parentSwarm.GetMatchedSpeed)
+        {
+            let matchedSpeed = this.parentSwarm.GetMatchedSpeed();
+            if(matchedSpeed > speed)
+            {
+                speed = matchedSpeed;
+            }
+        }
+
+        this.phys.velocity = [ normedTarget[0] * speed, normedTarget[1] * speed ];
     }
 
     GatherPickup()
@@ -445,7 +456,7 @@ export default class Scout extends TinyCreature
             this.phys.velocity = [ this.parentSwarm.phys.velocity[0], this.parentSwarm.phys.velocity[1]];
         }*/
 
-        if(this.phys.tag === "ENEMY_BUG")
+        if(this.parentSwarm.isPlayer)
         {
             EM.hudLog.push(`action: ${this.action}`);
         }
@@ -497,6 +508,8 @@ export default class Scout extends TinyCreature
 
     Draw()
     {
+        EM.hudLog.push(`Bugsp: ${vec2.length(this.phys.velocity)}`)
+
         if(!this.jelliedUp)
         {
             if(this.parentSwarm.highlight && this.HighlightBlink())

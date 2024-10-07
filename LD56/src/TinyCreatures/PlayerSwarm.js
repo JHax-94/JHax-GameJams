@@ -28,6 +28,8 @@ export default class PlayerSwarm extends Swarm
             speed: 2.5 * PIXEL_SCALE
         };
 
+        
+
         this.level = 1;
         this.exp = 0;
 
@@ -274,6 +276,7 @@ export default class PlayerSwarm extends Swarm
 
     Update(deltaTime)
     {
+        EM.hudLog.push(`Speed: ${this.speed}`);
         this.CheckSourceStillValid();
         
         if(this.waggleUntil > 0)
@@ -385,8 +388,21 @@ export default class PlayerSwarm extends Swarm
         }
     }
 
+    GetMatchedSpeed()
+    {
+        return vec2.length(this.phys.velocity);
+    }
+
+    IncreaseSpeed(amount)
+    {
+        consoleLog(`Increase speed by ${amount}`);
+        this.speed += amount;
+    }
+
     Draw()
     {
+        //EM.hudLog.push(`PlayerSp: ${}`);
+
         let screenPos = this.GetScreenPos();
         
         this.mainTexture._drawEnhanced(screenPos.x, screenPos.y, { angle: this.phys.angle, maintainCentre: true });

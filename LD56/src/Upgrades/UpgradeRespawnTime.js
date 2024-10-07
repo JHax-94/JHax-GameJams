@@ -17,4 +17,21 @@ export default class UpgradeRespawnTime extends Upgrade
         player.DecreaseRespawnTime(this.amount);
         this.UpgradeFinished();
     }
+
+    static UpgradeAmount()
+    {
+        let roll = random(10);
+
+        let amount = 0.1;
+        if(roll === 9)
+        {
+            amount = 0.25;
+        }
+        else if(roll >= 7)
+        {
+            amount = 0.2;
+        }
+
+        return amount;
+    }
 }

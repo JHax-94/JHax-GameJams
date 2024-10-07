@@ -4,7 +4,7 @@ export default class UpgradeCitizenSpeed extends Upgrade
 {
     constructor(amount)
     {
-        super(`Citizen Speed +${amount}`);
+        super(`Drone Speed +${amount}`);
         this.amount = amount;
     }
 

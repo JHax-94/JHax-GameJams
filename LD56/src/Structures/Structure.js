@@ -319,6 +319,11 @@ export default class Structure
                 }
             }
 
+            if(this.currentTarget > this.targetStructures.length)
+            {
+                this.currentTarget = 0;
+            }
+
             for(let i = 0; i < this.connectors.length; i ++)
             {
                 if(this.connectors[i].parent === structure || this.connectors[i].child === structure)

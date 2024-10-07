@@ -31,7 +31,7 @@ export default class GameWorld
         this.upgradeHistory = [];
 
         /// GAME CONFIGURATION
-        this.maxDistance = 50;
+        this.maxDistance = 20;
         this.numberOfNodes = this.maxDistance;
         
         /// GLOBAL STATS
@@ -45,6 +45,8 @@ export default class GameWorld
 
         this.lastAngle = 2 * Math.PI * Math.random();
 
+        this.minSqDist = this.SqDist({x: 0, y: 0}, { x: 1, y: 1 });
+
         /// SERVICES
         this.swarmSpawner = new SwarmSpawner(this);
         this.flowerSpawner = new FlowerSpawner(this);
@@ -54,6 +56,11 @@ export default class GameWorld
         this.tutorial = null; // Set elsewhere
 
         EM.RegisterEntity(this);
+    }
+
+    SqDist(pos_a, pos_b)
+    {
+        return Math.pow(pos_a.x - pos_b.x, 2) + Math.pow(pos_a.y - pos_b.y, 2);
     }
 
     GetScreenBounds()
@@ -103,6 +110,51 @@ export default class GameWorld
         this.structures.push(this.endHive);
 
         this.swarmSpawner.SpawnSwarm();
+    }
+
+    CheckStructureProximity(pos)
+    {
+        let suitable = true;
+
+        for(let i = 0; i < this.structures.length; i ++)
+        {
+            let hive = this.structures[i];
+
+            let sqDist = this.SqDist(hive.pos, pos);
+
+            let min = this.minSqDist;
+
+            if(hive === this.startHive || hive === this.endHive)
+            {
+                min = this.minRadius * this.minRadius;
+            }
+
+            if(sqDist < min)
+            {
+                consoleLog(`(${pos.x}, ${pos.y}) - (${hive.pos.x}, ${hive.pos.y})`);
+                consoleLog(`Unsuitable Sq Dist: ${sqDist} / ${this.minSqDist}`);
+
+                suitable = false;
+
+                break;
+            }
+        }
+
+        return suitable;
+    }
+
+    SpawnExtraHive()
+    {
+        let onScreen = this.swarmSpawner.GetOnscreenPosition();
+
+        while(!this.CheckStructureProximity(onScreen))
+        {
+            onScreen = this.swarmSpawner.GetOnscreenPosition();
+        }
+
+        let newNode = new HiveNode(onScreen);
+
+        this.structures.push(newNode);
     }
 
     ClearSupplyingStructures(clearStructure)
@@ -171,7 +223,15 @@ export default class GameWorld
 
             consoleLog(`Spawn hive node at radius: ${radius}`);
 
+
             let pos = this.GetRandomPositionWithRadius(radius);
+
+            
+
+            while(!this.CheckStructureProximity(pos))
+            {
+                pos = this.GetRandomPositionWithRadius(radius);
+            }
 
             consoleLog(`Pos: (${pos.x}, ${pos.y})`);
 
@@ -196,6 +256,11 @@ export default class GameWorld
             consoleLog(`Spawn hive node at radius: ${radius}`);
 
             let pos = this.GetRandomPositionWithRadius(radius);
+
+            while(!this.CheckStructureProximity(pos))
+            {
+                pos = this.GetRandomPositionWithRadius(radius);
+            }
 
             consoleLog(`Pos: (${pos.x}, ${pos.y})`);
 

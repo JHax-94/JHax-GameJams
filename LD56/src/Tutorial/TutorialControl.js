@@ -1,4 +1,5 @@
 import { EM } from "../main";
+import DroneTutorial from "./DroneTutorial";
 import HiveTutorial from "./HiveTutorial";
 import MoveTutorial from "./MoveTutorial";
 
@@ -14,7 +15,8 @@ export default class TutorialControl
 
         this.tutorial = [
             new MoveTutorial(this),
-            new HiveTutorial(this)
+            new HiveTutorial(this),
+            new DroneTutorial(this)
         ];
 
         EM.RegisterEntity(this);

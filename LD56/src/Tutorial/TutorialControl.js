@@ -1,8 +1,10 @@
 import { EM } from "../main";
 import DroneTutorial from "./DroneTutorial";
+import EndGameTutorial from "./EndGameTutorial";
 import EnemyTutorial from "./EnemyTutorial";
 import HiveTutorial from "./HiveTutorial";
 import MoveTutorial from "./MoveTutorial";
+import WaggleTutorial from "./WaggleTutorial";
 
 export default class TutorialControl
 {
@@ -15,11 +17,12 @@ export default class TutorialControl
         this.currentStep = -1;
 
         this.tutorial = [
-            new EnemyTutorial(this),
             new MoveTutorial(this),
             new HiveTutorial(this),
             new DroneTutorial(this),
-            
+            new WaggleTutorial(this),
+            new EnemyTutorial(this),
+            new EndGameTutorial(this)
         ];
 
         EM.RegisterEntity(this);

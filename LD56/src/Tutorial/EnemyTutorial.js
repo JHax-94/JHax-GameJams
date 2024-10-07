@@ -82,7 +82,7 @@ export default class EnemyTutorial extends TutorialItem
     {
         if(this.swarm)
         {
-            this.DrawWindow({ obj: this.swarm, off: { x: this.dims.w * 0.5, y: this.dims.h*0.5 } });
+            this.DrawWindow({ obj: this.swarm, off: { y: this.dims.h*0.5 } });
 
             pen(1);
             this.DrawCentredText("Hunter bugs attack", 0.5);            

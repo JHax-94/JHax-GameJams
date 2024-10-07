@@ -872,7 +872,7 @@ export default class EntityManager
 
     Unpause()
     {
-        if(this.pauseMenu)
+        if(this.pauseMenu && this.pauseMenu.Close)
         {
             this.pauseMenu.Close();
         }

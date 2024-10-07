@@ -5,6 +5,7 @@ import Utility from './Utility.js'
 import { vec2 } from 'p2'
 import GameWorld from './GameWorld/GameWorld.js'
 import PlayerEvents from './PhysEvents/PlayerEvents.js'
+import StartScreen from './UI/StartScreen.js'
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -205,8 +206,14 @@ let COLLISION_GROUP ={
 };
 
 ///====== GAME SETUP ======
-function SETUP(levelName)
+function SETUP(options)
 {
+    if(!options)
+    {
+        options = {};
+    }
+
+
 
     consoleLog("SETUP");
     /*consoleLog($screen);
@@ -220,6 +227,12 @@ function SETUP(levelName)
     EM = new EntityManager();
     AddPhysicsEvents();
     let gameWorld = new GameWorld();
+    
+    if(options.firstLoad)
+    {
+        EM.pauseMenu = new StartScreen();
+        EM.Pause(false);
+    }
 
     EM.AddEntity("GAMEWORLD", gameWorld);
 
@@ -237,7 +250,7 @@ function SETUP(levelName)
 exports.update = function () {
     if(!LOAD_COMPLETE)
     {
-        SETUP("LevelSelect");
+        SETUP({ firstLoad: true });
         //AUDIO.PlayMusic();
     }
 

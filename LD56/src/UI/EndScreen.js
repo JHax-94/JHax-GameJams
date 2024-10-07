@@ -3,7 +3,7 @@ import Button from "./Button";
 
 export default class EndScreen
 {
-    constructor(title)
+    constructor(title, dims = null)
     {
         this.renderLayer = "SUPER_UI";
         this.title = title;
@@ -14,6 +14,12 @@ export default class EndScreen
             x: 0,
             y: 0
         };
+
+        if(dims)
+        {
+            this.dims.w = dims.w;
+            this.dims.h = dims.h;
+        }
 
         this.font = getFont("LargeNarr");
 
@@ -34,6 +40,19 @@ export default class EndScreen
         consoleLog("Restart");
 
         SETUP();
+    }
+
+    Destroy()
+    {
+        for(let i = 0; i < this.buttons.length; i ++)
+        {
+            EM.RemoveEntity(this.buttons[i]);
+        }
+
+
+        consoleLog("REMOVE ENTITY:");
+        consoleLog(this);
+        EM.RemoveEntity(this);
     }
 
     Pos()
@@ -69,6 +88,22 @@ export default class EndScreen
 
             this.buttons.push(button);            
         }
+    }
+
+    DrawCentredSprite(index, y, rectC = null)
+    {
+        let drawAt = { x: this.dims.x * PIXEL_SCALE + 0.5 * (this.dims.w - 1) * PIXEL_SCALE , y: (this.dims.y + y) * PIXEL_SCALE }
+
+        if(rectC !== null)
+        {
+            paper(rectC);
+            pen(12);
+            rectf(drawAt.x - 2, drawAt.y - 2, PIXEL_SCALE + 4, PIXEL_SCALE + 4);
+            rect(drawAt.x - 2, drawAt.y -2, PIXEL_SCALE + 4, PIXEL_SCALE + 4);
+        
+        }
+
+        sprite(index, drawAt.x, drawAt.y );
     }
 
     DrawCentredText(text, y)

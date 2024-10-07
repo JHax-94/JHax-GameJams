@@ -6,7 +6,21 @@
 			"h": 16,
 			"name": "map",
 			"sheet": "",
-			"data": "!!.q"
+			"data": "!!|<$w$x$y!!|8%*%+!!|8%:%;%<!!|7%J!!.,"
+		},
+		{
+			"w": 20,
+			"h": 16,
+			"name": "untitled",
+			"sheet": "tilesheet",
+			"data": "!! S"
+		},
+		{
+			"w": 20,
+			"h": 16,
+			"name": "untitled2",
+			"sheet": "",
+			"data": "!! S"
 		}
 	]
 }

@@ -5,6 +5,13 @@ export default class Swarm
 {
     constructor(pos, physConf)
     {
+        this.renderLayer = "WORLD_AIR";
+
+        if(physConf.renderLayer)
+        {
+            this.renderLayer = physConf.renderLayer;
+        }
+
         this.gameWorld = null;
         this.bugs = [];
         this.bugType = {

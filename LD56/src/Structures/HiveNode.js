@@ -25,6 +25,21 @@ export default class HiveNode extends Structure
 
         sprite(50, screenPos.x, screenPos.y);
     }
+    /*
+    Update(deltaTime)
+    {
+        super.Update(deltaTime);
+        if(this.population >= 10)
+        {
+            this.SelfDestruct();
+        }
+    }
+
+    SelfDestruct()
+    {
+        this.population = 0;
+        this.Kill();
+    }*/
 
     SpawnTimeRemaining()
     {

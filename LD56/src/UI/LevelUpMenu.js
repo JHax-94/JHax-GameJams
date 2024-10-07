@@ -63,7 +63,7 @@ export default class LevelUpMenu
             EM.RemoveEntity(this.buttons[i]);
         }
         EM.RemoveEntity(this);
-        EM.Pause();
+        EM.Unpause();
     }
 
     BuildButtons(options)

@@ -9,7 +9,8 @@ export default class FlowerPatch extends Swarm
         { 
             tag: "FLOWER", 
             collisionGroup: COLLISION_GROUP.PLAYER, 
-            collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.PLAYER | COLLISION_GROUP.ENEMY) 
+            collisionMask: (COLLISION_GROUP.STRUCTURE | COLLISION_GROUP.PLAYER | COLLISION_GROUP.ENEMY),
+            renderLayer: "WORLD"
         });
     
         this.bugType = {

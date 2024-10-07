@@ -4,6 +4,7 @@ export default class RoyalJelly
 {
     constructor(pos)
     {
+        this.renderLayer = "WORLD";
         let physSettings = {
             tileTransform: { x: pos.x, y: pos.y, w: 1, h: 1 },
             mass: 100,

@@ -10,6 +10,7 @@ import LevelUpMenu from "../UI/LevelUpMenu";
 import VictoryScreen from "../UI/VictoryScreen";
 import UpgradeGenerator from "../Upgrades/UpgradeGenerator";
 import { consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
+import Background from "./Background";
 import FlowerSpawner from "./FlowerSpawner";
 import RoyalJellySpawner from "./RoyalJellySpawner";
 import SwarmSpawner from "./SwarmSpawner";
@@ -84,6 +85,7 @@ export default class GameWorld
 
     BuildWorld()
     {
+        let background = new Background();
         let startHive = new StartHive({ x: 0, y: 0 });
         this.player = new PlayerSwarm({ x: 2, y: 0});
         
@@ -96,6 +98,16 @@ export default class GameWorld
         this.structures.push(endHive);
 
         this.swarmSpawner.SpawnSwarm();
+    }
+
+    ClearSupplyingStructures(clearStructure)
+    {
+        for(let i = 0; i < this.structures.length; i ++)
+        {
+            let hive = this.structures[i];
+
+            hive.ClearFromTargets(clearStructure);
+        }
     }
 
     TotalStructPopulation()

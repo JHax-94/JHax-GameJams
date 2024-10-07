@@ -5,8 +5,12 @@
     "hudLogOn": true,
     "debugSpawnTiles": false,
     "renderLayers": [
-        { "name": "WORLD", "order": 0 },
-        { "name": "UI", "order": 1 } 
+        { "name": "BACKGROUND", "order": 0 },
+        { "name": "WORLD", "order": 1 },
+        { "name": "WORLD_AIR", "order": 2},
+        { "name": "WORLD_SUPER", "order": 3},
+        { "name": "UI", "order": 4 },
+        { "name": "SUPER_UI", "order": 5 }
     ],  
     "inputGroups": [
         { "name": "PLAYERS" },

@@ -19,7 +19,7 @@ export default class PlayerEvents extends PhysEventRegistry
 
         if(sourceStruct !== null)
         {
-            if(hive.obj.CanAddSource(sourceStruct))
+            if(hive.obj.IsValidTarget() && hive.obj.CanAddSource(sourceStruct))
             {
                 sourceStruct.AddTargetStructure(hive.obj);
             }

@@ -8,6 +8,7 @@ export default class Structure
 {
     constructor(pos)
     {
+        this.renderLayer = "WORLD";
         this.isEndHive = false;
         this.gameWorld = null;
         this.player = null;
@@ -296,7 +297,42 @@ export default class Structure
 
     IsValidSource()
     {
-        return this.population > 0 || this.isConnected;
+        return (this.population > 0 || this.isConnected) && this.dead === false;
+    }
+
+    ClearFromTargets(structure)
+    {
+        
+        if(this.targetStructures.length > 0 || this.connectors.length > 0)
+        {
+            consoleLog("Check Target structures for:");
+            consoleLog(structure);
+            for(let i = 0; i < this.targetStructures.length; i ++)
+            {
+                if(this.targetStructures[i] === structure)
+                {
+                    consoleLog("REMOVE STRUCTURE")
+                    this.targetStructures.splice(i, 1);
+                    break;
+                }
+            }
+
+            for(let i = 0; i < this.connectors.length; i ++)
+            {
+                if(this.connectors[i].parent === structure || this.connectors[i].child === structure)
+                {
+                    EM.RemoveEntity(this.connectors[i], 1);
+                    this.connectors.splice(i, 1);
+                    
+                    break;
+                }
+            }
+        }
+    }
+
+    IsValidTarget()
+    {
+        return !this.dead;
     }
 
     Kill()
@@ -311,12 +347,16 @@ export default class Structure
             EM.RemoveEntity(this.connectors[i]);
         }
         
+        this.connectors = [];
+
         for(let i = 0; i < this.targetStructures.length; i ++)
         {
             this.targetStructures[i].Disconnected();            
         }
 
         this.targetStructures = [];
+
+        this.GameWorld().ClearSupplyingStructures(this);
 
         this.GameWorld().CheckEndGame();
     }

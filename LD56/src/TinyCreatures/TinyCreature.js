@@ -4,6 +4,7 @@ export default class TinyCreature
 {
     constructor(pos, physConfig, colours)
     {
+        this.renderLayer = "WORLD_SUPER";
         this.colours = [ 9, 10 ];
         if(colours)
         {

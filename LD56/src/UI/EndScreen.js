@@ -5,7 +5,7 @@ export default class EndScreen
 {
     constructor(title)
     {
-        this.renderLayer = "UI";
+        this.renderLayer = "SUPER_UI";
         this.title = title;
 
         this.dims = {
@@ -62,7 +62,7 @@ export default class EndScreen
                         text: options[i].text,
                     }
                 }, 
-                "UI", 
+                "SUPER_UI", 
                 this);
 
             button.ClickEvent = () => { consoleLog(`Click[${i}]!`); options[i].callback(); };

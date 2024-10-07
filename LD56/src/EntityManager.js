@@ -400,10 +400,11 @@ export default class EntityManager
         return entityList;
     }
 
+    /*
     TileToPhysPosition(tilePos)
     {
         return [ (tilePos.x + 0.5)* PIXEL_SCALE, - (tilePos.y + 0.5) * PIXEL_SCALE ];
-    }
+    }*/
 
     PhysToScreenPos(physPos)
     {
@@ -869,6 +870,16 @@ export default class EntityManager
         // Not sure what this will look like yet...
     }
 
+    Unpause()
+    {
+        if(this.pauseMenu)
+        {
+            this.pauseMenu.Close();
+        }
+        this.pause = false;
+        this.inputDetectMode = this.prePauseInputDetect;
+    }
+
     Pause(showPauseMenu = true)
     {
         if(!this.pause)
@@ -889,12 +900,7 @@ export default class EntityManager
         }
         else
         {
-            if(this.pauseMenu)
-            {
-                this.pauseMenu.Close();
-            }
-            this.pause = false;
-            this.inputDetectMode = this.prePauseInputDetect;
+            this.Unpause();
         }
     }
     

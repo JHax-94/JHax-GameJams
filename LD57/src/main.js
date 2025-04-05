@@ -4,6 +4,7 @@ import TextureExtender from "./TextureExtensions";
 import VectorExtensions from "./VectorExtensions";
 import Utility from './Utility';
 import { vec2 } from 'p2'
+import CameraController from "./GameWorld/CameraController";
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -31,7 +32,7 @@ let physEvents = [
 ];
 
 let COLLISION_GROUP = {
-
+    STATIONS: 0
 };
 
 function getObjectConfig(objectName, copyObj)
@@ -199,6 +200,9 @@ function SETUP()
     EM = new EntityManager();
     AddPhysicsEvents();
     let gameWorld = new GameWorld();
+    let cameraControl = new CameraController();
+
+    gameWorld.SetupGameWorld();
 
     LOAD_COMPLETE = true;
 }

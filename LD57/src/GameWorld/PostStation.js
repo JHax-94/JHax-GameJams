@@ -20,7 +20,7 @@ export default class PostStation extends AbstractCelestialBody
             { text: ["Unlock Freighter", "Speed Upgrade"], cost: 200, upkeep: 10, type: "Unlock_SpeedUpgrade" },
             { text: ["Send Probe"], cost: 200, upkeep: 0, type: "SendProbe" },
             { text: ["Unlock Freighter", "Cargo Upgrade"], cost: 200, upkeep: 10, type: "Unlock_CargoUpgrade" },
-            { text: ["Improve Sort", "Speed"], cost: 500, upkeep: 5 }
+            { text: ["Improve Sort", "Speed"], cost: 500, upkeep: 5, type: "SortSpeed" }
         ]
     }
 
@@ -44,7 +44,9 @@ export default class PostStation extends AbstractCelestialBody
 
     SpawnFreighter()
     {   
-        let newFreighter = new Freighter(this, "Freighter 0", this.gameWorld);
+        let name = this.gameWorld.GetNextFreighterName();
+
+        let newFreighter = new Freighter(this, name, this.gameWorld);
 
         this.gameWorld.RegisterSpacecraft(newFreighter);
         this.freighters.push(newFreighter);

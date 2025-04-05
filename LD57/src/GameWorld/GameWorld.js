@@ -48,6 +48,11 @@ export default class GameWorld
         this.selected = null;
     }
 
+    GetNextFreighterName()
+    {
+        return `Freighter ${this.spacecraft.length}`;
+    }
+
     StationsUpkeep()
     {
         let upkeep = 0;
@@ -211,6 +216,12 @@ export default class GameWorld
         this.player.credits -= upkeep;
 
         this.toastManager.AddMessage(`Weekly Upkeep -${upkeep}`, 9);
+    }
+
+    ProcessPurchase(amount)
+    {
+        this.player.credits -= amount;
+        this.toastManager.AddMessage(`Upgrade purchased -${amount}`, 10);
     }
 
     Update(deltaTime)

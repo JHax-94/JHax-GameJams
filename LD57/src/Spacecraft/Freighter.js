@@ -16,7 +16,10 @@ export default class Freighter
 
         this.gameWorld = gameWorld;
 
-        let offset = { x: 1, y: 1};
+        let offsetDist = 1.4;
+        let offAngle = Math.random() * Math.PI * 2
+
+        let offset = { x: offsetDist * Math.cos(offAngle), y: offsetDist * Math.sin(offAngle) };
 
         this.thrustForce = 60000;
 

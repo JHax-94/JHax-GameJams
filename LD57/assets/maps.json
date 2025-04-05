@@ -7,6 +7,27 @@
 			"name": "map",
 			"sheet": "",
 			"data": "!!.q"
+		},
+		{
+			"w": 16,
+			"h": 16,
+			"name": "test_map_0",
+			"sheet": "",
+			"data": "!!.q"
+		},
+		{
+			"w": 16,
+			"h": 16,
+			"name": "test_map_1",
+			"sheet": "",
+			"data": "!!.q"
+		},
+		{
+			"w": 16,
+			"h": 16,
+			"name": "test_map-2",
+			"sheet": "tilesheet",
+			"data": "!!|<#'!!.^"
 		}
 	]
 }

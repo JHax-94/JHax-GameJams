@@ -4,7 +4,7 @@ import InfluenceZone from "./InfluenceZone";
 
 export default class AbstractCelestialBody
 {
-    constructor(pos, dims, title, tag, gameWorld)
+    constructor(pos, dims, title, tag, gameWorld, symbolTex = null)
     {
         this.gameWorld = gameWorld;
         this.title = title;
@@ -13,6 +13,8 @@ export default class AbstractCelestialBody
         this.subTag = tag;
 
         this.tilePos = {x: pos.x, y: pos.y};
+
+        this.symbolTex = symbolTex ?? gameWorld.symbolGenerator.GenerateSymbol();
 
         let physSettings = {
             tileTransform: { x: pos.x, y: pos.y, w: this.w, h: this.h },
@@ -122,6 +124,14 @@ export default class AbstractCelestialBody
     FocusCamera()
     {
         EM.camera.MoveTo(this.phys.position[0] - 0.5 * TILE_WIDTH * PIXEL_SCALE, this.phys.position[1] + 0.5 * TILE_HEIGHT * PIXEL_SCALE);
+    }
+
+    DrawSymbol(screenPos)
+    {
+        if(this.symbolTex)
+        {
+            this.symbolTex._drawEnhanced(screenPos.x - PIXEL_SCALE, screenPos.y - PIXEL_SCALE);
+        }
     }
 
     DrawFocus(screenPos)

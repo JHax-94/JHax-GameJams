@@ -1,6 +1,7 @@
 import { consoleLog, EM, PIXEL_SCALE } from "../main";
 import Planet from "./Planet";
 import PostStation from "./PostStation";
+import SymbolGenerator from "./SymbolGenerator";
 
 export default class GameWorld
 {
@@ -12,7 +13,7 @@ export default class GameWorld
 
         this.planets = [];
 
-
+        this.symbolGenerator = new SymbolGenerator();
         this.selected = null;
     }
 
@@ -72,7 +73,7 @@ export default class GameWorld
 
     SetupGameWorld()
     {
-        let mainStation = new PostStation({ x: 0, y: 0 }, "POST STATION 1", this);
+        let mainStation = new PostStation({ x: 0, y: 0 }, "POST STATION 1", this, this.symbolGenerator.MainStationSymbol());
 
         this.stations.push(mainStation);
 

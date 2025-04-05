@@ -15,6 +15,7 @@ export default class Planet extends AbstractCelestialBody
         paper(14);
         rectf(screenPos.x, screenPos.y, this.w * PIXEL_SCALE,  this.h * PIXEL_SCALE);
 
+        this.DrawSymbol(screenPos);
         this.DrawFocus(screenPos);
     }
 }

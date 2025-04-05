@@ -6,9 +6,9 @@ import AbstractCelestialBody from "./AbstractCelestialBody";
 
 export default class PostStation extends AbstractCelestialBody
 {
-    constructor(pos, title, gameWorld)
+    constructor(pos, title, gameWorld, symbol)
     {   
-        super(pos, { w: 1, h: 1 }, title, "STATION", gameWorld);
+        super(pos, { w: 1, h: 1 }, title, "STATION", gameWorld, symbol);
 
         this.freighters = [];
     }
@@ -27,6 +27,7 @@ export default class PostStation extends AbstractCelestialBody
         
         rectf(screenPos.x, screenPos.y, this.w * PIXEL_SCALE, this.h * PIXEL_SCALE);
 
+        this.DrawSymbol(screenPos);
         this.DrawFocus(screenPos);
     }
 }

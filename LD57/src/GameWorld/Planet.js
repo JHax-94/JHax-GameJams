@@ -25,8 +25,8 @@ export default class Planet extends AbstractCelestialBody
         this.DrawFocus(screenPos);
     }
 
-    SpawnParcel(targetPlanet)
+    SpawnParcel(targetPlanet, spawnAsSorted)
     {
-        this.parcelStore.SpawnParcel(targetPlanet);
+        this.parcelStore.SpawnParcel(targetPlanet, spawnAsSorted);
     }
 }

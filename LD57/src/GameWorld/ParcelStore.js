@@ -1,5 +1,6 @@
 import Parcel from "../Deliveries/Parcel";
 import { consoleLog, EM } from "../main";
+import PostStation from "./PostStation";
 
 export default class ParcelStore
 {
@@ -27,9 +28,9 @@ export default class ParcelStore
         return this.parcels.length;
     }
 
-    SpawnParcel(targetPlanet)
+    SpawnParcel(targetPlanet, spawnAsSorted)
     {
-        let newParcel = new Parcel(targetPlanet)
+        let newParcel = new Parcel(targetPlanet, spawnAsSorted);
 
         this.parcels.push(newParcel);
     }
@@ -50,8 +51,15 @@ export default class ParcelStore
 
     CheckDeliveriesForDestination(targetStation)
     {
+        consoleLog("Checking deliveries for station:");
+        consoleLog(targetStation);
+        consoleLog(`Is station?: ${targetStation instanceof PostStation}`);
+
         for(let i = 0; i < this.parcels.length; i ++)
         {
+            consoleLog(`Check parcel:`);
+            consoleLog(this.parcels[i]);
+
             if(this.parcels[i].Destination() === targetStation)
             {
                 let rewardValue = this.parcels[i].RewardValue();
@@ -61,6 +69,18 @@ export default class ParcelStore
 
                 gameWorld.DeliveryReward(rewardValue);
                 break;
+            }
+            else if(this.parcels[i].sorted === false && targetStation instanceof PostStation)
+            {
+                consoleLog(`Attempt transfer for sorting (${targetStation.parcelStore.RemainingCapacity()})`);
+
+                if(targetStation.parcelStore.RemainingCapacity() > 0)
+                {
+                    consoleLog("Transfer for sorting!");
+                    targetStation.parcelStore.AddParcel(this.parcels[i]);
+                    this.RemoveParcel(this.parcels[i]);
+                    break;
+                }
             }
         }
     }

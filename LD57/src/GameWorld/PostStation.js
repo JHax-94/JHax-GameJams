@@ -11,7 +11,22 @@ export default class PostStation extends AbstractCelestialBody
 
         this.upkeep = 100;
 
+        this.sortRate = 0.1;
+
         this.freighters = [];
+    }
+
+    Update(deltaTime)
+    {
+        for(let i = 0; i < this.parcelStore.Count(); i ++)
+        {
+            let parcel = this.parcelStore.Parcel(i);
+
+            if(!parcel.sorted)
+            {
+                parcel.SortProgress(this.sortRate * deltaTime);
+            }
+        }
     }
 
     SpawnFreighter()

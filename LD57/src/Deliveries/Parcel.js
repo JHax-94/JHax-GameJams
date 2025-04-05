@@ -1,9 +1,9 @@
 import Texture from "pixelbox/Texture";
-import { EM, PIXEL_SCALE } from "../main";
+import { consoleLog, EM, PIXEL_SCALE } from "../main";
 
 export default class Parcel
 {
-    constructor(targetPlanet)
+    constructor(targetPlanet, sorted)
     {
         this.targetPlanet = targetPlanet;
 
@@ -14,6 +14,10 @@ export default class Parcel
         this.decayRate = 0.5;
 
         this.lifeTime = 0;
+
+        this.sorted = sorted;
+
+        this.sortProgress= 0;
 
         EM.RegisterEntity(this);
     }
@@ -36,16 +40,36 @@ export default class Parcel
         EM.RemoveEntity(this);
     }
 
+    SortProgress(progressBy)
+    {
+        EM.hudLog.push(`${this.sortProgress.toFixed(3)} (+${progressBy.toFixed(3)})`);
+
+        this.sortProgress += progressBy;
+
+        if(this.sortProgress >= 1)
+        {
+            this.sortProgress = 1;
+            this.sorted = true;
+        }
+    }
+
     Destination()
     {
-        return this.targetPlanet;
+        let destination = null;
+
+        if(this.sorted)
+        {
+            destination = this.targetPlanet;
+        }
+
+        return destination;
     }
 
     TargetSymbol()
     {
         let symbolTex = null;
 
-        if(this.targetPlanet)
+        if(this.Destination())
         {
             symbolTex = this.targetPlanet.symbolTex;
         }

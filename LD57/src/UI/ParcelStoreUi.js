@@ -145,6 +145,12 @@ export default class ParcelStoreUi
 
                 if(parcel !== null)
                 {
+                    if(parcel.sortProgress > 0 && parcel.sorted === false)
+                    {
+                        paper(11);
+                        rectf(drawDims.x, drawDims.y, drawDims.w * parcel.sortProgress, drawDims.h);
+                    }
+
                     let targetSymbol =parcel.TargetSymbol();
 
                     targetSymbol._drawEnhanced(drawDims.x + (drawDims.w - targetSymbol.width) *0.5, drawDims.y + (drawDims.h - targetSymbol.height) * 0.5);

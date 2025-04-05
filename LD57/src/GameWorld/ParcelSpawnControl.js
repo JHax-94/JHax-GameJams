@@ -12,6 +12,12 @@ export default class ParcelSpawnControl
         this.spawnTime = 6;
         this.spawnTimer = 0;
 
+        this.elapsedTimer = 0;
+
+        this.sortedTimer = 0;
+        this.sortedRollThreshold = 2;
+        this.sortedRoll = 0;
+
     }
 
     SpawnParcel()
@@ -35,7 +41,28 @@ export default class ParcelSpawnControl
 
         let targetPlanet = planetsList[targetIndex];
 
-        sourcePlanet.SpawnParcel(targetPlanet);
+        let spawnAsSorted = this.SpawnAsSorted();
+
+        sourcePlanet.SpawnParcel(targetPlanet, spawnAsSorted);
+    }
+
+    SpawnAsSorted()
+    { 
+        let spawnAsSorted = false;
+
+        if(this.sortedRoll > 1)  
+        {
+            if(random(this.sortedRoll) == 0)
+            {
+                spawnAsSorted = true;
+            }
+        }
+        else
+        {
+            spawnAsSorted = true;
+        }
+
+        return spawnAsSorted;
     }
 
     ProcessUpdate(deltaTime)
@@ -46,5 +73,16 @@ export default class ParcelSpawnControl
             this.SpawnParcel();
             this.spawnTimer -= this.spawnTime;
         }
+
+        this.sortedTimer += deltaTime;
+
+        if(this.sortedTimer >= this.sortedRollThreshold)
+        {
+            this.sortedRoll ++;
+            this.sortedTimer -= this.sortedRollThreshold;
+        }
+
+
+        this.elapsedTimer += deltaTime;
     }
 }

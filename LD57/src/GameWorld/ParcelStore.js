@@ -36,6 +36,18 @@ export default class ParcelStore
         }
     }
 
+    CheckDeliveriesForDestination(targetStation)
+    {
+        for(let i = 0; i < this.parcels.length; i ++)
+        {
+            if(this.parcels[i].Destination() === targetStation)
+            {
+                this.parcels[i].Deliver(this.parent);
+                break;
+            }
+        }
+    }
+
     AddParcels(parcels)
     {
         consoleLog("Adding parcels:");

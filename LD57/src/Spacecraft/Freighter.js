@@ -10,6 +10,8 @@ export default class Freighter
     {
         this.title = title;
         this.currentStation = null;
+        this.dockedStation = null;
+
 
         this.gameWorld = gameWorld;
 
@@ -20,6 +22,9 @@ export default class Freighter
         this.hovered = false;
 
         this.brakeSpeed = 1;
+
+        this.dockTimer = 0;
+        this.dockProcessTime = 0.6;
 
         this.maxSpeed = 20;
 
@@ -53,6 +58,12 @@ export default class Freighter
 
         this.target = null;
         this.parcelStore = new ParcelStore(this, 3);
+    }
+
+    Undock()
+    {
+        this.dockedStation = null;
+        this.dockTimer = 0;
     }
 
     Hover(hover)
@@ -89,6 +100,7 @@ export default class Freighter
     SetTarget(target)
     {
         this.target = target;
+        this.Undock();
     }
 
     ArrivedAtCelestial(celestial)
@@ -100,7 +112,19 @@ export default class Freighter
         if(celestial === this.target)
         {
             this.target = null;
+            this.dockedStation = celestial;
         }
+
+        /*
+        for(let i = 0; i < this.parcelStore.Count(); i ++)
+        {
+            let parcel = this.parcelStore.Parcel(i);
+
+            if(parcel.Destination() === celestial)
+            {
+                parcel.Deliver(this);
+            }
+        }*/
     } 
 
     LeftCelestial(celestial)
@@ -139,6 +163,16 @@ export default class Freighter
         else if(this.phys.damping > this.baseDrag)
         {
             this.phys.damping = this.baseDrag;
+        }
+        else if(this.dockedStation && this.parcelStore.Count() > 0)
+        {
+            this.dockTimer += deltaTime;
+            if(this.dockTimer >=  this.dockProcessTime)
+            {
+                this.dockTimer -= this.dockProcessTime;
+
+                this.parcelStore.CheckDeliveriesForDestination(this.dockedStation);
+            }
         }
     }
 

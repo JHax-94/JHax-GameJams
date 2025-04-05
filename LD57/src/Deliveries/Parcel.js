@@ -30,6 +30,17 @@ export default class Parcel
         return this.reward - this.decayRate * penaltyTime;
     }
 
+    Deliver(deliveredBy)
+    {
+        deliveredBy.parcelStore.RemoveParcel(this);
+        EM.RemoveEntity(this);
+    }
+
+    Destination()
+    {
+        return this.targetPlanet;
+    }
+
     TargetSymbol()
     {
         let symbolTex = null;

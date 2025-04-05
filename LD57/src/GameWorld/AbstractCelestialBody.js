@@ -1,4 +1,4 @@
-import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main";
+import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH } from "../main";
 import MOUSE_BUTTON from "../MouseButtons";
 import InfluenceZone from "./InfluenceZone";
 import ParcelStore from "./ParcelStore";
@@ -37,6 +37,11 @@ export default class AbstractCelestialBody
         this.spacecraftRoster = [];
 
         this.parcelStore = new ParcelStore(this, 12);
+    }
+
+    AvailableUpgrades()
+    {
+        return [];
     }
 
     AddSpacecraft(spacecraft)
@@ -150,6 +155,8 @@ export default class AbstractCelestialBody
 
             sprite(32, pickupZone.x, pickupZone.y );
 
+            setFont("Default");
+            pen(1);
             print(`x ${this.parcelStore.Count()}`, pickupZone.x + PIXEL_SCALE, pickupZone.y + 4);
         }
     }

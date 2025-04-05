@@ -14,6 +14,14 @@ export default class PostStation extends AbstractCelestialBody
         this.sortRate = 0.1;
 
         this.freighters = [];
+
+        this.upgrades = [
+            { text: ["New Freighter"], cost: 500, upkeep: 20, type: "NewFreighter" },
+            { text: ["Unlock Freighter", "Speed Upgrade"], cost: 200, upkeep: 10, type: "Unlock_SpeedUpgrade" },
+            { text: ["Send Probe"], cost: 200, upkeep: 0, type: "SendProbe" },
+            { text: ["Unlock Freighter", "Cargo Upgrade"], cost: 200, upkeep: 10, type: "Unlock_CargoUpgrade" },
+            { text: ["Improve Sort", "Speed"], cost: 500, upkeep: 5 }
+        ]
     }
 
     Update(deltaTime)
@@ -27,6 +35,11 @@ export default class PostStation extends AbstractCelestialBody
                 parcel.SortProgress(this.sortRate * deltaTime);
             }
         }
+    }
+
+    AvailableUpgrades()
+    {
+        return this.upgrades;
     }
 
     SpawnFreighter()

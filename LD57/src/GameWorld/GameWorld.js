@@ -1,6 +1,7 @@
 import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, UTIL } from "../main";
 import Freighter from "../Spacecraft/Freighter";
 import ParcelStoreUi from "../UI/ParcelStoreUi";
+import ShopUi from "../UI/ShopUi";
 import StatusUi from "../UI/StatusUi";
 import ToastManager from "../UI/ToastManager";
 import AbstractCelestialBody from "./AbstractCelestialBody";
@@ -40,6 +41,7 @@ export default class GameWorld
         this.player = new PlayerStatus();
 
         this.statusUi = new StatusUi(this);
+        this.shopUi = new ShopUi(this);
 
         this.toastManager = new ToastManager();
 
@@ -81,8 +83,7 @@ export default class GameWorld
         {
             this.selected = object;
             this.parcelStoreUi.ClearSelection();
-        }
-        
+        }        
     }
 
     SendSpacecraftTo(spacecraft, target)

@@ -1293,18 +1293,24 @@ export default class EntityManager
         consoleLog(phys);
     }
     
+    OverlapsBounds(bounds, x, y)
+    {
+        var xOverlap = bounds.x < x && x < bounds.x + bounds.w;
+        var yOverlap = bounds.y < y && y < bounds.y + bounds.h;
+
+        return xOverlap && yOverlap;
+    }
 
     Overlap(clickable, x, y)
     {
         var bounds = clickable.Bounds();
         /*
-        consoleLog("Check (" + x + ", " + y + ") against:");
+        ("Check (" + x + ", " + y + ") against:");
         consoleLog(bounds);
         */
-        var xOverlap = bounds.x < x && x < bounds.x + bounds.w;
-        var yOverlap = bounds.y < y && y < bounds.y + bounds.h;
 
-        return xOverlap && yOverlap;
+        return this.OverlapsBounds(bounds, x, y);
+        
     }
     
     AddHover(hover)

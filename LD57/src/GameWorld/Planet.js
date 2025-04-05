@@ -8,6 +8,11 @@ export default class Planet extends AbstractCelestialBody
         super(pos, {w:1, h:1}, title, "PLANET", gameWorld)
     }
 
+    Update(deltaTime)
+    {
+
+    }
+
     Draw()
     {
         let screenPos = this.GetScreenPos();
@@ -15,7 +20,13 @@ export default class Planet extends AbstractCelestialBody
         paper(14);
         rectf(screenPos.x, screenPos.y, this.w * PIXEL_SCALE,  this.h * PIXEL_SCALE);
 
+        this.DrawParcelsForPickup(screenPos);
         this.DrawSymbol(screenPos);
         this.DrawFocus(screenPos);
+    }
+
+    SpawnParcel(targetPlanet)
+    {
+        this.parcelStore.SpawnParcel(targetPlanet);
     }
 }

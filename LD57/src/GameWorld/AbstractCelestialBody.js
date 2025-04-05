@@ -1,6 +1,7 @@
 import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main";
 import MOUSE_BUTTON from "../MouseButtons";
 import InfluenceZone from "./InfluenceZone";
+import ParcelStore from "./ParcelStore";
 
 export default class AbstractCelestialBody
 {
@@ -34,6 +35,8 @@ export default class AbstractCelestialBody
         this.influence = new InfluenceZone(this, { w: 3, h: 3});
 
         this.spacecraftRoster = [];
+
+        this.parcelStore = new ParcelStore(this, 12);
     }
 
     AddSpacecraft(spacecraft)
@@ -131,6 +134,18 @@ export default class AbstractCelestialBody
         if(this.symbolTex)
         {
             this.symbolTex._drawEnhanced(screenPos.x - PIXEL_SCALE, screenPos.y - PIXEL_SCALE);
+        }
+    }
+
+    DrawParcelsForPickup(screenPos)
+    {
+        if(this.parcelStore.Count() > 0)
+        {
+            let pickupZone = { x: screenPos.x - 8, y: screenPos.y + PIXEL_SCALE };
+
+            sprite(32, pickupZone.x, pickupZone.y );
+
+            print(`x ${this.parcelStore.Count()}`, pickupZone.x + PIXEL_SCALE, pickupZone.y + 4);
         }
     }
 

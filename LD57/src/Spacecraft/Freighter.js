@@ -1,6 +1,7 @@
 import Texture from "pixelbox/Texture";
 import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE } from "../main";
 import { vec2 } from "p2";
+import ParcelStore from "../GameWorld/ParcelStore";
 
 export default class Freighter
 {
@@ -46,6 +47,7 @@ export default class Freighter
         EM.RegisterEntity(this, { physSettings: physSettings });
 
         this.target = null;
+        this.parcelStore = new ParcelStore(this, 3);
     }
 
     SetTarget(target)

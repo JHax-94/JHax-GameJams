@@ -1,4 +1,5 @@
 import { consoleLog, EM, PIXEL_SCALE } from "../main";
+import ParcelSpawnControl from "./ParcelSpawnControl";
 import Planet from "./Planet";
 import PostStation from "./PostStation";
 import SymbolGenerator from "./SymbolGenerator";
@@ -14,6 +15,8 @@ export default class GameWorld
         this.planets = [];
 
         this.symbolGenerator = new SymbolGenerator();
+
+        this.parcelSpawn = new ParcelSpawnControl(this);
         this.selected = null;
     }
 
@@ -82,6 +85,15 @@ export default class GameWorld
         this.BuildStartingPlanets();
 
         mainStation.FocusCamera();
+    }
+
+    Update(deltaTime)
+    {
+        this.parcelSpawn.ProcessUpdate(deltaTime);
+
+        
+
+
     }
 
     Draw()

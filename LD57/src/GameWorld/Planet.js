@@ -1,27 +1,11 @@
 import { COLLISION_GROUP, EM, PIXEL_SCALE } from "../main";
+import AbstractCelestialBody from "./AbstractCelestialBody";
 
-export default class Planet
+export default class Planet extends AbstractCelestialBody
 {
-    constructor(pos)
+    constructor(pos, title, gameWorld)
     {
-        this.w = 1;
-        this.h = 1;
-        
-
-        let physSettings = {
-            tileTransform: { x: pos.x, y: pos.y, w: this.w, h: this.h },
-            mass: 100,
-            isSensor: false,
-            freeRotate: false,
-            isKinematic: true,
-            tag: "PLANET",
-            material: "playerMaterial",
-            collisionGroup: COLLISION_GROUP.STATIONS,
-            collisionMask: 1,
-            linearDrag: 0.99
-        };
-
-        EM.RegisterEntity(this, { physSettings: physSettings });
+        super(pos, {w:1, h:1}, title, "PLANET", gameWorld)
     }
 
     Draw()
@@ -30,5 +14,7 @@ export default class Planet
 
         paper(14);
         rectf(screenPos.x, screenPos.y, this.w * PIXEL_SCALE,  this.h * PIXEL_SCALE);
+
+        this.DrawFocus(screenPos);
     }
 }

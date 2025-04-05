@@ -36,6 +36,8 @@ export default class GameWorld
 
         this.stations.push(mainStation);
 
+        mainStation.SpawnFreighter();
+
         this.BuildStartingPlanets();
 
         mainStation.FocusCamera();
@@ -43,9 +45,21 @@ export default class GameWorld
 
     Draw()
     {
+        let lineHeight = 8;
+
         if(this.selected)
         {
             print(`${this.selected.title}`, 0, 0);
+
+            if(this.selected.spacecraftRoster && this.selected.spacecraftRoster.length > 0)
+            {
+                print("Docked: ", 0, lineHeight);
+                for(let i = 0; i < this.selected.spacecraftRoster.length; i ++)
+                {
+                    let craft = this.selected.spacecraftRoster[i];
+                    print(craft.title, 0, 2 * lineHeight);
+                }
+            }
         }
     }
 }

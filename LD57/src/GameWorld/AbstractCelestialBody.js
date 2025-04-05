@@ -9,28 +9,54 @@ export default class AbstractCelestialBody
         this.title = title;
         this.w = dims.w;
         this.h = dims.h;
-        this.tag = tag;
-            
+        this.subTag = tag;
+
+        this.tilePos = {x: pos.x, y: pos.y};
+
         let physSettings = {
-            tileTransform: { x: pos.x, y: pos.y, w: this.w, h: this.h },
+            tileTransform: { x: pos.x, y: pos.y, w: this.w * 3, h: this.h * 3 },
             mass: 100,
-            isSensor: false,
+            isSensor: true,
             freeRotate: false,
             isKinematic: true,
-            tag: tag,
+            tag: "CELESTIAL",
             material: "playerMaterial",
             collisionGroup: COLLISION_GROUP.STATIONS,
-            collisionMask: 1,
+            collisionMask: COLLISION_GROUP.SPACECRAFT,
             linearDrag: 0.99
         };
 
 
         EM.RegisterEntity(this, { physSettings: physSettings  })
+
+        this.spacecraftRoster = [];
+    }
+
+    AddSpacecraft(spacecraft)
+    {
+        if(this.spacecraftRoster.indexOf(spacecraft) < 0)
+        {
+            this.spacecraftRoster.push(spacecraft);
+
+            spacecraft.ArrivedAtCelestial(this);
+        }
+    }
+
+    RemoveSpacecraft(spacecraft)
+    {
+        let index = this.spacecraftRoster.indexOf(spacecraft);
+
+        if(index >= 0)
+        {
+            this.spacecraftRoster.splice(index, 1);
+
+            spacecraft.LeftCelestial(this);
+        }
     }
 
     Click(click)
     {
-        consoleLog(`${this.tag} ${this.title} clicked!`);
+        consoleLog(`${this.subTag} ${this.title} clicked!`);
         consoleLog(click);
 
         if(click === MOUSE_BUTTON.LEFT_MOUSE)

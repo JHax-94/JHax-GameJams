@@ -5,6 +5,7 @@ import VectorExtensions from "./VectorExtensions";
 import Utility from './Utility';
 import { vec2 } from 'p2'
 import CameraController from "./GameWorld/CameraController";
+import SpacecraftPhysEventRegister from "./PhysEvents/SpacecraftPhysEvents";
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -28,11 +29,12 @@ let LOAD_COMPLETE = false;
 let EM = null;
 
 let physEvents = [
-    
+    new SpacecraftPhysEventRegister()
 ];
 
 let COLLISION_GROUP = {
-    STATIONS: 0
+    STATIONS: Math.pow(2, 0),
+    SPACECRAFT: Math.pow(2, 1)
 };
 
 function getObjectConfig(objectName, copyObj)

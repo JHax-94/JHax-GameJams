@@ -37,6 +37,7 @@ export default class StatusUi
         print(`Spacecraft Upkeep: ${this.gameWorld.SpacecraftUpkeep()}`, 30 * PIXEL_SCALE, 2);
         print(`Credits: ${this.gameWorld.player.credits}`, 2, 12);
         
+        print(`Delivered: ${this.gameWorld.player.parcelsDelivered}`, 2 + 9 * PIXEL_SCALE, 12);
         /*
         pen(9);
         print(`Weekly Upkeep: ${this.gameWorld.CalculateWeeklyUpkeep()}`, 2, 18);*/

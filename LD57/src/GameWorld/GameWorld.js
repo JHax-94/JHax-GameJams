@@ -235,6 +235,7 @@ export default class GameWorld
     DeliveryReward(amount)
     {
         this.player.credits += amount;
+        this.player.parcelsDelivered += 1;
 
         this.toastManager.AddMessage(`Delivery complete +${amount}`, 7);
     }

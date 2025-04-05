@@ -1,0 +1,17 @@
+{
+    "upgradeUnlocks": [
+        { "stations": true, "planets": false, "type": "GlobalDeliveries", "threshold": 1, "text": [ "Deliver Parcels", "to anywhere"] },
+        { "stations": true, "planets": false, "type": "Sorts", "threshold": 6, "text": [ "Sort Parcels" ]},
+        { "stations": false, "planets": true, "type": "LocalDeliveries", "threshold": 5, "text": [ "Deliver Parcels to", "this planet" ] }
+    ],
+    "upgrades": [
+        { "stations": true, "text": ["New Freighter"], "cost": 500, "upkeep": 20, "type": "NewFreighter" },
+        { "stations": true, "text": ["Unlock Freighter", "Speed Upgrade"], "cost": 200, "upkeep": 10, "type": "Unlock_SpeedUpgrade" },
+        { "stations": true, "text": ["Send Probe"], "cost": 200, "upkeep": 0, "type": "SendProbe" },
+        { "stations": true, "text": ["Unlock Freighter", "Cargo Upgrade"], "cost": 200, "upkeep": 10, "type": "Unlock_CargoUpgrade" },
+        { "stations": true, "text": ["Improve Sort", "Speed"], "cost": 500, "upkeep": 5, "type": "SortSpeed" },
+        { "planets": true, "text": [ "New Station Shuttle" ], "cost": 800, "upkeep": 5, "type": "NewShuttle" },
+        { "planets": true, "text": [ "Improve grace", "period" ], "cost": 1000, "upkeep": 0, "type": "BoostGrace" }
+    ]
+
+}

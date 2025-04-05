@@ -5,7 +5,7 @@ import AbstractCelestialBody from "./AbstractCelestialBody";
 
 export default class PostStation extends AbstractCelestialBody
 {
-    constructor(pos, title, gameWorld, symbol)
+    constructor(pos, title, gameWorld, symbol, isFirstStation = false)
     {   
         super(pos, { w: 1, h: 1 }, title, "STATION", gameWorld, symbol);
 
@@ -14,14 +14,20 @@ export default class PostStation extends AbstractCelestialBody
         this.sortRate = 0.1;
 
         this.freighters = [];
+        this.parcelsSorted = 0;
 
-        this.upgrades = [
-            { text: ["New Freighter"], cost: 500, upkeep: 20, type: "NewFreighter" },
-            { text: ["Unlock Freighter", "Speed Upgrade"], cost: 200, upkeep: 10, type: "Unlock_SpeedUpgrade" },
-            { text: ["Send Probe"], cost: 200, upkeep: 0, type: "SendProbe" },
-            { text: ["Unlock Freighter", "Cargo Upgrade"], cost: 200, upkeep: 10, type: "Unlock_CargoUpgrade" },
-            { text: ["Improve Sort", "Speed"], cost: 500, upkeep: 5, type: "SortSpeed" }
-        ]
+        if(isFirstStation)
+        {
+            this.ForceUpgrade("NewFreighter");
+        }
+
+        this.nextUpgradeUnlock = isFirstStation ? this.GetUnlockCondition("GlobalDeliveries") : this.GetNextUpgradeUnlock();
+        this.upgradeLevel ++;
+    }
+
+    ParcelsSorted()
+    {
+        return this.parcelsSorted;
     }
 
     SendProbe()
@@ -29,8 +35,15 @@ export default class PostStation extends AbstractCelestialBody
         this.gameWorld.GenerateNewPlanet();
     }
 
+    IsStation()
+    {
+        return true;
+    }
+
     Update(deltaTime)
     {
+        this.CheckUnlockCondition();
+
         for(let i = 0; i < this.parcelStore.Count(); i ++)
         {
             let parcel = this.parcelStore.Parcel(i);
@@ -38,13 +51,12 @@ export default class PostStation extends AbstractCelestialBody
             if(!parcel.sorted)
             {
                 parcel.SortProgress(this.sortRate * deltaTime);
+                if(parcel.sorted)
+                {
+                    this.parcelsSorted ++;
+                }
             }
         }
-    }
-
-    AvailableUpgrades()
-    {
-        return this.upgrades;
     }
 
     SpawnFreighter()

@@ -53,15 +53,15 @@ export default class ShopUi
     {
         let selected = null;
 
-        if(this.gameWorld.selected && this.gameWorld.selected.AvailableUpgrades)
+        if(this.gameWorld.selected && (this.gameWorld.selected.AvailableUpgrades || this.gameWorld.selected.nextUpgradeUnlock))
         {
             let upgrades = this.gameWorld.selected.AvailableUpgrades();
-            if(upgrades.length > 0)
+            if(upgrades.length > 0 || this.gameWorld.selected.nextUpgradeUnlock)
             {
                 selected = this.gameWorld.selected;
             }
         }
-
+        
         return selected;
     }
 
@@ -109,14 +109,21 @@ export default class ShopUi
         }
     }
 
+    CalculateUpgradeLines(selectedItem)
+    {
+        let upgrades = selectedItem.AvailableUpgrades();
+
+        return upgrades.length + (selectedItem.nextUpgradeUnlock !== null ? 1 : 0);
+    }
+
     SetFullView(setTo)
     {
         if(setTo)
         {
             let item = this.SelectedItem();
-            let nUpgrades = item.AvailableUpgrades();
+            let nUpgrades = this.CalculateUpgradeLines(item);
 
-            let neededHeight = this.upgradeBankStart.y + nUpgrades.length * this.upgradeBankSpacing.y;
+            let neededHeight = this.upgradeBankStart.y + nUpgrades * this.upgradeBankSpacing.y;
 
             this.panel.y = this.CalcPanelY(neededHeight);
             this.panel.h = neededHeight;
@@ -181,9 +188,13 @@ export default class ShopUi
 
             let upgrades = selected.AvailableUpgrades();
 
-            let nShowUpgrades=  upgrades.length;
+            let upgradeLines = this.CalculateUpgradeLines(selected);
 
-            let canShowMore = upgrades.length > 2 && this.fullView === false;
+            let nShowUpgrades = upgradeLines;
+
+            let canShowMore = upgradeLines > 2 && this.fullView === false;
+
+            EM.hudLog.push(`Upgrade lines: ${upgradeLines}`);
 
             if(canShowMore)
             {
@@ -216,38 +227,70 @@ export default class ShopUi
                     showMore.y + (showMore.h - UTIL.GetTextHeight("Show More", this.largeNarrFont) * PIXEL_SCALE) * 0.5);
             }
         
+            let baseX = this.panel.x + this.upgradeBankStart.x;
+            let innerYSpace= UTIL.GetTextHeight("BONK", this.largeNarrFont) * PIXEL_SCALE + 2;
+            let costLineX = baseX + this.upgradeButtonWidth + 2;
+
+            EM.hudLog.push(`nShowUpgrades: ${nShowUpgrades}`);
+
             for(let i = 0; i < nShowUpgrades; i ++)
             {
-                let lineY = this.panel.y + this.upgradeBankStart.y + i * (this.upgradeBankSpacing.y);
-                let baseX = this.panel.x + this.upgradeBankStart.x;
-                let innerYSpace= UTIL.GetTextHeight("BONK", this.largeNarrFont) * PIXEL_SCALE + 2;
-
-                let costLineX = baseX + this.upgradeButtonWidth + 2;
-
-                pen(1);
-                for(let j = 0; j < upgrades[i].text.length; j ++)
+                if(i < upgrades.length)
                 {
-                    print(upgrades[i].text[j].toUpperCase(), baseX, lineY + j * innerYSpace);
+                    let lineY = this.panel.y + this.upgradeBankStart.y + i * (this.upgradeBankSpacing.y);
+                    
+                    pen(1);
+                    for(let j = 0; j < upgrades[i].text.length; j ++)
+                    {
+                        print(upgrades[i].text[j].toUpperCase(), baseX, lineY + j * innerYSpace);
+                    }
+                    print('COST:', costLineX, lineY);
+                    print(upgrades[i].cost, costLineX + UTIL.GetTextWidth("UPKEEP: ", this.largeNarrFont) * PIXEL_SCALE, lineY);
+                    print("UPKEEP:", costLineX, lineY + innerYSpace);
+                    print(upgrades[i].upkeep, costLineX + UTIL.GetTextWidth("UPKEEP: ", this.largeNarrFont) * PIXEL_SCALE, lineY + innerYSpace);
+
+                    
+                    let uButtonDims = this.UpgradeButtonDims(i);
+                    
+                    paper(14);
+                    rectf(uButtonDims.x, uButtonDims.y, uButtonDims.w, uButtonDims.h);
+                    
+                    pen(i === this.hoveredUpgrade ? 15 : 13);
+                    rect(uButtonDims.x, uButtonDims.y, uButtonDims.w, uButtonDims.h);
+
+                    print(
+                        "BUY", 
+                        uButtonDims.x + (this.buttonDims.w - UTIL.GetTextWidth("BUY", this.largeNarrFont)) *0.5 *PIXEL_SCALE,
+                        uButtonDims.y + (this.buttonDims.h - UTIL.GetTextHeight("BUY", this.largeNarrFont)) *0.5* PIXEL_SCALE);
+
                 }
-                print('COST:', costLineX, lineY);
-                print(upgrades[i].cost, costLineX + UTIL.GetTextWidth("UPKEEP: ", this.largeNarrFont) * PIXEL_SCALE, lineY);
-                print("UPKEEP:", costLineX, lineY + innerYSpace);
-                print(upgrades[i].upkeep, costLineX + UTIL.GetTextWidth("UPKEEP: ", this.largeNarrFont) * PIXEL_SCALE, lineY + innerYSpace);
+                else if(selected.nextUpgradeUnlock)
+                {
+                    pen(1);
+                    let nextUpgradeUnlock = selected.nextUpgradeUnlock;
 
-                
-                let uButtonDims = this.UpgradeButtonDims(i);
-                
-                paper(14);
-                rectf(uButtonDims.x, uButtonDims.y, uButtonDims.w, uButtonDims.h);
-                
-                pen(i === this.hoveredUpgrade ? 15 : 13);
-                rect(uButtonDims.x, uButtonDims.y, uButtonDims.w, uButtonDims.h);
+                    let lineY = this.panel.y + this.upgradeBankStart.y + i * (this.upgradeBankSpacing.y);
+                    
+                    let lastY = 0;
 
-                print(
-                    "BUY", 
-                    uButtonDims.x + (this.buttonDims.w - UTIL.GetTextWidth("BUY", this.largeNarrFont)) *0.5 *PIXEL_SCALE,
-                    uButtonDims.y + (this.buttonDims.h - UTIL.GetTextHeight("BUY", this.largeNarrFont)) *0.5* PIXEL_SCALE);
+                    for(let i = 0; i < selected.nextUpgradeUnlock.text.length; i ++)
+                    {
+                        lastY = lineY + i * innerYSpace;
+                        //consoleLog(`${selected.nextUpgradeUnlock.text[i]} @ ${baseX}, ${lineY}`)
+                        print(selected.nextUpgradeUnlock.text[i].toUpperCase(), baseX, lineY + i * innerYSpace);
+                    }
+
+                    let progress = nextUpgradeUnlock.checkProgress() - nextUpgradeUnlock.startsAt;
+                    let target = nextUpgradeUnlock.target;
+
+                    print(`${progress} / ${target}`, costLineX, lastY);
+                }
             }
+            /*
+            if(selected.nextUpgradeUnlock)
+            {
+                
+            }*/
         }
     }
     

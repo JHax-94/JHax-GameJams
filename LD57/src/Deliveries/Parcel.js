@@ -51,6 +51,13 @@ export default class Parcel
 
     Deliver(deliveredBy)
     {
+        let destination = this.Destination();
+
+        if(destination)
+        {
+            destination.DeliveryComplete();
+        }
+
         deliveredBy.parcelStore.RemoveParcel(this);
         EM.RemoveEntity(this);
     }

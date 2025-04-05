@@ -6,11 +6,31 @@ export default class Planet extends AbstractCelestialBody
     constructor(pos, title, gameWorld)
     {
         super(pos, {w:1, h:1}, title, "PLANET", gameWorld)
+
+        this.localDeliveries = 0;
+
+        this.nextUpgradeUnlock = this.GetNextUpgradeUnlock();
+        this.upgradeLevel ++;
     }
 
     Update(deltaTime)
     {
+        this.CheckUnlockCondition();
+    }
 
+    LocalDeliveries()
+    {
+        return this.localDeliveries;
+    }
+
+    DeliveryComplete()
+    {
+        this.localDeliveries ++;
+    }
+
+    IsPlanet()
+    {
+        return true;
     }
 
     Draw()

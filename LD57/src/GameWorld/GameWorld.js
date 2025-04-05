@@ -202,7 +202,7 @@ export default class GameWorld
 
     SetupGameWorld()
     {
-        let mainStation = new PostStation({ x: 0, y: 0 }, "POST STATION 1", this, this.symbolGenerator.MainStationSymbol());
+        let mainStation = new PostStation({ x: 0, y: 0 }, "POST STATION 1", this, this.symbolGenerator.MainStationSymbol(), true);
 
         this.stations.push(mainStation);
 
@@ -249,6 +249,19 @@ export default class GameWorld
         this.toastManager.AddMessage(`Weekly Upkeep -${upkeep}`, 9);
     }
 
+    CheckForNewUnlocks()
+    {
+        let bigList = [ ...this.stations, ...this.planets ];
+
+        for(let i = 0; i < bigList.length; i ++)
+        {
+            if(bigList[i].nextUpgradeUnlock === null)
+            {
+                bigList[i].GenerateNextUpgradeUnlock();
+            }
+        }
+    }
+
     ProcessPurchase(amount)
     {
         this.player.credits -= amount;
@@ -273,6 +286,7 @@ export default class GameWorld
                 this.starDay = 0;
 
                 this.ProcessWeeklyExpenses();
+                this.CheckForNewUnlocks();
             }
 
             if(this.starWeek >= this.weeksPerYear)

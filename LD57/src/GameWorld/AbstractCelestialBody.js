@@ -37,11 +37,163 @@ export default class AbstractCelestialBody
         this.spacecraftRoster = [];
 
         this.parcelStore = new ParcelStore(this, 12);
+
+        this.upgradeLevel = 1;
+        this.upgrades = [];
+
+        this.nextUpgradeUnlock = null;/*this.GetNextUpgradeUnlock();
+        consoleLog("--- NEXT UPGRADE UNLOCK ---");
+        consoleLog(this.nextUp/gradeUnlock);
+        this.upgradeLevel ++;*/
+    }
+
+    GenerateNextUpgradeUnlock()
+    {
+        this.nextUpgradeUnlock = this.GetNextUpgradeUnlock();
+        this.upgradeLevel ++;
+    }
+
+    IsPlanet()
+    {
+        return false;
+    }
+
+    IsStation()
+    {
+        return false;
     }
 
     AvailableUpgrades()
     {
-        return [];
+        return this.upgrades;
+    }
+    
+    BuildUnlockCondition(unlock)
+    {
+        let condition = {
+            type: unlock.type,
+            startsAt: 0,
+            target: 0,
+            text: unlock.text,
+            checkProgress: null
+        };
+
+        if(unlock.type === "GlobalDeliveries")
+        {
+            consoleLog(`Set initial data from:`);
+            consoleLog(this.gameWorld.player);
+
+            condition.startsAt = this.gameWorld.player.parcelsDelivered;
+            condition.checkProgress = () => { return this.gameWorld.player.parcelsDelivered; };
+        }
+        else if(unlock.type === "Sorts")
+        {
+            if(!this.ParcelsSorted)
+            {
+                console.error("Object needs ParcelsSorted method");
+                consoleLog(this);
+            }
+
+            consoleLog("Set initial data from:");
+            consoleLog(this);
+
+            condition.startsAt = this.ParcelsSorted();
+            condition.checkProgress = () => { return this.ParcelsSorted(); }
+        }
+        else if(unlock.type === "LocalDeliveries")
+        {
+            consoleLog("Set initial data from:");
+            consoleLog(this);
+            condition.startsAt = this.LocalDeliveries();
+            condition.checkProgress = () => { return this.LocalDeliveries(); }
+        }
+        else
+        {
+            console.error(`Unrecognised unlock type: ${unlock.type}`);
+        }
+
+        condition.target = condition.startsAt + unlock.threshold * this.upgradeLevel;
+
+        consoleLog("--- CONDITION BUILT ---");
+        consoleLog(condition);
+
+        return condition;
+    }
+
+    GetUnlockCondition(typeName)
+    {
+        let upgradeUnlock = assets.upgradesConfig.upgradeUnlocks;
+
+        let condition = null;
+
+        for(let i = 0; i < upgradeUnlock.length; i ++)
+        {
+            if(upgradeUnlock[i].type === typeName)
+            {
+                condition = this.BuildUnlockCondition(upgradeUnlock[i]);
+                break;
+            }
+        }
+
+        return condition;
+    }
+
+    ForceUpgrade(upgradeName)
+    {
+        let upgradeList = assets.upgradesConfig.upgrades;
+
+        for(let i = 0; i < upgradeList.length; i ++)
+        {
+            if(upgradeList[i].type === upgradeName)
+            {
+                this.upgrades.push(upgradeList[i]);
+                break;
+            }
+        }
+    }
+
+    SetUpgrade()
+    {
+        let upgradesList = assets.upgradesConfig.upgrades;
+
+        consoleLog("Choose upgrade from list:");
+        consoleLog(upgradesList);
+
+        let upgradesForThisBody = [];
+
+        for(let i = 0; i < upgradesList.length; i ++)
+        {
+            if((upgradesList[i].stations && this.IsStation()) || (upgradesList[i].planets && this.IsPlanet()))
+            {
+                upgradesForThisBody.push(upgradesList[i]);
+            }
+        }
+
+        this.upgrades.push(upgradesForThisBody[random(upgradesForThisBody.length)]);
+
+        /*consoleLog("New upgrades list:");
+        consoleLog([...this.upgrades]);*/
+    }
+
+    GetNextUpgradeUnlock()
+    {
+        let upgradeUnlocks = assets.upgradesConfig.upgradeUnlocks;
+
+        let availableUnlockMethods = [];
+
+        for(let i = 0; i < upgradeUnlocks.length; i ++)
+        {
+            if(upgradeUnlocks[i].stations && this.IsStation())
+            {
+                availableUnlockMethods.push(upgradeUnlocks[i]);
+            }
+            else if(upgradeUnlocks[i].planets && this.IsPlanet())
+            {
+                availableUnlockMethods.push(upgradeUnlocks[i]);
+            }
+        }
+
+        return this.BuildUnlockCondition(availableUnlockMethods[random(availableUnlockMethods.length)]);
     }
 
     AddSpacecraft(spacecraft)
@@ -132,6 +284,18 @@ export default class AbstractCelestialBody
     Select()
     {
 
+    }
+
+    CheckUnlockCondition()
+    {
+        if(this.nextUpgradeUnlock !== null)
+        {
+            if(this.nextUpgradeUnlock.checkProgress() >= this.nextUpgradeUnlock.target)
+            {
+                this.SetUpgrade();
+                this.nextUpgradeUnlock = null;                
+            }
+        }
     }
 
     DrawOffscreen(screenPos)

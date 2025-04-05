@@ -27,7 +27,7 @@ export default class Parcel
             penaltyTime = this.lifeTime - this.gracePeriod;
         }
 
-        return this.reward - this.decayRate * penaltyTime;
+        return Math.ceil(this.reward - this.decayRate * penaltyTime);
     }
 
     Deliver(deliveredBy)

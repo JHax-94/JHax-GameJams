@@ -1,6 +1,5 @@
 
-import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main"
-import MOUSE_BUTTON from "../MouseButtons";
+import { PIXEL_SCALE } from "../main"
 import Freighter from "../Spacecraft/Freighter";
 import AbstractCelestialBody from "./AbstractCelestialBody";
 
@@ -10,6 +9,8 @@ export default class PostStation extends AbstractCelestialBody
     {   
         super(pos, { w: 1, h: 1 }, title, "STATION", gameWorld, symbol);
 
+        this.upkeep = 100;
+
         this.freighters = [];
     }
 
@@ -17,6 +18,7 @@ export default class PostStation extends AbstractCelestialBody
     {   
         let newFreighter = new Freighter(this, "Freighter 0", this.gameWorld);
 
+        this.gameWorld.RegisterSpacecraft(newFreighter);
         this.freighters.push(newFreighter);
     }
 

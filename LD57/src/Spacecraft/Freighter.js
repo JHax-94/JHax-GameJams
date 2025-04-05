@@ -12,6 +12,7 @@ export default class Freighter
         this.currentStation = null;
         this.dockedStation = null;
 
+        this.upkeep = 20;
 
         this.gameWorld = gameWorld;
 

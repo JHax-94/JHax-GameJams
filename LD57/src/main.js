@@ -202,6 +202,7 @@ function SETUP()
     EM = new EntityManager();
     AddPhysicsEvents();
     let gameWorld = new GameWorld();
+    EM.AddEntity("GAME_WORLD", gameWorld);
     let cameraControl = new CameraController();
 
     gameWorld.SetupGameWorld();

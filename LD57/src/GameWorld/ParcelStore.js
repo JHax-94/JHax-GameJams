@@ -1,5 +1,5 @@
 import Parcel from "../Deliveries/Parcel";
-import { consoleLog } from "../main";
+import { consoleLog, EM } from "../main";
 
 export default class ParcelStore
 {
@@ -8,6 +8,18 @@ export default class ParcelStore
         this.capacity = capacity;
         this.parent = parent;
         this.parcels = [];
+
+        this.gameWorld = null;
+    }
+
+    GameWorld()
+    {
+        if(this.gameWorld === null)
+        {
+            this.gameWorld = EM.GetEntity("GAME_WORLD");
+        }
+
+        return this.gameWorld;
     }
 
     Count()
@@ -42,7 +54,12 @@ export default class ParcelStore
         {
             if(this.parcels[i].Destination() === targetStation)
             {
+                let rewardValue = this.parcels[i].RewardValue();
                 this.parcels[i].Deliver(this.parent);
+
+                let gameWorld = this.GameWorld();
+
+                gameWorld.DeliveryReward(rewardValue);
                 break;
             }
         }

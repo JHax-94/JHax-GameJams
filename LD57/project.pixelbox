@@ -40,12 +40,12 @@
 		]
 	},
 	"controls": {
-		"up": 38,
-		"down": 40,
-		"left": 37,
-		"right": 39,
 		"A": 32,
-		"B": 88
+		"B": 88,
+		"up_alt": 87,
+		"left_alt": 65,
+		"right_alt": 68,
+		"down_alt": 83
 	},
 	"touchEvent": {
 		"multiTouch": false,

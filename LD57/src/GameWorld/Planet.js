@@ -1,12 +1,12 @@
+import { COLLISION_GROUP, EM, PIXEL_SCALE } from "../main";
 
-import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main"
-
-export default class PostStation
+export default class Planet
 {
     constructor(pos)
     {
         this.w = 1;
         this.h = 1;
+        
 
         let physSettings = {
             tileTransform: { x: pos.x, y: pos.y, w: this.w, h: this.h },
@@ -14,28 +14,21 @@ export default class PostStation
             isSensor: false,
             freeRotate: false,
             isKinematic: true,
-            tag: "STATION",
+            tag: "PLANET",
             material: "playerMaterial",
             collisionGroup: COLLISION_GROUP.STATIONS,
             collisionMask: 1,
             linearDrag: 0.99
         };
 
-
-        EM.RegisterEntity(this, { physSettings: physSettings  })
-    }
-
-    FocusCamera()
-    {
-        EM.camera.MoveTo(this.phys.position[0] - 0.5 * TILE_WIDTH * PIXEL_SCALE, this.phys.position[1] + 0.5 * TILE_HEIGHT * PIXEL_SCALE);
+        EM.RegisterEntity(this, { physSettings: physSettings });
     }
 
     Draw()
     {
         let screenPos = this.GetScreenPos();
 
-        paper(1);
-
-        rectf(screenPos.x, screenPos.y, this.w * PIXEL_SCALE, this.h * PIXEL_SCALE);
+        paper(14);
+        rectf(screenPos.x, screenPos.y, this.w * PIXEL_SCALE,  this.h * PIXEL_SCALE);
     }
 }

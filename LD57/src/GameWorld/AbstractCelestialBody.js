@@ -1,5 +1,6 @@
 import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main";
 import MOUSE_BUTTON from "../MouseButtons";
+import InfluenceZone from "./InfluenceZone";
 
 export default class AbstractCelestialBody
 {
@@ -14,7 +15,7 @@ export default class AbstractCelestialBody
         this.tilePos = {x: pos.x, y: pos.y};
 
         let physSettings = {
-            tileTransform: { x: pos.x, y: pos.y, w: this.w * 3, h: this.h * 3 },
+            tileTransform: { x: pos.x, y: pos.y, w: this.w, h: this.h },
             mass: 100,
             isSensor: true,
             freeRotate: false,
@@ -22,12 +23,13 @@ export default class AbstractCelestialBody
             tag: "CELESTIAL",
             material: "playerMaterial",
             collisionGroup: COLLISION_GROUP.STATIONS,
-            collisionMask: COLLISION_GROUP.SPACECRAFT,
+            collisionMask: 0,
             linearDrag: 0.99
         };
 
-
         EM.RegisterEntity(this, { physSettings: physSettings  })
+
+        this.influence = new InfluenceZone(this, { w: 3, h: 3});
 
         this.spacecraftRoster = [];
     }
@@ -54,6 +56,30 @@ export default class AbstractCelestialBody
         }
     }
 
+    SpacecraftAvailabilityScore(spacecraft)
+    {
+        return 1;
+    }
+
+    GetBestSpacecraft()
+    {
+        let spacecraft = null;
+
+        for(let i = 0; i < this.spacecraftRoster.length; i ++)
+        {
+            if(spacecraft === null)
+            {
+                spacecraft = this.spacecraftRoster[i];
+            }
+            else if(this.SpacecraftAvailabilityScore(spacecraft) < this.SpacecraftAvailabilityScore(this.spacecraftRoster[i]))
+            {
+                spacecraft = this.spacecraftRoster[i];
+            }
+        }
+
+        return spacecraft;
+    }
+
     Click(click)
     {
         consoleLog(`${this.subTag} ${this.title} clicked!`);
@@ -62,6 +88,10 @@ export default class AbstractCelestialBody
         if(click === MOUSE_BUTTON.LEFT_MOUSE)
         {
             this.gameWorld.Select(this);
+        }
+        else if(click === MOUSE_BUTTON.RIGHT_MOUSE)
+        {
+            this.gameWorld.PerformAction(this);
         }
     }
 

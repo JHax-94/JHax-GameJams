@@ -1,4 +1,4 @@
-import { EM, PIXEL_SCALE } from "../main";
+import { consoleLog, EM, PIXEL_SCALE } from "../main";
 import Planet from "./Planet";
 import PostStation from "./PostStation";
 
@@ -19,6 +19,46 @@ export default class GameWorld
     Select(object)
     {
         this.selected = object;
+    }
+
+    SendSpacecraftTo(spacecraft, target)
+    {
+        spacecraft.SetTarget(target);
+    }
+
+    AttemptToSendSpacecraft(source, target)
+    {
+        consoleLog("Attempt to send a spacecraft from:");
+        consoleLog(source);
+        consoleLog("to:");
+        consoleLog(target);
+
+        let bestSpacecraft = source.GetBestSpacecraft();
+            
+        if(bestSpacecraft !== null)
+        {
+            consoleLog("Sending spacecraft:");
+            consoleLog(bestSpacecraft);
+            consoleLog("to:");
+            consoleLog(target);
+
+            this.SendSpacecraftTo(bestSpacecraft, target);
+        }
+        else
+        {
+            consoleLog("No spacecraft found at source:");
+            consoleLog(source);
+        }
+    }
+
+    PerformAction(object)
+    {
+        consoleLog("Perform action on object:");
+        consoleLog(object);
+        if(this.selected !== null)
+        {
+            this.AttemptToSendSpacecraft(this.selected, object);
+        }   
     }
 
     BuildStartingPlanets()

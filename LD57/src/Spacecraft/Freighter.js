@@ -1,5 +1,6 @@
 import Texture from "pixelbox/Texture";
-import { COLLISION_GROUP, EM, PIXEL_SCALE } from "../main";
+import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE } from "../main";
+import { vec2 } from "p2";
 
 export default class Freighter
 {
@@ -10,9 +11,17 @@ export default class Freighter
 
         let offset = { x: 1, y: 1};
 
+        this.thrustForce = 60000;
+
+        this.brakeSpeed = 1;
+
+        this.maxSpeed = 20;
+
         this.pos = { x: atStation.tilePos.x + offset.x, y: atStation.tilePos.y + offset.y };
         this.w = 1;
         this.h = 1;
+
+        this.baseDrag = 0.2;
 
         let physSettings = {
             tileTransform: { x: this.pos.x, y: this.pos.y, w: this.w, h: this.h },
@@ -24,8 +33,10 @@ export default class Freighter
             material: "playerMaterial",
             collisionGroup: COLLISION_GROUP.SPACECRAFT,
             collisionMask: COLLISION_GROUP.STATIONS,
-            linearDrag: 0.99
+            linearDrag: this.baseDrag 
         };
+
+        this.currentSpeed = 0;
 
         this.angle = 0;
 
@@ -33,11 +44,25 @@ export default class Freighter
         this.tex.sprite(0, 0, 0);
 
         EM.RegisterEntity(this, { physSettings: physSettings });
+
+        this.target = null;
+    }
+
+    SetTarget(target)
+    {
+        this.target = target;
     }
 
     ArrivedAtCelestial(celestial)
     {
+        consoleLog(`${this.title} arrived at ${celestial.title}`);
+
         this.currentStation = celestial;
+
+        if(celestial === this.target)
+        {
+            this.target = null;
+        }
     } 
 
     LeftCelestial(celestial)
@@ -48,10 +73,46 @@ export default class Freighter
         }
     }
 
+    Update(deltaTime)
+    {
+        this.currentSpeed = vec2.length(this.phys.velocity);
+
+        if(this.target !== null)
+        {
+            if(this.currentSpeed < this.maxSpeed)
+            {
+                let vecToTarget = [0, 0];
+                vec2.subtract(vecToTarget, this.target.phys.position, this.phys.position);
+                vec2.normalize(vecToTarget, vecToTarget);
+                vec2.scale(vecToTarget, vecToTarget, this.thrustForce * deltaTime);
+                
+                this.phys.applyForce(vecToTarget);
+            }
+            
+        }
+        else if(this.currentSpeed > 0)
+        {
+            this.phys.damping += deltaTime * this.brakeSpeed; 
+            if(this.phys.damping > 1)
+            {
+                this.phys.damping = 1;
+            }
+        }
+        else if(this.phys.damping > this.baseDrag)
+        {
+            this.phys.damping = this.baseDrag;
+        }
+    }
+
     Draw()
     {
         let screenPos = this.GetScreenPos();
 
         this.tex._drawEnhanced(screenPos.x, screenPos.y,{ angle: this.angle} );
+
+        if(this.target)
+        {
+            EM.hudLog.push(`${this.title} speed: ${this.currentSpeed.toFixed(3)}`);
+        }
     }
 }

@@ -32,6 +32,6 @@ export default class CameraController
 
         EM.camera.MoveBy(inputVec.x * this.cameraSpeed, inputVec.y * this.cameraSpeed);
 
-        EM.hudLog.push(`Move camera:  (${inputVec.x}, ${inputVec.y})`);
+        //EM.hudLog.push(`Move camera:  (${inputVec.x}, ${inputVec.y})`);
     }
 }

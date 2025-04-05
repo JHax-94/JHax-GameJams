@@ -1,4 +1,7 @@
 import { consoleLog, EM, PIXEL_SCALE } from "../main";
+import Freighter from "../Spacecraft/Freighter";
+import ParcelStoreUi from "../UI/ParcelStoreUi";
+import AbstractCelestialBody from "./AbstractCelestialBody";
 import ParcelSpawnControl from "./ParcelSpawnControl";
 import Planet from "./Planet";
 import PostStation from "./PostStation";
@@ -17,6 +20,7 @@ export default class GameWorld
         this.symbolGenerator = new SymbolGenerator();
 
         this.parcelSpawn = new ParcelSpawnControl(this);
+        this.parcelStoreUi = new ParcelStoreUi(this);
         this.selected = null;
     }
 
@@ -55,13 +59,38 @@ export default class GameWorld
         }
     }
 
-    PerformAction(object)
+    AttemptToTransferParcels(source, target)
+    {
+        let selectedParcels = source.parcelStore.GetParcels(this.parcelStoreUi.selection);
+        let remainingCapacity = target.parcelStore.RemainingCapacity();
+
+        if(remainingCapacity < selectedParcels.length)
+        {
+            selectedParcels.length = remainingCapacity;
+        }
+        
+        if(selectedParcels.length > 0)
+        {
+            this.parcelStoreUi.ClearSelection();
+            target.parcelStore.AddParcels(selectedParcels);
+            source.parcelStore.RemoveParcels(selectedParcels);
+        }
+    }
+
+    PerformAction(target)
     {
         consoleLog("Perform action on object:");
-        consoleLog(object);
+        consoleLog(target);
         if(this.selected !== null)
         {
-            this.AttemptToSendSpacecraft(this.selected, object);
+            if(target instanceof AbstractCelestialBody)
+            {
+                this.AttemptToSendSpacecraft(this.selected, target);
+            }
+            else if(target instanceof Freighter)
+            {
+                this.AttemptToTransferParcels(this.selected, target);
+            }
         }   
     }
 

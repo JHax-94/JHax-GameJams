@@ -1,4 +1,5 @@
-import { EM } from "../main";
+import Texture from "pixelbox/Texture";
+import { EM, PIXEL_SCALE } from "../main";
 
 export default class Parcel
 {
@@ -28,6 +29,23 @@ export default class Parcel
 
         return this.reward - this.decayRate * penaltyTime;
     }
+
+    TargetSymbol()
+    {
+        let symbolTex = null;
+
+        if(this.targetPlanet)
+        {
+            symbolTex = this.targetPlanet.symbolTex;
+        }
+        else
+        {
+            symbolTex = new Texture(PIXEL_SCALE, PIXEL_SCALE);
+            symbolTex.sprite(33,0,0);            
+        }
+
+        return symbolTex;
+    }   
 
     Update(deltaTime)
     {

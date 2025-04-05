@@ -2,17 +2,22 @@ import Texture from "pixelbox/Texture";
 import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE } from "../main";
 import { vec2 } from "p2";
 import ParcelStore from "../GameWorld/ParcelStore";
+import MOUSE_BUTTON from "../MouseButtons";
 
 export default class Freighter
 {
-    constructor(atStation, title)
+    constructor(atStation, title, gameWorld)
     {
         this.title = title;
         this.currentStation = null;
 
+        this.gameWorld = gameWorld;
+
         let offset = { x: 1, y: 1};
 
         this.thrustForce = 60000;
+
+        this.hovered = false;
 
         this.brakeSpeed = 1;
 
@@ -48,6 +53,37 @@ export default class Freighter
 
         this.target = null;
         this.parcelStore = new ParcelStore(this, 3);
+    }
+
+    Hover(hover)
+    {
+        this.hovered = hover;
+    }
+
+    Bounds()
+    {
+        let screenPos = this.GetScreenPos();
+
+        let bounds = { 
+            x: screenPos.x,
+            y: screenPos.y,
+            w: this.w * PIXEL_SCALE,
+            h: this.h * PIXEL_SCALE
+        };
+
+        return bounds;
+    }
+
+    Click(click)
+    {
+        if(click === MOUSE_BUTTON.LEFT_MOUSE)
+        {
+            this.gameWorld.Select(this);
+        }
+        else if(click === MOUSE_BUTTON.RIGHT_MOUSE)
+        {
+            this.gameWorld.PerformAction(this);
+        }
     }
 
     SetTarget(target)
@@ -115,6 +151,22 @@ export default class Freighter
         if(this.target)
         {
             EM.hudLog.push(`${this.title} speed: ${this.currentSpeed.toFixed(3)}`);
+        }
+
+        this.DrawFocus(screenPos);
+    }
+
+    GetBestSpacecraft()
+    {
+        return this;
+    }
+    
+    DrawFocus(screenPos)
+    {
+        if(this.hovered)
+        {
+            pen(1);
+            rect(screenPos.x - 2, screenPos.y - 2, this.w * PIXEL_SCALE + 4, this.h * PIXEL_SCALE + 4);
         }
     }
 }

@@ -15,7 +15,7 @@ export default class PostStation extends AbstractCelestialBody
 
     SpawnFreighter()
     {   
-        let newFreighter = new Freighter(this, "Freighter 0");
+        let newFreighter = new Freighter(this, "Freighter 0", this.gameWorld);
 
         this.freighters.push(newFreighter);
     }
@@ -26,7 +26,7 @@ export default class PostStation extends AbstractCelestialBody
         paper(1);
         
         rectf(screenPos.x, screenPos.y, this.w * PIXEL_SCALE, this.h * PIXEL_SCALE);
-        
+
         this.DrawParcelsForPickup(screenPos);
         this.DrawSymbol(screenPos);
         this.DrawFocus(screenPos);

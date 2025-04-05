@@ -158,9 +158,20 @@ export default class ParcelStoreUi
                         rectf(drawDims.x, drawDims.y, drawDims.w * parcel.sortProgress, drawDims.h);
                     }
 
-                    let targetSymbol =parcel.TargetSymbol();
+                    if(parcel.RemainingGrace() > 0)
+                    {
+                        let graceProportion = parcel.GraceProportion();
 
+                        paper(7);
+                        rectf(drawDims.x, drawDims.y, drawDims.w * graceProportion, 3);
+                    }
+
+                    let targetSymbol =parcel.TargetSymbol();
+                    
                     targetSymbol._drawEnhanced(drawDims.x + (drawDims.w - targetSymbol.width) *0.5, drawDims.y + (drawDims.h - targetSymbol.height) * 0.5);
+
+                    print(`Reward:`, drawDims.x, drawDims.y + drawDims.h + 2);
+                    print(`${parcel.RewardValue()}`, drawDims.x, drawDims.y + drawDims.h + 8);
                 }
 
                 if(this.IsSelected(i))

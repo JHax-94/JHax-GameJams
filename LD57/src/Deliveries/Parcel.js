@@ -9,7 +9,12 @@ export default class Parcel
 
         this.reward = 100;
 
-        this.gracePeriod = 30;
+        this.gracePeriod = 60;
+
+        if(sorted === false)
+        {
+            this.gracePeriod *= 3;
+        }
 
         this.decayRate = 0.5;
 
@@ -32,6 +37,16 @@ export default class Parcel
         }
 
         return Math.ceil(this.reward - this.decayRate * penaltyTime);
+    }
+
+    RemainingGrace()
+    {
+        return this.gracePeriod - this.lifeTime;
+    }
+
+    GraceProportion()
+    {
+        return this.RemainingGrace() / this.gracePeriod;
     }
 
     Deliver(deliveredBy)

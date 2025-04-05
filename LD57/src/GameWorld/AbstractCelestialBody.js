@@ -85,6 +85,11 @@ export default class AbstractCelestialBody
         return spacecraft;
     }
 
+    IsSpacecraftDocked(spacecraft)
+    {
+        return spacecraft.dockedStation === this;
+    }
+
     Click(click)
     {
         consoleLog(`${this.subTag} ${this.title} clicked!`);

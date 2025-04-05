@@ -1,4 +1,4 @@
-import { consoleLog, EM, PIXEL_SCALE, TILE_HEIGHT, TILE_WIDTH } from "../main";
+import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH } from "../main";
 import MOUSE_BUTTON from "../MouseButtons";
 
 export default class ParcelStoreUi
@@ -11,13 +11,15 @@ export default class ParcelStoreUi
         this.mousePos = null;
         let tileHeight = 4;
 
-        this.panel = { x: 0, y: (TILE_HEIGHT- tileHeight) * PIXEL_SCALE, w: TILE_WIDTH * PIXEL_SCALE, h: tileHeight * PIXEL_SCALE };
+        this.panel = { x: 2, y: (TILE_HEIGHT- tileHeight) * PIXEL_SCALE - 2, w: TILE_WIDTH * 0.5 * PIXEL_SCALE, h: tileHeight * PIXEL_SCALE };
 
-        this.slotStart = { x: 2, y: 2 };
+        this.slotStart = { x: 2, y: 12 };
         this.slotDims = { w: 1.5, h: 1.5 };
         this.slotSpacing = { w: 0.5, h: 0 };
 
         this.hoveredTile = null;
+
+        this.largeNarr = getFont("LargeNarr");
 
         this.selection = [];
 
@@ -109,7 +111,7 @@ export default class ParcelStoreUi
         let slotSpacing = this.slotSpacing;
 
         let drawDims = { 
-            x: panel.x + (slotStart.x + (slotDims.w + slotSpacing.w) * index) * PIXEL_SCALE, 
+            x: panel.x + slotStart.x + (slotDims.w + slotSpacing.w) * index * PIXEL_SCALE, 
             y: panel.y + slotStart.y,
             w: slotDims.w * PIXEL_SCALE,
             h: slotDims.h * PIXEL_SCALE
@@ -133,6 +135,11 @@ export default class ParcelStoreUi
 
             paper(6)
             rectf(panel.x, panel.y, panel.w, panel.h);
+
+            pen(1);
+            setFont(this.largeNarr);
+            print(`CARGO:`, panel.x + 2, panel.y + 2);
+            setFont("Default");
 
             for(let i = 0; i < parcelStore.capacity; i ++)
             {

@@ -7,15 +7,15 @@ export default class ParcelSpawnControl
         this.gameWorld = gameWorld;
         //EM.RegisterEntity(this);
 
-        this.spawnRange = 2;
+        this.spawnRange = 3;
 
-        this.spawnTime = 6;
+        this.spawnTime = 10;
         this.spawnTimer = 0;
 
         this.elapsedTimer = 0;
 
         this.sortedTimer = 0;
-        this.sortedRollThreshold = 2;
+        this.sortedRollThreshold = 20;
         this.sortedRoll = 0;
 
     }

@@ -1,4 +1,4 @@
-import { consoleLog, EM, PIXEL_SCALE } from "../main";
+import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, UTIL } from "../main";
 import Freighter from "../Spacecraft/Freighter";
 import ParcelStoreUi from "../UI/ParcelStoreUi";
 import StatusUi from "../UI/StatusUi";
@@ -24,6 +24,8 @@ export default class GameWorld
         this.starWeek = 12;
         this.starYear = 3663;
         this.starEra = "MX";
+
+        this.largeNarrFont = getFont("LargeNarr");
 
         this.daysPerWeek = 10;
         this.weeksPerYear = 50;
@@ -75,7 +77,12 @@ export default class GameWorld
 
     Select(object)
     {
-        this.selected = object;
+        if(object !== this.selected)
+        {
+            this.selected = object;
+            this.parcelStoreUi.ClearSelection();
+        }
+        
     }
 
     SendSpacecraftTo(spacecraft, target)
@@ -110,19 +117,22 @@ export default class GameWorld
 
     AttemptToTransferParcels(source, target)
     {
-        let selectedParcels = source.parcelStore.GetParcels(this.parcelStoreUi.selection);
-        let remainingCapacity = target.parcelStore.RemainingCapacity();
+        if(source.IsSpacecraftDocked(target))
+        {
+            let selectedParcels = source.parcelStore.GetParcels(this.parcelStoreUi.selection);
+            let remainingCapacity = target.parcelStore.RemainingCapacity();
 
-        if(remainingCapacity < selectedParcels.length)
-        {
-            selectedParcels.length = remainingCapacity;
-        }
-        
-        if(selectedParcels.length > 0)
-        {
-            this.parcelStoreUi.ClearSelection();
-            target.parcelStore.AddParcels(selectedParcels);
-            source.parcelStore.RemoveParcels(selectedParcels);
+            if(remainingCapacity < selectedParcels.length)
+            {
+                selectedParcels.length = remainingCapacity;
+            }
+            
+            if(selectedParcels.length > 0)
+            {
+                this.parcelStoreUi.ClearSelection();
+                target.parcelStore.AddParcels(selectedParcels);
+                source.parcelStore.RemoveParcels(selectedParcels);
+            }
         }
     }
 
@@ -147,9 +157,11 @@ export default class GameWorld
     {
         let firstPlanet = new Planet({ x: -7, y: -6}, `Planet 0`, this);
         let secondPlanet = new Planet({ x: 8, y: 9 }, `Planet 1`, this);
+        let thirdPlanet = new Planet({ x: 14, y: -12}, `Planet 2`, this);
 
         this.planets.push(firstPlanet);
         this.planets.push(secondPlanet);
+        this.planets.push(thirdPlanet);
     }
 
     SetupGameWorld()
@@ -163,6 +175,8 @@ export default class GameWorld
         this.BuildStartingPlanets();
 
         mainStation.FocusCamera();
+
+        this.parcelSpawn.SpawnParcel();
     }
 
     CalculateWeeklyUpkeep()
@@ -233,7 +247,42 @@ export default class GameWorld
         if(this.selected)
         {
             //print(`${this.selected.title}`, 0, 0);
+            setFont(this.largeNarrFont);
 
+            paper(6);
+            let title = `${this.selected.title}`.toUpperCase();
+
+            let baseBounds = this.parcelStoreUi.Bounds(); 
+
+            let labelWidth = UTIL.GetTextWidth(title, this.largeNarrFont) * PIXEL_SCALE + 4;
+
+            let drawSelectAt = { 
+                x: baseBounds.x,
+                y: baseBounds.y - 1 * PIXEL_SCALE - 6,
+                w: labelWidth,
+                h: PIXEL_SCALE + 4
+            };
+
+            if(this.selected.symbolTex)
+            {
+                drawSelectAt.w += PIXEL_SCALE + 4;
+            }
+
+            rectf(drawSelectAt.x, drawSelectAt.y, drawSelectAt.w, drawSelectAt.h);
+
+            if(this.selected.symbolTex)
+            {
+                paper(0);
+                rectf(drawSelectAt.x + labelWidth + 2, drawSelectAt.y+2, PIXEL_SCALE, PIXEL_SCALE);
+                this.selected.symbolTex._drawEnhanced(drawSelectAt.x + labelWidth+2, drawSelectAt.y + 2);
+            }
+
+            pen(1);
+            print(title, drawSelectAt.x + 2, drawSelectAt.y + (drawSelectAt.h - UTIL.GetTextHeight(title, this.largeNarrFont) * PIXEL_SCALE) * 0.5);
+
+            setFont("Default");
+
+            /*
             if(this.selected.spacecraftRoster && this.selected.spacecraftRoster.length > 0)
             {
                 pen(0)
@@ -243,7 +292,7 @@ export default class GameWorld
                     let craft = this.selected.spacecraftRoster[i];
                     print(craft.title, 0, 2 * lineHeight + 40);
                 }
-            }
+            }*/
         }
     }
 }

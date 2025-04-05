@@ -24,6 +24,11 @@ export default class PostStation extends AbstractCelestialBody
         ]
     }
 
+    SendProbe()
+    {
+        this.gameWorld.GenerateNewPlanet();
+    }
+
     Update(deltaTime)
     {
         for(let i = 0; i < this.parcelStore.Count(); i ++)
@@ -62,5 +67,6 @@ export default class PostStation extends AbstractCelestialBody
         this.DrawParcelsForPickup(screenPos);
         this.DrawSymbol(screenPos);
         this.DrawFocus(screenPos);
+        this.DrawOffscreen(screenPos);
     }
 }

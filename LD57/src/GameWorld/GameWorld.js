@@ -1,3 +1,4 @@
+import { Plane } from "p2";
 import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, UTIL } from "../main";
 import Freighter from "../Spacecraft/Freighter";
 import ParcelStoreUi from "../UI/ParcelStoreUi";
@@ -33,6 +34,10 @@ export default class GameWorld
 
         this.dayTimer = 0;
         this.dayTime = 3;
+
+        this.planetRadius = 25;
+        this.planetRadiusIncrement = 1;
+        this.lastPlanetAngle = 0;
 
         this.symbolGenerator = new SymbolGenerator();
 
@@ -157,6 +162,24 @@ export default class GameWorld
                 this.AttemptToTransferParcels(this.selected, target);
             }
         }   
+    }
+
+    GetNextPlanetName()
+    {
+        return `Planet ${this.planets.length}`;
+    }
+
+    GenerateNewPlanet()
+    {
+        let randomAngle =  (0.25 + 1.5 * Math.random()) * Math.PI;
+        let radius = this.planetRadius;
+
+        let pos = { x: radius * Math.cos(randomAngle), y: radius * Math.sin(randomAngle) };
+
+        let newPlanet = new Planet(pos, this.GetNextPlanetName(), this);
+        this.planets.push(newPlanet);
+
+        this.planetRadius += this.planetRadiusIncrement;
     }
 
     BuildStartingPlanets()

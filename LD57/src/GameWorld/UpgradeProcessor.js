@@ -26,6 +26,13 @@ export default class UpgradeProcessor
             upgradeTarget.SpawnFreighter();
             upgradeComplete = true;
         }
+        else if(upgradeData.type === "SendProbe")
+        {
+            upgradeTarget.SendProbe();
+            upgradeComplete = true;
+        }
+
+        
 
         if(upgradeComplete && upgradeData.cost > 0)
         {

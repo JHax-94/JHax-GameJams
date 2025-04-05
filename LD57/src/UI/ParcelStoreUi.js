@@ -5,6 +5,8 @@ export default class ParcelStoreUi
 {
     constructor(gameWorld)
     {
+        this.renderLayer = "UI";
+        
         this.gameWorld = gameWorld;
 
         this.hovered = false;

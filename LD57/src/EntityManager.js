@@ -1429,6 +1429,16 @@ export default class EntityManager
             }
 
             consumed = clicked;
+
+            if(consumed === false)
+            {
+                let gameWorld = EM.GetEntity("GAME_WORLD");
+
+                if(gameWorld)
+                {
+                    gameWorld.DeselectAll();
+                }
+            }
         }
 
         return consumed;

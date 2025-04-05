@@ -169,6 +169,11 @@ export default class GameWorld
         return `Planet ${this.planets.length}`;
     }
 
+    DeselectAll()
+    {
+        this.selected = null;
+    }
+
     GenerateNewPlanet()
     {
         let randomAngle =  (0.25 + 1.5 * Math.random()) * Math.PI;
@@ -180,6 +185,8 @@ export default class GameWorld
         this.planets.push(newPlanet);
 
         this.planetRadius += this.planetRadiusIncrement;
+
+        this.toastManager.AddMessage("New Planet discovered", 7);
     }
 
     BuildStartingPlanets()

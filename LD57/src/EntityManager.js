@@ -11,14 +11,15 @@ import Camera from "./Camera";
 export default class EntityManager
 {
     constructor(noPhys)
-    {
+    {   
+        consoleLog("Constructing EM");
+
         this.LoadSettings();
 
         this.camera = new Camera();
 
         this.frameCount = 0;
-        this.bgColour = 3;
-
+        this.bgColour = 0;
         this.version = null;
 
         this.gameTimeElapsed = 0;

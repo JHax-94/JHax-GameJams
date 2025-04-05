@@ -5,8 +5,6 @@ export default class PhysicsContainer
 {
     constructor(manager)
     {
-        consoleLog("Constructing physics container...");
-
         this.materials = 
         {
             playerMaterial: new p2.Material()

@@ -240,8 +240,11 @@ export default class Spacecraft
 
     SetTarget(target)
     {
-        this.target = target;
-        this.Undock();
+        if(target !== this.dockedStation)
+        {
+            this.target = target;
+            this.Undock();
+        }
     }
 
     ArrivedAtCelestial(celestial)

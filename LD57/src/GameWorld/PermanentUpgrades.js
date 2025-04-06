@@ -1,3 +1,5 @@
+import { consoleLog } from "../main";
+
 export default class PermanentUpgrades
 {
     constructor()
@@ -27,7 +29,7 @@ export default class PermanentUpgrades
 
     PermanentUpgradeLevel(upgradeText)
     {
-        let upg_i = this.permanentUpgrades.indexOf(upgradeText);
+        let upg_i = this.permanentUpgrades.findIndex((pup) => pup.text === upgradeText);
         let level = 0;
 
         if(upg_i >= 0)

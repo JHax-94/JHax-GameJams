@@ -1,5 +1,5 @@
 import { Plane, vec2 } from "p2";
-import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, UTIL } from "../main";
+import { consoleLog, CONSTANTS, EM, getFont, PIXEL_SCALE, setFont, UTIL } from "../main";
 import Freighter from "../Spacecraft/Freighter";
 import ParcelStoreUi from "../UI/ParcelStoreUi";
 import ShopUi from "../UI/ShopUi";
@@ -90,6 +90,80 @@ export default class GameWorld
         }
 
         return nearestBod;
+    }
+
+    CheckPointInCloseProxitimity(point)
+    {
+        let tooClose = false;
+
+        for(let i = 0; i < this.stations.length; i ++)
+        {
+            if(vec2.squaredDistance(point, this.stations[i].phys.position) < Math.pow(CONSTANTS.CLOSE_PROXIMITY, 2))
+            {
+                tooClose = true;
+                break;
+            }
+        }
+
+        if(!tooClose )
+        {
+            for(let i = 0; i < this.planets.length; i ++)
+            {
+                if(vec2.squaredDistance(point, this.planets[i].phys.position) < Math.pow(CONSTANTS.CLOSE_PROXIMITY, 2))
+                {
+                    tooClose = true;
+                    break;
+                }
+            }
+        }
+        
+        return tooClose;
+    }
+
+    GetNearestStationWithin(celestialBody, distance)
+    {
+        let nearestBod = null;
+
+        let minDist = 0;
+
+        for(let i = 0; i < this.stations.length; i ++)
+        {
+            let dist = vec2.sqrDist(this.stations[i].phys.position, celestialBody.phys.position);
+
+            if(dist < Math.pow(distance, 2))
+            {
+                if(nearestBod === null)
+                {
+                    nearestBod = this.stations[i];
+                    minDist = dist;
+                }
+                else if(dist < minDist)
+                {
+                    minDist = dist;
+                    nearestBod = this.stations[i];
+                }
+            }
+        }
+
+        return nearestBod;
+    }
+
+    CheckStationLocalToPlanets(station)
+    {
+        for(let i = 0; i < this.planets.length; i ++)
+        {
+            let planet = this.planets[i];
+
+            if(planet.localStation === null)
+            {
+                let dist = vec2.sqrDist(station.phys.position, planet.phys.position);
+
+                if(dist < Math.pow(CONSTANTS.LOCAL_STATION_DISTANCE, 2))
+                {
+                    planet.localStation = station;
+                }
+            }
+        }
     }
 
     GetNextShuttleName()
@@ -238,6 +312,7 @@ export default class GameWorld
         let pos = { x: radius * Math.cos(randomAngle), y: radius * Math.sin(randomAngle) };
 
         let newPlanet = new Planet(pos, this.GetNextPlanetName(), this);
+        
         this.planets.push(newPlanet);
 
         this.planetRadius += this.planetRadiusIncrement;
@@ -269,6 +344,11 @@ export default class GameWorld
         mainStation.FocusCamera();
 
         this.parcelSpawn.SpawnParcel();
+    }
+
+    BuildStation(physLocation)
+    {
+        let newStation = new PostStation({x: physLocation[0] / PIXEL_SCALE, y: -physLocation[1] / PIXEL_SCALE}, `POST STATION ${this.stations.length + 1}`, this);
     }
 
     CalculateWeeklyUpkeep()

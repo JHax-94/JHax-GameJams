@@ -63,10 +63,15 @@ export default class UpgradeProcessor
             }
             else if(upgradeData.type === "UpgradeCargo")
             {
-                upgradeTarget.upkeep += upgradeData.upkeep;
-                upgradeTarget.permanentUpgrades.AddPermanentUpgrade(UPGRADE_STRINGS.FREIGHTER_CARGO);
+                
+                if(upgradeTarget.parcelStore.capacity < 12)
+                {
+                    upgradeTarget.upkeep += upgradeData.upkeep;
+                    upgradeTarget.permanentUpgrades.AddPermanentUpgrade(UPGRADE_STRINGS.FREIGHTER_CARGO);
 
-                upgradeComplete = true;
+                    upgradeTarget.parcelStore.capacity ++;
+                    upgradeComplete = true;
+                }
             }
             else if(upgradeData.type === "Unlock_SpeedUpgrade")
             {
@@ -98,6 +103,11 @@ export default class UpgradeProcessor
                 upgradeTarget.permanentUpgrades.AddPermanentUpgrade("Grace+");
                 upgradeTarget.baseGracePeriod += 30;
 
+                upgradeComplete = true;
+            }
+            else if(upgradeData.type === "NewStation")
+            {
+                upgradeTarget.BuildStationNearby();
                 upgradeComplete = true;
             }
 

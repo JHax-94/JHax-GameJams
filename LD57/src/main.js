@@ -27,6 +27,11 @@ let UI_BUILDER = new UiBuilder();
 
 vecExtender.ExtendVec2(vec2);
 
+let CONSTANTS = {
+    LOCAL_STATION_DISTANCE: 300,
+    CLOSE_PROXIMITY: 100
+};
+
 let PIXEL_SCALE = getPixelScale();
 let FPS = 1/60;
 let TILE_WIDTH = getTileWidth();
@@ -245,5 +250,5 @@ exports.update = function () {
 
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, getFont, setFont, consoleLog, getObjectConfig, UI_BUILDER, SCORES
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, getFont, setFont, consoleLog, getObjectConfig, UI_BUILDER, SCORES, CONSTANTS
 };

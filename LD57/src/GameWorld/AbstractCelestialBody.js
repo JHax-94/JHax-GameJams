@@ -1,5 +1,5 @@
 import { vec2 } from "p2";
-import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH } from "../main";
+import { COLLISION_GROUP, consoleLog, CONSTANTS, EM, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH } from "../main";
 import MOUSE_BUTTON from "../MouseButtons";
 import Freighter from "../Spacecraft/Freighter";
 import InfluenceZone from "./InfluenceZone";
@@ -36,6 +36,8 @@ export default class AbstractCelestialBody
         };
 
         EM.RegisterEntity(this, { physSettings: physSettings  })
+
+        this.trySpawnStation = false;
 
         this.influence = new InfluenceZone(
             this, 
@@ -99,6 +101,38 @@ export default class AbstractCelestialBody
         return this.upgrades;
     }
     
+    BuildStationNearby()
+    {
+        this.trySpawnStation = true;
+        let distance = CONSTANTS.LOCAL_STATION_DISTANCE;
+
+        let newPos = {
+            radius: distance + random(25),
+            angle: random(2*Math.PI),                
+        };
+
+        newPos.vec = [ newPos.radius * Math.cos(newPos.angle), newPos.radius * Math.sin(newPos.angle) ];
+
+        let position =[0,0];
+
+        newPos.pos = vec2.add(position, this.phys.position, newPos.vec);
+
+        if(!this.gameWorld.CheckPointInCloseProxitimity(newPos.pos))
+        {
+            this.trySpawnStation = false;
+            consoleLog("Building new station@");
+            consoleLog(newPos);
+
+            consoleLog(`Distance to source: ${vec2.distance(newPos.pos, this.phys.position)}`);
+            
+            this.gameWorld.BuildStation(newPos.pos);
+        }
+        else
+        {
+            console.error("Station Not Built");
+        }
+    }
+
     BuildUnlockCondition(unlock)
     {
         let condition = {
@@ -200,13 +234,19 @@ export default class AbstractCelestialBody
 
                 if(upgradesList[i].type === "NewStation")
                 {
-                    let nearestStation = this.gameWorld.GetNearestStation(this);
-
-                    if(vec2.sqrDist(this.phys.position, nearestStation.phys.position) < Math.pow(300, 2))
+                    if(this.localStation !== null)
                     {
                         canAdd = false;
                     }
                 }
+                else if(upgradesList[i].type === "NewShuttle")
+                {
+                    if(this.localStation == null)
+                    {
+                        canAdd = false;
+                    }
+                }
+                
 
                 if(canAdd)
                 {

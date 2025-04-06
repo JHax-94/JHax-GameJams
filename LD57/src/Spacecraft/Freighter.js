@@ -1,6 +1,7 @@
 import { UPGRADE_STRINGS } from "../Enums/UpgradeStrings";
 import ParcelStore from "../GameWorld/ParcelStore";
 import PermanentUpgrades from "../GameWorld/PermanentUpgrades";
+import { EM } from "../main";
 import Spacecraft from "./Spacecraft";
 
 export default class Freighter extends Spacecraft
@@ -20,7 +21,7 @@ export default class Freighter extends Spacecraft
         let upgrades = []
 
         if(this.dockedStation)
-        {
+        {   
             if(this.dockedStation.permanentUpgrades.PermanentUpgradeLevel(UPGRADE_STRINGS.FREIGHTER_CARGO_ON_STATION) > 
                     this.permanentUpgrades.PermanentUpgradeLevel(UPGRADE_STRINGS.FREIGHTER_CARGO))
             {

@@ -7,6 +7,7 @@ import RenderLayer from "./RenderLayer";
 import InputMethod from "./InputMethod";
 import { INPUT_TYPE } from "./InputType";
 import Camera from "./Camera";
+import GameOverMenu from "./UI/GameOverMenu";
 
 export default class EntityManager
 {
@@ -909,14 +910,8 @@ export default class EntityManager
     {
         if(!this.pause)
         {
-            let maze = EM.GetEntity("Maze");
-
-            consoleLog("MAZE");
-            consoleLog(maze);
-            consoleLog(maze.mazeData);
-
             this.pause = true;
-            this.pauseMenu = new GameOverMenu(maze.mazeData.levelName);
+            this.pauseMenu = new GameOverMenu();
         }
     }
 
@@ -1393,6 +1388,11 @@ export default class EntityManager
                 inputState[key].d = true;
                 inputState[key].r = false;
             }
+        }
+
+        if(this.pauseMenu && this.pauseMenu.SendKey)
+        {
+            this.pauseMenu.SendKey(key, state);
         }
     }
 

@@ -25,12 +25,14 @@ export default class GameWorld
         this.spacecraft = [];
         this.planets = [];
 
-        this.starDay = 0;
+        this.starDay = 9;
         this.starWeek = 12;
         this.starYear = 3663;
         this.starEra = "MX";
 
         this.largeNarrFont = getFont("LargeNarr");
+
+        this.daysPassed = 0;
 
         this.daysPerWeek = 10;
         this.weeksPerYear = 50;
@@ -299,6 +301,11 @@ export default class GameWorld
         this.player.credits -= upkeep;
 
         this.toastManager.AddMessage(`Weekly Upkeep -${upkeep}`, 9);
+
+        if(this.player.credits <= 0)
+        {
+            this.GameOver();
+        }
     }
 
     CheckForNewUnlocks()
@@ -331,6 +338,9 @@ export default class GameWorld
             this.dayTimer -= this.dayTime;
 
             this.starDay += 1;
+            this.daysPassed += 1;
+
+            this.player.score += this.planets.length;
 
             if(this.starDay >= this.daysPerWeek)
             {
@@ -347,6 +357,11 @@ export default class GameWorld
                 this.starWeek = 0;
             }
         }
+    }
+
+    GameOver()
+    {
+        EM.ShowGameOver();
     }
 
     Draw()

@@ -117,6 +117,11 @@ pointerEvents.onMove(function(x, y, pointerId, evt)
 });
 
 
+getHighScore()
+{
+    
+}
+
 function getFontFromPath(fontPath)
 {
     let fontRoot = assets.fonts;

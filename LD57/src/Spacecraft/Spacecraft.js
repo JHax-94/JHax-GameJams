@@ -278,7 +278,7 @@ export default class Spacecraft
 
     DrawFocus(screenPos)
     {
-        if(this.hovered)
+        if(this.hovered || this === this.gameWorld.selected)
         {
             pen(1);
             rect(screenPos.x - 2, screenPos.y - 2, this.w * PIXEL_SCALE + 4, this.h * PIXEL_SCALE + 4);

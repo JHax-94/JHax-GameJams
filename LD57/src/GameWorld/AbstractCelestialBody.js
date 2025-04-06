@@ -1,3 +1,4 @@
+import { vec2 } from "p2";
 import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH } from "../main";
 import MOUSE_BUTTON from "../MouseButtons";
 import Freighter from "../Spacecraft/Freighter";
@@ -62,8 +63,8 @@ export default class AbstractCelestialBody
     {
         let tooltip = null
 
-        consoleLog("Getting tooltip...");
-        consoleLog(this.gameWorld.parcelStoreUi.selection);
+        /*consoleLog("Getting tooltip...");
+        consoleLog(this.gameWorld.parcelStoreUi.selection);*/
 
         if(this.gameWorld.parcelStoreUi.selection.length > 0 )
         {
@@ -195,7 +196,22 @@ export default class AbstractCelestialBody
         {
             if((upgradesList[i].stations && this.IsStation()) || (upgradesList[i].planets && this.IsPlanet()))
             {
-                upgradesForThisBody.push(upgradesList[i]);
+                let canAdd = true;
+
+                if(upgradesList[i].type === "NewStation")
+                {
+                    let nearestStation = this.gameWorld.GetNearestStation(this);
+
+                    if(vec2.sqrDist(this.phys.position, nearestStation.phys.position) < Math.pow(300, 2))
+                    {
+                        canAdd = false;
+                    }
+                }
+
+                if(canAdd)
+                {
+                    upgradesForThisBody.push(upgradesList[i]);
+                }
             }
         }
 
@@ -432,7 +448,7 @@ export default class AbstractCelestialBody
 
     DrawFocus(screenPos)
     {
-        if(this.hovered)
+        if(this.hovered || this === this.gameWorld.selected)
         {
             pen(1);
             rect(screenPos.x - 2, screenPos.y - 2, this.w * PIXEL_SCALE + 4, this.h * PIXEL_SCALE + 4);

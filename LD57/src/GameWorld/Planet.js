@@ -1,3 +1,4 @@
+import { vec2 } from "p2";
 import { COLLISION_GROUP, EM, PIXEL_SCALE } from "../main";
 import Shuttle from "../Spacecraft/Shuttle";
 import AbstractCelestialBody from "./AbstractCelestialBody";
@@ -14,6 +15,8 @@ export default class Planet extends AbstractCelestialBody
 
         this.nextUpgradeUnlock = this.GetNextUpgradeUnlock();
         this.upgradeLevel ++;
+
+        this.distToStation = vec2.dist(this.gameWorld.stations[0].phys.position, this.phys.position);
     }
 
     SpawnShuttle()
@@ -28,6 +31,8 @@ export default class Planet extends AbstractCelestialBody
     Update(deltaTime)
     {
         this.CheckUnlockCondition();
+
+        EM.hudLog.push(`Distance to station: ${this.distToStation.toFixed(3)}`);
     }
 
     LocalDeliveries()

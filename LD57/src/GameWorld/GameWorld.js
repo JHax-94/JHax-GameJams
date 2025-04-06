@@ -58,7 +58,7 @@ export default class GameWorld
 
         this.selected = null;
     }
-    
+
     WeeksPassed()
     {
         return Math.floor(this.daysPassed / this.daysPerWeek );
@@ -377,8 +377,8 @@ export default class GameWorld
     {
         if(this.selected && this.selected.GetTooltip)
         {
-            consoleLog("Get tooltip from:");
-            consoleLog(this.selected);
+            /*consoleLog("Get tooltip from:");
+            consoleLog(this.selected);*/
 
             let tooltip = this.selected.GetTooltip();
 
@@ -429,7 +429,15 @@ export default class GameWorld
             pen(1);
             print(title, drawSelectAt.x + 2, drawSelectAt.y + (drawSelectAt.h - UTIL.GetTextHeight(title, this.largeNarrFont) * PIXEL_SCALE) * 0.5);
 
-            let permanentUpgrades = this.selected.permanentUpgrades;
+            let upgradeStore = this.selected.permanentUpgrades;
+
+            //consoleLog(permanentUpgrades);
+
+            let permanentUpgrades = null;
+            if(upgradeStore)
+            {
+                permanentUpgrades = upgradeStore.permanentUpgrades;
+            }
 
             setFont("Default");
 

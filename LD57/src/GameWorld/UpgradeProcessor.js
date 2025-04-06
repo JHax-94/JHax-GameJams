@@ -93,7 +93,7 @@ export default class UpgradeProcessor
 
                 upgradeComplete = true;
             }
-            else if(upgradeData.type === "GracePeriod")
+            else if(upgradeData.type === "BoostGrace")
             {
                 upgradeTarget.permanentUpgrades.AddPermanentUpgrade("Grace+");
                 upgradeTarget.baseGracePeriod += 30;

@@ -1,6 +1,7 @@
 
 import { PIXEL_SCALE } from "../main"
 import Freighter from "../Spacecraft/Freighter";
+import Tanker from "../Spacecraft/Tanker";
 import AbstractCelestialBody from "./AbstractCelestialBody";
 
 export default class PostStation extends AbstractCelestialBody
@@ -16,6 +17,7 @@ export default class PostStation extends AbstractCelestialBody
         this.refuelRate = 12;
 
         this.freighters = [];
+        
         this.parcelsSorted = 0;
 
         if(isFirstStation)
@@ -59,6 +61,15 @@ export default class PostStation extends AbstractCelestialBody
                 }
             }
         }
+    }
+
+    SpawnTanker()
+    {
+        let name = this.gameWorld.GetNextTankerName()
+        
+        let newTanker = new Tanker(this, name, this.gameWorld);
+
+        this.gameWorld.RegisterSpacecraft(newTanker);
     }
 
     SpawnFreighter()

@@ -1,5 +1,6 @@
 import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH } from "../main";
 import MOUSE_BUTTON from "../MouseButtons";
+import Freighter from "../Spacecraft/Freighter";
 import InfluenceZone from "./InfluenceZone";
 import ParcelStore from "./ParcelStore";
 
@@ -34,7 +35,12 @@ export default class AbstractCelestialBody
 
         EM.RegisterEntity(this, { physSettings: physSettings  })
 
-        this.influence = new InfluenceZone(this, { w: 3, h: 3});
+        this.influence = new InfluenceZone(
+            this, 
+            { w: 3, h: 3}, 
+            "CELESTIAL", 
+            COLLISION_GROUP.STATIONS, 
+            COLLISION_GROUP.SPACECRAFT);
 
         this.spacecraftRoster = [];
 
@@ -231,13 +237,16 @@ export default class AbstractCelestialBody
 
         for(let i = 0; i < this.spacecraftRoster.length; i ++)
         {
-            if(spacecraft === null)
+            if(this.spacecraftRoster[i] instanceof Freighter)
             {
-                spacecraft = this.spacecraftRoster[i];
-            }
-            else if(this.SpacecraftAvailabilityScore(spacecraft) < this.SpacecraftAvailabilityScore(this.spacecraftRoster[i]))
-            {
-                spacecraft = this.spacecraftRoster[i];
+                if(spacecraft === null)
+                {
+                    spacecraft = this.spacecraftRoster[i];
+                }
+                else if(this.SpacecraftAvailabilityScore(spacecraft) < this.SpacecraftAvailabilityScore(this.spacecraftRoster[i]))
+                {
+                    spacecraft = this.spacecraftRoster[i];
+                }
             }
         }
 

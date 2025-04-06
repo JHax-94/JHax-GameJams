@@ -2,7 +2,7 @@ import { COLLISION_GROUP, EM, PIXEL_SCALE } from "../main";
 
 export default class InfluenceZone
 {
-    constructor(aroundObject, dims)
+    constructor(aroundObject, dims, tag, collisionGroup, collisionMask)
     {
         this.parent = aroundObject;
         let pos = aroundObject.tilePos;
@@ -13,10 +13,10 @@ export default class InfluenceZone
             isSensor: true,
             freeRotate: false,
             isKinematic: true,
-            tag: "CELESTIAL",
+            tag: tag,
             material: "playerMaterial",
-            collisionGroup: COLLISION_GROUP.STATIONS,
-            collisionMask: COLLISION_GROUP.SPACECRAFT,
+            collisionGroup: collisionGroup,
+            collisionMask: collisionMask,
             linearDrag: 0.99
         };
 

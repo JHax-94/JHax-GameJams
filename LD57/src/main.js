@@ -34,7 +34,8 @@ let physEvents = [
 
 let COLLISION_GROUP = {
     STATIONS: Math.pow(2, 0),
-    SPACECRAFT: Math.pow(2, 1)
+    SPACECRAFT: Math.pow(2, 1),
+    SPACECRAFT_ZONE: Math.pow(2, 2)
 };
 
 function getObjectConfig(objectName, copyObj)

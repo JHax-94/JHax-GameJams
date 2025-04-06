@@ -11,6 +11,8 @@ import Planet from "./Planet";
 import PlayerStatus from "./PlayerStatus";
 import PostStation from "./PostStation";
 import SymbolGenerator from "./SymbolGenerator";
+import Tanker from "../Spacecraft/Tanker";
+import TankerUi from "../UI/TankerUi";
 
 export default class GameWorld
 {
@@ -45,12 +47,18 @@ export default class GameWorld
         this.parcelStoreUi = new ParcelStoreUi(this);
         this.player = new PlayerStatus();
 
+        this.tankerUi = new TankerUi(this);
         this.statusUi = new StatusUi(this);
         this.shopUi = new ShopUi(this);
 
         this.toastManager = new ToastManager();
 
         this.selected = null;
+    }
+
+    GetNextTankerName()
+    {
+        return `Tanker ${this.spacecraft.length}`;
     }
 
     GetNextFreighterName()
@@ -157,10 +165,16 @@ export default class GameWorld
             {
                 this.AttemptToSendSpacecraft(this.selected, target);
             }
-            else if(target instanceof Freighter)
+            else if(this.selected instanceof AbstractCelestialBody && target instanceof Freighter)
             {
                 this.AttemptToTransferParcels(this.selected, target);
             }
+            else if((this.selected instanceof Tanker && target instanceof Freighter))
+            {
+                this.AttemptToSendSpacecraft(this.selected, target);
+            }
+
+            
         }   
     }
 
@@ -207,6 +221,7 @@ export default class GameWorld
         this.stations.push(mainStation);
 
         mainStation.SpawnFreighter();
+        mainStation.SpawnTanker();
 
         this.BuildStartingPlanets();
 

@@ -1,5 +1,5 @@
 import { Plane, vec2 } from "p2";
-import { consoleLog, CONSTANTS, EM, getFont, PIXEL_SCALE, setFont, UTIL } from "../main";
+import { AUDIO, consoleLog, CONSTANTS, EM, getFont, PIXEL_SCALE, setFont, UTIL } from "../main";
 import Freighter from "../Spacecraft/Freighter";
 import ParcelStoreUi from "../UI/ParcelStoreUi";
 import ShopUi from "../UI/ShopUi";
@@ -241,6 +241,7 @@ export default class GameWorld
             consoleLog(target);
 
             this.SendSpacecraftTo(bestSpacecraft, target);
+            AUDIO.PlayFx("send");
         }
         else
         {

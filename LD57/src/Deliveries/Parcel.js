@@ -1,5 +1,5 @@
 import Texture from "pixelbox/Texture";
-import { consoleLog, EM, PIXEL_SCALE } from "../main";
+import { AUDIO, consoleLog, EM, PIXEL_SCALE } from "../main";
 import { vec2 } from "p2";
 
 export default class Parcel
@@ -69,6 +69,7 @@ export default class Parcel
         if(destination)
         {
             destination.DeliveryComplete();
+            AUDIO.PlayFx("deliver");
         }
 
         deliveredBy.parcelStore.RemoveParcel(this);

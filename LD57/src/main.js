@@ -10,11 +10,13 @@ import TitleScreen from "./TitleScreen";
 import UiBuilder from './UI/UiBuilder';
 import Scores from "./Scores";
 import TutorialControl from "./Tutorial/TutorialControl";
+import AudioHelper from './AudioHelper.js'
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
 let pointerEvents = require('pixelbox/pointerEvents');
 
+let AUDIO = new AudioHelper();
 let extender = new TextureExtender();
 let vecExtender = new VectorExtensions();
 
@@ -215,7 +217,7 @@ function AddPhysicsEvents()
     }
 }
 
-function SETUP(target = null)
+function SETUP(target = null, skipTutorial = false)
 {
     EM = new EntityManager();
 
@@ -226,7 +228,10 @@ function SETUP(target = null)
         EM.AddEntity("GAME_WORLD", gameWorld);
         let cameraControl = new CameraController();
 
-        new TutorialControl(gameWorld);
+        if(!skipTutorial)
+        {
+            new TutorialControl(gameWorld);
+        }
 
         gameWorld.SetupGameWorld();
     }
@@ -244,6 +249,7 @@ exports.update = function () {
     if (!LOAD_COMPLETE)
     {
         SETUP();
+        AUDIO.PlayMusic();
     }
 
     EM.Input();
@@ -253,5 +259,5 @@ exports.update = function () {
 
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, getFont, setFont, consoleLog, getObjectConfig, UI_BUILDER, SCORES, CONSTANTS
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, getFont, setFont, consoleLog, getObjectConfig, UI_BUILDER, SCORES, CONSTANTS, AUDIO
 };

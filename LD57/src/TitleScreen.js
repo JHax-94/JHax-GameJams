@@ -61,10 +61,16 @@ export default class TitleScreen
         EM.RegisterEntity(this);
 
         this.startButton = new Button(
-            { x: this.titleMap.width, y: 26, w: 6, h: 1.5}, 
-            { font: "LargeNarr", rect: { text: "START GAME", colour: 14, textColour: 13, borderColour: 15 } }, "UI");
+            { x: this.titleMap.width, y: 26, w: 12, h: 1.5}, 
+            { font: "LargeNarr", rect: { text: "START GAME (WITH TUTORIAL)", colour: 14, textColour: 13, borderColour: 15 } }, "UI");
+
+        this.startButtonSkip = new Button(
+            { x: this.titleMap.width + 13, y: 26, w: 13, h: 1.5}, 
+            { font: "LargeNarr", rect: { text: "START GAME (NO TUTORIAL)", colour: 14, textColour: 13, borderColour: 15 } }, "UI");
 
         this.startButton.Click = () => this.StartGame();
+
+        this.startButtonSkip.Click = () => this.StartGame(true);
 
         this.resetButton = new Button(
             { x: 0.25, y: TILE_HEIGHT - 1, w: 6, h: 0.75}, 
@@ -77,9 +83,9 @@ export default class TitleScreen
         this.BuildSymbols();
     }
 
-    StartGame()
+    StartGame(skipTutorial = false)
     {
-        SETUP("Game");
+        SETUP("Game", skipTutorial);
     }
 
     BuildSymbols()

@@ -7,6 +7,7 @@ import { vec2 } from 'p2'
 import CameraController from "./GameWorld/CameraController";
 import SpacecraftPhysEventRegister from "./PhysEvents/SpacecraftPhysEvents";
 import TitleScreen from "./TitleScreen";
+import UiBuilder from './UI/UiBuilder';
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -18,6 +19,8 @@ let vecExtender = new VectorExtensions();
 let Texture = extender.ExtendTextureClass(require('pixelbox/Texture'));
 
 let UTIL = new Utility();
+
+let UI_BUILDER = new UiBuilder();
 
 vecExtender.ExtendVec2(vec2);
 
@@ -235,5 +238,5 @@ exports.update = function () {
 
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, getFont, setFont, consoleLog, getObjectConfig
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, getFont, setFont, consoleLog, getObjectConfig, UI_BUILDER
 };

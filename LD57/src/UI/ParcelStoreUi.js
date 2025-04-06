@@ -1,4 +1,4 @@
-import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH } from "../main";
+import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
 import MOUSE_BUTTON from "../MouseButtons";
 
 export default class ParcelStoreUi
@@ -22,6 +22,8 @@ export default class ParcelStoreUi
         this.hoveredTile = null;
 
         this.largeNarr = getFont("LargeNarr");
+
+        this.defaultFont = getFont("Default");
 
         this.selection = [];
 
@@ -142,6 +144,9 @@ export default class ParcelStoreUi
             setFont(this.largeNarr);
             print(`CARGO:`, panel.x + 2, panel.y + 2);
             setFont("Default");
+
+            let tooltipString = `Left CLICK TO SELECT CARGO FOR TRANSFER`;
+            print(tooltipString, panel.x + panel.w - UTIL.GetTextWidth(tooltipString, this.defaultFont) * PIXEL_SCALE - 2, panel.y + 2);
 
             for(let i = 0; i < parcelStore.capacity; i ++)
             {

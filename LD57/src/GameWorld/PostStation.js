@@ -13,6 +13,8 @@ export default class PostStation extends AbstractCelestialBody
 
         this.sortRate = 0.1;
 
+        this.refuelRate = 12;
+
         this.freighters = [];
         this.parcelsSorted = 0;
 

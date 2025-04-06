@@ -23,6 +23,10 @@ export default class Freighter
 
         this.thrustForce = 60000;
 
+        this.maxFuel = 100;
+        this.fuel = 100;
+        this.fuelRate = 10;
+
         this.hovered = false;
 
         this.brakeSpeed = 1;
@@ -143,15 +147,24 @@ export default class Freighter
     {
         this.currentSpeed = vec2.length(this.phys.velocity);
 
+        //EM.hudLog.push(`Fuel: ${this.fuel.toFixed(3)}`);
+
         if(this.target !== null)
         {
-            if(this.currentSpeed < this.maxSpeed)
+            if(this.currentSpeed < this.maxSpeed && this.fuel > 0)
             {
                 let vecToTarget = [0, 0];
                 vec2.subtract(vecToTarget, this.target.phys.position, this.phys.position);
                 vec2.normalize(vecToTarget, vecToTarget);
                 vec2.scale(vecToTarget, vecToTarget, this.thrustForce * deltaTime);
-                
+             
+                this.fuel -= deltaTime * this.fuelRate;
+
+                if(this.fuel < 0)
+                {
+                    this.fuel = 0;
+                }
+
                 this.phys.applyForce(vecToTarget);
             }
             
@@ -178,6 +191,16 @@ export default class Freighter
                 this.parcelStore.CheckDeliveriesForDestination(this.dockedStation);
             }
         }
+
+        if(this.dockedStation && this.fuel < this.maxFuel)
+        {
+            EM.hudLog.push(`Refueling...`);
+            this.fuel += this.dockedStation.refuelRate * deltaTime;
+            if(this.fuel > this.maxFuel)
+            {
+                this.fuel = this.maxFuel;
+            }
+        }
     }
 
     Draw()
@@ -192,13 +215,39 @@ export default class Freighter
         }
 
         this.DrawFocus(screenPos);
+        this.DrawFuel(screenPos);
+        this.DrawCargo(screenPos);
     }
 
     GetBestSpacecraft()
     {
         return this;
     }
+
+    DrawFuel(screenPos)
+    {
+        if(this.fuel < this.maxFuel)
+        {
+            let fuelProp = this.fuel / this.maxFuel;
+            
+
+            paper(4);
+            rectf(screenPos.x, screenPos.y-2, PIXEL_SCALE, 2);
+            //EM.hudLog.push(`FuelRect @ ${screenPos.x}, ${screenPos.y} (${(fuelProp * PIXEL_SCALE).toFixed(3)})`);
+            paper(1);
+            rectf(screenPos.x, screenPos.y-2, Math.floor(fuelProp * PIXEL_SCALE), 2);
+        }
+    }
     
+    DrawCargo(screenPos)
+    {
+        if(this.parcelStore.Count() > 0)
+        {
+            sprite(34, screenPos.x - 0.25 * PIXEL_SCALE - 4, screenPos.y + PIXEL_SCALE - 2);
+            print(`x ${this.parcelStore.Count()}`, screenPos.x + 0.5 * PIXEL_SCALE - 1, screenPos.y + PIXEL_SCALE+2);
+        }
+    }
+
     DrawFocus(screenPos)
     {
         if(this.hovered)

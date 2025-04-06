@@ -13,6 +13,8 @@ export default class AbstractCelestialBody
         this.h = dims.h;
         this.subTag = tag;
 
+        this.refuelRate = 6;
+
         this.tilePos = {x: pos.x, y: pos.y};
 
         this.symbolTex = symbolTex ?? gameWorld.symbolGenerator.GenerateSymbol();

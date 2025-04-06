@@ -318,6 +318,13 @@ export default class GameWorld
         }
     }
 
+    ProcessPenalty(message, amount)
+    {
+        this.player.credits -= amount;
+
+        this.toastManager.AddMessage(`${message} -${amount}`, 9);
+    }
+
     ProcessPurchase(amount)
     {
         this.player.credits -= amount;

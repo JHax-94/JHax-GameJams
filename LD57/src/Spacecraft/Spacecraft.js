@@ -171,10 +171,10 @@ export default class Spacecraft
         let screenPos = this.GetScreenPos();
 
         let bounds = { 
-            x: screenPos.x,
-            y: screenPos.y,
-            w: this.w * PIXEL_SCALE,
-            h: this.h * PIXEL_SCALE
+            x: screenPos.x - 4,
+            y: screenPos.y - 4,
+            w: this.w * PIXEL_SCALE + 8,
+            h: this.h * PIXEL_SCALE + 8
         };
 
         return bounds;

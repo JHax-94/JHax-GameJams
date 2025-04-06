@@ -89,7 +89,8 @@ export default class PostStation extends AbstractCelestialBody
         
         rectf(screenPos.x, screenPos.y, this.w * PIXEL_SCALE, this.h * PIXEL_SCALE);
 
-        this.DrawParcelsForPickup(screenPos);
+        let drawn = this.DrawParcelsForPickup(screenPos, true);
+        this.DrawParcelsInSorting(screenPos, drawn);
         this.DrawSymbol(screenPos);
         this.DrawFocus(screenPos);
         this.DrawOffscreen(screenPos);

@@ -18,6 +18,7 @@ export default class ParcelSpawnControl
         this.sortedRollThreshold = 20;
         this.sortedRoll = 0;
 
+        this.penaltyCost = 100;
     }
 
     SpawnParcel()
@@ -43,7 +44,14 @@ export default class ParcelSpawnControl
 
         let spawnAsSorted = this.SpawnAsSorted();
 
-        sourcePlanet.SpawnParcel(targetPlanet, spawnAsSorted);
+        if(sourcePlanet.parcelStore.RemainingCapacity() === 0)
+        {
+            this.gameWorld.ProcessPenalty(`No room for new cargo at ${sourcePlanet.title}`, this.penaltyCost);
+        }
+        else
+        {
+            sourcePlanet.SpawnParcel(targetPlanet, spawnAsSorted);
+        }
     }
 
     SpawnAsSorted()

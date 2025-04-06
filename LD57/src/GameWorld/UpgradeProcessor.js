@@ -19,34 +19,43 @@ export default class UpgradeProcessor
 
     ProcessUpgrade(upgradeData, upgradeTarget)
     {
+        let gameWorld= this.GameWorld();
         let upgradeComplete = false;
 
-        if(upgradeData.type === "NewFreighter")
+        if(gameWorld.player.credits > upgradeData.cost)
         {
-            upgradeTarget.SpawnFreighter();
-            upgradeComplete = true;
-        }
-        else if(upgradeData.type === "NewTanker")
-        {
-            upgradeTarget.SpawnTanker();
-            upgradeComplete = true;
-        }
-        else if(upgradeData.type === "NewShuttle")
-        {
-            upgradeTarget.SpawnShuttle();
-            upgradeComplete = true;
-        }
-        else if(upgradeData.type === "SendProbe")
-        {
-            upgradeTarget.SendProbe();
-            upgradeComplete = true;
-        }
+            if(upgradeData.type === "NewFreighter")
+            {
+                upgradeTarget.SpawnFreighter();
+                upgradeComplete = true;
+            }
+            else if(upgradeData.type === "NewTanker")
+            {
+                upgradeTarget.SpawnTanker();
+                upgradeComplete = true;
+            }
+            else if(upgradeData.type === "NewShuttle")
+            {
+                upgradeTarget.SpawnShuttle();
+                upgradeComplete = true;
+            }
+            else if(upgradeData.type === "SendProbe")
+            {
+                upgradeTarget.SendProbe();
+                upgradeComplete = true;
+            }
 
-        
+            
 
-        if(upgradeComplete && upgradeData.cost > 0)
+            if(upgradeComplete && upgradeData.cost > 0)
+            {
+                
+                gameWorld.ProcessPurchase(upgradeData.cost);
+            }     
+        }
+        else
         {
-            this.GameWorld().ProcessPurchase(upgradeData.cost);
+            gameWorld.toastManager.AddMessage("Can't afford upgrade", 10);
         }
     }
 }

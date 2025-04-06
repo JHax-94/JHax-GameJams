@@ -375,17 +375,45 @@ export default class AbstractCelestialBody
         }
     }
 
-    DrawParcelsForPickup(screenPos)
+    DrawParcelsForPickup(screenPos, sortedOnly = false)
     {
-        if(this.parcelStore.Count() > 0)
+        let parcelCount = this.parcelStore.Count();
+
+        let drawn = false;
+
+        if(sortedOnly)
         {
+            parcelCount -= this.parcelStore.UnsortedParcels();
+        }
+
+        if(parcelCount > 0)
+        {
+            drawn = true;
             let pickupZone = { x: screenPos.x - 8, y: screenPos.y + PIXEL_SCALE };
 
             sprite(32, pickupZone.x, pickupZone.y );
-
+            
             setFont("Default");
             pen(1);
-            print(`x ${this.parcelStore.Count()}`, pickupZone.x + PIXEL_SCALE, pickupZone.y + 4);
+            print(`x ${parcelCount}`, pickupZone.x + PIXEL_SCALE, pickupZone.y + 4);
+        }
+
+        return drawn;
+    }
+
+    DrawParcelsInSorting(screenPos, shiftDown)
+    {
+        let parcelCount = this.parcelStore.UnsortedParcels();
+
+        if(parcelCount > 0)
+        {
+            let pickupZone = { x: screenPos.x - 8, y: screenPos.y + PIXEL_SCALE + (shiftDown ? 8 : 0) };
+
+            sprite(35, pickupZone.x, pickupZone.y );
+            
+            setFont("Default");
+            pen(1);
+            print(`x ${parcelCount}`, pickupZone.x + PIXEL_SCALE, pickupZone.y + 4);
         }
     }
 

@@ -10,7 +10,7 @@ export default class ToastAlert
         this.slipInTime = 1;
         this.slipInY = 8;
 
-        this.messageTime = 3;
+        this.messageTime = 5;
         this.messageTimer = 0;
 
         this.font = getFont("LargeNarr");

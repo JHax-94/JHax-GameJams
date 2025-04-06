@@ -19,11 +19,13 @@ export default class ParcelSpawnControl
         this.sortedRoll = 0;
 
         this.penaltyCost = 100;
+
+        this.lastRoll = null;
     }
 
     SpawnParcel()
     {
-        let spawnMax = this.spawnRange > this.gameWorld.planets.length ? this.gameWorld.planets.length : this.spawnRange;
+        let spawnMax = this.gameWorld.planets.length;
 
         let planetsList = [];
 
@@ -54,18 +56,37 @@ export default class ParcelSpawnControl
         }
     }
 
+    SpawnAsSortedProbability()
+    {
+        let spawnAsSortedProbability = 1;
+
+        if(this.gameWorld.WeeksPassed() >= 1)
+        {
+            spawnAsSortedProbability = 0.9;
+            
+            spawnAsSortedProbability -= 0.02 * (this.gameWorld.daysPassed - this.gameWorld.daysPerWeek) / this.gameWorld.daysPerWeek;
+
+            if(spawnAsSortedProbability < 0.2)
+            {
+                spawnAsSortedProbability = 0.2;
+            }
+        }
+
+        return spawnAsSortedProbability;
+    }
+
     SpawnAsSorted()
     { 
         let spawnAsSorted = false;
 
-        if(this.sortedRoll > 1)  
-        {
-            if(random(this.sortedRoll) == 0)
-            {
-                spawnAsSorted = true;
-            }
-        }
-        else
+        
+        let pSpawnAsSorted = this.SpawnAsSortedProbability();
+
+        let roll = random(101);
+
+
+        this.lastRoll = roll;
+        if(roll <= Math.ceil(pSpawnAsSorted * 100))
         {
             spawnAsSorted = true;
         }
@@ -75,6 +96,12 @@ export default class ParcelSpawnControl
 
     ProcessUpdate(deltaTime)
     {
+        EM.hudLog.push(this.SpawnAsSortedProbability());
+        if(this.lastRoll !== null)
+        {
+            EM.hudLog.push(`Last roll: ${this.lastRoll}`);
+        }
+        
         this.spawnTimer += deltaTime;
         if(this.spawnTimer >= this.spawnTime)
         {

@@ -13,7 +13,7 @@ export default class Parcel
 
         this.reward = 100;
 
-        this.gracePeriod = 90;
+        this.gracePeriod = this.sourcePlanet.baseGracePeriod;
 
         if(sorted === false)
         {
@@ -42,7 +42,14 @@ export default class Parcel
             penaltyTime = this.lifeTime - this.gracePeriod;
         }
 
-        return Math.ceil(this.reward - this.decayRate * penaltyTime);
+        let value = Math.ceil(this.reward - this.decayRate * penaltyTime);
+
+        if(value < 0)
+        {
+            value = 0;
+        }
+
+        return value;
     }
 
     RemainingGrace()
@@ -70,7 +77,7 @@ export default class Parcel
 
     SortProgress(progressBy)
     {
-        EM.hudLog.push(`${this.sortProgress.toFixed(3)} (+${progressBy.toFixed(3)})`);
+        /*EM.hudLog.push(`${this.sortProgress.toFixed(3)} (+${progressBy.toFixed(3)})`);*/
 
         this.sortProgress += progressBy;
 
@@ -112,6 +119,8 @@ export default class Parcel
 
     Update(deltaTime)
     {
+        /*EM.hudLog.push(`Grace period: ${this.gracePeriod}`);*/
+
         this.lifeTime += deltaTime;
     }
 }

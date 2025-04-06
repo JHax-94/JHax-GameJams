@@ -76,7 +76,7 @@ export default class Spacecraft
     {
         this.currentSpeed = vec2.length(this.phys.velocity);
 
-        EM.hudLog.push(`${this.title} Target = ${this.target ? this.target.title : "NULL"}`);
+        //EM.hudLog.push(`${this.title} Target = ${this.target ? this.target.title : "NULL"}`);
 
         //EM.hudLog.push(`Fuel: ${this.fuel.toFixed(3)}`);
 

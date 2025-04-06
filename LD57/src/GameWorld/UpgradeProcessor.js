@@ -81,6 +81,8 @@ export default class UpgradeProcessor
 
                 upgradeTarget.maxSpeed += 5;
                 upgradeTarget.thrustForce += 10000;
+
+                upgradeComplete = true;
             }
             else if(upgradeData.type === "SortSpeed")
             {
@@ -88,6 +90,21 @@ export default class UpgradeProcessor
                 upgradeTarget.permanentUpgrades.AddPermanentUpgrade("Sort Speed+");
 
                 upgradeTarget.sortRate += 0.05;
+
+                upgradeComplete = true;
+            }
+            else if(upgradeData.type === "GracePeriod")
+            {
+                upgradeTarget.permanentUpgrades.AddPermanentUpgrade("Grace+");
+                upgradeTarget.baseGracePeriod += 30;
+
+                upgradeComplete = true;
+            }
+
+            if(upgradeComplete === false)
+            {
+                console.error("Unhandled upgrade!");
+                consoleLog(upgradeData);
             }
 
             if(upgradeComplete && upgradeData.cost > 0)

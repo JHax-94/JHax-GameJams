@@ -58,6 +58,11 @@ export default class GameWorld
 
         this.selected = null;
     }
+    
+    WeeksPassed()
+    {
+        return Math.floor(this.daysPassed / this.daysPerWeek );
+    }
 
     GetNearestStation(celestialBody)
     {

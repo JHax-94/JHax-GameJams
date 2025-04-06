@@ -9,6 +9,7 @@ import SpacecraftPhysEventRegister from "./PhysEvents/SpacecraftPhysEvents";
 import TitleScreen from "./TitleScreen";
 import UiBuilder from './UI/UiBuilder';
 import Scores from "./Scores";
+import TutorialControl from "./Tutorial/TutorialControl";
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -224,6 +225,8 @@ function SETUP(target = null)
         let gameWorld = new GameWorld();
         EM.AddEntity("GAME_WORLD", gameWorld);
         let cameraControl = new CameraController();
+
+        new TutorialControl(gameWorld);
 
         gameWorld.SetupGameWorld();
     }

@@ -8,7 +8,8 @@
         { "name": "BACKGROUND", "order": 0 },
         { "name": "WORLD", "order": 1 },
         { "name": "UI", "order": 2 },
-        { "name": "MENU_UI", "order": 4 }
+        { "name": "MENU_UI", "order": 4 },
+        { "name": "TUTORIAL", "order": 5 }
     ],  
     "inputGroups": [
         { "name": "PLAYERS" },

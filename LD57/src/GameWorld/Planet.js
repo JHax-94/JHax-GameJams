@@ -39,8 +39,6 @@ export default class Planet extends AbstractCelestialBody
             consoleLog("Retry station spawn...");
             this.BuildStationNearby();
         }
-
-        //EM.hudLog.push(`Distance to station: ${this.distToStation.toFixed(3)}`);
     }
 
     LocalDeliveries()

@@ -96,7 +96,7 @@ export default class ParcelSpawnControl
 
     ProcessUpdate(deltaTime)
     {
-        EM.hudLog.push(this.SpawnAsSortedProbability());
+        //EM.hudLog.push(this.SpawnAsSortedProbability());
         if(this.lastRoll !== null)
         {
             EM.hudLog.push(`Last roll: ${this.lastRoll}`);

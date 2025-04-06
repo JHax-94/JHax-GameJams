@@ -79,8 +79,6 @@ export default class Shuttle extends Spacecraft
 
         let timeConditionMet = this.dockElapsedTimer > this.maxDockTime;
 
-        EM.hudLog.push(`Shuttle waiting to depart: Fuel=${fuelConditionMet} | Parcels=${parcelsConditionMet} | Time=${timeConditionMet}`);
-
         return fuelConditionMet && (parcelsConditionMet || timeConditionMet);
     }
 

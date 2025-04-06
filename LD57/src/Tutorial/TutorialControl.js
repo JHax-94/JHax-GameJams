@@ -18,13 +18,13 @@ export default class TutorialControl
         this.currentStep = -1;
 
         this.tutorial = [
-            new SortingTutorial(this),
             new SelectTutorial(this),
             new SendTutorial(this),
             new SelectPlanetTutorial(this),
             new LoadFreighterTutorial(this),
             new DeliveryTutorial(this),
-            new GameOverTutorial(this)
+            new GameOverTutorial(this),
+            new SortingTutorial(this)
         ];
 
         EM.RegisterEntity(this);
@@ -69,8 +69,6 @@ export default class TutorialControl
 
     Draw()
     {
-        EM.hudLog.push(`Tutorial: ${this.TutorialOn()}`);
-
         if(this.TutorialOn())
         {
             this.tutorial[this.currentStep].DrawTutorial();

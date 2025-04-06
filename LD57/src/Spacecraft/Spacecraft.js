@@ -76,10 +76,6 @@ export default class Spacecraft
     {
         this.currentSpeed = vec2.length(this.phys.velocity);
 
-        //EM.hudLog.push(`${this.title} Target = ${this.target ? this.target.title : "NULL"}`);
-
-        //EM.hudLog.push(`Fuel: ${this.fuel.toFixed(3)}`);
-
         if(this.target !== null)
         {
             if(this.currentSpeed < this.maxSpeed && this.fuel > 0)
@@ -115,7 +111,6 @@ export default class Spacecraft
         
         if(this.dockedStation && this.fuel < this.maxFuel)
         {
-            EM.hudLog.push(`Refueling...`);
             this.fuel += this.dockedStation.refuelRate * deltaTime;
             if(this.fuel > this.maxFuel)
             {
@@ -231,7 +226,6 @@ export default class Spacecraft
 
             paper(4);
             rectf(screenPos.x, screenPos.y-2, PIXEL_SCALE, 2);
-            //EM.hudLog.push(`FuelRect @ ${screenPos.x}, ${screenPos.y} (${(fuelProp * PIXEL_SCALE).toFixed(3)})`);
             paper(1);
             rectf(screenPos.x, screenPos.y-2, Math.floor(fuelProp * PIXEL_SCALE), 2);
         }

@@ -1,4 +1,5 @@
 import { COLLISION_GROUP, EM, PIXEL_SCALE } from "../main";
+import Shuttle from "../Spacecraft/Shuttle";
 import AbstractCelestialBody from "./AbstractCelestialBody";
 
 export default class Planet extends AbstractCelestialBody
@@ -11,6 +12,15 @@ export default class Planet extends AbstractCelestialBody
 
         this.nextUpgradeUnlock = this.GetNextUpgradeUnlock();
         this.upgradeLevel ++;
+    }
+
+    SpawnShuttle()
+    {
+        let name = this.gameWorld.GetNextShuttleName()
+                
+        let newShuttle = new Shuttle(this, name, this.gameWorld);
+
+        this.gameWorld.RegisterSpacecraft(newShuttle);
     }
 
     Update(deltaTime)

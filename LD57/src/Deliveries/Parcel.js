@@ -1,11 +1,15 @@
 import Texture from "pixelbox/Texture";
 import { consoleLog, EM, PIXEL_SCALE } from "../main";
+import { vec2 } from "p2";
 
 export default class Parcel
 {
-    constructor(targetPlanet, sorted)
+    constructor(sourcePlanet, targetPlanet, sorted)
     {
+        this.sourcePlanet = sourcePlanet;
         this.targetPlanet = targetPlanet;
+
+        this.startSqDistance = vec2.sqrDist(this.sourcePlanet.phys.position, this.targetPlanet.phys.position);
 
         this.reward = 100;
 
@@ -17,6 +21,8 @@ export default class Parcel
         }
 
         this.decayRate = 0.5;
+
+        
 
         this.lifeTime = 0;
 

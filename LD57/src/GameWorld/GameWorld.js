@@ -1,4 +1,4 @@
-import { Plane } from "p2";
+import { Plane, vec2 } from "p2";
 import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, UTIL } from "../main";
 import Freighter from "../Spacecraft/Freighter";
 import ParcelStoreUi from "../UI/ParcelStoreUi";
@@ -13,6 +13,7 @@ import PostStation from "./PostStation";
 import SymbolGenerator from "./SymbolGenerator";
 import Tanker from "../Spacecraft/Tanker";
 import TankerUi from "../UI/TankerUi";
+import Shuttle from "../Spacecraft/Shuttle";
 
 export default class GameWorld
 {
@@ -54,6 +55,39 @@ export default class GameWorld
         this.toastManager = new ToastManager();
 
         this.selected = null;
+    }
+
+    GetNearestStation(celestialBody)
+    {
+        let nearestBod = null;
+
+        let minDist = 0;
+
+        for(let i = 0; i < this.stations.length; i ++)
+        {
+            if(nearestBod === null)
+            {
+                nearestBod = this.stations[i];
+                minDist = vec2.sqrDist(nearestBod.phys.position, celestialBody.phys.position);
+            }
+            else 
+            {
+                let dist = vec2.sqrDist(nearestBod.phys.position, celestialBody.phys.position);
+
+                if(dist < minDist)
+                {
+                    minDist = dist;
+                    nearestBod = this.stations[i];
+                }
+            }
+        }
+
+        return nearestBod;
+    }
+
+    GetNextShuttleName()
+    {
+        return `Shuttle ${this.spacecraft.length}`;
     }
 
     GetNextTankerName()
@@ -134,11 +168,11 @@ export default class GameWorld
         }
     }
 
-    AttemptToTransferParcels(source, target)
+    AttemptToTransferParcels(source, target, selectionIndexList)
     {
         if(source.IsSpacecraftDocked(target))
         {
-            let selectedParcels = source.parcelStore.GetParcels(this.parcelStoreUi.selection);
+            let selectedParcels = source.parcelStore.GetParcels(selectionIndexList);
             let remainingCapacity = target.parcelStore.RemainingCapacity();
 
             if(remainingCapacity < selectedParcels.length)
@@ -163,18 +197,19 @@ export default class GameWorld
         {
             if(target instanceof AbstractCelestialBody)
             {
-                this.AttemptToSendSpacecraft(this.selected, target);
+                if(this.selected instanceof Shuttle === false)
+                {
+                    this.AttemptToSendSpacecraft(this.selected, target);
+                }
             }
             else if(this.selected instanceof AbstractCelestialBody && target instanceof Freighter)
             {
-                this.AttemptToTransferParcels(this.selected, target);
+                this.AttemptToTransferParcels(this.selected, target, this.parcelStoreUi.selection);
             }
             else if((this.selected instanceof Tanker && target instanceof Freighter))
             {
                 this.AttemptToSendSpacecraft(this.selected, target);
             }
-
-            
         }   
     }
 
@@ -212,6 +247,8 @@ export default class GameWorld
         this.planets.push(firstPlanet);
         this.planets.push(secondPlanet);
         this.planets.push(thirdPlanet);
+
+        thirdPlanet.SpawnShuttle();
     }
 
     SetupGameWorld()

@@ -30,7 +30,7 @@ export default class ParcelStore
 
     SpawnParcel(targetPlanet, spawnAsSorted)
     {
-        let newParcel = new Parcel(targetPlanet, spawnAsSorted);
+        let newParcel = new Parcel(this.parent, targetPlanet, spawnAsSorted);
 
         this.parcels.push(newParcel);
     }
@@ -51,14 +51,14 @@ export default class ParcelStore
 
     CheckDeliveriesForDestination(targetStation)
     {
-        consoleLog("Checking deliveries for station:");
+        /*consoleLog("Checking deliveries for station:");
         consoleLog(targetStation);
-        consoleLog(`Is station?: ${targetStation instanceof PostStation}`);
+        consoleLog(`Is station?: ${targetStation instanceof PostStation}`);*/
 
         for(let i = 0; i < this.parcels.length; i ++)
         {
-            consoleLog(`Check parcel:`);
-            consoleLog(this.parcels[i]);
+            /*consoleLog(`Check parcel:`);
+            consoleLog(this.parcels[i]);*/
 
             if(this.parcels[i].Destination() === targetStation)
             {
@@ -72,18 +72,29 @@ export default class ParcelStore
             }
             else if(this.parcels[i].sorted === false && targetStation instanceof PostStation)
             {
-                consoleLog(`Attempt transfer for sorting (${targetStation.parcelStore.RemainingCapacity()})`);
-
-                if(targetStation.parcelStore.RemainingCapacity() > 0)
+                //consoleLog(`Attempt transfer for sorting (${targetStation.parcelStore.RemainingCapacity()})`);
+                if(this.AttemptTransferOfParcel(this.parcels[i], targetStation))
                 {
-                    consoleLog("Transfer for sorting!");
-                    targetStation.parcelStore.AddParcel(this.parcels[i]);
-                    this.RemoveParcel(this.parcels[i]);
                     break;
                 }
             }
         }
     }
+
+    AttemptTransferOfParcel(parcel, targetStation)
+    {
+        let success = false;
+
+        if(targetStation.parcelStore.RemainingCapacity() > 0)
+        {
+            targetStation.parcelStore.AddParcel(parcel);
+            this.RemoveParcel(parcel);
+            success = true;
+        }
+
+        return success;
+    }
+
 
     AddParcels(parcels)
     {
@@ -129,6 +140,21 @@ export default class ParcelStore
     RemainingCapacity()
     {
         return this.capacity - this.parcels.length;
+    }
+
+    UnsortedParcels()
+    {
+        let count = 0;
+
+        for(let i = 0; i < this.parcels.length; i ++)
+        {
+            if(this.parcels[i].sorted === false)
+            {
+                count ++;
+            }
+        }
+
+        return count;
     }
 
     Parcel(index)

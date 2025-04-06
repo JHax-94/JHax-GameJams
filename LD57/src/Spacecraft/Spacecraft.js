@@ -31,6 +31,7 @@ export default class Spacecraft
         this.brakeSpeed = 1;
 
         this.dockTimer = 0;
+        this.dockElapsedTimer = 0;
         this.dockProcessTime = 0.6;
 
         this.maxSpeed = 20;
@@ -122,7 +123,30 @@ export default class Spacecraft
             }
         }
 
+        if(this.dockedStation)
+        {
+            this.dockElapsedTimer += deltaTime;
+        }
+
+        if(this.dockedStation && this.parcelStore && this.parcelStore.Count() > 0)
+        {
+            this.dockTimer += deltaTime;
+            if(this.dockTimer >= this.dockProcessTime)
+            {
+                this.dockTimer -= this.dockProcessTime;
+
+                this.parcelStore.CheckDeliveriesForDestination(this.dockedStation);
+
+                this.InternalDeliveryCheck();
+            }
+        }
+
         this.InternalUpdate(deltaTime)
+    }
+
+    InternalDeliveryCheck()
+    {
+
     }
 
     InternalUpdate(deltaTime)
@@ -134,6 +158,7 @@ export default class Spacecraft
     {
         this.dockedStation = null;
         this.dockTimer = 0;
+        this.dockElapsedTimer = 0;
     }
 
     Hover(hover)

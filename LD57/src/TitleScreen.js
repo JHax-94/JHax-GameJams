@@ -1,5 +1,5 @@
 import SymbolGenerator from "./GameWorld/SymbolGenerator";
-import { consoleLog, EM, getFont, PIXEL_SCALE, SCORES, setFont, SETUP, TILE_HEIGHT, UTIL } from "./main";
+import { consoleLog, EM, getFont, PIXEL_SCALE, SCORES, setFont, SETUP, TILE_HEIGHT, TILE_WIDTH, UTIL } from "./main";
 import Button from "./UI/Button";
 
 export default class TitleScreen
@@ -157,5 +157,17 @@ export default class TitleScreen
 
             yPos = startY + lineHeight;
         }
+
+        setFont("Default");
+
+        let creditsHeight = 8;
+        let credits = { x: (TILE_WIDTH - 5) * PIXEL_SCALE - 2, y: (TILE_HEIGHT) * PIXEL_SCALE - 2 - 6*creditsHeight };        
+        
+        print("Credits:", credits.x, credits.y);
+        print("Game by Josh Haxell", credits.x, credits.y + creditsHeight);
+        print("Made in:", credits.x, credits.y + 2 * creditsHeight);
+        print("PixelBox by cstoquer", credits.x, credits.y + 3 * creditsHeight);
+        print("with:", credits.x, credits.y + 4 * creditsHeight);
+        print("p2.js by schteppe", credits.x, credits.y + 5 * creditsHeight)
     }
 }

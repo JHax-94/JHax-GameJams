@@ -424,7 +424,26 @@ export default class GameWorld
             pen(1);
             print(title, drawSelectAt.x + 2, drawSelectAt.y + (drawSelectAt.h - UTIL.GetTextHeight(title, this.largeNarrFont) * PIXEL_SCALE) * 0.5);
 
+            let permanentUpgrades = this.selected.permanentUpgrades;
+
             setFont("Default");
+
+            if(permanentUpgrades)
+            {
+                let lineHeight = UTIL.GetTextHeight("BONK") * PIXEL_SCALE + 2;
+
+                for(let i = 0; i < permanentUpgrades.length; i ++)
+                {
+                    let str = permanentUpgrades[i].text;
+
+                    if(permanentUpgrades[i].count > 1)
+                    {
+                        str += ` (${permanentUpgrades[i].count})`;
+                    }
+
+                    print(str, drawSelectAt.x, drawSelectAt.y - (i+1) * lineHeight)
+                }
+            }
 
             this.DrawTooltip(drawSelectAt);
             /*

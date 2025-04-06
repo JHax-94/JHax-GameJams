@@ -1,3 +1,4 @@
+import { UPGRADE_STRINGS } from "../Enums/UpgradeStrings";
 import { consoleLog, EM } from "../main";
 
 export default class UpgradeProcessor
@@ -44,8 +45,50 @@ export default class UpgradeProcessor
                 upgradeTarget.SendProbe();
                 upgradeComplete = true;
             }
+            else if(upgradeData.type === "BoostRefuel")
+            {
+                upgradeTarget.upkeep += upgradeData.upkeep;                
+                upgradeTarget.refuelRate += 4;
 
-            
+                upgradeTarget.permanentUpgrades.AddPermanentUpgrade("Refuel Rate+");
+
+                upgradeComplete = true;
+            }
+            else if(upgradeData.type === "Unlock_CargoUpgrade")
+            {
+                upgradeTarget.upkeep += upgradeData.upkeep;
+                upgradeTarget.permanentUpgrades.AddPermanentUpgrade(UPGRADE_STRINGS.FREIGHTER_CARGO_ON_STATION);
+
+                upgradeComplete = true;
+            }
+            else if(upgradeData.type === "UpgradeCargo")
+            {
+                upgradeTarget.upkeep += upgradeData.upkeep;
+                upgradeTarget.permanentUpgrades.AddPermanentUpgrade(UPGRADE_STRINGS.FREIGHTER_CARGO);
+
+                upgradeComplete = true;
+            }
+            else if(upgradeData.type === "Unlock_SpeedUpgrade")
+            {
+                upgradeTarget.upkeep += upgradeData.upkeep;
+                upgradeTarget.permanentUpgrades.AddPermanentUpgrade(UPGRADE_STRINGS.FREIGHTER_SPEED_ON_STATION);
+                upgradeComplete = true;
+            }
+            else if(upgradeData.type === "UpgradeSpeed")
+            {
+                upgradeTarget.upkeep += upgradeData.upkeep;
+                upgradeTarget.permanentUpgrades.AddPermanentUpgrade(UPGRADE_STRINGS.FREIGHTER_SPEED);
+
+                upgradeTarget.maxSpeed += 5;
+                upgradeTarget.thrustForce += 10000;
+            }
+            else if(upgradeData.type === "SortSpeed")
+            {
+                upgradeTarget.upkeep += upgradeData.upkeep;
+                upgradeTarget.permanentUpgrades.AddPermanentUpgrade("Sort Speed+");
+
+                upgradeTarget.sortRate += 0.05;
+            }
 
             if(upgradeComplete && upgradeData.cost > 0)
             {

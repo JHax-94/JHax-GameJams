@@ -152,6 +152,7 @@ export default class ShopUi
                 let upgrades = selectedItem.AvailableUpgrades();
                 
                 this.upgradeProcessor.ProcessUpgrade(upgrades[this.hoveredUpgrade], selectedItem);
+                selectedItem.RemoveUpgrade(upgrades[this.hoveredUpgrade]);
                 this.hoveredUpgrade = null;
             }
         }
@@ -283,7 +284,7 @@ export default class ShopUi
                     let progress = nextUpgradeUnlock.checkProgress() - nextUpgradeUnlock.startsAt;
                     let target = nextUpgradeUnlock.target;
 
-                    print(`${progress} / ${target}`, costLineX, lastY);
+                    print(`${progress} / ${target - nextUpgradeUnlock.startsAt}`, costLineX, lastY);
                 }
             }
             /*

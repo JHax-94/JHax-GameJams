@@ -1,7 +1,7 @@
 {
     "upgradeUnlocks": [
-        { "stations": true, "planets": false, "type": "GlobalDeliveries", "threshold": 10, "text": [ "Deliver Parcels", "to anywhere"] },
-        { "stations": true, "planets": false, "type": "Sorts", "threshold": 6, "text": [ "Sort Parcels" ]},
+        { "stations": true, "planets": false, "type": "GlobalDeliveries", "threshold": 6, "text": [ "Deliver Parcels", "to anywhere"] },
+        { "stations": true, "planets": false, "type": "Sorts", "threshold": 4, "text": [ "Sort Parcels" ]},
         { "stations": false, "planets": true, "type": "LocalDeliveries", "threshold": 3, "text": [ "Deliver Parcels to", "this planet" ] }
     ],
     "upgrades": [

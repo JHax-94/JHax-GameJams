@@ -3,6 +3,7 @@ import MOUSE_BUTTON from "../MouseButtons";
 import Freighter from "../Spacecraft/Freighter";
 import InfluenceZone from "./InfluenceZone";
 import ParcelStore from "./ParcelStore";
+import PermanentUpgrades from "./PermanentUpgrades";
 
 export default class AbstractCelestialBody
 {
@@ -49,12 +50,14 @@ export default class AbstractCelestialBody
         this.upgradeLevel = 1;
         this.upgrades = [];
 
+        this.permanentUpgrades = new PermanentUpgrades();
+
         this.nextUpgradeUnlock = null;/*this.GetNextUpgradeUnlock();
         consoleLog("--- NEXT UPGRADE UNLOCK ---");
         consoleLog(this.nextUp/gradeUnlock);
         this.upgradeLevel ++;*/
     }
-
+    
     GetTooltip()
     {
         let tooltip = null
@@ -407,13 +410,23 @@ export default class AbstractCelestialBody
 
         if(parcelCount > 0)
         {
-            let pickupZone = { x: screenPos.x - 8, y: screenPos.y + PIXEL_SCALE + (shiftDown ? 8 : 0) };
+            let pickupZone = { x: screenPos.x - 8, y: screenPos.y + PIXEL_SCALE + (shiftDown ? 9 : 0) };
 
             sprite(35, pickupZone.x, pickupZone.y );
             
             setFont("Default");
             pen(1);
             print(`x ${parcelCount}`, pickupZone.x + PIXEL_SCALE, pickupZone.y + 4);
+        }
+    }
+
+    RemoveUpgrade(upgrade)
+    {
+        let index = this.upgrades.indexOf(upgrade);
+
+        if(index >= 0)
+        {
+            this.upgrades.splice(index, 1);
         }
     }
 

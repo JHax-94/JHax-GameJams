@@ -145,8 +145,8 @@ export default class ParcelStoreUi
             print(`CARGO:`, panel.x + 2, panel.y + 2);
             setFont("Default");
 
-            let tooltipString = `Left CLICK TO SELECT CARGO FOR TRANSFER`;
-            print(tooltipString, panel.x + panel.w - UTIL.GetTextWidth(tooltipString, this.defaultFont) * PIXEL_SCALE - 2, panel.y + 2);
+            /*let tooltipString = `Left CLICK TO SELECT CARGO FOR TRANSFER`;
+            print(tooltipString, panel.x + panel.w - UTIL.GetTextWidth(tooltipString, this.defaultFont) * PIXEL_SCALE - 2, panel.y + 2);*/
 
             for(let i = 0; i < parcelStore.capacity; i ++)
             {

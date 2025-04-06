@@ -22,7 +22,7 @@ export default class PostStation extends AbstractCelestialBody
 
         if(isFirstStation)
         {
-            this.ForceUpgrade("NewFreighter");
+            this.ForceUpgrade("NewTanker");
         }
 
         this.nextUpgradeUnlock = isFirstStation ? this.GetUnlockCondition("GlobalDeliveries") : this.GetNextUpgradeUnlock();

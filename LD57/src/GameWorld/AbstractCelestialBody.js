@@ -55,6 +55,25 @@ export default class AbstractCelestialBody
         this.upgradeLevel ++;*/
     }
 
+    GetTooltip()
+    {
+        let tooltip = null
+
+        consoleLog("Getting tooltip...");
+        consoleLog(this.gameWorld.parcelStoreUi.selection);
+
+        if(this.gameWorld.parcelStoreUi.selection.length > 0 )
+        {
+            tooltip = "Right click a nearby Freighter to transfer cargo";
+        }
+        else
+        {
+            tooltip = "Left click cargo to select it for transfer";
+        }
+
+        return tooltip;
+    }
+
     GenerateNextUpgradeUnlock()
     {
         this.nextUpgradeUnlock = this.GetNextUpgradeUnlock();

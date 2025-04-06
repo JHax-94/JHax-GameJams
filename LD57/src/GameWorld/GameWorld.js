@@ -25,7 +25,7 @@ export default class GameWorld
         this.spacecraft = [];
         this.planets = [];
 
-        this.starDay = 9;
+        this.starDay = 0;
         this.starWeek = 12;
         this.starYear = 3663;
         this.starEra = "MX";
@@ -38,7 +38,7 @@ export default class GameWorld
         this.weeksPerYear = 50;
 
         this.dayTimer = 0;
-        this.dayTime = 3;
+        this.dayTime = 5;
 
         this.planetRadius = 25;
         this.planetRadiusIncrement = 1;
@@ -249,8 +249,6 @@ export default class GameWorld
         this.planets.push(firstPlanet);
         this.planets.push(secondPlanet);
         this.planets.push(thirdPlanet);
-
-        thirdPlanet.SpawnShuttle();
     }
 
     SetupGameWorld()
@@ -260,7 +258,6 @@ export default class GameWorld
         this.stations.push(mainStation);
 
         mainStation.SpawnFreighter();
-        mainStation.SpawnTanker();
 
         this.BuildStartingPlanets();
 
@@ -364,6 +361,22 @@ export default class GameWorld
         EM.ShowGameOver();
     }
 
+    DrawTooltip(drawSelectedAt)
+    {
+        if(this.selected && this.selected.GetTooltip)
+        {
+            consoleLog("Get tooltip from:");
+            consoleLog(this.selected);
+
+            let tooltip = this.selected.GetTooltip();
+
+            if(tooltip !== null && tooltip.length > 0)
+            {
+                print(tooltip, drawSelectedAt.x + drawSelectedAt.w + 2, drawSelectedAt.y + drawSelectedAt.h - UTIL.GetTextHeight(tooltip) * PIXEL_SCALE);
+            }
+        }
+    }
+
     Draw()
     {
         let lineHeight = 8;
@@ -406,6 +419,7 @@ export default class GameWorld
 
             setFont("Default");
 
+            this.DrawTooltip(drawSelectAt);
             /*
             if(this.selected.spacecraftRoster && this.selected.spacecraftRoster.length > 0)
             {

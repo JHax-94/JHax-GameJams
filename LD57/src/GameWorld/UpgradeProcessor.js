@@ -26,6 +26,16 @@ export default class UpgradeProcessor
             upgradeTarget.SpawnFreighter();
             upgradeComplete = true;
         }
+        else if(upgradeData.type === "NewTanker")
+        {
+            upgradeTarget.SpawnTanker();
+            upgradeComplete = true;
+        }
+        else if(upgradeData.type === "NewShuttle")
+        {
+            upgradeTarget.SpawnShuttle();
+            upgradeComplete = true;
+        }
         else if(upgradeData.type === "SendProbe")
         {
             upgradeTarget.SendProbe();

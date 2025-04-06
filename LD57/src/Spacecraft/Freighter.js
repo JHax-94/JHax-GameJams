@@ -10,4 +10,9 @@ export default class Freighter extends Spacecraft
         this.maxFuel = 200;
         this.fuel = this.maxFuel;
     }
+
+    GetTooltip()
+    {
+        return "Right click on a planet or station to send this Freighter to it";
+    }
 }

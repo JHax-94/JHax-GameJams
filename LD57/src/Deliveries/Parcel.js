@@ -13,7 +13,7 @@ export default class Parcel
 
         this.reward = 100;
 
-        this.gracePeriod = 60;
+        this.gracePeriod = 90;
 
         if(sorted === false)
         {

@@ -9,7 +9,7 @@ export default class Shuttle extends Spacecraft
     {
         super(atStation, title, gameWorld, 49)
 
-        this.upkeep = 10;
+        this.upkeep = 5;
         this.fuelRate = 2;
 
         this.parcelStore = new ParcelStore(this, 1);

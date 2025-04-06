@@ -5,6 +5,7 @@ import LoadFreighterTutorial from "./LoadFreighterTutorial";
 import SelectPlanetTutorial from "./SelectPlanetTutorial";
 import SelectTutorial from "./SelectTutorial";
 import SendTutorial from "./SendTutorial";
+import SortingTutorial from "./SortingTutorial";
 
 export default class TutorialControl
 {
@@ -17,6 +18,7 @@ export default class TutorialControl
         this.currentStep = -1;
 
         this.tutorial = [
+            new SortingTutorial(this),
             new SelectTutorial(this),
             new SendTutorial(this),
             new SelectPlanetTutorial(this),

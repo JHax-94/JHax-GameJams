@@ -32,7 +32,8 @@ vecExtender.ExtendVec2(vec2);
 
 let CONSTANTS = {
     LOCAL_STATION_DISTANCE: 300,
-    CLOSE_PROXIMITY: 100
+    CLOSE_PROXIMITY: 100,
+    SORT_TOOLTIP: " - Cargo marked ? must be sorted at a space station"
 };
 
 let PIXEL_SCALE = getPixelScale();

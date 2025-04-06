@@ -77,6 +77,12 @@ export default class AbstractCelestialBody
             tooltip = "Left click cargo to select it for transfer";
         }
 
+        if(this.parcelStore.UnsortedParcels() > 0)
+        {
+            
+            tooltip += CONSTANTS.SORT_TOOLTIP;   
+        }
+
         return tooltip;
     }
 

@@ -1,7 +1,7 @@
 import { UPGRADE_STRINGS } from "../Enums/UpgradeStrings";
 import ParcelStore from "../GameWorld/ParcelStore";
 import PermanentUpgrades from "../GameWorld/PermanentUpgrades";
-import { EM } from "../main";
+import { CONSTANTS, EM } from "../main";
 import Spacecraft from "./Spacecraft";
 
 export default class Freighter extends Spacecraft
@@ -39,6 +39,13 @@ export default class Freighter extends Spacecraft
 
     GetTooltip()
     {
-        return "Right click on a planet or station to send this Freighter to it";
+        let baseTooltip = "Right click on a planet/station to send this Freighter there";
+
+        if(this.parcelStore.UnsortedParcels() > 0)
+        {
+            baseTooltip += CONSTANTS.SORT_TOOLTIP;
+        }
+
+        return baseTooltip;
     }
 }

@@ -6,6 +6,7 @@ import Utility from './Utility';
 import { vec2 } from 'p2'
 import CameraController from "./GameWorld/CameraController";
 import SpacecraftPhysEventRegister from "./PhysEvents/SpacecraftPhysEvents";
+import TitleScreen from "./TitleScreen";
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -198,16 +199,24 @@ function AddPhysicsEvents()
     }
 }
 
-function SETUP()
+function SETUP(target = null)
 {
     EM = new EntityManager();
-    AddPhysicsEvents();
-    let gameWorld = new GameWorld();
-    EM.AddEntity("GAME_WORLD", gameWorld);
-    let cameraControl = new CameraController();
 
-    gameWorld.SetupGameWorld();
+    if(target === "Game")
+    {
+        AddPhysicsEvents();
+        let gameWorld = new GameWorld();
+        EM.AddEntity("GAME_WORLD", gameWorld);
+        let cameraControl = new CameraController();
 
+        gameWorld.SetupGameWorld();
+    }
+    else
+    {
+        let title = new TitleScreen();
+    }
+    
     LOAD_COMPLETE = true;
 }
 

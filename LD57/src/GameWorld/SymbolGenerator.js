@@ -153,12 +153,6 @@ export default class SymbolGenerator
 
             tex = new Texture(PIXEL_SCALE, PIXEL_SCALE);
 
-            if(centreSprite.s !== null)
-            {
-                let centre = this.centreSprites[centreSprite];
-                tex.sprite(centre.s, 0, 0, centre.h, centre.v, centre.r);    
-            }
-
             this.AddCentreSpriteToTexture(this.centreSprites[centreSprite], tex);
 
             this.AddEdgeSpriteToTexture(this.edgeMap[leftSprite], EDGE_ID.LEFT, tex);
@@ -176,6 +170,7 @@ export default class SymbolGenerator
     {
         if(centre.s !== null)
         {
+            consoleLog(`CENTRE SPRITE: ${centre.s}`);
             texture.sprite(centre.s, 0, 0, centre.h, centre.v, centre.r);
         }
     }
@@ -185,6 +180,8 @@ export default class SymbolGenerator
         if(edge.s !== null)
         {
             let mods = this.edgeMods[edgeId];
+
+            consoleLog(`EDGE_${edgeId} SPRITE: ${edge.s}`);
 
             texture.sprite(edge.s, 0, 0, mods.h, mods.v, mods.r);
         }

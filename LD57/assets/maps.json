@@ -28,6 +28,34 @@
 			"name": "test_map-2",
 			"sheet": "tilesheet",
 			"data": "!!|<#'!!.^"
+		},
+		{
+			"w": 14,
+			"h": 6,
+			"name": "TitleMap",
+			"sheet": "tilesheet",
+			"data": "!!|9%R%S|,%T!!~$!!|3%U%T%V%W%S!!~$!!|2%R%S%X%c%d%S%e%f!!~U!!|/%g%h|,%c%W%S!!~T!!|:"
+		},
+		{
+			"w": 1,
+			"h": 2,
+			"name": "leftMouse",
+			"sheet": "tilesheet",
+			"data": "%J%I"
+		},
+		{
+			"w": 1,
+			"h": 2,
+			"name": "rightMouse",
+			"sheet": "",
+			"data": "(3%I"
+		},
+		{
+			"w": 7,
+			"h": 2,
+			"name": "directionKeys",
+			"sheet": "",
+			"data": "!!%K!!|-%[!!%L%M%N!!%^%_%]"
 		}
 	]
 }

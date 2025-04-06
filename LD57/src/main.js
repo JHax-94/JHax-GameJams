@@ -8,6 +8,7 @@ import CameraController from "./GameWorld/CameraController";
 import SpacecraftPhysEventRegister from "./PhysEvents/SpacecraftPhysEvents";
 import TitleScreen from "./TitleScreen";
 import UiBuilder from './UI/UiBuilder';
+import Scores from "./Scores";
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -17,6 +18,8 @@ let extender = new TextureExtender();
 let vecExtender = new VectorExtensions();
 
 let Texture = extender.ExtendTextureClass(require('pixelbox/Texture'));
+
+let SCORES = new Scores();
 
 let UTIL = new Utility();
 
@@ -117,10 +120,9 @@ pointerEvents.onMove(function(x, y, pointerId, evt)
 });
 
 
-getHighScore()
-{
-    
-}
+
+
+
 
 function getFontFromPath(fontPath)
 {
@@ -243,5 +245,5 @@ exports.update = function () {
 
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, getFont, setFont, consoleLog, getObjectConfig, UI_BUILDER
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, getFont, setFont, consoleLog, getObjectConfig, UI_BUILDER, SCORES
 };

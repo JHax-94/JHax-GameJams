@@ -1,5 +1,5 @@
 import SymbolGenerator from "./GameWorld/SymbolGenerator";
-import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, SETUP, UTIL } from "./main";
+import { consoleLog, EM, getFont, PIXEL_SCALE, SCORES, setFont, SETUP, TILE_HEIGHT, UTIL } from "./main";
 import Button from "./UI/Button";
 
 export default class TitleScreen
@@ -66,6 +66,14 @@ export default class TitleScreen
 
         this.startButton.Click = () => this.StartGame();
 
+        this.resetButton = new Button(
+            { x: 0.25, y: TILE_HEIGHT - 1, w: 6, h: 0.75}, 
+            { font: "LargeNarr", rect: { text: "RESET SCORES", colour: 14, textColour: 13, borderColour: 15 } }, "UI");
+
+        this.resetButton.Click = () => { SCORES.ClearAll(); this.highScore = SCORES.GetHighScore(); }
+
+        this.highScore = SCORES.GetHighScore();
+
         this.BuildSymbols();
     }
 
@@ -92,10 +100,19 @@ export default class TitleScreen
             sym.symbol._drawEnhanced(this.pos.x + sym.x * PIXEL_SCALE, this.pos.y + sym.y * PIXEL_SCALE);
         }
 
+        
+
         let yPos = this.mainTextPos.y;
 
         pen(1);
         setFont(this.font);
+
+        if(this.highScore > 0)
+        {
+            print(`HIGH SCORE: `, 2, this.titleMap.height * PIXEL_SCALE + 2);
+            print(`   ${this.highScore}`, 2, this.titleMap.height * PIXEL_SCALE + 16);
+        }
+
         for(let i = 0; i < this.mainText.length; i ++)
         {
             let drawX = this.mainTextPos.x;
@@ -121,7 +138,7 @@ export default class TitleScreen
                     yPos = yPos + (lineHeight - UTIL.GetTextHeight("", this.font) * PIXEL_SCALE) * 0.5;
                 }
 
-                consoleLog(`Print ${line.txt} at ${this.mainTextPos.x}, ${yPos}`);
+                //consoleLog(`Print ${line.txt} at ${this.mainTextPos.x}, ${yPos}`);
                 print(line.txt, drawX, yPos);
                 if(lineHeight === 0)
                 {

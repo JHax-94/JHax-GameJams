@@ -10,8 +10,6 @@ let EDGE_ID = {
 
 export default class SymbolGenerator
 {
-    
-
     constructor()
     {
         this.usedCodes = [];
@@ -117,7 +115,7 @@ export default class SymbolGenerator
         else
         {
             let octalCodeString = code.toString(8);
-            consoleLog(`Octal: ${octalCodeString}`);
+            //consoleLog(`Octal: ${octalCodeString}`);
 
             let centreSprite = 0;
             let leftSprite = 0;
@@ -170,7 +168,7 @@ export default class SymbolGenerator
     {
         if(centre.s !== null)
         {
-            consoleLog(`CENTRE SPRITE: ${centre.s}`);
+            //consoleLog(`CENTRE SPRITE: ${centre.s}`);
             texture.sprite(centre.s, 0, 0, centre.h, centre.v, centre.r);
         }
     }
@@ -181,7 +179,7 @@ export default class SymbolGenerator
         {
             let mods = this.edgeMods[edgeId];
 
-            consoleLog(`EDGE_${edgeId} SPRITE: ${edge.s}`);
+            //consoleLog(`EDGE_${edgeId} SPRITE: ${edge.s}`);
 
             texture.sprite(edge.s, 0, 0, mods.h, mods.v, mods.r);
         }

@@ -1,4 +1,4 @@
-import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, SETUP, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
+import { consoleLog, EM, getFont, PIXEL_SCALE, SCORES, setFont, SETUP, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
 import Button from "./Button";
 
 export default class GameOverMenu
@@ -19,6 +19,14 @@ export default class GameOverMenu
         this.backToMenuButton.Click = () => { this.BackToMenu(); }
 
         this.gameWorld = EM.GetEntity("GAME_WORLD");
+
+        this.oldHighScore = SCORES.GetHighScore();
+        this.newHighScore = this.gameWorld.player.CalculateFinalScore();
+
+        if(this.newHighScore > this.oldHighScore)
+        {
+            SCORES.SetHighScore(this.newHighScore);
+        }
 
         EM.RegisterEntity(this);
     }
@@ -59,6 +67,12 @@ export default class GameOverMenu
         lineY += lineHeight + 4;
         this.DrawCentreText(`Score:`, lineY);
         lineY += lineHeight;
-        this.DrawCentreText(`${this.gameWorld.player.CalculateFinalScore()}`, lineY);
+        this.DrawCentreText(`${this.newHighScore}`, lineY);
+
+        if(this.newHighScore > this.oldHighScore)
+        {
+            lineY += lineHeight + 4;
+            this.DrawCentreText("NEW HIGH SCORE!", lineY);
+        }
     }
 }

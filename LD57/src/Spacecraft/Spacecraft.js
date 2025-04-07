@@ -344,12 +344,26 @@ export default class Spacecraft
         return `Fuel: ${Math.floor(this.fuel)}/${Math.round(this.maxFuel)}`;
     }
 
+    Dock(station)
+    {
+        this.target = null;
+        this.dockedStation = station;
+    }
+
     SetTarget(target)
     {
         if(target !== this.dockedStation)
         {
-            this.target = target;
-            this.Undock();
+            if(this.currentStation === target)
+            {
+                this.Dock(target);
+            }
+            else
+            {
+                this.target = target;
+                this.Undock();
+            }
+            
         }
     }
 
@@ -361,8 +375,7 @@ export default class Spacecraft
 
         if(celestial === this.target)
         {
-            this.target = null;
-            this.dockedStation = celestial;
+            this.Dock(celestial);
         }
 
         /*

@@ -79,6 +79,12 @@ export default class UpgradeProcessor
                 upgradeTarget.permanentUpgrades.AddPermanentUpgrade(UPGRADE_STRINGS.FREIGHTER_SPEED_ON_STATION);
                 upgradeComplete = true;
             }
+            else if(upgradeData.type === "Unlock_FuelUpgrade")
+            {
+                upgradeTarget.upkeep += upgradeData.upkeep;
+                upgradeTarget.permanentUpgrades.AddPermanentUpgrade(UPGRADE_STRINGS.FREIGHTER_FUEL_ON_STATION);
+                upgradeComplete = true;
+            }
             else if(upgradeData.type === "UpgradeSpeed")
             {
                 upgradeTarget.upkeep += upgradeData.upkeep;
@@ -86,6 +92,16 @@ export default class UpgradeProcessor
 
                 upgradeTarget.maxSpeed += 5;
                 upgradeTarget.thrustForce += 5000;
+
+                upgradeComplete = true;
+            }
+            else if(upgradeData.type === "UpgradeFuel")
+            {
+                upgradeTarget.upkeep += upgradeData.upkeep;
+                upgradeTarget.permanentUpgrades.AddPermanentUpgrade(UPGRADE_STRINGS.FREIGHTER_FUEL);
+
+                upgradeTarget.maxFuel += 50;
+                upgradeTarget.AddFuel(50);
 
                 upgradeComplete = true;
             }

@@ -72,9 +72,17 @@ export default class Spacecraft
         return this.currentSpeed > 0 && this.fuel > 0 && this.dockedStation !== null;
     }
 
+    IsSpacecraftDocked(target)
+    {
+        consoleLog("SPACECRAFT DOCKED CHECK:");
+        consoleLog(target);
+
+        return this.dockedStation === target;
+    }
+
     RemoveUpgrade()
     {
-        
+
     }
 
     Update(deltaTime)
@@ -142,6 +150,16 @@ export default class Spacecraft
         }
 
         this.InternalUpdate(deltaTime)
+    }
+
+    AddFuel(amount)
+    {
+        this.fuel += amount;
+
+        if(this.fuel > this.maxFuel)
+        {
+            this.fuel = this.maxFuel;
+        }
     }
 
     InternalDeliveryCheck()
@@ -212,6 +230,7 @@ export default class Spacecraft
     {
         if(this.parcelStore && this.parcelStore.Count() > 0)
         {
+            pen(1);
             sprite(34, screenPos.x - 0.25 * PIXEL_SCALE - 4, screenPos.y + PIXEL_SCALE - 2);
             print(`x ${this.parcelStore.Count()}`, screenPos.x + 0.5 * PIXEL_SCALE - 1, screenPos.y + PIXEL_SCALE+2);
         }
@@ -228,14 +247,17 @@ export default class Spacecraft
         {
             let fuelProp = this.fuel / this.maxFuel;
             
-
             paper(4);
             rectf(screenPos.x, screenPos.y-2, PIXEL_SCALE, 2);
             paper(1);
             rectf(screenPos.x, screenPos.y-2, Math.floor(fuelProp * PIXEL_SCALE), 2);
         }
     }
-    
+
+    GetFuelString()
+    {
+        return `Fuel: ${Math.floor(this.fuel)}/${Math.round(this.maxFuel)}`;
+    }
 
     SetTarget(target)
     {

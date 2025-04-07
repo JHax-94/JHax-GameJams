@@ -33,6 +33,12 @@ export default class Freighter extends Spacecraft
             {
                 upgrades.push ({ text: ["Speed Increase"], cost: 100, upkeep: 5, type: "UpgradeSpeed" });    
             }
+
+            if(this.dockedStation.permanentUpgrades.PermanentUpgradeLevel(UPGRADE_STRINGS.FREIGHTER_FUEL_ON_STATION) > 
+                    this.permanentUpgrades.PermanentUpgradeLevel(UPGRADE_STRINGS.FREIGHTER_FUEL))
+            {
+                upgrades.push ({ text: ["Fuel Capacity"], cost: 150, upkeep: 5, type: "UpgradeFuel" });    
+            }
         }
         return upgrades;
     }

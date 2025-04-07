@@ -14,6 +14,7 @@ import SymbolGenerator from "./SymbolGenerator";
 import Tanker from "../Spacecraft/Tanker";
 import TankerUi from "../UI/TankerUi";
 import Shuttle from "../Spacecraft/Shuttle";
+import { _pauseOnLostFocusInitialised } from "tina";
 
 export default class GameWorld
 {
@@ -283,7 +284,14 @@ export default class GameWorld
             {
                 if(this.selected instanceof Shuttle === false)
                 {
-                    this.AttemptToSendSpacecraft(this.selected, target);
+                    if(this.selected instanceof Freighter && this.selected.dockedStation === target && this.parcelStoreUi.selection.length > 0)
+                    {
+                        this.AttemptToTransferParcels(this.selected, target, this.parcelStoreUi.selection);
+                    }
+                    else
+                    {
+                        this.AttemptToSendSpacecraft(this.selected, target);
+                    }
                 }
             }
             else if(this.selected instanceof AbstractCelestialBody && target instanceof Freighter)
@@ -358,6 +366,8 @@ export default class GameWorld
     BuildStation(physLocation)
     {
         let newStation = new PostStation({x: physLocation[0] / PIXEL_SCALE, y: -physLocation[1] / PIXEL_SCALE}, `POST STATION ${this.stations.length + 1}`, this);
+
+        this.stations.push(newStation);
     }
 
     CalculateWeeklyUpkeep()
@@ -479,6 +489,16 @@ export default class GameWorld
             if(tooltip !== null && tooltip.length > 0)
             {
                 print(tooltip, drawSelectedAt.x + drawSelectedAt.w + 2, drawSelectedAt.y + drawSelectedAt.h - UTIL.GetTextHeight(tooltip) * PIXEL_SCALE);
+            }
+        }
+
+        if(this.selected && this.selected.GetFuelString)
+        {
+            let fuelString = this.selected.GetFuelString();
+
+            if(fuelString && fuelString.length > 0)
+            {
+                print(fuelString, drawSelectedAt.x + drawSelectedAt.w + 2, drawSelectedAt.y);
             }
         }
     }

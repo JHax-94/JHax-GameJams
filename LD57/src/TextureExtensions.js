@@ -1,5 +1,3 @@
-import { EM, consoleLog } from "./main";
-
 let pixelBox = require("pixelbox");
 let gl = require("pixelbox/webGL");
 let context = require("pixelbox/webGL/context");
@@ -47,6 +45,23 @@ export default class TextureExtender
         let rotMat = (!!rotateBy.length) ? rotateBy : this.RotationMatrix(rotateBy);
         let rotVec = this.MatrixTimesVector(rotMat, vec);
         return rotVec;
+    }
+
+    LogPixels(bufferArray)
+    {
+        let prettyPixels = [];
+
+        for(let i = 0; i < bufferArray.length / 4; i ++)
+        {
+            prettyPixels = { 
+                r: bufferArray[i], 
+                g: bufferArray[i+1],
+                b: bufferArray[i+2],
+                a: bufferArray[i+3]
+            };
+        }
+
+        console.log(prettyPixels);
     }
 
     ExtendTextureClass(texture)
@@ -125,13 +140,22 @@ export default class TextureExtender
         {
             if(!options) options = {};
 
+            let targetTexture = pixelBox.$screen;
 
-            /*if(EM.camera)
-            {                
-                x -= EM.camera.x;
-                y -= EM.camera.y;
-            }*/
-            
+            if(options.target)
+            {
+                targetTexture = options.target;
+            }
+
+            let sx = 0;
+            let sy = 0;
+
+            if(options.src)
+            {
+                sx = options.src.x;
+                sy = options.src.y;
+            }
+
             let maintainCentre = options.maintainCentre ?? false;
             let scale = options.scale ?? 1;
             let angle = options.angle ?? 0;
@@ -144,14 +168,59 @@ export default class TextureExtender
             let w = this.width;
             let h = this.height;
 
+            if(options.src)
+            {
+                if(options.src.w)
+                {
+                    w = options.src.w;
+                    dw = options.src.w * scale;
+                }
+
+                if(options.src.h)
+                {
+                    h = options.src.h;
+                    dh = options.src.h * scale;
+                }
+            }
+
             // -- Modified from PixelBox WebGL Texture code...
             let px = ~~Math.round((x + (maintainCentre ? (w-dw)*0.5 : 0) || 0) - this.camera.x);
             let py = ~~Math.round((y + (maintainCentre ? (h-dh)*0.5 : 0) || 0) - this.camera.y);
 
             let renderers = gl.batcher.renderers;
             
-            gl.batcher.prepare(renderers.sprite, this, pixelBox.$screen)
-                .pushStretchSpriteEnhanced(px, py, dw, dh, 0, 0, w, h, angle, fixedTl);
+            gl.batcher.prepare(renderers.sprite, this, targetTexture)
+                .pushStretchSpriteEnhanced(px, py, dw, dh, sx, sy, w, h, angle, fixedTl);
+        };
+
+        texture.prototype._copy = function(sx, sy, sw, sh, target, tx, ty)
+        {
+            this._drawEnhanced(tx, ty, { target: target, src: { x: sx, y: sy, w: sw, h: sh }});
+        }
+
+        texture.prototype._logPixels = function(x, y, w, h)
+        {
+            console.log("===== PIXEL PRINT =====");
+
+            console.log(cgl.bindFramebuffer);
+            console.log(gl.bindFramebuffer);
+            console.log(context.bindFramebuffer);
+            console.log(this);
+
+            try {
+                var pixels = new Uint8Array(w * h * 4);
+                cgl.bindFramebuffer(cgl.FRAMEBUFFER, this.frameBuffer);
+                cgl.readPixels(x, y, w, h, cgl.RGBA, cgl.UNSIGNED_BYTE, pixels);
+                cgl.bindFramebuffer(cgl.FRAMEBUFFER, null);
+                
+                extender.LogPixels(pixels)
+            }
+            catch(e)
+            {
+                console.error("Failed to read pixels:");
+                console.error(e);
+            }
+            
         };
 
         return texture;

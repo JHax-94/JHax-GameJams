@@ -312,7 +312,14 @@ export default class AbstractCelestialBody
         {
             if(upgradeUnlocks[i].stations && this.IsStation())
             {
-                availableUnlockMethods.push(upgradeUnlocks[i]);
+                if(upgradeUnlocks[i].type === "Sorts" && this.gameWorld.WeeksPassed() < 3)
+                {
+                    consoleLog("Skip sorts upgrade unlock type...");
+                }
+                else
+                {
+                    availableUnlockMethods.push(upgradeUnlocks[i]);
+                }
             }
             else if(upgradeUnlocks[i].planets && this.IsPlanet())
             {

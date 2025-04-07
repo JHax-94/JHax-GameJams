@@ -1,5 +1,6 @@
 {
     "tracks": [
-        { "name": "Track1", "file": "PlanBee", "time": 172 }
+        { "name": "Track1", "file": "DSDO_Track0", "time": 360 },
+		{ "name": "Track2", "file": "DSDO_Track1", "time": 240 }
     ]
 }

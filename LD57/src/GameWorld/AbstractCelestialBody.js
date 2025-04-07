@@ -448,7 +448,7 @@ export default class AbstractCelestialBody
         }
     }
 
-    DrawParcelsForPickup(screenPos, sortedOnly = false)
+    DrawParcelsForPickup(screenPos, sortedOnly = false, yOffset = 0)
     {
         let parcelCount = this.parcelStore.Count();
 
@@ -462,9 +462,9 @@ export default class AbstractCelestialBody
         if(parcelCount > 0)
         {
             drawn = true;
-            let pickupZone = { x: screenPos.x - 8, y: screenPos.y + PIXEL_SCALE };
+            let pickupZone = { x: screenPos.x - 8, y: screenPos.y + PIXEL_SCALE + yOffset };
 
-            sprite(32, pickupZone.x, pickupZone.y );
+            sprite(32, pickupZone.x, pickupZone.y);
             
             setFont("Default");
             pen(1);
@@ -474,13 +474,13 @@ export default class AbstractCelestialBody
         return drawn;
     }
 
-    DrawParcelsInSorting(screenPos, shiftDown)
+    DrawParcelsInSorting(screenPos, shiftDown, yOffset = 0)
     {
         let parcelCount = this.parcelStore.UnsortedParcels();
 
         if(parcelCount > 0)
         {
-            let pickupZone = { x: screenPos.x - 8, y: screenPos.y + PIXEL_SCALE + (shiftDown ? 9 : 0) };
+            let pickupZone = { x: screenPos.x - 8, y: screenPos.y + PIXEL_SCALE + (shiftDown ? 9 : 0) + yOffset };
 
             sprite(35, pickupZone.x, pickupZone.y );
             

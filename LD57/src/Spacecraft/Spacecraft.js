@@ -72,6 +72,11 @@ export default class Spacecraft
         return this.currentSpeed > 0 && this.fuel > 0 && this.dockedStation !== null;
     }
 
+    RemoveUpgrade()
+    {
+        
+    }
+
     Update(deltaTime)
     {
         this.currentSpeed = vec2.length(this.phys.velocity);

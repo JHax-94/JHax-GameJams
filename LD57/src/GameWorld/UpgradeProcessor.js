@@ -85,7 +85,7 @@ export default class UpgradeProcessor
                 upgradeTarget.permanentUpgrades.AddPermanentUpgrade(UPGRADE_STRINGS.FREIGHTER_SPEED);
 
                 upgradeTarget.maxSpeed += 5;
-                upgradeTarget.thrustForce += 10000;
+                upgradeTarget.thrustForce += 5000;
 
                 upgradeComplete = true;
             }
@@ -101,13 +101,18 @@ export default class UpgradeProcessor
             else if(upgradeData.type === "BoostGrace")
             {
                 upgradeTarget.permanentUpgrades.AddPermanentUpgrade("Grace+");
-                upgradeTarget.baseGracePeriod += 30;
+                upgradeTarget.baseGracePeriod += 45;
 
                 upgradeComplete = true;
             }
             else if(upgradeData.type === "NewStation")
             {
                 upgradeTarget.BuildStationNearby();
+                upgradeComplete = true;
+            }
+            else if(upgradeData.type === "RaiseCharge")
+            {
+                upgradeTarget.baseReward += 10;
                 upgradeComplete = true;
             }
 

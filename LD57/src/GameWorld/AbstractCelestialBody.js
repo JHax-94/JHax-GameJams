@@ -282,10 +282,16 @@ export default class AbstractCelestialBody
                     }
                 }
                 
-
                 if(canAdd)
                 {
-                    upgradesForThisBody.push(upgradesList[i]);
+                    let upgradeCopy = Object.assign({}, upgradesList[i]);
+
+                    if(this.IsPlanet() && upgradeCopy.type === "BoostRefuel")
+                    {
+                        upgradeCopy.upkeep = 0;
+                    }
+
+                    upgradesForThisBody.push(upgradeCopy);
                 }
             }
         }

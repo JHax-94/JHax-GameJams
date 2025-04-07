@@ -2,7 +2,7 @@ export default class PlayerStatus
 {
     constructor()
     {
-        this.credits = 1000;
+        this.credits = 2000;//1000;
         this.parcelsDelivered = 0;
         this.score = 0;
     }

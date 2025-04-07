@@ -5,16 +5,17 @@
         { "stations": false, "planets": true, "type": "LocalDeliveries", "threshold": 1, "text": [ "Deliver Parcels to", "this planet" ] }
     ],
     "upgrades": [
-        { "stations": true, "text": ["New Freighter"], "cost": 500, "upkeep": 20, "type": "NewFreighter" },
+        { "stations": true, "text": ["New Freighter"], "cost": 300, "upkeep": 20, "type": "NewFreighter" },
         { "stations": true, "text": ["New Fuel Tanker"], "cost": 500, "upkeep": 40, "type": "NewTanker" },
         { "stations": true, "text": ["Unlock Freighter", "Speed Upgrade"], "cost": 200, "upkeep": 10, "type": "Unlock_SpeedUpgrade" },
         { "stations": true, "text": ["Send Probe"], "cost": 200, "upkeep": 0, "type": "SendProbe" },
         { "stations": true, "text": ["Unlock Freighter", "Cargo Upgrade"], "cost": 200, "upkeep": 10, "type": "Unlock_CargoUpgrade" },
-        { "stations": true, "text": ["Improve Sort", "Speed"], "cost": 250, "upkeep": 5, "type": "SortSpeed" },
-        { "planets": true, "text": [ "New Shuttle" ], "cost": 600, "upkeep": 5, "type": "NewShuttle" },
-        { "planets": true, "text": [ "New Station"], "cost": 1000, "upkeep": 100, "type": "NewStation" },
-        { "planets": true, "text": [ "Improve grace", "period" ], "cost": 600, "upkeep": 0, "type": "BoostGrace" },
-        { "planets": true, "stations": true, "text": [ "Faster Refueling"], "cost": 250, "upkeep": 5, "type": "BoostRefuel" }
+        { "stations": true, "text": ["Improve Sort", "Speed"], "cost": 200, "upkeep": 5, "type": "SortSpeed" },
+        { "planets": true, "text": [ "New Shuttle" ], "cost": 400, "upkeep": 5, "type": "NewShuttle" },
+        { "planets": true, "text": [ "New Station"], "cost": 600, "upkeep": 100, "type": "NewStation" },
+        { "planets": true, "text": [ "Improve grace", "period" ], "cost": 300, "upkeep": 0, "type": "BoostGrace" },
+        { "planets": true, "stations": true, "text": [ "Faster Refueling"], "cost": 250, "upkeep": 5, "type": "BoostRefuel" },
+        { "planets": true, "text": [ "Raise Delivery", "Charge" ], "cost": 300, "upkeep": 0, "type": "RaiseCharge" }
     ]
 
 }

@@ -11,7 +11,7 @@ export default class Parcel
 
         this.startSqDistance = vec2.sqrDist(this.sourcePlanet.phys.position, this.targetPlanet.phys.position);
 
-        this.reward = 100;
+        this.reward = this.sourcePlanet.baseReward;
 
         this.gracePeriod = this.sourcePlanet.baseGracePeriod;
 
@@ -21,8 +21,6 @@ export default class Parcel
         }
 
         this.decayRate = 0.5;
-
-        
 
         this.lifeTime = 0;
 

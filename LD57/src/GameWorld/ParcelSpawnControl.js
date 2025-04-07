@@ -48,7 +48,7 @@ export default class ParcelSpawnControl
 
         if(sourcePlanet.parcelStore.RemainingCapacity() === 0)
         {
-            this.gameWorld.ProcessPenalty(`No room for new cargo at ${sourcePlanet.title}`, this.penaltyCost);
+            this.gameWorld.ProcessPenalty(`No room for new cargo at ${sourcePlanet.title}`, sourcePlanet.baseReward);
         }
         else
         {

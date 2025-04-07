@@ -11,6 +11,7 @@ export default class Planet extends AbstractCelestialBody
 
         this.localDeliveries = 0;
 
+        this.baseReward = 100;
         this.baseGracePeriod = 90;
 
         this.nextUpgradeUnlock = this.GetNextUpgradeUnlock();

@@ -40,8 +40,8 @@ export default class GameWorld
         this.dayTimer = 0;
         this.dayTime = 5;
 
-        this.planetRadius = 25;
-        this.planetRadiusIncrement = 1;
+        this.planetRadius = 20;
+        this.planetRadiusIncrement = 8;
         this.lastPlanetAngle = 0;
 
         this.symbolGenerator = new SymbolGenerator();
@@ -55,6 +55,8 @@ export default class GameWorld
         this.shopUi = new ShopUi(this);
 
         this.toastManager = new ToastManager();
+
+        this.startPlanets = 0;
 
         this.selected = null;
     }
@@ -314,6 +316,10 @@ export default class GameWorld
 
         let newPlanet = new Planet(pos, this.GetNextPlanetName(), this);
         
+        let discoveryNumber = this.planets.length + 1 - this.startPlanets;
+
+        newPlanet.baseReward += discoveryNumber * 10;
+
         this.planets.push(newPlanet);
 
         this.planetRadius += this.planetRadiusIncrement;
@@ -330,6 +336,8 @@ export default class GameWorld
         this.planets.push(firstPlanet);
         this.planets.push(secondPlanet);
         this.planets.push(thirdPlanet);
+
+        this.startPlanets = this.planets.length;
     }
 
     SetupGameWorld()

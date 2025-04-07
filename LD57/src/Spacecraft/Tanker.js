@@ -8,6 +8,7 @@ export default class Tanker extends Spacecraft
     {
         super(atStation, title, gameworld, 48);
 
+        this.upkeep = 40;
         this.maxFuel = 10000;
         this.fuel = 10000;
         this.fuelRate = 20;

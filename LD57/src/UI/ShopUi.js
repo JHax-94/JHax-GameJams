@@ -41,6 +41,8 @@ export default class ShopUi
         this.largeNarrFont = getFont("LargeNarr");
         this.defaultFont = getFont("Default");
 
+        this.lastUpgradeLength = 0;
+
         EM.RegisterEntity(this);
     }
 
@@ -178,6 +180,40 @@ export default class ShopUi
     Draw()
     {
         let selected = this.SelectedItem();
+        let upgrades = null;
+        if(selected)
+        {
+            upgrades = selected.AvailableUpgrades();
+
+            if(selected !== this.lastSelected)
+            {
+                this.lastSelected = selected;
+                this.SetFullView(false);
+            }
+            else
+            {
+                EM.hudLog.push(`Check upgrades length against: ${this.lastUpgradeLength}`);
+
+                let upgrades = selected.AvailableUpgrades();
+
+                EM.hudLog.push(`New length: ${upgrades?.length}`);
+
+                let nUpgrades = this.CalculateUpgradeLines(selected);
+
+                if(nUpgrades !== this.lastUpgradeLength)
+                {
+                    let fullView = this.fullView;
+
+                    if(fullView && nUpgrades <= 2)
+                    {
+                        fullView = false;
+                    }
+
+                    this.SetFullView(fullView);
+                }
+            }
+        }
+
         if(selected !== null)
         {
             setFont(this.largeNarrFont);
@@ -187,15 +223,17 @@ export default class ShopUi
             pen(1);
             print("UPGRADES:", this.panel.x + 2, this.panel.y + 2);
 
-            let upgrades = selected.AvailableUpgrades();
+            //let upgrades = selected.AvailableUpgrades();
 
             let upgradeLines = this.CalculateUpgradeLines(selected);
 
+            this.lastUpgradeLength = upgradeLines;
+
             let nShowUpgrades = upgradeLines;
+            
 
             let canShowMore = upgradeLines > 2 && this.fullView === false;
 
-            EM.hudLog.push(`Upgrade lines: ${upgradeLines}`);
 
             if(canShowMore)
             {

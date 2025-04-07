@@ -11,6 +11,7 @@ export default class AbstractCelestialBody
 {
     constructor(pos, dims, title, tag, gameWorld, symbolTex = null)
     {
+        this.dormant = false;
         this.gameWorld = gameWorld;
         this.title = title;
         this.w = dims.w;

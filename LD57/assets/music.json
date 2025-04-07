@@ -1,6 +1,6 @@
 {
     "tracks": [
-        { "name": "Track1", "file": "DSDO_Track0", "time": 360 },
-		{ "name": "Track2", "file": "DSDO_Track1", "time": 240 }
+        { "name": "Track1", "file": "DSDO_Track0", "time": 309 },
+		{ "name": "Track2", "file": "DSDO_Track1", "time": 188 }
     ]
 }

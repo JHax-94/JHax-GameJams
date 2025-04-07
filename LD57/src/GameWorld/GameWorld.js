@@ -20,6 +20,7 @@ export default class GameWorld
 {
     constructor()
     {
+        this.renderLayer = "UI";
         EM.RegisterEntity(this);
 
         this.stations = [];
@@ -41,8 +42,8 @@ export default class GameWorld
         this.dayTimer = 0;
         this.dayTime = 5;
 
-        this.planetRadius = 20;
-        this.planetRadiusIncrement = 8;
+        this.planetRadius = 24;
+        this.planetRadiusIncrement = 10;
         this.lastPlanetAngle = 0;
 
         this.symbolGenerator = new SymbolGenerator();
@@ -315,24 +316,38 @@ export default class GameWorld
         this.selected = null;
     }
 
-    GenerateNewPlanet()
+    DiscoverPlanet(planet)
+    {
+        let index = this.planets.indexOf(planet);
+
+        if(index < 0 )
+        {
+            this.planets.push(planet);
+            this.toastManager.AddMessage("New Planet discovered", 7);
+        }
+    }
+
+    GenerateNewPlanet(dormant = false)
     {
         let randomAngle =  (0.25 + 1.5 * Math.random()) * Math.PI;
         let radius = this.planetRadius;
 
         let pos = { x: radius * Math.cos(randomAngle), y: radius * Math.sin(randomAngle) };
-
-        let newPlanet = new Planet(pos, this.GetNextPlanetName(), this);
+        
+        let newPlanet = new Planet(pos, this.GetNextPlanetName(), this, dormant);
         
         let discoveryNumber = this.planets.length + 1 - this.startPlanets;
 
         newPlanet.baseReward += discoveryNumber * 10;
 
-        this.planets.push(newPlanet);
-
+        if(!dormant)
+        {
+            this.DiscoverPlanet(newPlanet);
+        }
+        
         this.planetRadius += this.planetRadiusIncrement;
 
-        this.toastManager.AddMessage("New Planet discovered", 7);
+        return newPlanet;
     }
 
     BuildStartingPlanets()

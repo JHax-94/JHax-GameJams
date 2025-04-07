@@ -6,9 +6,11 @@ import Texture from "pixelbox/Texture";
 
 export default class Planet extends AbstractCelestialBody
 {
-    constructor(pos, title, gameWorld)
+    constructor(pos, title, gameWorld, dormant = false)
     {
         super(pos, {w:1, h:1}, title, "PLANET", gameWorld)
+
+        this.dormant = dormant;
 
         this.localDeliveries = 0;
 
@@ -125,22 +127,36 @@ export default class Planet extends AbstractCelestialBody
         return true;
     }
 
+    WakeUp()
+    {
+        consoleLog("Try to wake:");
+        consoleLog(this);
+        if(this.dormant)
+        {
+            this.dormant = false;
+            this.gameWorld.DiscoverPlanet(this);
+        }
+    }
+
     Draw()
     {
-        let screenPos = this.GetScreenPos();
+        if(!this.dormant)
+        {
+            let screenPos = this.GetScreenPos();
 
-        //paper(14);
-        //rectf(screenPos.x, screenPos.y, this.w * PIXEL_SCALE,  this.h * PIXEL_SCALE);
+            //paper(14);
+            //rectf(screenPos.x, screenPos.y, this.w * PIXEL_SCALE,  this.h * PIXEL_SCALE);
 
-        this.planetTex._copy(Math.floor(this.rotation) % (4 * PIXEL_SCALE), 0, PIXEL_SCALE, PIXEL_SCALE, this.liveTex, 0, 0);
+            this.planetTex._copy(Math.floor(this.rotation) % (4 * PIXEL_SCALE), 0, PIXEL_SCALE, PIXEL_SCALE, this.liveTex, 0, 0);
 
-        //this.planetTex._drawEnhanced(screenPos.x, screenPos.y + PIXEL_SCALE);
-        this.liveTex._drawEnhanced(screenPos.x, screenPos.y);
+            //this.planetTex._drawEnhanced(screenPos.x, screenPos.y + PIXEL_SCALE);
+            this.liveTex._drawEnhanced(screenPos.x, screenPos.y);
 
-        this.DrawParcelsForPickup(screenPos);
-        this.DrawSymbol(screenPos);
-        this.DrawFocus(screenPos);
-        //this.DrawOffscreen(screenPos);
+            this.DrawParcelsForPickup(screenPos);
+            this.DrawSymbol(screenPos);
+            this.DrawFocus(screenPos);
+            //this.DrawOffscreen(screenPos);
+        }
     }
 
     SpawnParcel(targetPlanet, spawnAsSorted)

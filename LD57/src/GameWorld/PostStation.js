@@ -4,6 +4,7 @@ import { PIXEL_SCALE } from "../main"
 import Freighter from "../Spacecraft/Freighter";
 import Tanker from "../Spacecraft/Tanker";
 import AbstractCelestialBody from "./AbstractCelestialBody";
+import Probe from "../Spacecraft/Probe";
 
 export default class PostStation extends AbstractCelestialBody
 {
@@ -64,7 +65,9 @@ export default class PostStation extends AbstractCelestialBody
 
     SendProbe()
     {
-        this.gameWorld.GenerateNewPlanet();
+        let newPlanet = this.gameWorld.GenerateNewPlanet(true);
+
+        new Probe(this, this.gameWorld, newPlanet);
     }
 
     IsStation()

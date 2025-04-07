@@ -1,22 +1,15 @@
 import { vec2 } from "p2";
-import { consoleLog } from "./main";
 
 export default class VectorExtensions
 {
-    constructor()
-    {
-
-    }
+    constructor() {}
 
     ExtendVec2()
     {
         vec2.angleBetween = function(a, b)
         {
-            consoleLog("ANGLE BETWEEN");
             let dot = vec2.dot(a, b);
             let denom = vec2.length(a) * vec2.length(b);
-
-            consoleLog(`dot: ${dot}, denom: ${denom}`);
 
             return Math.acos(dot / denom);
         }

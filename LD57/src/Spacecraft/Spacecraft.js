@@ -1,6 +1,6 @@
 import Texture from "pixelbox/Texture";
 import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE } from "../main";
-import { vec2 } from "p2";
+import { Utils, vec2 } from "p2";
 import MOUSE_BUTTON from "../MouseButtons";
 
 export default class Spacecraft
@@ -25,6 +25,8 @@ export default class Spacecraft
         this.maxFuel = 100;
         this.fuel = 100;
         this.fuelRate = 10;
+
+        this.turnSpeed = 0.1;
 
         this.hovered = false;
 
@@ -58,6 +60,7 @@ export default class Spacecraft
         this.currentSpeed = 0;
 
         this.angle = 0;
+        this.targetAngle = 0;
 
         this.tex = new Texture(PIXEL_SCALE, PIXEL_SCALE);
         this.tex.sprite(sprite, 0, 0);
@@ -89,6 +92,88 @@ export default class Spacecraft
     {
         this.currentSpeed = vec2.length(this.phys.velocity);
 
+        if(this.currentSpeed > 0)
+        {
+            let angle = 0;
+            if(this.phys.velocity[0] > 0)
+            {
+                angle = Math.PI / 2;
+            }
+            else if(this.phys.velocity[0] < 0)
+            {
+                angle = 3 * Math.PI / 2;
+            }
+
+            if(Math.abs(this.phys.velocity[1]) > Math.abs(this.phys.velocity[0]))
+            {
+                if(this.phys.velocity[1] > 0)
+                {
+                    angle = 0;
+                }
+                else if(this.phys.velocity[1] < 0)
+                {
+                    angle = Math.PI;
+                }                
+            }            
+
+            this.targetAngle = angle;
+        }
+        else 
+        {
+            this.targetAngle = 0;
+        }
+        
+        
+        /*
+        if(this.angle < 0)
+        {
+            this.angle += 2 * Math.PI;
+        }
+        else if(this.angle > 2 * Math.PI)
+        {
+            this.angle -= 2 * Math.PI;
+        }*/
+
+
+
+        /*
+        let angleP = this.angle /(2*Math.PI);
+        let targetAngleP = this.targetAngle /(2*Math.PI);
+
+        let clockwiseDistance = targetAngleP - angleP;
+        let antiClockwiseDistance = (1+angleP) - targetAngleP;
+
+        if(this.angle < 0)
+        {
+            this.angle += 2 * Math.PI;
+        }
+        else if(this.angle > 2 * Math.PI)
+        {
+            this.angle -= 2 * Math.PI;
+        }
+
+        let angleDiff = this.targetAngle - this.angle;
+        EM.hudLog.push(`AngleDiff: ${angleDiff.toFixed(3)} / Math.PI: ${Math.PI}`);
+        let turnAmount = deltaTime * this.turnSpeed;
+
+        if(Math.abs(angleDiff) <= turnAmount)
+        {
+            consoleLog("LOCK ANGLE");
+            this.angle = this.targetAngle;
+        }
+        else if(angleDiff < -turnAmount || angleDiff > Math.PI)
+        {
+            EM.hudLog.push(`Turn clock`);
+            this.angle += turnAmount;
+        }
+        else if(angleDiff > turnAmount)
+        {
+            EM.hudLog.push(`Turn antiClock`);
+            this.angle -= turnAmount
+        }
+        */
+
+        this.angle = this.targetAngle;
         if(this.target !== null)
         {
             if(this.currentSpeed < this.maxSpeed && this.fuel > 0)

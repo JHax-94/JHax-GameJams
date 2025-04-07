@@ -31,6 +31,7 @@ export default class Probe extends Spacecraft
     InternalUpdate(deltaTime)
     {
         this.fuel = this.maxFuel;
+        this.angle = 0;
         /*
         if(this.dockedStation === this.target)
         {

@@ -93,6 +93,6 @@ export default class PostStation extends AbstractCelestialBody
         this.DrawParcelsInSorting(screenPos, drawn);
         this.DrawSymbol(screenPos);
         this.DrawFocus(screenPos);
-        this.DrawOffscreen(screenPos);
+        //this.DrawOffscreen(screenPos);
     }
 }

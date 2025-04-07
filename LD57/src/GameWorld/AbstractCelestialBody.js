@@ -5,6 +5,7 @@ import Freighter from "../Spacecraft/Freighter";
 import InfluenceZone from "./InfluenceZone";
 import ParcelStore from "./ParcelStore";
 import PermanentUpgrades from "./PermanentUpgrades";
+import OffscreenIndicator from "../UI/OffscreenIndicator";
 
 export default class AbstractCelestialBody
 {
@@ -38,6 +39,8 @@ export default class AbstractCelestialBody
         this.maxUpgrades = 6;
 
         EM.RegisterEntity(this, { physSettings: physSettings  })
+
+        this.offscreen = new OffscreenIndicator(this);
 
         this.trySpawnStation = false;
 
@@ -232,8 +235,13 @@ export default class AbstractCelestialBody
     {
         let available = false;
 
+        consoleLog(`Check upgrades list for upgrade: ${upgradeName}`);
+        consoleLog([...this.upgrades]);
+
         for(let i =0; this.upgrades.length; i ++)
         {
+            consoleLog(`Check upgrade: ${i}`);
+
             if(this.upgrades[i].type === upgradeName)
             {
                 available = true;
@@ -411,40 +419,6 @@ export default class AbstractCelestialBody
                 this.SetUpgrade();
                 this.nextUpgradeUnlock = null;                
             }
-        }
-    }
-
-    DrawOffscreen(screenPos)
-    {
-        let indicatorPos = { x: screenPos.x, y: screenPos.y }
-        let drawIndicator = false;
-
-        if(indicatorPos.x < -PIXEL_SCALE)
-        {
-            drawIndicator = true;
-            indicatorPos.x = 0;
-        }
-        else if(indicatorPos.x >= TILE_WIDTH * PIXEL_SCALE)
-        {
-            indicatorPos.x = TILE_WIDTH * PIXEL_SCALE - PIXEL_SCALE;
-            drawIndicator = true;
-        }
-
-        if(indicatorPos.y < -PIXEL_SCALE)
-        {
-            drawIndicator = true;
-            indicatorPos.y = 0;
-        }
-        else if(indicatorPos.y >= TILE_HEIGHT * PIXEL_SCALE)
-        {
-            indicatorPos.y = TILE_HEIGHT *PIXEL_SCALE - PIXEL_SCALE
-            drawIndicator = true;
-        }
-
-        if(drawIndicator)
-        {
-            rect(indicatorPos.x, indicatorPos.y, PIXEL_SCALE, PIXEL_SCALE);
-            this.symbolTex._drawEnhanced(indicatorPos.x, indicatorPos.y);
         }
     }
 

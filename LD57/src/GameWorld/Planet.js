@@ -70,7 +70,7 @@ export default class Planet extends AbstractCelestialBody
         this.DrawParcelsForPickup(screenPos);
         this.DrawSymbol(screenPos);
         this.DrawFocus(screenPos);
-        this.DrawOffscreen(screenPos);
+        //this.DrawOffscreen(screenPos);
     }
 
     SpawnParcel(targetPlanet, spawnAsSorted)

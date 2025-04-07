@@ -234,7 +234,6 @@ export default class ShopUi
 
             let canShowMore = upgradeLines > 2 && this.fullView === false;
 
-
             if(canShowMore)
             {
                 nShowUpgrades = 2;

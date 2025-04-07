@@ -35,6 +35,8 @@ export default class AbstractCelestialBody
             linearDrag: 0.99
         };
 
+        this.maxUpgrades = 6;
+
         EM.RegisterEntity(this, { physSettings: physSettings  })
 
         this.trySpawnStation = false;
@@ -88,8 +90,11 @@ export default class AbstractCelestialBody
 
     GenerateNextUpgradeUnlock()
     {
-        this.nextUpgradeUnlock = this.GetNextUpgradeUnlock();
-        this.upgradeLevel ++;
+        if(this.upgrades.length < this.maxUpgrades)
+        {
+            this.nextUpgradeUnlock = this.GetNextUpgradeUnlock();
+            this.upgradeLevel ++;
+        }
     }
 
     IsPlanet()
@@ -223,6 +228,22 @@ export default class AbstractCelestialBody
         }
     }
 
+    UpgradeAvailable(upgradeName)
+    {
+        let available = false;
+
+        for(let i =0; this.upgrades.length; i ++)
+        {
+            if(this.upgrades[i].type === upgradeName)
+            {
+                available = true;
+                break;
+            }
+        }
+
+        return available;
+    }
+
     SetUpgrade()
     {
         let upgradesList = assets.upgradesConfig.upgrades;
@@ -240,14 +261,14 @@ export default class AbstractCelestialBody
 
                 if(upgradesList[i].type === "NewStation")
                 {
-                    if(this.localStation !== null)
+                    if(this.localStation !== null || this.UpgradeAvailable("NewStation"))
                     {
                         canAdd = false;
                     }
                 }
                 else if(upgradesList[i].type === "NewShuttle")
                 {
-                    if(this.localStation == null)
+                    if(this.localStation == null || this.shuttles?.length > 0 || this.UpgradeAvailable("NewShuttle"))
                     {
                         canAdd = false;
                     }

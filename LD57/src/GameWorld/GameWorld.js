@@ -439,6 +439,11 @@ export default class GameWorld
 
                 this.ProcessWeeklyExpenses();
                 this.CheckForNewUnlocks();
+
+                if(this.starWeek % 4 === 0)
+                {
+                    this.GenerateNewPlanet();
+                }
             }
 
             if(this.starWeek >= this.weeksPerYear)

@@ -19,6 +19,8 @@ export default class Planet extends AbstractCelestialBody
         this.distToStation = vec2.dist(this.gameWorld.stations[0].phys.position, this.phys.position);
 
         this.localStation = this.gameWorld.GetNearestStationWithin(this, CONSTANTS.LOCAL_STATION_DISTANCE);
+
+        this.shuttles = [];
     }
 
     SpawnShuttle()
@@ -26,6 +28,8 @@ export default class Planet extends AbstractCelestialBody
         let name = this.gameWorld.GetNextShuttleName()
                 
         let newShuttle = new Shuttle(this, name, this.gameWorld);
+
+        this.shuttles.push(newShuttle);
 
         this.gameWorld.RegisterSpacecraft(newShuttle);
     }

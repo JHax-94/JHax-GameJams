@@ -14,10 +14,13 @@ export default class ShopUi
 
         this.minHeight = tileHeight * PIXEL_SCALE;
 
+        let x = 4 + 24 * PIXEL_SCALE; 
+        let width = TILE_WIDTH* PIXEL_SCALE - x - 2;
+
         this.panel = { 
-            x: 4 + 30 * PIXEL_SCALE, 
+            x: x,
             y: this.CalcPanelY(this.minHeight),
-            w: 18 * PIXEL_SCALE - 6, 
+            w: width, 
             h: this.minHeight
         };
 

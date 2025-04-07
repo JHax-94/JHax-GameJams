@@ -13,7 +13,7 @@ export default class ParcelStoreUi
         this.mousePos = null;
         let tileHeight = 4;
 
-        this.panel = { x: 2, y: (TILE_HEIGHT- tileHeight) * PIXEL_SCALE - 2, w: 30 * PIXEL_SCALE, h: tileHeight * PIXEL_SCALE };
+        this.panel = { x: 2, y: (TILE_HEIGHT- tileHeight) * PIXEL_SCALE - 2, w: 24 * PIXEL_SCALE, h: tileHeight * PIXEL_SCALE };
 
         this.slotStart = { x: 2, y: 12 };
         this.slotDims = { w: 1.5, h: 1.5 };

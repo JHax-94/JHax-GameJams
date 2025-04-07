@@ -250,7 +250,7 @@ exports.update = function () {
     if (!LOAD_COMPLETE)
     {
         SETUP();
-        AUDIO.PlayMusic();
+        //AUDIO.PlayMusic();
     }
 
     EM.Input();

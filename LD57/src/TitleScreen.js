@@ -61,11 +61,11 @@ export default class TitleScreen
         EM.RegisterEntity(this);
 
         this.startButton = new Button(
-            { x: this.titleMap.width, y: 26, w: 12, h: 1.5}, 
+            { x: this.titleMap.width, y: TILE_HEIGHT-5, w: 12, h: 1.5}, 
             { font: "LargeNarr", rect: { text: "START GAME (WITH TUTORIAL)", colour: 14, textColour: 13, borderColour: 15 } }, "UI");
 
         this.startButtonSkip = new Button(
-            { x: this.titleMap.width + 13, y: 26, w: 13, h: 1.5}, 
+            { x: this.titleMap.width + 13, y: TILE_HEIGHT - 5, w: 13, h: 1.5}, 
             { font: "LargeNarr", rect: { text: "START GAME (NO TUTORIAL)", colour: 14, textColour: 13, borderColour: 15 } }, "UI");
 
         this.startButton.Click = () => this.StartGame();
@@ -108,7 +108,7 @@ export default class TitleScreen
 
         
 
-        let yPos = this.mainTextPos.y;
+        let yPos = PIXEL_SCALE + 1;//this.mainTextPos.y;
 
         pen(1);
         setFont(this.font);
@@ -121,7 +121,7 @@ export default class TitleScreen
 
         for(let i = 0; i < this.mainText.length; i ++)
         {
-            let drawX = this.mainTextPos.x;
+            let drawX = this.mainTextPos.x + 8;
             let startY = yPos;
 
             let line = this.mainText[i];

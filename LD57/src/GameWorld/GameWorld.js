@@ -452,6 +452,7 @@ export default class GameWorld
         this.player.credits -= amount;
 
         this.toastManager.AddMessage(`${message} -${amount}`, 9);
+        AUDIO.PlayFx("penaltypay");
     }
 
     ProcessPurchase(amount)

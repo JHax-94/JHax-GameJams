@@ -22,6 +22,12 @@ export default class PostStation extends AbstractCelestialBody
 
         this.freighters = [];
         
+
+        this.yMod = 3;
+        this.yModFrequency = 0.2;
+        this.yModTimer = 0;
+
+
         this.parcelsSorted = 0;
 
         if(isFirstStation)
@@ -79,6 +85,12 @@ export default class PostStation extends AbstractCelestialBody
     {
         this.CheckUnlockCondition();
 
+        this.yModTimer += deltaTime * this.yModFrequency * 2 * Math.PI;
+        if(this.yModTimer > 2*Math.PI)
+        {
+            this.yModTimer -= 2 * Math.PI;
+        }
+
         for(let i = 0; i < this.parcelStore.Count(); i ++)
         {
             let parcel = this.parcelStore.Parcel(i);
@@ -130,8 +142,10 @@ export default class PostStation extends AbstractCelestialBody
         let screenPos = this.GetScreenPos();
         paper(1);
         
+        let drawY = Math.round(screenPos.y + this.yMod * Math.sin(this.yModTimer));
+
         //rectf(screenPos.x, screenPos.y, this.w * PIXEL_SCALE, this.h * PIXEL_SCALE);
-        this.tex._drawEnhanced(screenPos.x, screenPos.y);
+        this.tex._drawEnhanced(screenPos.x, drawY);
         let drawn = this.DrawParcelsForPickup(screenPos, true, 9);
         this.DrawParcelsInSorting(screenPos, drawn, 9);
         this.DrawSymbol(screenPos);
@@ -149,7 +163,7 @@ export default class PostStation extends AbstractCelestialBody
             {
                 paper(4);
             }
-            rectf(screenPos.x + blink.x, screenPos.y + blink.y, 2, 2);
+            rectf(screenPos.x + blink.x, drawY + blink.y, 2, 2);
         }
         //this.DrawOffscreen(screenPos);
     }

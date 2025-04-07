@@ -119,10 +119,10 @@ export default class AbstractCelestialBody
     BuildStationNearby()
     {
         this.trySpawnStation = true;
-        let distance = CONSTANTS.LOCAL_STATION_DISTANCE;
+        let distance = CONSTANTS.LOCAL_STATION_DISTANCE-(10 + random(91));
 
         let newPos = {
-            radius: distance + random(25),
+            radius: distance,
             angle: random(2*Math.PI),                
         };
 

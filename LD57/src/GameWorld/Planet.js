@@ -100,7 +100,7 @@ export default class Planet extends AbstractCelestialBody
     }
 
     Update(deltaTime)
-    {
+    {   
         this.rotation += deltaTime * this.rotationSpeed;
 
         this.CheckUnlockCondition();

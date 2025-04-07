@@ -42,8 +42,8 @@ export default class GameWorld
         this.dayTimer = 0;
         this.dayTime = 5;
 
-        this.planetRadius = 22;
-        this.planetRadiusIncrement = 6;
+        this.planetRadius = 20;
+        this.planetRadiusIncrement = 2;
         this.lastPlanetAngle = 0;
 
         this.symbolGenerator = new SymbolGenerator();
@@ -383,6 +383,8 @@ export default class GameWorld
     BuildStation(physLocation)
     {
         let newStation = new PostStation({x: physLocation[0] / PIXEL_SCALE, y: -physLocation[1] / PIXEL_SCALE}, `POST STATION ${this.stations.length + 1}`, this);
+
+        this.CheckStationLocalToPlanets(newStation);
 
         this.stations.push(newStation);
     }

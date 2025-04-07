@@ -170,7 +170,7 @@ export default class TitleScreen
         let credits = { x: (TILE_WIDTH - 5) * PIXEL_SCALE - 2, y: (TILE_HEIGHT) * PIXEL_SCALE - 2 - 6*creditsHeight };        
         
         print("Credits:", credits.x, credits.y);
-        print("Game & Music by Josh Haxell", credits.x, credits.y + creditsHeight);
+        print("Game + Music by jhax", credits.x, credits.y + creditsHeight);
         print("Made in:", credits.x, credits.y + 2 * creditsHeight);
         print("PixelBox by cstoquer", credits.x, credits.y + 3 * creditsHeight);
         print("with:", credits.x, credits.y + 4 * creditsHeight);

@@ -12,6 +12,8 @@ export default class ParcelSpawnControl
         this.spawnTime = 10;
         this.spawnTimer = 0;
 
+        this.minSpawnTime = 4;
+
         this.elapsedTimer = 0;
 
         this.sortedTimer = 0;
@@ -21,6 +23,20 @@ export default class ParcelSpawnControl
         this.penaltyCost = 100;
 
         this.lastRoll = null;
+    }
+
+    SpawnTime()
+    {
+        let spawnTime = this.spawnTime;
+
+        spawnTime -= (this.gameWorld.WeeksPassed() + (this.gameWorld.planets.length - this.gameWorld.startPlanets)) * 0.2;
+
+        if(spawnTime < this.minSpawnTime)
+        {
+            spawnTime = this.minSpawnTime;
+        }
+
+        return spawnTime;
     }
 
     SpawnParcel()
@@ -96,17 +112,11 @@ export default class ParcelSpawnControl
 
     ProcessUpdate(deltaTime)
     {
-        //EM.hudLog.push(this.SpawnAsSortedProbability());
-        if(this.lastRoll !== null)
-        {
-            EM.hudLog.push(`Last roll: ${this.lastRoll}`);
-        }
-        
         this.spawnTimer += deltaTime;
-        if(this.spawnTimer >= this.spawnTime)
+        if(this.spawnTimer >= this.SpawnTime())
         {
             this.SpawnParcel();
-            this.spawnTimer -= this.spawnTime;
+            this.spawnTimer -= this.SpawnTime();
         }
 
         this.sortedTimer += deltaTime;

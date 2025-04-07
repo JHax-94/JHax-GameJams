@@ -4,6 +4,7 @@ export default class StatusUi
 {
     constructor(gameWorld)
     {
+        this.renderLayer = "UI";
         this.gameWorld = gameWorld;
 
         this.font = getFont("LargeNarr");

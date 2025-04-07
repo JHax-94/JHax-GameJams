@@ -26,6 +26,10 @@ export default class Scores
             {
                 this.highScore = 0;
             }
+            else
+            {
+                this.highScore = highScore;
+            }
         }
     }
 

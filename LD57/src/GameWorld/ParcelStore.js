@@ -131,7 +131,10 @@ export default class ParcelStore
 
         for(let i = 0; i < indexList.length; i++)
         {
-            parcels.push(this.parcels[indexList[i]]);
+            if(indexList[i] < this.parcels.length && indexList[i] >= 0)
+            {
+                parcels.push(this.parcels[indexList[i]]);
+            }
         }
 
         return parcels;

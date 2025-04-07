@@ -44,7 +44,14 @@ export default class ParcelStoreUi
 
     Bounds()
     {
-        return this.panel
+        let bounds = {x: 0, y: 0, w: 0, h: 0};
+
+        if(this.ParcelStore() !== null)
+        {
+            bounds = this.panel;
+        }
+
+        return bounds;
     }
 
     Hover(hover, pos)

@@ -162,7 +162,14 @@ export default class ShopUi
 
     Bounds()
     {
-        return this.panel;
+        let bounds = { x: 0, y: 0, w: 0, h: 0};
+
+        if(this.SelectedItem())
+        {
+            bounds = this.panel;
+        }
+
+        return bounds;
     }
 
     UpgradeButtonDims(index)

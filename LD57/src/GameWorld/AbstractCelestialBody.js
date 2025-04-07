@@ -234,13 +234,13 @@ export default class AbstractCelestialBody
     UpgradeAvailable(upgradeName)
     {
         let available = false;
-
+        /*
         consoleLog(`Check upgrades list for upgrade: ${upgradeName}`);
         consoleLog([...this.upgrades]);
-
-        for(let i =0; this.upgrades.length; i ++)
+        */
+        for(let i =0; i < this.upgrades.length; i ++)
         {
-            consoleLog(`Check upgrade: ${i}`);
+            //consoleLog(`Check upgrade: ${i}`);
 
             if(this.upgrades[i].type === upgradeName)
             {

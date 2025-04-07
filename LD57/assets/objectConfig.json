@@ -4,14 +4,14 @@
             "components": [
                 {
                     "type": "Rect",
-                    "dims": { "x": "centre", "y": "centre", "w": 6, "h": 5 },
+                    "dims": { "x": "centre", "y": "centre", "w": 6, "h": 6 },
                     "colour": 4,
                     "isBaseDims": true
                 },
                 {
                     "type": "Label",
                     "dims": { "x": "c", "y": 0.5 },
-                    "text": "Game Paused!",
+                    "text": "GAME PAUSED!",
                     "posType": "CENTRE",
                     "colours": {
                         "font": 1
@@ -19,21 +19,34 @@
                 },
                 {
                     "type": "Button", 
-                    "dims": { "x": "centre", "y": 2, "w": 5.5, "h": 1 }, 
+                    "dims": { "x": "centre", "y": 1.5, "w": 5.5, "h": 1 }, 
                     "settings": 
                     { 
                         "buttonCalls": "Resume",
-                        "rect": { "text": "Resume", "colour": 1, "textColour": 0, "borderColour": 0 }
+                        "rect": { "text": "RESUME", "colour": 1, "textColour": 0, "borderColour": 0 },
+                        "font": "LargeNarr"
+                    }
+                },
+                {
+                    "type": "Button", 
+                    "dims": { "x": "centre", "y": 3, "w": 5.5, "h": 1 }, 
+                    "settings": 
+                    { 
+                        "buttonCalls": "Retire",
+                        "rect": { "text": "RETIRE", "colour": 1, "textColour": 0, "borderColour": 0 },
+                        "font": "LargeNarr"
+                        
                     }
                 },
                 { 
                     "type": "Button", 
                     "buttonClass": "Load",
-                    "dims": { "x": "centre", "y": 3.5, "w": 5.5, "h": 1 }, 
+                    "dims": { "x": "centre", "y": 4.5, "w": 5.5, "h": 1 }, 
                     "settings": 
                     { 
-                        "rect": { "text": "Back to Title", "colour": 1, "textColour": 0, "borderColour": 1 }, 
-                        "loadTarget": "LevelSelect"
+                        "rect": { "text": "BACK TO TITLE", "colour": 1, "textColour": 0, "borderColour": 1 }, 
+                        "loadTarget": "LevelSelect",
+                        "font": "LargeNarr"
                     }
                 }
             ]

@@ -13,6 +13,12 @@ export default class PauseMenu extends Menu
         EM.Pause();
     }
 
+    Retire()
+    {
+        let gameWorld = EM.GetEntity("GAME_WORLD");
+        gameWorld.GameOver();
+    }
+
     ButtonStartClick()
     {
         this.Resume();

@@ -156,9 +156,11 @@ export default class ShopUi
                 let selectedItem = this.SelectedItem();
                 let upgrades = selectedItem.AvailableUpgrades();
                 
-                this.upgradeProcessor.ProcessUpgrade(upgrades[this.hoveredUpgrade], selectedItem);
-                selectedItem.RemoveUpgrade(upgrades[this.hoveredUpgrade]);
-                this.hoveredUpgrade = null;
+                if(this.upgradeProcessor.ProcessUpgrade(upgrades[this.hoveredUpgrade], selectedItem))
+                {
+                    selectedItem.RemoveUpgrade(upgrades[this.hoveredUpgrade]);
+                    this.hoveredUpgrade = null;    
+                }                
             }
         }
     }

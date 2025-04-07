@@ -1,4 +1,4 @@
-import { consoleLog, EM, getFont, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
+import { AUDIO, consoleLog, EM, getFont, PIXEL_SCALE, setFont, TILE_HEIGHT, TILE_WIDTH, UTIL } from "../main";
 import MOUSE_BUTTON from "../MouseButtons";
 
 export default class ParcelStoreUi
@@ -101,10 +101,12 @@ export default class ParcelStoreUi
 
         if(indexOf < 0)
         {
+            AUDIO.PlayFx("select");
             this.selection.push(index);
         }
         else
         {
+            AUDIO.PlayFx("deselect");
             this.selection.splice(indexOf, 1);
         }
     }

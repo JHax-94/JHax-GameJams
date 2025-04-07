@@ -1,5 +1,5 @@
 import { UPGRADE_STRINGS } from "../Enums/UpgradeStrings";
-import { consoleLog, EM } from "../main";
+import { AUDIO, consoleLog, EM } from "../main";
 
 export default class UpgradeProcessor
 {
@@ -140,13 +140,15 @@ export default class UpgradeProcessor
 
             if(upgradeComplete && upgradeData.cost > 0)
             {
-                
                 gameWorld.ProcessPurchase(upgradeData.cost);
             }     
         }
         else
         {
             gameWorld.toastManager.AddMessage("Can't afford upgrade", 10);
+            AUDIO.PlayFx("nopurchase");
         }
+
+        return upgradeComplete;
     }
 }

@@ -387,16 +387,19 @@ export default class AbstractCelestialBody
 
     Click(click)
     {
-        consoleLog(`${this.subTag} ${this.title} clicked!`);
-        consoleLog(click);
+        if(!EM.pause)
+        {
+            consoleLog(`${this.subTag} ${this.title} clicked!`);
+            consoleLog(click);
 
-        if(click === MOUSE_BUTTON.LEFT_MOUSE)
-        {
-            this.gameWorld.Select(this);
-        }
-        else if(click === MOUSE_BUTTON.RIGHT_MOUSE)
-        {
-            this.gameWorld.PerformAction(this);
+            if(click === MOUSE_BUTTON.LEFT_MOUSE)
+            {
+                this.gameWorld.Select(this);
+            }
+            else if(click === MOUSE_BUTTON.RIGHT_MOUSE)
+            {
+                this.gameWorld.PerformAction(this);
+            }
         }
     }
 

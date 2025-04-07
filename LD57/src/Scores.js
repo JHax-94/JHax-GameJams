@@ -1,19 +1,20 @@
+import { consoleLog } from "./main";
+
 export default class Scores
 {
     constructor()
     {
         this.highScore = 0;
 
-
         this.useBrowserStorage = false;
 
         try
         {   
-            window.localStorage.setItem("gameLoaded", getDate());
+            window.localStorage.setItem("gameLoaded", Date.now());    
             this.useBrowserStorage = true;
         }
         catch(e)
-        {
+        {   
             console.error("Can't save high scores to browser, use memory");
         }
 

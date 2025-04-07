@@ -8,6 +8,7 @@ import InputMethod from "./InputMethod";
 import { INPUT_TYPE } from "./InputType";
 import Camera from "./Camera";
 import GameOverMenu from "./UI/GameOverMenu";
+import Button from "./UI/Button";
 
 export default class EntityManager
 {
@@ -908,11 +909,14 @@ export default class EntityManager
     
     ShowGameOver()
     {
-        if(!this.pause)
+        
+        this.pause = true;
+        if(this.pauseMenu)
         {
-            this.pause = true;
-            this.pauseMenu = new GameOverMenu();
+            this.pauseMenu.Close();
         }
+
+        this.pauseMenu = new GameOverMenu();
     }
 
     GameOver()
@@ -1421,10 +1425,14 @@ export default class EntityManager
                 }
                 else if(this.Overlap(this.clickables[i], x, y))
                 {
-                    this.clickables[i].Click(button, {x: x, y: y});
+                    if(EM.pause === false || this.clickables[i] instanceof Button) 
+                    {
+                        this.clickables[i].Click(button, {x: x, y: y});
 
-                    clicked = true;
-                    break;
+                        clicked = true;
+
+                        break;
+                    }
                 }
             }
 

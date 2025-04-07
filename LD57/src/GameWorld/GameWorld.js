@@ -42,8 +42,8 @@ export default class GameWorld
         this.dayTimer = 0;
         this.dayTime = 5;
 
-        this.planetRadius = 24;
-        this.planetRadiusIncrement = 10;
+        this.planetRadius = 22;
+        this.planetRadiusIncrement = 6;
         this.lastPlanetAngle = 0;
 
         this.symbolGenerator = new SymbolGenerator();
@@ -254,7 +254,7 @@ export default class GameWorld
         }
     }
 
-    AttemptToTransferParcels(source, target, selectionIndexList)
+    AttemptToTransferParcels(source, target, selectionIndexList, blockSound = false)
     {
         if(source.IsSpacecraftDocked(target))
         {
@@ -268,6 +268,7 @@ export default class GameWorld
             
             if(selectedParcels.length > 0)
             {
+                if(!blockSound) AUDIO.PlayFx("transfer");
                 this.parcelStoreUi.ClearSelection();
                 target.parcelStore.AddParcels(selectedParcels);
                 source.parcelStore.RemoveParcels(selectedParcels);
@@ -323,7 +324,8 @@ export default class GameWorld
         if(index < 0 )
         {
             this.planets.push(planet);
-            this.toastManager.AddMessage("New Planet discovered", 7);
+            this.toastManager.AddMessage(">>> New Planet Discovered <<<", 7);
+            AUDIO.PlayFx("newplanet");
         }
     }
 
@@ -412,13 +414,19 @@ export default class GameWorld
 
     ProcessWeeklyExpenses()
     {
+        let endGame =  false;
+        if(this.player.credits <= 0)
+        {
+            endGame = true;
+        }
         let upkeep = this.CalculateWeeklyUpkeep();
 
         this.player.credits -= upkeep;
 
         this.toastManager.AddMessage(`Weekly Upkeep -${upkeep}`, 9);
-
-        if(this.player.credits <= 0)
+        AUDIO.PlayFx("upkeeppay");
+        
+        if(endGame)
         {
             this.GameOver();
         }
@@ -448,6 +456,7 @@ export default class GameWorld
     {
         this.player.credits -= amount;
         this.toastManager.AddMessage(`Upgrade purchased -${amount}`, 10);
+        AUDIO.PlayFx("purchase");
     }
 
     Update(deltaTime)

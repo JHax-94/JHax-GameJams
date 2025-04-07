@@ -94,7 +94,7 @@ export default class Shuttle extends Spacecraft
 
                     if(selection.length > 0)
                     {
-                        this.gameWorld.AttemptToTransferParcels(this.dockedStation, this, selection);
+                        this.gameWorld.AttemptToTransferParcels(this.dockedStation, this, selection, true);
                         this.SetTarget(this.targetStation);
                     }
                 }
@@ -111,7 +111,7 @@ export default class Shuttle extends Spacecraft
                     }
                     else 
                     {
-                        this.gameWorld.AttemptToTransferParcels(this.dockedStation, this, selection)
+                        this.gameWorld.AttemptToTransferParcels(this.dockedStation, this, selection, true);
                         this.SetTarget(this.homePlanet);
                     }
                 }

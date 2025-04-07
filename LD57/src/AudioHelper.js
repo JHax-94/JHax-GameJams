@@ -77,6 +77,7 @@ export default class AudioHelper
             
         }*/
        try{
+        consoleLog(`Try fx: ${fxName}`);
         assets.bleeper[fxName].play();
        }
        catch

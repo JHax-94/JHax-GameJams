@@ -15,10 +15,14 @@ export default class Parcel
 
         this.gracePeriod = this.sourcePlanet.baseGracePeriod;
 
+        this.currentStore = null;
+
         if(sorted === false)
         {
             this.gracePeriod *= 3;
         }
+
+        this.gameWorld = this.sourcePlanet.gameWorld;
 
         this.decayRate = 0.5;
 
@@ -29,6 +33,11 @@ export default class Parcel
         this.sortProgress= 0;
 
         EM.RegisterEntity(this);
+    }
+
+    SetStore(parcelStore)
+    {
+        this.currentStore = parcelStore;
     }
 
     RewardValue()
@@ -45,6 +54,11 @@ export default class Parcel
         if(value < 0)
         {
             value = 0;
+
+            if(this.gameWorld.ExpiredParcelsDisappear())
+            {
+                this.Expire();
+            }
         }
 
         return value;
@@ -58,6 +72,12 @@ export default class Parcel
     GraceProportion()
     {
         return this.RemainingGrace() / this.gracePeriod;
+    }
+
+    Expire()
+    {
+        this.currentStore.RemoveParcel(this);
+        EM.RemoveEntity(this);
     }
 
     Deliver(deliveredBy)

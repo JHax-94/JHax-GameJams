@@ -32,7 +32,7 @@ export default class ParcelStore
     {
         let newParcel = new Parcel(this.parent, targetPlanet, spawnAsSorted);
 
-        this.parcels.push(newParcel);
+        this.AddParcel(newParcel);
     }
 
     AddParcel(parcel)
@@ -46,6 +46,7 @@ export default class ParcelStore
         {
             this.parcels.push(parcel);
             consoleLog("Parcel Added!");
+            parcel.SetStore(this);
         }
     }
 

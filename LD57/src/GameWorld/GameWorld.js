@@ -65,6 +65,11 @@ export default class GameWorld
         this.selected = null;
     }
 
+    ExpiredParcelsDisappear()
+    {
+        return this.startGameOptions.chillMode;
+    }
+
     WeeksPassed()
     {
         return Math.floor(this.daysPassed / this.daysPerWeek );

@@ -67,6 +67,13 @@ export default class Spacecraft
 
         EM.RegisterEntity(this, { physSettings: physSettings });
 
+        this.previousTarget = null;
+        this.target = null;
+    }
+
+    UnsetTarget()
+    {
+        this.previousTarget = this.target;
         this.target = null;
     }
 
@@ -74,6 +81,8 @@ export default class Spacecraft
     {
         return this.currentSpeed > 0 && this.fuel > 0 && this.dockedStation !== null;
     }
+
+    RefuelComplete() {}
 
     IsSpacecraftDocked(target)
     {
@@ -347,7 +356,7 @@ export default class Spacecraft
 
     Dock(station)
     {
-        this.target = null;
+        this.UnsetTarget();
         this.dockedStation = station;
     }
 

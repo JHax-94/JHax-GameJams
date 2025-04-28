@@ -1,5 +1,5 @@
 import InfluenceZone from "../GameWorld/InfluenceZone";
-import { COLLISION_GROUP, EM, PIXEL_SCALE } from "../main";
+import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE } from "../main";
 import Spacecraft from "./Spacecraft";
 
 export default class Tanker extends Spacecraft
@@ -34,7 +34,7 @@ export default class Tanker extends Spacecraft
 
             if(spacecraft === this.target)
             {
-                this.target = null;
+                this.UnsetTarget();
             }
         }
     }
@@ -86,10 +86,12 @@ export default class Tanker extends Spacecraft
                 if(this.CanFuel(craft))
                 {
                     let fuelTransfer = deltaTime * this.fuelRate;
+                    let refuelComplete = false;
 
                     if(craft.maxFuel - craft.fuel < fuelTransfer)
                     {
                         fuelTransfer = craft.maxFuel - craft.fuel;
+                        refuelComplete = true;
                     }
 
                     if(fuelTransfer > this.fuel)
@@ -99,11 +101,16 @@ export default class Tanker extends Spacecraft
 
                     this.fuel -= fuelTransfer;
                     craft.fuel += fuelTransfer;
+
+                    if(refuelComplete)
+                    {
+                        craft.RefuelComplete();
+                    }
                 }
                 else if(craft.fuel === 0 && craft.currentSpeed > 1)
                 {
                     craft.phys.velocity = [0, 0];
-                    craft.target = null;
+                    craft.UnsetTarget();
                 }
             }
         }

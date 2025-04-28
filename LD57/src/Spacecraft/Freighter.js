@@ -1,7 +1,7 @@
 import { UPGRADE_STRINGS } from "../Enums/UpgradeStrings";
 import ParcelStore from "../GameWorld/ParcelStore";
 import PermanentUpgrades from "../GameWorld/PermanentUpgrades";
-import { CONSTANTS, EM } from "../main";
+import { consoleLog, CONSTANTS, EM } from "../main";
 import Spacecraft from "./Spacecraft";
 
 export default class Freighter extends Spacecraft
@@ -41,6 +41,18 @@ export default class Freighter extends Spacecraft
             }
         }
         return upgrades;
+    }
+
+    GetSecondaryTooltip()
+    {
+        let tooltip = null;
+
+        if(this.dockedStation !== null && this.parcelStore.Count() > 0)
+        {
+            tooltip = "Right click on a piece of cargo to transfer it instantly";
+        }
+
+        return tooltip;
     }
 
     GetTooltip()

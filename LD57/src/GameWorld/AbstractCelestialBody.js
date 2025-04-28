@@ -67,6 +67,20 @@ export default class AbstractCelestialBody
         this.upgradeLevel ++;*/
     }
     
+    GetSecondaryTooltip()
+    {
+        let tooltip = null;
+
+        let freighter = this.GetSingleFreighter();
+
+        if(freighter !== null && this.parcelStore.Count() > 0)
+        {
+            tooltip = "Right click a piece of cargo to transfer it instantly";
+        }
+
+        return tooltip;
+    }
+
     GetTooltip()
     {
         let tooltip = null
@@ -350,7 +364,7 @@ export default class AbstractCelestialBody
                 }
             }
         }
-        
+
         return freighter;
     }
 

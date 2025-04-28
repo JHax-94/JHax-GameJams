@@ -119,6 +119,18 @@ export default class Shuttle extends Spacecraft
         }
     }
 
+    RefuelComplete()
+    {
+        if(this.previousTarget)
+        {
+            this.SetTarget(this.previousTarget);
+        }
+        else 
+        {
+            this.SetTarget(this.homePlanet);
+        }
+    }
+
     InternalDeliveryCheck()
     {
         consoleLog(`SHUTTLE INTERNAL DELIVERY CHECK`);

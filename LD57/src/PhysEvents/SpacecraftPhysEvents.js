@@ -1,6 +1,7 @@
 import InfluenceZone from "../GameWorld/InfluenceZone";
 import { consoleLog } from "../main";
 import Freighter from "../Spacecraft/Freighter";
+import Shuttle from "../Spacecraft/Shuttle";
 import Tanker from "../Spacecraft/Tanker";
 import PhysEventRegistry from "./PhysEventRegistry";
 
@@ -38,6 +39,7 @@ export default class SpacecraftPhysEventRegister extends PhysEventRegistry
         
         let tanker = null;
         let freighter = null;
+        let shuttle = null;
 
         consoleLog("Check bods:");
         consoleLog(spacecraftBods);
@@ -49,6 +51,11 @@ export default class SpacecraftPhysEventRegister extends PhysEventRegistry
                 consoleLog("FREIGHER FOUND");
                 freighter = spacecraftBods[i].obj;
             }
+            else if(spacecraftBods[i].obj instanceof Shuttle)
+            {
+                consoleLog("SHUTTLE FOUND");
+                shuttle = spacecraftBods[i].obj;
+            }
             else if(spacecraftBods[i].obj instanceof InfluenceZone)
             {
                 consoleLog("TANKER FOUND");
@@ -59,6 +66,11 @@ export default class SpacecraftPhysEventRegister extends PhysEventRegistry
         if(tanker !== null && freighter !== null)
         {
             tanker.AddSpacecraft(freighter);
+        }
+
+        if(tanker !== null && shuttle !== null)
+        {
+            tanker.AddSpacecraft(shuttle);
         }
     }
 

@@ -332,12 +332,6 @@ export default class GameWorld
 
                 if(target !== null && quickAction.parcelList.length > 0)
                 {
-                    consoleLog("Transfer cargo from:");
-                    consoleLog(source);
-                    consoleLog("to:");
-                    consoleLog(target);
-                    consoleLog("---ACTION---");
-                    consoleLog(quickAction);
                     this.AttemptTransferOfParcelList(source.parent, target, quickAction.parcelList);
                 }
             }
@@ -368,7 +362,7 @@ export default class GameWorld
             {
                 this.AttemptToTransferParcels(this.selected, target, this.parcelStoreUi.selection);
             }
-            else if((this.selected instanceof Tanker && target instanceof Freighter))
+            else if(this.selected instanceof Tanker && (target instanceof Freighter || target instanceof Shuttle))
             {
                 this.AttemptToSendSpacecraft(this.selected, target);
             }
@@ -594,6 +588,16 @@ export default class GameWorld
             if(fuelString && fuelString.length > 0)
             {
                 print(fuelString, drawSelectedAt.x + drawSelectedAt.w + 2, drawSelectedAt.y);
+            }
+        }
+
+        if(this.selected && this.selected.GetSecondaryTooltip)
+        {
+            let tooltip = this.selected.GetSecondaryTooltip();
+
+            if(tooltip !== null && tooltip.length > 0)
+            {
+                print(tooltip, drawSelectedAt.x + drawSelectedAt.w + 2, drawSelectedAt.y + drawSelectedAt.h - (UTIL.GetTextHeight(tooltip) * 2 * PIXEL_SCALE + 2));
             }
         }
     }

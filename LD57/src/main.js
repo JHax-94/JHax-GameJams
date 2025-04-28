@@ -29,7 +29,27 @@ let UTIL = new Utility();
 
 let UI_BUILDER = new UiBuilder();
 
+let VERSION = getVersionInformation();
+
 vecExtender.ExtendVec2(vec2);
+
+function getVersionInformation()
+{
+    let verInfo = document.getElementById("version-info");
+
+    let ver = verInfo.attributes["version"].value;
+    let git = verInfo.attributes["git"].value;
+
+    console.log("Building version info:");
+    console.log(verInfo);
+    console.log(ver);
+    console.log(git);
+
+    return {
+        version: ver,
+        git: git
+    };
+}
 
 let CONSTANTS = {
     LOCAL_STATION_DISTANCE: 300,
@@ -268,5 +288,5 @@ exports.update = function () {
 
 
 export {
-    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, getFont, setFont, consoleLog, getObjectConfig, UI_BUILDER, SCORES, CONSTANTS, AUDIO
+    p2, EM, SETUP, PIXEL_SCALE, FPS, TILE_WIDTH, TILE_HEIGHT, UTIL, COLLISION_GROUP, getFont, setFont, consoleLog, getObjectConfig, UI_BUILDER, SCORES, CONSTANTS, AUDIO, VERSION
 };

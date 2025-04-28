@@ -1,5 +1,6 @@
+import Utils from "p2/src/utils/Utils";
 import SymbolGenerator from "./GameWorld/SymbolGenerator";
-import { consoleLog, EM, getFont, PIXEL_SCALE, SCORES, setFont, SETUP, TILE_HEIGHT, TILE_WIDTH, UTIL } from "./main";
+import { consoleLog, EM, getFont, PIXEL_SCALE, SCORES, setFont, SETUP, TILE_HEIGHT, TILE_WIDTH, UTIL, VERSION } from "./main";
 import Button from "./UI/Button";
 
 export default class TitleScreen
@@ -237,7 +238,7 @@ export default class TitleScreen
         setFont("Default");
 
         let creditsHeight = 8;
-        let credits = { x: (TILE_WIDTH - 5) * PIXEL_SCALE - 2, y: (TILE_HEIGHT) * PIXEL_SCALE - 2 - 6*creditsHeight };        
+        let credits = { x: (TILE_WIDTH - 5) * PIXEL_SCALE - 2, y: (TILE_HEIGHT) * PIXEL_SCALE - 2 - 7*creditsHeight };        
         
         print("Credits:", credits.x, credits.y);
         print("Game + Music by jhax", credits.x, credits.y + creditsHeight);
@@ -245,5 +246,9 @@ export default class TitleScreen
         print("PixelBox by cstoquer", credits.x, credits.y + 3 * creditsHeight);
         print("with:", credits.x, credits.y + 4 * creditsHeight);
         print("p2.js by schteppe", credits.x, credits.y + 5 * creditsHeight);
+
+        let vString = `v${VERSION.version}.${VERSION.git}`;
+
+        print(vString, (TILE_WIDTH - UTIL.GetTextWidth(vString)) * PIXEL_SCALE - 2, (TILE_HEIGHT - UTIL.GetTextHeight(vString))*PIXEL_SCALE - 2);
     }
 }

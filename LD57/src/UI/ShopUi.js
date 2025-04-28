@@ -149,7 +149,12 @@ export default class ShopUi
         {  
             if(this.toggleFullHovered)
             {
-                this.SetFullView(!this.fullView);
+                let showMore = this.ShowMoreEnabled();
+
+                if(this.fullView || showMore.canShowMore)
+                {
+                    this.SetFullView(!this.fullView);
+                }
             }
             else if(this.hoveredUpgrade !== null)
             {
@@ -191,6 +196,19 @@ export default class ShopUi
         }
 
         return dims;
+    }
+
+    ShowMoreEnabled()
+    {
+        let selected = this.SelectedItem();
+        let upgradeLines = this.CalculateUpgradeLines(selected);
+
+        this.lastUpgradeLength = upgradeLines;
+
+        return {
+            upgradeLines: upgradeLines,
+            canShowMore: upgradeLines > 2 && this.fullView == false
+        };
     }
 
     Draw()
@@ -241,16 +259,11 @@ export default class ShopUi
 
             //let upgrades = selected.AvailableUpgrades();
 
-            let upgradeLines = this.CalculateUpgradeLines(selected);
+            let showMore = this.ShowMoreEnabled();
 
-            this.lastUpgradeLength = upgradeLines;
+            let nShowUpgrades = showMore.upgradeLines;
 
-            let nShowUpgrades = upgradeLines;
-            
-
-            let canShowMore = upgradeLines > 2 && this.fullView === false;
-
-            if(canShowMore)
+            if(showMore.canShowMore)
             {
                 nShowUpgrades = 2;
 

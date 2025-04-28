@@ -23,7 +23,6 @@ let vecExtender = new VectorExtensions();
 
 let Texture = extender.ExtendTextureClass(require('pixelbox/Texture'));
 
-let SCORES = new Scores();
 
 let UTIL = new Utility();
 
@@ -238,6 +237,8 @@ function AddPhysicsEvents()
         physEvents[i].RegisterEvents();
     }
 }
+
+let SCORES = new Scores();
 
 function SETUP(target = null, startGameOptions = null)
 {

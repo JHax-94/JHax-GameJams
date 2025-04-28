@@ -4,8 +4,11 @@ export default class Scores
 {
     constructor()
     {
-        this.highScore = 0;
-
+        this.highScore = {
+            score: 0,
+            days: 0,
+            parcels: 0
+        };
 
         this.userPrefs = {
             tutorialOn: true,
@@ -30,27 +33,42 @@ export default class Scores
 
             if(!highScore)
             {
-                this.highScore = 0;
+                this.highScore = {
+                    score: 0,
+                    days: 0,
+                    parcels: 0
+                };
             }
             else
             {
-                this.highScore = highScore;
-            }
-        }
+                let parsedHighscore = JSON.parse(highScore);
 
-        if(this.useBrowserStorage)
-        {
+                if(parsedHighscore.score == undefined)
+                {
+                    this.highScore = {
+                        score: parsedHighscore,
+                        days: 0,
+                        parcels: 0
+                    }
+                }
+                else
+                {
+                    this.highScore = parsedHighscore;
+                }
+            }
+        
             let tutorialOn = window.localStorage.getItem("tutorialOn");
             
             if(tutorialOn !== null)
             {
-                this.userPrefs.tutorialOn = tutorialOn;
+                this.userPrefs.tutorialOn = tutorialOn.toLowerCase() === "true";
             }
 
             let chillMode = window.localStorage.getItem("chillMode");
+            
             if(chillMode !== null)
             {
-                this.userPrefs.chillMode = chillMode;
+                this.userPrefs.chillMode = chillMode.toLowerCase() === "true";
             }
         }
     }
@@ -94,7 +112,7 @@ export default class Scores
 
         if(this.useBrowserStorage)
         {
-            window.localStorage.setItem("highScore", this.highScore);
+            window.localStorage.setItem("highScore", JSON.stringify(this.highScore));
         }
     }
 }

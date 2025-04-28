@@ -20,12 +20,18 @@ export default class GameOverMenu
 
         this.gameWorld = EM.GetEntity("GAME_WORLD");
 
-        this.oldHighScore = SCORES.GetHighScore();
+        this.savedHighScore = SCORES.GetHighScore();
+
+        this.oldHighScore = this.savedHighScore.score;
         this.newHighScore = this.gameWorld.player.CalculateFinalScore();
 
         if(this.newHighScore > this.oldHighScore)
         {
-            SCORES.SetHighScore(this.newHighScore);
+            SCORES.SetHighScore({ 
+                score: this.newHighScore,
+                days: this.gameWorld.daysPassed,
+                parcels: this.gameWorld.player.parcelsDelivered
+            });
         }
 
         EM.RegisterEntity(this);

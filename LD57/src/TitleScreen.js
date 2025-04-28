@@ -104,7 +104,7 @@ export default class TitleScreen
 
             let val = modeToggle.toggleValue();
 
-            modeToggle.SetText(val ? "ON" : "OFF");   
+            modeToggle.button.SetText(val ? "ON" : "OFF");   
         }
     }
 
@@ -177,10 +177,16 @@ export default class TitleScreen
         pen(1);
         setFont(this.font);
 
-        if(this.highScore > 0)
+        if(this.highScore.score > 0)
         {
             print(`HIGH SCORE: `, 2, this.titleMap.height * PIXEL_SCALE + 2);
-            print(`   ${this.highScore}`, 2, this.titleMap.height * PIXEL_SCALE + 16);
+            print(` ${this.highScore.score}`, 2, this.titleMap.height * PIXEL_SCALE + 16);
+            
+            if(this.highScore.parcels > 0 && this.highScore.days > 0)
+            {
+                print(` Cargo Delivered: ${this.highScore.parcels}`, 2, this.titleMap.height * PIXEL_SCALE + 30);
+                print(` Post Office Survived: ${this.highScore.days} days`, 2, this.titleMap.height * PIXEL_SCALE + 40);
+            }
         }
 
         for(let i = 0; i < this.mainText.length; i ++)

@@ -93,6 +93,10 @@ export default class ParcelStoreUi
         {
             this.ToggleSelection(this.hoveredTile);
         }
+        else if(button === MOUSE_BUTTON.RIGHT_MOUSE && this.hoveredTile !== null)
+        {
+            this.AttemptAction(this.hoveredTile);
+        }
     }
 
     ToggleSelection(index)
@@ -109,6 +113,18 @@ export default class ParcelStoreUi
             AUDIO.PlayFx("deselect");
             this.selection.splice(indexOf, 1);
         }
+    }
+
+    AttemptAction(index)
+    {
+        let parcelStore = this.ParcelStore();
+
+        let parcelList = parcelStore.GetParcels([ index ]);
+
+        this.gameWorld.AttemptPerformQuickAction({
+            source: parcelStore,
+            parcelList: parcelList
+        });
     }
 
     IsSelected(index)

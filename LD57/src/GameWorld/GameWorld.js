@@ -15,6 +15,7 @@ import Tanker from "../Spacecraft/Tanker";
 import TankerUi from "../UI/TankerUi";
 import Shuttle from "../Spacecraft/Shuttle";
 import { _pauseOnLostFocusInitialised } from "tina";
+import ParcelStore from "./ParcelStore";
 
 export default class GameWorld
 {
@@ -277,19 +278,68 @@ export default class GameWorld
         if(source.IsSpacecraftDocked(target))
         {
             let selectedParcels = source.parcelStore.GetParcels(selectionIndexList);
-            let remainingCapacity = target.parcelStore.RemainingCapacity();
-
-            if(remainingCapacity < selectedParcels.length)
-            {
-                selectedParcels.length = remainingCapacity;
-            }
             
-            if(selectedParcels.length > 0)
+            this.AttemptTransferOfParcelList(source, target, selectedParcels);
+        }
+    }
+
+    AttemptTransferOfParcelList(source, target, parcelList, blockSound)
+    {
+        let remainingCapacity = target.parcelStore.RemainingCapacity();
+
+        if(remainingCapacity < parcelList.length)
+        {
+            parcelList.length = remainingCapacity;
+        }
+        
+        if(parcelList.length > 0)
+        {
+            if(!blockSound) AUDIO.PlayFx("transfer");
+            this.parcelStoreUi.ClearSelection();
+            target.parcelStore.AddParcels(parcelList);
+            source.parcelStore.RemoveParcels(parcelList);
+        }
+    }
+
+    AttemptPerformQuickAction(quickAction)
+    {
+        if(quickAction)
+        {
+            let source = quickAction.source;
+
+            if(source instanceof ParcelStore)
             {
-                if(!blockSound) AUDIO.PlayFx("transfer");
-                this.parcelStoreUi.ClearSelection();
-                target.parcelStore.AddParcels(selectedParcels);
-                source.parcelStore.RemoveParcels(selectedParcels);
+                // See if we can find a sensible target to transfer parcels to
+
+                let target = null;
+
+                if(source.parent instanceof AbstractCelestialBody)
+                {
+                    let freighter = source.parent.GetSingleFreighter();
+
+                    if(freighter !== null)
+                    {
+                        target = freighter;
+                    }
+                }
+                else if(source.parent instanceof Freighter)
+                {
+                    if(source.parent.dockedStation)
+                    {
+                        target = source.parent.dockedStation;
+                    }
+                }
+
+                if(target !== null && quickAction.parcelList.length > 0)
+                {
+                    consoleLog("Transfer cargo from:");
+                    consoleLog(source);
+                    consoleLog("to:");
+                    consoleLog(target);
+                    consoleLog("---ACTION---");
+                    consoleLog(quickAction);
+                    this.AttemptTransferOfParcelList(source.parent, target, quickAction.parcelList);
+                }
             }
         }
     }

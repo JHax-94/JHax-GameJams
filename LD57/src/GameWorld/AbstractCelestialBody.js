@@ -331,6 +331,29 @@ export default class AbstractCelestialBody
         return this.BuildUnlockCondition(availableUnlockMethods[random(availableUnlockMethods.length)]);
     }
 
+    GetSingleFreighter()
+    {
+        let freighter = null;
+
+        for(let i = 0; i < this.spacecraftRoster.length; i ++)
+        {
+            if(this.spacecraftRoster[i] instanceof Freighter)
+            {
+                if(freighter === null)
+                {
+                    freighter = this.spacecraftRoster[i];
+                }
+                else
+                {
+                    freighter = null;
+                    break;
+                }
+            }
+        }
+        
+        return freighter;
+    }
+
     AddSpacecraft(spacecraft)
     {
         if(this.spacecraftRoster.indexOf(spacecraft) < 0)

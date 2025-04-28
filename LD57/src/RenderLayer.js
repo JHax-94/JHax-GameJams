@@ -31,9 +31,6 @@ export default class RenderLayer
         });
     }
 
-
-
-
     AddRender(render, pos)
     {
         if(pos || pos === 0)

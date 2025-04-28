@@ -65,6 +65,17 @@ export default class GameWorld
         this.selected = null;
     }
 
+    ScoreKey()
+    {
+        let scoreKey = "highScore";
+        if(this.startGameOptions.chillMode)
+        {
+            scoreKey = "chillModeHighScore";
+        }
+
+        return scoreKey;
+    }
+
     ExpiredParcelsDisappear()
     {
         return this.startGameOptions.chillMode;

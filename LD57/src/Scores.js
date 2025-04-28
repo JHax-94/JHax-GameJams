@@ -4,10 +4,9 @@ export default class Scores
 {
     constructor()
     {
-        this.highScore = {
-            score: 0,
-            days: 0,
-            parcels: 0
+        this.scoreStore = {
+            highScore: this.CreateHighScoreObject(),
+            chillModeHighScore: this.CreateHighScoreObject()
         };
 
         this.userPrefs = {
@@ -29,33 +28,8 @@ export default class Scores
 
         if(this.useBrowserStorage)
         {
-            let highScore = window.localStorage.getItem("highScore");
-
-            if(!highScore)
-            {
-                this.highScore = {
-                    score: 0,
-                    days: 0,
-                    parcels: 0
-                };
-            }
-            else
-            {
-                let parsedHighscore = JSON.parse(highScore);
-
-                if(parsedHighscore.score == undefined)
-                {
-                    this.highScore = {
-                        score: parsedHighscore,
-                        days: 0,
-                        parcels: 0
-                    }
-                }
-                else
-                {
-                    this.highScore = parsedHighscore;
-                }
-            }
+            this.scoreStore.highScore = this.FetchHighScoreObject("highScore");
+            this.scoreStore.chillModeHighScore = this.FetchHighScoreObject("chillModeHighScore");    
         
             let tutorialOn = window.localStorage.getItem("tutorialOn");
             
@@ -73,6 +47,46 @@ export default class Scores
         }
     }
 
+    FetchHighScoreObject(keyName)
+    {
+        let highScore = window.localStorage.getItem(keyName);
+
+        let highScoreObj = null;
+
+        if(!highScore)
+        {
+            highScoreObj = this.CreateHighScoreObject();
+        }
+        else
+        {
+            let parsedHighscore = JSON.parse(highScore);
+
+            if(parsedHighscore.score == undefined)
+            {
+                highScoreObj = {
+                    score: parsedHighscore,
+                    days: 0,
+                    parcels: 0
+                }
+            }
+            else
+            {
+                highScoreObj = parsedHighscore;
+            }
+        }
+
+        return highScoreObj;
+    }
+
+    CreateHighScoreObject()
+    {
+        return {
+            score: 0,
+            days: 0,
+            parcels: 0
+        };
+    }
+
     ClearAll()
     {
         if(this.useBrowserStorage)
@@ -80,7 +94,10 @@ export default class Scores
             window.localStorage.clear();
         }
 
-        this.highScore = 0;
+        for(let key in this.scoreStore)
+        {
+            this.scoreStore[key] = this.CreateHighScoreObject();
+        }
     }
 
     SetPrefs(prefsObject)
@@ -101,18 +118,18 @@ export default class Scores
         return this.userPrefs;
     }
 
-    GetHighScore()
+    GetHighScore(scoreKey)
     {
-        return this.highScore;
+        return this.scoreStore[scoreKey];
     }
 
-    SetHighScore(score)
+    SetHighScore(score, scoreKey)
     {
-        this.highScore = score;
-
+        this.scoreStore[scoreKey] = score;
+        
         if(this.useBrowserStorage)
         {
-            window.localStorage.setItem("highScore", JSON.stringify(this.highScore));
+            window.localStorage.setItem(scoreKey, JSON.stringify(score));
         }
     }
 }

@@ -88,12 +88,35 @@ export default class TitleScreen
             { x: 0.25, y: TILE_HEIGHT - 1, w: 6, h: 0.75}, 
             { font: "LargeNarr", rect: { text: "RESET SCORES", colour: 14, textColour: 13, borderColour: 15 } }, "UI");
 
-        this.resetButton.Click = () => { SCORES.ClearAll(); this.highScore = SCORES.GetHighScore(); this.RefreshToggles() }
+        this.resetButton.Click = () => { SCORES.ClearAll(); this.LoadHighScores(); this.RefreshToggles(); }
 
-        this.highScore = SCORES.GetHighScore();
+        this.highScores = [
+            { scoreKey: "highScore", topText: "HIGH SCORE:", score: null  },
+            { scoreKey: "chillModeHighScore", topText: "HIGH SCORE (CHILL MODE):", score: null }
+        ];
+
+        this.LoadHighScores();
 
         this.BuildSymbols();
         this.BuildModeToggles();        
+    }
+
+    LoadHighScores()
+    {
+        for(let i = 0; i < this.highScores.length; i ++)
+        {
+            let score = this.highScores[i];
+            let scoreRecord = SCORES.GetHighScore(score.scoreKey);
+
+            if(scoreRecord.score > 0)
+            {
+                score.score = scoreRecord;
+            }
+            else 
+            {
+                score.score = null;
+            }
+        }
     }
 
     RefreshToggles()
@@ -177,15 +200,27 @@ export default class TitleScreen
         pen(1);
         setFont(this.font);
 
-        if(this.highScore.score > 0)
+        let scoreBlock = 0;
+        let scoreBlockHeight = 4.5;
+
+        for(let i = 0; i < this.highScores.length; i ++)
         {
-            print(`HIGH SCORE: `, 2, this.titleMap.height * PIXEL_SCALE + 2);
-            print(` ${this.highScore.score}`, 2, this.titleMap.height * PIXEL_SCALE + 16);
-            
-            if(this.highScore.parcels > 0 && this.highScore.days > 0)
+            let highScore = this.highScores[i];
+            let stats = highScore.score;
+
+            if(stats !== null)
             {
-                print(` Cargo Delivered: ${this.highScore.parcels}`, 2, this.titleMap.height * PIXEL_SCALE + 30);
-                print(` Post Office Survived: ${this.highScore.days} days`, 2, this.titleMap.height * PIXEL_SCALE + 40);
+                let baseY = (this.titleMap.height + scoreBlockHeight * scoreBlock) * PIXEL_SCALE;
+                print(highScore.topText, 2, baseY + 2 );
+                print(` ${stats.score}`, 2, baseY + 16);
+                
+                if(stats.parcels > 0 && stats.days > 0)
+                {
+                    print(` Cargo Delivered: ${stats.parcels}`, 2, baseY + 30);
+                    print(` Post Office Survived: ${stats.days} days`, 2, baseY + 40);
+                }
+
+                scoreBlock ++;
             }
         }
 

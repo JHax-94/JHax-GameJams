@@ -20,7 +20,9 @@ export default class GameOverMenu
 
         this.gameWorld = EM.GetEntity("GAME_WORLD");
 
-        this.savedHighScore = SCORES.GetHighScore();
+        let scoreKey = this.gameWorld.ScoreKey();
+
+        this.savedHighScore = SCORES.GetHighScore(scoreKey);
 
         this.oldHighScore = this.savedHighScore.score;
         this.newHighScore = this.gameWorld.player.CalculateFinalScore();
@@ -31,7 +33,8 @@ export default class GameOverMenu
                 score: this.newHighScore,
                 days: this.gameWorld.daysPassed,
                 parcels: this.gameWorld.player.parcelsDelivered
-            });
+            }, 
+            scoreKey);
         }
 
         EM.RegisterEntity(this);

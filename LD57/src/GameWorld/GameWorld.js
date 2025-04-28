@@ -18,8 +18,10 @@ import { _pauseOnLostFocusInitialised } from "tina";
 
 export default class GameWorld
 {
-    constructor()
+    constructor(startGameOptions)
     {
+        this.startGameOptions = startGameOptions;
+
         this.renderLayer = "UI";
         EM.RegisterEntity(this);
 

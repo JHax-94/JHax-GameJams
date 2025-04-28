@@ -15,6 +15,12 @@ export default class TitleScreen
             y: 0
         };
 
+        let userPrefs = SCORES.GetPrefs();
+
+        this.tutorialOn = userPrefs.tutorialOn;
+        this.chillMode = userPrefs.chillMode;
+        this.useJamBalance = true;
+
         this.symbolGenerator = new SymbolGenerator();
 
         this.lineHeight = 12;
@@ -59,33 +65,90 @@ export default class TitleScreen
         ]        
 
         EM.RegisterEntity(this);
-
-        this.startButton = new Button(
-            { x: this.titleMap.width, y: TILE_HEIGHT-5, w: 12, h: 1.5}, 
-            { font: "LargeNarr", rect: { text: "START GAME (WITH TUTORIAL)", colour: 14, textColour: 13, borderColour: 15 } }, "UI");
+        
+        this.modeToggles = {
+            position: { x: 0.25, y: TILE_HEIGHT - 6 },
+            lineHeight: 1.25,
+            textWidth: 5, /* 6.5 = When Game Jam balance comes into play,*/
+            modes: [ 
+                { text: "Tutorial:", toggleAction: () => { this.tutorialOn = !this.tutorialOn; }, toggleValue: () => {  return this.tutorialOn; } },
+                { text: "Chill mode:", toggleAction: () => { this.chillMode = !this.chillMode; }, toggleValue: () => { return this.chillMode; } },
+                /*{ text: "Game Jam balance:", toggleAction: () => { this.useJamBalance = !this.useJamBalance; }, toggleValue: () => {return this.useJamBalance; } }*/
+            ]
+        };
 
         this.startButtonSkip = new Button(
-            { x: this.titleMap.width + 13, y: TILE_HEIGHT - 5, w: 13, h: 1.5}, 
-            { font: "LargeNarr", rect: { text: "START GAME (NO TUTORIAL)", colour: 14, textColour: 13, borderColour: 15 } }, "UI");
+            { x: this.titleMap.width, y: TILE_HEIGHT - 5, w: 13, h: 1.5}, 
+            { font: "LargeNarr", rect: { text: "START GAME", colour: 14, textColour: 13, borderColour: 15 } }, "UI");
 
-        this.startButton.Click = () => this.StartGame();
-
-        this.startButtonSkip.Click = () => this.StartGame(true);
+        this.startButtonSkip.Click = () => this.StartGame();
 
         this.resetButton = new Button(
             { x: 0.25, y: TILE_HEIGHT - 1, w: 6, h: 0.75}, 
             { font: "LargeNarr", rect: { text: "RESET SCORES", colour: 14, textColour: 13, borderColour: 15 } }, "UI");
 
-        this.resetButton.Click = () => { SCORES.ClearAll(); this.highScore = SCORES.GetHighScore(); }
+        this.resetButton.Click = () => { SCORES.ClearAll(); this.highScore = SCORES.GetHighScore(); this.RefreshToggles() }
 
         this.highScore = SCORES.GetHighScore();
 
         this.BuildSymbols();
+        this.BuildModeToggles();        
     }
 
-    StartGame(skipTutorial = false)
+    RefreshToggles()
     {
-        SETUP("Game", skipTutorial);
+        for(let i = 0; i < this.modeToggles.modes.length; i++)
+        {
+            let modeToggle = this.modeToggles.modes[i];
+
+            let val = modeToggle.toggleValue();
+
+            modeToggle.SetText(val ? "ON" : "OFF");   
+        }
+    }
+
+    BuildModeToggles()
+    {
+        for(let i = 0; i < this.modeToggles.modes.length; i ++)
+        {
+            let startText = this.modeToggles.modes[i].toggleValue() ? "ON" : "OFF";
+
+            let modeToggleButton = new Button(
+                { x: this.modeToggles.position.x + this.modeToggles.textWidth, y: this.modeToggles.position.y + i * this.modeToggles.lineHeight - 0.125, w: 3.5, h: 0.75 },
+                { font: "LargeNarr", rect: { text: startText, colour: 14, textColour: 13, borderColour: 15 } }, "UI");
+
+            modeToggleButton.Click = () => {
+                this.modeToggles.modes[i].toggleAction();
+                
+                let newValue = this.modeToggles.modes[i].toggleValue();
+
+                this.UpdatePrefs();
+
+                modeToggleButton.SetText(newValue ? "ON" : "OFF");
+            }
+
+            this.modeToggles.modes[i].button = modeToggleButton;
+        }
+    }
+
+    GetPrefsObject()
+    {
+        return {
+            tutorialOn: this.tutorialOn,
+            chillMode: this.chillMode
+        };
+    }
+
+    UpdatePrefs()
+    {
+        SCORES.SetPrefs(this.GetPrefsObject());
+    }
+
+    StartGame()
+    {
+        let startGameOptions = this.GetPrefsObject();
+
+        SETUP("Game", startGameOptions);
     }
 
     BuildSymbols()
@@ -162,6 +225,13 @@ export default class TitleScreen
             }
 
             yPos = startY + lineHeight;
+        }
+
+        for(let i = 0; i < this.modeToggles.modes.length; i ++)
+        {
+            let toggle = this.modeToggles.modes[i];
+
+            print(toggle.text, this.modeToggles.position.x * PIXEL_SCALE, this.modeToggles.position.y * PIXEL_SCALE + i * this.modeToggles.lineHeight * PIXEL_SCALE);
         }
 
         setFont("Default");

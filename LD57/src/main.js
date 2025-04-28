@@ -11,6 +11,7 @@ import UiBuilder from './UI/UiBuilder';
 import Scores from "./Scores";
 import TutorialControl from "./Tutorial/TutorialControl";
 import AudioHelper from './AudioHelper.js'
+import { start } from "tina";
 
 let p2 = require('p2');
 let pixelbox = require("pixelbox");
@@ -218,22 +219,29 @@ function AddPhysicsEvents()
     }
 }
 
-function SETUP(target = null, skipTutorial = false)
+function SETUP(target = null, startGameOptions = null)
 {
     EM = new EntityManager();
 
     if(target === "Game")
     {
         AddPhysicsEvents();
-        let gameWorld = new GameWorld();
+        let gameWorld = new GameWorld(startGameOptions);
         EM.AddEntity("GAME_WORLD", gameWorld);
         let cameraControl = new CameraController();
 
-        if(!skipTutorial)
+        if(startGameOptions !== null)
         {
-            new TutorialControl(gameWorld);
-        }
+            if(startGameOptions.tutorialOn)
+            {
+                new TutorialControl(gameWorld);
 
+                startGameOptions.tutorialOn = false;
+
+                SCORES.SetPrefs(startGameOptions);
+            }
+        }
+        
         gameWorld.SetupGameWorld();
     }
     else

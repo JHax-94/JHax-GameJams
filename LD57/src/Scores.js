@@ -6,6 +6,12 @@ export default class Scores
     {
         this.highScore = 0;
 
+
+        this.userPrefs = {
+            tutorialOn: true,
+            chillMode: false,
+        };
+
         this.useBrowserStorage = false;
 
         try
@@ -31,6 +37,22 @@ export default class Scores
                 this.highScore = highScore;
             }
         }
+
+        if(this.useBrowserStorage)
+        {
+            let tutorialOn = window.localStorage.getItem("tutorialOn");
+            
+            if(tutorialOn !== null)
+            {
+                this.userPrefs.tutorialOn = tutorialOn;
+            }
+
+            let chillMode = window.localStorage.getItem("chillMode");
+            if(chillMode !== null)
+            {
+                this.userPrefs.chillMode = chillMode;
+            }
+        }
     }
 
     ClearAll()
@@ -41,6 +63,24 @@ export default class Scores
         }
 
         this.highScore = 0;
+    }
+
+    SetPrefs(prefsObject)
+    {
+        this.userPrefs = prefsObject;
+
+        if(this.useBrowserStorage)
+        {
+            for(let key in this.userPrefs)
+            {
+                window.localStorage.setItem(key, this.userPrefs[key]);
+            }
+        }
+    }
+
+    GetPrefs()
+    {
+        return this.userPrefs;
     }
 
     GetHighScore()

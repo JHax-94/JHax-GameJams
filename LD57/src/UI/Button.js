@@ -39,6 +39,11 @@ export default class Button extends UiComponent
         EM.RegisterEntity(this);
     }
 
+    SetText(newText)
+    {
+        this.settings.rect.text = newText;
+    }
+
     UpdateDims(pos, dimensions)
     {
         if(pos)

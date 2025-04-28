@@ -9,6 +9,8 @@ export default class LoadFreighterTutorial extends TutorialItem
         super(control, { x: 0, y: TILE_HEIGHT - 11, h: 6, w: 14 });
 
         this.timer = 1;
+
+        this.parcelStoreLength = 0;
     }
 
     ShouldDrawTut()
@@ -21,6 +23,8 @@ export default class LoadFreighterTutorial extends TutorialItem
         if(this.ShouldDrawTut())
         {
             this.watchingParcelStore = this.Selected().parcelStore;
+
+            this.parcelStoreLength = this.watchingParcelStore.Count();
 
             this.DrawWindow();
 
@@ -39,7 +43,7 @@ export default class LoadFreighterTutorial extends TutorialItem
     {
         let end = false;
         
-        if(this.watchingParcelStore != null && this.watchingParcelStore.Count() === 0)
+        if(this.watchingParcelStore != null && this.watchingParcelStore.Count() < this.parcelStoreLength)
         {
             end = true;
         }

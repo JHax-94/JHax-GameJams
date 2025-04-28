@@ -1,5 +1,5 @@
 import Texture from "pixelbox/Texture";
-import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE } from "../main";
+import { COLLISION_GROUP, consoleLog, EM, PIXEL_SCALE, setFont } from "../main";
 import { Utils, vec2 } from "p2";
 import MOUSE_BUTTON from "../MouseButtons";
 
@@ -315,6 +315,7 @@ export default class Spacecraft
     {
         if(this.parcelStore && this.parcelStore.Count() > 0)
         {
+            setFont("Default");
             pen(1);
             sprite(34, screenPos.x - 0.25 * PIXEL_SCALE - 4, screenPos.y + PIXEL_SCALE - 2);
             print(`x ${this.parcelStore.Count()}`, screenPos.x + 0.5 * PIXEL_SCALE - 1, screenPos.y + PIXEL_SCALE+2);

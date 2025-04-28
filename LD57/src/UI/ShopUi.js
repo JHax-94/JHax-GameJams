@@ -84,7 +84,9 @@ export default class ShopUi
     {
         this.hovered = hover;
 
-        if(hover && this.SelectedItem() !== null)
+        let selected = this.SelectedItem();
+
+        if(hover && selected !== null)
         {
             if(EM.OverlapsBounds(this.ShowMoreDims(), mousePos.x, mousePos.y))
             {
@@ -97,8 +99,6 @@ export default class ShopUi
 
             if(this.toggleFullHovered === false)
             {
-                let selected = this.SelectedItem();
-
                 let upgrades = selected.AvailableUpgrades();
 
                 this.hoveredUpgrade = null;
@@ -123,7 +123,7 @@ export default class ShopUi
 
     SetFullView(setTo)
     {
-        if(setTo)
+        if(setTo && this.SelectedItem() !== null)
         {
             let item = this.SelectedItem();
             let nUpgrades = this.CalculateUpgradeLines(item);
@@ -154,13 +154,17 @@ export default class ShopUi
             else if(this.hoveredUpgrade !== null)
             {
                 let selectedItem = this.SelectedItem();
-                let upgrades = selectedItem.AvailableUpgrades();
-                
-                if(this.upgradeProcessor.ProcessUpgrade(upgrades[this.hoveredUpgrade], selectedItem))
+                if(selectedItem !== null)
                 {
-                    selectedItem.RemoveUpgrade(upgrades[this.hoveredUpgrade]);
-                    this.hoveredUpgrade = null;    
-                }                
+                    let upgrades = selectedItem.AvailableUpgrades();
+                    
+                    if((this.hoveredUpgrade >= 0 && this.hoveredUpgrade < upgrades.length) && 
+                        this.upgradeProcessor.ProcessUpgrade(upgrades[this.hoveredUpgrade], selectedItem))
+                    {
+                        selectedItem.RemoveUpgrade(upgrades[this.hoveredUpgrade]);
+                        this.hoveredUpgrade = null;    
+                    }
+                }
             }
         }
     }

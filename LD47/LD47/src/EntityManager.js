@@ -1,5 +1,6 @@
 import EndScreen from './EndScreen.js';
-import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX, LoadLevel, SOUND, getAnimation, SAFE_TILES, GetTileSafePoints, GetSpriteInfoFromTile, ALL_DIR_SAFE_TILES } from './main.js';
+import GameStorageManager from './GameStorageManager.js';
+import { consoleLog, p2, UP, RIGHT, DOWN, LEFT, CURRENT_LVL, SFX, LoadLevel, SOUND, getAnimation, SAFE_TILES, GetTileSafePoints, GetSpriteInfoFromTile, ALL_DIR_SAFE_TILES, STORAGE } from './main.js';
 import PauseMenu from './PauseMenu.js';
 
 export default class EntityManager
@@ -582,12 +583,16 @@ export default class EntityManager
                 this.pause = true;
                 consoleLog("Game over!");
                 this.QueueSound(SFX.defeat, 0.5);
+
                 this.endScreen.ShowScreen(false, anyBatteryDepleted ? 0 : this.electrons.length);
                 this.endScreenOn = true;
             }
             else if(this.AllBulbsLit()) 
             {
                 consoleLog("You Win!");
+
+                STORAGE.SetValue(GameStorageManager.LVL_NAME_KEY(CURRENT_LVL), true);
+
                 this.QueueSound(SFX.victory, 0.5);
                 this.endScreen.ShowScreen(true);
                 this.endScreenOn = true;
@@ -812,7 +817,13 @@ export default class EntityManager
             }
         }
 
-        if(!safe) consoleLog(" !!!!! NOT SAFE DESTINATION !!!!!");
+        if(!safe) 
+        {
+            consoleLog(" !!!!! NOT SAFE DESTINATION !!!!!");
+            consoleLog(`Index: ${spriteIndex}`);
+            consoleLog(`Flips:`);
+            consoleLog(spriteFlips);
+        }
 
         return safe;
     }
@@ -833,7 +844,7 @@ export default class EntityManager
         /*
         consoleLog("Safety check target tile");
         consoleLog(targetTile);
-            */
+        */  
         var movingToTile = this.GetComponentOnTile(targetTile);
 
         if(movingToTile)
@@ -849,8 +860,8 @@ export default class EntityManager
             var tileData = this.map.get(targetTile.x, targetTile.y);
             /*
             consoleLog("ELECTRON SAFETY DESTINATION");
-            consoleLog(tileData);*/
-
+            consoleLog(tileData);
+            */
             if(tileData)
             {
                 var spriteInfo = GetSpriteInfoFromTile(tileData.sprite, tileData);

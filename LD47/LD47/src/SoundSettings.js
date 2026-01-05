@@ -1,4 +1,5 @@
-import { consoleLog, PIXEL_SCALE } from "./main";
+import GameStorageManager from "./GameStorageManager";
+import { consoleLog, PIXEL_SCALE, STORAGE } from "./main";
 
 export default class SoundSettings
 {
@@ -27,12 +28,22 @@ export default class SoundSettings
 
     PlaySong(songName)
     {
-        if((this.currentSong != songName && this.songElapsed >= 10) || this.isSongPlaying === false)
+        if(this.soundOn)
         {
-            this.songElapsed = 0;
-            if(this.soundOn) patatracker.playSong(songName);
-            this.currentSong = songName;
-            this.isSongPlaying = true;
+            if((this.currentSong != songName && this.songElapsed >= 10) || this.isSongPlaying === false)
+            {
+                this.songElapsed = 0;
+                if(this.soundOn) patatracker.playSong(songName);
+                this.currentSong = songName;
+                this.isSongPlaying = true;
+            }
+            else
+            {
+                consoleLog("Song blocked!");
+                consoleLog(`Current song: ${this.currentSong}`);
+                consoleLog(`Song name: ${songName}`);
+                consoleLog(`Is playing? ${this.isSongPlaying}`);
+            }
         }
     }
 
@@ -46,14 +57,18 @@ export default class SoundSettings
     SetOn(powerOn)
     {
         consoleLog("SWITCH SOUND: " + powerOn);
+        consoleLog(this);
         this.soundOn = powerOn;
         consoleLog(audioManager);
         audioManager.muted = !powerOn;
         
+        STORAGE.SetValue(GameStorageManager.SOUND_ON_KEY(), powerOn);
+
         if(!powerOn)
         {
             patatracker.stop();
             this.isSongPlaying = false;
+            this.currentSong = "";
         } 
         else this.PlaySong(this.titleSong);
     }

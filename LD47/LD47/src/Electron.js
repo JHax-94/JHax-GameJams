@@ -255,12 +255,12 @@ export default class Electron
             if(this.CompareCentre(this, this.contact))
             {
                 var newDir = this.contact.GetFlippedDirection(this.phys.velocity);
-                /*
+                
                 if(!this.contact.z)
                 {
                     consoleLog("NEW DIR SET BY:");
                     consoleLog(this.contact, newDir);
-                }*/
+                }
                 
                 this.phys.setZeroForce();
                 this.SetVelocity({x: newDir[0] * this.speed, y: newDir[1] * this.speed});

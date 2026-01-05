@@ -17,10 +17,16 @@ export default class AltSwitch extends Component
 
         this.SetBarDirections(altSwitch);
         
-        this.chargeProgress = this.AddProgressBar(this.chargeBarDir, { bg: COLOURS.barBg, fg: COLOURS.chargeBarFg });
-        this.decayProgress = this.AddProgressBar(this.decayBarDir, { bg: COLOURS.barBg, fg: COLOURS.decayBarFg });
+        if(altSwitch.chargeBarDir)
+        {
+            this.chargeProgress = this.AddProgressBar(this.chargeBarDir, { bg: COLOURS.barBg, fg: COLOURS.chargeBarFg });
+        }
 
-        this.SetupDecay(altSwitch);
+        if(altSwitch.decayBarDir)
+        {
+            this.decayProgress = this.AddProgressBar(this.decayBarDir, { bg: COLOURS.barBg, fg: COLOURS.decayBarFg });
+            this.SetupDecay(altSwitch);
+        }
 
         this.SwitchDirection(0);
         this.ResetProgressBars();

@@ -1,5 +1,5 @@
 import Label from "./Label";
-import { consoleLog, em, PIXEL_SCALE, LoadLevel, ToggleGameSize, ToggleGameSpeed, getGameSize, getGameSpeed } from "./main";
+import { consoleLog, em, PIXEL_SCALE, LoadLevel, ToggleGameSize, ToggleGameSpeed, getGameSize, getGameSpeed, STORAGE } from "./main";
 
 export default class Button
 {
@@ -110,6 +110,11 @@ export default class Button
                 else if(this.options.type === "MENU_NEXT")
                 {
                     this.options.menu.NextPage();
+                }
+                else if(this.options.type === "RESET")
+                {
+                    STORAGE.Clear();
+                    LoadLevel("title", true);
                 }
             }
         }

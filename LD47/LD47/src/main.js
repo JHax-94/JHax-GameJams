@@ -16,11 +16,15 @@ import Shifter from './Shifter.js';
 import Wire from './Wire.js';
 import DangerWire from './DangerWire.js';
 import RechargeableBattery from './RechargeableBattery.js';
+import LevelButton from './LevelButton.js';
+import GameStorageManager from './GameStorageManager.js';
 
 var pointerEvents = require('pixelbox/pointerEvents');
 var p2 = require('p2');
 
 var GAME_SIZE_SCALE = 1;
+
+var STORAGE = new GameStorageManager();
 
 var MENU_MAP = "title";
 
@@ -115,8 +119,8 @@ var altSwitchDirMap = [
     { name: "UR", dir: "UR", setDir: UP, flipX: false, flipY: false, flipR: false },
     { name: "UL", dir: "UL", setDir: UP, flipX: true, flipY: false, flipR: false },
     { name: "DR", dir: "DR", setDir: DOWN, flipX: false, flipY: true, flipR: false },
-    { name: "RD", dir: "RD", setDir: LEFT, flipX: false, flipY: false, flipR: true },
-    { name: "RU", dir: "RU", setDir: LEFT, flipX: false, flipY: true, flipR: true },
+    { name: "RD", dir: "RD", setDir: RIGHT, flipX: false, flipY: false, flipR: true },
+    { name: "RU", dir: "RU", setDir: RIGHT, flipX: false, flipY: true, flipR: true },
     { name: "LU", dir: "LU", setDir: LEFT, flipX: true, flipY: true, flipR: true },
     { name: "RL", dir: "RL", setDir: RIGHT, flipX: false, flipY: false, flipR: true },
     { name: "LR", dir: "LR", setDir: LEFT, flipX: true, flipY: true, flipR: true },
@@ -284,6 +288,8 @@ function GetWireSwitchDirFromFlips(flipX, flipY, flipR)
 
 function GetAltSwitchDirMapFromDir(dir) 
 {   
+    consoleLog("Get Alt switch dir map from dir:");
+
     var dirMap = null;
 
     for(var i = 0; i < altSwitchDirMap.length; i ++)
@@ -294,6 +300,7 @@ function GetAltSwitchDirMapFromDir(dir)
             break;
         }
     }
+    consoleLog(dirMap);
 
     return dirMap;
 }
@@ -352,6 +359,8 @@ function GetArrowDirMapFromDir(dir)
 function GetArrowDirMapFromName(name)
 {
     var dirMap = null;
+
+    consoleLog(`Get Arrow Dir from map name: ${name}`);
 
     for(var i = 0; i < arrowDirMap.length; i ++)
     {
@@ -847,18 +856,20 @@ function LoadMap(mapName)
             consoleLog("ADD BUTTON");
             var options = {};
             
-            if(comp.btn_type)
+            var button = null
+
+            if(comp.btn_type && comp.btn_type !== "LVL")
             {
                 options.type = comp.btn_type;
+                button = new Button(comp.tileRect, comp.text, options, comp.colours);
             }   
             else 
             {
                 options.value = comp.value;
                 options.type = "LVL";
+                button = new LevelButton(comp.tileRect, comp.text, options, comp.colours, comp.value);
             }
-
-            var button = new Button(comp.tileRect, comp.text, options, comp.colours);
-
+            
             if(em.menu !== null && options.type === "LVL")
             {
                 consoleLog("ADD BUTTON TO MENU");
@@ -1002,12 +1013,23 @@ function GetTileSafePoints(index, spriteInfo)
 
 function Setup()
 {
+    consoleLog("==== SETUP ====");
     paper(1);   
     
     COLOURS = assets.colourMap;
     SFX = assets.soundMap;
     SOUND = new SoundSettings(soundPos, { speakerIndex: 13, speakerOffIndex: 14, speakerOnIndex: 15 });
     //SOUND.soundOn = false;
+
+    var soundOn = STORAGE.GetValueAsBool(GameStorageManager.SOUND_ON_KEY());
+    consoleLog("Sound on value = ");
+    consoleLog(soundOn)
+
+    if(soundOn === false)
+    {
+        consoleLog("Switch off sound!");
+        SOUND.SetOn(false);
+    }
 
     LoadLevel("title");
 
@@ -1097,5 +1119,6 @@ export {
     COLOURS,
     SFX,
     VOL,
-    SOUND
+    SOUND, 
+    STORAGE
 };

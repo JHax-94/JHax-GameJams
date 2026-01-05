@@ -6,12 +6,14 @@ export default class Bulb extends Component
     constructor(tilePos, spriteData, bulb)
     {
         super(tilePos, spriteData, "POWERED");
+        consoleLog("Constructing bulb with sprite data:");
+        consoleLog(spriteData);
 
         this.isOn = false;
 
         this.chargesRequired = bulb.chargesRequired;
         this.chargedSprite = bulb.chargedSprite;
-        this.unchargedSprite = spriteData.sprite;
+        this.unchargedSprite = spriteData.index;
         /*
         this.chargeProgress = new ProgressBar(
             { x: tilePos.x * PIXEL_SCALE, y: (tilePos.y - 0.5) * PIXEL_SCALE, w:PIXEL_SCALE, h: 4}, 

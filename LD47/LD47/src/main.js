@@ -168,6 +168,7 @@ var validAdjacentTiles = [
     { spriteId: 16 },
     { spriteId: 23 },
     { spriteId: 24 },
+    { spriteId: 25 },
     { spriteId: 32 },
     { spriteId: 33 },
     { spriteId: 109 }
@@ -178,6 +179,7 @@ var dirMaps = [
     { spriteIndex: 1, map: straightDirMap },
     { spriteIndex: 2, map: cornerDirMap },
     { spriteIndex: 24, map: straightDirMap },
+    { spriteIndex: 25, map: straightDirMap },
     { spriteIndex: 33, map: straightDirMap },
     { spriteIndex: 40, map: straightDirMap },
     { spriteIndex: 109, map: straightDirMap },

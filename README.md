@@ -55,3 +55,26 @@ Thanks to schteppe for p2.js, used under MIT Licence
 
 Game by Josh Haxell 2023
 
+# Hellevator LD55 Entry
+
+Thanks to cstoquer for PixelBox, used under MIT Licence
+Thanks to schteppe for p2.js, used under MIT Licence
+
+Game by Josh Haxell 2024
+
+# Plan Bee LD56 Entry
+
+Thanks to cstoquer for PixelBox, used under MIT Licence
+Thanks to schteppe for p2.js, used under MIT Licence
+
+Game by Josh Haxell 2024
+
+# Deep Space Delivery Office LD57 Entry
+
+Thanks to cstoquer for PixelBox, used under MIT Licence
+Thanks to schteppe for p2.js, used under MIT Licence
+
+Game by Josh Haxell 2025
+
+Game by Josh Haxell 2023
+

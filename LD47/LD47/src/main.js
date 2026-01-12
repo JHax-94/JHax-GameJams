@@ -38,6 +38,8 @@ var CURRENT_PAGE = 0;
 
 var GAME_SIZE = SIZE_LARGE;
 
+var DESKTOP_MODE = navigator.userAgent.indexOf('Electron') >= 0;
+
 var SPEED_SLOW = 0.5;
 var SPEED_NORMAL = 1;
 var SPEED_FAST = 2;
@@ -51,9 +53,9 @@ var gameSpeeds = [
 var GAME_SPEED = 1;
 
 var sizeMaps = [
-    { name: "Small", windowDims: 512, mouseScale: 2 },
-    { name: "Medium", windowDims: 768, mouseScale: 4/3 },
-    { name: "Large", windowDims: 1024, mouseScale: 1 }
+    { name: "Small", windowDims: 512, mouseScale: 2, mouseOffset: { x: -64, y: 0 } },
+    { name: "Medium", windowDims: 768, mouseScale: 4/3, mouseOffset: { x: -32, y: 0 } },
+    { name: "Large", windowDims: 1024, mouseScale: 1, mouseOffset: { x: 0, y: 0 } }
 ]
 
 var ALL_DIR_SAFE_TILES = [ 5, 6, 16, 17, 23, 32, 39 ];
@@ -896,7 +898,21 @@ function LoadMap(mapName)
 
 function mapMousePos(x, y)
 {
-    return { x: x * GAME_SIZE_SCALE, y: y * GAME_SIZE_SCALE };
+    var mappedPos = { x:0, y:0 };
+
+    if(!DESKTOP_MODE && GAME_SIZE != SIZE_LARGE)
+    {
+        var mouseMapping = getGameSize();
+        mappedPos.x = (x + mouseMapping.mouseOffset.x) * GAME_SIZE_SCALE;
+        mappedPos.y = (y + mouseMapping.mouseOffset.y) * GAME_SIZE_SCALE;
+    }
+    else
+    {
+        mappedPos.x = x * GAME_SIZE_SCALE; 
+        mappedPos.y = y * GAME_SIZE_SCALE;
+    }
+
+    return mappedPos;
 }
 
 pointerEvents.onPress(function(x, y, pointerId, evt) {

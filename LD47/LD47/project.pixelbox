@@ -4,7 +4,7 @@
 	"appid": "NcimdFsF2f2kAzBq",
 	"screen": {
 		"fullscreen": false,
-		"resizable": false,
+		"resizable": true,
 		"keepAspectRatio": false,
 		"width": 256,
 		"height": 256,

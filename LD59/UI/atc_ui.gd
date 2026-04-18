@@ -14,11 +14,13 @@ func add_receiver_ui(body: Node2D):
 	new_label.text = body.name
 	receiver_readouts[body] = new_label
 	ui_rows.add_child(new_label)
+	receivers_changed()
 	
 func remove_receiver_ui(body: Node2D):
 	var receiver_label = receiver_readouts[body] as Label
 	ui_rows.remove_child(receiver_label)
 	receiver_readouts.erase(body)
+	receivers_changed()
 	
 func _ready():
 	atc.receiver_added.connect(add_receiver_ui)

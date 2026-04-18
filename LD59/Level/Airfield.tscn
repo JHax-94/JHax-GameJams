@@ -20,6 +20,41 @@ size = Vector2(23, 11)
 
 [node name="Node2D" type="Node2D"]
 
+[node name="ui_layer" type="CanvasLayer" parent="."]
+
+[node name="atc_ui" type="Control" parent="ui_layer" node_paths=PackedStringArray("atc")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("2_p7p68")
+atc = NodePath("../../atc_tower")
+
+[node name="PanelContainer" type="PanelContainer" parent="ui_layer/atc_ui"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 165.0
+offset_bottom = 59.0
+
+[node name="ui_rows" type="VBoxContainer" parent="ui_layer/atc_ui/PanelContainer"]
+layout_mode = 2
+
+[node name="Tracker_Count" type="HBoxContainer" parent="ui_layer/atc_ui/PanelContainer/ui_rows"]
+layout_mode = 2
+
+[node name="TrackerLabel" type="Label" parent="ui_layer/atc_ui/PanelContainer/ui_rows/Tracker_Count"]
+layout_mode = 2
+text = "Receivers:"
+
+[node name="TrackerValue" type="Label" parent="ui_layer/atc_ui/PanelContainer/ui_rows/Tracker_Count"]
+layout_mode = 2
+text = "0"
+
 [node name="Field" type="Polygon2D" parent="."]
 position = Vector2(-223, -138)
 color = Color(1.2032688e-06, 0.5611819, 0.26315114, 1)
@@ -43,33 +78,6 @@ polygon = PackedVector2Array(0, 0, 100, -20, 100, 20)
 [node name="Render" type="Polygon2D" parent="atc_tower/comms_cone/comms_cone_area/Collider"]
 color = Color(0.32941177, 1, 1, 0.41568628)
 polygon = PackedVector2Array(0, 0, 200, -40, 200, 40)
-
-[node name="atc_ui" type="Control" parent="." node_paths=PackedStringArray("atc")]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("2_p7p68")
-atc = NodePath("../atc_tower")
-
-[node name="PanelContainer" type="PanelContainer" parent="atc_ui"]
-layout_mode = 0
-offset_right = 155.0
-offset_bottom = 49.0
-
-[node name="ui_rows" type="VBoxContainer" parent="atc_ui/PanelContainer"]
-layout_mode = 2
-
-[node name="Tracker_Count" type="HBoxContainer" parent="atc_ui/PanelContainer/ui_rows"]
-layout_mode = 2
-
-[node name="TrackerLabel" type="Label" parent="atc_ui/PanelContainer/ui_rows/Tracker_Count"]
-layout_mode = 2
-text = "Receivers:"
-
-[node name="TrackerValue" type="Label" parent="atc_ui/PanelContainer/ui_rows/Tracker_Count"]
-layout_mode = 2
-text = "0"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

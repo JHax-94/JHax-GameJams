@@ -24,5 +24,17 @@ func perpendicular_vector(approach: Node2D) -> Vector2:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	var aircraft = body.get_parent() as Aircraft
-	if aircraft != null and aircraft.state == Aircraft.State.APPROACH and aircraft.approach_state == Aircraft.ApproachState.REACH_APPROACH:
+	if aircraft != null and aircraft.effective_approach_state() == Aircraft.ApproachState.REACH_APPROACH:
 		aircraft.approach_reached()
+
+
+func _on_runway_area_body_exited(body: Node2D) -> void:
+	print("BODY EXITED...")
+	var aircraft = body.get_parent() as Aircraft
+
+	if aircraft != null:
+		print("BODY IS AIRCRAFT...")
+		var effective_state = aircraft.effective_approach_state()
+		
+		if effective_state == Aircraft.ApproachState.LANDING_VECTOR or effective_state == Aircraft.ApproachState.MATCH_VEC:
+			aircraft.set_approach_state(Aircraft.ApproachState.MATCH_OPPOSITE_VEC)

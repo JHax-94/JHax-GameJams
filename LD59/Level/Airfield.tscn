@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dh2olautg5vwv"]
+[gd_scene load_steps=27 format=3 uid="uid://dh2olautg5vwv"]
 
 [ext_resource type="Script" uid="uid://dxur7vkirec1s" path="res://ATC/atc_tower.gd" id="1_yuykc"]
 [ext_resource type="Script" uid="uid://8wq2v5walx8n" path="res://UI/atc_ui.gd" id="2_p7p68"]
@@ -9,6 +9,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f0ovx"]
 size = Vector2(100, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i2ndw"]
+size = Vector2(100, 400)
 
 [sub_resource type="GDScript" id="GDScript_rh2f2"]
 script/source = "extends Node2D
@@ -653,6 +656,11 @@ position = Vector2(0, 250)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Runway/Approaches/SouthApproach/Area2D"]
 shape = SubResource("RectangleShape2D_f0ovx")
 
+[node name="RunwayArea" type="Area2D" parent="Runway"]
+
+[node name="RunwayShape" type="CollisionShape2D" parent="Runway/RunwayArea"]
+shape = SubResource("RectangleShape2D_i2ndw")
+
 [node name="atc_tower" type="Node2D" parent="."]
 script = ExtResource("1_yuykc")
 
@@ -741,8 +749,12 @@ text = "0"
 [node name="DistLabel" type="Label" parent="Plane/PanelContainer/Vbox"]
 layout_mode = 2
 
+[node name="Status" type="Label" parent="Plane/PanelContainer/Vbox"]
+layout_mode = 2
+
 [connection signal="body_entered" from="Runway/Approaches/NorthApproach/Area2D" to="Runway" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Runway/Approaches/SouthApproach/Area2D" to="Runway" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Runway/RunwayArea" to="Runway" method="_on_runway_area_body_exited"]
 [connection signal="body_entered" from="atc_tower/comms_cone/comms_cone_area" to="atc_tower" method="_on_comms_cone_area_body_entered"]
 [connection signal="body_exited" from="atc_tower/comms_cone/comms_cone_area" to="atc_tower" method="_on_comms_cone_area_body_exited"]
 [connection signal="screen_exited" from="Plane/VisibleOnScreenNotifier2D" to="Plane" method="_on_visible_on_screen_notifier_2d_screen_exited"]

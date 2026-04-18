@@ -570,6 +570,9 @@ size = Vector2(28, 8)
 
 [node name="Node2D" type="Node2D"]
 
+[node name="Node" type="Node2D" parent="."]
+position = Vector2(400, 80)
+
 [node name="ui_layer" type="CanvasLayer" parent="."]
 
 [node name="atc_ui" type="Control" parent="ui_layer" node_paths=PackedStringArray("atc")]
@@ -812,6 +815,7 @@ script = ExtResource("4_i2ndw")
 [node name="Plane" type="Node2D" parent="."]
 position = Vector2(-400, -40)
 script = ExtResource("2_rh2f2")
+target_position = Vector2(600, 80)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Plane"]
 root_node = NodePath("../PlaneBody")

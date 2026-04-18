@@ -19,13 +19,25 @@ enum ApproachState {
 	LANDING_VECTOR = 4 
 }
 
+@export var random_x : Array[float] = [ -600, 600 ]
+
+@export var random_y_min: float = -400.0
+@export var random_y_max: float = 400.0
+
+const MAX_X = 500
+const MIN_X = -500
+
+var random_x_index = randi_range(0, 1)
+
 var approach_state : ApproachState = ApproachState.MATCH_OPPOSITE_VEC
 
 var clear_for_landing: bool = false
 
-var state = Aircraft.State.NONE
+var state = Aircraft.State.RANDOM
 
 var callsign: String = "B16 CHNGS"
+
+const MAX_RAND_DIST_SQRT : float = 100
 
 var speed : float = 50
 var max_speed : float = 50
@@ -38,7 +50,7 @@ var angle_tol : float = 0.01
 var altitude : float = 0.0
 var target_altitude : float = 20.0
 
-var target_position: Vector2
+@export var target_position: Vector2
 var target_approach: Node2D
 var target_angle: float
 
@@ -47,6 +59,8 @@ var target_runway : Runway
 var timer:float = 0.0;
 
 var y_log: Array = []
+
+var atc : AtcTower
 
 
 var angle_sweep = 0.0;
@@ -111,10 +125,12 @@ func message(message_data: Message):
 			self.state = Aircraft.State.APPROACH
 		Message.Type.CLEAR_FOR_LANDING:
 			self.clear_for_landing = true
-	
+
 
 func _ready() -> void:
 	var anim_list = self.animation_player.get_animation_list()
+	
+	self.atc = get_tree().root.find_child("atc_tower") as AtcTower
 	
 	for anim in anim_list:
 		if anim != "RESET":
@@ -166,6 +182,12 @@ func update_status_label() ->void:
 
 func process_random(delta: float) -> void:
 	#self.translate(move_vec * delta)
+	
+	var diff_vec = self.atc.global_position - self.global_position
+	
+	if diff_vec.length_squared() > pow(self.MAX_RAND_DIST_SQRT, 2):
+		print("Recalculate target")
+		
 	self.plane_body.rotate(-delta * self.turn_speed)
 	
 	angle_sweep += delta * self.turn_speed;
@@ -233,14 +255,21 @@ func process_approach(delta: float) -> void:
 			angle = self.clamp_to_turn_speed(angle, delta)
 			self.plane_body.rotate(angle)
 
+func process_default(delta: float) -> void:
+	var angle = self.plane_body.get_angle_to(target_position)
+	angle = self.clamp_to_turn_speed(angle, delta)
+	#print(diff)
+	self.plane_body.rotate(angle)
+	if self.global_position.x > MAX_X and self.target_position.x > self.global_position.x:
+		self.new_random_target()
+	elif self.global_position.x < MIN_X and self.target_position.x < self.global_position.x:
+		self.new_random_target()
+
 func _process(delta: float) -> void:
 	
 	self.dist_label.text = ""
 	
-	if state == Aircraft.State.RANDOM:
-		self.process_random(delta)
-		
-	elif state == Aircraft.State.APPROACH:
+	if state == Aircraft.State.APPROACH:
 		self.process_approach(delta)
 	elif state == Aircraft.State.LANDING:
 		if self.target_altitude > 0:
@@ -255,13 +284,7 @@ func _process(delta: float) -> void:
 		if self.speed < 0:
 			self.speed = 0
 	else:	
-		var angle = self.plane_body.get_angle_to(target_position)
-		var diff = angle_difference(self.plane_body.rotation, angle)
-		#print(diff)
-		if diff > self.angle_tol:
-			self.plane_body.rotate(delta * self.turn_speed)
-		elif diff < -self.angle_tol:
-			self.plane_body.rotate(- delta * self.turn_speed)
+		self.process_default(delta)
 		
 	var velocity = self.speed * delta * plane_body.global_transform.basis_xform(Vector2.RIGHT)
 	#print("(" + str(velocity.x) + ", " + str(velocity.y) + ")")
@@ -307,8 +330,18 @@ func process_animation():
 func flip_direction():
 	self.plane_body.rotate(PI)
 
+func new_random_target():
+	print("Find new random target")
+	self.random_x_index = (self.random_x_index + 1) % self.random_x.size()
+	
+	var rand_y = randf_range(self.random_y_min, self.random_y_max)
+	self.target_position = Vector2(self.random_x[self.random_x_index], rand_y)
+	print(str(self.target_position))
+	
+
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	#flip_direction()
-	pass
+	if self.state == State.RANDOM:
+		new_random_target()
+	
 	
 	

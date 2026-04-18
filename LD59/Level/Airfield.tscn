@@ -1,0 +1,90 @@
+[gd_scene load_steps=6 format=3 uid="uid://dh2olautg5vwv"]
+
+[ext_resource type="Script" uid="uid://dxur7vkirec1s" path="res://ATC/atc_tower.gd" id="1_yuykc"]
+[ext_resource type="Script" uid="uid://8wq2v5walx8n" path="res://UI/atc_ui.gd" id="2_p7p68"]
+[ext_resource type="Script" uid="uid://jh1l7cet1q5l" path="res://Aircraft/plane.gd" id="2_rh2f2"]
+
+[sub_resource type="GDScript" id="GDScript_rh2f2"]
+script/source = "extends Node2D
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p7p68"]
+size = Vector2(23, 11)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Field" type="Polygon2D" parent="."]
+position = Vector2(-235, -132)
+color = Color(1.2032688e-06, 0.5611819, 0.26315114, 1)
+polygon = PackedVector2Array(1285, -295, -691, -293, -667, 869, 1300, 874)
+
+[node name="atc_tower" type="Node2D" parent="."]
+script = ExtResource("1_yuykc")
+
+[node name="Polygon2D" type="Polygon2D" parent="atc_tower"]
+polygon = PackedVector2Array(-10, -10, -10, 10, 10, 10, 10, -10)
+
+[node name="comms_cone" type="Node2D" parent="atc_tower"]
+rotation = -0.61086524
+script = SubResource("GDScript_rh2f2")
+
+[node name="comms_cone_area" type="Area2D" parent="atc_tower/comms_cone"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="atc_tower/comms_cone/comms_cone_area"]
+polygon = PackedVector2Array(0, 0, 100, -20, 100, 20)
+
+[node name="Polygon2D" type="Polygon2D" parent="atc_tower/comms_cone/comms_cone_area/CollisionPolygon2D"]
+visible = false
+color = Color(0.32941177, 1, 1, 0.41568628)
+polygon = PackedVector2Array(0, 0, 100, -20, 100, 20)
+
+[node name="atc_ui" type="Control" parent="." node_paths=PackedStringArray("atc")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_p7p68")
+atc = NodePath("../atc_tower")
+
+[node name="PanelContainer" type="PanelContainer" parent="atc_ui"]
+layout_mode = 0
+offset_right = 155.0
+offset_bottom = 49.0
+
+[node name="ui_rows" type="VBoxContainer" parent="atc_ui/PanelContainer"]
+layout_mode = 2
+
+[node name="Tracker_Count" type="HBoxContainer" parent="atc_ui/PanelContainer/ui_rows"]
+layout_mode = 2
+
+[node name="TrackerLabel" type="Label" parent="atc_ui/PanelContainer/ui_rows/Tracker_Count"]
+layout_mode = 2
+text = "Receivers:"
+
+[node name="TrackerValue" type="Label" parent="atc_ui/PanelContainer/ui_rows/Tracker_Count"]
+layout_mode = 2
+text = "0"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Plane" type="Node2D" parent="."]
+position = Vector2(200, -20)
+script = ExtResource("2_rh2f2")
+
+[node name="Polygon2D" type="Polygon2D" parent="Plane"]
+color = Color(0.31061712, 0.31061712, 0.3106171, 1)
+polygon = PackedVector2Array(-17, -1, -15, -3, -2, -3, 4, -7, 4, -3, 8, -2, -3, 0, -9, 0, -7, 5, -10, 5, -13, 0)
+
+[node name="PlaneBody" type="CharacterBody2D" parent="Plane"]
+motion_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Plane/PlaneBody"]
+position = Vector2(-4.5, -0.5)
+shape = SubResource("RectangleShape2D_p7p68")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Plane"]
+rect = Rect2(-17, -7, 24, 12)
+
+[connection signal="body_entered" from="atc_tower/comms_cone/comms_cone_area" to="atc_tower" method="_on_comms_cone_area_body_entered"]
+[connection signal="body_exited" from="atc_tower/comms_cone/comms_cone_area" to="atc_tower" method="_on_comms_cone_area_body_exited"]
+[connection signal="screen_exited" from="Plane/VisibleOnScreenNotifier2D" to="Plane" method="_on_visible_on_screen_notifier_2d_screen_exited"]

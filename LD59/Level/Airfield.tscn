@@ -6,6 +6,13 @@
 
 [sub_resource type="GDScript" id="GDScript_rh2f2"]
 script/source = "extends Node2D
+
+@onready var render: Polygon2D = $comms_cone_area/Collider/Render
+@onready var collider: CollisionPolygon2D = $comms_cone_area/Collider
+
+func _ready():
+	self.collider.polygon = self.render.polygon
+	
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7p68"]
@@ -14,7 +21,7 @@ size = Vector2(23, 11)
 [node name="Node2D" type="Node2D"]
 
 [node name="Field" type="Polygon2D" parent="."]
-position = Vector2(-235, -132)
+position = Vector2(-223, -138)
 color = Color(1.2032688e-06, 0.5611819, 0.26315114, 1)
 polygon = PackedVector2Array(1285, -295, -691, -293, -667, 869, 1300, 874)
 
@@ -30,13 +37,12 @@ script = SubResource("GDScript_rh2f2")
 
 [node name="comms_cone_area" type="Area2D" parent="atc_tower/comms_cone"]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="atc_tower/comms_cone/comms_cone_area"]
+[node name="Collider" type="CollisionPolygon2D" parent="atc_tower/comms_cone/comms_cone_area"]
 polygon = PackedVector2Array(0, 0, 100, -20, 100, 20)
 
-[node name="Polygon2D" type="Polygon2D" parent="atc_tower/comms_cone/comms_cone_area/CollisionPolygon2D"]
-visible = false
+[node name="Render" type="Polygon2D" parent="atc_tower/comms_cone/comms_cone_area/Collider"]
 color = Color(0.32941177, 1, 1, 0.41568628)
-polygon = PackedVector2Array(0, 0, 100, -20, 100, 20)
+polygon = PackedVector2Array(0, 0, 200, -40, 200, 40)
 
 [node name="atc_ui" type="Control" parent="." node_paths=PackedStringArray("atc")]
 layout_mode = 3
@@ -71,9 +77,10 @@ text = "0"
 position = Vector2(200, -20)
 script = ExtResource("2_rh2f2")
 
-[node name="Polygon2D" type="Polygon2D" parent="Plane"]
-color = Color(0.31061712, 0.31061712, 0.3106171, 1)
-polygon = PackedVector2Array(-17, -1, -15, -3, -2, -3, 4, -7, 4, -3, 8, -2, -3, 0, -9, 0, -7, 5, -10, 5, -13, 0)
+[node name="PlaneShadow" type="Polygon2D" parent="Plane"]
+position = Vector2(0, 2)
+color = Color(0, 0, 0, 0.6666667)
+polygon = PackedVector2Array(-17, -1, -12.574589, -3, -10, -5, -9, -5, -8.906845, -3, -2, -3, 4, -3, 8, -2, -3, 0, -9, 0, -7, 5, -10, 5, -13, 0)
 
 [node name="PlaneBody" type="CharacterBody2D" parent="Plane"]
 motion_mode = 1
@@ -81,6 +88,10 @@ motion_mode = 1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Plane/PlaneBody"]
 position = Vector2(-4.5, -0.5)
 shape = SubResource("RectangleShape2D_p7p68")
+
+[node name="PlaneRender" type="Polygon2D" parent="Plane/PlaneBody"]
+color = Color(0.6520914, 0.20033816, 0.20264447, 1)
+polygon = PackedVector2Array(-17, -1, -15, -3, -2, -3, 4, -7, 4, -3, 8, -2, -3, 0, -9, 0, -7, 5, -10, 5, -13, 0)
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Plane"]
 rect = Rect2(-17, -7, 24, 12)

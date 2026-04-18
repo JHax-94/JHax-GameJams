@@ -1,14 +1,17 @@
 class_name Runway extends Node2D
 
 @export var approach_container: Node2D
+@export var title : String
+@export var number : String
+@export var input : Key
 
-var approach_points: Array[Node2D]
+var approach_points: Array[Approach]
 
 func _ready():
 	var approaches = approach_container.get_children()
 	
 	for approach in approaches:
-		var approach_node = approach as Node
+		var approach_node = approach as Approach
 		if approach_node != null:
 			approach_points.append(approach_node)
 	

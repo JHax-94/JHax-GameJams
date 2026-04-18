@@ -1,16 +1,36 @@
 class_name Aircraft extends SignalReceiver
 
-enum State { RANDOM = 0, APPROACH = 1, NONE = -1 }
+enum State { 
+	RANDOM = 0, 
+	APPROACH = 1, 
+	LANDING = 2,
+	IDLE = 3,
+	FLYING = 4,
+	TAXIING = 5,
+	NONE = -1 
+}
 
-enum ApproachState { NONE = -1, MATCH_VEC = 0, MATCH_OPPOSITE_VEC = 1, ENSURE_DISTANCE = 2, REACH_APPROACH = 3, LANDING_VECTOR = 4 }
+enum ApproachState { 
+	NONE = -1, 
+	MATCH_VEC = 0, 
+	MATCH_OPPOSITE_VEC = 1, 
+	ENSURE_DISTANCE = 2, 
+	REACH_APPROACH = 3, 
+	LANDING_VECTOR = 4 
+}
 
 var approach_state : ApproachState = ApproachState.MATCH_OPPOSITE_VEC
+
+var clear_for_landing: bool = false
 
 var state = Aircraft.State.NONE
 
 var callsign: String = "B16 CHNGS"
 
 var speed : float = 50
+var max_speed : float = 50
+
+var brakes : float = 5.0
 
 var turn_speed : float = 0.5
 var angle_tol : float = 0.01
@@ -49,7 +69,9 @@ var move_vec : Vector2 = Vector2(-50, 0)
 func change_altitude(change_by: float):
 	var alt_vec = Vector2(0, -change_by)
 	plane_body.translate(alt_vec)
-	altitude = -plane_body.position.y
+	self.altitude = -plane_body.position.y
+	if altitude < 0:
+		self.altitude = 0
 
 func teleport_to_approach():
 	self.global_position = target_approach.global_position
@@ -66,6 +88,11 @@ func clamp_to_turn_speed(angle, delta) -> float:
 		angle = -delta * self.turn_speed
 	return angle
 		
+func air_braking(delta):
+	return -delta * self.speed / 10
+	
+func land_braking(delta):
+	return -delta * self.brakes
 
 func turn_radius() -> float:
 	return self.speed / self.turn_speed
@@ -76,13 +103,15 @@ func min_approach_dist() -> float:
 func message(message_data: Message):
 	print("Aircraft " + self.callsign + " receiving message: " + message_data.description)
 	
-	if message_data.type == Message.Type.BEGIN_APPROACH:
-		var approachMessage = message_data as ApproachMessage
-		var approach = approachMessage.runway.approach_points[1] as Node2D
-		target_position = approach.global_position
-		target_approach = approach
-		target_runway = approachMessage.runway
-		self.state = Aircraft.State.APPROACH
+	match message_data.type:
+		Message.Type.BEGIN_APPROACH:
+			var approachMessage = message_data as ApproachMessage
+			target_approach = approachMessage.approach
+			target_runway = approachMessage.runway
+			self.state = Aircraft.State.APPROACH
+		Message.Type.CLEAR_FOR_LANDING:
+			self.clear_for_landing = true
+	
 
 func _ready() -> void:
 	var anim_list = self.animation_player.get_animation_list()
@@ -112,6 +141,8 @@ func update_status_label() ->void:
 			status_string = "Random"
 		State.NONE:
 			status_string = "None"
+		State.LANDING:
+			status_string = "Landing"
 		State.APPROACH:
 			status_string = "Approach:"
 			match self.approach_state:
@@ -133,82 +164,96 @@ func update_status_label() ->void:
 	self.status_label.text = status_string
 	
 
+func process_random(delta: float) -> void:
+	#self.translate(move_vec * delta)
+	self.plane_body.rotate(-delta * self.turn_speed)
+	
+	angle_sweep += delta * self.turn_speed;
+	if angle_sweep > PI:
+		y_log.append(self.global_position.y)
+		print("--- YLOG --- ")
+		for y in y_log:
+			print(y)
+		angle_sweep -= PI
+
+func process_approach(delta: float) -> void:
+	var approach_vec = self.target_runway.approach_vector(self.target_approach)
+	#print(approach_vec)
+	var perp_vec = self.target_runway.perpendicular_vector(self.target_approach)
+	
+	var vec_from_approach = self.plane_body.global_position - target_approach.global_position
+	
+	var dot = approach_vec.dot(-vec_from_approach);
+	var perp_comp = perp_vec.normalized().dot(vec_from_approach)
+	var perp_dist = absf(perp_comp)
+	self.dist_label.text = str(perp_dist) + "/" + str(self.min_approach_dist())
+	
+	if self.approach_state != ApproachState.LANDING_VECTOR and self.approach_state != ApproachState.MATCH_VEC and dot < 0 and perp_dist < min_approach_dist():
+		var angle = self.plane_body.get_angle_to(self.target_approach.global_position + self.min_approach_dist() * perp_vec)
+		angle = self.clamp_to_turn_speed(angle, delta)
+		self.plane_body.rotate(angle)
+		self.dist_label.text = "TOO CLOSE! " + str(perp_comp)
+	else:
+		self.dist_label.text = "GOOD RANGE!"
+		if self.approach_state != ApproachState.MATCH_VEC and self.approach_state != ApproachState.LANDING_VECTOR:
+			if dot < 0:
+				self.approach_state = ApproachState.MATCH_OPPOSITE_VEC
+			else:
+				self.approach_state = ApproachState.REACH_APPROACH
+		
+		#print("DOT: " + str(dot))
+		if self.approach_state == ApproachState.REACH_APPROACH:
+			print("Target vec: " + str(perp_vec) + "("  + str(perp_comp) + ")")
+			
+			var angle = self.plane_body.get_angle_to(self.plane_body.global_position - perp_comp * perp_vec)
+			angle = self.clamp_to_turn_speed(angle, delta)
+			self.plane_body.rotate(angle)
+			
+			print(str(perp_dist) + " / " + str(self.turn_radius()))
+			
+			if perp_dist < self.turn_radius():
+				print("MATCH VEC!")
+				self.approach_state = ApproachState.MATCH_VEC
+			
+		elif self.approach_state == ApproachState.MATCH_VEC:
+			var angle = self.plane_body.get_angle_to(self.plane_body.global_position + approach_vec)
+			if absf(angle) <= absf(self.turn_speed * delta):
+				print("SNAP TO VEC")
+				self.plane_body.look_at(self.plane_body.global_position + approach_vec)
+				approach_state = ApproachState.LANDING_VECTOR
+				if self.clear_for_landing:
+					self.state = State.LANDING
+			else:
+				angle = self.clamp_to_turn_speed(angle, delta)
+				self.plane_body.rotate(angle)
+		elif self.approach_state == ApproachState.MATCH_OPPOSITE_VEC:
+			print("MATCHING OPPOSITE VEC...")
+			var angle = self.plane_body.get_angle_to(self.plane_body.global_position - approach_vec)
+			print(str(angle))
+			angle = self.clamp_to_turn_speed(angle, delta)
+			self.plane_body.rotate(angle)
+
 func _process(delta: float) -> void:
 	
 	self.dist_label.text = ""
 	
 	if state == Aircraft.State.RANDOM:
-		
-		#self.translate(move_vec * delta)
-		self.plane_body.rotate(-delta * self.turn_speed)
-		
-		angle_sweep += delta * self.turn_speed;
-		if angle_sweep > PI:
-			y_log.append(self.global_position.y)
-			print("--- YLOG --- ")
-			for y in y_log:
-				print(y)
-			angle_sweep -= PI
-		
-		
+		self.process_random(delta)
 		
 	elif state == Aircraft.State.APPROACH:
-		
-		var approach_vec = self.target_runway.approach_vector(self.target_approach)
-		#print(approach_vec)
-		
-		var perp_vec = self.target_runway.perpendicular_vector(self.target_approach)
-		
-		var vec_from_approach = self.plane_body.global_position - target_approach.global_position
-		
-		var dot = approach_vec.dot(-vec_from_approach);
-		var perp_comp = perp_vec.normalized().dot(vec_from_approach)
-		var perp_dist = absf(perp_comp)
-		self.dist_label.text = str(perp_dist) + "/" + str(self.min_approach_dist())
-		
-		if self.approach_state != ApproachState.LANDING_VECTOR and self.approach_state != ApproachState.MATCH_VEC and dot < 0 and perp_dist < min_approach_dist():
-			var angle = self.plane_body.get_angle_to(self.target_approach.global_position + self.min_approach_dist() * perp_vec)
-			angle = self.clamp_to_turn_speed(angle, delta)
-			self.plane_body.rotate(angle)
-			self.dist_label.text = "TOO CLOSE! " + str(perp_comp)
-		else:
-			self.dist_label.text = "GOOD RANGE!"
-			if self.approach_state != ApproachState.MATCH_VEC and self.approach_state != ApproachState.LANDING_VECTOR:
-				if dot < 0:
-					self.approach_state = ApproachState.MATCH_OPPOSITE_VEC
-				else:
-					self.approach_state = ApproachState.REACH_APPROACH
+		self.process_approach(delta)
+	elif state == Aircraft.State.LANDING:
+		if self.target_altitude > 0:
+			self.target_altitude = 0
 			
-			#print("DOT: " + str(dot))
-			if self.approach_state == ApproachState.REACH_APPROACH:
-				print("Target vec: " + str(perp_vec) + "("  + str(perp_comp) + ")")
-				
-				var angle = self.plane_body.get_angle_to(self.plane_body.global_position - perp_comp * perp_vec)
-				angle = self.clamp_to_turn_speed(angle, delta)
-				self.plane_body.rotate(angle)
-				
-				print(str(perp_dist) + " / " + str(self.turn_radius()))
-				
-				if perp_dist < self.turn_radius():
-					print("MATCH VEC!")
-					self.approach_state = ApproachState.MATCH_VEC
-				
-			elif self.approach_state == ApproachState.MATCH_VEC:
-				var angle = self.plane_body.get_angle_to(self.plane_body.global_position + approach_vec)
-				if absf(angle) <= absf(self.turn_speed * delta):
-					print("SNAP TO VEC")
-					self.plane_body.look_at(self.plane_body.global_position + approach_vec)
-					approach_state = ApproachState.LANDING_VECTOR
-				else:
-					angle = self.clamp_to_turn_speed(angle, delta)
-					self.plane_body.rotate(angle)
-			elif self.approach_state == ApproachState.MATCH_OPPOSITE_VEC:
-				print("MATCHING OPPOSITE VEC...")
-				var angle = self.plane_body.get_angle_to(self.plane_body.global_position - approach_vec)
-				print(str(angle))
-				angle = self.clamp_to_turn_speed(angle, delta)
-				self.plane_body.rotate(angle)
-
+		if self.altitude > 0:
+			self.speed += self.air_braking(delta)
+		else:
+			print("BRAKES!")
+			self.speed += self.land_braking(delta)
+			
+		if self.speed < 0:
+			self.speed = 0
 	else:	
 		var angle = self.plane_body.get_angle_to(target_position)
 		var diff = angle_difference(self.plane_body.rotation, angle)
@@ -226,7 +271,7 @@ func _process(delta: float) -> void:
 	if altitude < target_altitude:
 		self.change_altitude(delta * (speed / 10))
 	elif altitude > target_altitude:
-		self.change_altitude(-delta * (speed / 5))
+		self.change_altitude(self.air_braking(delta))
 	
 	self.plane_render.global_rotation = 0.0
 	self.process_animation()

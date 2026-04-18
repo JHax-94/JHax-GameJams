@@ -1,11 +1,17 @@
-[gd_scene load_steps=27 format=3 uid="uid://dh2olautg5vwv"]
+[gd_scene load_steps=32 format=3 uid="uid://dh2olautg5vwv"]
 
 [ext_resource type="Script" uid="uid://dxur7vkirec1s" path="res://ATC/atc_tower.gd" id="1_yuykc"]
+[ext_resource type="Script" uid="uid://dn621klho2v43" path="res://Level/signal_builder_ui.gd" id="2_ap333"]
 [ext_resource type="Script" uid="uid://8wq2v5walx8n" path="res://UI/atc_ui.gd" id="2_p7p68"]
 [ext_resource type="Script" uid="uid://jh1l7cet1q5l" path="res://SignalReceivers/Aircraft/plane.gd" id="2_rh2f2"]
+[ext_resource type="Script" uid="uid://bbvedhjggqbgo" path="res://UI/param_group.gd" id="3_flpm5"]
 [ext_resource type="Script" uid="uid://by7286t46gabn" path="res://Level/runway.gd" id="4_7420n"]
 [ext_resource type="Script" uid="uid://elgk3yf04hgw" path="res://Level/cam_controls.gd" id="4_i2ndw"]
+[ext_resource type="Script" uid="uid://c1yly203w8irm" path="res://ATC/Approach.gd" id="4_q5miy"]
+[ext_resource type="Script" uid="uid://b31rt2xth6sab" path="res://Level/signal_builder.gd" id="4_yffyv"]
 [ext_resource type="Texture2D" uid="uid://bol8n45tm7sew" path="res://Assets/Graphics/Plane-Sheet.png" id="5_f0ovx"]
+
+[sub_resource type="Theme" id="Theme_i2ndw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f0ovx"]
 size = Vector2(100, 50)
@@ -23,6 +29,57 @@ func _ready():
 	self.collider.polygon = self.render.polygon
 	
 "
+
+[sub_resource type="Animation" id="Animation_ap333"]
+resource_name = "Down"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaneRender:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaneRender:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Down"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PlaneShadow:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Down"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PlaneShadow:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_fik2q"]
 resource_name = "Left"
@@ -61,6 +118,108 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [&"LeftRight"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PlaneShadow:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_i2ndw"]
+resource_name = "LeftDown"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaneRender:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaneRender:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"DiagDown"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PlaneShadow:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PlaneShadow:animation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"DiagDown"]
+}
+
+[sub_resource type="Animation" id="Animation_i73y0"]
+resource_name = "LeftUp"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaneRender:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaneRender:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"DiagUp"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PlaneShadow:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"DiagUp"]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -177,159 +336,6 @@ tracks/3/keys = {
 "values": [&"LeftRight"]
 }
 
-[sub_resource type="Animation" id="Animation_i73y0"]
-resource_name = "LeftUp"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlaneRender:flip_h")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("PlaneRender:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagUp"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagUp"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_f0ovx"]
-resource_name = "RightUp"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlaneRender:flip_h")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("PlaneRender:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagUp"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:flip_h")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:animation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagUp"]
-}
-
-[sub_resource type="Animation" id="Animation_i2ndw"]
-resource_name = "LeftDown"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlaneRender:flip_h")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("PlaneRender:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagDown"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:flip_h")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:animation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagDown"]
-}
-
 [sub_resource type="Animation" id="Animation_yffyv"]
 resource_name = "RightDown"
 tracks/0/type = "value"
@@ -381,8 +387,8 @@ tracks/3/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_ap333"]
-resource_name = "Down"
+[sub_resource type="Animation" id="Animation_f0ovx"]
+resource_name = "RightUp"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -393,7 +399,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -405,31 +411,31 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [&"Down"]
+"values": [&"DiagUp"]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:animation")
+tracks/2/path = NodePath("../PlaneShadow:flip_h")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [&"Down"]
+"values": [true]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:flip_h")
+tracks/3/path = NodePath("../PlaneShadow:animation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [&"DiagUp"]
 }
 
 [sub_resource type="Animation" id="Animation_q5miy"]
@@ -599,15 +605,17 @@ text = "Receivers:"
 layout_mode = 2
 text = "0"
 
-[node name="Control" type="Control" parent="ui_layer"]
+[node name="signal_builder_ui" type="Control" parent="ui_layer" node_paths=PackedStringArray("param_containers")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("2_ap333")
+param_containers = [NodePath("signals_ui/VBoxContainer/Active Signal/Param1Group"), NodePath("signals_ui/VBoxContainer/Active Signal/Param2Group")]
 
-[node name="signals_ui" type="PanelContainer" parent="ui_layer/Control"]
+[node name="signals_ui" type="PanelContainer" parent="ui_layer/signal_builder_ui"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -620,9 +628,111 @@ offset_right = 88.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Label" type="Label" parent="ui_layer/Control/signals_ui"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_layer/signal_builder_ui/signals_ui"]
 layout_mode = 2
-text = "Begin Approach: Space"
+
+[node name="Signals" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer"]
+layout_mode = 2
+text = "Signals"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_i2ndw")
+columns = 2
+
+[node name="Runway" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Circle Runway: C"
+
+[node name="Landing" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Clear for Landing: L"
+
+[node name="Abort" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Abort Landing: K"
+
+[node name="Active Signal" type="HBoxContainer" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="SignalTypeGroup" type="HBoxContainer" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/Active Signal"]
+layout_mode = 2
+
+[node name="Signal" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/Active Signal/SignalTypeGroup"]
+layout_mode = 2
+text = "Signal:"
+
+[node name="ActiveSignal" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/Active Signal/SignalTypeGroup"]
+layout_mode = 2
+text = "-"
+
+[node name="Param1Group" type="HBoxContainer" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/Active Signal"]
+layout_mode = 2
+script = ExtResource("3_flpm5")
+
+[node name="Label" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/Active Signal/Param1Group"]
+layout_mode = 2
+text = "Param1"
+
+[node name="Value" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/Active Signal/Param1Group"]
+layout_mode = 2
+
+[node name="Param2Group" type="HBoxContainer" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/Active Signal"]
+layout_mode = 2
+script = ExtResource("3_flpm5")
+metadata/_custom_type_script = "uid://bbvedhjggqbgo"
+
+[node name="Label" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/Active Signal/Param2Group"]
+layout_mode = 2
+text = "Param2:"
+
+[node name="Value" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/Active Signal/Param2Group"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer"]
+layout_mode = 2
+text = "Space to Send Signal"
+horizontal_alignment = 1
+
+[node name="params_ui" type="PanelContainer" parent="ui_layer/signal_builder_ui"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="params_container" type="VBoxContainer" parent="ui_layer/signal_builder_ui/params_ui"]
+layout_mode = 2
+
+[node name="runways_container" type="VBoxContainer" parent="ui_layer/signal_builder_ui/params_ui/params_container"]
+layout_mode = 2
+
+[node name="Runways_title" type="Label" parent="ui_layer/signal_builder_ui/params_ui/params_container/runways_container"]
+layout_mode = 2
+text = "Runways"
+horizontal_alignment = 1
+
+[node name="approaches_container" type="VBoxContainer" parent="ui_layer/signal_builder_ui/params_ui/params_container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ui_layer/signal_builder_ui/params_ui/params_container/approaches_container"]
+layout_mode = 2
+text = "Approaches"
+horizontal_alignment = 1
+
+[node name="approach_options" type="VBoxContainer" parent="ui_layer/signal_builder_ui/params_ui/params_container/approaches_container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ui_layer/signal_builder_ui/params_ui/params_container/approaches_container/approach_options"]
+layout_mode = 2
+text = "-"
 
 [node name="Field" type="Polygon2D" parent="."]
 position = Vector2(-223, -138)
@@ -633,6 +743,9 @@ polygon = PackedVector2Array(1285, -295, -691, -293, -667, 869, 1300, 874)
 position = Vector2(200, 0)
 script = ExtResource("4_7420n")
 approach_container = NodePath("Approaches")
+title = "Runway 1"
+number = "1"
+input = 49
 
 [node name="Polygon2D" type="Polygon2D" parent="Runway"]
 color = Color(0.30323282, 0.30323282, 0.30323282, 1)
@@ -642,6 +755,10 @@ polygon = PackedVector2Array(-50, -200, -50, 200, 50, 200, 50, -200)
 
 [node name="NorthApproach" type="Node2D" parent="Runway/Approaches"]
 position = Vector2(0, -250)
+script = ExtResource("4_q5miy")
+input = 78
+key_text = "N"
+title = "North"
 
 [node name="Area2D" type="Area2D" parent="Runway/Approaches/NorthApproach"]
 
@@ -650,6 +767,10 @@ shape = SubResource("RectangleShape2D_f0ovx")
 
 [node name="SouthApproach" type="Node2D" parent="Runway/Approaches"]
 position = Vector2(0, 250)
+script = ExtResource("4_q5miy")
+input = 90
+key_text = "Z"
+title = "South"
 
 [node name="Area2D" type="Area2D" parent="Runway/Approaches/SouthApproach"]
 
@@ -661,8 +782,13 @@ shape = SubResource("RectangleShape2D_f0ovx")
 [node name="RunwayShape" type="CollisionShape2D" parent="Runway/RunwayArea"]
 shape = SubResource("RectangleShape2D_i2ndw")
 
-[node name="atc_tower" type="Node2D" parent="."]
+[node name="atc_tower" type="Node2D" parent="." node_paths=PackedStringArray("runways")]
 script = ExtResource("1_yuykc")
+runways = [NodePath("../Runway")]
+
+[node name="signal_builder" type="Node2D" parent="atc_tower"]
+script = ExtResource("4_yffyv")
+signal_inputs = Array[String](["circle_runway", "clear_for_landing"])
 
 [node name="Polygon2D" type="Polygon2D" parent="atc_tower"]
 polygon = PackedVector2Array(-10, -10, -10, 10, 10, 10, 10, -10)
@@ -755,6 +881,9 @@ layout_mode = 2
 [connection signal="body_entered" from="Runway/Approaches/NorthApproach/Area2D" to="Runway" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Runway/Approaches/SouthApproach/Area2D" to="Runway" method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Runway/RunwayArea" to="Runway" method="_on_runway_area_body_exited"]
+[connection signal="atc_ready" from="atc_tower" to="ui_layer/signal_builder_ui" method="_on_atc_tower_atc_ready"]
+[connection signal="signal_type_changed" from="atc_tower/signal_builder" to="ui_layer/atc_ui" method="_on_signal_builder_signal_type_changed"]
+[connection signal="signal_type_changed" from="atc_tower/signal_builder" to="ui_layer/signal_builder_ui" method="_on_signal_builder_signal_type_changed"]
 [connection signal="body_entered" from="atc_tower/comms_cone/comms_cone_area" to="atc_tower" method="_on_comms_cone_area_body_entered"]
 [connection signal="body_exited" from="atc_tower/comms_cone/comms_cone_area" to="atc_tower" method="_on_comms_cone_area_body_exited"]
 [connection signal="screen_exited" from="Plane/VisibleOnScreenNotifier2D" to="Plane" method="_on_visible_on_screen_notifier_2d_screen_exited"]

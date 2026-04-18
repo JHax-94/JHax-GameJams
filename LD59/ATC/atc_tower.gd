@@ -2,8 +2,11 @@ class_name AtcTower extends  Node2D
 
 signal receiver_added(body: Node2D)
 signal receiver_removed(body: Node2D)
+signal atc_ready(atcTower: AtcTower)
 
 @onready var runway: Runway = $"../Runway"
+
+@export var runways: Array[Runway]
 
 var comms_receivers: Array[SignalReceiver] = []
 
@@ -11,15 +14,19 @@ var rotate_speed: float = 2.0
 
 @onready var comms_cone: Node2D = $comms_cone
 
+@onready var signal_builder: SignalBuilder = $signal_builder
+
+func _ready() -> void:
+	self.signal_builder.atc_tower = self as AtcTower
+	self.atc_ready.emit(self as AtcTower)
+
 func send_message():
 	
+	var message = self.signal_builder.get_message()
 	
-	var message = ApproachMessage.new(runway)
-	
-	print(message)
-	
-	for receiver in comms_receivers:
-		receiver.message(message)
+	if message != null:
+		for receiver in comms_receivers:
+			receiver.message(message)
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("rotate_anticlockwise"):

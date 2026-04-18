@@ -1,0 +1,28 @@
+class_name Runway extends Node2D
+
+@export var approach_container: Node2D
+
+var approach_points: Array[Node2D]
+
+func _ready():
+	var approaches = approach_container.get_children()
+	
+	for approach in approaches:
+		var approach_node = approach as Node
+		if approach_node != null:
+			approach_points.append(approach_node)
+	
+	print("Runway built with " + str(approach_points.size()) + " approach paths")
+	
+func approach_vector(approach: Node2D) -> Vector2: 
+	return self.global_position - approach.global_position
+	
+func perpendicular_vector(approach: Node2D) -> Vector2:
+	var approach_vec = self.approach_vector(approach)
+	return approach_vec.rotated(0.5*PI)
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	var aircraft = body.get_parent() as Aircraft
+	if aircraft != null and aircraft.state == Aircraft.State.APPROACH and aircraft.approach_state == Aircraft.ApproachState.REACH_APPROACH:
+		aircraft.approach_reached()

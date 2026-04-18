@@ -1,8 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://dh2olautg5vwv"]
+[gd_scene load_steps=26 format=3 uid="uid://dh2olautg5vwv"]
 
 [ext_resource type="Script" uid="uid://dxur7vkirec1s" path="res://ATC/atc_tower.gd" id="1_yuykc"]
 [ext_resource type="Script" uid="uid://8wq2v5walx8n" path="res://UI/atc_ui.gd" id="2_p7p68"]
-[ext_resource type="Script" uid="uid://jh1l7cet1q5l" path="res://Aircraft/plane.gd" id="2_rh2f2"]
+[ext_resource type="Script" uid="uid://jh1l7cet1q5l" path="res://SignalReceivers/Aircraft/plane.gd" id="2_rh2f2"]
+[ext_resource type="Script" uid="uid://by7286t46gabn" path="res://Level/runway.gd" id="4_7420n"]
+[ext_resource type="Script" uid="uid://elgk3yf04hgw" path="res://Level/cam_controls.gd" id="4_i2ndw"]
+[ext_resource type="Texture2D" uid="uid://bol8n45tm7sew" path="res://Assets/Graphics/Plane-Sheet.png" id="5_f0ovx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f0ovx"]
+size = Vector2(100, 50)
 
 [sub_resource type="GDScript" id="GDScript_rh2f2"]
 script/source = "extends Node2D
@@ -15,8 +21,543 @@ func _ready():
 	
 "
 
+[sub_resource type="Animation" id="Animation_fik2q"]
+resource_name = "Left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaneRender:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaneRender:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"LeftRight"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PlaneShadow:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"LeftRight"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PlaneShadow:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_k0a2v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaneRender:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"LeftRight"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaneRender:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PlaneShadow:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Up"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PlaneShadow:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_n1dnx"]
+resource_name = "Right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaneRender:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"LeftRight"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaneRender:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PlaneShadow:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PlaneShadow:animation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"LeftRight"]
+}
+
+[sub_resource type="Animation" id="Animation_i73y0"]
+resource_name = "LeftUp"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaneRender:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaneRender:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"DiagUp"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PlaneShadow:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"DiagUp"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PlaneShadow:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_f0ovx"]
+resource_name = "RightUp"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaneRender:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaneRender:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"DiagUp"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PlaneShadow:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PlaneShadow:animation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"DiagUp"]
+}
+
+[sub_resource type="Animation" id="Animation_i2ndw"]
+resource_name = "LeftDown"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaneRender:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaneRender:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"DiagDown"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PlaneShadow:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PlaneShadow:animation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"DiagDown"]
+}
+
+[sub_resource type="Animation" id="Animation_yffyv"]
+resource_name = "RightDown"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaneRender:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaneRender:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"DiagDown"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PlaneShadow:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"DiagDown"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PlaneShadow:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_ap333"]
+resource_name = "Down"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaneRender:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaneRender:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Down"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PlaneShadow:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Down"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PlaneShadow:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_q5miy"]
+resource_name = "Up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaneRender:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaneRender:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Up"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PlaneShadow:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Up"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PlaneShadow:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_snth5"]
+_data = {
+&"Down": SubResource("Animation_ap333"),
+&"Left": SubResource("Animation_fik2q"),
+&"LeftDown": SubResource("Animation_i2ndw"),
+&"LeftUp": SubResource("Animation_i73y0"),
+&"RESET": SubResource("Animation_k0a2v"),
+&"Right": SubResource("Animation_n1dnx"),
+&"RightDown": SubResource("Animation_yffyv"),
+&"RightUp": SubResource("Animation_f0ovx"),
+&"Up": SubResource("Animation_q5miy")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i2ndw"]
+atlas = ExtResource("5_f0ovx")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yffyv"]
+atlas = ExtResource("5_f0ovx")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ap333"]
+atlas = ExtResource("5_f0ovx")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5miy"]
+atlas = ExtResource("5_f0ovx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_flpm5"]
+atlas = ExtResource("5_f0ovx")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5j1q8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i2ndw")
+}],
+"loop": true,
+"name": &"DiagDown",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yffyv")
+}],
+"loop": true,
+"name": &"DiagUp",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ap333")
+}],
+"loop": true,
+"name": &"Down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5miy")
+}],
+"loop": true,
+"name": &"LeftRight",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_flpm5")
+}],
+"loop": true,
+"name": &"Up",
+"speed": 5.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7p68"]
-size = Vector2(23, 11)
+size = Vector2(28, 8)
 
 [node name="Node2D" type="Node2D"]
 
@@ -55,10 +596,54 @@ text = "Receivers:"
 layout_mode = 2
 text = "0"
 
+[node name="Control" type="Control" parent="ui_layer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="signals_ui" type="PanelContainer" parent="ui_layer/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -88.0
+offset_top = -23.0
+offset_right = 88.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="ui_layer/Control/signals_ui"]
+layout_mode = 2
+text = "Begin Approach: Space"
+
 [node name="Field" type="Polygon2D" parent="."]
 position = Vector2(-223, -138)
 color = Color(1.2032688e-06, 0.5611819, 0.26315114, 1)
 polygon = PackedVector2Array(1285, -295, -691, -293, -667, 869, 1300, 874)
+
+[node name="Runway" type="Node2D" parent="." node_paths=PackedStringArray("approach_container")]
+position = Vector2(200, 0)
+script = ExtResource("4_7420n")
+approach_container = NodePath("Approaches")
+
+[node name="Polygon2D" type="Polygon2D" parent="Runway"]
+color = Color(0.30323282, 0.30323282, 0.30323282, 1)
+polygon = PackedVector2Array(-50, -200, -50, 200, 50, 200, 50, -200)
+
+[node name="Approaches" type="Node2D" parent="Runway"]
+
+[node name="NorthApproach" type="Node2D" parent="Runway/Approaches"]
+position = Vector2(0, -250)
+
+[node name="Area2D" type="Area2D" parent="Runway/Approaches/NorthApproach"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Runway/Approaches/NorthApproach/Area2D"]
+shape = SubResource("RectangleShape2D_f0ovx")
 
 [node name="atc_tower" type="Node2D" parent="."]
 script = ExtResource("1_yuykc")
@@ -80,30 +665,75 @@ color = Color(0.32941177, 1, 1, 0.41568628)
 polygon = PackedVector2Array(0, 0, 200, -40, 200, 40)
 
 [node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("4_i2ndw")
 
 [node name="Plane" type="Node2D" parent="."]
-position = Vector2(200, -20)
+position = Vector2(-400, -40)
 script = ExtResource("2_rh2f2")
 
-[node name="PlaneShadow" type="Polygon2D" parent="Plane"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Plane"]
+root_node = NodePath("../PlaneBody")
+libraries = {
+&"": SubResource("AnimationLibrary_snth5")
+}
+
+[node name="PlaneShadow" type="AnimatedSprite2D" parent="Plane"]
+modulate = Color(0.16565639, 0.16565642, 0.16565636, 0.50980395)
+texture_filter = 1
 position = Vector2(0, 2)
-color = Color(0, 0, 0, 0.6666667)
-polygon = PackedVector2Array(-17, -1, -12.574589, -3, -10, -5, -9, -5, -8.906845, -3, -2, -3, 4, -3, 8, -2, -3, 0, -9, 0, -7, 5, -10, 5, -13, 0)
+sprite_frames = SubResource("SpriteFrames_5j1q8")
+animation = &"Up"
 
 [node name="PlaneBody" type="CharacterBody2D" parent="Plane"]
 motion_mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Plane/PlaneBody"]
-position = Vector2(-4.5, -0.5)
+position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_p7p68")
 
-[node name="PlaneRender" type="Polygon2D" parent="Plane/PlaneBody"]
-color = Color(0.6520914, 0.20033816, 0.20264447, 1)
-polygon = PackedVector2Array(-17, -1, -15, -3, -2, -3, 4, -7, 4, -3, 8, -2, -3, 0, -9, 0, -7, 5, -10, 5, -13, 0)
+[node name="PlaneRender" type="AnimatedSprite2D" parent="Plane/PlaneBody"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_5j1q8")
+animation = &"LeftRight"
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Plane"]
-rect = Rect2(-17, -7, 24, 12)
+position = Vector2(4, 1)
+rect = Rect2(-16, -9, 25, 17)
 
+[node name="PanelContainer" type="PanelContainer" parent="Plane"]
+offset_top = 17.0
+offset_right = 66.0
+offset_bottom = 40.0
+
+[node name="Vbox" type="VBoxContainer" parent="Plane/PanelContainer"]
+layout_mode = 2
+
+[node name="Angle" type="HBoxContainer" parent="Plane/PanelContainer/Vbox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Plane/PanelContainer/Vbox/Angle"]
+layout_mode = 2
+text = "Angle: "
+
+[node name="AngleVal" type="Label" parent="Plane/PanelContainer/Vbox/Angle"]
+layout_mode = 2
+text = "0"
+
+[node name="Alt" type="HBoxContainer" parent="Plane/PanelContainer/Vbox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Plane/PanelContainer/Vbox/Alt"]
+layout_mode = 2
+text = "Alt: "
+
+[node name="AltVal" type="Label" parent="Plane/PanelContainer/Vbox/Alt"]
+layout_mode = 2
+text = "0"
+
+[node name="DistLabel" type="Label" parent="Plane/PanelContainer/Vbox"]
+layout_mode = 2
+
+[connection signal="body_entered" from="Runway/Approaches/NorthApproach/Area2D" to="Runway" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="atc_tower/comms_cone/comms_cone_area" to="atc_tower" method="_on_comms_cone_area_body_entered"]
 [connection signal="body_exited" from="atc_tower/comms_cone/comms_cone_area" to="atc_tower" method="_on_comms_cone_area_body_exited"]
 [connection signal="screen_exited" from="Plane/VisibleOnScreenNotifier2D" to="Plane" method="_on_visible_on_screen_notifier_2d_screen_exited"]

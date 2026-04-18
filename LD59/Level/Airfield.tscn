@@ -645,6 +645,14 @@ position = Vector2(0, -250)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Runway/Approaches/NorthApproach/Area2D"]
 shape = SubResource("RectangleShape2D_f0ovx")
 
+[node name="SouthApproach" type="Node2D" parent="Runway/Approaches"]
+position = Vector2(0, 250)
+
+[node name="Area2D" type="Area2D" parent="Runway/Approaches/SouthApproach"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Runway/Approaches/SouthApproach/Area2D"]
+shape = SubResource("RectangleShape2D_f0ovx")
+
 [node name="atc_tower" type="Node2D" parent="."]
 script = ExtResource("1_yuykc")
 
@@ -734,6 +742,7 @@ text = "0"
 layout_mode = 2
 
 [connection signal="body_entered" from="Runway/Approaches/NorthApproach/Area2D" to="Runway" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Runway/Approaches/SouthApproach/Area2D" to="Runway" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="atc_tower/comms_cone/comms_cone_area" to="atc_tower" method="_on_comms_cone_area_body_entered"]
 [connection signal="body_exited" from="atc_tower/comms_cone/comms_cone_area" to="atc_tower" method="_on_comms_cone_area_body_exited"]
 [connection signal="screen_exited" from="Plane/VisibleOnScreenNotifier2D" to="Plane" method="_on_visible_on_screen_notifier_2d_screen_exited"]

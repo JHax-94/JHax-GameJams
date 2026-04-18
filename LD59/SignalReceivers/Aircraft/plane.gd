@@ -77,7 +77,7 @@ func message(message_data: Message):
 	
 	if message_data.type == Message.Type.BEGIN_APPROACH:
 		var approachMessage = message_data as ApproachMessage
-		var approach = approachMessage.runway.approach_points[0] as Node2D
+		var approach = approachMessage.runway.approach_points[1] as Node2D
 		target_position = approach.global_position
 		target_approach = approach
 		target_runway = approachMessage.runway

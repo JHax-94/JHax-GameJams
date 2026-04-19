@@ -286,7 +286,158 @@ position = Vector2(300, -200)
 start_active = true
 
 [node name="Glider" parent="." instance=ExtResource("7_c6pph")]
-position = Vector2(-437, -194)
+position = Vector2(-968, -395)
+altitude = 80.0
+
+[node name="WaitTimer" parent="Glider" index="0"]
+wait_time = 10.0
+
+[node name="Plane2" parent="." instance=ExtResource("3_rf0eq")]
+position = Vector2(277, -670)
+target_position = Vector2(-600, 400)
+
+[node name="WaitTimer" parent="Plane2" index="0"]
+wait_time = 30.0
+
+[node name="Plane3" parent="." instance=ExtResource("3_rf0eq")]
+position = Vector2(781, 279)
+speed = 60.0
+altitude = 40.0
+target_position = Vector2(-600, 300)
+
+[node name="WaitTimer" parent="Plane3" index="0"]
+wait_time = 30.0
+
+[node name="Plane4" parent="." instance=ExtResource("3_rf0eq")]
+position = Vector2(-414, 548)
+speed = 100.0
+altitude = 120.0
+target_position = Vector2(600, -300)
+
+[node name="WaitTimer" parent="Plane4" index="0"]
+wait_time = 80.0
+
+[node name="Plane5" parent="." instance=ExtResource("3_rf0eq")]
+position = Vector2(967, -688)
+speed = 100.0
+max_speed = 60.0
+altitude = 90.0
+target_position = Vector2(-600, 200)
+
+[node name="WaitTimer" parent="Plane5" index="0"]
+wait_time = 100.0
+
+[node name="Plane6" parent="." instance=ExtResource("3_rf0eq")]
+position = Vector2(474, 559)
+speed = 90.0
+max_speed = 60.0
+altitude = 70.0
+target_position = Vector2(-600, -199)
+
+[node name="WaitTimer" parent="Plane6" index="0"]
+wait_time = 120.0
+
+[node name="Glider2" parent="." instance=ExtResource("7_c6pph")]
+position = Vector2(-1203, 554)
+altitude = 100.0
+target_position = Vector2(600, -400)
+
+[node name="WaitTimer" parent="Glider2" index="0"]
+wait_time = 160.0
+
+[node name="Glider3" parent="." instance=ExtResource("7_c6pph")]
+position = Vector2(951, 485)
+altitude = 120.0
+target_position = Vector2(-600, -400)
+
+[node name="WaitTimer" parent="Glider3" index="0"]
+wait_time = 160.0
+
+[node name="Glider4" parent="." instance=ExtResource("7_c6pph")]
+position = Vector2(-251, -816)
+altitude = 120.0
+target_position = Vector2(600, 400)
+
+[node name="WaitTimer" parent="Glider4" index="0"]
+wait_time = 160.0
+
+[node name="Plane7" parent="." instance=ExtResource("3_rf0eq")]
+position = Vector2(1396, -249)
+speed = 30.0
+max_speed = 60.0
+altitude = 120.0
+target_position = Vector2(-600, 200)
+
+[node name="WaitTimer" parent="Plane7" index="0"]
+wait_time = 200.0
+
+[node name="Plane8" parent="." instance=ExtResource("3_rf0eq")]
+position = Vector2(-1272, -767)
+speed = 60.0
+max_speed = 60.0
+altitude = 60.0
+target_position = Vector2(600, 600)
+
+[node name="WaitTimer" parent="Plane8" index="0"]
+wait_time = 230.0
+
+[node name="Plane9" parent="." instance=ExtResource("3_rf0eq")]
+position = Vector2(-112, -867)
+speed = 40.0
+max_speed = 60.0
+altitude = 70.0
+target_position = Vector2(600, 600)
+
+[node name="WaitTimer" parent="Plane9" index="0"]
+wait_time = 280.0
+
+[node name="Plane10" parent="." instance=ExtResource("3_rf0eq")]
+position = Vector2(1020, 1)
+speed = 40.0
+max_speed = 60.0
+altitude = 110.0
+target_position = Vector2(-600, 0)
+
+[node name="WaitTimer" parent="Plane10" index="0"]
+wait_time = 360.0
+
+[node name="Plane11" parent="." instance=ExtResource("3_rf0eq")]
+position = Vector2(-1005, -7)
+speed = 40.0
+max_speed = 60.0
+altitude = 110.0
+target_position = Vector2(600, 0)
+
+[node name="WaitTimer" parent="Plane11" index="0"]
+wait_time = 360.0
+
+[node name="Plane12" parent="." instance=ExtResource("3_rf0eq")]
+position = Vector2(-59, 922)
+speed = 40.0
+max_speed = 60.0
+altitude = 110.0
+target_position = Vector2(600, -400)
+
+[node name="WaitTimer" parent="Plane12" index="0"]
+wait_time = 400.0
+
+[node name="Glider5" parent="." instance=ExtResource("7_c6pph")]
+position = Vector2(1396, 851)
+speed = 80.0
+altitude = 120.0
+target_position = Vector2(-600, -400)
+
+[node name="WaitTimer" parent="Glider5" index="0"]
+wait_time = 420.0
+
+[node name="Glider6" parent="." instance=ExtResource("7_c6pph")]
+position = Vector2(-1459, -291)
+speed = 80.0
+altitude = 120.0
+target_position = Vector2(600, 400)
+
+[node name="WaitTimer" parent="Glider6" index="0"]
+wait_time = 460.0
 
 [node name="AtcCamera" type="Camera2D" parent="."]
 script = ExtResource("5_rf0eq")
@@ -297,3 +448,21 @@ metadata/_custom_type_script = "uid://elgk3yf04hgw"
 [editable path="Runway2"]
 [editable path="Runway3"]
 [editable path="atc_tower"]
+[editable path="Plane"]
+[editable path="Glider"]
+[editable path="Plane2"]
+[editable path="Plane3"]
+[editable path="Plane4"]
+[editable path="Plane5"]
+[editable path="Plane6"]
+[editable path="Glider2"]
+[editable path="Glider3"]
+[editable path="Glider4"]
+[editable path="Plane7"]
+[editable path="Plane8"]
+[editable path="Plane9"]
+[editable path="Plane10"]
+[editable path="Plane11"]
+[editable path="Plane12"]
+[editable path="Glider5"]
+[editable path="Glider6"]

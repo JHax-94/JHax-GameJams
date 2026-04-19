@@ -24,6 +24,7 @@ func process_crash_land():
 
 func process_no_fuel_movement(delta: float):
 	self.move_at_speed(self.speed, delta)
+	
 	self.descent_speed = self.gravity / self.speed
 	
 	if self.state != State.LANDING:

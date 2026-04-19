@@ -39,12 +39,13 @@ var callsign: String = "B16 CHNGS"
 
 const MAX_RAND_DIST_SQRT : float = 100
 
-var speed : float = 50
-var max_speed : float = 50
-var taxi_speed : float = 10
+@export var speed : float = 50
+@export var max_speed : float = 50
+@export var taxi_speed : float = 10
+@export var brakes : float = 8.0
 
-
-var brakes : float = 5.0
+@export var fuel :float = 10000.0
+var max_fuel : float = self.fuel;
 
 var turn_speed : float = 0.5
 var angle_tol : float = 0.01
@@ -55,6 +56,9 @@ var target_altitude : float = 20.0
 @export var target_position: Vector2
 var target_approach: Approach
 var target_angle: float
+
+var gravity:float = 9.8
+var descent_speed :float = 0.0
 
 var target_runway : Runway
 
@@ -81,6 +85,10 @@ var angle_sweep = 0.0;
 
 @onready var plane_body: CharacterBody2D = $PlaneBody
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var fuel_bar: ProgressBar = $PlaneBody/FuelBar
+
+
+
 var anims: Array = []
 var anim_index :int = 0
 
@@ -92,6 +100,19 @@ func change_altitude(change_by: float):
 	self.altitude = -plane_body.position.y
 	if altitude < 0:
 		self.altitude = 0
+		self.plane_body.position.y = 0
+		if abs(descent_speed) > 0:
+			print("Oh no explode!")
+			queue_free()
+
+func change_fuel(change_by: float):
+	self.fuel += change_by
+	if self.fuel > self.max_fuel:
+		self.fuel = self.max_fuel
+	elif self.fuel < 0:
+		self.fuel = 0
+	
+	self.fuel_bar.value = self.fuel
 
 func set_altitude(set_to: float):
 	self.altitude = set_to
@@ -156,10 +177,14 @@ func hangar_reached(body: Node2D):
 		queue_free()
 
 
+
+
 func _ready() -> void:
 	var anim_list = self.animation_player.get_animation_list()
 	
 	self.atc = get_tree().root.find_child("atc_tower") as AtcTower
+	self.fuel_bar.max_value = self.max_fuel
+	self.fuel_bar.value = self.fuel
 	
 	self.set_altitude(self.altitude)
 	
@@ -312,7 +337,27 @@ func process_taxi(delta: float) -> void:
 		step = "Turn..."
 		
 	self.dist_label.text = self.taxi_node.name + " " + step
+
+func move_at_speed(_speed: float, delta: float):
+	var velocity = _speed * delta * self.plane_body.global_transform.basis_xform(Vector2.RIGHT)
+		#print("(" + str(velocity.x) + ", " + str(velocity.y) + ")")
+	self.translate(velocity)
+
+func process_standard_movement(delta: float):
+	if fuel > 0:
+		self.move_at_speed(self.speed, delta)
+		self.change_fuel(-self.speed * delta)
 		
+		if altitude < target_altitude:
+			self.change_altitude(delta * (speed / 10))
+		elif altitude > target_altitude:
+			self.change_altitude(self.air_braking(delta))
+	
+	else:
+		self.speed += self.air_braking(delta)
+		self.move_at_speed(self.speed, delta)
+		self.descent_speed += self.gravity * delta
+		self.change_altitude(-self.descent_speed * delta)
 
 func _process(delta: float) -> void:
 	
@@ -339,20 +384,18 @@ func _process(delta: float) -> void:
 		self.process_taxi(delta)
 	else:	
 		self.process_default(delta)
-		
-	var velocity = self.speed * delta * plane_body.global_transform.basis_xform(Vector2.RIGHT)
-	#print("(" + str(velocity.x) + ", " + str(velocity.y) + ")")
 	
-	self.translate(velocity)
+	self.process_standard_movement(delta)
 	
-	if altitude < target_altitude:
-		self.change_altitude(delta * (speed / 10))
-	elif altitude > target_altitude:
-		self.change_altitude(self.air_braking(delta))
+	self.lock_rotations()
 	
-	self.plane_render.global_rotation = 0.0
 	self.process_animation()
 	self.update_status_label()
+
+func lock_rotations():
+	self.plane_render.global_rotation = 0.0
+	self.fuel_bar.rotation = -self.plane_body.rotation
+
 
 func approach_reached():
 	print("Approach reached!")

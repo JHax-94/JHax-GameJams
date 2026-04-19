@@ -16,7 +16,7 @@ func _ready():
 
 [node name="atc_tower" type="Node2D" node_paths=PackedStringArray("runways")]
 script = ExtResource("1_3a2vy")
-runways = [NodePath("")]
+runways = [null]
 
 [node name="signal_builder" type="Node2D" parent="."]
 script = ExtResource("2_xcgux")
@@ -38,7 +38,7 @@ polygon = PackedVector2Array(0, 0, 100, -20, 100, 20)
 
 [node name="Render" type="Polygon2D" parent="comms_cone/comms_cone_area/Collider"]
 color = Color(0.32941177, 1, 1, 0.41568628)
-polygon = PackedVector2Array(0, 0, 200, -40, 200, 40)
+polygon = PackedVector2Array(0, 0, 300, -40, 310, -20, 315, 0, 310, 20, 300, 40)
 
 [connection signal="body_entered" from="comms_cone/comms_cone_area" to="." method="_on_comms_cone_area_body_entered"]
 [connection signal="body_exited" from="comms_cone/comms_cone_area" to="." method="_on_comms_cone_area_body_exited"]

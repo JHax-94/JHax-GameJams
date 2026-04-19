@@ -167,6 +167,7 @@ func change_fuel(change_by: float):
 
 func set_altitude(set_to: float):
 	self.altitude = set_to
+	self.target_altitude = set_to
 	plane_body.position.y = -set_to
 
 func teleport_to_approach():

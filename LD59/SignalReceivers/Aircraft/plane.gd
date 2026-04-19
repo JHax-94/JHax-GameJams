@@ -102,6 +102,23 @@ var anim_index :int = 0
 
 var move_vec : Vector2 = Vector2(-50, 0)
 
+var layer_size : float = 5
+
+func map_altitude_to_collision_layer():
+	return floori(self.altitude / self.layer_size)
+	
+func map_layer_to_bitmask(layer: int) -> int:
+	return floori(pow(2, layer))
+
+func update_layers():
+	if self.state == Aircraft.State.WAIT:
+		self.plane_body.collision_layer = 0
+		self.plane_body.collision_mask = 0
+	else:
+		var bitmask = self.map_layer_to_bitmask(self.map_altitude_to_collision_layer())
+		self.plane_body.collision_layer = bitmask
+		self.plane_body.collision_mask = bitmask
+
 func resolve_aircraft(resolution: Aircraft.Resolution):
 	match resolution:
 		Resolution.CRASHED:
@@ -167,10 +184,11 @@ func message(message_data: Message):
 	
 	match message_data.type:
 		Message.Type.BEGIN_APPROACH:
-			var approachMessage = message_data as ApproachMessage
-			target_approach = approachMessage.approach
-			target_runway = approachMessage.runway
-			self.state = Aircraft.State.APPROACH
+			if self.state != Aircraft.State.IDLE:
+				var approachMessage = message_data as ApproachMessage
+				target_approach = approachMessage.approach
+				target_runway = approachMessage.runway
+				self.state = Aircraft.State.APPROACH
 		Message.Type.CLEAR_FOR_LANDING:
 			self.clear_for_landing = true
 			self.clear_for_landing_label.visible = true
@@ -359,6 +377,22 @@ func move_at_speed(_speed: float, delta: float):
 	var velocity = _speed * delta * self.plane_body.global_transform.basis_xform(Vector2.RIGHT)
 		#print("(" + str(velocity.x) + ", " + str(velocity.y) + ")")
 	self.translate(velocity)
+	var collision: KinematicCollision2D = self.plane_body.move_and_collide(velocity, true)
+	if collision:
+		self.angle_val.text = "COLLISION!"
+		self.resolve_aircraft(Resolution.CRASHED)
+		var collider = collision.get_collider() as Node2D
+		var aircraft : Aircraft = null
+		if collider:
+			aircraft = collider.get_parent() as Aircraft
+		
+		if aircraft:
+			aircraft.resolve_aircraft(Resolution.CRASHED)
+		print("Collision with: " + collider.name)
+		
+	else:
+		self.angle_val.text = "No collision..."
+	
 
 func process_standard_movement(delta: float):
 	if fuel > 0:
@@ -379,7 +413,6 @@ func process_standard_movement(delta: float):
 func _process(delta: float) -> void:
 	
 	self.dist_label.text = ""
-	
 	if state == Aircraft.State.WAIT:
 		pass
 	else:
@@ -411,6 +444,8 @@ func _process(delta: float) -> void:
 		
 		self.process_animation()
 		self.update_status_label()
+	
+	self.update_layers()
 
 func lock_rotations():
 	self.plane_render.global_rotation = 0.0
@@ -441,7 +476,7 @@ func process_animation():
 	elif angle < -5*PI/8 and angle > -7 * PI / 8:
 		self.animation_player.play("LeftUp")
 	
-	self.angle_val.text = str(angle/PI) + "PI"
+	#self.angle_val.text = str(angle/PI) + "PI"
 	self.alt_val.text = str(roundi(self.altitude * 10)) + "m"
 	self.airspeed_val.text = str(roundi(self.speed)) + " knots"
 

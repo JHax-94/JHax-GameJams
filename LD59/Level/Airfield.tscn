@@ -296,6 +296,8 @@ title = "North"
 taxi_path = NodePath("../../../Taxi/SouthTaxiPath")
 
 [node name="Area2D" type="Area2D" parent="Runway/Approaches/NorthApproach"]
+collision_layer = 4294967295
+collision_mask = 4294967295
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Runway/Approaches/NorthApproach/Area2D"]
 shape = SubResource("RectangleShape2D_f0ovx")
@@ -314,6 +316,8 @@ taxi_path = NodePath("../../../Taxi/NorthTaxiPath")
 shape = SubResource("RectangleShape2D_f0ovx")
 
 [node name="RunwayArea" type="Area2D" parent="Runway"]
+collision_layer = 4294967295
+collision_mask = 4294967295
 
 [node name="RunwayShape" type="CollisionShape2D" parent="Runway/RunwayArea"]
 shape = SubResource("RectangleShape2D_i2ndw")
@@ -403,6 +407,8 @@ rotation = -0.61086524
 script = SubResource("GDScript_rh2f2")
 
 [node name="comms_cone_area" type="Area2D" parent="atc_tower/comms_cone"]
+collision_layer = 4294967295
+collision_mask = 4294967295
 
 [node name="Collider" type="CollisionPolygon2D" parent="atc_tower/comms_cone/comms_cone_area"]
 polygon = PackedVector2Array(0, 0, 100, -20, 100, 20)

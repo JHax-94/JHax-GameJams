@@ -607,7 +607,6 @@ grow_horizontal = 2
 layout_mode = 2
 
 [node name="Angle" type="HBoxContainer" parent="PanelContainer/Vbox"]
-visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/Vbox/Angle"]

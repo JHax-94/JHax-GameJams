@@ -4,4 +4,4 @@ class_name AirfieldRoot extends Node2D
 @export var day_name : String
 
 func score_key() -> String:
-	return airfield_name + "_" + day_name
+	return SCORE_BOARD.get_score_key(airfield_name, day_name)

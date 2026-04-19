@@ -8,7 +8,7 @@ func record_score(score_key: String, grade: String):
 	if level_scores.has(score_key) == false:
 		level_scores[score_key] = []
 	
-	level_scores[score_key].push(grade)
+	level_scores[score_key].append(grade)
 	
 func score_index(grade: String) -> int:
 	var index = grade_list.find(grade)
@@ -17,7 +17,12 @@ func score_index(grade: String) -> int:
 		
 	return index
 
+func get_score_key(airfield: String, day: String):
+	return airfield + "_" + day
+
 func best_score_for_key(score_key: String) -> String:
+	print("Get best score for key: " + score_key)
+	
 	var return_score:String = ""
 	
 	if level_scores.has(score_key):
@@ -27,11 +32,14 @@ func best_score_for_key(score_key: String) -> String:
 			
 			for i in range(1, level_scores.size()):
 				var score = scores_list[i]
-				
+				print("Check score: " + score)
 				if self.score_index(score) < self.score_index(best_grade):
 					best_grade = score
-					
-			return_score = best_grade
 			
+			return_score = best_grade
+	else:
+		print("No scores recorded")
+		
+	print("Best score:" + return_score)
 	return return_score
 	

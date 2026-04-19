@@ -78,10 +78,10 @@ func _on_signal_builder_signal_type_changed(new_type: String, params: Array, cur
 	for i in range(param_i, self.param_containers.size()):
 		self.param_containers[i].visible = false
 
-func _on_atc_tower_atc_ready(atc: AtcTower) -> void:
+func _on_atc_tower_atc_ready(_atc: AtcTower) -> void:
 	print("Tower ready!")
 	self.atc.signal_builder.signal_type_changed.connect(self._on_signal_builder_signal_type_changed)
-	for runway in atc.runways:
+	for runway in self.atc.runways:
 		var runway_str = runway.number + " - " + runway.title
 		var label = Label.new()
 		label.text = runway_str

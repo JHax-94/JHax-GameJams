@@ -26,6 +26,7 @@ layout_mode = 2
 script = ExtResource("1_tpenk")
 airfield_scenes = Array[Resource]([ExtResource("2_exbqw")])
 airfield_name = "Airfield 1"
+airfield_key = "1"
 
 [node name="Title" type="Label" parent="CanvasLayer/PanelContainer/HBoxContainer/Airfield1"]
 layout_mode = 2
@@ -34,8 +35,9 @@ text = "Airfield 1"
 [node name="Airfield2" type="VBoxContainer" parent="CanvasLayer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("1_tpenk")
-airfield_scenes = Array[Resource]([ExtResource("3_biqin")])
+airfield_scenes = Array[Resource]([ExtResource("4_um3lu")])
 airfield_name = "Airfield 2"
+airfield_key = "2"
 metadata/_custom_type_script = "uid://b0ftiyftkq3si"
 
 [node name="Title" type="Label" parent="CanvasLayer/PanelContainer/HBoxContainer/Airfield2"]
@@ -44,8 +46,9 @@ layout_mode = 2
 [node name="Airfield3" type="VBoxContainer" parent="CanvasLayer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("1_tpenk")
-airfield_scenes = Array[Resource]([ExtResource("4_um3lu")])
+airfield_scenes = Array[Resource]([ExtResource("3_biqin")])
 airfield_name = "Airfield 3"
+airfield_key = "3"
 metadata/_custom_type_script = "uid://b0ftiyftkq3si"
 
 [node name="Title" type="Label" parent="CanvasLayer/PanelContainer/HBoxContainer/Airfield3"]

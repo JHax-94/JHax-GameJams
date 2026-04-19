@@ -37,6 +37,12 @@ polygon = PackedVector2Array(1285, -295, -691, -293, -667, 869, 1300, 874)
 [node name="Runway" parent="." instance=ExtResource("2_ln3oq")]
 position = Vector2(200, 0)
 
+[node name="NorthApproach" parent="Runway/Approaches" index="0" node_paths=PackedStringArray("taxi_path")]
+taxi_path = NodePath("../../../Taxi/SouthTaxiPath")
+
+[node name="SouthApproach" parent="Runway/Approaches" index="1" node_paths=PackedStringArray("taxi_path")]
+taxi_path = NodePath("../../../Taxi/NorthTaxiPath")
+
 [node name="Taxi" type="Node2D" parent="."]
 
 [node name="NorthTaxiPath" type="Node2D" parent="Taxi" node_paths=PackedStringArray("waypoints", "to_hangar")]
@@ -165,6 +171,7 @@ target_position = Vector2(-800, -150)
 wait_time = 120.0
 
 [editable path="ui_layer"]
+[editable path="Runway"]
 [editable path="Plane"]
 [editable path="Plane2"]
 [editable path="Plane3"]

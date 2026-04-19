@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bx8ti8xgpqm0b"]
+[gd_scene load_steps=10 format=3 uid="uid://bx8ti8xgpqm0b"]
 
 [ext_resource type="PackedScene" uid="uid://bdijruau2jrhr" path="res://UI/Scenes/ui_layer.tscn" id="1_5duyt"]
+[ext_resource type="Script" uid="uid://qbldch1g2g05" path="res://Level/airfield_root.gd" id="1_6dpcn"]
 [ext_resource type="PackedScene" uid="uid://btahcmjcuont5" path="res://Level/Objects/runway.tscn" id="2_bh4b1"]
 [ext_resource type="Script" uid="uid://chw3t1jyj5o4c" path="res://Level/Scripts/taxi_path.gd" id="3_c6pph"]
 [ext_resource type="PackedScene" uid="uid://cd5rphbxpgkdd" path="res://Level/Objects/atc_tower.tscn" id="4_0jwr4"]
@@ -13,6 +14,10 @@
 size = Vector2(44, 20)
 
 [node name="AirfieldRoot" type="Node2D"]
+script = ExtResource("1_6dpcn")
+airfield_name = "2"
+day_name = "1"
+metadata/_custom_type_script = "uid://qbldch1g2g05"
 
 [node name="ui_layer" parent="." instance=ExtResource("1_5duyt")]
 

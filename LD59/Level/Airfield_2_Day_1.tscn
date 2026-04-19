@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://bm87xffshgq3m"]
+
+[ext_resource type="PackedScene" uid="uid://bdijruau2jrhr" path="res://UI/Scenes/ui_layer.tscn" id="1_fruut"]
+[ext_resource type="PackedScene" uid="uid://cd5rphbxpgkdd" path="res://Level/Objects/atc_tower.tscn" id="2_sc0xr"]
+[ext_resource type="PackedScene" uid="uid://1pu4dhjlhhjp" path="res://SignalReceivers/Aircraft/plane.tscn" id="3_rf0eq"]
+[ext_resource type="PackedScene" uid="uid://btahcmjcuont5" path="res://Level/Objects/runway.tscn" id="4_6vdlu"]
+[ext_resource type="Script" uid="uid://elgk3yf04hgw" path="res://Level/Scripts/cam_controls.gd" id="5_rf0eq"]
+
+[node name="AirfieldRoot" type="Node2D"]
+
+[node name="ui_layer" parent="." instance=ExtResource("1_fruut")]
+
+[node name="atc_ui" parent="ui_layer" index="0" node_paths=PackedStringArray("atc")]
+atc = NodePath("../../atc_tower")
+
+[node name="end_of_day_ui" parent="ui_layer" index="2" node_paths=PackedStringArray("airfield_root")]
+airfield_root = NodePath("../..")
+
+[node name="Field" type="Polygon2D" parent="."]
+color = Color(0, 0.56078434, 0.2627451, 1)
+polygon = PackedVector2Array(-2000, -2000, -2000, 2000, 2000, 2000, 2000, -2000)
+
+[node name="Runway" parent="." instance=ExtResource("4_6vdlu")]
+position = Vector2(-150, -80)
+
+[node name="Runway2" parent="." instance=ExtResource("4_6vdlu")]
+position = Vector2(80, 200)
+rotation = 1.5707964
+title = "Runway 2"
+number = "2"
+input = 50
+
+[node name="NorthApproach" parent="Runway2/Approaches" index="0"]
+input = 80
+key_text = "P"
+title = "East"
+
+[node name="SouthApproach" parent="Runway2/Approaches" index="1"]
+input = 79
+key_text = "O"
+title = "West"
+
+[node name="atc_tower" parent="." node_paths=PackedStringArray("runways") instance=ExtResource("2_sc0xr")]
+runways = [NodePath("../Runway"), NodePath("../Runway2")]
+
+[node name="Plane" parent="." instance=ExtResource("3_rf0eq")]
+position = Vector2(300, -200)
+start_active = true
+
+[node name="AtcCamera" type="Camera2D" parent="."]
+script = ExtResource("5_rf0eq")
+metadata/_custom_type_script = "uid://elgk3yf04hgw"
+
+[editable path="ui_layer"]
+[editable path="Runway"]
+[editable path="Runway2"]
+[editable path="atc_tower"]

@@ -9,7 +9,7 @@ class_name SignalBuilderUi extends Control
 
 @export var param_containers : Array[ParamGroup] = []
 
-	
+@export var atc : AtcTower
 
 func _on_signal_builder_signal_type_changed(new_type: String, params: Array, current_signal: Dictionary) -> void:
 	active_signal.text = new_type
@@ -80,8 +80,14 @@ func _on_signal_builder_signal_type_changed(new_type: String, params: Array, cur
 
 func _on_atc_tower_atc_ready(atc: AtcTower) -> void:
 	print("Tower ready!")
+	self.atc.signal_builder.signal_type_changed.connect(self._on_signal_builder_signal_type_changed)
 	for runway in atc.runways:
 		var runway_str = runway.number + " - " + runway.title
 		var label = Label.new()
 		label.text = runway_str
 		runways_container.add_child(label)
+		
+		
+func _ready() -> void:
+	self.atc.atc_ready.connect(self._on_atc_tower_atc_ready)
+	

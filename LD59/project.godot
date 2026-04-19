@@ -15,6 +15,12 @@ run/main_scene="uid://dh2olautg5vwv"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=1080
+window/size/viewport_height=640
+window/size/resizable=false
+
 [input]
 
 rotate_clockwise={

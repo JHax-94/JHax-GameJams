@@ -1,11 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://bdijruau2jrhr"]
+[gd_scene load_steps=8 format=3 uid="uid://bdijruau2jrhr"]
 
 [ext_resource type="Script" uid="uid://8wq2v5walx8n" path="res://UI/atc_ui.gd" id="1_ew085"]
 [ext_resource type="Script" uid="uid://dn621klho2v43" path="res://Level/Scripts/signal_builder_ui.gd" id="2_rt7ig"]
 [ext_resource type="Script" uid="uid://bbvedhjggqbgo" path="res://UI/param_group.gd" id="3_u7iv6"]
 [ext_resource type="Script" uid="uid://dnid74qkr842d" path="res://UI/end_of_day_ui.gd" id="4_ts03k"]
+[ext_resource type="Texture2D" uid="uid://befxp8wykd6r6" path="res://Assets/Graphics/Compass.png" id="5_rt7ig"]
 
 [sub_resource type="Theme" id="Theme_i2ndw"]
+
+[sub_resource type="Theme" id="Theme_rt7ig"]
 
 [node name="ui_layer" type="CanvasLayer"]
 
@@ -276,5 +279,59 @@ text = "S"
 [node name="Button" type="Button" parent="end_of_day_ui/VBoxContainer"]
 layout_mode = 2
 text = "End Day"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -113.0
+offset_bottom = 158.0
+grow_horizontal = 0
+theme = SubResource("Theme_rt7ig")
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="Control" type="Control" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "N"
+horizontal_alignment = 1
+
+[node name="Control2" type="Control" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "
+W"
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/GridContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(80, 104)
+layout_mode = 2
+texture = ExtResource("5_rt7ig")
+
+[node name="Label3" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "
+E"
+vertical_alignment = 1
+
+[node name="Control3" type="Control" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "S"
+horizontal_alignment = 1
+
+[node name="Control4" type="Control" parent="MarginContainer/GridContainer"]
+layout_mode = 2
 
 [connection signal="pressed" from="end_of_day_ui/VBoxContainer/Button" to="atc_ui" method="_on_button_pressed"]

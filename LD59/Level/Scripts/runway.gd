@@ -6,6 +6,8 @@ class_name Runway extends Node2D
 @export var input : Key
 
 var approach_points: Array[Approach]
+@onready var runway_number: Sprite2D = $RunwayNumber
+@onready var runway_number_2: Sprite2D = $RunwayNumber2
 
 func _ready():
 	var approaches = approach_container.get_children()
@@ -14,6 +16,9 @@ func _ready():
 		var approach_node = approach as Approach
 		if approach_node != null:
 			approach_points.append(approach_node)
+			
+	self.runway_number.frame = (number.to_int() - 1)
+	self.runway_number_2.frame = (number.to_int() - 1)
 	
 	print("Runway built with " + str(approach_points.size()) + " approach paths")
 	

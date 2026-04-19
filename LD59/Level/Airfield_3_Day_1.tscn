@@ -265,6 +265,7 @@ shape = SubResource("CircleShape2D_fik2q")
 debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
 [node name="atc_tower" parent="." node_paths=PackedStringArray("runways") instance=ExtResource("2_sc0xr")]
+position = Vector2(0, -11)
 runways = [NodePath("../Runway"), NodePath("../Runway2"), NodePath("../Runway3")]
 
 [node name="Hangar" type="Node2D" parent="."]

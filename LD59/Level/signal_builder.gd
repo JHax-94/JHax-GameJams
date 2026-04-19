@@ -8,7 +8,8 @@ signal signal_type_changed(new_type: String, params: Array)
 var signal_dictionary : Dictionary = {
 	"circle_runway": [ "runway", "approach" ],
 	"abort": [],
-	"clear_for_landing": []
+	"clear_for_landing": [],
+	"taxi": []
 }
 
 var current_signal : Dictionary = {
@@ -90,6 +91,8 @@ func get_message() -> Message:
 				message = ApproachMessage.new(self.current_signal["runway"] as Runway, self.current_signal["approach"] as Approach)
 			"clear_for_landing":
 				message = ClearForLandingMessage.new()
+			"taxi":
+				message = TaxiMessage.new()
 			_:
 				print("Not yet implemented!")
 	else:

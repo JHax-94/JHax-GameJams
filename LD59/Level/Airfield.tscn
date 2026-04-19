@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dh2olautg5vwv"]
+[gd_scene load_steps=35 format=3 uid="uid://dh2olautg5vwv"]
 
 [ext_resource type="Script" uid="uid://dxur7vkirec1s" path="res://ATC/atc_tower.gd" id="1_yuykc"]
 [ext_resource type="Script" uid="uid://dn621klho2v43" path="res://Level/signal_builder_ui.gd" id="2_ap333"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://c1yly203w8irm" path="res://ATC/Approach.gd" id="4_q5miy"]
 [ext_resource type="Script" uid="uid://b31rt2xth6sab" path="res://Level/signal_builder.gd" id="4_yffyv"]
 [ext_resource type="Texture2D" uid="uid://bol8n45tm7sew" path="res://Assets/Graphics/Plane-Sheet.png" id="5_f0ovx"]
+[ext_resource type="Script" uid="uid://chw3t1jyj5o4c" path="res://Level/taxi_path.gd" id="6_5j1q8"]
 
 [sub_resource type="Theme" id="Theme_i2ndw"]
 
@@ -18,6 +19,8 @@ size = Vector2(100, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i2ndw"]
 size = Vector2(100, 400)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fik2q"]
 
 [sub_resource type="GDScript" id="GDScript_rh2f2"]
 script/source = "extends Node2D
@@ -29,6 +32,9 @@ func _ready():
 	self.collider.polygon = self.render.polygon
 	
 "
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k0a2v"]
+size = Vector2(44, 20)
 
 [sub_resource type="Animation" id="Animation_ap333"]
 resource_name = "Down"
@@ -570,9 +576,6 @@ size = Vector2(28, 8)
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Node" type="Node2D" parent="."]
-position = Vector2(400, 80)
-
 [node name="ui_layer" type="CanvasLayer" parent="."]
 
 [node name="atc_ui" type="Control" parent="ui_layer" node_paths=PackedStringArray("atc")]
@@ -655,6 +658,10 @@ text = "Clear for Landing: L"
 [node name="Abort" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Abort Landing: K"
+
+[node name="Taxi" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Taxi: T"
 
 [node name="Active Signal" type="HBoxContainer" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer"]
 layout_mode = 2
@@ -750,30 +757,32 @@ title = "Runway 1"
 number = "1"
 input = 49
 
-[node name="Polygon2D" type="Polygon2D" parent="Runway"]
+[node name="RunwayShape" type="Polygon2D" parent="Runway"]
 color = Color(0.30323282, 0.30323282, 0.30323282, 1)
 polygon = PackedVector2Array(-50, -200, -50, 200, 50, 200, 50, -200)
 
 [node name="Approaches" type="Node2D" parent="Runway"]
 
-[node name="NorthApproach" type="Node2D" parent="Runway/Approaches"]
+[node name="NorthApproach" type="Node2D" parent="Runway/Approaches" node_paths=PackedStringArray("taxi_path")]
 position = Vector2(0, -250)
 script = ExtResource("4_q5miy")
 input = 78
 key_text = "N"
 title = "North"
+taxi_path = NodePath("../../../Taxi/SouthTaxiPath")
 
 [node name="Area2D" type="Area2D" parent="Runway/Approaches/NorthApproach"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Runway/Approaches/NorthApproach/Area2D"]
 shape = SubResource("RectangleShape2D_f0ovx")
 
-[node name="SouthApproach" type="Node2D" parent="Runway/Approaches"]
+[node name="SouthApproach" type="Node2D" parent="Runway/Approaches" node_paths=PackedStringArray("taxi_path")]
 position = Vector2(0, 250)
 script = ExtResource("4_q5miy")
 input = 90
 key_text = "Z"
 title = "South"
+taxi_path = NodePath("../../../Taxi/NorthTaxiPath")
 
 [node name="Area2D" type="Area2D" parent="Runway/Approaches/SouthApproach"]
 
@@ -785,13 +794,82 @@ shape = SubResource("RectangleShape2D_f0ovx")
 [node name="RunwayShape" type="CollisionShape2D" parent="Runway/RunwayArea"]
 shape = SubResource("RectangleShape2D_i2ndw")
 
+[node name="Taxi" type="Node2D" parent="."]
+
+[node name="NorthTaxiPath" type="Node2D" parent="Taxi" node_paths=PackedStringArray("waypoints", "to_hangar")]
+script = ExtResource("6_5j1q8")
+waypoints = [NodePath("../Waypoints/Waypoint"), NodePath("../Waypoints/Waypoint2"), NodePath("../Waypoints/Waypoint3"), NodePath("../Waypoints/Waypoint4"), NodePath("../Waypoints/Waypoint5")]
+to_hangar = NodePath("../../Hangar/HangarArea")
+
+[node name="SouthTaxiPath" type="Node2D" parent="Taxi" node_paths=PackedStringArray("waypoints", "to_hangar")]
+script = ExtResource("6_5j1q8")
+waypoints = [NodePath("../Waypoints/Waypoint7"), NodePath("../Waypoints/Waypoint6"), NodePath("../Waypoints/Waypoint5"), NodePath("../Waypoints/Waypoint6")]
+to_hangar = NodePath("../../Hangar/HangarArea")
+metadata/_custom_type_script = "uid://chw3t1jyj5o4c"
+
+[node name="TaxiShape" type="Polygon2D" parent="Taxi"]
+color = Color(0.3019608, 0.3019608, 0.3019608, 1)
+polygon = PackedVector2Array(255, -112, 350, -108, 351, -59, 390, -59, 389, -79, 406, -80, 404, 174, 250, 180, 250, 158, 371, 154, 385, -38, 321, -37, 324, -88, 251, -90)
+
+[node name="Waypoints" type="Node2D" parent="Taxi"]
+position = Vector2(400, -100)
+
+[node name="Waypoint" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-202, -3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
+[node name="Waypoint2" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-64, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint2"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
+[node name="Waypoint3" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-65, 52)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint3"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
+[node name="Waypoint4" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-3, 53)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint4"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
+[node name="Waypoint5" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-1, -1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint5"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
+[node name="Waypoint6" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-8, 261)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint6"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
+[node name="Waypoint7" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-194, 267)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint7"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
 [node name="atc_tower" type="Node2D" parent="." node_paths=PackedStringArray("runways")]
 script = ExtResource("1_yuykc")
 runways = [NodePath("../Runway")]
 
 [node name="signal_builder" type="Node2D" parent="atc_tower"]
 script = ExtResource("4_yffyv")
-signal_inputs = Array[String](["circle_runway", "clear_for_landing"])
+signal_inputs = Array[String](["circle_runway", "clear_for_landing", "taxi"])
 
 [node name="Polygon2D" type="Polygon2D" parent="atc_tower"]
 polygon = PackedVector2Array(-10, -10, -10, 10, 10, 10, 10, -10)
@@ -809,12 +887,26 @@ polygon = PackedVector2Array(0, 0, 100, -20, 100, 20)
 color = Color(0.32941177, 1, 1, 0.41568628)
 polygon = PackedVector2Array(0, 0, 200, -40, 200, 40)
 
+[node name="Hangar" type="Node2D" parent="."]
+position = Vector2(400, -100)
+
+[node name="Polygon2D" type="Polygon2D" parent="Hangar"]
+color = Color(0.93246436, 0.49463195, 0.4307867, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 20, 20, 20, -20)
+
+[node name="HangarArea" type="Area2D" parent="Hangar"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hangar/HangarArea"]
+position = Vector2(-1, 16)
+shape = SubResource("RectangleShape2D_k0a2v")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("4_i2ndw")
 
 [node name="Plane" type="Node2D" parent="."]
 position = Vector2(-400, -40)
 script = ExtResource("2_rh2f2")
+altitude = 20.0
 target_position = Vector2(600, 80)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Plane"]
@@ -855,6 +947,7 @@ offset_bottom = 40.0
 layout_mode = 2
 
 [node name="Angle" type="HBoxContainer" parent="Plane/PanelContainer/Vbox"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Plane/PanelContainer/Vbox/Angle"]
@@ -865,12 +958,22 @@ text = "Angle: "
 layout_mode = 2
 text = "0"
 
+[node name="Airspeed" type="HBoxContainer" parent="Plane/PanelContainer/Vbox"]
+layout_mode = 2
+
+[node name="Airspeed" type="Label" parent="Plane/PanelContainer/Vbox/Airspeed"]
+layout_mode = 2
+text = "Airspeed:"
+
+[node name="AirspeedVal" type="Label" parent="Plane/PanelContainer/Vbox/Airspeed"]
+layout_mode = 2
+
 [node name="Alt" type="HBoxContainer" parent="Plane/PanelContainer/Vbox"]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Plane/PanelContainer/Vbox/Alt"]
 layout_mode = 2
-text = "Alt: "
+text = "Altitude: "
 
 [node name="AltVal" type="Label" parent="Plane/PanelContainer/Vbox/Alt"]
 layout_mode = 2
@@ -881,6 +984,11 @@ layout_mode = 2
 
 [node name="Status" type="Label" parent="Plane/PanelContainer/Vbox"]
 layout_mode = 2
+
+[node name="ClearForLanding" type="Label" parent="Plane/PanelContainer/Vbox"]
+visible = false
+layout_mode = 2
+text = "Clear for landing!"
 
 [connection signal="body_entered" from="Runway/Approaches/NorthApproach/Area2D" to="Runway" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Runway/Approaches/SouthApproach/Area2D" to="Runway" method="_on_area_2d_body_entered"]

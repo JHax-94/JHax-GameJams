@@ -41,17 +41,19 @@ const MAX_RAND_DIST_SQRT : float = 100
 
 var speed : float = 50
 var max_speed : float = 50
+var taxi_speed : float = 10
+
 
 var brakes : float = 5.0
 
 var turn_speed : float = 0.5
 var angle_tol : float = 0.01
 
-var altitude : float = 0.0
+@export var altitude : float = 0.0
 var target_altitude : float = 20.0
 
 @export var target_position: Vector2
-var target_approach: Node2D
+var target_approach: Approach
 var target_angle: float
 
 var target_runway : Runway
@@ -62,6 +64,8 @@ var y_log: Array = []
 
 var atc : AtcTower
 
+var follow_taxi_path : TaxiPath
+var taxi_node: Node2D
 
 var angle_sweep = 0.0;
 
@@ -70,8 +74,10 @@ var angle_sweep = 0.0;
 @onready var plane_render: AnimatedSprite2D = $PlaneBody/PlaneRender
 @onready var alt_val: Label = $PanelContainer/Vbox/Alt/AltVal
 @onready var dist_label: Label = $PanelContainer/Vbox/DistLabel
+@onready var airspeed_val: Label = $PanelContainer/Vbox/Airspeed/AirspeedVal
 
 @onready var status_label: Label = $PanelContainer/Vbox/Status
+@onready var clear_for_landing_label: Label = $PanelContainer/Vbox/ClearForLanding
 
 @onready var plane_body: CharacterBody2D = $PlaneBody
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -86,6 +92,10 @@ func change_altitude(change_by: float):
 	self.altitude = -plane_body.position.y
 	if altitude < 0:
 		self.altitude = 0
+
+func set_altitude(set_to: float):
+	self.altitude = set_to
+	plane_body.position.y = -set_to
 
 func teleport_to_approach():
 	self.global_position = target_approach.global_position
@@ -125,12 +135,33 @@ func message(message_data: Message):
 			self.state = Aircraft.State.APPROACH
 		Message.Type.CLEAR_FOR_LANDING:
 			self.clear_for_landing = true
+			self.clear_for_landing_label.visible = true
+		Message.Type.TAXI:
+			if self.state == State.IDLE:
+				self.follow_taxi_path = self.target_approach.taxi_path
+				self.taxi_node = self.follow_taxi_path.first_node()
+				self.follow_taxi_path.node_reached.connect(taxi_node_reached)
+				self.follow_taxi_path.hangar_reached.connect(hangar_reached)
+				self.state = State.TAXIING
+
+func taxi_node_reached(waypoint: Area2D, body: Node2D):
+	print("Plane receiving taxi notification")
+	if body == self.plane_body and waypoint == self.taxi_node:
+		print("Next taxi node")
+		self.taxi_node = self.follow_taxi_path.next_node(self.taxi_node)
+
+func hangar_reached(body: Node2D):
+	if body == self.plane_body:
+		print("Bleep bloop! Plane successfully landed!")
+		queue_free()
 
 
 func _ready() -> void:
 	var anim_list = self.animation_player.get_animation_list()
 	
 	self.atc = get_tree().root.find_child("atc_tower") as AtcTower
+	
+	self.set_altitude(self.altitude)
 	
 	for anim in anim_list:
 		if anim != "RESET":
@@ -159,6 +190,8 @@ func update_status_label() ->void:
 			status_string = "None"
 		State.LANDING:
 			status_string = "Landing"
+		State.TAXIING:
+			status_string = "Taxi"
 		State.APPROACH:
 			status_string = "Approach:"
 			match self.approach_state:
@@ -265,6 +298,22 @@ func process_default(delta: float) -> void:
 	elif self.global_position.x < MIN_X and self.target_position.x < self.global_position.x:
 		self.new_random_target()
 
+func process_taxi(delta: float) -> void:
+	
+	var step = ""
+	var angle = self.plane_body.get_angle_to(self.taxi_node.global_position)
+	if abs(angle) < angle_tol:
+		self.speed = taxi_speed
+		step = "Straight on!"
+	else:
+		self.speed = taxi_speed
+		angle = self.clamp_to_turn_speed(angle, delta)
+		self.plane_body.rotate(angle)
+		step = "Turn..."
+		
+	self.dist_label.text = self.taxi_node.name + " " + step
+		
+
 func _process(delta: float) -> void:
 	
 	self.dist_label.text = ""
@@ -283,6 +332,11 @@ func _process(delta: float) -> void:
 			
 		if self.speed < 0:
 			self.speed = 0
+			self.state = State.IDLE
+	elif self.state == State.IDLE:
+		self.speed = 0
+	elif self.state == State.TAXIING:
+		self.process_taxi(delta)
 	else:	
 		self.process_default(delta)
 		
@@ -325,7 +379,8 @@ func process_animation():
 		self.animation_player.play("LeftUp")
 	
 	self.angle_val.text = str(angle/PI) + "PI"
-	self.alt_val.text = str(self.altitude)
+	self.alt_val.text = str(roundi(self.altitude * 10)) + "m"
+	self.airspeed_val.text = str(roundi(self.speed)) + " knots"
 
 func flip_direction():
 	self.plane_body.rotate(PI)

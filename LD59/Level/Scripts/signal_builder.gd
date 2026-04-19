@@ -3,28 +3,39 @@ class_name SignalBuilder extends Node2D
 @export var signal_inputs : Array[String]
 var atc_tower : AtcTower
 
-signal signal_type_changed(new_type: String, params: Array)
+signal signal_type_changed(new_type: String, params: Array, signal_dictionary: Dictionary, signal_valid: bool)
 
 var signal_dictionary : Dictionary = {
-	"circle_runway": [ "runway", "approach" ],
-	"abort": [],
-	"clear_for_landing": [],
-	"taxi": [],
-	"holding_pattern": [ "radius" ],
-	"change_altitude": [ "direction" ],
-	"change_speed": [ "direction" ],
+	"circle_runway": { "key": "C", "fields": [ "runway", "approach" ] },
+	"abort": { "key": "K", "fields": [] },
+	"clear_for_landing": {"key": "L", "fields": [] },
+	"taxi": { "key": "T", "fields": [] },
+	"holding_pattern": { "key": "H", "fields": [ "radius" ] },
+	"change_altitude": {"key": "Y", "fields": [ "direction" ] },
+	"change_speed": {"key": "V", "fields": [ "direction" ] },
 }
 
 var current_signal : Dictionary = {
-	"type": ""
+	"type": "",
+	"readout": ""
 }
+
+func clear_signal() -> void:
+	print("Clear signal!")
+	self.current_signal = {
+		"type": "",
+		"readout": ""
+	}
+	self.signal_changed()
+	
+	
 
 func field_required(field_name: String) -> bool:
 	var required = false
 	
 	var type = current_signal["type"]
 	if type.length() > 0:
-		var fields = signal_dictionary[type] as Array
+		var fields = signal_dictionary[type]["fields"] as Array
 		if fields.find(field_name) >= 0:
 			required = true
 			
@@ -34,21 +45,31 @@ func get_runway_options() -> Array[Runway]:
 	return atc_tower.runways
 
 func signal_changed():
+	print ("Signal changed!")
+	var key = ""
 	var params: Array = []
 	var signal_type = current_signal["type"]
 	
 	if signal_type.length() > 0:
-		var fields = signal_dictionary[signal_type]
+		key = signal_dictionary[signal_type]["key"]
+		var fields = signal_dictionary[signal_type]["fields"]
 		print("Signal changed [" + signal_type + "] Check fields:")
 		print(str(fields))
+
 		for field in fields:
 			if field == "direction":
 				var direction_array: Array = [ "direction", "decrease", "increase" ]
+				
+				if current_signal.has("direction"):
+					key += str(direction_array.find(current_signal["direction"]))
+				
 				params.append(direction_array)
 			
 			if field == "radius":
-				var radius_array: Array = [ "radius", "right", "wide" ]
+				var radius_array: Array = [ "radius", "tight", "wide" ]
 				params.append(radius_array)
+				if current_signal.has("radius"):
+					key += str(radius_array.find(current_signal["radius"]))
 			
 			if field == "runway":
 				var runway_array: Array = [ "runway" ]
@@ -61,21 +82,31 @@ func signal_changed():
 					var runway = current_signal["runway"] as Runway
 					
 					print("Runway has " + str(runway.approach_points.size()) + " approach points")
+					key += str(runway.number)
+
+					if current_signal.has("approach"):
+						var current_approach = current_signal["approach"] as Approach
+						key += current_approach.key_text
 					
 					for approach in runway.approach_points:
 						var approach_str = approach.key_text + " - " + approach.title
 						print("Add approach: " + approach_str)
 						approaches_array.append(approach_str)
-				
+
 				if approaches_array.size() == 1:
 					approaches_array.append("-")
 					
 				params.append(approaches_array)
 
-		signal_type_changed.emit(signal_type, params, self.current_signal)
+	self.current_signal["readout"] = key
+	signal_type_changed.emit(signal_type, params, self.current_signal, self.signal_valid())
 
 func set_signal(signal_type) -> void:
-	current_signal["type"] = signal_type
+	if signal_type != current_signal["type"]:
+		current_signal = {
+			"type": signal_type,
+			"readout": ""
+		}
 	print("Signal type: " + signal_type)
 	self.signal_changed()
 
@@ -85,7 +116,7 @@ func signal_valid() -> bool:
 	if (current_signal["type"] as String).length() <= 0:
 		valid = false
 	else:
-		var fields : Array = signal_dictionary[current_signal["type"]]
+		var fields : Array = signal_dictionary[current_signal["type"]]["fields"]
 		for field in fields:
 			if current_signal.has(field) == false or current_signal[field] == null:
 				valid = false
@@ -120,7 +151,7 @@ func get_message() -> Message:
 	return message
 
 func _ready() -> void:
-	self.signal_changed()
+	self.clear_signal()
 
 func _process(delta: float) -> void:
 	for input in signal_inputs:
@@ -133,6 +164,7 @@ func _process(delta: float) -> void:
 				if self.current_signal.has("runway") == false or self.current_signal["runway"] != runway:
 					print("select runway " + runway.title)
 					self.current_signal["runway"] = runway
+					self.current_signal.erase("approach")
 					self.signal_changed()
 					
 	if field_required("approach") and self.current_signal.has("runway"):

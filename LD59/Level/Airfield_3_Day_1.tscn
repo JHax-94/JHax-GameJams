@@ -118,13 +118,13 @@ metadata/_custom_type_script = "uid://chw3t1jyj5o4c"
 
 [node name="WestTaxiPath" type="Node2D" parent="Taxi" node_paths=PackedStringArray("waypoints", "to_hangar")]
 script = ExtResource("3_6vdlu")
-waypoints = [NodePath("../Waypoints/Waypoint"), NodePath("../Waypoints/Waypoint6"), NodePath("../Waypoints/Waypoint7"), NodePath("../Waypoints/Waypoint8"), NodePath("../Waypoints/Waypoint9"), NodePath("../Waypoints/Waypoint11")]
+waypoints = [NodePath("../Waypoints/Waypoint16"), NodePath("../Waypoints/Waypoint19"), NodePath("../Waypoints/Waypoint8"), NodePath("../Waypoints/Waypoint9")]
 to_hangar = NodePath("../../Hangar/HangarArea")
 metadata/_custom_type_script = "uid://chw3t1jyj5o4c"
 
 [node name="EastTaxiPath" type="Node2D" parent="Taxi" node_paths=PackedStringArray("waypoints", "to_hangar")]
 script = ExtResource("3_6vdlu")
-waypoints = [NodePath("../Waypoints/Waypoint2"), NodePath("../Waypoints/Waypoint7"), NodePath("../Waypoints/Waypoint8"), NodePath("../Waypoints/Waypoint9"), NodePath("../Waypoints/Waypoint11")]
+waypoints = [NodePath("../Waypoints/Waypoint17"), NodePath("../Waypoints/Waypoint18"), NodePath("../Waypoints/Waypoint8"), NodePath("../Waypoints/Waypoint9")]
 to_hangar = NodePath("../../Hangar/HangarArea")
 metadata/_custom_type_script = "uid://chw3t1jyj5o4c"
 

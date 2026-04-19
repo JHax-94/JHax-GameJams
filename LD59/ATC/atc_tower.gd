@@ -21,12 +21,12 @@ func _ready() -> void:
 	self.atc_ready.emit(self as AtcTower)
 
 func send_message():
-	
 	var message = self.signal_builder.get_message()
 	
 	if message != null:
 		for receiver in comms_receivers:
 			receiver.message(message)
+		self.signal_builder.clear_signal()
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("rotate_anticlockwise"):

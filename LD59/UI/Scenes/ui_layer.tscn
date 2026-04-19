@@ -7,7 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://befxp8wykd6r6" path="res://Assets/Graphics/Compass.png" id="5_rt7ig"]
 [ext_resource type="Theme" uid="uid://dn1xrv6khlr8h" path="res://UI/game_theme.tres" id="5_u7iv6"]
 
-[sub_resource type="Theme" id="Theme_i2ndw"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7iv6"]
+bg_color = Color(1, 1, 1, 1)
 
 [node name="ui_layer" type="CanvasLayer"]
 
@@ -55,190 +56,219 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_rt7ig")
-param_containers = [NodePath("signals_ui/VBoxContainer/Active Signal/Param1Group"), NodePath("signals_ui/VBoxContainer/Active Signal/Param2Group")]
+param_containers = [NodePath("signals_ui/MarginContainer/Active Signal/Param1Group"), NodePath("signals_ui/MarginContainer/Active Signal/Param2Group")]
 
 [node name="signals_ui" type="PanelContainer" parent="signal_builder_ui"]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -88.0
-offset_top = -23.0
-offset_right = 88.0
-grow_horizontal = 2
-grow_vertical = 0
+offset_left = 190.0
+offset_top = 10.0
+offset_right = 284.0
+offset_bottom = 111.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="signal_builder_ui/signals_ui"]
+[node name="MarginContainer" type="MarginContainer" parent="signal_builder_ui/signals_ui"]
 layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("5_u7iv6")
 
-[node name="GridContainer" type="GridContainer" parent="signal_builder_ui/signals_ui/VBoxContainer"]
-layout_mode = 2
-theme = SubResource("Theme_i2ndw")
-columns = 2
-
-[node name="Active Signal" type="HBoxContainer" parent="signal_builder_ui/signals_ui/VBoxContainer"]
+[node name="Active Signal" type="VBoxContainer" parent="signal_builder_ui/signals_ui/MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="SignalTypeGroup" type="HBoxContainer" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal"]
+[node name="SignalTypeGroup" type="HBoxContainer" parent="signal_builder_ui/signals_ui/MarginContainer/Active Signal"]
 layout_mode = 2
 
-[node name="Signal" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal/SignalTypeGroup"]
+[node name="Signal" type="Label" parent="signal_builder_ui/signals_ui/MarginContainer/Active Signal/SignalTypeGroup"]
 layout_mode = 2
 text = "Signal:"
 
-[node name="ActiveSignal" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal/SignalTypeGroup"]
+[node name="ActiveSignal" type="Label" parent="signal_builder_ui/signals_ui/MarginContainer/Active Signal/SignalTypeGroup"]
 layout_mode = 2
 text = "-"
 
-[node name="Param1Group" type="HBoxContainer" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal"]
+[node name="Param1Group" type="HBoxContainer" parent="signal_builder_ui/signals_ui/MarginContainer/Active Signal"]
 layout_mode = 2
 script = ExtResource("3_u7iv6")
 
-[node name="Label" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal/Param1Group"]
+[node name="Label" type="Label" parent="signal_builder_ui/signals_ui/MarginContainer/Active Signal/Param1Group"]
 layout_mode = 2
 text = "Param1"
 
-[node name="Value" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal/Param1Group"]
+[node name="Value" type="Label" parent="signal_builder_ui/signals_ui/MarginContainer/Active Signal/Param1Group"]
 layout_mode = 2
 
-[node name="Param2Group" type="HBoxContainer" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal"]
+[node name="Param2Group" type="HBoxContainer" parent="signal_builder_ui/signals_ui/MarginContainer/Active Signal"]
 layout_mode = 2
 script = ExtResource("3_u7iv6")
 metadata/_custom_type_script = "uid://bbvedhjggqbgo"
 
-[node name="Label" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal/Param2Group"]
+[node name="Label" type="Label" parent="signal_builder_ui/signals_ui/MarginContainer/Active Signal/Param2Group"]
 layout_mode = 2
 text = "Param2:"
 
-[node name="Value" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal/Param2Group"]
+[node name="Value" type="Label" parent="signal_builder_ui/signals_ui/MarginContainer/Active Signal/Param2Group"]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer"]
-layout_mode = 2
-text = "Space to Send Signal"
-horizontal_alignment = 1
 
 [node name="params_ui" type="PanelContainer" parent="signal_builder_ui"]
+custom_minimum_size = Vector2(170, 0)
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -40.0
-grow_horizontal = 0
-grow_vertical = 0
+offset_left = 11.0
+offset_top = 270.0
+offset_right = 181.0
+offset_bottom = 290.0
 
-[node name="params_container" type="VBoxContainer" parent="signal_builder_ui/params_ui"]
+[node name="MarginContainer" type="MarginContainer" parent="signal_builder_ui/params_ui"]
+layout_mode = 2
+theme = ExtResource("5_u7iv6")
+
+[node name="params_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="runways_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/MarginContainer/params_container"]
 layout_mode = 2
 
-[node name="runways_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/params_container"]
-layout_mode = 2
-
-[node name="Runways_title" type="Label" parent="signal_builder_ui/params_ui/params_container/runways_container"]
+[node name="Runways_title" type="Label" parent="signal_builder_ui/params_ui/MarginContainer/params_container/runways_container"]
 layout_mode = 2
 text = "Runways"
 horizontal_alignment = 1
 
-[node name="approaches_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/params_container"]
+[node name="HSeparator" type="HSeparator" parent="signal_builder_ui/params_ui/MarginContainer/params_container/runways_container"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="signal_builder_ui/params_ui/params_container/approaches_container"]
+[node name="approaches_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/MarginContainer/params_container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="signal_builder_ui/params_ui/MarginContainer/params_container/approaches_container"]
 layout_mode = 2
 text = "Approaches"
 horizontal_alignment = 1
 
-[node name="approach_options" type="VBoxContainer" parent="signal_builder_ui/params_ui/params_container/approaches_container"]
+[node name="HSeparator" type="HSeparator" parent="signal_builder_ui/params_ui/MarginContainer/params_container/approaches_container"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="signal_builder_ui/params_ui/params_container/approaches_container/approach_options"]
+[node name="approach_options" type="VBoxContainer" parent="signal_builder_ui/params_ui/MarginContainer/params_container/approaches_container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="signal_builder_ui/params_ui/MarginContainer/params_container/approaches_container/approach_options"]
 layout_mode = 2
 text = "-"
 
-[node name="radius_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/params_container"]
+[node name="radius_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/MarginContainer/params_container"]
 layout_mode = 2
 
-[node name="Radius" type="Label" parent="signal_builder_ui/params_ui/params_container/radius_container"]
+[node name="Radius" type="Label" parent="signal_builder_ui/params_ui/MarginContainer/params_container/radius_container"]
 layout_mode = 2
 text = "Radius"
+horizontal_alignment = 1
 
-[node name="Decrease" type="Label" parent="signal_builder_ui/params_ui/params_container/radius_container"]
+[node name="HSeparator" type="HSeparator" parent="signal_builder_ui/params_ui/MarginContainer/params_container/radius_container"]
+layout_mode = 2
+
+[node name="Decrease" type="Label" parent="signal_builder_ui/params_ui/MarginContainer/params_container/radius_container"]
 layout_mode = 2
 text = "1 - Tight"
 
-[node name="Increase" type="Label" parent="signal_builder_ui/params_ui/params_container/radius_container"]
+[node name="Increase" type="Label" parent="signal_builder_ui/params_ui/MarginContainer/params_container/radius_container"]
 layout_mode = 2
 text = "2 - Wide"
 
-[node name="direction_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/params_container"]
+[node name="direction_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/MarginContainer/params_container"]
 layout_mode = 2
 
-[node name="Direction" type="Label" parent="signal_builder_ui/params_ui/params_container/direction_container"]
+[node name="HSeparator" type="HSeparator" parent="signal_builder_ui/params_ui/MarginContainer/params_container/direction_container"]
+layout_mode = 2
+
+[node name="Direction" type="Label" parent="signal_builder_ui/params_ui/MarginContainer/params_container/direction_container"]
 layout_mode = 2
 text = "Direction"
+horizontal_alignment = 1
 
-[node name="Decrease" type="Label" parent="signal_builder_ui/params_ui/params_container/direction_container"]
+[node name="Decrease" type="Label" parent="signal_builder_ui/params_ui/MarginContainer/params_container/direction_container"]
 layout_mode = 2
 text = "1 - Decrease"
 
-[node name="Increase" type="Label" parent="signal_builder_ui/params_ui/params_container/direction_container"]
+[node name="Increase" type="Label" parent="signal_builder_ui/params_ui/MarginContainer/params_container/direction_container"]
 layout_mode = 2
 text = "2 - Increase"
 
-[node name="PanelContainer" type="PanelContainer" parent="signal_builder_ui"]
+[node name="SignalReference" type="PanelContainer" parent="signal_builder_ui"]
+custom_minimum_size = Vector2(170, 0)
 layout_mode = 1
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 50.0
 offset_bottom = 50.0
 
-[node name="MarginContainer" type="MarginContainer" parent="signal_builder_ui/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="signal_builder_ui/SignalReference"]
 layout_mode = 2
 theme = ExtResource("5_u7iv6")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="signal_builder_ui/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="signal_builder_ui/SignalReference/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Signals" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Signals" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Signals"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Runway" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Runway" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Circle Runway: C"
 
-[node name="Landing" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Landing" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Clear for Landing: L"
 
-[node name="Abort" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Abort" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Abort Landing: K"
 
-[node name="Taxi" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Taxi" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Taxi: T"
 
-[node name="HoldingPattern" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HoldingPattern" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Holding Pattern: H"
 
-[node name="ChangeAltitude" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ChangeAltitude" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Change Altitude: Y"
 
-[node name="ChangeSpeed" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ChangeSpeed" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Change Speed: V"
+
+[node name="SignalReadout" type="PanelContainer" parent="signal_builder_ui"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="signal_builder_ui/SignalReadout"]
+layout_mode = 2
+theme = ExtResource("5_u7iv6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="signal_builder_ui/SignalReadout/MarginContainer"]
+layout_mode = 2
+
+[node name="SignalReadout" type="Label" parent="signal_builder_ui/SignalReadout/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.13333334, 0.13333334, 0.13333334, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_u7iv6")
+text = "C1Z"
+horizontal_alignment = 1
+
+[node name="SendSignal" type="Button" parent="signal_builder_ui/SignalReadout/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Send Signal (Space Bar)"
 
 [node name="end_of_day_ui" type="PanelContainer" parent="."]
 visible = false
@@ -353,4 +383,5 @@ horizontal_alignment = 1
 [node name="Control4" type="Control" parent="MarginContainer/GridContainer"]
 layout_mode = 2
 
+[connection signal="pressed" from="signal_builder_ui/SignalReadout/MarginContainer/VBoxContainer/SendSignal" to="signal_builder_ui" method="_on_send_signal_pressed"]
 [connection signal="pressed" from="end_of_day_ui/VBoxContainer/Button" to="atc_ui" method="_on_button_pressed"]

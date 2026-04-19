@@ -136,7 +136,10 @@ func update_layers():
 		self.plane_body.collision_layer = bitmask
 		self.plane_body.collision_mask = bitmask
 
-func resolve_aircraft(resolution: Aircraft.Resolution):
+func resolve_aircraft(resolution: Aircraft.Resolution, message: String):
+	if message.length() > 0:
+		print(message)
+		
 	match resolution:
 		Resolution.CRASHED:
 			print("Oh no explode!")
@@ -152,9 +155,11 @@ func change_altitude(change_by: float):
 	if altitude < 0:
 		self.altitude = 0
 		self.plane_body.position.y = 0
-		if abs(descent_speed) > 0:
-			
-			self.resolve_aircraft(Resolution.CRASHED)
+		self.process_crash_land()
+
+func process_crash_land():
+	if abs(descent_speed) > 0:
+		self.resolve_aircraft(Resolution.CRASHED, "CRASH LANDED")
 
 func change_fuel(change_by: float):
 	self.fuel += change_by
@@ -288,7 +293,7 @@ func taxi_node_reached(waypoint: Area2D, body: Node2D):
 
 func hangar_reached(body: Node2D):
 	if body == self.plane_body:
-		self.resolve_aircraft(Resolution.LANDED)
+		self.resolve_aircraft(Resolution.LANDED, "REACHED HANGAR SAFELY!")
 
 func _ready() -> void:
 	self.max_fuel = self.fuel
@@ -461,20 +466,37 @@ func move_at_speed(_speed: float, delta: float):
 	self.translate(velocity)
 	var collision: KinematicCollision2D = self.plane_body.move_and_collide(velocity, true)
 	if collision:
-		self.angle_val.text = "COLLISION!"
-		self.resolve_aircraft(Resolution.CRASHED)
+		self.resolve_aircraft(Resolution.CRASHED, "HIT OTHER AIRCRAFT!")
 		var collider = collision.get_collider() as Node2D
 		var aircraft : Aircraft = null
 		if collider:
 			aircraft = collider.get_parent() as Aircraft
 		
 		if aircraft:
-			aircraft.resolve_aircraft(Resolution.CRASHED)
+			aircraft.resolve_aircraft(Resolution.CRASHED, "HIT BY OTHER AIRCRAFT!")
 		print("Collision with: " + collider.name)
 		
 	else:
 		self.angle_val.text = "No collision..."
 	
+	
+func process_no_fuel_movement(delta: float):
+	self.speed += self.air_braking(delta)
+	self.move_at_speed(self.speed, delta)
+	self.descent_speed += self.gravity * delta
+	self.change_altitude(-self.descent_speed * delta)
+
+func process_speed_change(delta: float):
+	if self.speed < self.target_speed:
+		self.change_speed(self.accel, delta)
+	elif self.speed > self.target_speed:
+		self.change_speed(-self.accel, delta)
+
+func process_controlled_altitude_change(delta: float):
+	if altitude < target_altitude:
+		self.change_altitude(delta * (speed / 10))
+	elif altitude > target_altitude:
+		self.change_altitude(self.air_braking(delta))
 
 func process_standard_movement(delta: float):
 	if fuel > 0:
@@ -482,21 +504,13 @@ func process_standard_movement(delta: float):
 		self.change_fuel(-self.speed * delta)
 	
 		if(self.state != State.LANDING):
-			if self.speed < self.target_speed:
-				self.change_speed(self.accel, delta)
-			elif self.speed > self.target_speed:
-				self.change_speed(-self.accel, delta)
+			self.process_speed_change(delta)
 		
-		if altitude < target_altitude:
-			self.change_altitude(delta * (speed / 10))
-		elif altitude > target_altitude:
-			self.change_altitude(self.air_braking(delta))
-	
+		self.process_controlled_altitude_change(delta)
+		
 	else:
-		self.speed += self.air_braking(delta)
-		self.move_at_speed(self.speed, delta)
-		self.descent_speed += self.gravity * delta
-		self.change_altitude(-self.descent_speed * delta)
+		self.process_no_fuel_movement(delta)
+		
 
 func process_holding(delta):
 	var angle_base = self.turn_speed

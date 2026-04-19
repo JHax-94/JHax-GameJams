@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bm87xffshgq3m"]
+[gd_scene load_steps=11 format=3 uid="uid://bm87xffshgq3m"]
 
 [ext_resource type="Script" uid="uid://qbldch1g2g05" path="res://Level/airfield_root.gd" id="1_bh4b1"]
 [ext_resource type="PackedScene" uid="uid://bdijruau2jrhr" path="res://UI/Scenes/ui_layer.tscn" id="1_fruut"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://1pu4dhjlhhjp" path="res://SignalReceivers/Aircraft/plane.tscn" id="3_rf0eq"]
 [ext_resource type="PackedScene" uid="uid://btahcmjcuont5" path="res://Level/Objects/runway.tscn" id="4_6vdlu"]
 [ext_resource type="Script" uid="uid://elgk3yf04hgw" path="res://Level/Scripts/cam_controls.gd" id="5_rf0eq"]
+[ext_resource type="PackedScene" uid="uid://tqpg0w1c8ulg" path="res://SignalReceivers/Aircraft/glider.tscn" id="7_c6pph"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fik2q"]
 
@@ -282,6 +283,9 @@ shape = SubResource("RectangleShape2D_k0a2v")
 [node name="Plane" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(300, -200)
 start_active = true
+
+[node name="Glider" parent="." instance=ExtResource("7_c6pph")]
+position = Vector2(-437, -194)
 
 [node name="AtcCamera" type="Camera2D" parent="."]
 script = ExtResource("5_rf0eq")

@@ -1,5 +1,12 @@
 class_name Aircraft extends SignalReceiver
 
+enum Resolution {
+	CRASHED = 0,
+	LANDED = 1
+}
+
+signal aircraft_resolved(resolution : Aircraft.Resolution)
+
 enum State { 
 	RANDOM = 0, 
 	APPROACH = 1, 
@@ -85,14 +92,21 @@ var angle_sweep = 0.0;
 
 @onready var plane_body: CharacterBody2D = $PlaneBody
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var fuel_bar: ProgressBar = $PlaneBody/FuelBar
-
-
+@onready var fuel_bar: ProgressBar = $FuelBar
 
 var anims: Array = []
 var anim_index :int = 0
 
 var move_vec : Vector2 = Vector2(-50, 0)
+
+func resolve_aircraft(resolution: Aircraft.Resolution):
+	match resolution:
+		Resolution.CRASHED:
+			print("Oh no explode!")
+		Resolution.LANDED:
+			print("Bleep bloop! Plane successfully landed!")
+	self.aircraft_resolved.emit(resolution)
+	self.queue_free()
 
 func change_altitude(change_by: float):
 	var alt_vec = Vector2(0, -change_by)
@@ -102,8 +116,8 @@ func change_altitude(change_by: float):
 		self.altitude = 0
 		self.plane_body.position.y = 0
 		if abs(descent_speed) > 0:
-			print("Oh no explode!")
-			queue_free()
+			
+			self.resolve_aircraft(Resolution.CRASHED)
 
 func change_fuel(change_by: float):
 	self.fuel += change_by
@@ -173,13 +187,10 @@ func taxi_node_reached(waypoint: Area2D, body: Node2D):
 
 func hangar_reached(body: Node2D):
 	if body == self.plane_body:
-		print("Bleep bloop! Plane successfully landed!")
-		queue_free()
-
-
-
+		self.resolve_aircraft(Resolution.LANDED)
 
 func _ready() -> void:
+	self.max_fuel = self.fuel
 	var anim_list = self.animation_player.get_animation_list()
 	
 	self.atc = get_tree().root.find_child("atc_tower") as AtcTower
@@ -190,7 +201,7 @@ func _ready() -> void:
 	
 	for anim in anim_list:
 		if anim != "RESET":
-			print("Plane anims:" + anim)
+			#print("Plane anims:" + anim)
 			self.anims.append(anim)
 
 func set_approach_state(_approach_state: ApproachState):
@@ -394,7 +405,7 @@ func _process(delta: float) -> void:
 
 func lock_rotations():
 	self.plane_render.global_rotation = 0.0
-	self.fuel_bar.rotation = -self.plane_body.rotation
+	self.fuel_bar.position.y = -20 - self.altitude
 
 
 func approach_reached():

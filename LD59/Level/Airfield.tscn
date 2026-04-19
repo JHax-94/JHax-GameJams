@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://dh2olautg5vwv"]
+[gd_scene load_steps=36 format=3 uid="uid://dh2olautg5vwv"]
 
 [ext_resource type="Script" uid="uid://dxur7vkirec1s" path="res://ATC/atc_tower.gd" id="1_yuykc"]
 [ext_resource type="Script" uid="uid://dn621klho2v43" path="res://Level/signal_builder_ui.gd" id="2_ap333"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://jh1l7cet1q5l" path="res://SignalReceivers/Aircraft/plane.gd" id="2_rh2f2"]
 [ext_resource type="Script" uid="uid://bbvedhjggqbgo" path="res://UI/param_group.gd" id="3_flpm5"]
 [ext_resource type="Script" uid="uid://by7286t46gabn" path="res://Level/runway.gd" id="4_7420n"]
+[ext_resource type="Script" uid="uid://dnid74qkr842d" path="res://UI/end_of_day_ui.gd" id="4_fik2q"]
 [ext_resource type="Script" uid="uid://elgk3yf04hgw" path="res://Level/cam_controls.gd" id="4_i2ndw"]
 [ext_resource type="Script" uid="uid://c1yly203w8irm" path="res://ATC/Approach.gd" id="4_q5miy"]
 [ext_resource type="Script" uid="uid://b31rt2xth6sab" path="res://Level/signal_builder.gd" id="4_yffyv"]
@@ -574,7 +575,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7p68"]
 size = Vector2(28, 8)
 
-[node name="Node2D" type="Node2D"]
+[node name="AirfieldRoot" type="Node2D"]
 
 [node name="ui_layer" type="CanvasLayer" parent="."]
 
@@ -744,6 +745,68 @@ layout_mode = 2
 layout_mode = 2
 text = "-"
 
+[node name="end_of_day_ui" type="PanelContainer" parent="ui_layer" node_paths=PackedStringArray("airfield_root")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_fik2q")
+airfield_root = NodePath("../..")
+grade_thresholds = Array[int]([1])
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_layer/end_of_day_ui"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="ui_layer/end_of_day_ui/VBoxContainer"]
+layout_mode = 2
+text = "Day Complete!"
+horizontal_alignment = 1
+
+[node name="PlanesLanded" type="HBoxContainer" parent="ui_layer/end_of_day_ui/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ui_layer/end_of_day_ui/VBoxContainer/PlanesLanded"]
+layout_mode = 2
+text = "Planes Safely Landed: "
+
+[node name="Value" type="Label" parent="ui_layer/end_of_day_ui/VBoxContainer/PlanesLanded"]
+layout_mode = 2
+text = "0"
+
+[node name="PlanesCrashed" type="HBoxContainer" parent="ui_layer/end_of_day_ui/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ui_layer/end_of_day_ui/VBoxContainer/PlanesCrashed"]
+layout_mode = 2
+text = "Planes Crashed: "
+
+[node name="Value" type="Label" parent="ui_layer/end_of_day_ui/VBoxContainer/PlanesCrashed"]
+layout_mode = 2
+text = "0"
+
+[node name="Grade" type="HBoxContainer" parent="ui_layer/end_of_day_ui/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ui_layer/end_of_day_ui/VBoxContainer/Grade"]
+layout_mode = 2
+text = "Performance: "
+
+[node name="Value" type="Label" parent="ui_layer/end_of_day_ui/VBoxContainer/Grade"]
+layout_mode = 2
+text = "S"
+
+[node name="Button" type="Button" parent="ui_layer/end_of_day_ui/VBoxContainer"]
+layout_mode = 2
+text = "End Day"
+
 [node name="Field" type="Polygon2D" parent="."]
 position = Vector2(-223, -138)
 color = Color(1.2032688e-06, 0.5611819, 0.26315114, 1)
@@ -906,7 +969,6 @@ script = ExtResource("4_i2ndw")
 [node name="Plane" type="Node2D" parent="."]
 position = Vector2(-400, -40)
 script = ExtResource("2_rh2f2")
-fuel = 50.0
 altitude = 20.0
 target_position = Vector2(600, 80)
 
@@ -935,7 +997,11 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_5j1q8")
 animation = &"LeftRight"
 
-[node name="FuelBar" type="ProgressBar" parent="Plane/PlaneBody"]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Plane"]
+position = Vector2(4, 1)
+rect = Rect2(-16, -9, 25, 17)
+
+[node name="FuelBar" type="ProgressBar" parent="Plane"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -948,10 +1014,6 @@ offset_bottom = -12.0
 grow_horizontal = 2
 grow_vertical = 0
 show_percentage = false
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Plane"]
-position = Vector2(4, 1)
-rect = Rect2(-16, -9, 25, 17)
 
 [node name="PanelContainer" type="PanelContainer" parent="Plane"]
 anchors_preset = 5

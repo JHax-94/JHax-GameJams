@@ -20,7 +20,7 @@ func _ready() -> void:
 		print("Taxi path" + self.name + " not configured!!")
 	
 	for waypoint in waypoints:
-		print("connect " + self.name + "to waypoint event: " + waypoint.name)
+		#print("connect " + self.name + "to waypoint event: " + waypoint.name)
 		waypoint.body_entered.connect(func(body: Node2D): self.process_node_reached(waypoint, body))
 	
 	self.to_hangar.body_entered.connect(self.process_hangar_reached)

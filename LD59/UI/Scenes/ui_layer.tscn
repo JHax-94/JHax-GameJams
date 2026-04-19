@@ -5,10 +5,9 @@
 [ext_resource type="Script" uid="uid://bbvedhjggqbgo" path="res://UI/param_group.gd" id="3_u7iv6"]
 [ext_resource type="Script" uid="uid://dnid74qkr842d" path="res://UI/end_of_day_ui.gd" id="4_ts03k"]
 [ext_resource type="Texture2D" uid="uid://befxp8wykd6r6" path="res://Assets/Graphics/Compass.png" id="5_rt7ig"]
+[ext_resource type="Theme" uid="uid://dn1xrv6khlr8h" path="res://UI/game_theme.tres" id="5_u7iv6"]
 
 [sub_resource type="Theme" id="Theme_i2ndw"]
-
-[sub_resource type="Theme" id="Theme_rt7ig"]
 
 [node name="ui_layer" type="CanvasLayer"]
 
@@ -24,11 +23,15 @@ size_flags_vertical = 3
 script = ExtResource("1_ew085")
 
 [node name="PanelContainer" type="PanelContainer" parent="atc_ui"]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
 offset_left = 10.0
-offset_top = 10.0
+offset_top = -60.0
 offset_right = 165.0
-offset_bottom = 59.0
+offset_bottom = -11.0
+grow_vertical = 0
 
 [node name="ui_rows" type="VBoxContainer" parent="atc_ui/PanelContainer"]
 layout_mode = 2
@@ -70,43 +73,10 @@ grow_vertical = 0
 [node name="VBoxContainer" type="VBoxContainer" parent="signal_builder_ui/signals_ui"]
 layout_mode = 2
 
-[node name="Signals" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer"]
-layout_mode = 2
-text = "Signals"
-horizontal_alignment = 1
-
 [node name="GridContainer" type="GridContainer" parent="signal_builder_ui/signals_ui/VBoxContainer"]
 layout_mode = 2
 theme = SubResource("Theme_i2ndw")
 columns = 2
-
-[node name="Runway" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Circle Runway: C"
-
-[node name="Landing" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Clear for Landing: L"
-
-[node name="Abort" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Abort Landing: K"
-
-[node name="Taxi" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Taxi: T"
-
-[node name="HoldingPattern" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Holding Pattern: H"
-
-[node name="ChangeAltitude" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Change Altitude: Y"
-
-[node name="ChangeSpeed" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Change Speed: V"
 
 [node name="Active Signal" type="HBoxContainer" parent="signal_builder_ui/signals_ui/VBoxContainer"]
 layout_mode = 2
@@ -219,6 +189,57 @@ text = "1 - Decrease"
 layout_mode = 2
 text = "2 - Increase"
 
+[node name="PanelContainer" type="PanelContainer" parent="signal_builder_ui"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 50.0
+
+[node name="MarginContainer" type="MarginContainer" parent="signal_builder_ui/PanelContainer"]
+layout_mode = 2
+theme = ExtResource("5_u7iv6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="signal_builder_ui/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Signals" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Signals"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Runway" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Circle Runway: C"
+
+[node name="Landing" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Clear for Landing: L"
+
+[node name="Abort" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Abort Landing: K"
+
+[node name="Taxi" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Taxi: T"
+
+[node name="HoldingPattern" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Holding Pattern: H"
+
+[node name="ChangeAltitude" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Change Altitude: Y"
+
+[node name="ChangeSpeed" type="Label" parent="signal_builder_ui/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Change Speed: V"
+
 [node name="end_of_day_ui" type="PanelContainer" parent="."]
 visible = false
 anchors_preset = 8
@@ -287,9 +308,7 @@ anchor_right = 1.0
 offset_left = -113.0
 offset_bottom = 158.0
 grow_horizontal = 0
-theme = SubResource("Theme_rt7ig")
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
+theme = ExtResource("5_u7iv6")
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer"]
 layout_mode = 2

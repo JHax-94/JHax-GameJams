@@ -28,6 +28,7 @@ func refresh_ui():
 	
 	if crashed_count + landed_count >= roster.size():
 		self.visible = true
+		SCORE_BOARD.record_attempt(self.airfield_root.score_key(), self.calculate_grade())
 
 
 func aircraft_resolved(resolution: Aircraft.Resolution):

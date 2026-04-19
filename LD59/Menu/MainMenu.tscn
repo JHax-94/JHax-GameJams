@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=3 uid="uid://db7gfwi1ybli8"]
+
+[ext_resource type="Script" uid="uid://b0ftiyftkq3si" path="res://Menu/AirfieldSelector.gd" id="1_tpenk"]
+[ext_resource type="PackedScene" uid="uid://dh2olautg5vwv" path="res://Level/Airfield_1_Day_1.tscn" id="2_exbqw"]
+[ext_resource type="PackedScene" uid="uid://bm87xffshgq3m" path="res://Level/Airfield_3_Day_1.tscn" id="3_biqin"]
+[ext_resource type="PackedScene" uid="uid://bx8ti8xgpqm0b" path="res://Level/Airfield_2_Day_1.tscn" id="4_um3lu"]
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+
+[node name="Airfield1" type="VBoxContainer" parent="CanvasLayer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("1_tpenk")
+airfield_scenes = Array[Resource]([ExtResource("2_exbqw")])
+airfield_name = "Airfield 1"
+
+[node name="Title" type="Label" parent="CanvasLayer/PanelContainer/HBoxContainer/Airfield1"]
+layout_mode = 2
+text = "Airfield 1"
+
+[node name="Airfield2" type="VBoxContainer" parent="CanvasLayer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("1_tpenk")
+airfield_scenes = Array[Resource]([ExtResource("3_biqin")])
+airfield_name = "Airfield 2"
+metadata/_custom_type_script = "uid://b0ftiyftkq3si"
+
+[node name="Title" type="Label" parent="CanvasLayer/PanelContainer/HBoxContainer/Airfield2"]
+layout_mode = 2
+
+[node name="Airfield3" type="VBoxContainer" parent="CanvasLayer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("1_tpenk")
+airfield_scenes = Array[Resource]([ExtResource("4_um3lu")])
+airfield_name = "Airfield 3"
+metadata/_custom_type_script = "uid://b0ftiyftkq3si"
+
+[node name="Title" type="Label" parent="CanvasLayer/PanelContainer/HBoxContainer/Airfield3"]
+layout_mode = 2

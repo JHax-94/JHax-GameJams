@@ -24,4 +24,7 @@ func remove_receiver_ui(body: Node2D):
 	
 func _ready():
 	atc.receiver_added.connect(add_receiver_ui)
-	atc.receiver_removed.connect(remove_receiver_ui)	
+	atc.receiver_removed.connect(remove_receiver_ui)
+
+func _on_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://Menu/MainMenu.tscn")

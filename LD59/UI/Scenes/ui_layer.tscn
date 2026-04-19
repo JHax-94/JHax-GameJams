@@ -9,7 +9,7 @@
 
 [node name="ui_layer" type="CanvasLayer"]
 
-[node name="atc_ui" type="Control" parent="." node_paths=PackedStringArray("atc")]
+[node name="atc_ui" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,7 +19,6 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_ew085")
-atc = NodePath("")
 
 [node name="PanelContainer" type="PanelContainer" parent="atc_ui"]
 layout_mode = 0
@@ -217,7 +216,7 @@ text = "1 - Decrease"
 layout_mode = 2
 text = "2 - Increase"
 
-[node name="end_of_day_ui" type="PanelContainer" parent="." node_paths=PackedStringArray("airfield_root")]
+[node name="end_of_day_ui" type="PanelContainer" parent="."]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -231,7 +230,6 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_ts03k")
-airfield_root = NodePath("")
 grade_thresholds = Array[int]([6, 5, 4, 3, 2, 1])
 
 [node name="VBoxContainer" type="VBoxContainer" parent="end_of_day_ui"]
@@ -278,3 +276,5 @@ text = "S"
 [node name="Button" type="Button" parent="end_of_day_ui/VBoxContainer"]
 layout_mode = 2
 text = "End Day"
+
+[connection signal="pressed" from="end_of_day_ui/VBoxContainer/Button" to="atc_ui" method="_on_button_pressed"]

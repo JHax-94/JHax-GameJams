@@ -1,0 +1,77 @@
+[gd_scene load_steps=8 format=3 uid="uid://dh2olautg5vwv"]
+
+[ext_resource type="PackedScene" uid="uid://bdijruau2jrhr" path="res://UI/Scenes/ui_layer.tscn" id="1_uxhbf"]
+[ext_resource type="PackedScene" uid="uid://btahcmjcuont5" path="res://Level/Objects/runway.tscn" id="2_ln3oq"]
+[ext_resource type="PackedScene" uid="uid://dlvip8x3ccg3o" path="res://Level/Objects/taxi.tscn" id="3_jscds"]
+[ext_resource type="PackedScene" uid="uid://cd5rphbxpgkdd" path="res://Level/Objects/atc_tower.tscn" id="4_ec6g1"]
+[ext_resource type="PackedScene" uid="uid://cs2ti4bppsbw0" path="res://Level/Objects/hangar.tscn" id="5_8qdsd"]
+[ext_resource type="Script" uid="uid://elgk3yf04hgw" path="res://Level/Scripts/cam_controls.gd" id="6_54tre"]
+[ext_resource type="PackedScene" uid="uid://1pu4dhjlhhjp" path="res://SignalReceivers/Aircraft/plane.tscn" id="7_t8ml3"]
+
+[node name="AirfieldRoot" type="Node2D"]
+
+[node name="ui_layer" parent="." instance=ExtResource("1_uxhbf")]
+
+[node name="Field" type="Polygon2D" parent="."]
+position = Vector2(-223, -138)
+color = Color(1.2032688e-06, 0.5611819, 0.26315114, 1)
+polygon = PackedVector2Array(1285, -295, -691, -293, -667, 869, 1300, 874)
+
+[node name="Runway" parent="." instance=ExtResource("2_ln3oq")]
+position = Vector2(200, 0)
+
+[node name="Taxi" parent="." instance=ExtResource("3_jscds")]
+
+[node name="atc_tower" parent="." instance=ExtResource("4_ec6g1")]
+
+[node name="Hangar" parent="." instance=ExtResource("5_8qdsd")]
+position = Vector2(400, -100)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("6_54tre")
+
+[node name="Plane" parent="." instance=ExtResource("7_t8ml3")]
+position = Vector2(-400, -40)
+start_active = true
+
+[node name="Plane2" parent="." instance=ExtResource("7_t8ml3")]
+position = Vector2(800, 50)
+target_position = Vector2(-600, -50)
+
+[node name="WaitTimer" parent="Plane2" index="0"]
+wait_time = 30.0
+
+[node name="Plane3" parent="." instance=ExtResource("7_t8ml3")]
+position = Vector2(400, 800)
+target_position = Vector2(-600, -400)
+
+[node name="WaitTimer" parent="Plane3" index="0"]
+wait_time = 60.0
+
+[node name="Plane4" parent="." instance=ExtResource("7_t8ml3")]
+position = Vector2(-300, -500)
+target_position = Vector2(800, 800)
+
+[node name="WaitTimer" parent="Plane4" index="0"]
+wait_time = 90.0
+
+[node name="Plane5" parent="." instance=ExtResource("7_t8ml3")]
+position = Vector2(-800, 150)
+target_position = Vector2(800, -150)
+
+[node name="WaitTimer" parent="Plane5" index="0"]
+wait_time = 120.0
+
+[node name="Plane6" parent="." instance=ExtResource("7_t8ml3")]
+position = Vector2(800, 150)
+target_position = Vector2(-800, -150)
+
+[node name="WaitTimer" parent="Plane6" index="0"]
+wait_time = 120.0
+
+[editable path="Plane"]
+[editable path="Plane2"]
+[editable path="Plane3"]
+[editable path="Plane4"]
+[editable path="Plane5"]
+[editable path="Plane6"]

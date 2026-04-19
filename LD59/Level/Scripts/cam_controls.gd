@@ -1,4 +1,4 @@
-extends Camera2D
+class_name AtcCamera extends Camera2D
 
 var move_speed = 60;
 

@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://btahcmjcuont5"]
+
+[ext_resource type="Script" uid="uid://by7286t46gabn" path="res://Level/Scripts/runway.gd" id="1_gnh6a"]
+[ext_resource type="Script" uid="uid://c1yly203w8irm" path="res://ATC/Approach.gd" id="2_evlnh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f0ovx"]
+size = Vector2(100, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i2ndw"]
+size = Vector2(100, 400)
+
+[node name="Runway" type="Node2D" node_paths=PackedStringArray("approach_container")]
+script = ExtResource("1_gnh6a")
+approach_container = NodePath("Approaches")
+title = "Runway 1"
+number = "1"
+input = 49
+
+[node name="RunwayShape" type="Polygon2D" parent="."]
+color = Color(0.30323282, 0.30323282, 0.30323282, 1)
+polygon = PackedVector2Array(-50, -200, -50, 200, 50, 200, 50, -200)
+
+[node name="Approaches" type="Node2D" parent="."]
+
+[node name="NorthApproach" type="Node2D" parent="Approaches" node_paths=PackedStringArray("taxi_path")]
+position = Vector2(0, -250)
+script = ExtResource("2_evlnh")
+input = 78
+key_text = "N"
+title = "North"
+taxi_path = NodePath("")
+
+[node name="Area2D" type="Area2D" parent="Approaches/NorthApproach"]
+collision_layer = 4294967295
+collision_mask = 4294967295
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Approaches/NorthApproach/Area2D"]
+shape = SubResource("RectangleShape2D_f0ovx")
+
+[node name="SouthApproach" type="Node2D" parent="Approaches" node_paths=PackedStringArray("taxi_path")]
+position = Vector2(0, 250)
+script = ExtResource("2_evlnh")
+input = 90
+key_text = "Z"
+title = "South"
+taxi_path = NodePath("")
+
+[node name="Area2D" type="Area2D" parent="Approaches/SouthApproach"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Approaches/SouthApproach/Area2D"]
+shape = SubResource("RectangleShape2D_f0ovx")
+
+[node name="RunwayArea" type="Area2D" parent="."]
+collision_layer = 4294967295
+collision_mask = 4294967295
+
+[node name="RunwayShape" type="CollisionShape2D" parent="RunwayArea"]
+shape = SubResource("RectangleShape2D_i2ndw")
+
+[connection signal="body_entered" from="Approaches/NorthApproach/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Approaches/SouthApproach/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="RunwayArea" to="." method="_on_runway_area_body_exited"]

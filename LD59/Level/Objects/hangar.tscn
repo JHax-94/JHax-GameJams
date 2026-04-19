@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://cs2ti4bppsbw0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k0a2v"]
+size = Vector2(44, 20)
+
+[node name="Hangar" type="Node2D"]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.93246436, 0.49463195, 0.4307867, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 20, 20, 20, -20)
+
+[node name="HangarArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HangarArea"]
+position = Vector2(-1, 16)
+shape = SubResource("RectangleShape2D_k0a2v")

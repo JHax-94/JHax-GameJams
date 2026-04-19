@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://cd5rphbxpgkdd"]
+
+[ext_resource type="Script" uid="uid://dxur7vkirec1s" path="res://ATC/atc_tower.gd" id="1_3a2vy"]
+[ext_resource type="Script" uid="uid://b31rt2xth6sab" path="res://Level/Scripts/signal_builder.gd" id="2_xcgux"]
+
+[sub_resource type="GDScript" id="GDScript_rh2f2"]
+script/source = "extends Node2D
+
+@onready var render: Polygon2D = $comms_cone_area/Collider/Render
+@onready var collider: CollisionPolygon2D = $comms_cone_area/Collider
+
+func _ready():
+	self.collider.polygon = self.render.polygon
+	
+"
+
+[node name="atc_tower" type="Node2D" node_paths=PackedStringArray("runways")]
+script = ExtResource("1_3a2vy")
+runways = [NodePath("")]
+
+[node name="signal_builder" type="Node2D" parent="."]
+script = ExtResource("2_xcgux")
+signal_inputs = Array[String](["circle_runway", "clear_for_landing", "taxi", "holding_pattern", "change_altitude", "change_speed", "abort"])
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-10, -10, -10, 10, 10, 10, 10, -10)
+
+[node name="comms_cone" type="Node2D" parent="."]
+rotation = -0.61086524
+script = SubResource("GDScript_rh2f2")
+
+[node name="comms_cone_area" type="Area2D" parent="comms_cone"]
+collision_layer = 4294967295
+collision_mask = 4294967295
+
+[node name="Collider" type="CollisionPolygon2D" parent="comms_cone/comms_cone_area"]
+polygon = PackedVector2Array(0, 0, 100, -20, 100, 20)
+
+[node name="Render" type="Polygon2D" parent="comms_cone/comms_cone_area/Collider"]
+color = Color(0.32941177, 1, 1, 0.41568628)
+polygon = PackedVector2Array(0, 0, 200, -40, 200, 40)
+
+[connection signal="body_entered" from="comms_cone/comms_cone_area" to="." method="_on_comms_cone_area_body_entered"]
+[connection signal="body_exited" from="comms_cone/comms_cone_area" to="." method="_on_comms_cone_area_body_exited"]

@@ -1,0 +1,280 @@
+[gd_scene load_steps=6 format=3 uid="uid://bdijruau2jrhr"]
+
+[ext_resource type="Script" uid="uid://8wq2v5walx8n" path="res://UI/atc_ui.gd" id="1_ew085"]
+[ext_resource type="Script" uid="uid://dn621klho2v43" path="res://Level/Scripts/signal_builder_ui.gd" id="2_rt7ig"]
+[ext_resource type="Script" uid="uid://bbvedhjggqbgo" path="res://UI/param_group.gd" id="3_u7iv6"]
+[ext_resource type="Script" uid="uid://dnid74qkr842d" path="res://UI/end_of_day_ui.gd" id="4_ts03k"]
+
+[sub_resource type="Theme" id="Theme_i2ndw"]
+
+[node name="ui_layer" type="CanvasLayer"]
+
+[node name="atc_ui" type="Control" parent="." node_paths=PackedStringArray("atc")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_ew085")
+atc = NodePath("")
+
+[node name="PanelContainer" type="PanelContainer" parent="atc_ui"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 165.0
+offset_bottom = 59.0
+
+[node name="ui_rows" type="VBoxContainer" parent="atc_ui/PanelContainer"]
+layout_mode = 2
+
+[node name="Tracker_Count" type="HBoxContainer" parent="atc_ui/PanelContainer/ui_rows"]
+layout_mode = 2
+
+[node name="TrackerLabel" type="Label" parent="atc_ui/PanelContainer/ui_rows/Tracker_Count"]
+layout_mode = 2
+text = "Receivers:"
+
+[node name="TrackerValue" type="Label" parent="atc_ui/PanelContainer/ui_rows/Tracker_Count"]
+layout_mode = 2
+text = "0"
+
+[node name="signal_builder_ui" type="Control" parent="." node_paths=PackedStringArray("param_containers")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_rt7ig")
+param_containers = [NodePath("signals_ui/VBoxContainer/Active Signal/Param1Group"), NodePath("signals_ui/VBoxContainer/Active Signal/Param2Group")]
+
+[node name="signals_ui" type="PanelContainer" parent="signal_builder_ui"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -88.0
+offset_top = -23.0
+offset_right = 88.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="signal_builder_ui/signals_ui"]
+layout_mode = 2
+
+[node name="Signals" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer"]
+layout_mode = 2
+text = "Signals"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="signal_builder_ui/signals_ui/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_i2ndw")
+columns = 2
+
+[node name="Runway" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Circle Runway: C"
+
+[node name="Landing" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Clear for Landing: L"
+
+[node name="Abort" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Abort Landing: K"
+
+[node name="Taxi" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Taxi: T"
+
+[node name="HoldingPattern" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Holding Pattern: H"
+
+[node name="ChangeAltitude" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Change Altitude: Y"
+
+[node name="ChangeSpeed" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Change Speed: V"
+
+[node name="Active Signal" type="HBoxContainer" parent="signal_builder_ui/signals_ui/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="SignalTypeGroup" type="HBoxContainer" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal"]
+layout_mode = 2
+
+[node name="Signal" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal/SignalTypeGroup"]
+layout_mode = 2
+text = "Signal:"
+
+[node name="ActiveSignal" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal/SignalTypeGroup"]
+layout_mode = 2
+text = "-"
+
+[node name="Param1Group" type="HBoxContainer" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal"]
+layout_mode = 2
+script = ExtResource("3_u7iv6")
+
+[node name="Label" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal/Param1Group"]
+layout_mode = 2
+text = "Param1"
+
+[node name="Value" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal/Param1Group"]
+layout_mode = 2
+
+[node name="Param2Group" type="HBoxContainer" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal"]
+layout_mode = 2
+script = ExtResource("3_u7iv6")
+metadata/_custom_type_script = "uid://bbvedhjggqbgo"
+
+[node name="Label" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal/Param2Group"]
+layout_mode = 2
+text = "Param2:"
+
+[node name="Value" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer/Active Signal/Param2Group"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="signal_builder_ui/signals_ui/VBoxContainer"]
+layout_mode = 2
+text = "Space to Send Signal"
+horizontal_alignment = 1
+
+[node name="params_ui" type="PanelContainer" parent="signal_builder_ui"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="params_container" type="VBoxContainer" parent="signal_builder_ui/params_ui"]
+layout_mode = 2
+
+[node name="runways_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/params_container"]
+layout_mode = 2
+
+[node name="Runways_title" type="Label" parent="signal_builder_ui/params_ui/params_container/runways_container"]
+layout_mode = 2
+text = "Runways"
+horizontal_alignment = 1
+
+[node name="approaches_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/params_container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="signal_builder_ui/params_ui/params_container/approaches_container"]
+layout_mode = 2
+text = "Approaches"
+horizontal_alignment = 1
+
+[node name="approach_options" type="VBoxContainer" parent="signal_builder_ui/params_ui/params_container/approaches_container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="signal_builder_ui/params_ui/params_container/approaches_container/approach_options"]
+layout_mode = 2
+text = "-"
+
+[node name="radius_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/params_container"]
+layout_mode = 2
+
+[node name="Radius" type="Label" parent="signal_builder_ui/params_ui/params_container/radius_container"]
+layout_mode = 2
+text = "Radius"
+
+[node name="Decrease" type="Label" parent="signal_builder_ui/params_ui/params_container/radius_container"]
+layout_mode = 2
+text = "1 - Tight"
+
+[node name="Increase" type="Label" parent="signal_builder_ui/params_ui/params_container/radius_container"]
+layout_mode = 2
+text = "2 - Wide"
+
+[node name="direction_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/params_container"]
+layout_mode = 2
+
+[node name="Direction" type="Label" parent="signal_builder_ui/params_ui/params_container/direction_container"]
+layout_mode = 2
+text = "Direction"
+
+[node name="Decrease" type="Label" parent="signal_builder_ui/params_ui/params_container/direction_container"]
+layout_mode = 2
+text = "1 - Decrease"
+
+[node name="Increase" type="Label" parent="signal_builder_ui/params_ui/params_container/direction_container"]
+layout_mode = 2
+text = "2 - Increase"
+
+[node name="end_of_day_ui" type="PanelContainer" parent="." node_paths=PackedStringArray("airfield_root")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_ts03k")
+airfield_root = NodePath("")
+grade_thresholds = Array[int]([6, 5, 4, 3, 2, 1])
+
+[node name="VBoxContainer" type="VBoxContainer" parent="end_of_day_ui"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="end_of_day_ui/VBoxContainer"]
+layout_mode = 2
+text = "Day Complete!"
+horizontal_alignment = 1
+
+[node name="PlanesLanded" type="HBoxContainer" parent="end_of_day_ui/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="end_of_day_ui/VBoxContainer/PlanesLanded"]
+layout_mode = 2
+text = "Planes Safely Landed: "
+
+[node name="Value" type="Label" parent="end_of_day_ui/VBoxContainer/PlanesLanded"]
+layout_mode = 2
+text = "0"
+
+[node name="PlanesCrashed" type="HBoxContainer" parent="end_of_day_ui/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="end_of_day_ui/VBoxContainer/PlanesCrashed"]
+layout_mode = 2
+text = "Planes Crashed: "
+
+[node name="Value" type="Label" parent="end_of_day_ui/VBoxContainer/PlanesCrashed"]
+layout_mode = 2
+text = "0"
+
+[node name="Grade" type="HBoxContainer" parent="end_of_day_ui/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="end_of_day_ui/VBoxContainer/Grade"]
+layout_mode = 2
+text = "Performance: "
+
+[node name="Value" type="Label" parent="end_of_day_ui/VBoxContainer/Grade"]
+layout_mode = 2
+text = "S"
+
+[node name="Button" type="Button" parent="end_of_day_ui/VBoxContainer"]
+layout_mode = 2
+text = "End Day"

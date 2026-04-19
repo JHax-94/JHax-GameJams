@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlvip8x3ccg3o"]
+
+[ext_resource type="Script" uid="uid://chw3t1jyj5o4c" path="res://Level/Scripts/taxi_path.gd" id="1_o1h3j"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fik2q"]
+
+[node name="Taxi" type="Node2D"]
+
+[node name="NorthTaxiPath" type="Node2D" parent="." node_paths=PackedStringArray("waypoints", "to_hangar")]
+script = ExtResource("1_o1h3j")
+waypoints = [NodePath("../Waypoints/Waypoint"), NodePath("../Waypoints/Waypoint2"), NodePath("../Waypoints/Waypoint3"), NodePath("../Waypoints/Waypoint4"), NodePath("../Waypoints/Waypoint5")]
+to_hangar = NodePath("")
+
+[node name="SouthTaxiPath" type="Node2D" parent="." node_paths=PackedStringArray("waypoints", "to_hangar")]
+script = ExtResource("1_o1h3j")
+waypoints = [NodePath("../Waypoints/Waypoint7"), NodePath("../Waypoints/Waypoint6"), NodePath("../Waypoints/Waypoint5"), NodePath("../Waypoints/Waypoint6")]
+to_hangar = NodePath("")
+metadata/_custom_type_script = "uid://chw3t1jyj5o4c"
+
+[node name="TaxiShape" type="Polygon2D" parent="."]
+color = Color(0.3019608, 0.3019608, 0.3019608, 1)
+polygon = PackedVector2Array(255, -112, 350, -108, 351, -59, 390, -59, 389, -79, 406, -80, 404, 174, 250, 180, 250, 158, 371, 154, 385, -38, 321, -37, 324, -88, 251, -90)
+
+[node name="Waypoints" type="Node2D" parent="."]
+position = Vector2(400, -100)
+
+[node name="Waypoint" type="Area2D" parent="Waypoints"]
+position = Vector2(-202, -3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Waypoints/Waypoint"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
+[node name="Waypoint2" type="Area2D" parent="Waypoints"]
+position = Vector2(-64, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Waypoints/Waypoint2"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
+[node name="Waypoint3" type="Area2D" parent="Waypoints"]
+position = Vector2(-65, 52)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Waypoints/Waypoint3"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
+[node name="Waypoint4" type="Area2D" parent="Waypoints"]
+position = Vector2(-3, 53)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Waypoints/Waypoint4"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
+[node name="Waypoint5" type="Area2D" parent="Waypoints"]
+position = Vector2(-1, -1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Waypoints/Waypoint5"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
+[node name="Waypoint6" type="Area2D" parent="Waypoints"]
+position = Vector2(-8, 261)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Waypoints/Waypoint6"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
+
+[node name="Waypoint7" type="Area2D" parent="Waypoints"]
+position = Vector2(-194, 267)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Waypoints/Waypoint7"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)

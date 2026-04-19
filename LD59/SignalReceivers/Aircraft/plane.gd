@@ -15,8 +15,11 @@ enum State {
 	FLYING = 4,
 	TAXIING = 5,
 	WAIT = 6,
+	HOLDING = 7,
 	NONE = -1 
 }
+
+const LANDED_STATES : Array[State] = [ State.IDLE, State.TAXIING ]
 
 enum ApproachState { 
 	NONE = -1, 
@@ -48,7 +51,11 @@ var callsign: String = "B16 CHNGS"
 const MAX_RAND_DIST_SQRT : float = 100
 
 @export var speed : float = 50
-@export var max_speed : float = 50
+var target_speed : float = 50
+var speed_increment : float = 10
+var accel : float = 5
+@export var max_speed : float = 100
+@export var min_flying_speed : float = 30
 @export var taxi_speed : float = 10
 @export var brakes : float = 8.0
 
@@ -62,6 +69,11 @@ var angle_tol : float = 0.01
 
 @export var altitude : float = 0.0
 var target_altitude : float = 20.0
+
+var min_flying_altitude : float = 20
+var max_flying_altitude : float = 160
+
+var altitude_increment : float = 10
 
 @export var target_position: Vector2
 var target_approach: Approach
@@ -99,6 +111,9 @@ var angle_sweep = 0.0;
 
 var anims: Array = []
 var anim_index :int = 0
+
+var holding_pattern_radius : Message.Radius
+var holding_direction : int
 
 var move_vec : Vector2 = Vector2(-50, 0)
 
@@ -179,26 +194,85 @@ func turn_radius() -> float:
 func min_approach_dist() -> float:
 	return 2 * self.turn_radius()
 
+func in_state(state_list: Array[Aircraft.State]):
+	return state_list.find(self.state) >= 0
+
+func random_sign():
+	var roll = randi_range(0, 1)
+	if roll == 0:
+		roll = -1
+	return roll
+	
+
 func message(message_data: Message):
 	print("Aircraft " + self.callsign + " receiving message: " + message_data.description)
 	
-	match message_data.type:
-		Message.Type.BEGIN_APPROACH:
-			if self.state != Aircraft.State.IDLE:
+	if self.in_state(self.LANDED_STATES) == false:
+		match message_data.type:
+			Message.Type.BEGIN_APPROACH:
 				var approachMessage = message_data as ApproachMessage
 				target_approach = approachMessage.approach
 				target_runway = approachMessage.runway
 				self.state = Aircraft.State.APPROACH
-		Message.Type.CLEAR_FOR_LANDING:
-			self.clear_for_landing = true
-			self.clear_for_landing_label.visible = true
-		Message.Type.TAXI:
-			if self.state == State.IDLE:
-				self.follow_taxi_path = self.target_approach.taxi_path
-				self.taxi_node = self.follow_taxi_path.first_node()
-				self.follow_taxi_path.node_reached.connect(taxi_node_reached)
-				self.follow_taxi_path.hangar_reached.connect(hangar_reached)
-				self.state = State.TAXIING
+			Message.Type.ABORT:
+				self.state = Aircraft.State.RANDOM
+				if self.target_altitude < self.min_flying_altitude:
+					self.target_altitude = self.min_flying_altitude
+				self.new_random_target()
+			Message.Type.CLEAR_FOR_LANDING:
+				self.clear_for_landing = true
+				self.clear_for_landing_label.visible = true
+			Message.Type.HOLDING_PATTERN:
+				var holding_message = message_data as HoldingPatternMessage
+				self.state = Aircraft.State.HOLDING
+				self.holding_pattern_radius = holding_message.radius
+				self.holding_direction = self.random_sign()
+			Message.Type.CHANGE_ALTITUDE:
+				var change_alt = message_data as ChangeAltitudeMessage
+				if change_alt.direction == Message.Direction.INCREASE:
+					self.change_target_altitude(self.altitude_increment)
+				else:
+					self.change_target_altitude(-self.altitude_increment)
+			Message.Type.CHANGE_SPEED:
+				var change_speed = message_data as ChangeSpeedMessage
+				if change_speed.direction == Message.Direction.INCREASE:
+					self.change_target_speed(self.speed_increment)
+				else:
+					self.change_target_speed(-self.speed_increment)
+			
+	else:
+		match message_data.type:
+			Message.Type.TAXI:
+				if self.state == State.IDLE:
+					self.follow_taxi_path = self.target_approach.taxi_path
+					self.taxi_node = self.follow_taxi_path.first_node()
+					self.follow_taxi_path.node_reached.connect(taxi_node_reached)
+					self.follow_taxi_path.hangar_reached.connect(hangar_reached)
+					self.state = State.TAXIING
+
+func change_target_altitude(change_by: float):
+	self.target_altitude += change_by
+	if self.target_altitude > self.max_flying_altitude:
+		self.target_altitude = self.max_flying_altitude
+	elif self.target_altitude < self.min_flying_altitude:
+		self.target_altitude = self.min_flying_altitude
+
+func change_target_speed(change_by: float):
+	self.target_speed += change_by
+	if(self.target_speed > self.max_speed):
+		self.target_speed = self.max_speed
+	elif self.target_speed < self.min_flying_speed:
+		self.target_speed = self.min_flying_speed
+
+func change_speed(change_by: float, delta: float):
+	var increment = change_by * delta
+	
+	if increment > 0 and self.speed + increment > self.target_speed:
+		self.speed = self.target_speed
+	elif increment < 0 and self.speed + increment < self.target_speed:
+		self.speed = self.target_speed
+	else:
+		self.speed += increment
 
 func taxi_node_reached(waypoint: Area2D, body: Node2D):
 	print("Plane receiving taxi notification")
@@ -213,6 +287,8 @@ func hangar_reached(body: Node2D):
 func _ready() -> void:
 	self.max_fuel = self.fuel
 	var anim_list = self.animation_player.get_animation_list()
+	
+	self.target_speed = self.speed
 	
 	if self.start_active:
 		self.state = Aircraft.State.RANDOM
@@ -398,6 +474,12 @@ func process_standard_movement(delta: float):
 	if fuel > 0:
 		self.move_at_speed(self.speed, delta)
 		self.change_fuel(-self.speed * delta)
+	
+		if(self.state != State.LANDING):
+			if self.speed < self.target_speed:
+				self.change_speed(self.accel, delta)
+			elif self.speed > self.target_speed:
+				self.change_speed(-self.accel, delta)
 		
 		if altitude < target_altitude:
 			self.change_altitude(delta * (speed / 10))
@@ -409,6 +491,16 @@ func process_standard_movement(delta: float):
 		self.move_at_speed(self.speed, delta)
 		self.descent_speed += self.gravity * delta
 		self.change_altitude(-self.descent_speed * delta)
+
+func process_holding(delta):
+	var angle_base = self.turn_speed
+	
+	if self.holding_pattern_radius == Message.Radius.WIDE:
+		angle_base = self.turn_speed * 0.5
+
+	var angle = self.holding_direction * angle_base * delta
+	self.plane_body.rotate(angle)
+
 
 func _process(delta: float) -> void:
 	
@@ -435,6 +527,8 @@ func _process(delta: float) -> void:
 			self.speed = 0
 		elif self.state == State.TAXIING:
 			self.process_taxi(delta)
+		elif self.state == State.HOLDING:
+			self.process_holding(delta)
 		else:	
 			self.process_default(delta)
 		

@@ -125,6 +125,18 @@ text = "Abort Landing: K"
 layout_mode = 2
 text = "Taxi: T"
 
+[node name="HoldingPattern" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Holding Pattern: H"
+
+[node name="ChangeAltitude" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Change Altitude: Y"
+
+[node name="ChangeSpeed" type="Label" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Change Speed: V"
+
 [node name="Active Signal" type="HBoxContainer" parent="ui_layer/signal_builder_ui/signals_ui/VBoxContainer"]
 layout_mode = 2
 alignment = 1
@@ -205,6 +217,36 @@ layout_mode = 2
 [node name="Label" type="Label" parent="ui_layer/signal_builder_ui/params_ui/params_container/approaches_container/approach_options"]
 layout_mode = 2
 text = "-"
+
+[node name="radius_container" type="VBoxContainer" parent="ui_layer/signal_builder_ui/params_ui/params_container"]
+layout_mode = 2
+
+[node name="Radius" type="Label" parent="ui_layer/signal_builder_ui/params_ui/params_container/radius_container"]
+layout_mode = 2
+text = "Radius"
+
+[node name="Decrease" type="Label" parent="ui_layer/signal_builder_ui/params_ui/params_container/radius_container"]
+layout_mode = 2
+text = "1 - Tight"
+
+[node name="Increase" type="Label" parent="ui_layer/signal_builder_ui/params_ui/params_container/radius_container"]
+layout_mode = 2
+text = "2 - Wide"
+
+[node name="direction_container" type="VBoxContainer" parent="ui_layer/signal_builder_ui/params_ui/params_container"]
+layout_mode = 2
+
+[node name="Direction" type="Label" parent="ui_layer/signal_builder_ui/params_ui/params_container/direction_container"]
+layout_mode = 2
+text = "Direction"
+
+[node name="Decrease" type="Label" parent="ui_layer/signal_builder_ui/params_ui/params_container/direction_container"]
+layout_mode = 2
+text = "1 - Decrease"
+
+[node name="Increase" type="Label" parent="ui_layer/signal_builder_ui/params_ui/params_container/direction_container"]
+layout_mode = 2
+text = "2 - Increase"
 
 [node name="end_of_day_ui" type="PanelContainer" parent="ui_layer" node_paths=PackedStringArray("airfield_root")]
 visible = false
@@ -397,7 +439,7 @@ runways = [NodePath("../Runway")]
 
 [node name="signal_builder" type="Node2D" parent="atc_tower"]
 script = ExtResource("4_yffyv")
-signal_inputs = Array[String](["circle_runway", "clear_for_landing", "taxi"])
+signal_inputs = Array[String](["circle_runway", "clear_for_landing", "taxi", "holding_pattern", "change_altitude", "change_speed", "abort"])
 
 [node name="Polygon2D" type="Polygon2D" parent="atc_tower"]
 polygon = PackedVector2Array(-10, -10, -10, 10, 10, 10, 10, -10)

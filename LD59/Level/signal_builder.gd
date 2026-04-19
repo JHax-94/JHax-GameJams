@@ -9,7 +9,10 @@ var signal_dictionary : Dictionary = {
 	"circle_runway": [ "runway", "approach" ],
 	"abort": [],
 	"clear_for_landing": [],
-	"taxi": []
+	"taxi": [],
+	"holding_pattern": [ "radius" ],
+	"change_altitude": [ "direction" ],
+	"change_speed": [ "direction" ],
 }
 
 var current_signal : Dictionary = {
@@ -39,6 +42,14 @@ func signal_changed():
 		print("Signal changed [" + signal_type + "] Check fields:")
 		print(str(fields))
 		for field in fields:
+			if field == "direction":
+				var direction_array: Array = [ "direction", "decrease", "increase" ]
+				params.append(direction_array)
+			
+			if field == "radius":
+				var radius_array: Array = [ "radius", "right", "wide" ]
+				params.append(radius_array)
+			
 			if field == "runway":
 				var runway_array: Array = [ "runway" ]
 				params.append(runway_array)
@@ -93,6 +104,14 @@ func get_message() -> Message:
 				message = ClearForLandingMessage.new()
 			"taxi":
 				message = TaxiMessage.new()
+			"change_altitude":
+				message = ChangeAltitudeMessage.new(self.current_signal["direction"])
+			"change_speed":
+				message = ChangeSpeedMessage.new(self.current_signal["direction"])
+			"holding_pattern":
+				message = HoldingPatternMessage.new(self.current_signal["radius"])
+			"abort":
+				message = AbortMessage.new()
 			_:
 				print("Not yet implemented!")
 	else:
@@ -107,7 +126,6 @@ func _process(delta: float) -> void:
 	for input in signal_inputs:
 		if Input.is_action_just_pressed(input):
 			self.set_signal(input)
-			
 	
 	if field_required("runway"):
 		for runway in atc_tower.runways:
@@ -124,7 +142,32 @@ func _process(delta: float) -> void:
 				if self.current_signal.has("approach") == false or self.current_signal["approach"] != approach:
 					self.current_signal["approach"] = approach
 					self.signal_changed()
-				
+	
+	if field_required("radius"):
+		var set_radius = ""
+		if Input.is_action_just_pressed("radius_tight"):
+			set_radius = "tight"
+		elif Input.is_action_just_pressed("radius_wide"):
+			set_radius = "wide"
+		
+		if set_radius.length() > 0:
+			if self.current_signal.has("radius") == false or self.current_signal["radius"] != set_radius:
+				self.current_signal["radius"] = set_radius
+				self.signal_changed()
+	
+	if field_required("direction"):
+		var set_direction = ""
+		if Input.is_action_just_pressed("direction_decrease"):
+			set_direction = "decrease"
+		elif Input.is_action_just_pressed("direction_increase"):
+			set_direction = "increase"
+			
+		if set_direction.length() > 0:
+			if self.current_signal.has("direction") == false or self.current_signal["direction"] != set_direction:
+				self.current_signal["direction"] = set_direction
+				self.signal_changed()
+		
+			
 			
 		
 		

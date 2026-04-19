@@ -4,8 +4,11 @@ class_name SignalBuilderUi extends Control
 @onready var runways_container: VBoxContainer = $params_ui/params_container/runways_container
 @onready var approaches_container: VBoxContainer = $params_ui/params_container/approaches_container
 @onready var approach_options: VBoxContainer = $params_ui/params_container/approaches_container/approach_options
+@onready var radius_container: VBoxContainer = $params_ui/params_container/radius_container
+@onready var direction_container: VBoxContainer = $params_ui/params_container/direction_container
 
 @export var param_containers : Array[ParamGroup] = []
+
 	
 
 func _on_signal_builder_signal_type_changed(new_type: String, params: Array, current_signal: Dictionary) -> void:
@@ -13,6 +16,8 @@ func _on_signal_builder_signal_type_changed(new_type: String, params: Array, cur
 	
 	self.runways_container.visible = false
 	self.approaches_container.visible = false
+	self.radius_container.visible = false
+	self.direction_container.visible = false
 	
 	print("Signal changed: " + new_type)
 	print(str(params))
@@ -57,7 +62,17 @@ func _on_signal_builder_signal_type_changed(new_type: String, params: Array, cur
 				label.text = param[i]
 				print("label text=" + label.text)
 				self.approach_options.add_child(label)
-		
+				
+		elif param[0] == "radius":
+			radius_container.visible = true
+			if param_val:
+				param_container.value.text = param_val
+			
+		elif param[0] == "direction":
+			direction_container.visible = true
+			if param_val:
+				param_container.value.text = param_val
+			
 		param_i += 1
 	
 	for i in range(param_i, self.param_containers.size()):

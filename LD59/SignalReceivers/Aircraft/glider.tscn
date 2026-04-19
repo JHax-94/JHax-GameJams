@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=3 uid="uid://tqpg0w1c8ulg"]
 
 [ext_resource type="Script" uid="uid://drlnw1xiutik6" path="res://SignalReceivers/Aircraft/glider.gd" id="1_nfn8i"]
-[ext_resource type="Texture2D" uid="uid://bol8n45tm7sew" path="res://Assets/Graphics/Plane-Sheet.png" id="2_m7d0r"]
+[ext_resource type="Texture2D" uid="uid://3m3uyi252414" path="res://Assets/Graphics/glider-Sheet.png" id="3_m7d0r"]
 
 [sub_resource type="Animation" id="Animation_ap333"]
 resource_name = "Down"
@@ -475,31 +475,31 @@ _data = {
 &"Up": SubResource("Animation_q5miy")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_i2ndw"]
-atlas = ExtResource("2_m7d0r")
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfn8i"]
+atlas = ExtResource("3_m7d0r")
 region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yffyv"]
-atlas = ExtResource("2_m7d0r")
+[sub_resource type="AtlasTexture" id="AtlasTexture_m7d0r"]
+atlas = ExtResource("3_m7d0r")
 region = Rect2(96, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ap333"]
-atlas = ExtResource("2_m7d0r")
+[sub_resource type="AtlasTexture" id="AtlasTexture_la231"]
+atlas = ExtResource("3_m7d0r")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_q5miy"]
-atlas = ExtResource("2_m7d0r")
+[sub_resource type="AtlasTexture" id="AtlasTexture_46der"]
+atlas = ExtResource("3_m7d0r")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_flpm5"]
-atlas = ExtResource("2_m7d0r")
+[sub_resource type="AtlasTexture" id="AtlasTexture_64gx8"]
+atlas = ExtResource("3_m7d0r")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5j1q8"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_i2ndw")
+"texture": SubResource("AtlasTexture_nfn8i")
 }],
 "loop": true,
 "name": &"DiagDown",
@@ -507,7 +507,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_yffyv")
+"texture": SubResource("AtlasTexture_m7d0r")
 }],
 "loop": true,
 "name": &"DiagUp",
@@ -515,7 +515,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ap333")
+"texture": SubResource("AtlasTexture_la231")
 }],
 "loop": true,
 "name": &"Down",
@@ -523,7 +523,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_q5miy")
+"texture": SubResource("AtlasTexture_46der")
 }],
 "loop": true,
 "name": &"LeftRight",
@@ -531,7 +531,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_flpm5")
+"texture": SubResource("AtlasTexture_64gx8")
 }],
 "loop": true,
 "name": &"Up",

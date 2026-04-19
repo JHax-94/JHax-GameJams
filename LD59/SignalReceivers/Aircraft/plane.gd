@@ -14,6 +14,7 @@ enum State {
 	IDLE = 3,
 	FLYING = 4,
 	TAXIING = 5,
+	WAIT = 6,
 	NONE = -1 
 }
 
@@ -40,7 +41,7 @@ var approach_state : ApproachState = ApproachState.MATCH_OPPOSITE_VEC
 
 var clear_for_landing: bool = false
 
-var state = Aircraft.State.RANDOM
+var state : Aircraft.State = Aircraft.State.WAIT
 
 var callsign: String = "B16 CHNGS"
 
@@ -50,6 +51,8 @@ const MAX_RAND_DIST_SQRT : float = 100
 @export var max_speed : float = 50
 @export var taxi_speed : float = 10
 @export var brakes : float = 8.0
+
+@export var start_active : bool = false
 
 @export var fuel :float = 10000.0
 var max_fuel : float = self.fuel;
@@ -193,6 +196,9 @@ func _ready() -> void:
 	self.max_fuel = self.fuel
 	var anim_list = self.animation_player.get_animation_list()
 	
+	if self.start_active:
+		self.state = Aircraft.State.RANDOM
+	
 	self.atc = get_tree().root.find_child("atc_tower") as AtcTower
 	self.fuel_bar.max_value = self.max_fuel
 	self.fuel_bar.value = self.fuel
@@ -294,13 +300,13 @@ func process_approach(delta: float) -> void:
 		
 		#print("DOT: " + str(dot))
 		if self.approach_state == ApproachState.REACH_APPROACH:
-			print("Target vec: " + str(perp_vec) + "("  + str(perp_comp) + ")")
+			#print("Target vec: " + str(perp_vec) + "("  + str(perp_comp) + ")")
 			
 			var angle = self.plane_body.get_angle_to(self.plane_body.global_position - perp_comp * perp_vec)
 			angle = self.clamp_to_turn_speed(angle, delta)
 			self.plane_body.rotate(angle)
 			
-			print(str(perp_dist) + " / " + str(self.turn_radius()))
+			#print(str(perp_dist) + " / " + str(self.turn_radius()))
 			
 			if perp_dist < self.turn_radius():
 				print("MATCH VEC!")
@@ -318,9 +324,9 @@ func process_approach(delta: float) -> void:
 				angle = self.clamp_to_turn_speed(angle, delta)
 				self.plane_body.rotate(angle)
 		elif self.approach_state == ApproachState.MATCH_OPPOSITE_VEC:
-			print("MATCHING OPPOSITE VEC...")
+			#print("MATCHING OPPOSITE VEC...")
 			var angle = self.plane_body.get_angle_to(self.plane_body.global_position - approach_vec)
-			print(str(angle))
+			#print(str(angle))
 			angle = self.clamp_to_turn_speed(angle, delta)
 			self.plane_body.rotate(angle)
 
@@ -374,34 +380,37 @@ func _process(delta: float) -> void:
 	
 	self.dist_label.text = ""
 	
-	if state == Aircraft.State.APPROACH:
-		self.process_approach(delta)
-	elif state == Aircraft.State.LANDING:
-		if self.target_altitude > 0:
-			self.target_altitude = 0
-			
-		if self.altitude > 0:
-			self.speed += self.air_braking(delta)
-		else:
-			print("BRAKES!")
-			self.speed += self.land_braking(delta)
-			
-		if self.speed < 0:
+	if state == Aircraft.State.WAIT:
+		pass
+	else:
+		if state == Aircraft.State.APPROACH:
+			self.process_approach(delta)
+		elif state == Aircraft.State.LANDING:
+			if self.target_altitude > 0:
+				self.target_altitude = 0
+				
+			if self.altitude > 0:
+				self.speed += self.air_braking(delta)
+			else:
+				print("BRAKES!")
+				self.speed += self.land_braking(delta)
+				
+			if self.speed < 0:
+				self.speed = 0
+				self.state = State.IDLE
+		elif self.state == State.IDLE:
 			self.speed = 0
-			self.state = State.IDLE
-	elif self.state == State.IDLE:
-		self.speed = 0
-	elif self.state == State.TAXIING:
-		self.process_taxi(delta)
-	else:	
-		self.process_default(delta)
-	
-	self.process_standard_movement(delta)
-	
-	self.lock_rotations()
-	
-	self.process_animation()
-	self.update_status_label()
+		elif self.state == State.TAXIING:
+			self.process_taxi(delta)
+		else:	
+			self.process_default(delta)
+		
+		self.process_standard_movement(delta)
+		
+		self.lock_rotations()
+		
+		self.process_animation()
+		self.update_status_label()
 
 func lock_rotations():
 	self.plane_render.global_rotation = 0.0
@@ -452,5 +461,8 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	if self.state == State.RANDOM:
 		new_random_target()
 	
-	
-	
+func _on_wait_timer_timeout() -> void:
+	print("Wait timer timeout on " + self.name)
+	if self.state == Aircraft.State.WAIT:
+		print("Start plane: " + self.name)
+		self.state = Aircraft.State.RANDOM

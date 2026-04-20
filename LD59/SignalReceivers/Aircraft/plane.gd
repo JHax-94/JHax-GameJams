@@ -16,7 +16,8 @@ enum State {
 	TAXIING = 5,
 	WAIT = 6,
 	HOLDING = 7,
-	NONE = -1 
+	NONE = -1,
+	CRASHED = -2
 }
 
 const LANDED_STATES : Array[State] = [ State.IDLE, State.TAXIING ]
@@ -108,6 +109,7 @@ var angle_sweep = 0.0;
 @onready var dist_label: Label = $TrackUi/MarginContainer/Vbox/DistLabel
 @onready var airspeed_val: Label = $TrackUi/MarginContainer/Vbox/Airspeed/AirspeedVal
 @onready var ui_hide_timer: Timer = $UiHideTimer
+@onready var plane_shadow: AnimatedSprite2D = $PlaneShadow
 
 @onready var status_label: Label = $TrackUi/MarginContainer/Vbox/Status
 @onready var clear_for_landing_label: Label = $TrackUi/MarginContainer/Vbox/ClearForLanding
@@ -116,6 +118,7 @@ var angle_sweep = 0.0;
 @onready var plane_body: CharacterBody2D = $PlaneBody
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var fuel_bar: ProgressBar = $FuelBar
+@onready var explosion_particles: GPUParticles2D = $ExplosionParticles
 
 var anims: Array = []
 var anim_index :int = 0
@@ -145,14 +148,23 @@ func update_layers():
 func resolve_aircraft(resolution: Aircraft.Resolution, message: String):
 	if message.length() > 0:
 		print(message)
-		
+	
+	self.aircraft_resolved.emit(resolution)	
 	match resolution:
 		Resolution.CRASHED:
 			print("Oh no explode!")
+			self.plane_body.visible = false
+			self.plane_shadow.visible = false
+			self.fuel_bar.visible = false
+			self.plane_landing_indicator.visible = false
+			self.explosion_particles.emitting = true
+			self.explosion_particles.finished.connect(func(): self.queue_free())
+			self.set_state(State.CRASHED) 
 		Resolution.LANDED:
 			print("Bleep bloop! Plane successfully landed!")
-	self.aircraft_resolved.emit(resolution)
-	self.queue_free()
+			self.queue_free()
+	
+
 
 func change_altitude(change_by: float):
 	var alt_vec = Vector2(0, -change_by)
@@ -235,52 +247,52 @@ func set_clear_for_landing(_clear_for_landing: bool):
 
 func message(message_data: Message):
 	print("Aircraft " + self.callsign + " receiving message: " + message_data.description)
-	
-	if self.in_state(self.LANDED_STATES) == false:
-		match message_data.type:
-			Message.Type.ABORT:
-				self.set_state(Aircraft.State.RANDOM)
-				self.set_clear_for_landing(true)
-				if self.target_altitude < self.min_flying_altitude:
-					self.target_altitude = self.min_flying_altitude
-				self.new_random_target()
+	if self.state != State.CRASHED:
+		if self.in_state(self.LANDED_STATES) == false:
+			match message_data.type:
+				Message.Type.ABORT:
+					self.set_state(Aircraft.State.RANDOM)
+					self.set_clear_for_landing(true)
+					if self.target_altitude < self.min_flying_altitude:
+						self.target_altitude = self.min_flying_altitude
+					self.new_random_target()
 
-	if self.in_state(self.LANDED_OR_LANDING_STATES) == false:
-		match message_data.type:
-			Message.Type.BEGIN_APPROACH:
-				var approachMessage = message_data as ApproachMessage
-				target_approach = approachMessage.approach
-				target_runway = approachMessage.runway
-				self.set_state(Aircraft.State.APPROACH)
-				self.set_approach_state(ApproachState.ENSURE_DISTANCE)
-			Message.Type.CLEAR_FOR_LANDING:
-				self.set_clear_for_landing(true)
-			Message.Type.HOLDING_PATTERN:
-				var holding_message = message_data as HoldingPatternMessage
-				self.set_state(Aircraft.State.HOLDING)
-				self.holding_pattern_radius = holding_message.radius
-				self.holding_direction = self.random_sign()
-			Message.Type.CHANGE_ALTITUDE:
-				var change_alt = message_data as ChangeAltitudeMessage
-				if change_alt.direction == Message.Direction.INCREASE:
-					self.change_target_altitude(self.altitude_increment)
-				else:
-					self.change_target_altitude(-self.altitude_increment)
-			Message.Type.CHANGE_SPEED:
-				var change_speed_message = message_data as ChangeSpeedMessage
-				if change_speed_message.direction == Message.Direction.INCREASE:
-					self.change_target_speed(self.speed_increment)
-				else:
-					self.change_target_speed(-self.speed_increment)
+		if self.in_state(self.LANDED_OR_LANDING_STATES) == false:
+			match message_data.type:
+				Message.Type.BEGIN_APPROACH:
+					var approachMessage = message_data as ApproachMessage
+					target_approach = approachMessage.approach
+					target_runway = approachMessage.runway
+					self.set_state(Aircraft.State.APPROACH)
+					self.set_approach_state(ApproachState.ENSURE_DISTANCE)
+				Message.Type.CLEAR_FOR_LANDING:
+					self.set_clear_for_landing(true)
+				Message.Type.HOLDING_PATTERN:
+					var holding_message = message_data as HoldingPatternMessage
+					self.set_state(Aircraft.State.HOLDING)
+					self.holding_pattern_radius = holding_message.radius
+					self.holding_direction = self.random_sign()
+				Message.Type.CHANGE_ALTITUDE:
+					var change_alt = message_data as ChangeAltitudeMessage
+					if change_alt.direction == Message.Direction.INCREASE:
+						self.change_target_altitude(self.altitude_increment)
+					else:
+						self.change_target_altitude(-self.altitude_increment)
+				Message.Type.CHANGE_SPEED:
+					var change_speed_message = message_data as ChangeSpeedMessage
+					if change_speed_message.direction == Message.Direction.INCREASE:
+						self.change_target_speed(self.speed_increment)
+					else:
+						self.change_target_speed(-self.speed_increment)
 
-	if self.in_state([ State.IDLE ]):
-		match message_data.type:
-			Message.Type.TAXI:
-				self.follow_taxi_path = self.target_approach.taxi_path
-				self.taxi_node = self.follow_taxi_path.first_node()
-				self.follow_taxi_path.node_reached.connect(taxi_node_reached)
-				self.follow_taxi_path.hangar_reached.connect(hangar_reached)
-				self.set_state(State.TAXIING)
+		if self.in_state([ State.IDLE ]):
+			match message_data.type:
+				Message.Type.TAXI:
+					self.follow_taxi_path = self.target_approach.taxi_path
+					self.taxi_node = self.follow_taxi_path.first_node()
+					self.follow_taxi_path.node_reached.connect(taxi_node_reached)
+					self.follow_taxi_path.hangar_reached.connect(hangar_reached)
+					self.set_state(State.TAXIING)
 
 func change_target_altitude(change_by: float):
 	self.target_altitude += change_by
@@ -481,7 +493,6 @@ func process_default(delta: float) -> void:
 		self.new_random_target()
 
 func process_taxi(delta: float) -> void:
-	
 	var step = ""
 	var angle = self.plane_body.get_angle_to(self.taxi_node.global_position)
 	if abs(angle) < angle_tol:
@@ -558,43 +569,43 @@ func process_holding(delta):
 
 
 func _process(delta: float) -> void:
-	
-	self.dist_label.text = ""
-	if state == Aircraft.State.WAIT:
-		pass
-	else:
-		if state == Aircraft.State.APPROACH:
-			self.process_approach(delta)
-		elif state == Aircraft.State.LANDING:
-			if self.target_altitude > 0:
-				self.target_altitude = 0
-				
-			if self.altitude > 0:
-				self.speed += self.air_braking(delta)
-			else:
-				print("BRAKES!")
-				self.speed += self.land_braking(delta)
-				
-			if self.speed < 0:
+	if self.state != State.CRASHED:
+		self.dist_label.text = ""
+		if state == Aircraft.State.WAIT:
+			pass
+		else:
+			if state == Aircraft.State.APPROACH:
+				self.process_approach(delta)
+			elif state == Aircraft.State.LANDING:
+				if self.target_altitude > 0:
+					self.target_altitude = 0
+					
+				if self.altitude > 0:
+					self.speed += self.air_braking(delta)
+				else:
+					print("BRAKES!")
+					self.speed += self.land_braking(delta)
+					
+				if self.speed < 0:
+					self.speed = 0
+					self.set_state(State.IDLE)
+			elif self.state == State.IDLE:
 				self.speed = 0
-				self.set_state(State.IDLE)
-		elif self.state == State.IDLE:
-			self.speed = 0
-		elif self.state == State.TAXIING:
-			self.process_taxi(delta)
-		elif self.state == State.HOLDING:
-			self.process_holding(delta)
-		else:	
-			self.process_default(delta)
+			elif self.state == State.TAXIING:
+				self.process_taxi(delta)
+			elif self.state == State.HOLDING:
+				self.process_holding(delta)
+			else:	
+				self.process_default(delta)
+			
+			self.process_standard_movement(delta)
+			
+			self.lock_rotations()
+			
+			self.process_animation()
+			self.update_status_label()
 		
-		self.process_standard_movement(delta)
-		
-		self.lock_rotations()
-		
-		self.process_animation()
-		self.update_status_label()
-	
-	self.update_layers()
+		self.update_layers()
 
 func lock_rotations():
 	self.plane_render.global_rotation = 0.0

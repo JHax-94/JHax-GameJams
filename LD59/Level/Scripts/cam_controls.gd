@@ -1,7 +1,7 @@
 class_name AtcCamera extends Camera2D
 
-@export var min_camera_pos:Vector2 = Vector2(-200, -200)
-@export var max_camera_pos:Vector2 = Vector2(200, 200)
+@export var min_camera_pos:Vector2 = Vector2(-300, -200)
+@export var max_camera_pos:Vector2 = Vector2(300, 200)
 
 var move_speed = 80;
 

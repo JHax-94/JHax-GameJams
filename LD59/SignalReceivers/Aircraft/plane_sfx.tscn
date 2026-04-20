@@ -9,7 +9,9 @@ script = ExtResource("1_lju07")
 
 [node name="Explode" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_8hgya")
+volume_db = -5.0
 
 [node name="Brake" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_qeyb7")
+volume_db = -8.0
 pitch_scale = 0.5

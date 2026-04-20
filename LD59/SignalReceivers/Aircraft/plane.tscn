@@ -643,6 +643,7 @@ hue_variation_max = 0.17999998
 
 [node name="Plane" type="Node2D"]
 script = ExtResource("1_e14j0")
+fuel = 15000.0
 altitude = 20.0
 target_position = Vector2(600, 80)
 

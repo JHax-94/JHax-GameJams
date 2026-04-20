@@ -699,6 +699,7 @@ frame_progress = 0.26394445
 speed_scale = 2.0
 
 [node name="FuelBar" type="ProgressBar" parent="."]
+visibility_layer = 2
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0

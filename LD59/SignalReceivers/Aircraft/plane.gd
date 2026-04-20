@@ -696,7 +696,8 @@ func lock_rotations():
 	self.plane_landing_indicator.position.y = -18 -self.altitude
 	self.track_ui.position.y = 20 - self.altitude
 	self.message_received.position.y = -22 - self.altitude
-
+	self.plane_render.z_index = ceili(self.altitude)
+	
 func approach_reached():
 	print("Approach reached!")
 

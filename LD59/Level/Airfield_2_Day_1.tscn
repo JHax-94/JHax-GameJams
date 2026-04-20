@@ -182,9 +182,6 @@ position = Vector2(-487, 95)
 shape = SubResource("CircleShape2D_fik2q")
 debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
-[node name="atc_tower" parent="." node_paths=PackedStringArray("runways") instance=ExtResource("4_0jwr4")]
-runways = [NodePath("../Runway"), NodePath("../Runway2")]
-
 [node name="Hangar" type="Node2D" parent="."]
 position = Vector2(300, -100)
 
@@ -197,6 +194,9 @@ texture = ExtResource("6_bpxvr")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hangar/HangarArea"]
 position = Vector2(-1, 16)
 shape = SubResource("RectangleShape2D_k0a2v")
+
+[node name="atc_tower" parent="." node_paths=PackedStringArray("runways") instance=ExtResource("4_0jwr4")]
+runways = [NodePath("../Runway"), NodePath("../Runway2")]
 
 [node name="Plane" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(300, -200)
@@ -252,16 +252,16 @@ altitude = 80.0
 target_position = Vector2(600, 600)
 
 [node name="WaitTimer" parent="Plane6" index="0"]
-wait_time = 160.0
+wait_time = 200.0
 
 [node name="Plane7" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(345, -579)
 callsign = "EH138"
-fuel = 5000.0
+fuel = 75000.0
 target_position = Vector2(-600, 400)
 
 [node name="WaitTimer" parent="Plane7" index="0"]
-wait_time = 240.0
+wait_time = 300.0
 
 [node name="Plane8" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(-546, 616)
@@ -269,7 +269,7 @@ callsign = "Y-I M4N"
 target_position = Vector2(600, -100)
 
 [node name="WaitTimer" parent="Plane8" index="0"]
-wait_time = 280.0
+wait_time = 360.0
 
 [node name="Plane9" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(1053, 305)
@@ -277,7 +277,7 @@ callsign = "E-BY 6UM"
 target_position = Vector2(-600, 0)
 
 [node name="WaitTimer" parent="Plane9" index="0"]
-wait_time = 320.0
+wait_time = 400.0
 
 [node name="Plane10" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(941, -453)
@@ -285,7 +285,7 @@ callsign = "GRDN B3N3T"
 altitude = 60.0
 
 [node name="WaitTimer" parent="Plane10" index="0"]
-wait_time = 320.0
+wait_time = 480.0
 
 [node name="Plane11" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(-371, -575)
@@ -294,7 +294,7 @@ speed = 80.0
 altitude = 40.0
 
 [node name="WaitTimer" parent="Plane11" index="0"]
-wait_time = 400.0
+wait_time = 500.0
 
 [node name="Plane12" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(426, 589)
@@ -304,7 +304,7 @@ altitude = 60.0
 target_position = Vector2(-600, -600)
 
 [node name="WaitTimer" parent="Plane12" index="0"]
-wait_time = 430.0
+wait_time = 500.0
 
 [node name="AtcCamera" type="Camera2D" parent="."]
 script = ExtResource("6_jj5j4")

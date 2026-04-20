@@ -3,9 +3,9 @@ class_name EndOfDayUi extends PanelContainer
 var grades : Array[String] = [ "S", "A", "B", "C", "D", "F" ]
 @export var airfield_root: AirfieldRoot
 @export var grade_thresholds : Array[int]
-@onready var planes_landed_value: Label = $VBoxContainer/PlanesLanded/Value
-@onready var planes_crashed_value: Label = $VBoxContainer/PlanesCrashed/Value
-@onready var grade_value_value: Label = $VBoxContainer/Grade/Value
+@onready var planes_landed_value: Label = $MarginContainer/VBoxContainer/PlanesLanded/Value
+@onready var planes_crashed_value: Label = $MarginContainer/VBoxContainer/PlanesCrashed/Value
+@onready var grade_value_value: Label = $MarginContainer/VBoxContainer/Grade/Value
 @onready var hangar_sfx: AudioStreamPlayer2D = $hangar_sfx
 
 var roster : Array[Aircraft] = []

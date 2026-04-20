@@ -120,13 +120,13 @@ polygon = PackedVector2Array(0, 0, 100, -20, 100, 20)
 
 [node name="Render" type="Polygon2D" parent="comms_cone/comms_cone_area/Collider"]
 color = Color(0.32941177, 1, 1, 0.41568628)
-polygon = PackedVector2Array(0, 0, 300, -40, 310, -20, 315, 0, 310, 20, 300, 40)
+polygon = PackedVector2Array(0, 0, 360, -45, 380, -20, 390, 0, 380, 20, 360, 40)
 
 [node name="Signal_sprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 position = Vector2(0, -32)
 sprite_frames = SubResource("SpriteFrames_4cyv2")
-frame_progress = 0.575896
+frame_progress = 0.453488
 speed_scale = 2.0
 
 [node name="signal_sfx" type="AudioStreamPlayer2D" parent="."]

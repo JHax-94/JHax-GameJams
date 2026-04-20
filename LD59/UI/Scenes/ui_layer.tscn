@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bdijruau2jrhr"]
+[gd_scene load_steps=10 format=3 uid="uid://bdijruau2jrhr"]
 
 [ext_resource type="Script" uid="uid://8wq2v5walx8n" path="res://UI/atc_ui.gd" id="1_ew085"]
 [ext_resource type="Script" uid="uid://dn621klho2v43" path="res://Level/Scripts/signal_builder_ui.gd" id="2_rt7ig"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://befxp8wykd6r6" path="res://Assets/Graphics/Compass.png" id="5_rt7ig"]
 [ext_resource type="Theme" uid="uid://dn1xrv6khlr8h" path="res://UI/game_theme.tres" id="5_u7iv6"]
 [ext_resource type="AudioStream" uid="uid://cxq0qqup3yedu" path="res://Assets/sfx/bfxr/Plane_Hangar.ogg" id="6_ts03k"]
+[ext_resource type="Script" uid="uid://bqdyhked61cdj" path="res://UI/Scenes/menu.gd" id="8_tv6yt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7iv6"]
 bg_color = Color(1, 1, 1, 1)
@@ -290,48 +291,52 @@ grade_thresholds = Array[int]([6, 5, 4, 3, 2, 1])
 [node name="hangar_sfx" type="AudioStreamPlayer2D" parent="end_of_day_ui"]
 stream = ExtResource("6_ts03k")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="end_of_day_ui"]
+[node name="MarginContainer" type="MarginContainer" parent="end_of_day_ui"]
+layout_mode = 2
+theme = ExtResource("5_u7iv6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="end_of_day_ui/MarginContainer"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="end_of_day_ui/VBoxContainer"]
+[node name="Title" type="Label" parent="end_of_day_ui/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Day Complete!"
 horizontal_alignment = 1
 
-[node name="PlanesLanded" type="HBoxContainer" parent="end_of_day_ui/VBoxContainer"]
+[node name="PlanesLanded" type="HBoxContainer" parent="end_of_day_ui/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="end_of_day_ui/VBoxContainer/PlanesLanded"]
+[node name="Label" type="Label" parent="end_of_day_ui/MarginContainer/VBoxContainer/PlanesLanded"]
 layout_mode = 2
 text = "Planes Safely Landed: "
 
-[node name="Value" type="Label" parent="end_of_day_ui/VBoxContainer/PlanesLanded"]
+[node name="Value" type="Label" parent="end_of_day_ui/MarginContainer/VBoxContainer/PlanesLanded"]
 layout_mode = 2
 text = "0"
 
-[node name="PlanesCrashed" type="HBoxContainer" parent="end_of_day_ui/VBoxContainer"]
+[node name="PlanesCrashed" type="HBoxContainer" parent="end_of_day_ui/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="end_of_day_ui/VBoxContainer/PlanesCrashed"]
+[node name="Label" type="Label" parent="end_of_day_ui/MarginContainer/VBoxContainer/PlanesCrashed"]
 layout_mode = 2
 text = "Planes Crashed: "
 
-[node name="Value" type="Label" parent="end_of_day_ui/VBoxContainer/PlanesCrashed"]
+[node name="Value" type="Label" parent="end_of_day_ui/MarginContainer/VBoxContainer/PlanesCrashed"]
 layout_mode = 2
 text = "0"
 
-[node name="Grade" type="HBoxContainer" parent="end_of_day_ui/VBoxContainer"]
+[node name="Grade" type="HBoxContainer" parent="end_of_day_ui/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="end_of_day_ui/VBoxContainer/Grade"]
+[node name="Label" type="Label" parent="end_of_day_ui/MarginContainer/VBoxContainer/Grade"]
 layout_mode = 2
 text = "Performance: "
 
-[node name="Value" type="Label" parent="end_of_day_ui/VBoxContainer/Grade"]
+[node name="Value" type="Label" parent="end_of_day_ui/MarginContainer/VBoxContainer/Grade"]
 layout_mode = 2
 text = "S"
 
-[node name="Button" type="Button" parent="end_of_day_ui/VBoxContainer"]
+[node name="Button" type="Button" parent="end_of_day_ui/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "End Day"
 
@@ -387,5 +392,44 @@ horizontal_alignment = 1
 [node name="Control4" type="Control" parent="MarginContainer/GridContainer"]
 layout_mode = 2
 
+[node name="menu" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_tv6yt")
+
+[node name="MarginContainer" type="MarginContainer" parent="menu"]
+layout_mode = 2
+theme = ExtResource("5_u7iv6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menu/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="menu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "Would you like to return to the main menu?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="MainMenu" type="Button" parent="menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Return to Main Menu"
+
+[node name="ContinuePlaying" type="Button" parent="menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Continue Playing"
+
 [connection signal="pressed" from="signal_builder_ui/SignalReadout/MarginContainer/VBoxContainer/SendSignal" to="signal_builder_ui" method="_on_send_signal_pressed"]
-[connection signal="pressed" from="end_of_day_ui/VBoxContainer/Button" to="atc_ui" method="_on_button_pressed"]
+[connection signal="pressed" from="end_of_day_ui/MarginContainer/VBoxContainer/Button" to="atc_ui" method="_on_button_pressed"]
+[connection signal="pressed" from="menu/MarginContainer/VBoxContainer/MainMenu" to="menu" method="_on_main_menu_pressed"]
+[connection signal="pressed" from="menu/MarginContainer/VBoxContainer/ContinuePlaying" to="menu" method="_on_continue_playing_pressed"]

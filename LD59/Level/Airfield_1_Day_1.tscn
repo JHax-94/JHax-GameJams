@@ -117,9 +117,6 @@ position = Vector2(-194, 267)
 shape = SubResource("CircleShape2D_fik2q")
 debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
-[node name="atc_tower" parent="." node_paths=PackedStringArray("runways") instance=ExtResource("4_ec6g1")]
-runways = [NodePath("../Runway")]
-
 [node name="Hangar" type="Node2D" parent="."]
 position = Vector2(400, -100)
 
@@ -132,6 +129,9 @@ texture = ExtResource("6_ln3oq")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hangar/HangarArea"]
 position = Vector2(-1, 16)
 shape = SubResource("RectangleShape2D_k0a2v")
+
+[node name="atc_tower" parent="." node_paths=PackedStringArray("runways") instance=ExtResource("4_ec6g1")]
+runways = [NodePath("../Runway")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("6_54tre")

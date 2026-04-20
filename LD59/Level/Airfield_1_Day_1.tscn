@@ -131,7 +131,7 @@ shape = SubResource("RectangleShape2D_k0a2v")
 script = ExtResource("6_54tre")
 
 [node name="Plane" parent="." instance=ExtResource("7_t8ml3")]
-position = Vector2(-400, -40)
+position = Vector2(189, -328)
 start_active = true
 
 [node name="Plane2" parent="." instance=ExtResource("7_t8ml3")]

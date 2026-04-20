@@ -37,7 +37,7 @@ enum ApproachState {
 @export var random_y_min: float = -400.0
 @export var random_y_max: float = 400.0
 
-@export var ui_hide_time : float = 3.0
+@export var ui_hide_time : float = 6.0
 
 const MAX_X = 500
 const MIN_X = -500
@@ -174,6 +174,11 @@ func change_fuel(change_by: float):
 	
 	self.fuel_bar.value = self.fuel
 
+func set_approach_state(set_to: ApproachState):
+	if self.approach_state != set_to:
+		print("Set " + self.name + " approach state to: " + self.approach_state_str(set_to))
+		self.approach_state = set_to
+
 func set_altitude(set_to: float):
 	self.altitude = set_to
 	self.target_altitude = set_to
@@ -235,6 +240,7 @@ func message(message_data: Message):
 				target_approach = approachMessage.approach
 				target_runway = approachMessage.runway
 				self.state = Aircraft.State.APPROACH
+				self.set_approach_state(ApproachState.ENSURE_DISTANCE)
 			Message.Type.CLEAR_FOR_LANDING:
 				self.clear_for_landing = true
 				self.clear_for_landing_label.visible = true
@@ -319,10 +325,6 @@ func _ready() -> void:
 			#print("Plane anims:" + anim)
 			self.anims.append(anim)
 
-func set_approach_state(_approach_state: ApproachState):
-	print("Set approach state: " + str(_approach_state))
-	self.approach_state = _approach_state
-
 func effective_approach_state() -> ApproachState:
 	var return_state = ApproachState.NONE
 	
@@ -330,6 +332,26 @@ func effective_approach_state() -> ApproachState:
 		return_state = self.approach_state
 	
 	return return_state
+
+func approach_state_str(appr_state : ApproachState):
+	var _str = ""
+	match appr_state:
+		ApproachState.NONE:
+			_str += "None"
+		ApproachState.MATCH_VEC:
+			_str += "MatchVec"
+		ApproachState.MATCH_OPPOSITE_VEC:
+			_str += "MatchReverse"
+		ApproachState.ENSURE_DISTANCE:
+			_str += "EnsureDist"
+		ApproachState.REACH_APPROACH:
+			_str += "ReachApproach"
+		ApproachState.LANDING_VECTOR:
+			_str += "LandingVec"
+		_:
+			_str += "Unknown"
+			
+	return _str
 
 func update_status_label() ->void:
 	var status_string = ""
@@ -345,21 +367,13 @@ func update_status_label() ->void:
 			status_string = "Taxi"
 		State.APPROACH:
 			status_string = "Approach:"
-			match self.approach_state:
-				ApproachState.NONE:
-					status_string += "None"
-				ApproachState.MATCH_VEC:
-					status_string += "MatchVec"
-				ApproachState.MATCH_OPPOSITE_VEC:
-					status_string += "MatchReverse"
-				ApproachState.ENSURE_DISTANCE:
-					status_string += "EnsureDist"
-				ApproachState.REACH_APPROACH:
-					status_string += "ReachApproach"
-				ApproachState.LANDING_VECTOR:
-					status_string += "LandingVec"
-				_:
-					status_string += "Unknown"
+			
+			status_string += self.approach_state_str(self.approach_state)
+			
+			if self.target_runway:
+				status_string += self.target_runway.name
+			if self.target_approach:
+				status_string += self.target_approach.name
 					
 	self.status_label.text = status_string
 	
@@ -388,13 +402,16 @@ func process_approach(delta: float) -> void:
 	var perp_vec = self.target_runway.perpendicular_vector(self.target_approach)
 	
 	var vec_from_approach = self.plane_body.global_position - target_approach.global_position
-	
 	var dot = approach_vec.dot(-vec_from_approach);
+	var moving_against_landing_vec : bool = dot < 0
+	
 	var perp_comp = perp_vec.normalized().dot(vec_from_approach)
 	var perp_dist = absf(perp_comp)
 	self.dist_label.text = str(perp_dist) + "/" + str(self.min_approach_dist())
 	
-	if self.approach_state != ApproachState.LANDING_VECTOR and self.approach_state != ApproachState.MATCH_VEC and dot < 0 and perp_dist < min_approach_dist():
+	var not_matching_or_matched_vector : bool = self.approach_state != ApproachState.LANDING_VECTOR and self.approach_state != ApproachState.MATCH_VEC
+	
+	if (self.approach_state == ApproachState.ENSURE_DISTANCE or (not_matching_or_matched_vector and moving_against_landing_vec)) and perp_dist < min_approach_dist():
 		var angle = self.plane_body.get_angle_to(self.target_approach.global_position + self.min_approach_dist() * perp_vec)
 		angle = self.clamp_to_turn_speed(angle, delta)
 		self.plane_body.rotate(angle)
@@ -403,9 +420,9 @@ func process_approach(delta: float) -> void:
 		self.dist_label.text = "GOOD RANGE!"
 		if self.approach_state != ApproachState.MATCH_VEC and self.approach_state != ApproachState.LANDING_VECTOR:
 			if dot < 0:
-				self.approach_state = ApproachState.MATCH_OPPOSITE_VEC
+				self.set_approach_state(ApproachState.MATCH_OPPOSITE_VEC)
 			else:
-				self.approach_state = ApproachState.REACH_APPROACH
+				self.set_approach_state(ApproachState.REACH_APPROACH)
 		
 		#print("DOT: " + str(dot))
 		if self.approach_state == ApproachState.REACH_APPROACH:
@@ -419,14 +436,14 @@ func process_approach(delta: float) -> void:
 			
 			if perp_dist < self.turn_radius():
 				print("MATCH VEC!")
-				self.approach_state = ApproachState.MATCH_VEC
+				self.set_approach_state(ApproachState.MATCH_VEC)
 			
 		elif self.approach_state == ApproachState.MATCH_VEC:
 			var angle = self.plane_body.get_angle_to(self.plane_body.global_position + approach_vec)
 			if absf(angle) <= absf(self.turn_speed * delta):
 				print("SNAP TO VEC")
 				self.plane_body.look_at(self.plane_body.global_position + approach_vec)
-				approach_state = ApproachState.LANDING_VECTOR
+				self.set_approach_state(ApproachState.LANDING_VECTOR)
 				if self.clear_for_landing:
 					self.state = State.LANDING
 			else:

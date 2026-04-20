@@ -14,7 +14,7 @@ func change_altitude(change_by: float):
 	
 func _ready() -> void:
 	super._ready()
-	
+	print("Glider ready!")
 	self.fuel = 0;
 	self.gravity = 4.6
 

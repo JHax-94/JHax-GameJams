@@ -134,9 +134,11 @@ script = ExtResource("6_54tre")
 [node name="Plane" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(-154, -163)
 start_active = true
+fuel = 20000.0
 
 [node name="Plane2" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(1032, -48)
+fuel = 20000.0
 target_position = Vector2(-600, -50)
 
 [node name="WaitTimer" parent="Plane2" index="0"]
@@ -144,6 +146,7 @@ wait_time = 10.0
 
 [node name="Plane3" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(400, 800)
+fuel = 20000.0
 target_position = Vector2(-600, -400)
 
 [node name="WaitTimer" parent="Plane3" index="0"]
@@ -151,6 +154,7 @@ wait_time = 60.0
 
 [node name="Plane4" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(-309, -652)
+fuel = 20000.0
 target_position = Vector2(800, 800)
 
 [node name="WaitTimer" parent="Plane4" index="0"]
@@ -158,6 +162,7 @@ wait_time = 90.0
 
 [node name="Plane5" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(-919, 153)
+fuel = 20000.0
 target_position = Vector2(800, -150)
 
 [node name="WaitTimer" parent="Plane5" index="0"]
@@ -165,6 +170,7 @@ wait_time = 120.0
 
 [node name="Plane6" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(932, 153)
+fuel = 20000.0
 target_position = Vector2(-800, -150)
 
 [node name="WaitTimer" parent="Plane6" index="0"]

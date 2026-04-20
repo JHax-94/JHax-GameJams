@@ -1,9 +1,10 @@
-[gd_scene load_steps=28 format=3 uid="uid://y4emu5m76djn"]
+[gd_scene load_steps=36 format=3 uid="uid://y4emu5m76djn"]
 
-[ext_resource type="Script" uid="uid://jh1l7cet1q5l" path="res://SignalReceivers/Aircraft/plane.gd" id="1_nfn8i"]
+[ext_resource type="Script" uid="uid://drlnw1xiutik6" path="res://SignalReceivers/Aircraft/glider.gd" id="1_la231"]
 [ext_resource type="PackedScene" uid="uid://dghtv2pj5s0mj" path="res://SignalReceivers/Aircraft/track_ui.tscn" id="3_46der"]
 [ext_resource type="Texture2D" uid="uid://3m3uyi252414" path="res://Assets/Graphics/glider-Sheet.png" id="3_m7d0r"]
 [ext_resource type="Texture2D" uid="uid://dawkx006hny06" path="res://Assets/Graphics/LandingIndicator-Sheet.png" id="4_46der"]
+[ext_resource type="Texture2D" uid="uid://xoykawoqs1nw" path="res://Assets/Graphics/ReceivedSprite-Sheet.png" id="4_la231"]
 
 [sub_resource type="Animation" id="Animation_ap333"]
 resource_name = "Down"
@@ -565,6 +566,56 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_17ulw"]
+atlas = ExtResource("4_la231")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kd13h"]
+atlas = ExtResource("4_la231")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ogu46"]
+atlas = ExtResource("4_la231")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdrsk"]
+atlas = ExtResource("4_la231")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rp833"]
+atlas = ExtResource("4_la231")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m574v"]
+atlas = ExtResource("4_la231")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_64gx8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_17ulw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kd13h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ogu46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdrsk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rp833")
+}, {
+"duration": 12.0,
+"texture": SubResource("AtlasTexture_m574v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="Curve" id="Curve_46der"]
 _limits = [0.0, 1.0, -2.2351741e-10, 1.0]
 _data = [Vector2(0.0064393934, 1), 0.0, 0.0, 0, 0, Vector2(0.37878788, 0.7191012), 0.0, 0.0, 0, 0, Vector2(1, 0.06741583), 0.0, 0.0, 0, 0]
@@ -587,10 +638,8 @@ alpha_curve = SubResource("CurveTexture_0ms0e")
 hue_variation_min = -0.16000003
 hue_variation_max = 0.17999998
 
-[node name="Plane" type="Node2D"]
-script = ExtResource("1_nfn8i")
-altitude = 20.0
-target_position = Vector2(600, 80)
+[node name="Glider" type="Node2D"]
+script = ExtResource("1_la231")
 metadata/_custom_type_script = "uid://drlnw1xiutik6"
 
 [node name="WaitTimer" type="Timer" parent="."]
@@ -634,7 +683,15 @@ texture_filter = 1
 position = Vector2(-36, -16)
 sprite_frames = SubResource("SpriteFrames_la231")
 
+[node name="MessageReceived" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(34, -20)
+sprite_frames = SubResource("SpriteFrames_64gx8")
+speed_scale = 2.0
+
 [node name="FuelBar" type="ProgressBar" parent="."]
+visible = false
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -662,3 +719,4 @@ process_material = SubResource("ParticleProcessMaterial_la231")
 [connection signal="timeout" from="WaitTimer" to="." method="_on_wait_timer_timeout"]
 [connection signal="timeout" from="UiHideTimer" to="." method="_on_ui_hide_timer_timeout"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="animation_looped" from="MessageReceived" to="." method="_on_message_received_animation_looped"]

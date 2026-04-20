@@ -306,7 +306,7 @@ wait_time = 10.0
 
 [node name="Glider2" parent="." instance=ExtResource("7_c6pph")]
 position = Vector2(-1200, 500)
-callsign = "BTTR FLY"
+callsign = "Y0G1"
 altitude = 100.0
 target_position = Vector2(600, -400)
 
@@ -394,7 +394,7 @@ wait_time = 320.0
 
 [node name="Plane6" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(476, 670)
-callsign = "SPN WZRD"
+callsign = "SP1NY WZ4RD"
 speed = 90.0
 max_speed = 60.0
 fuel = 20000.0
@@ -439,7 +439,7 @@ wait_time = 460.0
 
 [node name="Plane10" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(1020, 1)
-callsign = "RT0 SHFT"
+callsign = "J0HN"
 speed = 40.0
 max_speed = 60.0
 altitude = 110.0
@@ -461,7 +461,7 @@ wait_time = 600.0
 
 [node name="Plane12" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(-59, 922)
-callsign = "HL3 CNFM"
+callsign = "RATS"
 speed = 40.0
 max_speed = 60.0
 altitude = 110.0

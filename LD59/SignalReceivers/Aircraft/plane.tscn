@@ -1,7 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://1pu4dhjlhhjp"]
+[gd_scene load_steps=26 format=3 uid="uid://1pu4dhjlhhjp"]
 
 [ext_resource type="Script" uid="uid://jh1l7cet1q5l" path="res://SignalReceivers/Aircraft/plane.gd" id="1_e14j0"]
 [ext_resource type="Texture2D" uid="uid://bol8n45tm7sew" path="res://Assets/Graphics/Plane-Sheet.png" id="2_tx3ug"]
+[ext_resource type="Texture2D" uid="uid://dawkx006hny06" path="res://Assets/Graphics/LandingIndicator-Sheet.png" id="3_bmnsk"]
+[ext_resource type="PackedScene" uid="uid://dghtv2pj5s0mj" path="res://SignalReceivers/Aircraft/track_ui.tscn" id="3_tx3ug"]
+[ext_resource type="Theme" uid="uid://dn1xrv6khlr8h" path="res://UI/game_theme.tres" id="4_t3hrk"]
 
 [sub_resource type="Animation" id="Animation_ap333"]
 resource_name = "Down"
@@ -541,6 +544,28 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7p68"]
 size = Vector2(28, 8)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3hrk"]
+atlas = ExtResource("3_bmnsk")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bmnsk"]
+atlas = ExtResource("3_bmnsk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0ms0e"]
+animations = [{
+"frames": [{
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_t3hrk")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_bmnsk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Plane" type="Node2D"]
 script = ExtResource("1_e14j0")
 altitude = 20.0
@@ -582,6 +607,13 @@ animation = &"LeftRight"
 position = Vector2(4, 1)
 rect = Rect2(-16, -9, 25, 17)
 
+[node name="PlaneLandingIndicator" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(-36, 40)
+sprite_frames = SubResource("SpriteFrames_0ms0e")
+frame_progress = 0.29779786
+
 [node name="FuelBar" type="ProgressBar" parent="."]
 anchors_preset = 7
 anchor_left = 0.5
@@ -594,64 +626,11 @@ offset_right = 20.0
 offset_bottom = -12.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("4_t3hrk")
 show_percentage = false
 
-[node name="TrackUi" type="PanelContainer" parent="."]
+[node name="TrackUi" parent="." instance=ExtResource("3_tx3ug")]
 visible = false
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -42.5
-offset_top = 20.0
-offset_right = 42.5
-offset_bottom = 124.0
-grow_horizontal = 2
-
-[node name="Vbox" type="VBoxContainer" parent="TrackUi"]
-layout_mode = 2
-
-[node name="Angle" type="HBoxContainer" parent="TrackUi/Vbox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="TrackUi/Vbox/Angle"]
-layout_mode = 2
-text = "Angle: "
-
-[node name="AngleVal" type="Label" parent="TrackUi/Vbox/Angle"]
-layout_mode = 2
-text = "0"
-
-[node name="Airspeed" type="HBoxContainer" parent="TrackUi/Vbox"]
-layout_mode = 2
-
-[node name="Airspeed" type="Label" parent="TrackUi/Vbox/Airspeed"]
-layout_mode = 2
-text = "Airspeed:"
-
-[node name="AirspeedVal" type="Label" parent="TrackUi/Vbox/Airspeed"]
-layout_mode = 2
-
-[node name="Alt" type="HBoxContainer" parent="TrackUi/Vbox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="TrackUi/Vbox/Alt"]
-layout_mode = 2
-text = "Altitude: "
-
-[node name="AltVal" type="Label" parent="TrackUi/Vbox/Alt"]
-layout_mode = 2
-text = "0"
-
-[node name="DistLabel" type="Label" parent="TrackUi/Vbox"]
-layout_mode = 2
-
-[node name="Status" type="Label" parent="TrackUi/Vbox"]
-layout_mode = 2
-
-[node name="ClearForLanding" type="Label" parent="TrackUi/Vbox"]
-visible = false
-layout_mode = 2
-text = "Clear for landing!"
 
 [connection signal="timeout" from="WaitTimer" to="." method="_on_wait_timer_timeout"]
 [connection signal="timeout" from="UiHideTimer" to="." method="_on_ui_hide_timer_timeout"]

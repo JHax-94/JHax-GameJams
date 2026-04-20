@@ -100,16 +100,18 @@ var taxi_node: Node2D
 var angle_sweep = 0.0;
 
 @onready var track_ui: PanelContainer = $TrackUi
-@onready var angle_val: Label = $TrackUi/Vbox/Angle/AngleVal
+@onready var angle_val: Label = $TrackUi/MarginContainer/Vbox/Angle/AngleVal
+@onready var callsign_label = $TrackUi/MarginContainer/Vbox/Callsign
 #@onready var runway: Node2D = $"../Runway"
 @onready var plane_render: AnimatedSprite2D = $PlaneBody/PlaneRender
-@onready var alt_val: Label = $TrackUi/Vbox/Alt/AltVal
-@onready var dist_label: Label = $TrackUi/Vbox/DistLabel
-@onready var airspeed_val: Label = $TrackUi/Vbox/Airspeed/AirspeedVal
+@onready var alt_val: Label = $TrackUi/MarginContainer/Vbox/Alt/AltVal
+@onready var dist_label: Label = $TrackUi/MarginContainer/Vbox/DistLabel
+@onready var airspeed_val: Label = $TrackUi/MarginContainer/Vbox/Airspeed/AirspeedVal
 @onready var ui_hide_timer: Timer = $UiHideTimer
 
-@onready var status_label: Label = $TrackUi/Vbox/Status
-@onready var clear_for_landing_label: Label = $TrackUi/Vbox/ClearForLanding
+@onready var status_label: Label = $TrackUi/MarginContainer/Vbox/Status
+@onready var clear_for_landing_label: Label = $TrackUi/MarginContainer/Vbox/ClearForLanding
+@onready var plane_landing_indicator: AnimatedSprite2D = $PlaneLandingIndicator
 
 @onready var plane_body: CharacterBody2D = $PlaneBody
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -174,6 +176,13 @@ func change_fuel(change_by: float):
 	
 	self.fuel_bar.value = self.fuel
 
+func update_indicator_visibility():
+	self.plane_landing_indicator.visible = self.clear_for_landing and self.in_state(self.LANDED_STATES) == false
+
+func set_state(set_to : State):
+	self.state = set_to
+	self.update_indicator_visibility()
+
 func set_approach_state(set_to: ApproachState):
 	if self.approach_state != set_to:
 		print("Set " + self.name + " approach state to: " + self.approach_state_str(set_to))
@@ -189,7 +198,7 @@ func teleport_to_approach():
 	
 	var approach_vec: Vector2 = self.target_runway.approach_vector(target_approach)
 	plane_body.look_at(target_approach.global_position + approach_vec)
-	self.state = Aircraft.State.NONE
+	self.set_state(Aircraft.State.NONE)
 	
 	
 func clamp_to_turn_speed(angle, delta) -> float:
@@ -219,7 +228,10 @@ func random_sign():
 	if roll == 0:
 		roll = -1
 	return roll
-	
+
+func set_clear_for_landing(_clear_for_landing: bool):
+	self.clear_for_landing = _clear_for_landing
+	self.update_indicator_visibility()
 
 func message(message_data: Message):
 	print("Aircraft " + self.callsign + " receiving message: " + message_data.description)
@@ -227,8 +239,8 @@ func message(message_data: Message):
 	if self.in_state(self.LANDED_STATES) == false:
 		match message_data.type:
 			Message.Type.ABORT:
-				self.state = Aircraft.State.RANDOM
-				self.clear_for_landing = false
+				self.set_state(Aircraft.State.RANDOM)
+				self.set_clear_for_landing(true)
 				if self.target_altitude < self.min_flying_altitude:
 					self.target_altitude = self.min_flying_altitude
 				self.new_random_target()
@@ -239,14 +251,13 @@ func message(message_data: Message):
 				var approachMessage = message_data as ApproachMessage
 				target_approach = approachMessage.approach
 				target_runway = approachMessage.runway
-				self.state = Aircraft.State.APPROACH
+				self.set_state(Aircraft.State.APPROACH)
 				self.set_approach_state(ApproachState.ENSURE_DISTANCE)
 			Message.Type.CLEAR_FOR_LANDING:
-				self.clear_for_landing = true
-				self.clear_for_landing_label.visible = true
+				self.set_clear_for_landing(true)
 			Message.Type.HOLDING_PATTERN:
 				var holding_message = message_data as HoldingPatternMessage
-				self.state = Aircraft.State.HOLDING
+				self.set_state(Aircraft.State.HOLDING)
 				self.holding_pattern_radius = holding_message.radius
 				self.holding_direction = self.random_sign()
 			Message.Type.CHANGE_ALTITUDE:
@@ -269,7 +280,7 @@ func message(message_data: Message):
 				self.taxi_node = self.follow_taxi_path.first_node()
 				self.follow_taxi_path.node_reached.connect(taxi_node_reached)
 				self.follow_taxi_path.hangar_reached.connect(hangar_reached)
-				self.state = State.TAXIING
+				self.set_state(State.TAXIING)
 
 func change_target_altitude(change_by: float):
 	self.target_altitude += change_by
@@ -308,15 +319,18 @@ func hangar_reached(body: Node2D):
 func _ready() -> void:
 	self.max_fuel = self.fuel
 	var anim_list = self.animation_player.get_animation_list()
+	self.plane_landing_indicator.play()
 	
 	self.target_speed = self.speed
 	
 	if self.start_active:
-		self.state = Aircraft.State.RANDOM
+		self.set_state(Aircraft.State.RANDOM)
 	
 	self.atc = get_tree().root.find_child("atc_tower") as AtcTower
 	self.fuel_bar.max_value = self.max_fuel
 	self.fuel_bar.value = self.fuel
+	
+	self.callsign_label.text = self.callsign
 	
 	self.set_altitude(self.altitude)
 	
@@ -445,7 +459,7 @@ func process_approach(delta: float) -> void:
 				self.plane_body.look_at(self.plane_body.global_position + approach_vec)
 				self.set_approach_state(ApproachState.LANDING_VECTOR)
 				if self.clear_for_landing:
-					self.state = State.LANDING
+					self.set_state(State.LANDING)
 			else:
 				angle = self.clamp_to_turn_speed(angle, delta)
 				self.plane_body.rotate(angle)
@@ -563,7 +577,7 @@ func _process(delta: float) -> void:
 				
 			if self.speed < 0:
 				self.speed = 0
-				self.state = State.IDLE
+				self.set_state(State.IDLE)
 		elif self.state == State.IDLE:
 			self.speed = 0
 		elif self.state == State.TAXIING:
@@ -585,7 +599,9 @@ func _process(delta: float) -> void:
 func lock_rotations():
 	self.plane_render.global_rotation = 0.0
 	self.fuel_bar.position.y = -20 - self.altitude
-
+	self.plane_landing_indicator.position.y = -18 -self.altitude
+	self.track_ui.position.y = 20 - self.altitude
+	
 
 func approach_reached():
 	print("Approach reached!")
@@ -641,7 +657,7 @@ func _on_wait_timer_timeout() -> void:
 	print("Wait timer timeout on " + self.name)
 	if self.state == Aircraft.State.WAIT:
 		print("Start plane: " + self.name)
-		self.state = Aircraft.State.RANDOM
+		self.set_state(Aircraft.State.RANDOM)
 
 
 func _on_ui_hide_timer_timeout() -> void:

@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://dghtv2pj5s0mj"]
+
+[ext_resource type="Theme" uid="uid://dn1xrv6khlr8h" path="res://UI/game_theme.tres" id="1_mjkc2"]
+
+[node name="TrackUi" type="PanelContainer"]
+offset_right = 109.0
+offset_bottom = 104.0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme = ExtResource("1_mjkc2")
+
+[node name="Vbox" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Callsign" type="Label" parent="MarginContainer/Vbox"]
+layout_mode = 2
+
+[node name="Angle" type="HBoxContainer" parent="MarginContainer/Vbox"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Vbox/Angle"]
+layout_mode = 2
+text = "Angle: "
+
+[node name="AngleVal" type="Label" parent="MarginContainer/Vbox/Angle"]
+layout_mode = 2
+text = "0"
+
+[node name="Airspeed" type="HBoxContainer" parent="MarginContainer/Vbox"]
+layout_mode = 2
+
+[node name="Airspeed" type="Label" parent="MarginContainer/Vbox/Airspeed"]
+layout_mode = 2
+text = "Airspeed:"
+
+[node name="AirspeedVal" type="Label" parent="MarginContainer/Vbox/Airspeed"]
+layout_mode = 2
+
+[node name="Alt" type="HBoxContainer" parent="MarginContainer/Vbox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Vbox/Alt"]
+layout_mode = 2
+text = "Altitude: "
+
+[node name="AltVal" type="Label" parent="MarginContainer/Vbox/Alt"]
+layout_mode = 2
+text = "0"
+
+[node name="DistLabel" type="Label" parent="MarginContainer/Vbox"]
+visible = false
+layout_mode = 2
+
+[node name="Status" type="Label" parent="MarginContainer/Vbox"]
+visible = false
+layout_mode = 2
+
+[node name="ClearForLanding" type="Label" parent="MarginContainer/Vbox"]
+visible = false
+layout_mode = 2
+text = "Clear for landing!"

@@ -6,11 +6,14 @@ func change_speed(change_by: float, delta: float):
 		change_by = 0
 	super.change_speed(change_by, delta)
 	
-func change_altitude(change_by: float):
+func change_altitude(change_by: float, force: bool = false):
 	if change_by > 0:
 		change_by = 0
+	super.change_altitude(change_by, force)
+	if force:
+		if self.target_altitude > self.altitude:
+			self.target_altitude = self.altitude
 	
-	super.change_altitude(change_by)
 	
 func _ready() -> void:
 	super._ready()
@@ -33,7 +36,7 @@ func process_no_fuel_movement(delta: float):
 	
 	if self.state != State.LANDING:
 		self.process_speed_change(delta)
-		self.change_altitude(-self.descent_speed * delta)
+		self.change_altitude(-self.descent_speed * delta, true)
 		self.process_controlled_altitude_change(delta)
 	else:
 		self.process_controlled_altitude_change(delta)

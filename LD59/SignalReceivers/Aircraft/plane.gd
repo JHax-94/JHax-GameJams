@@ -179,8 +179,16 @@ func resolve_aircraft(_resolution: Aircraft.Resolution, _message: String):
 		print("ALERT: Double resolve on " + self.name)
 
 
-func change_altitude(change_by: float):
+func change_altitude(change_by: float, force: bool = false):
+	
+	if force == false:
+		if change_by > 0 and (self.altitude + change_by) > self.target_altitude:
+			change_by = self.target_altitude - self.altitude
+		elif change_by < 0 and (self.altitude + change_by) < self.target_altitude:
+			change_by = self.target_altitude - self.altitude
+	
 	var alt_vec = Vector2(0, -change_by)
+	
 	plane_body.translate(alt_vec)
 	self.altitude = -plane_body.position.y
 	if altitude < 0:
@@ -190,7 +198,7 @@ func change_altitude(change_by: float):
 		self.process_crash_land()
 
 func dangerous_descent_speed() -> float:
-	return 25.0
+	return 30.0
 	
 func no_fuel_crash() -> bool:
 	return self.fuel == 0
@@ -582,7 +590,7 @@ func process_no_fuel_movement(delta: float):
 	self.move_at_speed(self.speed, delta)
 	if self.altitude > 0:
 		self.descent_speed += self.gravity * delta
-		self.change_altitude(-self.descent_speed * delta)
+		self.change_altitude(-self.descent_speed * delta, true)
 
 func process_speed_change(delta: float):
 	if self.speed < self.target_speed:
@@ -601,7 +609,7 @@ func is_stalling():
 
 func process_stall(delta : float):
 	self.descent_speed += self.gravity * delta
-	self.change_altitude(-self.descent_speed * delta)
+	self.change_altitude(-self.descent_speed * delta, true)
 
 func check_stall(delta : float):
 	if self.is_stalling():

@@ -142,7 +142,7 @@ current = true
 
 [node name="ost" type="AudioStreamPlayer2D" parent="Camera2D"]
 stream = ExtResource("9_ec6g1")
-volume_db = 16.0
+volume_db = 12.0
 
 [node name="Plane" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(-154, -163)

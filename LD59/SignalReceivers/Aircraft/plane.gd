@@ -2,10 +2,11 @@ class_name Aircraft extends SignalReceiver
 
 enum Resolution {
 	CRASHED = 0,
-	LANDED = 1
+	LANDED = 1,
+	NONE = -1
 }
 
-signal aircraft_resolved(resolution : Aircraft.Resolution)
+signal aircraft_resolved(aircraft: Aircraft, resolution : Aircraft.Resolution)
 
 enum State { 
 	RANDOM = 0, 
@@ -32,6 +33,8 @@ enum ApproachState {
 	REACH_APPROACH = 3, 
 	LANDING_VECTOR = 4 
 }
+
+var resolution: Resolution = Resolution.NONE
 
 @export var random_x : Array[float] = [ -600, 600 ]
 
@@ -151,26 +154,28 @@ func update_layers():
 		self.plane_body.collision_mask = bitmask
 
 
-func resolve_aircraft(resolution: Aircraft.Resolution, message: String):
-	if message.length() > 0:
-		print(message)
-	
-	self.aircraft_resolved.emit(resolution)	
-	match resolution:
-		Resolution.CRASHED:
-			print("Oh no explode!")
-			self.plane_body.visible = false
-			self.plane_shadow.visible = false
-			self.fuel_bar.visible = false
-			self.plane_landing_indicator.visible = false
-			self.explosion_particles.emitting = true
-			self.explosion_particles.finished.connect(func(): self.queue_free())
-			self.plane_sfx.sfx("Explode").play()
-			self.set_state(State.CRASHED) 
-		Resolution.LANDED:
-			print("Bleep bloop! Plane successfully landed!")
-			self.queue_free()
-	
+func resolve_aircraft(_resolution: Aircraft.Resolution, _message: String):
+	if _message.length() > 0:
+		print(_message)
+	if self.resolution == Resolution.NONE:
+		self.resolution = _resolution
+		self.aircraft_resolved.emit(self, _resolution)	
+		match _resolution:
+			Resolution.CRASHED:
+				print("Oh no explode!")
+				self.plane_body.visible = false
+				self.plane_shadow.visible = false
+				self.fuel_bar.visible = false
+				self.plane_landing_indicator.visible = false
+				self.explosion_particles.emitting = true
+				self.explosion_particles.finished.connect(func(): self.queue_free())
+				self.plane_sfx.sfx("Explode").play()
+				self.set_state(State.CRASHED) 
+			Resolution.LANDED:
+				print("Bleep bloop! Plane successfully landed!")
+				self.queue_free()
+	else:
+		print("ALERT: Double resolve on " + self.name)
 
 
 func change_altitude(change_by: float):

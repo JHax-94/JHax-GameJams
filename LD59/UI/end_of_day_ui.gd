@@ -9,6 +9,7 @@ var grades : Array[String] = [ "S", "A", "B", "C", "D", "F" ]
 @onready var hangar_sfx: AudioStreamPlayer2D = $hangar_sfx
 
 var roster : Array[Aircraft] = []
+var resolved_roster : Array[Aircraft] = []
 
 var crashed_count:int = 0;
 var landed_count:int = 0;
@@ -27,12 +28,12 @@ func refresh_ui():
 	self.planes_landed_value.text = str(landed_count)
 	self.grade_value_value.text = self.calculate_grade()
 	
-	if crashed_count + landed_count >= roster.size():
+	if self.roster.size() == 0:
 		self.visible = true
 		SCORE_BOARD.record_score(self.airfield_root.score_key(), self.calculate_grade())
 
 
-func aircraft_resolved(resolution: Aircraft.Resolution):
+func aircraft_resolved(aircraft: Aircraft, resolution: Aircraft.Resolution):
 	match resolution:
 		Aircraft.Resolution.CRASHED:
 			crashed_count += 1
@@ -40,7 +41,13 @@ func aircraft_resolved(resolution: Aircraft.Resolution):
 			self.hangar_sfx.play()
 			landed_count += 1
 	
+	var ac_index = self.roster.find(aircraft)
+	if ac_index >= 0:
+		self.roster.remove_at(ac_index)
 	
+	var rac_index = self.resolved_roster.find(aircraft)
+	if rac_index < 0:
+		self.resolved_roster.append(aircraft)
 	
 	self.refresh_ui()
 

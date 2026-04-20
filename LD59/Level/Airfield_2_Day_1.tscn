@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bx8ti8xgpqm0b"]
+[gd_scene load_steps=13 format=3 uid="uid://bx8ti8xgpqm0b"]
 
 [ext_resource type="PackedScene" uid="uid://bdijruau2jrhr" path="res://UI/Scenes/ui_layer.tscn" id="1_5duyt"]
 [ext_resource type="Script" uid="uid://qbldch1g2g05" path="res://Level/airfield_root.gd" id="1_6dpcn"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://1pu4dhjlhhjp" path="res://SignalReceivers/Aircraft/plane.tscn" id="5_axay6"]
 [ext_resource type="Texture2D" uid="uid://chdkto4r7xsn3" path="res://Assets/Graphics/Hangar.png" id="6_bpxvr"]
 [ext_resource type="Script" uid="uid://elgk3yf04hgw" path="res://Level/Scripts/cam_controls.gd" id="6_jj5j4"]
+[ext_resource type="AudioStream" uid="uid://bmov0ccmsaxuu" path="res://Assets/music/Music.ogg" id="10_c7uv8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fik2q"]
 
@@ -298,7 +299,7 @@ wait_time = 500.0
 
 [node name="Plane12" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(426, 589)
-callsign = "B1N D4Y"
+callsign = "C2L5P"
 speed = 80.0
 altitude = 60.0
 target_position = Vector2(-600, -600)
@@ -309,6 +310,12 @@ wait_time = 500.0
 [node name="AtcCamera" type="Camera2D" parent="."]
 script = ExtResource("6_jj5j4")
 metadata/_custom_type_script = "uid://elgk3yf04hgw"
+
+[node name="ost" type="AudioStreamPlayer2D" parent="AtcCamera"]
+stream = ExtResource("10_c7uv8")
+volume_db = 12.0
+
+[node name="AudioListener2D" type="AudioListener2D" parent="AtcCamera"]
 
 [editable path="ui_layer"]
 [editable path="Runway"]

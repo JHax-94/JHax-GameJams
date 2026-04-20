@@ -15,7 +15,8 @@ func set_tutorial_step(step):
 		self.tutorial_step = step
 	
 func _ready() -> void:
-	self.set_tutorial_step(0)
+	if SETTINGS.TUTORIAL_ON:
+		self.set_tutorial_step(0)
 
 func _on_ok_button_pressed() -> void:
 	self.tut_box.visible = false

@@ -287,11 +287,12 @@ position = Vector2(-1, 16)
 shape = SubResource("RectangleShape2D_k0a2v")
 
 [node name="atc_tower" parent="." node_paths=PackedStringArray("runways") instance=ExtResource("2_sc0xr")]
-position = Vector2(0, -11)
+position = Vector2(0, -12)
 runways = [NodePath("../Runway"), NodePath("../Runway2"), NodePath("../Runway3")]
 
 [node name="Plane" parent="." instance=ExtResource("3_rf0eq")]
-position = Vector2(300, -200)
+position = Vector2(300, -199)
+callsign = "B1N D4Y"
 start_active = true
 
 [node name="Glider" parent="." instance=ExtResource("7_c6pph")]
@@ -313,7 +314,7 @@ target_position = Vector2(600, -400)
 wait_time = 120.0
 
 [node name="Glider3" parent="." instance=ExtResource("7_c6pph")]
-position = Vector2(960, 480)
+position = Vector2(960, 478)
 callsign = "NZ 02"
 altitude = 120.0
 target_position = Vector2(-600, -400)
@@ -352,7 +353,7 @@ wait_time = 460.0
 
 [node name="Plane2" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(277, -670)
-callsign = "B1N D4Y"
+callsign = "1337 A113"
 target_position = Vector2(-600, 400)
 
 [node name="WaitTimer" parent="Plane2" index="0"]

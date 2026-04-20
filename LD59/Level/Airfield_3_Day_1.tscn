@@ -33,7 +33,7 @@ atc = NodePath("../../atc_tower")
 
 [node name="end_of_day_ui" parent="ui_layer" index="2" node_paths=PackedStringArray("airfield_root")]
 airfield_root = NodePath("../..")
-grade_thresholds = Array[int]([18, 16, 12, 8, 6, 1])
+grade_thresholds = Array[int]([18, 16, 12, 8, 6, 3])
 
 [node name="Tutorial" parent="." instance=ExtResource("2_axay6")]
 tutorial_steps = Array[String](["Watch out for Gliders in this airfield!", "Gliders won't run out of fuel (they don't have any to begin with...) 

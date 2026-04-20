@@ -550,6 +550,9 @@ target_position = Vector2(600, 80)
 one_shot = true
 autostart = true
 
+[node name="UiHideTimer" type="Timer" parent="."]
+wait_time = 3.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../PlaneBody")
 libraries = {
@@ -593,7 +596,8 @@ grow_horizontal = 2
 grow_vertical = 0
 show_percentage = false
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="TrackUi" type="PanelContainer" parent="."]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -603,51 +607,52 @@ offset_right = 42.5
 offset_bottom = 124.0
 grow_horizontal = 2
 
-[node name="Vbox" type="VBoxContainer" parent="PanelContainer"]
+[node name="Vbox" type="VBoxContainer" parent="TrackUi"]
 layout_mode = 2
 
-[node name="Angle" type="HBoxContainer" parent="PanelContainer/Vbox"]
+[node name="Angle" type="HBoxContainer" parent="TrackUi/Vbox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/Vbox/Angle"]
+[node name="Label" type="Label" parent="TrackUi/Vbox/Angle"]
 layout_mode = 2
 text = "Angle: "
 
-[node name="AngleVal" type="Label" parent="PanelContainer/Vbox/Angle"]
+[node name="AngleVal" type="Label" parent="TrackUi/Vbox/Angle"]
 layout_mode = 2
 text = "0"
 
-[node name="Airspeed" type="HBoxContainer" parent="PanelContainer/Vbox"]
+[node name="Airspeed" type="HBoxContainer" parent="TrackUi/Vbox"]
 layout_mode = 2
 
-[node name="Airspeed" type="Label" parent="PanelContainer/Vbox/Airspeed"]
+[node name="Airspeed" type="Label" parent="TrackUi/Vbox/Airspeed"]
 layout_mode = 2
 text = "Airspeed:"
 
-[node name="AirspeedVal" type="Label" parent="PanelContainer/Vbox/Airspeed"]
+[node name="AirspeedVal" type="Label" parent="TrackUi/Vbox/Airspeed"]
 layout_mode = 2
 
-[node name="Alt" type="HBoxContainer" parent="PanelContainer/Vbox"]
+[node name="Alt" type="HBoxContainer" parent="TrackUi/Vbox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/Vbox/Alt"]
+[node name="Label" type="Label" parent="TrackUi/Vbox/Alt"]
 layout_mode = 2
 text = "Altitude: "
 
-[node name="AltVal" type="Label" parent="PanelContainer/Vbox/Alt"]
+[node name="AltVal" type="Label" parent="TrackUi/Vbox/Alt"]
 layout_mode = 2
 text = "0"
 
-[node name="DistLabel" type="Label" parent="PanelContainer/Vbox"]
+[node name="DistLabel" type="Label" parent="TrackUi/Vbox"]
 layout_mode = 2
 
-[node name="Status" type="Label" parent="PanelContainer/Vbox"]
+[node name="Status" type="Label" parent="TrackUi/Vbox"]
 layout_mode = 2
 
-[node name="ClearForLanding" type="Label" parent="PanelContainer/Vbox"]
+[node name="ClearForLanding" type="Label" parent="TrackUi/Vbox"]
 visible = false
 layout_mode = 2
 text = "Clear for landing!"
 
 [connection signal="timeout" from="WaitTimer" to="." method="_on_wait_timer_timeout"]
+[connection signal="timeout" from="UiHideTimer" to="." method="_on_ui_hide_timer_timeout"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

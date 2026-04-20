@@ -44,6 +44,7 @@ func _on_comms_cone_area_body_entered(body: Node2D) -> void:
 	
 	if receiver != null:
 		comms_receivers.append(receiver)
+		receiver.in_range()
 		receiver_added.emit(body)
 
 func _on_comms_cone_area_body_exited(body: Node2D) -> void:
@@ -56,4 +57,5 @@ func _on_comms_cone_area_body_exited(body: Node2D) -> void:
 	
 	if body_index >= 0:
 		comms_receivers.remove_at(body_index)
+		receiver.out_of_range()
 		receiver_removed.emit(body)

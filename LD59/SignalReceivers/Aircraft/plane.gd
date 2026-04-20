@@ -37,6 +37,8 @@ enum ApproachState {
 @export var random_y_min: float = -400.0
 @export var random_y_max: float = 400.0
 
+@export var ui_hide_time : float = 3.0
+
 const MAX_X = 500
 const MIN_X = -500
 
@@ -97,15 +99,17 @@ var taxi_node: Node2D
 
 var angle_sweep = 0.0;
 
-@onready var angle_val: Label = $PanelContainer/Vbox/Angle/AngleVal
-@onready var runway: Node2D = $"../Runway"
+@onready var track_ui: PanelContainer = $TrackUi
+@onready var angle_val: Label = $TrackUi/Vbox/Angle/AngleVal
+#@onready var runway: Node2D = $"../Runway"
 @onready var plane_render: AnimatedSprite2D = $PlaneBody/PlaneRender
-@onready var alt_val: Label = $PanelContainer/Vbox/Alt/AltVal
-@onready var dist_label: Label = $PanelContainer/Vbox/DistLabel
-@onready var airspeed_val: Label = $PanelContainer/Vbox/Airspeed/AirspeedVal
+@onready var alt_val: Label = $TrackUi/Vbox/Alt/AltVal
+@onready var dist_label: Label = $TrackUi/Vbox/DistLabel
+@onready var airspeed_val: Label = $TrackUi/Vbox/Airspeed/AirspeedVal
+@onready var ui_hide_timer: Timer = $UiHideTimer
 
-@onready var status_label: Label = $PanelContainer/Vbox/Status
-@onready var clear_for_landing_label: Label = $PanelContainer/Vbox/ClearForLanding
+@onready var status_label: Label = $TrackUi/Vbox/Status
+@onready var clear_for_landing_label: Label = $TrackUi/Vbox/ClearForLanding
 
 @onready var plane_body: CharacterBody2D = $PlaneBody
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -605,6 +609,13 @@ func new_random_target():
 	print(str(self.target_position))
 	
 
+func in_range():
+	self.track_ui.visible = true
+	self.ui_hide_timer.stop()
+	
+func out_of_range():
+	self.ui_hide_timer.start(self.ui_hide_time)
+
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	if self.state == State.RANDOM:
 		new_random_target()
@@ -614,3 +625,7 @@ func _on_wait_timer_timeout() -> void:
 	if self.state == Aircraft.State.WAIT:
 		print("Start plane: " + self.name)
 		self.state = Aircraft.State.RANDOM
+
+
+func _on_ui_hide_timer_timeout() -> void:
+	self.track_ui.visible = false

@@ -30,9 +30,8 @@ atc = NodePath("../../atc_tower")
 airfield_root = NodePath("../..")
 
 [node name="Field" type="Polygon2D" parent="."]
-position = Vector2(-223, -138)
 color = Color(1.2032688e-06, 0.5611819, 0.26315114, 1)
-polygon = PackedVector2Array(1285, -295, -691, -293, -667, 869, 1300, 874)
+polygon = PackedVector2Array(900, -900, -900, -900, -900, 900, 900, 900)
 
 [node name="Runway" parent="." instance=ExtResource("2_ln3oq")]
 position = Vector2(200, 0)
@@ -150,7 +149,7 @@ target_position = Vector2(-600, -400)
 wait_time = 60.0
 
 [node name="Plane4" parent="." instance=ExtResource("7_t8ml3")]
-position = Vector2(-300, -500)
+position = Vector2(-309, -652)
 target_position = Vector2(800, 800)
 
 [node name="WaitTimer" parent="Plane4" index="0"]

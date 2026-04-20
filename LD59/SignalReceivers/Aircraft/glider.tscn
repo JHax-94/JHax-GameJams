@@ -1,655 +1,179 @@
-[gd_scene load_steps=20 format=3 uid="uid://tqpg0w1c8ulg"]
+[gd_scene load_steps=10 format=3 uid="uid://tqpg0w1c8ulg"]
 
-[ext_resource type="Script" uid="uid://drlnw1xiutik6" path="res://SignalReceivers/Aircraft/glider.gd" id="1_nfn8i"]
-[ext_resource type="Texture2D" uid="uid://3m3uyi252414" path="res://Assets/Graphics/glider-Sheet.png" id="3_m7d0r"]
+[ext_resource type="Script" uid="uid://qbldch1g2g05" path="res://Level/airfield_root.gd" id="1_uttnr"]
+[ext_resource type="PackedScene" uid="uid://bdijruau2jrhr" path="res://UI/Scenes/ui_layer.tscn" id="2_xvhy2"]
+[ext_resource type="PackedScene" uid="uid://btahcmjcuont5" path="res://Level/Objects/runway.tscn" id="3_3wa0d"]
+[ext_resource type="Script" uid="uid://chw3t1jyj5o4c" path="res://Level/Scripts/taxi_path.gd" id="4_le80v"]
+[ext_resource type="PackedScene" uid="uid://cd5rphbxpgkdd" path="res://Level/Objects/atc_tower.tscn" id="5_3q03n"]
+[ext_resource type="Script" uid="uid://elgk3yf04hgw" path="res://Level/Scripts/cam_controls.gd" id="6_o7cj3"]
+[ext_resource type="PackedScene" uid="uid://1pu4dhjlhhjp" path="res://SignalReceivers/Aircraft/plane.tscn" id="7_r0kxc"]
 
-[sub_resource type="Animation" id="Animation_ap333"]
-resource_name = "Down"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlaneRender:flip_h")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("PlaneRender:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Down"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Down"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
+[sub_resource type="CircleShape2D" id="CircleShape2D_fik2q"]
 
-[sub_resource type="Animation" id="Animation_fik2q"]
-resource_name = "Left"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlaneRender:flip_h")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("PlaneRender:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"LeftRight"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"LeftRight"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k0a2v"]
+size = Vector2(44, 20)
 
-[sub_resource type="Animation" id="Animation_i2ndw"]
-resource_name = "LeftDown"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlaneRender:flip_h")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("PlaneRender:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagDown"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:flip_h")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:animation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagDown"]
-}
+[node name="AirfieldRoot" type="Node2D"]
+script = ExtResource("1_uttnr")
+airfield_name = "1"
+day_name = "1"
 
-[sub_resource type="Animation" id="Animation_i73y0"]
-resource_name = "LeftUp"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlaneRender:flip_h")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("PlaneRender:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagUp"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagUp"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
+[node name="ui_layer" parent="." instance=ExtResource("2_xvhy2")]
 
-[sub_resource type="Animation" id="Animation_k0a2v"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlaneRender:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"LeftRight"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("PlaneRender:flip_h")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Up"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
+[node name="atc_ui" parent="ui_layer" index="0" node_paths=PackedStringArray("atc")]
+atc = NodePath("../../atc_tower")
 
-[sub_resource type="Animation" id="Animation_n1dnx"]
-resource_name = "Right"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlaneRender:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"LeftRight"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("PlaneRender:flip_h")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:flip_h")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:animation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"LeftRight"]
-}
+[node name="signal_builder_ui" parent="ui_layer" index="1" node_paths=PackedStringArray("atc")]
+atc = NodePath("../../atc_tower")
 
-[sub_resource type="Animation" id="Animation_yffyv"]
-resource_name = "RightDown"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlaneRender:flip_h")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("PlaneRender:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagDown"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagDown"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
+[node name="end_of_day_ui" parent="ui_layer" index="2" node_paths=PackedStringArray("airfield_root")]
+airfield_root = NodePath("../..")
 
-[sub_resource type="Animation" id="Animation_f0ovx"]
-resource_name = "RightUp"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlaneRender:flip_h")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("PlaneRender:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagUp"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:flip_h")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:animation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"DiagUp"]
-}
+[node name="Field" type="Polygon2D" parent="."]
+color = Color(1.2032688e-06, 0.5611819, 0.26315114, 1)
+polygon = PackedVector2Array(900, -900, -900, -900, -900, 900, 900, 900)
 
-[sub_resource type="Animation" id="Animation_q5miy"]
-resource_name = "Up"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlaneRender:flip_h")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("PlaneRender:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Up"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlaneShadow:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Up"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../PlaneShadow:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
+[node name="Runway" parent="." instance=ExtResource("3_3wa0d")]
+position = Vector2(200, 0)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_snth5"]
-_data = {
-&"Down": SubResource("Animation_ap333"),
-&"Left": SubResource("Animation_fik2q"),
-&"LeftDown": SubResource("Animation_i2ndw"),
-&"LeftUp": SubResource("Animation_i73y0"),
-&"RESET": SubResource("Animation_k0a2v"),
-&"Right": SubResource("Animation_n1dnx"),
-&"RightDown": SubResource("Animation_yffyv"),
-&"RightUp": SubResource("Animation_f0ovx"),
-&"Up": SubResource("Animation_q5miy")
-}
+[node name="NorthApproach" parent="Runway/Approaches" index="0" node_paths=PackedStringArray("taxi_path")]
+taxi_path = NodePath("../../../Taxi/SouthTaxiPath")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nfn8i"]
-atlas = ExtResource("3_m7d0r")
-region = Rect2(64, 0, 32, 32)
+[node name="SouthApproach" parent="Runway/Approaches" index="1" node_paths=PackedStringArray("taxi_path")]
+taxi_path = NodePath("../../../Taxi/NorthTaxiPath")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_m7d0r"]
-atlas = ExtResource("3_m7d0r")
-region = Rect2(96, 0, 32, 32)
+[node name="Taxi" type="Node2D" parent="."]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_la231"]
-atlas = ExtResource("3_m7d0r")
-region = Rect2(32, 0, 32, 32)
+[node name="NorthTaxiPath" type="Node2D" parent="Taxi" node_paths=PackedStringArray("waypoints", "to_hangar")]
+script = ExtResource("4_le80v")
+waypoints = [NodePath("../Waypoints/Waypoint"), NodePath("../Waypoints/Waypoint2"), NodePath("../Waypoints/Waypoint3"), NodePath("../Waypoints/Waypoint4"), NodePath("../Waypoints/Waypoint5")]
+to_hangar = NodePath("../../Hangar/HangarArea")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_46der"]
-atlas = ExtResource("3_m7d0r")
-region = Rect2(0, 0, 32, 32)
+[node name="SouthTaxiPath" type="Node2D" parent="Taxi" node_paths=PackedStringArray("waypoints", "to_hangar")]
+script = ExtResource("4_le80v")
+waypoints = [NodePath("../Waypoints/Waypoint7"), NodePath("../Waypoints/Waypoint6"), NodePath("../Waypoints/Waypoint5"), NodePath("../Waypoints/Waypoint6")]
+to_hangar = NodePath("../../Hangar/HangarArea")
+metadata/_custom_type_script = "uid://chw3t1jyj5o4c"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_64gx8"]
-atlas = ExtResource("3_m7d0r")
-region = Rect2(128, 0, 32, 32)
+[node name="TaxiShape" type="Polygon2D" parent="Taxi"]
+color = Color(0.3019608, 0.3019608, 0.3019608, 1)
+polygon = PackedVector2Array(255, -112, 350, -108, 351, -59, 390, -59, 389, -79, 406, -80, 404, 174, 250, 180, 250, 158, 371, 154, 385, -38, 321, -37, 324, -88, 251, -90)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_5j1q8"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nfn8i")
-}],
-"loop": true,
-"name": &"DiagDown",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_m7d0r")
-}],
-"loop": true,
-"name": &"DiagUp",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_la231")
-}],
-"loop": true,
-"name": &"Down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_46der")
-}],
-"loop": true,
-"name": &"LeftRight",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_64gx8")
-}],
-"loop": true,
-"name": &"Up",
-"speed": 5.0
-}]
+[node name="Waypoints" type="Node2D" parent="Taxi"]
+position = Vector2(400, -100)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_p7p68"]
-size = Vector2(28, 8)
+[node name="Waypoint" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-202, -3)
 
-[node name="Glider" type="Node2D"]
-script = ExtResource("1_nfn8i")
-altitude = 20.0
-target_position = Vector2(600, 80)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
-[node name="WaitTimer" type="Timer" parent="."]
-one_shot = true
-autostart = true
+[node name="Waypoint2" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-64, 2)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../PlaneBody")
-libraries = {
-&"": SubResource("AnimationLibrary_snth5")
-}
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint2"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
-[node name="PlaneShadow" type="AnimatedSprite2D" parent="."]
-modulate = Color(0.16565639, 0.16565642, 0.16565636, 0.50980395)
-texture_filter = 1
-position = Vector2(0, 2)
-sprite_frames = SubResource("SpriteFrames_5j1q8")
-animation = &"Up"
+[node name="Waypoint3" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-65, 52)
 
-[node name="PlaneBody" type="CharacterBody2D" parent="."]
-motion_mode = 1
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint3"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlaneBody"]
-position = Vector2(1, 0)
-shape = SubResource("RectangleShape2D_p7p68")
+[node name="Waypoint4" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-3, 53)
 
-[node name="PlaneRender" type="AnimatedSprite2D" parent="PlaneBody"]
-texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_5j1q8")
-animation = &"LeftRight"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint4"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(4, 1)
-rect = Rect2(-16, -9, 25, 17)
+[node name="Waypoint5" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-1, -1)
 
-[node name="FuelBar" type="ProgressBar" parent="."]
-visible = false
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -17.0
-offset_right = 20.0
-offset_bottom = -12.0
-grow_horizontal = 2
-grow_vertical = 0
-show_percentage = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint5"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -42.5
-offset_top = 20.0
-offset_right = 42.5
-offset_bottom = 124.0
-grow_horizontal = 2
+[node name="Waypoint6" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-8, 261)
 
-[node name="Vbox" type="VBoxContainer" parent="PanelContainer"]
-layout_mode = 2
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint6"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
-[node name="Angle" type="HBoxContainer" parent="PanelContainer/Vbox"]
-visible = false
-layout_mode = 2
+[node name="Waypoint7" type="Area2D" parent="Taxi/Waypoints"]
+position = Vector2(-194, 267)
 
-[node name="Label" type="Label" parent="PanelContainer/Vbox/Angle"]
-layout_mode = 2
-text = "Angle: "
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint7"]
+shape = SubResource("CircleShape2D_fik2q")
+debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
-[node name="AngleVal" type="Label" parent="PanelContainer/Vbox/Angle"]
-layout_mode = 2
-text = "0"
+[node name="atc_tower" parent="." node_paths=PackedStringArray("runways") instance=ExtResource("5_3q03n")]
+runways = [NodePath("../Runway")]
 
-[node name="Airspeed" type="HBoxContainer" parent="PanelContainer/Vbox"]
-layout_mode = 2
+[node name="Hangar" type="Node2D" parent="."]
+position = Vector2(400, -100)
 
-[node name="Airspeed" type="Label" parent="PanelContainer/Vbox/Airspeed"]
-layout_mode = 2
-text = "Airspeed:"
+[node name="Polygon2D" type="Polygon2D" parent="Hangar"]
+color = Color(0.93246436, 0.49463195, 0.4307867, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 20, 20, 20, -20)
 
-[node name="AirspeedVal" type="Label" parent="PanelContainer/Vbox/Airspeed"]
-layout_mode = 2
+[node name="HangarArea" type="Area2D" parent="Hangar"]
 
-[node name="Alt" type="HBoxContainer" parent="PanelContainer/Vbox"]
-layout_mode = 2
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hangar/HangarArea"]
+position = Vector2(-1, 16)
+shape = SubResource("RectangleShape2D_k0a2v")
 
-[node name="Label" type="Label" parent="PanelContainer/Vbox/Alt"]
-layout_mode = 2
-text = "Altitude: "
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("6_o7cj3")
 
-[node name="AltVal" type="Label" parent="PanelContainer/Vbox/Alt"]
-layout_mode = 2
-text = "0"
+[node name="Plane" parent="." instance=ExtResource("7_r0kxc")]
+position = Vector2(-400, -40)
+start_active = true
 
-[node name="DistLabel" type="Label" parent="PanelContainer/Vbox"]
-layout_mode = 2
+[node name="Plane2" parent="." instance=ExtResource("7_r0kxc")]
+position = Vector2(800, 50)
+target_position = Vector2(-600, -50)
 
-[node name="Status" type="Label" parent="PanelContainer/Vbox"]
-layout_mode = 2
+[node name="WaitTimer" parent="Plane2" index="0"]
+wait_time = 30.0
 
-[node name="ClearForLanding" type="Label" parent="PanelContainer/Vbox"]
-visible = false
-layout_mode = 2
-text = "Clear for landing!"
+[node name="Plane3" parent="." instance=ExtResource("7_r0kxc")]
+position = Vector2(400, 800)
+target_position = Vector2(-600, -400)
 
-[connection signal="timeout" from="WaitTimer" to="." method="_on_wait_timer_timeout"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[node name="WaitTimer" parent="Plane3" index="0"]
+wait_time = 60.0
+
+[node name="Plane4" parent="." instance=ExtResource("7_r0kxc")]
+position = Vector2(-309, -652)
+target_position = Vector2(800, 800)
+
+[node name="WaitTimer" parent="Plane4" index="0"]
+wait_time = 90.0
+
+[node name="Plane5" parent="." instance=ExtResource("7_r0kxc")]
+position = Vector2(-800, 150)
+target_position = Vector2(800, -150)
+
+[node name="WaitTimer" parent="Plane5" index="0"]
+wait_time = 120.0
+
+[node name="Plane6" parent="." instance=ExtResource("7_r0kxc")]
+position = Vector2(800, 150)
+target_position = Vector2(-800, -150)
+
+[node name="WaitTimer" parent="Plane6" index="0"]
+wait_time = 120.0
+
+[editable path="ui_layer"]
+[editable path="Runway"]
+[editable path="Plane"]
+[editable path="Plane2"]
+[editable path="Plane3"]
+[editable path="Plane4"]
+[editable path="Plane5"]
+[editable path="Plane6"]

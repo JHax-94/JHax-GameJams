@@ -35,7 +35,8 @@ airfield_root = NodePath("../..")
 grade_thresholds = Array[int]([12, 10, 7, 4, 2, 1])
 
 [node name="Tutorial" parent="." instance=ExtResource("3_tx33q")]
-tutorial_steps = Array[String](["You'll have to make use of more Signals to deal with traffic at a busier airfield", "Use the \"Change Speed\" and \"Change Altitude\" signals to ensure aircraft are able to land safely", "Changing an aircraft's altitude can also help to keep it off a collision course with other air traffic", "The \"Holding Pattern\" Signal will tell an aircraft to circle from its current point in either a tight or wide circle", "If an aircraft is set to land but its course is no longer safe, the \"Abort\" signal will tell it to fly about aimlessly instead"])
+tutorial_steps = Array[String](["You'll have to make use of more Signals to deal with traffic at a busier airfield", "Use the \"Change Speed\" and \"Change Altitude\" signals to ensure aircraft are able to land safely", "Changing an aircraft's altitude can also help to keep it off a collision course with other air traffic", "The \"Holding Pattern\" Signal will tell an aircraft to circle from its current point in either a tight or wide circle", "If an aircraft is set to land but its course is no longer safe, the \"Abort\" signal will tell it to fly about aimlessly instead", "But beware! 
+Once an aircraft has begun its descent, it cannot be aborted!", "Aircraft travelling too fast may not line up properly with a runway, use their shadows to check their alignment and try slowing them down"])
 
 [node name="Field" type="Polygon2D" parent="."]
 color = Color(0, 0.56078434, 0.2627451, 1)
@@ -206,7 +207,7 @@ start_active = true
 
 [node name="Plane2" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(958, -228)
-callsign = "2FS-2FRS"
+callsign = "2FST-2FRS"
 speed = 80.0
 fuel = 20000.0
 altitude = 60.0

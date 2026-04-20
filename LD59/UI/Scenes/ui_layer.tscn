@@ -225,19 +225,11 @@ text = "Circle Runway: C"
 
 [node name="Landing" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Clear for Landing: L"
-
-[node name="Abort" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Abort Landing: K"
+text = "Clear To Land: L"
 
 [node name="Taxi" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Taxi: T"
-
-[node name="HoldingPattern" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Holding Pattern: H"
 
 [node name="ChangeAltitude" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -246,6 +238,14 @@ text = "Change Altitude: Y"
 [node name="ChangeSpeed" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Change Speed: V"
+
+[node name="HoldingPattern" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Holding Pattern: H"
+
+[node name="Abort" type="Label" parent="signal_builder_ui/SignalReference/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Abort Landing: K"
 
 [node name="SignalReadout" type="PanelContainer" parent="signal_builder_ui"]
 layout_mode = 1

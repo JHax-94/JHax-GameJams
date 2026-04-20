@@ -33,6 +33,7 @@ atc = NodePath("../../atc_tower")
 airfield_root = NodePath("../..")
 
 [node name="Tutorial" parent="." instance=ExtResource("3_jscds")]
+tutorial_steps = Array[String](["Use the WASD keys to move the camera", "Use the Q and E, or Left and Right Arrow Keys to turn the Air Traffic Control Signal Cone", "Use the keys from the Signals reference on the left hand side of the screen to configure the Signal", "Once you're happy with your Signal, press the Space Bar to send it to all aircraft in the Signal Cone", "The \"Circle Runway\" signal tells an aircraft they should approach a runway from a particular direction", "Once an aircraft is circling a runway, it will attempt a landing if it has received a \"Clear To Land\" signal", "Once an aircraft has landed on the runway, send it the \"Taxi\" message and it will taxi to the hangar", "Your goal is to safely guide all aircraft to the hangar before they crash or run out of fuel", "Or crash because they've run out of fuel..."])
 
 [node name="Field" type="Polygon2D" parent="."]
 position = Vector2(2, -9)

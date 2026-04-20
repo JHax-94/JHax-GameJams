@@ -80,6 +80,32 @@ offset_bottom = 132.0
 grow_horizontal = 2
 texture = ExtResource("6_fgdcb")
 
+[node name="Credits" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -214.5
+offset_top = -160.0
+offset_right = 214.5
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Credits"]
+layout_mode = 2
+theme = ExtResource("1_exbqw")
+
+[node name="Label" type="Label" parent="CanvasLayer/Credits/MarginContainer"]
+layout_mode = 2
+text = "Game by Josh Haxell
+Made in Godot 
+for 
+Ludum Dare 59
+Thanks to folks who gave me callsigns for the planes!"
+horizontal_alignment = 1
+
 [node name="Polygon2D" type="Polygon2D" parent="."]
 color = Color(0, 0.56078434, 0.2627451, 1)
 polygon = PackedVector2Array(-600, -600, -600, 600, 600, 600, 600, -600)

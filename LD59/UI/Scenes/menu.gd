@@ -1,7 +1,6 @@
 extends Control
 
 func _process(delta: float) -> void:
-	print("Menu here!")
 	if Input.is_action_just_pressed("menu"):
 		self.visible = !self.visible
 	

@@ -1,5 +1,6 @@
 class_name SignalBuilderUi extends Control
 
+@onready var signals_ui: PanelContainer = $signals_ui
 @onready var active_signal: Label = $"signals_ui/MarginContainer/Active Signal/SignalTypeGroup/ActiveSignal"
 @onready var runways_container: VBoxContainer = $params_ui/MarginContainer/params_container/runways_container
 @onready var approaches_container: VBoxContainer = $params_ui/MarginContainer/params_container/approaches_container
@@ -19,12 +20,15 @@ func _on_signal_builder_signal_type_changed(new_type: String, params: Array, cur
 		active_signal.text = "-"
 	else:
 		active_signal.text = new_type
+	self.signals_ui.hide()
+	self.signals_ui.show()
 	
 	print("Set signal readout text: " + current_signal["readout"])
 	signal_readout.text = current_signal["readout"]
 	
 	send_signal.disabled = !signal_valid
 	
+	self.params_ui.visible = params.size() > 0
 	self.runways_container.visible = false
 	self.approaches_container.visible = false
 	self.radius_container.visible = false
@@ -34,7 +38,7 @@ func _on_signal_builder_signal_type_changed(new_type: String, params: Array, cur
 	print(str(params))
 	
 	var param_i = 0
-	self.params_ui.visible = params.size() > 0
+	
 	
 	for param in params:
 		
@@ -86,9 +90,12 @@ func _on_signal_builder_signal_type_changed(new_type: String, params: Array, cur
 		param_i += 1
 	
 	for i in range(param_i, self.param_containers.size()):
+		print("Hide container: " + str(i))
 		self.param_containers[i].visible = false
 
-	
+	if(params.size() > 0):
+		self.params_ui.hide()
+		self.params_ui.show()
 
 func _on_atc_tower_atc_ready(_atc: AtcTower) -> void:
 	print("Tower ready!")

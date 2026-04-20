@@ -26,6 +26,7 @@ size_flags_vertical = 3
 script = ExtResource("1_ew085")
 
 [node name="PanelContainer" type="PanelContainer" parent="atc_ui"]
+visible = false
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -61,6 +62,7 @@ script = ExtResource("2_rt7ig")
 param_containers = [NodePath("signals_ui/MarginContainer/Active Signal/Param1Group"), NodePath("signals_ui/MarginContainer/Active Signal/Param2Group")]
 
 [node name="signals_ui" type="PanelContainer" parent="signal_builder_ui"]
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 1
 offset_left = 190.0
 offset_top = 10.0
@@ -177,13 +179,13 @@ text = "2 - Wide"
 [node name="direction_container" type="VBoxContainer" parent="signal_builder_ui/params_ui/MarginContainer/params_container"]
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="signal_builder_ui/params_ui/MarginContainer/params_container/direction_container"]
-layout_mode = 2
-
 [node name="Direction" type="Label" parent="signal_builder_ui/params_ui/MarginContainer/params_container/direction_container"]
 layout_mode = 2
 text = "Direction"
 horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="signal_builder_ui/params_ui/MarginContainer/params_container/direction_container"]
+layout_mode = 2
 
 [node name="Decrease" type="Label" parent="signal_builder_ui/params_ui/MarginContainer/params_container/direction_container"]
 layout_mode = 2
@@ -340,7 +342,7 @@ text = "S"
 layout_mode = 2
 text = "End Day"
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="compass" type="MarginContainer" parent="."]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -349,47 +351,47 @@ offset_bottom = 158.0
 grow_horizontal = 0
 theme = ExtResource("5_u7iv6")
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="compass"]
 layout_mode = 2
 columns = 3
 
-[node name="Control" type="Control" parent="MarginContainer/GridContainer"]
+[node name="Control" type="Control" parent="compass/GridContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/GridContainer"]
+[node name="Label" type="Label" parent="compass/GridContainer"]
 layout_mode = 2
 text = "N"
 horizontal_alignment = 1
 
-[node name="Control2" type="Control" parent="MarginContainer/GridContainer"]
+[node name="Control2" type="Control" parent="compass/GridContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="MarginContainer/GridContainer"]
+[node name="Label2" type="Label" parent="compass/GridContainer"]
 layout_mode = 2
 text = "
 W"
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/GridContainer"]
+[node name="TextureRect" type="TextureRect" parent="compass/GridContainer"]
 texture_filter = 1
 custom_minimum_size = Vector2(80, 104)
 layout_mode = 2
 texture = ExtResource("5_rt7ig")
 
-[node name="Label3" type="Label" parent="MarginContainer/GridContainer"]
+[node name="Label3" type="Label" parent="compass/GridContainer"]
 layout_mode = 2
 text = "
 E"
 vertical_alignment = 1
 
-[node name="Control3" type="Control" parent="MarginContainer/GridContainer"]
+[node name="Control3" type="Control" parent="compass/GridContainer"]
 layout_mode = 2
 
-[node name="Label4" type="Label" parent="MarginContainer/GridContainer"]
+[node name="Label4" type="Label" parent="compass/GridContainer"]
 layout_mode = 2
 text = "S"
 horizontal_alignment = 1
 
-[node name="Control4" type="Control" parent="MarginContainer/GridContainer"]
+[node name="Control4" type="Control" parent="compass/GridContainer"]
 layout_mode = 2
 
 [node name="menu" type="PanelContainer" parent="."]

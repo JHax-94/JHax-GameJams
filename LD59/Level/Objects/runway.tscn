@@ -71,4 +71,5 @@ hframes = 3
 
 [connection signal="body_entered" from="Approaches/NorthApproach/Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Approaches/SouthApproach/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="RunwayArea" to="." method="_on_runway_area_body_entered"]
 [connection signal="body_exited" from="RunwayArea" to="." method="_on_runway_area_body_exited"]

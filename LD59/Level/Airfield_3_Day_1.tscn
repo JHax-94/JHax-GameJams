@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bm87xffshgq3m"]
+[gd_scene load_steps=12 format=3 uid="uid://bm87xffshgq3m"]
 
 [ext_resource type="Script" uid="uid://qbldch1g2g05" path="res://Level/airfield_root.gd" id="1_bh4b1"]
 [ext_resource type="PackedScene" uid="uid://bdijruau2jrhr" path="res://UI/Scenes/ui_layer.tscn" id="1_fruut"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://1pu4dhjlhhjp" path="res://SignalReceivers/Aircraft/plane.tscn" id="3_rf0eq"]
 [ext_resource type="PackedScene" uid="uid://btahcmjcuont5" path="res://Level/Objects/runway.tscn" id="4_6vdlu"]
 [ext_resource type="Script" uid="uid://elgk3yf04hgw" path="res://Level/Scripts/cam_controls.gd" id="5_rf0eq"]
+[ext_resource type="Texture2D" uid="uid://chdkto4r7xsn3" path="res://Assets/Graphics/Hangar.png" id="6_0jwr4"]
 [ext_resource type="PackedScene" uid="uid://y4emu5m76djn" path="res://SignalReceivers/Aircraft/glider.tscn" id="7_c6pph"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fik2q"]
@@ -271,9 +272,9 @@ runways = [NodePath("../Runway"), NodePath("../Runway2"), NodePath("../Runway3")
 [node name="Hangar" type="Node2D" parent="."]
 position = Vector2(0, -290)
 
-[node name="Polygon2D" type="Polygon2D" parent="Hangar"]
-color = Color(0.93246436, 0.49463195, 0.4307867, 1)
-polygon = PackedVector2Array(-20, -20, -20, 20, 20, 20, 20, -20)
+[node name="HangarSprite" type="Sprite2D" parent="Hangar"]
+texture_filter = 1
+texture = ExtResource("6_0jwr4")
 
 [node name="HangarArea" type="Area2D" parent="Hangar"]
 

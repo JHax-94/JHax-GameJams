@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dh2olautg5vwv"]
+[gd_scene load_steps=11 format=3 uid="uid://dh2olautg5vwv"]
 
 [ext_resource type="Script" uid="uid://qbldch1g2g05" path="res://Level/airfield_root.gd" id="1_ln3oq"]
 [ext_resource type="PackedScene" uid="uid://bdijruau2jrhr" path="res://UI/Scenes/ui_layer.tscn" id="1_uxhbf"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://chw3t1jyj5o4c" path="res://Level/Scripts/taxi_path.gd" id="3_3ydck"]
 [ext_resource type="PackedScene" uid="uid://cd5rphbxpgkdd" path="res://Level/Objects/atc_tower.tscn" id="4_ec6g1"]
 [ext_resource type="Script" uid="uid://elgk3yf04hgw" path="res://Level/Scripts/cam_controls.gd" id="6_54tre"]
+[ext_resource type="Texture2D" uid="uid://chdkto4r7xsn3" path="res://Assets/Graphics/Hangar.png" id="6_ln3oq"]
 [ext_resource type="PackedScene" uid="uid://1pu4dhjlhhjp" path="res://SignalReceivers/Aircraft/plane.tscn" id="7_t8ml3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fik2q"]
@@ -117,9 +118,9 @@ runways = [NodePath("../Runway")]
 [node name="Hangar" type="Node2D" parent="."]
 position = Vector2(400, -100)
 
-[node name="Polygon2D" type="Polygon2D" parent="Hangar"]
-color = Color(0.93246436, 0.49463195, 0.4307867, 1)
-polygon = PackedVector2Array(-20, -20, -20, 20, 20, 20, 20, -20)
+[node name="HangarSprite" type="Sprite2D" parent="Hangar"]
+texture_filter = 1
+texture = ExtResource("6_ln3oq")
 
 [node name="HangarArea" type="Area2D" parent="Hangar"]
 
@@ -135,11 +136,11 @@ position = Vector2(-154, -163)
 start_active = true
 
 [node name="Plane2" parent="." instance=ExtResource("7_t8ml3")]
-position = Vector2(908, 38)
+position = Vector2(1032, -48)
 target_position = Vector2(-600, -50)
 
 [node name="WaitTimer" parent="Plane2" index="0"]
-wait_time = 30.0
+wait_time = 10.0
 
 [node name="Plane3" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(400, 800)

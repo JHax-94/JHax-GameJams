@@ -36,13 +36,24 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		aircraft.approach_reached()
 
 
+
+
 func _on_runway_area_body_exited(body: Node2D) -> void:
 	print("BODY EXITED...")
 	var aircraft = body.get_parent() as Aircraft
 
 	if aircraft != null:
 		print("BODY IS AIRCRAFT...")
+		aircraft.left_runway(self)
 		var effective_state = aircraft.effective_approach_state()
-		
 		if effective_state == Aircraft.ApproachState.LANDING_VECTOR or effective_state == Aircraft.ApproachState.MATCH_VEC:
 			aircraft.set_approach_state(Aircraft.ApproachState.MATCH_OPPOSITE_VEC)
+
+
+func _on_runway_area_body_entered(body: Node2D) -> void:
+	print("BODY EXITED...")
+	var aircraft = body.get_parent() as Aircraft
+	if aircraft != null:
+		print("BODY IS AIRCRAFT...")
+		aircraft.set_over_runway(self)
+		

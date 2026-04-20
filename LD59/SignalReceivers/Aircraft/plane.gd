@@ -100,6 +100,8 @@ var taxi_node: Node2D
 
 var angle_sweep = 0.0;
 
+var over_runway: Runway = null
+
 @onready var track_ui: PanelContainer = $TrackUi
 @onready var angle_val: Label = $TrackUi/MarginContainer/Vbox/Angle/AngleVal
 @onready var callsign_label = $TrackUi/MarginContainer/Vbox/Callsign
@@ -175,9 +177,22 @@ func change_altitude(change_by: float):
 		self.plane_body.position.y = 0
 		self.process_crash_land()
 
+func dangerous_descent_speed() -> float:
+	return 30.0
+
 func process_crash_land():
-	if abs(descent_speed) > 0:
+	var crashed :bool = false
+	if self.over_runway == null:
+		print("Null Runway!")
+		crashed = true
+	if descent_speed > self.dangerous_descent_speed():
+		print("Dangerous descent speed!")
+		print(descent_speed)
+		crashed = true
+
+	if crashed:
 		self.resolve_aircraft(Resolution.CRASHED, "CRASH LANDED")
+	
 
 func change_fuel(change_by: float):
 	self.fuel += change_by
@@ -211,7 +226,16 @@ func teleport_to_approach():
 	var approach_vec: Vector2 = self.target_runway.approach_vector(target_approach)
 	plane_body.look_at(target_approach.global_position + approach_vec)
 	self.set_state(Aircraft.State.NONE)
+
+func set_over_runway(runway: Runway):
+	print(self.name + " over runway " + runway.name)
+	self.over_runway = runway
 	
+func left_runway(runway: Runway):
+	print(self.name + " no longer over runway " + runway.name)
+	self.over_runway = null
+	if self.altitude <= 0:
+		self.resolve_aircraft(Resolution.CRASHED, "OVERRAN RUNWAY!")
 	
 func clamp_to_turn_speed(angle, delta) -> float:
 	if angle > delta * self.turn_speed:
@@ -529,8 +553,9 @@ func move_at_speed(_speed: float, delta: float):
 func process_no_fuel_movement(delta: float):
 	self.speed += self.air_braking(delta)
 	self.move_at_speed(self.speed, delta)
-	self.descent_speed += self.gravity * delta
-	self.change_altitude(-self.descent_speed * delta)
+	if self.altitude > 0:
+		self.descent_speed += self.gravity * delta
+		self.change_altitude(-self.descent_speed * delta)
 
 func process_speed_change(delta: float):
 	if self.speed < self.target_speed:
@@ -545,6 +570,7 @@ func process_controlled_altitude_change(delta: float):
 		self.change_altitude(self.air_braking(delta))
 
 func process_standard_movement(delta: float):
+	
 	if fuel > 0:
 		self.move_at_speed(self.speed, delta)
 		self.change_fuel(-self.speed * delta)
@@ -556,8 +582,14 @@ func process_standard_movement(delta: float):
 		
 	else:
 		self.process_no_fuel_movement(delta)
-		
-
+	
+	if self.altitude > 0:
+		if self.speed < self.min_flying_speed:
+			self.descent_speed += self.gravity * delta
+			self.change_altitude(-self.descent_speed * delta)
+	
+	
+	
 func process_holding(delta):
 	var angle_base = self.turn_speed
 	
@@ -583,7 +615,7 @@ func _process(delta: float) -> void:
 				if self.altitude > 0:
 					self.speed += self.air_braking(delta)
 				else:
-					print("BRAKES!")
+					#print("BRAKES!")
 					self.speed += self.land_braking(delta)
 					
 				if self.speed < 0:

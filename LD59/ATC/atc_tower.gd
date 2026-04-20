@@ -5,6 +5,7 @@ signal receiver_removed(body: Node2D)
 signal atc_ready(atcTower: AtcTower)
 
 @onready var runway: Runway = $"../Runway"
+@onready var signal_sprite: AnimatedSprite2D = $Signal_sprite
 
 @export var runways: Array[Runway]
 
@@ -19,11 +20,14 @@ var rotate_speed: float = 2.0
 func _ready() -> void:
 	self.signal_builder.atc_tower = self as AtcTower
 	self.atc_ready.emit(self as AtcTower)
+	self.signal_sprite.visible = false
 
 func send_message():
 	var message = self.signal_builder.get_message()
 	
 	if message != null:
+		self.signal_sprite.visible = true
+		self.signal_sprite.play()
 		for receiver in comms_receivers:
 			receiver.message(message)
 		self.signal_builder.clear_signal()
@@ -59,3 +63,9 @@ func _on_comms_cone_area_body_exited(body: Node2D) -> void:
 		comms_receivers.remove_at(body_index)
 		receiver.out_of_range()
 		receiver_removed.emit(body)
+
+func _on_signal_sprite_animation_looped() -> void:
+	print("looped!")
+	self.signal_sprite.stop()
+	self.signal_sprite.visible = false
+	

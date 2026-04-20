@@ -1,9 +1,10 @@
-[gd_scene load_steps=29 format=3 uid="uid://1pu4dhjlhhjp"]
+[gd_scene load_steps=37 format=3 uid="uid://1pu4dhjlhhjp"]
 
 [ext_resource type="Script" uid="uid://jh1l7cet1q5l" path="res://SignalReceivers/Aircraft/plane.gd" id="1_e14j0"]
 [ext_resource type="Texture2D" uid="uid://bol8n45tm7sew" path="res://Assets/Graphics/Plane-Sheet.png" id="2_tx3ug"]
 [ext_resource type="Texture2D" uid="uid://dawkx006hny06" path="res://Assets/Graphics/LandingIndicator-Sheet.png" id="3_bmnsk"]
 [ext_resource type="PackedScene" uid="uid://dghtv2pj5s0mj" path="res://SignalReceivers/Aircraft/track_ui.tscn" id="3_tx3ug"]
+[ext_resource type="Texture2D" uid="uid://xoykawoqs1nw" path="res://Assets/Graphics/ReceivedSprite-Sheet.png" id="4_0ms0e"]
 [ext_resource type="Theme" uid="uid://dn1xrv6khlr8h" path="res://UI/game_theme.tres" id="4_t3hrk"]
 
 [sub_resource type="Animation" id="Animation_ap333"]
@@ -566,6 +567,56 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_17ulw"]
+atlas = ExtResource("4_0ms0e")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kd13h"]
+atlas = ExtResource("4_0ms0e")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ogu46"]
+atlas = ExtResource("4_0ms0e")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdrsk"]
+atlas = ExtResource("4_0ms0e")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rp833"]
+atlas = ExtResource("4_0ms0e")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m574v"]
+atlas = ExtResource("4_0ms0e")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dg2ql"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_17ulw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kd13h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ogu46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdrsk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rp833")
+}, {
+"duration": 12.0,
+"texture": SubResource("AtlasTexture_m574v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="Curve" id="Curve_t3hrk"]
 _limits = [0.0, 1.0, -2.2351741e-10, 1.0]
 _data = [Vector2(0.0064393934, 1), 0.0, 0.0, 0, 0, Vector2(0.37878788, 0.7191012), 0.0, 0.0, 0, 0, Vector2(1, 0.06741583), 0.0, 0.0, 0, 0]
@@ -634,7 +685,15 @@ visible = false
 texture_filter = 1
 position = Vector2(-36, 40)
 sprite_frames = SubResource("SpriteFrames_0ms0e")
-frame_progress = 0.85889035
+frame_progress = 0.8674546
+
+[node name="MessageReceived" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(34, -20)
+sprite_frames = SubResource("SpriteFrames_dg2ql")
+frame_progress = 0.2855386
+speed_scale = 2.0
 
 [node name="FuelBar" type="ProgressBar" parent="."]
 anchors_preset = 7
@@ -665,3 +724,4 @@ process_material = SubResource("ParticleProcessMaterial_t3hrk")
 [connection signal="timeout" from="WaitTimer" to="." method="_on_wait_timer_timeout"]
 [connection signal="timeout" from="UiHideTimer" to="." method="_on_ui_hide_timer_timeout"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="animation_looped" from="MessageReceived" to="." method="_on_message_received_animation_looped"]

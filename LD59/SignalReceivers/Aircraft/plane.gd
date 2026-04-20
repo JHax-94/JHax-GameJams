@@ -121,6 +121,7 @@ var over_runway: Runway = null
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var fuel_bar: ProgressBar = $FuelBar
 @onready var explosion_particles: GPUParticles2D = $ExplosionParticles
+@onready var message_received: AnimatedSprite2D = $MessageReceived
 
 var anims: Array = []
 var anim_index :int = 0
@@ -234,7 +235,7 @@ func set_over_runway(runway: Runway):
 func left_runway(runway: Runway):
 	print(self.name + " no longer over runway " + runway.name)
 	self.over_runway = null
-	if self.altitude <= 0:
+	if self.altitude <= 0 and self.state != State.TAXIING:
 		self.resolve_aircraft(Resolution.CRASHED, "OVERRAN RUNWAY!")
 	
 func clamp_to_turn_speed(angle, delta) -> float:
@@ -269,6 +270,10 @@ func set_clear_for_landing(_clear_for_landing: bool):
 	self.clear_for_landing = _clear_for_landing
 	self.update_indicator_visibility()
 
+func acknowledge_message():
+	self.message_received.visible = true
+	self.message_received.play()
+
 func message(message_data: Message):
 	print("Aircraft " + self.callsign + " receiving message: " + message_data.description)
 	if self.state != State.CRASHED:
@@ -276,10 +281,11 @@ func message(message_data: Message):
 			match message_data.type:
 				Message.Type.ABORT:
 					self.set_state(Aircraft.State.RANDOM)
-					self.set_clear_for_landing(true)
+					self.set_clear_for_landing(false)
 					if self.target_altitude < self.min_flying_altitude:
 						self.target_altitude = self.min_flying_altitude
 					self.new_random_target()
+					self.acknowledge_message()
 
 		if self.in_state(self.LANDED_OR_LANDING_STATES) == false:
 			match message_data.type:
@@ -289,25 +295,30 @@ func message(message_data: Message):
 					target_runway = approachMessage.runway
 					self.set_state(Aircraft.State.APPROACH)
 					self.set_approach_state(ApproachState.ENSURE_DISTANCE)
+					self.acknowledge_message()
 				Message.Type.CLEAR_FOR_LANDING:
 					self.set_clear_for_landing(true)
+					self.acknowledge_message()
 				Message.Type.HOLDING_PATTERN:
 					var holding_message = message_data as HoldingPatternMessage
 					self.set_state(Aircraft.State.HOLDING)
 					self.holding_pattern_radius = holding_message.radius
 					self.holding_direction = self.random_sign()
+					self.acknowledge_message()
 				Message.Type.CHANGE_ALTITUDE:
 					var change_alt = message_data as ChangeAltitudeMessage
 					if change_alt.direction == Message.Direction.INCREASE:
 						self.change_target_altitude(self.altitude_increment)
 					else:
 						self.change_target_altitude(-self.altitude_increment)
+					self.acknowledge_message()
 				Message.Type.CHANGE_SPEED:
 					var change_speed_message = message_data as ChangeSpeedMessage
 					if change_speed_message.direction == Message.Direction.INCREASE:
 						self.change_target_speed(self.speed_increment)
 					else:
 						self.change_target_speed(-self.speed_increment)
+					self.acknowledge_message()
 
 		if self.in_state([ State.IDLE ]):
 			match message_data.type:
@@ -317,6 +328,7 @@ func message(message_data: Message):
 					self.follow_taxi_path.node_reached.connect(taxi_node_reached)
 					self.follow_taxi_path.hangar_reached.connect(hangar_reached)
 					self.set_state(State.TAXIING)
+					self.acknowledge_message()
 
 func change_target_altitude(change_by: float):
 	self.target_altitude += change_by
@@ -644,7 +656,7 @@ func lock_rotations():
 	self.fuel_bar.position.y = -20 - self.altitude
 	self.plane_landing_indicator.position.y = -18 -self.altitude
 	self.track_ui.position.y = 20 - self.altitude
-	
+	self.message_received.position.y = -22 - self.altitude
 
 func approach_reached():
 	print("Approach reached!")
@@ -705,3 +717,8 @@ func _on_wait_timer_timeout() -> void:
 
 func _on_ui_hide_timer_timeout() -> void:
 	self.track_ui.visible = false
+
+
+func _on_message_received_animation_looped() -> void:
+	self.message_received.visible = false
+	self.message_received.stop()

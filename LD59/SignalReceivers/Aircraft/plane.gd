@@ -163,6 +163,7 @@ func resolve_aircraft(_resolution: Aircraft.Resolution, _message: String):
 		match _resolution:
 			Resolution.CRASHED:
 				print("Oh no explode!")
+				self.explosion_particles.global_position = self.plane_body.global_position
 				self.plane_body.visible = false
 				self.plane_shadow.visible = false
 				self.fuel_bar.visible = false
@@ -183,19 +184,23 @@ func change_altitude(change_by: float):
 	plane_body.translate(alt_vec)
 	self.altitude = -plane_body.position.y
 	if altitude < 0:
+		#print("Touchdown with descent speed = " + str(roundi(self.descent_speed)))
 		self.altitude = 0
 		self.plane_body.position.y = 0
 		self.process_crash_land()
 
 func dangerous_descent_speed() -> float:
-	return 30.0
+	return 25.0
+	
+func no_fuel_crash() -> bool:
+	return self.fuel == 0
 
 func process_crash_land():
 	var crashed :bool = false
 	if self.over_runway == null:
 		print("Null Runway!")
 		crashed = true
-	if descent_speed > self.dangerous_descent_speed():
+	elif descent_speed > self.dangerous_descent_speed():
 		print("Dangerous descent speed!")
 		print(descent_speed)
 		crashed = true
@@ -591,6 +596,17 @@ func process_controlled_altitude_change(delta: float):
 	elif altitude > target_altitude:
 		self.change_altitude(self.air_braking(delta))
 
+func is_stalling():
+	return self.speed < self.min_flying_speed
+
+func process_stall(delta : float):
+	self.descent_speed += self.gravity * delta
+	self.change_altitude(-self.descent_speed * delta)
+
+func check_stall(delta : float):
+	if self.is_stalling():
+		self.process_stall(delta)
+
 func process_standard_movement(delta: float):
 	
 	if fuel > 0:
@@ -606,9 +622,7 @@ func process_standard_movement(delta: float):
 		self.process_no_fuel_movement(delta)
 	
 	if self.altitude > 0:
-		if self.speed < self.min_flying_speed:
-			self.descent_speed += self.gravity * delta
-			self.change_altitude(-self.descent_speed * delta)
+		self.check_stall(delta)
 	
 	
 	
@@ -724,7 +738,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 func _on_wait_timer_timeout() -> void:
 	print("Wait timer timeout on " + self.name)
 	if self.state == Aircraft.State.WAIT:
-		print("Start plane: " + self.name)
+		print("=== Start plane: " + self.name + " ===")
 		self.set_state(Aircraft.State.RANDOM)
 
 

@@ -33,6 +33,7 @@ atc = NodePath("../../atc_tower")
 
 [node name="end_of_day_ui" parent="ui_layer" index="2" node_paths=PackedStringArray("airfield_root")]
 airfield_root = NodePath("../..")
+grade_thresholds = Array[int]([18, 16, 12, 8, 6, 1])
 
 [node name="Tutorial" parent="." instance=ExtResource("2_axay6")]
 tutorial_steps = Array[String](["Watch out for Gliders in this airfield!", "Gliders won't run out of fuel (they don't have any to begin with...) 
@@ -295,13 +296,16 @@ start_active = true
 
 [node name="Glider" parent="." instance=ExtResource("7_c6pph")]
 position = Vector2(-1000, -400)
+callsign = "Z3R0 N-GIN"
 altitude = 80.0
+target_position = Vector2(600, 600)
 
 [node name="WaitTimer" parent="Glider" index="0"]
 wait_time = 10.0
 
 [node name="Glider2" parent="." instance=ExtResource("7_c6pph")]
 position = Vector2(-1200, 500)
+callsign = "BTTR FLY"
 altitude = 100.0
 target_position = Vector2(600, -400)
 
@@ -310,6 +314,7 @@ wait_time = 120.0
 
 [node name="Glider3" parent="." instance=ExtResource("7_c6pph")]
 position = Vector2(960, 480)
+callsign = "NZ 02"
 altitude = 120.0
 target_position = Vector2(-600, -400)
 
@@ -318,14 +323,16 @@ wait_time = 160.0
 
 [node name="Glider4" parent="." instance=ExtResource("7_c6pph")]
 position = Vector2(-250, -800)
+callsign = "UP DRFT"
 altitude = 120.0
 target_position = Vector2(600, 400)
 
 [node name="WaitTimer" parent="Glider4" index="0"]
-wait_time = 160.0
+wait_time = 300.0
 
 [node name="Glider5" parent="." instance=ExtResource("7_c6pph")]
 position = Vector2(1400, 850)
+callsign = "HLL VT0R"
 speed = 80.0
 altitude = 120.0
 target_position = Vector2(-600, -400)
@@ -335,6 +342,7 @@ wait_time = 420.0
 
 [node name="Glider6" parent="." instance=ExtResource("7_c6pph")]
 position = Vector2(-1450, -300)
+callsign = "D5-D0"
 speed = 80.0
 altitude = 120.0
 target_position = Vector2(600, -400)
@@ -344,6 +352,7 @@ wait_time = 460.0
 
 [node name="Plane2" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(277, -670)
+callsign = "B1N D4Y"
 target_position = Vector2(-600, 400)
 
 [node name="WaitTimer" parent="Plane2" index="0"]
@@ -351,101 +360,114 @@ wait_time = 30.0
 
 [node name="Plane3" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(904, 345)
+callsign = "GLP SHTT0"
 speed = 60.0
 altitude = 40.0
 target_position = Vector2(-600, 300)
 
 [node name="WaitTimer" parent="Plane3" index="0"]
-wait_time = 30.0
+wait_time = 60.0
 
 [node name="Plane4" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(-570, 803)
+callsign = "GSTR0 N0RF"
 speed = 100.0
+fuel = 20000.0
 altitude = 120.0
 target_position = Vector2(600, -300)
 
 [node name="WaitTimer" parent="Plane4" index="0"]
-wait_time = 80.0
+wait_time = 90.0
 
 [node name="Plane5" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(967, -688)
+callsign = "WGL-E WRM"
 speed = 100.0
 max_speed = 60.0
+fuel = 20000.0
 altitude = 90.0
 target_position = Vector2(-600, 200)
 
 [node name="WaitTimer" parent="Plane5" index="0"]
-wait_time = 100.0
+wait_time = 320.0
 
 [node name="Plane6" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(476, 670)
+callsign = "SPN WZRD"
 speed = 90.0
 max_speed = 60.0
+fuel = 20000.0
 altitude = 70.0
 target_position = Vector2(-600, -199)
 
 [node name="WaitTimer" parent="Plane6" index="0"]
-wait_time = 120.0
+wait_time = 480.0
 
 [node name="Plane7" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(1396, -249)
+callsign = "RVR HRD"
 speed = 30.0
 max_speed = 60.0
 altitude = 120.0
 target_position = Vector2(-600, 200)
 
 [node name="WaitTimer" parent="Plane7" index="0"]
-wait_time = 200.0
+wait_time = 180.0
 
 [node name="Plane8" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(-1272, -767)
+callsign = "A0-AMP"
 speed = 60.0
 max_speed = 60.0
 altitude = 60.0
 target_position = Vector2(600, 600)
 
 [node name="WaitTimer" parent="Plane8" index="0"]
-wait_time = 230.0
+wait_time = 380.0
 
 [node name="Plane9" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(-112, -867)
+callsign = "PRL W5DM"
 speed = 40.0
 max_speed = 60.0
 altitude = 70.0
 target_position = Vector2(600, 600)
 
 [node name="WaitTimer" parent="Plane9" index="0"]
-wait_time = 280.0
+wait_time = 460.0
 
 [node name="Plane10" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(1020, 1)
+callsign = "RT0 SHFT"
 speed = 40.0
 max_speed = 60.0
 altitude = 110.0
 target_position = Vector2(-600, 0)
 
 [node name="WaitTimer" parent="Plane10" index="0"]
-wait_time = 360.0
+wait_time = 520.0
 
 [node name="Plane11" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(-1005, -7)
+callsign = "HU3 DNT"
 speed = 40.0
 max_speed = 60.0
 altitude = 110.0
 target_position = Vector2(600, 0)
 
 [node name="WaitTimer" parent="Plane11" index="0"]
-wait_time = 360.0
+wait_time = 600.0
 
 [node name="Plane12" parent="." instance=ExtResource("3_rf0eq")]
 position = Vector2(-59, 922)
+callsign = "HL3 CNFM"
 speed = 40.0
 max_speed = 60.0
 altitude = 110.0
 target_position = Vector2(600, -400)
 
 [node name="WaitTimer" parent="Plane12" index="0"]
-wait_time = 400.0
+wait_time = 600.0
 
 [node name="AtcCamera" type="Camera2D" parent="."]
 script = ExtResource("5_rf0eq")

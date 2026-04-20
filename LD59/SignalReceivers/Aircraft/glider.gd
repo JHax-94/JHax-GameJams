@@ -25,7 +25,11 @@ func process_crash_land():
 func process_no_fuel_movement(delta: float):
 	self.move_at_speed(self.speed, delta)
 	
-	self.descent_speed = self.gravity / self.speed
+	if self.altitude > 0:
+		if self.is_stalling():
+			self.process_stall(delta)
+		else:
+			self.descent_speed = 1.5 * self.gravity / self.speed
 	
 	if self.state != State.LANDING:
 		self.process_speed_change(delta)
@@ -33,3 +37,5 @@ func process_no_fuel_movement(delta: float):
 		self.process_controlled_altitude_change(delta)
 	else:
 		self.process_controlled_altitude_change(delta)
+		
+	

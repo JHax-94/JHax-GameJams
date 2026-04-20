@@ -131,6 +131,9 @@ shape = SubResource("RectangleShape2D_k0a2v")
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("6_54tre")
 
+[node name="AudioListener2D" type="AudioListener2D" parent="Camera2D"]
+current = true
+
 [node name="Plane" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(-154, -163)
 start_active = true

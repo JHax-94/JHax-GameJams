@@ -6,6 +6,7 @@ var grades : Array[String] = [ "S", "A", "B", "C", "D", "F" ]
 @onready var planes_landed_value: Label = $VBoxContainer/PlanesLanded/Value
 @onready var planes_crashed_value: Label = $VBoxContainer/PlanesCrashed/Value
 @onready var grade_value_value: Label = $VBoxContainer/Grade/Value
+@onready var hangar_sfx: AudioStreamPlayer2D = $hangar_sfx
 
 var roster : Array[Aircraft] = []
 
@@ -36,7 +37,10 @@ func aircraft_resolved(resolution: Aircraft.Resolution):
 		Aircraft.Resolution.CRASHED:
 			crashed_count += 1
 		Aircraft.Resolution.LANDED:
+			self.hangar_sfx.play()
 			landed_count += 1
+	
+	
 	
 	self.refresh_ui()
 

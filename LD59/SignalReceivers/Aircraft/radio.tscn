@@ -1,0 +1,21 @@
+[gd_scene load_steps=7 format=3 uid="uid://dt72aucan53d7"]
+
+[ext_resource type="Script" uid="uid://uolysg54cfy4" path="res://SignalReceivers/Aircraft/radio.gd" id="1_2bng3"]
+[ext_resource type="AudioStream" uid="uid://c77v4rpdfro5y" path="res://Assets/sfx/voice/vo1.ogg" id="2_jngfn"]
+[ext_resource type="AudioStream" uid="uid://ch2q4o5qws7k2" path="res://Assets/sfx/voice/vo2.ogg" id="3_78ug2"]
+[ext_resource type="AudioStream" uid="uid://m2fjhcwdtmg2" path="res://Assets/sfx/voice/vo3.ogg" id="4_ngnin"]
+[ext_resource type="AudioStream" uid="uid://qvakq4j6x8ja" path="res://Assets/sfx/voice/vo4.ogg" id="5_ur4v1"]
+[ext_resource type="AudioStream" uid="uid://b3y84pkmilo8f" path="res://Assets/sfx/voice/vo5.ogg" id="6_06jsa"]
+
+[node name="Radio" type="Node2D"]
+script = ExtResource("1_2bng3")
+audio_files = Array[AudioStreamOggVorbis]([ExtResource("2_jngfn"), ExtResource("3_78ug2"), ExtResource("4_ngnin"), ExtResource("5_ur4v1"), ExtResource("6_06jsa")])
+
+[node name="AudioDelay" type="Timer" parent="."]
+wait_time = 0.8
+one_shot = true
+
+[node name="RadioPlayer" type="AudioStreamPlayer2D" parent="."]
+volume_db = 8.0
+
+[connection signal="timeout" from="AudioDelay" to="." method="_on_audio_delay_timeout"]

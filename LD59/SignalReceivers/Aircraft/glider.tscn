@@ -1,10 +1,12 @@
-[gd_scene load_steps=36 format=3 uid="uid://y4emu5m76djn"]
+[gd_scene load_steps=38 format=3 uid="uid://y4emu5m76djn"]
 
 [ext_resource type="Script" uid="uid://drlnw1xiutik6" path="res://SignalReceivers/Aircraft/glider.gd" id="1_la231"]
 [ext_resource type="PackedScene" uid="uid://dghtv2pj5s0mj" path="res://SignalReceivers/Aircraft/track_ui.tscn" id="3_46der"]
 [ext_resource type="Texture2D" uid="uid://3m3uyi252414" path="res://Assets/Graphics/glider-Sheet.png" id="3_m7d0r"]
 [ext_resource type="Texture2D" uid="uid://dawkx006hny06" path="res://Assets/Graphics/LandingIndicator-Sheet.png" id="4_46der"]
 [ext_resource type="Texture2D" uid="uid://xoykawoqs1nw" path="res://Assets/Graphics/ReceivedSprite-Sheet.png" id="4_la231"]
+[ext_resource type="PackedScene" uid="uid://ctq3ig5cjtq37" path="res://SignalReceivers/Aircraft/plane_sfx.tscn" id="6_uttnr"]
+[ext_resource type="PackedScene" uid="uid://dt72aucan53d7" path="res://SignalReceivers/Aircraft/radio.tscn" id="7_xvhy2"]
 
 [sub_resource type="Animation" id="Animation_ap333"]
 resource_name = "Down"
@@ -715,6 +717,10 @@ lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_la231")
+
+[node name="PlaneSfx" parent="." instance=ExtResource("6_uttnr")]
+
+[node name="Radio" parent="." instance=ExtResource("7_xvhy2")]
 
 [connection signal="timeout" from="WaitTimer" to="." method="_on_wait_timer_timeout"]
 [connection signal="timeout" from="UiHideTimer" to="." method="_on_ui_hide_timer_timeout"]

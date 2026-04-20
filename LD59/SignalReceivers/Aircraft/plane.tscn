@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://1pu4dhjlhhjp"]
+[gd_scene load_steps=39 format=3 uid="uid://1pu4dhjlhhjp"]
 
 [ext_resource type="Script" uid="uid://jh1l7cet1q5l" path="res://SignalReceivers/Aircraft/plane.gd" id="1_e14j0"]
 [ext_resource type="Texture2D" uid="uid://bol8n45tm7sew" path="res://Assets/Graphics/Plane-Sheet.png" id="2_tx3ug"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://dghtv2pj5s0mj" path="res://SignalReceivers/Aircraft/track_ui.tscn" id="3_tx3ug"]
 [ext_resource type="Texture2D" uid="uid://xoykawoqs1nw" path="res://Assets/Graphics/ReceivedSprite-Sheet.png" id="4_0ms0e"]
 [ext_resource type="Theme" uid="uid://dn1xrv6khlr8h" path="res://UI/game_theme.tres" id="4_t3hrk"]
+[ext_resource type="PackedScene" uid="uid://ctq3ig5cjtq37" path="res://SignalReceivers/Aircraft/plane_sfx.tscn" id="7_17ulw"]
+[ext_resource type="PackedScene" uid="uid://dt72aucan53d7" path="res://SignalReceivers/Aircraft/radio.tscn" id="8_kd13h"]
 
 [sub_resource type="Animation" id="Animation_ap333"]
 resource_name = "Down"
@@ -685,14 +687,14 @@ visible = false
 texture_filter = 1
 position = Vector2(-36, 40)
 sprite_frames = SubResource("SpriteFrames_0ms0e")
-frame_progress = 0.8674546
+frame_progress = 0.8217999
 
 [node name="MessageReceived" type="AnimatedSprite2D" parent="."]
 visible = false
 texture_filter = 1
 position = Vector2(34, -20)
 sprite_frames = SubResource("SpriteFrames_dg2ql")
-frame_progress = 0.2855386
+frame_progress = 0.26394445
 speed_scale = 2.0
 
 [node name="FuelBar" type="ProgressBar" parent="."]
@@ -720,6 +722,10 @@ lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_t3hrk")
+
+[node name="PlaneSfx" parent="." instance=ExtResource("7_17ulw")]
+
+[node name="Radio" parent="." instance=ExtResource("8_kd13h")]
 
 [connection signal="timeout" from="WaitTimer" to="." method="_on_wait_timer_timeout"]
 [connection signal="timeout" from="UiHideTimer" to="." method="_on_ui_hide_timer_timeout"]

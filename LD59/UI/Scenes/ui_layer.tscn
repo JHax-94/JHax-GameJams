@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bdijruau2jrhr"]
+[gd_scene load_steps=9 format=3 uid="uid://bdijruau2jrhr"]
 
 [ext_resource type="Script" uid="uid://8wq2v5walx8n" path="res://UI/atc_ui.gd" id="1_ew085"]
 [ext_resource type="Script" uid="uid://dn621klho2v43" path="res://Level/Scripts/signal_builder_ui.gd" id="2_rt7ig"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dnid74qkr842d" path="res://UI/end_of_day_ui.gd" id="4_ts03k"]
 [ext_resource type="Texture2D" uid="uid://befxp8wykd6r6" path="res://Assets/Graphics/Compass.png" id="5_rt7ig"]
 [ext_resource type="Theme" uid="uid://dn1xrv6khlr8h" path="res://UI/game_theme.tres" id="5_u7iv6"]
+[ext_resource type="AudioStream" uid="uid://cxq0qqup3yedu" path="res://Assets/sfx/bfxr/Plane_Hangar.ogg" id="6_ts03k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7iv6"]
 bg_color = Color(1, 1, 1, 1)
@@ -285,6 +286,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_ts03k")
 grade_thresholds = Array[int]([6, 5, 4, 3, 2, 1])
+
+[node name="hangar_sfx" type="AudioStreamPlayer2D" parent="end_of_day_ui"]
+stream = ExtResource("6_ts03k")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="end_of_day_ui"]
 layout_mode = 2

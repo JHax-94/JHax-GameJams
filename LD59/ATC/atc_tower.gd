@@ -8,6 +8,7 @@ signal atc_ready(atcTower: AtcTower)
 @onready var signal_sprite: AnimatedSprite2D = $Signal_sprite
 
 @export var runways: Array[Runway]
+@onready var signal_sfx: AudioStreamPlayer2D = $signal_sfx
 
 var comms_receivers: Array[SignalReceiver] = []
 
@@ -28,6 +29,7 @@ func send_message():
 	if message != null:
 		self.signal_sprite.visible = true
 		self.signal_sprite.play()
+		self.signal_sfx.play()
 		for receiver in comms_receivers:
 			receiver.message(message)
 		self.signal_builder.clear_signal()

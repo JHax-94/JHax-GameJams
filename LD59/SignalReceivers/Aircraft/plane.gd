@@ -122,6 +122,8 @@ var over_runway: Runway = null
 @onready var fuel_bar: ProgressBar = $FuelBar
 @onready var explosion_particles: GPUParticles2D = $ExplosionParticles
 @onready var message_received: AnimatedSprite2D = $MessageReceived
+@onready var plane_sfx: PlaneSfx = $PlaneSfx
+@onready var radio: Radio = $Radio
 
 var anims: Array = []
 var anim_index :int = 0
@@ -148,6 +150,7 @@ func update_layers():
 		self.plane_body.collision_layer = bitmask
 		self.plane_body.collision_mask = bitmask
 
+
 func resolve_aircraft(resolution: Aircraft.Resolution, message: String):
 	if message.length() > 0:
 		print(message)
@@ -162,6 +165,7 @@ func resolve_aircraft(resolution: Aircraft.Resolution, message: String):
 			self.plane_landing_indicator.visible = false
 			self.explosion_particles.emitting = true
 			self.explosion_particles.finished.connect(func(): self.queue_free())
+			self.plane_sfx.sfx("Explode").play()
 			self.set_state(State.CRASHED) 
 		Resolution.LANDED:
 			print("Bleep bloop! Plane successfully landed!")
@@ -273,6 +277,7 @@ func set_clear_for_landing(_clear_for_landing: bool):
 func acknowledge_message():
 	self.message_received.visible = true
 	self.message_received.play()
+	self.radio.message_received()
 
 func message(message_data: Message):
 	print("Aircraft " + self.callsign + " receiving message: " + message_data.description)
@@ -628,6 +633,9 @@ func _process(delta: float) -> void:
 					self.speed += self.air_braking(delta)
 				else:
 					#print("BRAKES!")
+					if self.plane_sfx.sfx("Brake").playing == false:
+						self.plane_sfx.sfx("Brake").play()
+						
 					self.speed += self.land_braking(delta)
 					
 				if self.speed < 0:

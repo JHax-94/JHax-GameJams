@@ -72,11 +72,11 @@ position = Vector2(389, -97)
 
 [node name="RunwayShape_1" type="Polygon2D" parent="Taxi"]
 color = Color(0.3019608, 0.3019608, 0.3019608, 1)
-polygon = PackedVector2Array(-209, 246, -162, 246, -162, 184, -75, 185, -80, 16, -100, 16, -100, 67, -159, 66, -160, -158, -491, -161, -490, -130, -205, -130, -203, 139, -488, 140, -488, 169, -206, 172)
+polygon = PackedVector2Array(-210, 250, -160, 250, -160, 180, -75, 180, -75, 16, -105, 16, -105, 65, -160, 65, -160, -160, -490, -160, -490, -130, -205, -130, -205, 140, -488, 140, -488, 180, -210, 180)
 
 [node name="RunwayShape_2" type="Polygon2D" parent="Taxi"]
 color = Color(0.3019608, 0.3019608, 0.3019608, 1)
-polygon = PackedVector2Array(-409, 246, -409, 170, -376, 170, -376, 248)
+polygon = PackedVector2Array(-410, 250, -410, 160, -375, 160, -375, 250)
 
 [node name="NorthTaxiPath" type="Node2D" parent="Taxi" node_paths=PackedStringArray("waypoints", "to_hangar")]
 script = ExtResource("3_c6pph")

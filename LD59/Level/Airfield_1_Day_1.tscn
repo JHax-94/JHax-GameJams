@@ -34,6 +34,7 @@ airfield_root = NodePath("../..")
 [node name="Tutorial" parent="." instance=ExtResource("3_jscds")]
 
 [node name="Field" type="Polygon2D" parent="."]
+position = Vector2(2, -9)
 color = Color(1.2032688e-06, 0.5611819, 0.26315114, 1)
 polygon = PackedVector2Array(900, -900, -900, -900, -900, 900, 900, 900)
 
@@ -61,7 +62,7 @@ metadata/_custom_type_script = "uid://chw3t1jyj5o4c"
 
 [node name="TaxiShape" type="Polygon2D" parent="Taxi"]
 color = Color(0.3019608, 0.3019608, 0.3019608, 1)
-polygon = PackedVector2Array(255, -112, 350, -108, 351, -59, 390, -59, 389, -79, 406, -80, 404, 174, 250, 180, 250, 158, 371, 154, 385, -38, 321, -37, 324, -88, 251, -90)
+polygon = PackedVector2Array(250, -115, 350, -115, 350, -60, 385, -60, 385, -80, 415, -80, 415, 180, 250, 180, 250, 145, 385, 145, 385, -30, 315, -30, 315, -90, 250, -90)
 
 [node name="Waypoints" type="Node2D" parent="Taxi"]
 position = Vector2(400, -100)
@@ -77,6 +78,7 @@ debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 position = Vector2(-64, 2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint2"]
+position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_fik2q")
 debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
@@ -88,7 +90,7 @@ shape = SubResource("CircleShape2D_fik2q")
 debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
 [node name="Waypoint4" type="Area2D" parent="Taxi/Waypoints"]
-position = Vector2(-3, 53)
+position = Vector2(1, 56)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint4"]
 shape = SubResource("CircleShape2D_fik2q")
@@ -102,7 +104,7 @@ shape = SubResource("CircleShape2D_fik2q")
 debug_color = Color(0.9571249, 0.0283828, 0.52176684, 0.41960785)
 
 [node name="Waypoint6" type="Area2D" parent="Taxi/Waypoints"]
-position = Vector2(-8, 261)
+position = Vector2(-1, 263)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Taxi/Waypoints/Waypoint6"]
 shape = SubResource("CircleShape2D_fik2q")

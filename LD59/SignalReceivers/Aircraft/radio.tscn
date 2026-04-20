@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dt72aucan53d7"]
+[gd_scene load_steps=15 format=3 uid="uid://dt72aucan53d7"]
 
 [ext_resource type="Script" uid="uid://uolysg54cfy4" path="res://SignalReceivers/Aircraft/radio.gd" id="1_2bng3"]
 [ext_resource type="AudioStream" uid="uid://c77v4rpdfro5y" path="res://Assets/sfx/voice/vo1.ogg" id="2_jngfn"]
@@ -6,10 +6,18 @@
 [ext_resource type="AudioStream" uid="uid://m2fjhcwdtmg2" path="res://Assets/sfx/voice/vo3.ogg" id="4_ngnin"]
 [ext_resource type="AudioStream" uid="uid://qvakq4j6x8ja" path="res://Assets/sfx/voice/vo4.ogg" id="5_ur4v1"]
 [ext_resource type="AudioStream" uid="uid://b3y84pkmilo8f" path="res://Assets/sfx/voice/vo5.ogg" id="6_06jsa"]
+[ext_resource type="AudioStream" uid="uid://ba6rbf0wcdbu6" path="res://Assets/sfx/voice/vo6.ogg" id="7_4mfwd"]
+[ext_resource type="AudioStream" uid="uid://celf2q3cq80tx" path="res://Assets/sfx/voice/vo7.ogg" id="8_n14cx"]
+[ext_resource type="AudioStream" uid="uid://hq3pbse43t0l" path="res://Assets/sfx/voice/vo8.ogg" id="9_ooxy3"]
+[ext_resource type="AudioStream" uid="uid://qqng8mba5hm7" path="res://Assets/sfx/voice/vo9.ogg" id="10_qo1ab"]
+[ext_resource type="AudioStream" uid="uid://dotgdx11b7v87" path="res://Assets/sfx/voice/vo10.ogg" id="11_hvx6q"]
+[ext_resource type="AudioStream" uid="uid://c2g2kglghcw78" path="res://Assets/sfx/voice/vo11.ogg" id="12_oorai"]
+[ext_resource type="AudioStream" uid="uid://nwn4utdbnl6r" path="res://Assets/sfx/voice/vo12.ogg" id="13_fk6c4"]
+[ext_resource type="AudioStream" uid="uid://uemjda5at3il" path="res://Assets/sfx/voice/vo13.ogg" id="14_wh2v2"]
 
 [node name="Radio" type="Node2D"]
 script = ExtResource("1_2bng3")
-audio_files = Array[AudioStreamOggVorbis]([ExtResource("2_jngfn"), ExtResource("3_78ug2"), ExtResource("4_ngnin"), ExtResource("5_ur4v1"), ExtResource("6_06jsa")])
+audio_files = Array[AudioStreamOggVorbis]([ExtResource("2_jngfn"), ExtResource("3_78ug2"), ExtResource("4_ngnin"), ExtResource("5_ur4v1"), ExtResource("6_06jsa"), ExtResource("7_4mfwd"), ExtResource("8_n14cx"), ExtResource("9_ooxy3"), ExtResource("10_qo1ab"), ExtResource("11_hvx6q"), ExtResource("12_oorai"), ExtResource("13_fk6c4"), ExtResource("14_wh2v2")])
 
 [node name="AudioDelay" type="Timer" parent="."]
 wait_time = 0.8

@@ -51,7 +51,7 @@ var clear_for_landing: bool = false
 
 var state : Aircraft.State = Aircraft.State.WAIT
 
-var callsign: String = "B16 CHNGS"
+@export var callsign: String = "43RO PL4N"
 
 const MAX_RAND_DIST_SQRT : float = 100
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bm87xffshgq3m"]
+[gd_scene load_steps=13 format=3 uid="uid://bm87xffshgq3m"]
 
 [ext_resource type="Script" uid="uid://qbldch1g2g05" path="res://Level/airfield_root.gd" id="1_bh4b1"]
 [ext_resource type="PackedScene" uid="uid://bdijruau2jrhr" path="res://UI/Scenes/ui_layer.tscn" id="1_fruut"]
+[ext_resource type="PackedScene" uid="uid://cq5sm87cycbs2" path="res://Tutorial/tutorial.tscn" id="2_axay6"]
 [ext_resource type="PackedScene" uid="uid://cd5rphbxpgkdd" path="res://Level/Objects/atc_tower.tscn" id="2_sc0xr"]
 [ext_resource type="Script" uid="uid://chw3t1jyj5o4c" path="res://Level/Scripts/taxi_path.gd" id="3_6vdlu"]
 [ext_resource type="PackedScene" uid="uid://1pu4dhjlhhjp" path="res://SignalReceivers/Aircraft/plane.tscn" id="3_rf0eq"]
@@ -31,6 +32,11 @@ atc = NodePath("../../atc_tower")
 
 [node name="end_of_day_ui" parent="ui_layer" index="2" node_paths=PackedStringArray("airfield_root")]
 airfield_root = NodePath("../..")
+
+[node name="Tutorial" parent="." instance=ExtResource("2_axay6")]
+tutorial_steps = Array[String](["Watch out for Gliders in this airfield!", "Gliders won't run out of fuel (they don't have any to begin with...) 
+
+But they will constantly lose altitude!", "You can signal to Gliders to reduce their altitude or speed, but they are unable to climb or speed up!"])
 
 [node name="Field" type="Polygon2D" parent="."]
 color = Color(0, 0.56078434, 0.2627451, 1)

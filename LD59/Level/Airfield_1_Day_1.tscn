@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dh2olautg5vwv"]
+[gd_scene load_steps=12 format=3 uid="uid://dh2olautg5vwv"]
 
 [ext_resource type="Script" uid="uid://qbldch1g2g05" path="res://Level/airfield_root.gd" id="1_ln3oq"]
 [ext_resource type="PackedScene" uid="uid://bdijruau2jrhr" path="res://UI/Scenes/ui_layer.tscn" id="1_uxhbf"]
 [ext_resource type="PackedScene" uid="uid://btahcmjcuont5" path="res://Level/Objects/runway.tscn" id="2_ln3oq"]
 [ext_resource type="Script" uid="uid://chw3t1jyj5o4c" path="res://Level/Scripts/taxi_path.gd" id="3_3ydck"]
+[ext_resource type="PackedScene" uid="uid://cq5sm87cycbs2" path="res://Tutorial/tutorial.tscn" id="3_jscds"]
 [ext_resource type="PackedScene" uid="uid://cd5rphbxpgkdd" path="res://Level/Objects/atc_tower.tscn" id="4_ec6g1"]
 [ext_resource type="Script" uid="uid://elgk3yf04hgw" path="res://Level/Scripts/cam_controls.gd" id="6_54tre"]
 [ext_resource type="Texture2D" uid="uid://chdkto4r7xsn3" path="res://Assets/Graphics/Hangar.png" id="6_ln3oq"]
@@ -29,6 +30,8 @@ atc = NodePath("../../atc_tower")
 
 [node name="end_of_day_ui" parent="ui_layer" index="2" node_paths=PackedStringArray("airfield_root")]
 airfield_root = NodePath("../..")
+
+[node name="Tutorial" parent="." instance=ExtResource("3_jscds")]
 
 [node name="Field" type="Polygon2D" parent="."]
 color = Color(1.2032688e-06, 0.5611819, 0.26315114, 1)
@@ -136,11 +139,13 @@ current = true
 
 [node name="Plane" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(-154, -163)
+callsign = "TUT-0R14L"
 start_active = true
 fuel = 20000.0
 
 [node name="Plane2" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(1032, -48)
+callsign = "S1MPL3 PL4N3"
 fuel = 20000.0
 target_position = Vector2(-600, -50)
 
@@ -149,6 +154,7 @@ wait_time = 10.0
 
 [node name="Plane3" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(400, 800)
+callsign = "RD SLT3D"
 fuel = 20000.0
 target_position = Vector2(-600, -400)
 
@@ -157,6 +163,7 @@ wait_time = 60.0
 
 [node name="Plane4" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(-309, -652)
+callsign = "JA2105"
 fuel = 20000.0
 target_position = Vector2(800, 800)
 
@@ -165,6 +172,7 @@ wait_time = 90.0
 
 [node name="Plane5" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(-919, 153)
+callsign = "PG3000"
 fuel = 20000.0
 target_position = Vector2(800, -150)
 
@@ -178,6 +186,8 @@ target_position = Vector2(-800, -150)
 
 [node name="WaitTimer" parent="Plane6" index="0"]
 wait_time = 120.0
+
+[node name="TutorialManager" type="Node2D" parent="."]
 
 [editable path="ui_layer"]
 [editable path="Runway"]

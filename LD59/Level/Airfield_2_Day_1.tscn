@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bx8ti8xgpqm0b"]
+[gd_scene load_steps=12 format=3 uid="uid://bx8ti8xgpqm0b"]
 
 [ext_resource type="PackedScene" uid="uid://bdijruau2jrhr" path="res://UI/Scenes/ui_layer.tscn" id="1_5duyt"]
 [ext_resource type="Script" uid="uid://qbldch1g2g05" path="res://Level/airfield_root.gd" id="1_6dpcn"]
 [ext_resource type="PackedScene" uid="uid://btahcmjcuont5" path="res://Level/Objects/runway.tscn" id="2_bh4b1"]
 [ext_resource type="Script" uid="uid://chw3t1jyj5o4c" path="res://Level/Scripts/taxi_path.gd" id="3_c6pph"]
+[ext_resource type="PackedScene" uid="uid://cq5sm87cycbs2" path="res://Tutorial/tutorial.tscn" id="3_tx33q"]
 [ext_resource type="PackedScene" uid="uid://cd5rphbxpgkdd" path="res://Level/Objects/atc_tower.tscn" id="4_0jwr4"]
 [ext_resource type="PackedScene" uid="uid://1pu4dhjlhhjp" path="res://SignalReceivers/Aircraft/plane.tscn" id="5_axay6"]
 [ext_resource type="Texture2D" uid="uid://chdkto4r7xsn3" path="res://Assets/Graphics/Hangar.png" id="6_bpxvr"]
@@ -30,6 +31,9 @@ atc = NodePath("../../atc_tower")
 
 [node name="end_of_day_ui" parent="ui_layer" index="2" node_paths=PackedStringArray("airfield_root")]
 airfield_root = NodePath("../..")
+
+[node name="Tutorial" parent="." instance=ExtResource("3_tx33q")]
+tutorial_steps = Array[String](["You'll have to make use of more Signals to deal with traffic at a busier airfield", "Use the \"Change Speed\" and \"Change Altitude\" signals to ensure aircraft are able to land safely", "Changing an aircraft's altitude can also help to keep it off a collision course with other air traffic", "The \"Holding Pattern\" Signal will tell an aircraft to circle from its current point in either a tight or wide circle", "If an aircraft is set to land but its course is no longer safe, the \"Abort\" signal will tell it to fly about aimlessly instead"])
 
 [node name="Field" type="Polygon2D" parent="."]
 color = Color(0, 0.56078434, 0.2627451, 1)
@@ -195,11 +199,14 @@ shape = SubResource("RectangleShape2D_k0a2v")
 
 [node name="Plane" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(300, -200)
+callsign = "M1N-TBUBL"
 start_active = true
 
 [node name="Plane2" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(958, -228)
+callsign = "2FS-2FRS"
 speed = 80.0
+fuel = 20000.0
 altitude = 60.0
 target_position = Vector2(-600, 200)
 
@@ -208,6 +215,7 @@ wait_time = 10.0
 
 [node name="Plane3" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(500, 600)
+callsign = "FR1453"
 speed = 60.0
 altitude = 40.0
 target_position = Vector2(-600, -300)
@@ -217,6 +225,7 @@ wait_time = 40.0
 
 [node name="Plane4" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(-896, -477)
+callsign = "NOID"
 speed = 30.0
 altitude = 120.0
 target_position = Vector2(600, 600)
@@ -226,6 +235,7 @@ wait_time = 60.0
 
 [node name="Plane5" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(-870, -210)
+callsign = "PRSNR-24601"
 speed = 35.0
 altitude = 100.0
 target_position = Vector2(600, 600)
@@ -235,6 +245,7 @@ wait_time = 70.0
 
 [node name="Plane6" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(-911, -21)
+callsign = "BW1815"
 speed = 40.0
 altitude = 80.0
 target_position = Vector2(600, 600)
@@ -244,6 +255,7 @@ wait_time = 75.0
 
 [node name="Plane7" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(345, -579)
+callsign = "EH138"
 fuel = 5000.0
 target_position = Vector2(-600, 400)
 
@@ -252,6 +264,7 @@ wait_time = 100.0
 
 [node name="Plane8" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(-546, 616)
+callsign = "Y-I M4N"
 target_position = Vector2(600, -100)
 
 [node name="WaitTimer" parent="Plane8" index="0"]
@@ -259,6 +272,7 @@ wait_time = 140.0
 
 [node name="Plane9" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(1053, 305)
+callsign = "E-BY 6UM"
 target_position = Vector2(-600, 0)
 
 [node name="WaitTimer" parent="Plane9" index="0"]
@@ -266,6 +280,7 @@ wait_time = 160.0
 
 [node name="Plane10" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(941, -453)
+callsign = "GRDN B3N3T"
 altitude = 60.0
 
 [node name="WaitTimer" parent="Plane10" index="0"]
@@ -273,6 +288,7 @@ wait_time = 160.0
 
 [node name="Plane11" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(-371, -575)
+callsign = "ROGUE 1"
 speed = 80.0
 altitude = 40.0
 
@@ -281,6 +297,7 @@ wait_time = 170.0
 
 [node name="Plane12" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(426, 589)
+callsign = "B1N D4Y"
 speed = 80.0
 altitude = 60.0
 target_position = Vector2(-600, -600)

@@ -34,6 +34,7 @@ enum ApproachState {
 	LANDING_VECTOR = 4 
 }
 
+@export var invincible: bool = false
 var resolution: Resolution = Resolution.NONE
 
 @export var random_x : Array[float] = [ -600, 600 ]
@@ -218,13 +219,14 @@ func process_crash_land():
 	
 
 func change_fuel(change_by: float):
-	self.fuel += change_by
-	if self.fuel > self.max_fuel:
-		self.fuel = self.max_fuel
-	elif self.fuel < 0:
-		self.fuel = 0
-	
-	self.fuel_bar.value = self.fuel
+	if self.invincible == false:
+		self.fuel += change_by
+		if self.fuel > self.max_fuel:
+			self.fuel = self.max_fuel
+		elif self.fuel < 0:
+			self.fuel = 0
+		
+		self.fuel_bar.value = self.fuel
 
 func update_indicator_visibility():
 	self.plane_landing_indicator.visible = self.clear_for_landing and self.in_state(self.LANDED_STATES) == false
@@ -391,6 +393,8 @@ func _ready() -> void:
 	self.max_fuel = self.fuel
 	var anim_list = self.animation_player.get_animation_list()
 	self.plane_landing_indicator.play()
+	if self.invincible:
+		self.fuel_bar.visible = false
 	
 	self.target_speed = self.speed
 	

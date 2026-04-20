@@ -1,13 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://cs2ti4bppsbw0"]
+[gd_scene load_steps=3 format=3 uid="uid://cs2ti4bppsbw0"]
+
+[ext_resource type="Texture2D" uid="uid://chdkto4r7xsn3" path="res://Assets/Graphics/Hangar.png" id="1_o1rk8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k0a2v"]
 size = Vector2(44, 20)
 
 [node name="Hangar" type="Node2D"]
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(0.93246436, 0.49463195, 0.4307867, 1)
-polygon = PackedVector2Array(-20, -20, -20, 20, 20, 20, 20, -20)
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_o1rk8")
 
 [node name="HangarArea" type="Area2D" parent="."]
 

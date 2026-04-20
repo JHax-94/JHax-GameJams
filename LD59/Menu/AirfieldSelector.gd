@@ -17,8 +17,8 @@ func _ready() -> void:
 		
 		day_label.text = "Day " + str(day)
 		self.add_child(HSeparator.new())
-		self.add_child(day_label)
-		self.add_child(HSeparator.new())
+		#self.add_child(day_label)
+		#self.add_child(HSeparator.new())
 		
 		var grade_label = Label.new()
 		
@@ -33,7 +33,7 @@ func _ready() -> void:
 		self.add_child(grade_label)
 		var button = Button.new()
 		button.pressed.connect(func(): load_scene(scene))
-		button.text = "Play Day " + str(day)
+		button.text = "Play Airfield"
 		day += 1
 		self.add_child(button)
 		

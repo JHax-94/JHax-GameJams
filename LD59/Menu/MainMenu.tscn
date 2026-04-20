@@ -1,10 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://db7gfwi1ybli8"]
+[gd_scene load_steps=11 format=3 uid="uid://db7gfwi1ybli8"]
 
 [ext_resource type="Theme" uid="uid://dn1xrv6khlr8h" path="res://UI/game_theme.tres" id="1_exbqw"]
 [ext_resource type="Script" uid="uid://b0ftiyftkq3si" path="res://Menu/AirfieldSelector.gd" id="1_tpenk"]
 [ext_resource type="PackedScene" uid="uid://dh2olautg5vwv" path="res://Level/Airfield_1_Day_1.tscn" id="2_exbqw"]
 [ext_resource type="PackedScene" uid="uid://bm87xffshgq3m" path="res://Level/Airfield_3_Day_1.tscn" id="3_biqin"]
 [ext_resource type="PackedScene" uid="uid://bx8ti8xgpqm0b" path="res://Level/Airfield_2_Day_1.tscn" id="4_um3lu"]
+[ext_resource type="PackedScene" uid="uid://btahcmjcuont5" path="res://Level/Objects/runway.tscn" id="6_biqin"]
+[ext_resource type="Texture2D" uid="uid://dlx1qt30fre80" path="res://Assets/Graphics/Title_2.png" id="6_fgdcb"]
+[ext_resource type="PackedScene" uid="uid://1pu4dhjlhhjp" path="res://SignalReceivers/Aircraft/plane.tscn" id="7_um3lu"]
+[ext_resource type="Texture2D" uid="uid://bvkbg2lcoen70" path="res://Assets/Graphics/ATC_Tower.png" id="8_u0a2j"]
+[ext_resource type="PackedScene" uid="uid://cs2ti4bppsbw0" path="res://Level/Objects/hangar.tscn" id="9_fgdcb"]
 
 [node name="MainMenu" type="Node2D"]
 
@@ -16,6 +21,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = -120.0
+offset_right = 54.0
+offset_bottom = -77.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -59,3 +68,44 @@ metadata/_custom_type_script = "uid://b0ftiyftkq3si"
 
 [node name="Title" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/HBoxContainer/Airfield3"]
 layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.0
+offset_top = 20.0
+offset_right = 128.0
+offset_bottom = 132.0
+grow_horizontal = 2
+texture = ExtResource("6_fgdcb")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0, 0.56078434, 0.2627451, 1)
+polygon = PackedVector2Array(-600, -600, -600, 600, 600, 600, 600, -600)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Runway" parent="." instance=ExtResource("6_biqin")]
+position = Vector2(0, 100)
+rotation = 1.5707964
+
+[node name="Plane" parent="." instance=ExtResource("7_um3lu")]
+position = Vector2(431, -122)
+invincible = true
+speed = 70.0
+start_active = true
+altitude = 60.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(185, 6)
+texture = ExtResource("8_u0a2j")
+
+[node name="Polygon2D2" type="Polygon2D" parent="."]
+position = Vector2(-322, -56)
+color = Color(0.3019608, 0.3019608, 0.3019608, 1)
+polygon = PackedVector2Array(140, 110, 170, 110, 170, 75, 450, 75, 450, 110, 480, 110, 480, 50, 14, 50, 14, 17, -16, 15, -15, 75, 140, 75)
+
+[node name="Hangar" parent="." instance=ExtResource("9_fgdcb")]
+position = Vector2(-322, -56)

@@ -2,6 +2,7 @@ class_name AtcCamera extends Camera2D
 
 @export var min_camera_pos:Vector2 = Vector2(-300, -200)
 @export var max_camera_pos:Vector2 = Vector2(300, 200)
+@onready var ost: AudioStreamPlayer2D = $ost
 
 var move_speed = 80;
 
@@ -29,6 +30,9 @@ func _process(delta: float) -> void:
 		move_vec.y = max_camera_pos.y - global_position.y
 	elif move_vec.y < 0 and self.global_position.y + move_vec.y < min_camera_pos.y:
 		move_vec.y = min_camera_pos.y - global_position.y
+	
+	if ost.playing == false:
+		ost.play()
 	
 	self.translate(delta * move_vec * move_speed)
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dh2olautg5vwv"]
+[gd_scene load_steps=13 format=3 uid="uid://dh2olautg5vwv"]
 
 [ext_resource type="Script" uid="uid://qbldch1g2g05" path="res://Level/airfield_root.gd" id="1_ln3oq"]
 [ext_resource type="PackedScene" uid="uid://bdijruau2jrhr" path="res://UI/Scenes/ui_layer.tscn" id="1_uxhbf"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://elgk3yf04hgw" path="res://Level/Scripts/cam_controls.gd" id="6_54tre"]
 [ext_resource type="Texture2D" uid="uid://chdkto4r7xsn3" path="res://Assets/Graphics/Hangar.png" id="6_ln3oq"]
 [ext_resource type="PackedScene" uid="uid://1pu4dhjlhhjp" path="res://SignalReceivers/Aircraft/plane.tscn" id="7_t8ml3"]
+[ext_resource type="AudioStream" uid="uid://bmov0ccmsaxuu" path="res://Assets/music/Music.ogg" id="9_ec6g1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fik2q"]
 
@@ -138,6 +139,10 @@ script = ExtResource("6_54tre")
 
 [node name="AudioListener2D" type="AudioListener2D" parent="Camera2D"]
 current = true
+
+[node name="ost" type="AudioStreamPlayer2D" parent="Camera2D"]
+stream = ExtResource("9_ec6g1")
+volume_db = 16.0
 
 [node name="Plane" parent="." instance=ExtResource("7_t8ml3")]
 position = Vector2(-154, -163)

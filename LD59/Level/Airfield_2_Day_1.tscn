@@ -257,7 +257,7 @@ wait_time = 200.0
 [node name="Plane7" parent="." instance=ExtResource("5_axay6")]
 position = Vector2(345, -579)
 callsign = "EH138"
-fuel = 75000.0
+fuel = 7500.0
 target_position = Vector2(-600, 400)
 
 [node name="WaitTimer" parent="Plane7" index="0"]
